@@ -11,7 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "hca-content-unspecified-dash",
     templateUrl: "./hca-content-unspecified-dash.component.html",
-    styleUrls: ["./hca-content-unspecified-dash.component.scss"]
+    styleUrls: ["./hca-content-unspecified-dash.component.scss"],
 })
-
 export class HCAContentUnspecifiedDashComponent {}

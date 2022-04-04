@@ -49,13 +49,13 @@ import { SystemService } from "./system/shared/system.service";
         // ANGULAR SETUP
         BrowserModule,
         BrowserAnimationsModule,
-        RouterModule.forRoot(AppRoutes, {  relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot(AppRoutes, { relativeLinkResolution: "legacy" }),
 
         // NGRX SETUP
         StoreModule.forRoot(AppReducers),
         EffectsModule.forRoot(AppEffects),
         StoreDevtoolsModule.instrument({
-            maxAge: 25 //  Retains last 25 states
+            maxAge: 25, //  Retains last 25 states
         }),
 
         // CHILD MODULES SETUP
@@ -70,7 +70,6 @@ import { SystemService } from "./system/shared/system.service";
         TerraAuthModule,
     ],
     declarations: [
-
         AppComponent,
 
         // HTTP components
@@ -82,44 +81,64 @@ import { SystemService } from "./system/shared/system.service";
         // Init config, catalog and system status states; both must resolve before app can be initialized.
         {
             provide: APP_INITIALIZER,
-            useFactory: (catalogService: CatalogService, configService: ConfigService, systemService: SystemService) => {
+            useFactory: (
+                catalogService: CatalogService,
+                configService: ConfigService,
+                systemService: SystemService
+            ) => {
                 return () => {
                     // Init config
-                    return configService.initConfig()
-                        // Init catalogs
-                        .then(() => catalogService.initCatalogs())
-                        // Init system status
-                        .then(() => {
-                            // If no catalog is specified in the query string, use the default catalog. Pull directly from URL
-                            // as app init occurs before Angular route init.
-                            const url = new URL(window.location.href);
-                            const catalog = url.searchParams.get("catalog") ?? configService.getDefaultCatalog();
-                            return systemService.initSystemStatus(catalog).then(() => Promise.resolve());
-                        });
+                    return (
+                        configService
+                            .initConfig()
+                            // Init catalogs
+                            .then(() => catalogService.initCatalogs())
+                            // Init system status
+                            .then(() => {
+                                // If no catalog is specified in the query string, use the default catalog. Pull directly from URL
+                                // as app init occurs before Angular route init.
+                                const url = new URL(window.location.href);
+                                const catalog =
+                                    url.searchParams.get("catalog") ??
+                                    configService.getDefaultCatalog();
+                                return systemService
+                                    .initSystemStatus(catalog)
+                                    .then(() => Promise.resolve());
+                            })
+                    );
                 };
             },
             deps: [CatalogService, ConfigService, SystemService, Store],
-            multi: true
+            multi: true,
         },
         // Init auth and Terra registration status; both must resolve before app can be loaded.
         {
             provide: APP_INITIALIZER,
-            useFactory: (authService: AuthService, configService: ConfigService, terraAuthService: TerraAuthService) => {
+            useFactory: (
+                authService: AuthService,
+                configService: ConfigService,
+                terraAuthService: TerraAuthService
+            ) => {
                 return () => {
                     return authService.init().then((authenticated) =>
                         // If user is authenticated, check Terra registration status. If user is not authenticated,
                         // auth/registration init is complete.
-                        authenticated ? terraAuthService.init() : Promise.resolve());
+                        authenticated
+                            ? terraAuthService.init()
+                            : Promise.resolve()
+                    );
                 };
             },
             deps: [AuthService, ConfigService, TerraAuthService, Store],
-            multi: true
+            multi: true,
         },
         // Init favicon.
         {
             provide: APP_INITIALIZER,
-            useFactory: (configService: ConfigService, faviconService: FaviconService) => {
-
+            useFactory: (
+                configService: ConfigService,
+                faviconService: FaviconService
+            ) => {
                 return () => {
                     const faviconPath = configService.getFaviconPath();
                     faviconService.setFaviconPaths(faviconPath);
@@ -127,7 +146,7 @@ import { SystemService } from "./system/shared/system.service";
                 };
             },
             deps: [ConfigService, FaviconService],
-            multi: true
+            multi: true,
         },
         // Init catalog update - loads JSON to store.
         {
@@ -138,27 +157,25 @@ import { SystemService } from "./system/shared/system.service";
                 };
             },
             deps: [CatalogService, Store],
-            multi: true
+            multi: true,
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpAuthInterceptor,
-            multi: true
+            multi: true,
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HCAEncodeHttpParamsInterceptor,
-            multi: true
+            multi: true,
         },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HCAHttpResponseErrorInterceptor,
             deps: [ConfigService, Router, Store],
-            multi: true
+            multi: true,
         },
-        SystemService
-    ]
+        SystemService,
+    ],
 })
-export class AppModule {
-}
-
+export class AppModule {}

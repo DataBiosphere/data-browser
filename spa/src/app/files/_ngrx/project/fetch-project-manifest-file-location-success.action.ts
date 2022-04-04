@@ -14,9 +14,13 @@ import { Action } from "@ngrx/store";
 import { FileLocation } from "../../file-location/file-location.model";
 
 export class FetchProjectManifestFileLocationSuccessAction implements Action {
-    
-    public static ACTION_TYPE = "PROJECT.FETCH_PROJECT_MANIFEST_FILE_LOCATION_SUCCESS";
-    public readonly type = FetchProjectManifestFileLocationSuccessAction.ACTION_TYPE;
+    public static ACTION_TYPE =
+        "PROJECT.FETCH_PROJECT_MANIFEST_FILE_LOCATION_SUCCESS";
+    public readonly type =
+        FetchProjectManifestFileLocationSuccessAction.ACTION_TYPE;
 
-    constructor(public readonly projectId: string, public readonly fileLocation: FileLocation) {}
+    constructor(
+        public readonly projectId: string,
+        public readonly fileLocation: FileLocation
+    ) {}
 }

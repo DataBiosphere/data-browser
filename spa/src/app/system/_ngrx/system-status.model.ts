@@ -6,7 +6,6 @@
  */
 
 export interface SystemStatus {
-
     indexing: boolean;
     loading: boolean;
     ok: boolean;

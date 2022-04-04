@@ -3,7 +3,7 @@
  * https://www.humancellatlas.org/
  *
  * Wrapper component for displaying project nav, and the child component specific to the current route. For example,
- * project information, external tools, summary stats etc. 
+ * project information, external tools, summary stats etc.
  */
 
 // Core dependencies
@@ -17,7 +17,10 @@ import { filter, map, take, takeUntil } from "rxjs/operators";
 // App dependencies
 import { selectCatalog } from "../_ngrx/catalog/catalog.selectors";
 import { BackToEntityAction } from "../_ngrx/entity/back-to-entity.action";
-import { selectSelectedEntitySpec, selectSelectedProject } from "../_ngrx/files.selectors";
+import {
+    selectSelectedEntitySpec,
+    selectSelectedProject,
+} from "../_ngrx/files.selectors";
 import { selectSelectedProjectSearchTerms } from "../_ngrx/search/search.selectors";
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { ClearSelectedProjectAction } from "../_ngrx/table/clear-selected-project.action";
@@ -32,16 +35,15 @@ import EntitySpec from "../shared/entity-spec";
 @Component({
     selector: "project-detail",
     templateUrl: "./project-detail.component.html",
-    styleUrls: ["./project-detail.component.scss"]
+    styleUrls: ["./project-detail.component.scss"],
 })
 export class ProjectDetailComponent {
-
     // Locals
     private ngDestroy$ = new Subject();
 
     // Template variables
     public state$ = new BehaviorSubject<ProjectDetailComponentState>({
-        loaded: false
+        loaded: false,
     });
 
     /**
@@ -50,10 +52,12 @@ export class ProjectDetailComponent {
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
      */
-    public constructor(private projectDetailService: ProjectDetailService,
-                       private store: Store<AppState>,
-                       private activatedRoute: ActivatedRoute,
-                       private router: Router) {}
+    public constructor(
+        private projectDetailService: ProjectDetailService,
+        private store: Store<AppState>,
+        private activatedRoute: ActivatedRoute,
+        private router: Router
+    ) {}
 
     /**
      * Returns the class for the select box.
@@ -62,10 +66,9 @@ export class ProjectDetailComponent {
      * @returns {{[p: string]: boolean}}
      */
     public getLegendClass(selected: boolean): { [className: string]: boolean } {
-
         return {
-            "box": true,
-            "selected": selected
+            box: true,
+            selected: selected,
         };
     }
 
@@ -75,8 +78,7 @@ export class ProjectDetailComponent {
      * @returns {EntitySpec[]}
      */
     public getProjectDetailTabs(selectedEntity: EntitySpec): EntitySpec[] {
-
-        return [{key: selectedEntity.key, displayName: "Back"}];
+        return [{ key: selectedEntity.key, displayName: "Back" }];
     }
 
     /**
@@ -86,11 +88,21 @@ export class ProjectDetailComponent {
      * @param {string} projectId
      * @param {string} projectShortname
      */
-    public onProjectSelected(projectSelected: boolean, projectId: string, projectShortname: string) {
-
-        this.store.dispatch(new SelectProjectIdAction(projectId, projectShortname, !projectSelected, GASource.PROJECT));
+    public onProjectSelected(
+        projectSelected: boolean,
+        projectId: string,
+        projectShortname: string
+    ) {
+        this.store.dispatch(
+            new SelectProjectIdAction(
+                projectId,
+                projectShortname,
+                !projectSelected,
+                GASource.PROJECT
+            )
+        );
         this.router.navigate(["/projects"], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
@@ -100,16 +112,17 @@ export class ProjectDetailComponent {
      * @param {EntitySpec} tab
      */
     public onTabSelected(tab: EntitySpec) {
-
         // Only update state if we have a tab key that corresponds to an entity. In the case that the tab key that does
         // not correspond to an entity, use projects as the default.
         const tabKey = tab.key;
-        const selectedEntity = !!EntityName[tabKey] ? tabKey : EntityName.PROJECTS;
+        const selectedEntity = !!EntityName[tabKey]
+            ? tabKey
+            : EntityName.PROJECTS;
         this.store.dispatch(new BackToEntityAction(selectedEntity));
 
         // Navigate to specified tab key
         this.router.navigate(["/" + tab.key], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
@@ -120,8 +133,10 @@ export class ProjectDetailComponent {
      * @param {string} projectId
      * @returns {boolean}
      */
-    private isProjectSelected(selectedProjectIds: string[], projectId: string): boolean {
-
+    private isProjectSelected(
+        selectedProjectIds: string[],
+        projectId: string
+    ): boolean {
         return selectedProjectIds.indexOf(projectId) >= 0;
     }
 
@@ -132,7 +147,6 @@ export class ProjectDetailComponent {
      * @returns {string[]}
      */
     private mapSearchTermsToProjectIds(searchTerms: SearchTerm[]): string[] {
-
         return searchTerms.map((searchTerm: SearchTerm) => {
             return searchTerm.getSearchValue();
         });
@@ -142,7 +156,6 @@ export class ProjectDetailComponent {
      * Clear out the selected project when the user navigates away from project detail page.
      */
     public ngOnDestroy() {
-
         this.projectDetailService.removeProjectMeta();
 
         this.ngDestroy$.next(true);
@@ -155,7 +168,6 @@ export class ProjectDetailComponent {
      * Update state with selected project.
      */
     public ngOnInit() {
-
         // Grab the current and default catalog values - we need these for the citation link.
         const catalog$ = this.store.pipe(
             select(selectCatalog),
@@ -170,7 +182,7 @@ export class ProjectDetailComponent {
         const project$ = this.store.pipe(
             select(selectSelectedProject),
             takeUntil(this.ngDestroy$),
-            filter(project => !!project),
+            filter((project) => !!project),
             take(1)
         );
 
@@ -181,7 +193,7 @@ export class ProjectDetailComponent {
             take(1),
             map(this.mapSearchTermsToProjectIds)
         );
-        
+
         // Grab the selected entity, required for the back button
         const selectedEntity$ = this.store.pipe(
             select(selectSelectedEntitySpec),
@@ -191,30 +203,31 @@ export class ProjectDetailComponent {
 
         // Set up component state
         combineLatest([
-            catalog$, 
-            project$, 
+            catalog$,
+            project$,
             selectedProjectIds$,
-            selectedEntity$])
-        .pipe(
-            takeUntil(this.ngDestroy$)
-        )
-        .subscribe(([
-            catalog,
-            project,
-            selectedProjectIds,
-            selectedEntity]) => {
+            selectedEntity$,
+        ])
+            .pipe(takeUntil(this.ngDestroy$))
+            .subscribe(
+                ([catalog, project, selectedProjectIds, selectedEntity]) => {
+                    const projectSelected = this.isProjectSelected(
+                        selectedProjectIds,
+                        project.entryId
+                    );
 
-            const projectSelected = this.isProjectSelected(selectedProjectIds, project.entryId);
+                    this.state$.next({
+                        catalog,
+                        loaded: true,
+                        project,
+                        projectSelected,
+                        selectedEntity,
+                    });
 
-            this.state$.next({
-                catalog,
-                loaded: true,
-                project,
-                projectSelected,
-                selectedEntity
-            });
-
-            this.projectDetailService.addProjectMeta(project.projectTitle);
-        });
+                    this.projectDetailService.addProjectMeta(
+                        project.projectTitle
+                    );
+                }
+            );
     }
 }

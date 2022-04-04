@@ -28,18 +28,17 @@ import { SpeciesFormComponentState } from "./species-form.component.state";
 @Component({
     selector: "species-form",
     templateUrl: "./species-form.component.html",
-    styleUrls: ["./species-form.component.scss"]
+    styleUrls: ["./species-form.component.scss"],
 })
 export class SpeciesFormComponent implements OnInit {
-
     // Locals
     private ngDestroy$ = new Subject<boolean>();
 
     // Template variables
     public state$ = new BehaviorSubject<SpeciesFormComponentState>({
-        loaded: false
+        loaded: false,
     });
-    
+
     // Outputs
     @Output() speciesSelected = new EventEmitter<void>();
 
@@ -47,50 +46,58 @@ export class SpeciesFormComponent implements OnInit {
      * @param {SearchTermHttpService} searchTermHttpService
      * @param {Store<AppState>} store
      */
-    constructor(private searchTermHttpService: SearchTermHttpService, private store: Store<AppState>) {}
+    constructor(
+        private searchTermHttpService: SearchTermHttpService,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Returns true if at least one species has been selected.
-     * 
+     *
      * @param {CheckboxOption[]} options
      * @returns {boolean}
      */
     public isSpeciesSelected(options: CheckboxOption[]): boolean {
-
-        if ( !options ) {
+        if (!options) {
             return false;
         }
-        return options.some(option => option.selected);
+        return options.some((option) => option.selected);
     }
 
     /**
      * Handle click on species checkbox - toggle selected value.
-     * 
+     *
      * @param {CheckboxOption} option
      */
     public onSpeciesClicked(option: CheckboxOption): void {
-
         option.selected = !option.selected;
     }
 
     /**
      * Species have been selected and export can now be requested.
-     * 
+     *
      * @param {FileFacet} speciesFileFacet
      * @param {CheckboxOption[]} speciesCheckboxOptions
      */
-    public onSpeciesSelected(speciesFileFacet: FileFacet, speciesCheckboxOptions: CheckboxOption[]) {
-
-        speciesCheckboxOptions.forEach(option => {
-
+    public onSpeciesSelected(
+        speciesFileFacet: FileFacet,
+        speciesCheckboxOptions: CheckboxOption[]
+    ) {
+        speciesCheckboxOptions.forEach((option) => {
             const termName = option.value;
-            const term = speciesFileFacet.terms.find(t => t.name === termName);
-            
-            if ( term.selected === option.selected ) {
+            const term = speciesFileFacet.terms.find(
+                (t) => t.name === termName
+            );
+
+            if (term.selected === option.selected) {
                 return;
             }
 
-            this.dispatchSelectedSpeciesAction(speciesFileFacet.name, option.value, option.selected);
+            this.dispatchSelectedSpeciesAction(
+                speciesFileFacet.name,
+                option.value,
+                option.selected
+            );
         });
 
         this.speciesSelected.emit();
@@ -103,8 +110,9 @@ export class SpeciesFormComponent implements OnInit {
      * @returns {FileFacet}
      */
     private getSpeciesFileFacet(fileFacets: Facet[]): FileFacet {
-
-        return fileFacets.find(facet => facet.name === FileFacetName.GENUS_SPECIES) as FileFacet;
+        return fileFacets.find(
+            (facet) => facet.name === FileFacetName.GENUS_SPECIES
+        ) as FileFacet;
     }
 
     /**
@@ -114,29 +122,36 @@ export class SpeciesFormComponent implements OnInit {
      * @param {string} termName (species)
      * @param {boolean} selected
      */
-    private dispatchSelectedSpeciesAction(facetName: string, termName: string, selected: boolean): void {
-
-        const selectTermAction =
-            new SelectFileFacetTermAction(facetName, termName, selected, GASource.SPECIES_SELECTION);
+    private dispatchSelectedSpeciesAction(
+        facetName: string,
+        termName: string,
+        selected: boolean
+    ): void {
+        const selectTermAction = new SelectFileFacetTermAction(
+            facetName,
+            termName,
+            selected,
+            GASource.SPECIES_SELECTION
+        );
         this.store.dispatch(selectTermAction);
     }
 
     /**
      * Set up model backing selection of species.
-     * 
+     *
      * @param {Term[]} speciesTerms
      * @returns {CheckboxOption[]}
      */
-    private buildSpeciesCheckboxOptions(speciesTerms: Term[]): CheckboxOption[] {
-
-        const selectSingleOption = speciesTerms.length === 1; 
+    private buildSpeciesCheckboxOptions(
+        speciesTerms: Term[]
+    ): CheckboxOption[] {
+        const selectSingleOption = speciesTerms.length === 1;
         return speciesTerms.reduce((accum, term) => {
-
             const speciesName = term.name;
             accum.push({
                 label: speciesName,
                 selected: selectSingleOption || term.selected,
-                value: speciesName
+                value: speciesName,
             });
             return accum;
         }, []);
@@ -146,21 +161,20 @@ export class SpeciesFormComponent implements OnInit {
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
-    
+
     /**
      * Set up state.
      */
     public ngOnInit() {
-        
         // Get the list of facets so we can determine the current set of species. Must pull these from the files
         // endpoint.
         this.store.dispatch(new FetchFilesFacetsRequestAction());
 
-        this.store.pipe(select(selectFilesFacets))
+        this.store
+            .pipe(select(selectFilesFacets))
             .pipe(
                 takeUntil(this.ngDestroy$),
                 // Only continue if file facets have been fetched from endpoint and set in store
@@ -169,15 +183,15 @@ export class SpeciesFormComponent implements OnInit {
                 })
             )
             .subscribe((filesFacets) => {
-
                 const speciesFileFacet = this.getSpeciesFileFacet(filesFacets);
                 const speciesTerms = speciesFileFacet.terms;
-                const speciesCheckboxOptions = this.buildSpeciesCheckboxOptions(speciesTerms);
-                
+                const speciesCheckboxOptions =
+                    this.buildSpeciesCheckboxOptions(speciesTerms);
+
                 this.state$.next({
                     loaded: true,
                     speciesCheckboxOptions,
-                    speciesFileFacet
+                    speciesFileFacet,
                 });
             });
     }

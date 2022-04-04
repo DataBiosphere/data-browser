@@ -15,12 +15,9 @@ import { AppState } from "../../_ngrx/app.state";
 
 @Injectable()
 export class ConfigEffects {
-
     /**
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private store: Store<AppState>,
-                private actions$: Actions) {
-    }
+    constructor(private store: Store<AppState>, private actions$: Actions) {}
 }

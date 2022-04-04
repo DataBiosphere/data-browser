@@ -7,5 +7,5 @@
 
 export enum IndexRequestStatus {
     "COMPLETE" = "COMPLETE",
-    "FAILED" = "FAILED"
+    "FAILED" = "FAILED",
 }

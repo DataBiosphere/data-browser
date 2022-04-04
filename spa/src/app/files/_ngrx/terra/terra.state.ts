@@ -11,14 +11,13 @@ import { Terra } from "./terra.model";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 
 const DEFAULT_TERRA_STATE = {
-    exportToTerraStatus: ExportToTerraStatus.NOT_STARTED
+    exportToTerraStatus: ExportToTerraStatus.NOT_STARTED,
 };
 
 export class TerraState implements Terra {
-
     public readonly exportToTerraStatus: ExportToTerraStatus;
     public readonly exportToTerraUrl: string;
-    
+
     /**
      * @param {TerraState} state
      */
@@ -32,9 +31,8 @@ export class TerraState implements Terra {
      * @returns {TerraState}
      */
     public exportToTerraRequest(): TerraState {
-
         return new TerraState({
-            exportToTerraStatus: ExportToTerraStatus.INITIATED
+            exportToTerraStatus: ExportToTerraStatus.INITIATED,
         });
     }
 
@@ -46,10 +44,10 @@ export class TerraState implements Terra {
      * @param {ExportToTerraSuccessAction} action
      * @returns {TerraState}
      */
-    public  exportToTerraSuccess(action: ExportToTerraSuccessAction) {
+    public exportToTerraSuccess(action: ExportToTerraSuccessAction) {
         return new TerraState({
             exportToTerraStatus: action.response.status,
-            exportToTerraUrl: action.response.url
+            exportToTerraUrl: action.response.url,
         });
     }
 
@@ -60,7 +58,7 @@ export class TerraState implements Terra {
      */
     public static getDefaultState() {
         return new TerraState({
-            exportToTerraStatus: ExportToTerraStatus.NOT_STARTED
+            exportToTerraStatus: ExportToTerraStatus.NOT_STARTED,
         });
     }
 }

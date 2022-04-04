@@ -17,7 +17,6 @@ import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
 export class RequestCohortManifestAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "EXPORT.REQUEST_COHORT_MANIFEST";
     public readonly type = RequestCohortManifestAction.ACTION_TYPE;
 
@@ -27,16 +26,15 @@ export class RequestCohortManifestAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.MANIFEST,
             action: GAAction.REQUEST,
             label: currentQuery,
             dimensions: {
                 [GADimension.CATALOG]: catalog,
-                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST
-            }
+                [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST,
+            },
         };
     }
 }

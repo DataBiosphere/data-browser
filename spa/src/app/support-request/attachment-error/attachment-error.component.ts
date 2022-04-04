@@ -15,10 +15,9 @@ import { DropErrorCode } from "../../dropzone/drop-error-code.model";
 @Component({
     selector: "attachment-error",
     templateUrl: "attachment-error.component.html",
-    styleUrls: ["attachment-error.component.scss"]
+    styleUrls: ["attachment-error.component.scss"],
 })
 export class AttachmentErrorComponent implements OnInit {
-    
     // Template variables
     public errorMessage = "";
 
@@ -29,8 +28,10 @@ export class AttachmentErrorComponent implements OnInit {
      * Determine error message from input rejections.
      */
     ngOnInit() {
-
-        const fileSizeError = this.rejection?.code === DropErrorCode.FILE_TOO_LARGE;
-        this.errorMessage = !!fileSizeError ? "File must be less than 20 MB." : "Unable to upload file.";
+        const fileSizeError =
+            this.rejection?.code === DropErrorCode.FILE_TOO_LARGE;
+        this.errorMessage = !!fileSizeError
+            ? "File must be less than 20 MB."
+            : "Unable to upload file.";
     }
 }

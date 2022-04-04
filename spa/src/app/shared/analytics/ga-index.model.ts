@@ -8,5 +8,5 @@
 export enum GAIndex {
     "FILES" = "Files",
     "PROJECTS" = "Projects",
-    "SAMPLES" = "Samples"
+    "SAMPLES" = "Samples",
 }

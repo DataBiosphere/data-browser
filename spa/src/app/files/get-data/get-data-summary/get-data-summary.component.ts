@@ -21,11 +21,9 @@ import { Term } from "../../shared/term.model";
     styleUrls: ["./get-data-summary.component.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class GetDataSummaryComponent {
-
     // Inputs
-    @Input() filesFacets: FileFacet[]
+    @Input() filesFacets: FileFacet[];
     @Input() fileSummary: FileSummary;
     @Input() selectedSearchTerms: SearchTerm[];
 
@@ -36,7 +34,6 @@ export class GetDataSummaryComponent {
      * @returns {Term[]}
      */
     public listSelectedDiseases(fileFacets: FileFacet[]): Term[] {
-
         return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.DISEASE);
     }
 
@@ -47,8 +44,10 @@ export class GetDataSummaryComponent {
      * @returns {Term[]}
      */
     public listSelectedDonorDiseases(fileFacets: FileFacet[]): Term[] {
-
-        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.DONOR_DISEASE);
+        return this.listSelectedTermsOfFacet(
+            fileFacets,
+            FileFacetName.DONOR_DISEASE
+        );
     }
 
     /**
@@ -58,8 +57,10 @@ export class GetDataSummaryComponent {
      * @returns {Term[]}
      */
     public listSelectedGenusSpecies(fileFacets: FileFacet[]): Term[] {
-
-        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.GENUS_SPECIES);
+        return this.listSelectedTermsOfFacet(
+            fileFacets,
+            FileFacetName.GENUS_SPECIES
+        );
     }
 
     /**
@@ -68,9 +69,13 @@ export class GetDataSummaryComponent {
      * @param {FileFacet[]} fileFacets
      * @returns {Term[]}
      */
-    public listSelectedLibraryConstructionApproaches(fileFacets: FileFacet[]): Term[] {
-
-        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.LIBRARY_CONSTRUCTION_APPROACH);
+    public listSelectedLibraryConstructionApproaches(
+        fileFacets: FileFacet[]
+    ): Term[] {
+        return this.listSelectedTermsOfFacet(
+            fileFacets,
+            FileFacetName.LIBRARY_CONSTRUCTION_APPROACH
+        );
     }
 
     /**
@@ -80,8 +85,7 @@ export class GetDataSummaryComponent {
      * @returns {Term[]}
      */
     public listSelectedOrgans(fileFacets: FileFacet[]): Term[] {
-
-        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.ORGAN)
+        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.ORGAN);
     }
 
     /**
@@ -91,8 +95,10 @@ export class GetDataSummaryComponent {
      * @returns {Term[]}
      */
     public listSelectedOrganParts(fileFacets: FileFacet[]): Term[] {
-
-        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.ORGAN_PART)
+        return this.listSelectedTermsOfFacet(
+            fileFacets,
+            FileFacetName.ORGAN_PART
+        );
     }
 
     /**
@@ -102,8 +108,10 @@ export class GetDataSummaryComponent {
      * @returns {Term[]}
      */
     public listSelectedPairedEnds(fileFacets: FileFacet[]): Term[] {
-
-        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.PAIRED_END);
+        return this.listSelectedTermsOfFacet(
+            fileFacets,
+            FileFacetName.PAIRED_END
+        );
     }
 
     /**
@@ -113,16 +121,19 @@ export class GetDataSummaryComponent {
      * @param {string} facetName
      * @returns {Term[]}
      */
-    private listSelectedTermsOfFacet(fileFacets: FileFacet[], facetName: string): Term[] {
-
-        if ( fileFacets.length ) {
-            const facet = fileFacets.find(fileFacet => fileFacet.name === facetName);
-            if ( !facet ) {
+    private listSelectedTermsOfFacet(
+        fileFacets: FileFacet[],
+        facetName: string
+    ): Term[] {
+        if (fileFacets.length) {
+            const facet = fileFacets.find(
+                (fileFacet) => fileFacet.name === facetName
+            );
+            if (!facet) {
                 return [];
             }
             return facet.getEffectiveTerms();
-        }
-        else {
+        } else {
             return [];
         }
     }

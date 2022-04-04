@@ -9,7 +9,6 @@
 import { Project } from "../shared/project.model";
 
 export interface ProjectMetadataComponentState {
-
     loaded: boolean;
     project?: Project;
 }

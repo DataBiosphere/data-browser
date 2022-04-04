@@ -23,10 +23,11 @@ import { ClearSelectedAgeRangeAction } from "../search/clear-selected-age-range.
  * @param action {Action}
  * @returns {FacetState}
  */
-export function reducer(state: FacetState = FacetState.getDefaultState(), action: Action): FacetState {
-
+export function reducer(
+    state: FacetState = FacetState.getDefaultState(),
+    action: Action
+): FacetState {
     switch (action.type) {
-
         // Clear age range
         case ClearSelectedAgeRangeAction.ACTION_TYPE:
             return state.clearAgeRange(action as ClearSelectedAgeRangeAction);
@@ -42,7 +43,7 @@ export function reducer(state: FacetState = FacetState.getDefaultState(), action
 
         // Set up data for selected entity (eg projects, samples, files)
         case InitEntityStateAction.ACTION_TYPE:
-            return state.requestFileFacets();            
+            return state.requestFileFacets();
 
         // Handle case where age range has been specified
         case SelectFacetAgeRangeAction.ACTION_TYPE:
@@ -56,7 +57,9 @@ export function reducer(state: FacetState = FacetState.getDefaultState(), action
         // Handle the case where the view state has been parsed from URL param on app init - must do this here to set
         // the initial set of selected facet terms.
         case SetViewStateAction.ACTION_TYPE:
-            return state.setSelectedFacetTermsFromViewState(action as SetViewStateAction);
+            return state.setSelectedFacetTermsFromViewState(
+                action as SetViewStateAction
+            );
 
         default:
             return state;

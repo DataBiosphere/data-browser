@@ -4,7 +4,7 @@
  *
  * Component responsible for displaying project-specific export to Terra component, and handling the corresponding
  * functionality.
- * 
+ *
  *  * Example Hierarchy:
  * ------------------
  * ProjectTerraExportComponent
@@ -16,18 +16,18 @@
  *   - Select
  *     - select project
  *     - project-specific file type summaries excluding file types (required for file type form)
-  *     - select project-specific file facets (requires update on select of file type)
+ *     - select project-specific file facets (requires update on select of file type)
  *     - select project-specific summary (required for right side stats)
  *   - Renders
  *     - different states of download (file type summary form, in progress, completed)
- * 
+ *
  * ProjectLayoutComponent
  *   - Renders
  *     - general layout and right side states
  */
 
 // Core dependencies
-import { Component, OnDestroy, OnInit  } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
@@ -70,17 +70,16 @@ import { TerraService } from "../../shared/terra.service";
 @Component({
     selector: "project-terra-export",
     templateUrl: "./project-terra-export.component.html",
-    styleUrls: ["./project-terra-export.component.scss"]
+    styleUrls: ["./project-terra-export.component.scss"],
 })
 export class ProjectTerraExportComponent implements OnDestroy, OnInit {
-
     // Template variables
     public manifestDownloadFormat = ManifestDownloadFormat.TERRA_BDBAG;
     public portalURL: string;
     public selectedSearchTermNames: string[] = [];
     public selectedSearchTerms: SearchTerm[] = [];
     public state$ = new BehaviorSubject<ProjectTerraExportState>({
-        loaded: false
+        loaded: false,
     });
 
     // Locals
@@ -100,8 +99,8 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
         private terraService: TerraService,
         private store: Store<AppState>,
         private activatedRoute: ActivatedRoute,
-        private router: Router) {
-
+        private router: Router
+    ) {
         this.portalURL = this.configService.getPortalUrl();
     }
 
@@ -112,8 +111,10 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @param {BulkDownloadExecutionEnvironment} executionEnvironment
      * @returns {string}
      */
-    public getCurlCommand(manifestResponse: ManifestResponse, executionEnvironment: BulkDownloadExecutionEnvironment): string {
-
+    public getCurlCommand(
+        manifestResponse: ManifestResponse,
+        executionEnvironment: BulkDownloadExecutionEnvironment
+    ): string {
         return manifestResponse.commandLine[executionEnvironment];
     }
 
@@ -121,12 +122,13 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * Return user to project overview
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Project Overview";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
@@ -136,16 +138,19 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @returns {Facet}
      */
     public getSpeciesFacet(filesFacets: Facet[]): Facet {
-
-        return filesFacets.find(facet => facet.name === FileFacetName.GENUS_SPECIES) as FileFacet;
+        return filesFacets.find(
+            (facet) => facet.name === FileFacetName.GENUS_SPECIES
+        ) as FileFacet;
     }
 
     /**
      * Return set of possible manifest download formats.
      */
     public getManifestDownloadFormats(): ManifestDownloadFormat[] {
-
-        return [ManifestDownloadFormat.TERRA_BDBAG, ManifestDownloadFormat.TERRA_PFB];
+        return [
+            ManifestDownloadFormat.TERRA_BDBAG,
+            ManifestDownloadFormat.TERRA_PFB,
+        ];
     }
 
     /**
@@ -155,9 +160,14 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @param {string} exportToTerraUrl
      * @returns {string}
      */
-    public getTerraServiceUrl(format: ManifestDownloadFormat, exportToTerraUrl: string): string {
-
-        return this.terraService.buildExportToTerraWorkspaceUrl(format, exportToTerraUrl);
+    public getTerraServiceUrl(
+        format: ManifestDownloadFormat,
+        exportToTerraUrl: string
+    ): string {
+        return this.terraService.buildExportToTerraWorkspaceUrl(
+            format,
+            exportToTerraUrl
+        );
     }
 
     /**
@@ -167,10 +177,14 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @param {SearchTerm[]} selectedSearchTerms
      * @returns {boolean}
      */
-    public isAnyTermSelected(facetName: FileFacetName, selectedSearchTerms: SearchTerm[]): boolean {
-
-        return selectedSearchTerms.some(selectedSearchTerm =>
-            selectedSearchTerm.getSearchKey() === facetName);
+    public isAnyTermSelected(
+        facetName: FileFacetName,
+        selectedSearchTerms: SearchTerm[]
+    ): boolean {
+        return selectedSearchTerms.some(
+            (selectedSearchTerm) =>
+                selectedSearchTerm.getSearchKey() === facetName
+        );
     }
 
     /**
@@ -180,8 +194,10 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     private isFileTypeValid(selectedSearchTerms: SearchTerm[]): boolean {
-
-        return this.isAnyTermSelected(FileFacetName.FILE_FORMAT, selectedSearchTerms);
+        return this.isAnyTermSelected(
+            FileFacetName.FILE_FORMAT,
+            selectedSearchTerms
+        );
     }
 
     /**
@@ -191,8 +207,10 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     private isSpeciesValid(selectedSearchTerms: SearchTerm[]): boolean {
-
-        return this.isAnyTermSelected(FileFacetName.GENUS_SPECIES, selectedSearchTerms);
+        return this.isAnyTermSelected(
+            FileFacetName.GENUS_SPECIES,
+            selectedSearchTerms
+        );
     }
 
     /**
@@ -202,7 +220,6 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isRequestComplete(status: ExportToTerraStatus): boolean {
-
         return this.terraService.isExportToTerraRequestComplete(status);
     }
 
@@ -213,7 +230,6 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isRequestFailed(status: ExportToTerraStatus): boolean {
-
         return this.terraService.isExportToTerraRequestFailed(status);
     }
 
@@ -225,8 +241,10 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isRequestFormValid(selectedSearchTerms: SearchTerm[]): boolean {
-
-        return this.isFileTypeValid(selectedSearchTerms) && this.isSpeciesValid(selectedSearchTerms);
+        return (
+            this.isFileTypeValid(selectedSearchTerms) &&
+            this.isSpeciesValid(selectedSearchTerms)
+        );
     }
 
     /**
@@ -236,9 +254,10 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isRequestInProgress(status: ExportToTerraStatus): boolean {
-
-        return (this.terraService.isExportToTerraRequestInitiated(status) ||
-            this.terraService.isExportToTerraRequestInProgress(status));
+        return (
+            this.terraService.isExportToTerraRequestInitiated(status) ||
+            this.terraService.isExportToTerraRequestInProgress(status)
+        );
     }
 
     /**
@@ -248,7 +267,6 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isRequestNotStarted(status: ExportToTerraStatus): boolean {
-
         return this.terraService.isExportToTerraRequestNotStarted(status);
     }
 
@@ -259,10 +277,10 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @param {string} exportToTerraUrl
      */
     public onDataLinkClicked(project: Project, exportToTerraUrl: string) {
-
-        this.store.dispatch(new LaunchProjectTerraAction(project, exportToTerraUrl));
+        this.store.dispatch(
+            new LaunchProjectTerraAction(project, exportToTerraUrl)
+        );
     }
-
 
     /**
      * Track click on copy of Terra data link.
@@ -271,19 +289,27 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @param {string} exportToTerraUrl
      */
     public onDataLinkCopied(project: Project, exportToTerraUrl: string) {
-
-        this.store.dispatch(new CopyToClipboardProjectTerraUrlAction(project, exportToTerraUrl));
+        this.store.dispatch(
+            new CopyToClipboardProjectTerraUrlAction(project, exportToTerraUrl)
+        );
     }
 
     /**
      * Dispatch action to export to Terra.
-     * 
+     *
      * @param {Project} project
      * @param {ManifestDownloadFormat} manifestDownloadFormat
      */
-    public onExportToTerra(project: Project, manifestDownloadFormat: ManifestDownloadFormat) {
-
-        this.store.dispatch(new ExportProjectToTerraRequestAction(project, manifestDownloadFormat));
+    public onExportToTerra(
+        project: Project,
+        manifestDownloadFormat: ManifestDownloadFormat
+    ) {
+        this.store.dispatch(
+            new ExportProjectToTerraRequestAction(
+                project,
+                manifestDownloadFormat
+            )
+        );
     }
 
     /**
@@ -292,19 +318,21 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @param facetTermSelectedEvent {FacetTermSelectedEvent}
      */
     public onFacetTermSelected(facetTermSelectedEvent: FacetTermSelectedEvent) {
-
         // Dispatch action to update project download-specific facets
         const action = new SelectProjectFileFacetTermAction(
             facetTermSelectedEvent.facetName,
             facetTermSelectedEvent.termName,
             null, // Display value only required for project ID facet,
-            facetTermSelectedEvent.selected);
+            facetTermSelectedEvent.selected
+        );
         this.store.dispatch(action);
 
         // Kick off request for project-specific file type summaries. Required for populating file type form. Update
         // of file types summaries only required if change in species.
-        if ( facetTermSelectedEvent.facetName === FileFacetName.GENUS_SPECIES ) {
-            this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction(true));
+        if (facetTermSelectedEvent.facetName === FileFacetName.GENUS_SPECIES) {
+            this.store.dispatch(
+                new FetchFileManifestFileTypeSummariesRequestAction(true)
+            );
         }
 
         // Kick off request for project-specific summary including any selected file types. Required for populating
@@ -318,20 +346,20 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
     /**
      * Handle select on manifest download format radio button.
      */
-    public onManifestDownloadFormat(manifestDownloadFormat: ManifestDownloadFormat) {
-
+    public onManifestDownloadFormat(
+        manifestDownloadFormat: ManifestDownloadFormat
+    ) {
         this.manifestDownloadFormat = manifestDownloadFormat;
     }
 
     /**
      * Handle click on back button.
-     * 
+     *
      * @param {string} projectId
      */
     public onTabSelected(projectId: string): void {
-
         this.router.navigate(["/projects", projectId], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
@@ -339,17 +367,19 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * Open new window on completion of export to Terra request.
      */
     private initRequestCompleteSubscriber() {
-
         this.state$
             .pipe(
                 takeUntil(this.ngDestroy$),
-                filter(({exportToTerraStatus}) => this.isRequestComplete(exportToTerraStatus)),
+                filter(({ exportToTerraStatus }) =>
+                    this.isRequestComplete(exportToTerraStatus)
+                ),
                 take(1)
             )
             .subscribe((state) => {
-
-                const url =
-                    this.terraService.buildExportToTerraWorkspaceUrl(this.manifestDownloadFormat, state.exportToTerraUrl);
+                const url = this.terraService.buildExportToTerraWorkspaceUrl(
+                    this.manifestDownloadFormat,
+                    state.exportToTerraUrl
+                );
                 window.open(url);
             });
     }
@@ -361,33 +391,33 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * @param {BulkDownloadExecutionEnvironment} os
      * @returns {string}
      */
-    getInvalidFormMessage(selectedSearchTerms: SearchTerm[], os: BulkDownloadExecutionEnvironment) {
-
+    getInvalidFormMessage(
+        selectedSearchTerms: SearchTerm[],
+        os: BulkDownloadExecutionEnvironment
+    ) {
         const invalidFields = [];
-        if ( !this.isFileTypeValid(selectedSearchTerms) ) {
+        if (!this.isFileTypeValid(selectedSearchTerms)) {
             invalidFields.push("file type");
         }
-        if ( !this.isSpeciesValid(selectedSearchTerms) ) {
+        if (!this.isSpeciesValid(selectedSearchTerms)) {
             invalidFields.push("species");
         }
-        if ( invalidFields.length === 0 ) {
+        if (invalidFields.length === 0) {
             return "";
         }
 
         const fields = [];
-        if ( invalidFields.length > 2 ) {
+        if (invalidFields.length > 2) {
             invalidFields.forEach((invalidField, i) => {
-                if (i === invalidFields.length -1 ) {
+                if (i === invalidFields.length - 1) {
                     fields.push(" and ");
                     fields.push(invalidField);
-                }
-                else {
+                } else {
                     fields.push(invalidField);
                     fields.push(", ");
                 }
-            }, );
-        }
-        else {
+            });
+        } else {
             fields.push(invalidFields.join(" and "));
         }
 
@@ -398,7 +428,6 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * Clear summary and kill subscriptions on exit of component.
      */
     public ngOnDestroy() {
-
         // Clear project-specific:
         // - file type summaries
         // - project file summary
@@ -421,28 +450,37 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
      * Set up selectors and request initial data set.
      */
     public ngOnInit() {
-
         // Add selected project to state - grab the project ID from the URL. Update download state to include selected
         // project ID.
-        const projectId = this.activatedRoute.parent.snapshot.paramMap.get("id");
+        const projectId =
+            this.activatedRoute.parent.snapshot.paramMap.get("id");
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project then dispatch related events
         const project$ = this.store.pipe(
             select(selectSelectedProject),
             takeUntil(this.ngDestroy$),
-            filter(project => !!project),
+            filter((project) => !!project),
             take(1),
-            tap(project => {
-
+            tap((project) => {
                 this.store.dispatch(
-                    new SelectProjectFileFacetTermAction(FileFacetName.PROJECT_ID, projectId, project.projectShortname, true));
+                    new SelectProjectFileFacetTermAction(
+                        FileFacetName.PROJECT_ID,
+                        projectId,
+                        project.projectShortname,
+                        true
+                    )
+                );
 
                 // Determine species count of project; required for autoselecting species checkbox
-                this.store.dispatch(new FetchProjectSpeciesFacetRequestAction());
+                this.store.dispatch(
+                    new FetchProjectSpeciesFacetRequestAction()
+                );
 
                 // Kick off request for project-specific file type summaries. Required for populating file type form.
-                this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction(true));
+                this.store.dispatch(
+                    new FetchFileManifestFileTypeSummariesRequestAction(true)
+                );
 
                 // Kick off request for project-specific summary including any selected file types. Required for populating
                 // right side stats.
@@ -459,61 +497,74 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
         // Update the UI with any changes in the Terra export request status and URL
         const exportToTerra$ = this.store.pipe(select(selectExportToTerra));
 
-        combineLatest([
-            project$,
-            fileManifest$,
-            exportToTerra$,
-            exportToTerra$
-        ]).pipe(
-            takeUntil(this.ngDestroy$),
-            filter(([,fileManifest]) => {
-                return fileManifest.filesFacets.length && Object.keys(fileManifest.projectFileSummary).length > 0
-            }),
-            map(([project, fileManifest, exportToTerra]) => {
+        combineLatest([project$, fileManifest$, exportToTerra$, exportToTerra$])
+            .pipe(
+                takeUntil(this.ngDestroy$),
+                filter(([, fileManifest]) => {
+                    return (
+                        fileManifest.filesFacets.length &&
+                        Object.keys(fileManifest.projectFileSummary).length > 0
+                    );
+                }),
+                map(([project, fileManifest, exportToTerra]) => {
+                    const selectedSearchTermNames =
+                        fileManifest.selectedProjectSearchTerms.map(
+                            (searchTerm) => searchTerm.getDisplayValue()
+                        );
 
-                const selectedSearchTermNames = fileManifest.selectedProjectSearchTerms
-                    .map(searchTerm => searchTerm.getDisplayValue());
+                    return {
+                        filesFacets: fileManifest.filesFacets,
+                        fileSummary: fileManifest.projectFileSummary,
+                        fileTypeSummaries: fileManifest.fileTypeSummaries,
+                        loaded: true,
+                        project,
+                        projectSpeciesFacet: fileManifest.projectSpeciesFacet,
+                        selectedSearchTerms:
+                            fileManifest.selectedProjectSearchTerms,
+                        selectedSearchTermNames,
+                        ...exportToTerra,
+                    };
+                })
+            )
+            .subscribe((state) => {
+                this.state$.next(state);
 
-                return {
-                    filesFacets: fileManifest.filesFacets,
-                    fileSummary: fileManifest.projectFileSummary,
-                    fileTypeSummaries: fileManifest.fileTypeSummaries,
-                    loaded: true,
-                    project,
-                    projectSpeciesFacet: fileManifest.projectSpeciesFacet,
-                    selectedSearchTerms: fileManifest.selectedProjectSearchTerms,
-                    selectedSearchTermNames,
-                    ...exportToTerra
-                };
-            })
-        ).subscribe(state => {
-
-            this.state$.next(state);
-
-            // Update description meta for this project
-            this.projectDetailService.addProjectMeta(state.project.projectTitle, ProjectTab.PROJECT_TERRA_EXPORT);
-        });
+                // Update description meta for this project
+                this.projectDetailService.addProjectMeta(
+                    state.project.projectTitle,
+                    ProjectTab.PROJECT_TERRA_EXPORT
+                );
+            });
 
         // Autoselect species if project only has a single species
-        const speciesSelector$ = this.state$.pipe(
-            takeUntil(this.ngDestroy$),
-            skip(1) // Skip initial value
-        ).subscribe(state => {
-
-            // If project only has a single species, select it if it hasn't been selected already
-            const projectSpeciesFacet = state.projectSpeciesFacet as FileFacet;
-            const singleSpecies = projectSpeciesFacet.termCount === 1;
-            if ( singleSpecies ) {
-                const term = projectSpeciesFacet.terms[0];
-                if ( state.selectedSearchTermNames.indexOf(term.name) === -1 ) {
-                    const selectSpeciesAction =
-                        new SelectProjectFileFacetTermAction(projectSpeciesFacet.name, term.name, null, true);
-                    this.store.dispatch(selectSpeciesAction);
+        const speciesSelector$ = this.state$
+            .pipe(
+                takeUntil(this.ngDestroy$),
+                skip(1) // Skip initial value
+            )
+            .subscribe((state) => {
+                // If project only has a single species, select it if it hasn't been selected already
+                const projectSpeciesFacet =
+                    state.projectSpeciesFacet as FileFacet;
+                const singleSpecies = projectSpeciesFacet.termCount === 1;
+                if (singleSpecies) {
+                    const term = projectSpeciesFacet.terms[0];
+                    if (
+                        state.selectedSearchTermNames.indexOf(term.name) === -1
+                    ) {
+                        const selectSpeciesAction =
+                            new SelectProjectFileFacetTermAction(
+                                projectSpeciesFacet.name,
+                                term.name,
+                                null,
+                                true
+                            );
+                        this.store.dispatch(selectSpeciesAction);
+                    }
                 }
-            }
 
-            speciesSelector$.unsubscribe();
-        });
+                speciesSelector$.unsubscribe();
+            });
 
         this.initRequestCompleteSubscriber();
     }

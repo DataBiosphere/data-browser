@@ -14,9 +14,13 @@ import { HamburgerState } from "./hamburger.state";
 /**
  * Get the hamburger state.
  */
-export const selectHamburger = createFeatureSelector<HamburgerState>("hamburger");
+export const selectHamburger =
+    createFeatureSelector<HamburgerState>("hamburger");
 
 /**
  * Returns true if hamburger is currently open, otherwise false.
  */
-export const selectHamburgerOpen = createSelector(selectHamburger, (state: HamburgerState) => state.open);
+export const selectHamburgerOpen = createSelector(
+    selectHamburger,
+    (state: HamburgerState) => state.open
+);

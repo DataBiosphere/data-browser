@@ -6,7 +6,13 @@
  */
 
 // Core dependencies
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, Renderer2 } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    OnDestroy,
+    OnInit,
+    Renderer2,
+} from "@angular/core";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Observable, Subject } from "rxjs";
@@ -18,19 +24,22 @@ import { Catalog } from "./catalog/catalog.model";
 import { ConfigService } from "../config/config.service";
 import { FilesComponentState } from "./files.component.state";
 import { AppState } from "../_ngrx/app.state";
-import { selectCatalog, selectCatalogs } from "./_ngrx/catalog/catalog.selectors";
+import {
+    selectCatalog,
+    selectCatalogs,
+} from "./_ngrx/catalog/catalog.selectors";
 import { SelectEntityAction } from "./_ngrx/entity/select-entity.action";
 import { selectFacetFacets } from "./_ngrx/facet/facet.selectors";
 import {
     selectFileSummary,
     selectEntities,
-    selectSelectedEntitySpec
+    selectSelectedEntitySpec,
 } from "./_ngrx/files.selectors";
 import {
     selectIsSelectedTermsLoading,
     selectSearchTerms,
     selectSelectedProjectSearchTerms,
-    selectSelectedSearchTerms
+    selectSelectedSearchTerms,
 } from "./_ngrx/search/search.selectors";
 import { SearchTerm } from "./search/search-term.model";
 import EntitySpec from "./shared/entity-spec";
@@ -40,10 +49,9 @@ import { TitleService } from "./title/title.service";
     selector: "bw-files",
     templateUrl: "files.component.html",
     styleUrls: ["files.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilesComponent implements OnInit, OnDestroy {
-
     // Public/template variables
     public state$: Observable<FilesComponentState>;
 
@@ -57,12 +65,13 @@ export class FilesComponent implements OnInit, OnDestroy {
      * @param {Store<AppState>} store
      * @param {Renderer2} renderer
      */
-    constructor(private configService: ConfigService,
-                private deviceService: DeviceDetectorService,
-                private titleService: TitleService,
-                private store: Store<AppState>,
-                private renderer: Renderer2) {
-    }
+    constructor(
+        private configService: ConfigService,
+        private deviceService: DeviceDetectorService,
+        private titleService: TitleService,
+        private store: Store<AppState>,
+        private renderer: Renderer2
+    ) {}
 
     /**
      * Return the catalog for the explore header. For example, "Explore Data: DCP 1.0" or "Explore Data: DCP 2.0".
@@ -71,11 +80,10 @@ export class FilesComponent implements OnInit, OnDestroy {
      * @returns {string}
      */
     public getExploreTitle(catalog: Catalog): string {
-
         const title = "Explore Data";
 
         const catalogDisplayName = CatalogDisplayName[catalog];
-        if ( !catalogDisplayName ) {
+        if (!catalogDisplayName) {
             return title;
         }
         return `${title}: ${catalogDisplayName}`;
@@ -90,9 +98,9 @@ export class FilesComponent implements OnInit, OnDestroy {
      * @returns {boolean}
      */
     public isCatalogEnabled(catalogs: Catalog[]): boolean {
-
-        return this.configService.isEnvCGLDev() && 
-            catalogs && catalogs.length > 1;
+        return (
+            this.configService.isEnvCGLDev() && catalogs && catalogs.length > 1
+        );
     }
 
     /**
@@ -100,11 +108,10 @@ export class FilesComponent implements OnInit, OnDestroy {
      * @returns {boolean}
      */
     public isDeviceHandheld(): boolean {
-
         const mobile = this.deviceService.isMobile();
         const tablet = this.deviceService.isTablet();
 
-        return (mobile || tablet);
+        return mobile || tablet;
     }
 
     /**
@@ -115,11 +122,9 @@ export class FilesComponent implements OnInit, OnDestroy {
      * @param opened: boolean
      */
     public onMenuOpen(opened: boolean) {
-
-        if ( opened ) {
+        if (opened) {
             this.renderer.addClass(document.body, "no-scroll");
-        }
-        else {
+        } else {
             this.renderer.removeClass(document.body, "no-scroll");
         }
     }
@@ -130,7 +135,6 @@ export class FilesComponent implements OnInit, OnDestroy {
      * @param {EntitySpec} tab
      */
     public onTabSelected(tab: EntitySpec) {
-
         this.store.dispatch(new SelectEntityAction(tab.key));
     }
 
@@ -138,7 +142,6 @@ export class FilesComponent implements OnInit, OnDestroy {
      * Setup initial component state from store.
      */
     private initState() {
-
         this.state$ = combineLatest(
             this.store.pipe(select(selectFileSummary)), // Counts
             this.store.pipe(select(selectFacetFacets)), // Complete list of facets to display - both file facets (facets with term lists) as well as range facets
@@ -147,27 +150,28 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.store.pipe(select(selectSelectedSearchTerms)), // Set of possible search terms, used to populate the search autosuggest.
             this.store.pipe(select(selectIsSelectedTermsLoading)), // True if selected search terms are currently being constructed
             this.store.pipe(select(selectSearchTerms)),
-            this.store.pipe( // Current set of selected projects, if any
+            this.store.pipe(
+                // Current set of selected projects, if any
                 select(selectSelectedProjectSearchTerms),
                 map(this.mapSearchTermsToProjectIds)
             ),
             this.store.pipe(select(selectCatalog)),
             this.store.pipe(select(selectCatalogs))
-        )
-            .pipe(
-                takeUntil(this.ngDestroy$),
-                map(([
-                         fileSummary,
-                         facets,
-                         entities,
-                         selectedEntity,
-                         selectedSearchTerms,
-                         selectedSearchTermsLoading,
-                         searchTerms,
-                         selectedProjectIds,
-                         catalog,
-                         catalogs]) => {
-
+        ).pipe(
+            takeUntil(this.ngDestroy$),
+            map(
+                ([
+                    fileSummary,
+                    facets,
+                    entities,
+                    selectedEntity,
+                    selectedSearchTerms,
+                    selectedSearchTermsLoading,
+                    searchTerms,
+                    selectedProjectIds,
+                    catalog,
+                    catalogs,
+                ]) => {
                     return {
                         catalog,
                         catalogs,
@@ -178,12 +182,19 @@ export class FilesComponent implements OnInit, OnDestroy {
                         selectedEntity,
                         selectedProjectIds,
                         selectedSearchTerms,
-                        selectedSearchTermsLoading
+                        selectedSearchTermsLoading,
                     };
-                }));
+                }
+            )
+        );
 
-        this.state$.pipe(takeUntil(this.ngDestroy$)).subscribe((state: FilesComponentState) => 
-            this.titleService.setTitle(`Explore ${state.selectedEntity.displayName}`));
+        this.state$
+            .pipe(takeUntil(this.ngDestroy$))
+            .subscribe((state: FilesComponentState) =>
+                this.titleService.setTitle(
+                    `Explore ${state.selectedEntity.displayName}`
+                )
+            );
     }
 
     /**
@@ -193,7 +204,6 @@ export class FilesComponent implements OnInit, OnDestroy {
      * @returns {string[]}
      */
     private mapSearchTermsToProjectIds(searchTerms: SearchTerm[]): string[] {
-
         return searchTerms.map((searchTerm: SearchTerm) => {
             return searchTerm.getSearchValue();
         });
@@ -203,7 +213,6 @@ export class FilesComponent implements OnInit, OnDestroy {
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -212,7 +221,6 @@ export class FilesComponent implements OnInit, OnDestroy {
      * Set up selectors and request initial data set.
      */
     public ngOnInit() {
-
         this.initState();
     }
 }

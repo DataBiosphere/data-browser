@@ -21,17 +21,18 @@ import { PaginationService } from "../table/pagination/pagination.service";
 
 @Injectable()
 export class EntityRequestService {
-
     /**
      * @param {ConfigService} configService
      * @param {HttpService} httpService
      * @param {SearchTermHttpService} searchTermHttpService
      * @param {PaginationService} paginationService
      */
-    constructor(protected configService: ConfigService,
-                protected httpService: HttpService,
-                protected searchTermHttpService: SearchTermHttpService,
-                protected paginationService: PaginationService) {}
+    constructor(
+        protected configService: ConfigService,
+        protected httpService: HttpService,
+        protected searchTermHttpService: SearchTermHttpService,
+        protected paginationService: PaginationService
+    ) {}
 
     /**
      * @param {Catalog} catalog
@@ -41,15 +42,16 @@ export class EntityRequestService {
      * @param {boolean} filterableByProject
      * @returns {EntityRequest}
      */
-    public buildEntityRequest(catalog: Catalog,
-                              searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                              tableParams: TableParams,
-                              selectedEntity: string,
-                              filterableByProject): EntityRequest {
-
-        if ( tableParams.next || tableParams.previous ) {
+    public buildEntityRequest(
+        catalog: Catalog,
+        searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+        tableParams: TableParams,
+        selectedEntity: string,
+        filterableByProject
+    ): EntityRequest {
+        if (tableParams.next || tableParams.previous) {
             return {
-                url: tableParams.next || tableParams.previous
+                url: tableParams.next || tableParams.previous,
             };
         }
 
@@ -58,17 +60,27 @@ export class EntityRequestService {
 
         // Build up param map
         let params;
-        if ( filterableByProject ) {
-            params = this.buildFetchSearchResultsQueryParams(catalog, searchTermsBySearchKey, tableParams);
+        if (filterableByProject) {
+            params = this.buildFetchSearchResultsQueryParams(
+                catalog,
+                searchTermsBySearchKey,
+                tableParams
+            );
+        } else {
+            const filteredSearchTerms = this.removeProjectSearchTerms(
+                searchTermsBySearchKey,
+                selectedEntity
+            );
+            params = this.buildFetchSearchResultsQueryParams(
+                catalog,
+                filteredSearchTerms,
+                tableParams
+            );
         }
-        else {
-            const filteredSearchTerms = this.removeProjectSearchTerms(searchTermsBySearchKey, selectedEntity);
-            params = this.buildFetchSearchResultsQueryParams(catalog, filteredSearchTerms, tableParams);
-        }
-        
+
         return {
             url,
-            params
+            params,
         };
     }
 
@@ -80,18 +92,26 @@ export class EntityRequestService {
      * @param {TableParams} tableParams
      */
     public buildFetchSearchResultsQueryParams(
-        catalog: Catalog, searchTermsBySearchKey: Map<string, Set<SearchTerm>>, tableParams: TableParams) {
-
+        catalog: Catalog,
+        searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+        tableParams: TableParams
+    ) {
         // Build query params
         const searchTermSets = searchTermsBySearchKey.values();
-        const searchTerms = Array.from(searchTermSets).reduce((accum, searchTermSet) => {
-            return accum.concat(Array.from(searchTermSet));
-        }, []);
-        const filters = this.searchTermHttpService.marshallSearchTerms(searchTerms);
+        const searchTerms = Array.from(searchTermSets).reduce(
+            (accum, searchTermSet) => {
+                return accum.concat(Array.from(searchTermSet));
+            },
+            []
+        );
+        const filters =
+            this.searchTermHttpService.marshallSearchTerms(searchTerms);
 
         const params = {
             filters,
-            ...this.paginationService.buildFetchSearchResultsPaginationParams(tableParams)
+            ...this.paginationService.buildFetchSearchResultsPaginationParams(
+                tableParams
+            ),
         };
 
         return this.httpService.createIndexParams(catalog, params);
@@ -104,7 +124,6 @@ export class EntityRequestService {
      * @returns {string}
      */
     public buildEntitySearchResultsUrl(entityName: string): string {
-
         return this.configService.getEntitiesUrl(entityName);
     }
 
@@ -117,8 +136,9 @@ export class EntityRequestService {
      * @returns {Map<string, Set<SearchTerm>>}
      */
     protected removeProjectSearchTerms(
-        searchTermsByFacetName: Map<string, Set<SearchTerm>>, selectedEntity: string): Map<string, Set<SearchTerm>> {
-
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>,
+        selectedEntity: string
+    ): Map<string, Set<SearchTerm>> {
         const filteredSearchTerms = new Map(searchTermsByFacetName);
         filteredSearchTerms.delete(FileFacetName.PROJECT_ID);
         return filteredSearchTerms;

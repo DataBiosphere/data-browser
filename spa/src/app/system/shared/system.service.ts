@@ -28,7 +28,6 @@ import { SystemStatusResponse } from "./system-status-response.model";
 
 @Injectable()
 export class SystemService {
-
     /**
      * @param {ConfigService} configService
      * @param {HttpService} httpService
@@ -39,7 +38,8 @@ export class SystemService {
         protected configService: ConfigService,
         protected httpService: HttpService,
         protected httpClient: HttpClient,
-        private store: Store<AppState>) {}
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Control flow of system status init during app init. Kick of request for system status and wait for response
@@ -48,17 +48,17 @@ export class SystemService {
      * @returns {Promise<void>}
      */
     public initSystemStatus(catalog: Catalog): Promise<void> {
-
         this.store.dispatch(new SystemStatusRequestAction(catalog));
         return new Promise((resolve) => {
-
-            this.store.pipe(
-                select(selectSystemStatus),
-                filter(systemStatus => !systemStatus.loading),
-                take(1)
-            ).subscribe(() => {
-                resolve();
-            })
+            this.store
+                .pipe(
+                    select(selectSystemStatus),
+                    filter((systemStatus) => !systemStatus.loading),
+                    take(1)
+                )
+                .subscribe(() => {
+                    resolve();
+                });
         });
     }
 
@@ -67,17 +67,18 @@ export class SystemService {
      *
      * @param {Catalog} catalog
      */
-    public fetchSystemStatus(catalog: Catalog): Observable<SystemStatusResponse> {
-
+    public fetchSystemStatus(
+        catalog: Catalog
+    ): Observable<SystemStatusResponse> {
         return this.checkIndexStatus(catalog).pipe(
-            switchMap(indexResponse => {
+            switchMap((indexResponse) => {
                 return of({
                     ok: indexResponse.ok,
                     indexing: indexResponse.indexing,
-                    indexingStatus: indexResponse.status
+                    indexingStatus: indexResponse.status,
                 });
             })
-        )
+        );
     }
 
     /**
@@ -87,11 +88,10 @@ export class SystemService {
      * @returns {Observable<IndexResponse>}
      */
     private checkIndexStatus(catalog: Catalog): Observable<IndexResponse> {
-
         const url = this.configService.getIndexStatusUrl();
         const params = this.httpService.createIndexParams(catalog, {});
         return this.httpClient
-            .get<IndexHttpResponse>(url, {params})
+            .get<IndexHttpResponse>(url, { params })
             .pipe(
                 catchError(this.handleIndexError.bind(this)),
                 switchMap(this.bindIndexResponse.bind(this))
@@ -104,27 +104,29 @@ export class SystemService {
      * @param {HealthHttpResponse} response
      * @returns {HealthResponse}
      */
-    private bindHealthResponse(response: HealthHttpResponse): Observable<HealthResponse> {
-
+    private bindHealthResponse(
+        response: HealthHttpResponse
+    ): Observable<HealthResponse> {
         return of({
             serviceName: response.service_name,
-            ok: /*response.status === "ok" */true // Temporarily hide banner for DCP1 - see #1366.
+            ok: /*response.status === "ok" */ true, // Temporarily hide banner for DCP1 - see #1366.
         });
     }
-    
+
     /**
      * Normalize download HTTP response to FE-friendly format.
      *
      * @param {IndexHttpResponse} response
      * @returns {IndexResponse}
      */
-    private bindIndexResponse(response: IndexHttpResponse): Observable<IndexResponse> {
-
+    private bindIndexResponse(
+        response: IndexHttpResponse
+    ): Observable<IndexResponse> {
         return of({
             ok: response.up,
             indexing: this.isIndexing(response),
             // indexing: true,
-            status: IndexRequestStatus.COMPLETE
+            status: IndexRequestStatus.COMPLETE,
         });
     }
 
@@ -135,14 +137,15 @@ export class SystemService {
      * @param {HttpErrorResponse} error
      * @returns {IndexHttpResponse}
      */
-    private handleIndexError(error: HttpErrorResponse): Observable<IndexHttpResponse> {
-
+    private handleIndexError(
+        error: HttpErrorResponse
+    ): Observable<IndexHttpResponse> {
         return of({
             up: false,
             progress: {
                 unindexed_bundles: 0,
-                unindexed_documents: 0
-            }
+                unindexed_documents: 0,
+            },
         });
     }
 
@@ -152,11 +155,12 @@ export class SystemService {
      * @param {HttpErrorResponse} error
      * @returns {IndexHttpResponse}
      */
-    private handleHealthError(error: HttpErrorResponse): Observable<HealthResponse> {
-
+    private handleHealthError(
+        error: HttpErrorResponse
+    ): Observable<HealthResponse> {
         return of({
             serviceName: "",
-            ok: false
+            ok: false,
         });
     }
 
@@ -167,7 +171,9 @@ export class SystemService {
      * @returns {boolean}
      */
     private isIndexing(response: IndexHttpResponse): boolean {
-
-        return response.progress.unindexed_bundles > 0 || response.progress.unindexed_documents > 0;
+        return (
+            response.progress.unindexed_bundles > 0 ||
+            response.progress.unindexed_documents > 0
+        );
     }
 }

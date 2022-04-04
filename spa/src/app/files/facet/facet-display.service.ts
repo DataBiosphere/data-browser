@@ -19,7 +19,6 @@ import { CamelToSpacePipe } from "../../pipe/camel-to-space/camel-to-space.pipe"
 
 @Injectable()
 export class FacetDisplayService {
-
     // Public members
     public facetGroups: FacetGroup[] = [];
 
@@ -30,17 +29,15 @@ export class FacetDisplayService {
      * Set up set of facet groups for this environment.
      */
     constructor(private configService: ConfigService) {
-
         this.facetGroups = this.buildFacetGroups(facetGroupConfigs);
     }
 
     /**
      * Return the calculated facet groups for the current environment.
-     * 
+     *
      * @returns {FacetGroup[]}
      */
     public getFacetGroups(): FacetGroup[] {
-        
         return this.facetGroups;
     }
 
@@ -51,31 +48,36 @@ export class FacetDisplayService {
      * @returns {name}
      */
     public getFacetDisplayName(fileFacetName: string): string {
-
         const displayName = FileFacetNameDisplay[fileFacetName];
-        return displayName ? displayName : this.camelToSpacePipe.transform(fileFacetName);
+        return displayName
+            ? displayName
+            : this.camelToSpacePipe.transform(fileFacetName);
     }
 
     /**
      * Build the set of facet groups.
-     * 
+     *
      * @param {FacetGroupDisplayConfig} facetGroupDisplayConfigs
      * @returns {FacetGroup[]}
      */
-    private buildFacetGroups(facetGroupDisplayConfigs: FacetGroupDisplayConfig[]): FacetGroup[] {
+    private buildFacetGroups(
+        facetGroupDisplayConfigs: FacetGroupDisplayConfig[]
+    ): FacetGroup[] {
+        return facetGroupDisplayConfigs.reduce(
+            (accum, facetGroupConfig: FacetGroupDisplayConfig) => {
+                const facets = facetGroupConfig.facets;
+                if (facets.length) {
+                    accum.push({
+                        facetGroupName: facetGroupConfig.facetGroupName,
+                        facetNames: facets.map(
+                            (facetConfig) => facetConfig.facetName
+                        ),
+                    });
+                }
 
-        return facetGroupDisplayConfigs.reduce((accum, facetGroupConfig: FacetGroupDisplayConfig) => {
-
-            const facets = facetGroupConfig.facets;
-            if ( facets.length ) {
-                accum.push({
-                    facetGroupName: facetGroupConfig.facetGroupName,
-                    facetNames: facets.map(facetConfig => facetConfig.facetName)
-                });
-            }
-
-            return accum;
-        }, []);
+                return accum;
+            },
+            []
+        );
     }
 }
-

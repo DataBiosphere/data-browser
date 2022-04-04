@@ -14,15 +14,13 @@ import { FileLocationStatus } from "../../file-location/file-location-status.mod
 
 // Default file model
 const DEFAULT_FILE = {
-    fileFileLocationsByFileUrl: new Map<string, FileLocation>()
+    fileFileLocationsByFileUrl: new Map<string, FileLocation>(),
 };
 
 export class FileState {
-
     fileFileLocationsByFileUrl: Map<string, FileLocation>;
 
     constructor(file = DEFAULT_FILE) {
-
         Object.assign(this, file);
     }
 
@@ -32,10 +30,11 @@ export class FileState {
      * @param {ClearFileFileLocationsAction} action
      * @returns {FilesState}
      */
-    public clearFileFileLocation(action: ClearFileFileLocationsAction): FileState {
-
+    public clearFileFileLocation(
+        action: ClearFileFileLocationsAction
+    ): FileState {
         return new FileState({
-            fileFileLocationsByFileUrl: new Map()
+            fileFileLocationsByFileUrl: new Map(),
         });
     }
 
@@ -46,17 +45,20 @@ export class FileState {
      * @param {FetchFileFileLocationRequestAction} action
      * @returns {ProjectState}
      */
-    public fetchFileFileLocationRequest(action: FetchFileFileLocationRequestAction): FileState {
-
+    public fetchFileFileLocationRequest(
+        action: FetchFileFileLocationRequestAction
+    ): FileState {
         const { fileUrl } = action;
 
-        const updatedFileLocationsByFileUrl = new Map(this.fileFileLocationsByFileUrl);
+        const updatedFileLocationsByFileUrl = new Map(
+            this.fileFileLocationsByFileUrl
+        );
         updatedFileLocationsByFileUrl.set(fileUrl, {
-            status: FileLocationStatus.REQUESTED
+            status: FileLocationStatus.REQUESTED,
         });
 
         return new FileState({
-            fileFileLocationsByFileUrl: updatedFileLocationsByFileUrl
+            fileFileLocationsByFileUrl: updatedFileLocationsByFileUrl,
         });
     }
 
@@ -66,14 +68,17 @@ export class FileState {
      * @param {FetchFileFileLocationSuccessAction} action
      * @returns {ProjectState}
      */
-    public fetchFileFileLocationSuccess(action: FetchFileFileLocationSuccessAction): FileState {
-
-        const { fileLocation, fileUrl } = action as FetchFileFileLocationSuccessAction;
-        const updatedFileLocationsByFileUrl =
-            new Map(this.fileFileLocationsByFileUrl).set(fileUrl, action.fileLocation);
+    public fetchFileFileLocationSuccess(
+        action: FetchFileFileLocationSuccessAction
+    ): FileState {
+        const { fileLocation, fileUrl } =
+            action as FetchFileFileLocationSuccessAction;
+        const updatedFileLocationsByFileUrl = new Map(
+            this.fileFileLocationsByFileUrl
+        ).set(fileUrl, action.fileLocation);
 
         return new FileState({
-            fileFileLocationsByFileUrl: updatedFileLocationsByFileUrl
+            fileFileLocationsByFileUrl: updatedFileLocationsByFileUrl,
         });
     }
 
@@ -81,7 +86,6 @@ export class FileState {
      * @returns {FilesState}
      */
     public static getDefaultState(): FileState {
-
         return new FileState();
     }
 }

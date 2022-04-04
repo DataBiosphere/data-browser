@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Top-level project component, wraps all project detail-related, page-level components (e.g. project detail, 
+ * Top-level project component, wraps all project detail-related, page-level components (e.g. project detail,
  * project matrices download, project metadata download).
  */
 
@@ -18,14 +18,12 @@ import { selectSelectedProject } from "../_ngrx/files.selectors";
 import { Project } from "../shared/project.model";
 import { TitleService } from "../title/title.service";
 
-
 @Component({
     selector: "project",
     templateUrl: "./project.component.html",
-    styleUrls: ["./project.component.scss"]
+    styleUrls: ["./project.component.scss"],
 })
 export class ProjectComponent implements OnInit {
-
     // Locals
     private ngDestroy$ = new Subject();
 
@@ -33,19 +31,25 @@ export class ProjectComponent implements OnInit {
      * @param {Store<AppState>} store
      * @param {TitleService} titleService
      */
-    public constructor(private store: Store<AppState>, private titleService: TitleService) {}
-    
+    public constructor(
+        private store: Store<AppState>,
+        private titleService: TitleService
+    ) {}
+
     /**
      * Set project name as page title on load.
      */
     public ngOnInit() {
-
         // Grab reference to selected project
-        this.store.pipe(
-            select(selectSelectedProject),
-            takeUntil(this.ngDestroy$),
-            filter(project => !!project),
-            take(1)
-        ).subscribe((project: Project) => this.titleService.setTitle(project.projectTitle));
+        this.store
+            .pipe(
+                select(selectSelectedProject),
+                takeUntil(this.ngDestroy$),
+                filter((project) => !!project),
+                take(1)
+            )
+            .subscribe((project: Project) =>
+                this.titleService.setTitle(project.projectTitle)
+            );
     }
 }

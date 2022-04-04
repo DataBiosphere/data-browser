@@ -7,5 +7,5 @@
 
 export enum FileLocationTrigger {
     "COPY" = "COPY",
-    "DOWNLOAD" = "DOWNLOAD"
+    "DOWNLOAD" = "DOWNLOAD",
 }

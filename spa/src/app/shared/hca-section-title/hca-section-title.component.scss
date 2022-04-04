@@ -32,7 +32,6 @@
  * HCA specific breakpoint
  */
 @media screen and (min-width: 1200px) {
-
     /* Wrapper */
     .wrapper {
         padding: 0 30px;
@@ -43,10 +42,8 @@
  * Section title inside modal should have no padding as padding is handled by modal itself.
  */
 :host-context(modal-layout) {
-
     /* Wrapper */
     .wrapper {
         padding: 0;
     }
 }
-

@@ -8,16 +8,21 @@
  */
 
 // Core dependencies
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+} from "@angular/core";
 
 @Component({
     selector: "download-modal-button",
     templateUrl: "./download-modal-button.component.html",
     styleUrls: ["./download-modal-button.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DownloadModalButtonComponent {
-
     // Inputs
     @Input() disabled: boolean;
     @Input() downloadAvailable: boolean;
@@ -27,7 +32,6 @@ export class DownloadModalButtonComponent {
      * Let parents know download button has been clicked.
      */
     public onDownloadClicked() {
-
         this.downloadClicked.emit(true);
     }
 }

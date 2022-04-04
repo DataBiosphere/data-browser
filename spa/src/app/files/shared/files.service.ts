@@ -37,7 +37,6 @@ import { Term } from "./term.model";
 
 @Injectable()
 export class FilesService {
-
     /**
      * @param {ConfigService} configService
      * @param {EntityRequestService} entityRequestService
@@ -46,13 +45,14 @@ export class FilesService {
      * @param {ResponseTermService} responseTermService
      * @param {HttpClient} httpClient
      */
-    constructor(private configService: ConfigService,
-                private entityRequestService: EntityRequestService,
-                private httpService: HttpService,
-                private searchTermHttpService: SearchTermHttpService,
-                private responseTermService: ResponseTermService,
-                private httpClient: HttpClient) {
-    }
+    constructor(
+        private configService: ConfigService,
+        private entityRequestService: EntityRequestService,
+        private httpService: HttpService,
+        private searchTermHttpService: SearchTermHttpService,
+        private responseTermService: ResponseTermService,
+        private httpClient: HttpClient
+    ) {}
 
     /**
      * Fetch data to populate rows in table, depending on the current selected tab (eg samples, files), as
@@ -65,23 +65,34 @@ export class FilesService {
      * @param {boolean} filterableByProject
      * @returns {Observable<EntitySearchResults>}
      */
-    public fetchEntitySearchResults(catalog: Catalog,
-                                    searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                                    tableParams: TableParams,
-                                    selectedEntity: string,
-                                    filterableByProject = true): Observable<EntitySearchResults> {
-
-
+    public fetchEntitySearchResults(
+        catalog: Catalog,
+        searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+        tableParams: TableParams,
+        selectedEntity: string,
+        filterableByProject = true
+    ): Observable<EntitySearchResults> {
         // Build model of HTTP request for entity API
-        const entityRequest = 
-            this.entityRequestService.buildEntityRequest(
-                catalog, searchTermsBySearchKey, tableParams, selectedEntity, filterableByProject);
+        const entityRequest = this.entityRequestService.buildEntityRequest(
+            catalog,
+            searchTermsBySearchKey,
+            tableParams,
+            selectedEntity,
+            filterableByProject
+        );
 
         return this.httpClient
-            .get<EntityAPIResponse>(entityRequest.url, {params: entityRequest.params})
+            .get<EntityAPIResponse>(entityRequest.url, {
+                params: entityRequest.params,
+            })
             .pipe(
                 map((apiResponse: EntityAPIResponse) =>
-                    this.bindEntitySearchResultsResponse(apiResponse, searchTermsBySearchKey, selectedEntity))
+                    this.bindEntitySearchResultsResponse(
+                        apiResponse,
+                        searchTermsBySearchKey,
+                        selectedEntity
+                    )
+                )
             );
     }
 
@@ -91,18 +102,25 @@ export class FilesService {
      * {SearchTerm[]} selectedSearchTerms
      * @returns {Observable<FileSummary>}
      */
-    public fetchFileSummary(catalog: Catalog, searchTerms: SearchTerm[]): Observable<FileSummary> {
-
+    public fetchFileSummary(
+        catalog: Catalog,
+        searchTerms: SearchTerm[]
+    ): Observable<FileSummary> {
         // Build up API URL
         const url = this.configService.getSummaryUrl();
 
         // Build up the query params
-        const filters = this.searchTermHttpService.marshallSearchTerms(searchTerms);
-        const params = this.httpService.createIndexParams(catalog, {filters});
+        const filters =
+            this.searchTermHttpService.marshallSearchTerms(searchTerms);
+        const params = this.httpService.createIndexParams(catalog, { filters });
 
-        return this.httpClient.get<FileSummaryResponse>(url, {params}).pipe(
-            map((fileSummaryResponse: FileSummaryResponse) => this.bindFileSummaryResponse(fileSummaryResponse))
-        );
+        return this.httpClient
+            .get<FileSummaryResponse>(url, { params })
+            .pipe(
+                map((fileSummaryResponse: FileSummaryResponse) =>
+                    this.bindFileSummaryResponse(fileSummaryResponse)
+                )
+            );
     }
 
     /**
@@ -112,33 +130,40 @@ export class FilesService {
      * @param {FileSummaryResponse} fileSummaryResponse
      * @returns {FileSummary}
      */
-    private bindFileSummaryResponse(fileSummaryResponse: FileSummaryResponse): FileSummary {
-
-        const totalFileSize = (typeof fileSummaryResponse.totalFileSize === "string") ?
-            0 :
-            fileSummaryResponse.totalFileSize;
+    private bindFileSummaryResponse(
+        fileSummaryResponse: FileSummaryResponse
+    ): FileSummary {
+        const totalFileSize =
+            typeof fileSummaryResponse.totalFileSize === "string"
+                ? 0
+                : fileSummaryResponse.totalFileSize;
 
         // Calculate total cell count (as per Azul 3521).
-        const totalCellCount = this.calculateSummaryTotalCellCount(fileSummaryResponse);
+        const totalCellCount =
+            this.calculateSummaryTotalCellCount(fileSummaryResponse);
 
         return {
             donorCount: fileSummaryResponse.donorCount,
             fileCount: fileSummaryResponse.fileCount,
-            fileTypeSummaries: fileSummaryResponse.fileTypeSummaries.map(fileTypeSummaryResponse => {
-                return {
-                    contentDescription: fileTypeSummaryResponse.contentDescription,
-                    count: fileTypeSummaryResponse.count,
-                    fileType: fileTypeSummaryResponse.format,
-                    isIntermediate: fileTypeSummaryResponse.isIntermediate,
-                    matrixCellCount: fileTypeSummaryResponse.matrixCellCount,
-                    totalSize: fileTypeSummaryResponse.totalSize
-                };
-            }),
+            fileTypeSummaries: fileSummaryResponse.fileTypeSummaries.map(
+                (fileTypeSummaryResponse) => {
+                    return {
+                        contentDescription:
+                            fileTypeSummaryResponse.contentDescription,
+                        count: fileTypeSummaryResponse.count,
+                        fileType: fileTypeSummaryResponse.format,
+                        isIntermediate: fileTypeSummaryResponse.isIntermediate,
+                        matrixCellCount:
+                            fileTypeSummaryResponse.matrixCellCount,
+                        totalSize: fileTypeSummaryResponse.totalSize,
+                    };
+                }
+            ),
             organTypes: fileSummaryResponse.organTypes,
             projectCount: fileSummaryResponse.projectCount,
             specimenCount: fileSummaryResponse.specimenCount,
             totalCellCount,
-            totalFileSize: totalFileSize
+            totalFileSize: totalFileSize,
         };
     }
 
@@ -150,28 +175,36 @@ export class FilesService {
      * @param {string} selectedEntity
      * @returns {EntitySearchResults}
      */
-    private bindEntitySearchResultsResponse(apiResponse: EntityAPIResponse,
-                                            searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
-                                            selectedEntity: string): EntitySearchResults {
-
+    private bindEntitySearchResultsResponse(
+        apiResponse: EntityAPIResponse,
+        searchTermsBySearchKey: Map<string, Set<SearchTerm>>,
+        selectedEntity: string
+    ): EntitySearchResults {
         // Build up term facets
-        const facets = this.bindFacets(searchTermsBySearchKey, apiResponse.termFacets);
+        const facets = this.bindFacets(
+            searchTermsBySearchKey,
+            apiResponse.termFacets
+        );
         const termCountsByFacetName = this.mapTermCountsByFacetName(facets);
-        const searchTerms = this.searchTermHttpService.bindSearchTerms(apiResponse.termFacets);
-        const searchEntities = this.searchTermHttpService.bindSearchEntities(apiResponse.termFacets);
-        
+        const searchTerms = this.searchTermHttpService.bindSearchTerms(
+            apiResponse.termFacets
+        );
+        const searchEntities = this.searchTermHttpService.bindSearchEntities(
+            apiResponse.termFacets
+        );
+
         const tableModel = {
             data: apiResponse.hits,
             pagination: apiResponse.pagination,
             tableName: selectedEntity,
-            termCountsByFacetName
+            termCountsByFacetName,
         };
 
         return {
             facets,
             searchEntities,
             searchTerms,
-            tableModel
+            tableModel,
         };
     }
 
@@ -186,16 +219,26 @@ export class FilesService {
      */
     private bindFacets(
         searchTermsByFacetName: Map<string, Set<SearchTerm>>,
-        responseFacetsByName: Dictionary<ResponseFacet>): Facet[] {
-
-        const facets: Facet[] = Object.keys(responseFacetsByName).map((facetName) => {
-
-            return this.buildFileFacet(facetName, searchTermsByFacetName, responseFacetsByName[facetName]);
-        });
+        responseFacetsByName: Dictionary<ResponseFacet>
+    ): Facet[] {
+        const facets: Facet[] = Object.keys(responseFacetsByName).map(
+            (facetName) => {
+                return this.buildFileFacet(
+                    facetName,
+                    searchTermsByFacetName,
+                    responseFacetsByName[facetName]
+                );
+            }
+        );
 
         // Add age range facet
-        facets.push(this.buildFacetAgeRange(FacetAgeRangeName.ORGANISM_AGE_RANGE, searchTermsByFacetName));
-        
+        facets.push(
+            this.buildFacetAgeRange(
+                FacetAgeRangeName.ORGANISM_AGE_RANGE,
+                searchTermsByFacetName
+            )
+        );
+
         return facets;
     }
 
@@ -208,12 +251,15 @@ export class FilesService {
      * @param {string[]} searchTermNames
      * @returns {Term[]}
      */
-    private bindFacetTerms(facetName: string, responseTerms: ResponseTerm[], searchTermNames: string[]): Term[] {
-
+    private bindFacetTerms(
+        facetName: string,
+        responseTerms: ResponseTerm[],
+        searchTermNames: string[]
+    ): Term[] {
         return responseTerms.reduce((accum, responseTerm: ResponseTerm) => {
-
             // Default term name to "Unspecified" if term name is null
-            const termName = this.responseTermService.bindTermName(responseTerm);
+            const termName =
+                this.responseTermService.bindTermName(responseTerm);
 
             // Determine if term is currently selected as a search term
             let selected = searchTermNames.indexOf(termName) >= 0;
@@ -228,61 +274,91 @@ export class FilesService {
 
     /**
      * Build up age range facet from response facet values.
-     * 
+     *
      * @param {string} facetName
      * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      */
-    private buildFacetAgeRange(facetName: string,
-                               searchTermsByFacetName: Map<string, Set<SearchTerm>>): FacetAgeRange {
-
+    private buildFacetAgeRange(
+        facetName: string,
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>
+    ): FacetAgeRange {
         // Build up range range facet
-        const ageRangeSearchTerms = searchTermsByFacetName.get(FacetAgeRangeName.ORGANISM_AGE_RANGE) as Set<SearchAgeRange>;
-        if ( !ageRangeSearchTerms || ageRangeSearchTerms.size === 0 ) {
+        const ageRangeSearchTerms = searchTermsByFacetName.get(
+            FacetAgeRangeName.ORGANISM_AGE_RANGE
+        ) as Set<SearchAgeRange>;
+        if (!ageRangeSearchTerms || ageRangeSearchTerms.size === 0) {
             return new FacetAgeRange(FacetAgeRangeName.ORGANISM_AGE_RANGE, {
-                ageUnit: AgeUnit.year
+                ageUnit: AgeUnit.year,
             });
         }
 
         // There is currently only a single value for age range
         const ageRangeSearchTerm = Array.from(ageRangeSearchTerms.values())[0];
-        return new FacetAgeRange(FacetAgeRangeName.ORGANISM_AGE_RANGE, ageRangeSearchTerm.ageRange);
+        return new FacetAgeRange(
+            FacetAgeRangeName.ORGANISM_AGE_RANGE,
+            ageRangeSearchTerm.ageRange
+        );
     }
 
     /**
      * Build up file facet from response facet values, matching with current selected state of terms.
-     * 
+     *
      * @param {string} facetName
      * @param {Map<string, Set<SearchTerm>>} searchTermsByFacetName
      * @param {ResponseFacet} responseFacet
      */
-    private buildFileFacet(facetName: string,
-                           searchTermsByFacetName: Map<string, Set<SearchTerm>>,
-                           responseFacet: ResponseFacet): FileFacet {
-
+    private buildFileFacet(
+        facetName: string,
+        searchTermsByFacetName: Map<string, Set<SearchTerm>>,
+        responseFacet: ResponseFacet
+    ): FileFacet {
         // Determine the set of currently selected search term names for this facet
-        const searchTermNames = this.listFacetSearchTermNames(facetName, searchTermsByFacetName);
+        const searchTermNames = this.listFacetSearchTermNames(
+            facetName,
+            searchTermsByFacetName
+        );
 
         // Build up the list of terms from the facet response
-        const responseTerms = this.bindFacetTerms(facetName, responseFacet.terms, searchTermNames);
+        const responseTerms = this.bindFacetTerms(
+            facetName,
+            responseFacet.terms,
+            searchTermNames
+        );
 
         // Create facet from newly built terms and newly calculated total
-        return new FileFacet(facetName, (responseFacet.total || 0), responseTerms);
+        return new FileFacet(
+            facetName,
+            responseFacet.total || 0,
+            responseTerms
+        );
     }
 
     /**
      * Calculate the summary total cell count using the projects and estimatedCellCount values returned in the response.
      * @param {FileSummaryResponse} fileSummaryResponse
      */
-    private calculateSummaryTotalCellCount(fileSummaryResponse: FileSummaryResponse): number {
-        return (fileSummaryResponse.projects ?? []).reduce((accum, {cellSuspensions, projects}) => {
-            if ( projects && (projects.estimatedCellCount || projects.estimatedCellCount === 0) ) {
-                accum += projects.estimatedCellCount;
-            }
-            else if ( cellSuspensions && (cellSuspensions.totalCells || cellSuspensions.totalCells === 0) ) {
-                accum += cellSuspensions.totalCells;
-            }
-            return accum;
-        }, 0);
+    private calculateSummaryTotalCellCount(
+        fileSummaryResponse: FileSummaryResponse
+    ): number {
+        return (fileSummaryResponse.projects ?? []).reduce(
+            (accum, { cellSuspensions, projects }) => {
+                if (
+                    projects &&
+                    (projects.estimatedCellCount ||
+                        projects.estimatedCellCount === 0)
+                ) {
+                    accum += projects.estimatedCellCount;
+                } else if (
+                    cellSuspensions &&
+                    (cellSuspensions.totalCells ||
+                        cellSuspensions.totalCells === 0)
+                ) {
+                    accum += cellSuspensions.totalCells;
+                }
+                return accum;
+            },
+            0
+        );
     }
 
     /**
@@ -292,12 +368,17 @@ export class FilesService {
      * @param {Map<string, Set<SearchTerm>>} searchTermsBySearchKey
      * @returns {string[]}
      */
-    private listFacetSearchTermNames(facetName: string, searchTermsBySearchKey: Map<string, Set<SearchTerm>>): string[] {
-
-        const searchTermSet: Set<SearchTerm> = searchTermsBySearchKey.get(facetName);
-        return searchTermSet ?
-            Array.from(searchTermSet.values()).map((searchTerm) => searchTerm.getSearchValue()) :
-            [];
+    private listFacetSearchTermNames(
+        facetName: string,
+        searchTermsBySearchKey: Map<string, Set<SearchTerm>>
+    ): string[] {
+        const searchTermSet: Set<SearchTerm> =
+            searchTermsBySearchKey.get(facetName);
+        return searchTermSet
+            ? Array.from(searchTermSet.values()).map((searchTerm) =>
+                  searchTerm.getSearchValue()
+              )
+            : [];
     }
 
     /**
@@ -306,13 +387,13 @@ export class FilesService {
      * @param {Facet[]} facets
      */
     private mapTermCountsByFacetName(facets: Facet[]): Map<string, number> {
-
-        return facets
-            .reduce((accum, facet: FileFacet) => {
-
-                const termCount = facet.selectedTermCount > 0 ? facet.selectedTermCount : facet.termCount;
-                accum.set(facet.name, termCount);
-                return accum;
-            }, new Map<string, number>());
+        return facets.reduce((accum, facet: FileFacet) => {
+            const termCount =
+                facet.selectedTermCount > 0
+                    ? facet.selectedTermCount
+                    : facet.termCount;
+            accum.set(facet.name, termCount);
+            return accum;
+        }, new Map<string, number>());
     }
 }

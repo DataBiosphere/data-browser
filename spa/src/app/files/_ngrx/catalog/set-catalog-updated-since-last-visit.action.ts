@@ -10,7 +10,6 @@
 import { Action } from "@ngrx/store";
 
 export class SetCatalogUpdatedSinceLastVisitAction implements Action {
-    
     public static ACTION_TYPE = "CATALOG.SET_CATALOG_STATUS";
     public readonly type = SetCatalogUpdatedSinceLastVisitAction.ACTION_TYPE;
 

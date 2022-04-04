@@ -21,12 +21,10 @@ import { DataUseNotificationComponent } from "../site-config/data-use-notificati
 
 @Injectable()
 export class LungMAPSiteConfigService implements SiteConfigService {
-
     /**
      * Return the data release policy component.
      */
     public getDataReleasePolicyLinkComponent(): Type<DataReleasePolicyLinkComponent> {
-
         return LungMAPDataReleasePolicyLinkComponent;
     }
 
@@ -34,7 +32,6 @@ export class LungMAPSiteConfigService implements SiteConfigService {
      * Return the data use notification component.
      */
     getDataUseNotificationComponent(): Type<DataUseNotificationComponent> {
-
         return LungMAPDataUseNotificationComponent;
     }
 
@@ -42,7 +39,6 @@ export class LungMAPSiteConfigService implements SiteConfigService {
      * Return the footer for the site.
      */
     public getFooter(): Type<FooterComponent> {
-
         return LungMAPFooterComponent;
     }
 
@@ -50,15 +46,13 @@ export class LungMAPSiteConfigService implements SiteConfigService {
      * Returns false - support requests are not enabled for this site.
      */
     public isSupportRequestEnabled(): boolean {
-
         return false;
     }
-    
+
     /**
      * Return the header for the site.
      */
     public getHeader(): Type<HeaderComponent> {
-
         return LungMAPToolbarComponent;
     }
 }

@@ -6,7 +6,6 @@
  */
 
 export interface DropError {
-
     code: string;
     message: string;
 }

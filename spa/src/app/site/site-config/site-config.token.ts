@@ -8,4 +8,6 @@
 // Core dependencies
 import { InjectionToken } from "@angular/core";
 
-export const SITE_CONFIG_SERVICE = new InjectionToken<string>("SITE_CONFIG_SERVICE");
+export const SITE_CONFIG_SERVICE = new InjectionToken<string>(
+    "SITE_CONFIG_SERVICE"
+);

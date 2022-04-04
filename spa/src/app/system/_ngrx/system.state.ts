@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Model, accessors and mutators of system-related state. 
+ * Model, accessors and mutators of system-related state.
  */
 
 // App dependencies
@@ -10,7 +10,6 @@ import { SystemStatus } from "./system-status.model";
 import { SystemStatusSuccessAction } from "./system-status-success.action";
 
 export class SystemState {
-    
     /**
      * @param {SystemStatus} systemStatus
      */
@@ -22,7 +21,6 @@ export class SystemState {
      * @returns {SystemState}
      */
     public onSystemStatusRequested(): SystemState {
-
         return this;
     }
 
@@ -32,13 +30,15 @@ export class SystemState {
      * @param {SystemStatusSuccessAction} action
      * @returns {SystemState}
      */
-    public onSystemStatusReceived(action: SystemStatusSuccessAction): SystemState {
-
+    public onSystemStatusReceived(
+        action: SystemStatusSuccessAction
+    ): SystemState {
         const { indexing, ok } = action;
         return new SystemState({
             indexing,
             loading: false,
-            ok});
+            ok,
+        });
     }
 
     /**
@@ -47,12 +47,10 @@ export class SystemState {
      * @returns {SystemState}
      */
     public static getDefaultState() {
-    
         return new SystemState({
             indexing: false,
             loading: false,
-            ok: true
+            ok: true,
         });
     }
 }
-

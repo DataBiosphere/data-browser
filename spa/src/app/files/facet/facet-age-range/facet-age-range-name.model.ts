@@ -6,5 +6,5 @@
  */
 
 export enum FacetAgeRangeName {
-    "ORGANISM_AGE_RANGE" = "organismAgeRange"
+    "ORGANISM_AGE_RANGE" = "organismAgeRange",
 }

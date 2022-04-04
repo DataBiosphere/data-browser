@@ -18,18 +18,24 @@ import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { Project } from "../../shared/project.model";
 
-export class FetchProjectManifestFileLocationRequestAction implements Action, TrackingAction {
-    
-    public static ACTION_TYPE = "PROJECT.FETCH_PROJECT_MANIFEST_FILE_LOCATION_REQUEST";
-    public readonly type = FetchProjectManifestFileLocationRequestAction.ACTION_TYPE;
+export class FetchProjectManifestFileLocationRequestAction
+    implements Action, TrackingAction
+{
+    public static ACTION_TYPE =
+        "PROJECT.FETCH_PROJECT_MANIFEST_FILE_LOCATION_REQUEST";
+    public readonly type =
+        FetchProjectManifestFileLocationRequestAction.ACTION_TYPE;
 
     /**
      * @param {Project} project
      * @param {string} projectUrl
      * @param {FileLocationTrigger} trigger
      */
-    constructor(public readonly project: Project, public projectUrl: string, public trigger: FileLocationTrigger) {}
-
+    constructor(
+        public readonly project: Project,
+        public projectUrl: string,
+        public trigger: FileLocationTrigger
+    ) {}
 
     /**
      * Return the request action as a GA event.
@@ -37,14 +43,12 @@ export class FetchProjectManifestFileLocationRequestAction implements Action, Tr
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog}): GAEvent {
-
+    public asEvent({ catalog }): GAEvent {
         let action;
-        if ( this.trigger === FileLocationTrigger.DOWNLOAD ) {
-            action = GAAction.DOWNLOAD_PROJECT_MANIFEST
-        }
-        else {
-            action = GAAction.COPY_PROJECT_MANIFEST
+        if (this.trigger === FileLocationTrigger.DOWNLOAD) {
+            action = GAAction.DOWNLOAD_PROJECT_MANIFEST;
+        } else {
+            action = GAAction.COPY_PROJECT_MANIFEST;
         }
 
         return {
@@ -55,8 +59,9 @@ export class FetchProjectManifestFileLocationRequestAction implements Action, Tr
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_ID]: this.project.entryId,
                 [GADimension.ENTITY_URL]: this.projectUrl,
-                [GADimension.RELATED_ENTITY_TYPE]: GAEntityType.PROJECT_MANIFEST
-            }
+                [GADimension.RELATED_ENTITY_TYPE]:
+                    GAEntityType.PROJECT_MANIFEST,
+            },
         };
     }
 }

@@ -7,7 +7,6 @@
 
 /* Component container */
 .host {
-
     flex: 1;
 }
 
@@ -28,7 +27,8 @@ p {
 }
 
 /* lhs and rhs containers */
-.lhs, .rhs {
+.lhs,
+.rhs {
     flex: 1;
     margin: 0;
 }
@@ -43,7 +43,6 @@ p {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 480px) {
-
     /* Summary */
     .data-summary {
         flex-direction: row;
@@ -65,7 +64,6 @@ p {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 720px) {
-
     /* lhs container */
     .lhs {
         margin-right: 15px;
@@ -82,7 +80,6 @@ p {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 1440px) {
-
     /* lhs container */
     .lhs {
         flex: unset;

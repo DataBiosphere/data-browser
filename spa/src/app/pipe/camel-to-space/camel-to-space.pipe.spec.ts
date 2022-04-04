@@ -11,7 +11,6 @@
 import { CamelToSpacePipe } from "./camel-to-space.pipe";
 
 describe("Pipe: CamelToSpace", () => {
-
     it("create an instance", () => {
         let pipe = new CamelToSpacePipe();
         expect(pipe).toBeTruthy();

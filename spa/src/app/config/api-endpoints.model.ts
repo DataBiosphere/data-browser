@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Set of end point paths used by the Browser. 
+ * Set of end point paths used by the Browser.
  */
 
 export enum APIEndpoints {
@@ -14,5 +14,5 @@ export enum APIEndpoints {
     "PROJECT_MATRIX_ARCHIVE_PREVIEW" = "/archive-preview",
     "PROJECT_METADATA" = "/project-assets/project-metadata",
     "PROJECTS" = "/projects",
-    "SUMMARY" = "/summary"
+    "SUMMARY" = "/summary",
 }

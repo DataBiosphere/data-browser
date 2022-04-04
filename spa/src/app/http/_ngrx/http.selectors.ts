@@ -23,24 +23,36 @@ export const selectHTTP = createFeatureSelector<HttpState>("http");
  *
  * @type {MemoizedSelector<object, number>}
  */
-export const selectStatusCode = createSelector(selectHTTP, (state: HttpState) => state.statusCode);
+export const selectStatusCode = createSelector(
+    selectHTTP,
+    (state: HttpState) => state.statusCode
+);
 
 /**
  * Return the error message from the HTTP state.
  *
  * @type {MemoizedSelector<object, string>}
  */
-export const selectErrorMessage = createSelector(selectHTTP, (state: HttpState) => state.errorMessage);
+export const selectErrorMessage = createSelector(
+    selectHTTP,
+    (state: HttpState) => state.errorMessage
+);
 
 /**
  * Return the request URL from the HTTP state.
  *
  * @type {MemoizedSelector<object, string>}
  */
-export const selectRequestUrl = createSelector(selectHTTP, (state: HttpState) => state.requestUrl);
+export const selectRequestUrl = createSelector(
+    selectHTTP,
+    (state: HttpState) => state.requestUrl
+);
 
 /**
  * Returns true if there is an error message saved in the store. Both the Azul error response and client-side errors
  * set an error message.
  */
-export const selectIsError = createSelector(selectHTTP, (state: HttpState) => !!state.errorMessage);
+export const selectIsError = createSelector(
+    selectHTTP,
+    (state: HttpState) => !!state.errorMessage
+);

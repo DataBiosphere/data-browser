@@ -14,20 +14,18 @@ import { ProjectAnalysisPortal } from "../project-analysis-portal/project-analys
 @Component({
     selector: "project-analysis-portals",
     templateUrl: "./project-analysis-portals.component.html",
-    styleUrls: ["./project-analysis-portals.component.scss"]
+    styleUrls: ["./project-analysis-portals.component.scss"],
 })
 export class ProjectAnalysisPortalsComponent {
-    
     // Inputs
     @Input() analysisPortals: ProjectAnalysisPortal[];
 
     /**
      * Returns true if there are not analysis portals.
-     * 
+     *
      * @returns {boolean}
      */
     public isEmpty(analysisPortals: ProjectAnalysisPortal[]): boolean {
-
         return !analysisPortals || !analysisPortals.length;
     }
 }

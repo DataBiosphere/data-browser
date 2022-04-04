@@ -32,7 +32,7 @@ import { GetDataSummaryComponent } from "../get-data-summary/get-data-summary.co
 import { ResponseTermService } from "../../http/response-term.service";
 import {
     selectFileManifestFileTypeSummaries,
-    selectFilesFacets
+    selectFilesFacets,
 } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { ManifestDownloadFormat } from "../../file-manifest/manifest-download-format.model";
 import { selectFileSummary } from "../../_ngrx/files.selectors";
@@ -70,7 +70,6 @@ import { DownloadButtonComponent } from "../../../shared/download-button/downloa
 import { selectSystemStatusIndexing } from "../../../system/_ngrx/system.selectors";
 
 describe("ExportToTerraComponent", () => {
-
     let component: ExportToTerraComponent;
     let fixture: ComponentFixture<ExportToTerraComponent>;
     let configService: ConfigService;
@@ -81,28 +80,27 @@ describe("ExportToTerraComponent", () => {
     const SEARCH_TERMS_WITH_FILE_FORMAT = [
         new SearchFacetTerm("fileFormat", "fastq", 123),
         new SearchFacetTerm("disease", "ESRD", 8),
-        new SearchFacetTerm("genusSpecies", "Homo sapiens", 20)
+        new SearchFacetTerm("genusSpecies", "Homo sapiens", 20),
     ];
 
     // Empty file summary
     const FILE_SUMMARY_EMPTY = {
-        "donorCount": 0,
-        "fileCount": 0,
-        "fileTypeSummaries": [],
-        "organTypes": [],
-        "projectCount": 0,
-        "specimenCount": 0,
-        "totalCellCount": 0,
-        "totalFileSize": 0
+        donorCount: 0,
+        fileCount: 0,
+        fileTypeSummaries: [],
+        organTypes: [],
+        projectCount: 0,
+        specimenCount: 0,
+        totalCellCount: 0,
+        totalFileSize: 0,
     };
-    
+
     const TERRA_EXPORT_URL = "https://app.terra.bio/";
 
     /**
      * Setup before each test.
      */
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [
                 CopyToClipboardComponent,
@@ -126,7 +124,7 @@ describe("ExportToTerraComponent", () => {
                 SelectedSearchTermsComponent,
                 WarningComponent,
                 WarningContentComponent,
-                WarningDataNormalizationComponent
+                WarningDataNormalizationComponent,
             ],
             imports: [
                 BrowserAnimationsModule,
@@ -134,7 +132,7 @@ describe("ExportToTerraComponent", () => {
                 MatIconModule,
                 MatTooltipModule,
                 PipeModule,
-                RouterTestingModule
+                RouterTestingModule,
             ],
             providers: [
                 ConfigService,
@@ -142,38 +140,41 @@ describe("ExportToTerraComponent", () => {
                 {
                     provide: FileManifestService,
                     useValue: jasmine.createSpyObj("FileManifestService", [
-                        "requestFileManifestUrl"
-                    ])
+                        "requestFileManifestUrl",
+                    ]),
                 },
                 {
                     provide: HttpClient,
-                    useValue: jasmine.createSpyObj("HttpClient", [
-                        "get"
-                    ])
+                    useValue: jasmine.createSpyObj("HttpClient", ["get"]),
                 },
                 SearchTermHttpService,
                 {
                     provide: SITE_CONFIG_SERVICE,
-                    useClass: HCASiteConfigService
+                    useClass: HCASiteConfigService,
                 },
                 provideMockStore({
-                    initialState: {}
+                    initialState: {},
                 }),
                 ResponseTermService,
                 {
                     provide: TermSortService,
-                    useValue: jasmine.createSpyObj("TermSortService", ["sortTerms"])
+                    useValue: jasmine.createSpyObj("TermSortService", [
+                        "sortTerms",
+                    ]),
                 },
                 {
                     provide: SearchTermHttpService,
-                    useValue: jasmine.createSpyObj("SearchTermHttpService", ["bindSearchTerms", "marshallSearchTerms"])
+                    useValue: jasmine.createSpyObj("SearchTermHttpService", [
+                        "bindSearchTerms",
+                        "marshallSearchTerms",
+                    ]),
                 },
                 TerraService,
                 {
                     provide: "Window",
-                    useValue: spyOn(window, "open")
-                }
-            ]
+                    useValue: spyOn(window, "open"),
+                },
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(ExportToTerraComponent);
@@ -181,46 +182,55 @@ describe("ExportToTerraComponent", () => {
 
         // Set up selectors for children components
         store = TestBed.inject(Store) as MockStore;
-        store.overrideSelector(selectFilesFacets, [new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
-            new Term(GenusSpecies.HOMO_SAPIENS, 100, false)
-        ])]);
-        store.overrideSelector(selectFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFilesFacets, [
+            new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
+                new Term(GenusSpecies.HOMO_SAPIENS, 100, false),
+            ]),
+        ]);
+        store.overrideSelector(
+            selectFileSummary,
+            FileSummaryState.getDefaultState()
+        );
         store.overrideSelector(selectSelectedSearchTerms, []);
 
         configService = TestBed.inject(ConfigService);
         terraService = fixture.debugElement.injector.get(TerraService);
     }));
-    
+
     // Reset selectors after each test
     afterEach(() => {
         store?.resetSelectors();
     });
 
     describe("bdbag", () => {
-        
         beforeEach(() => {
-            spyOn(configService, "getTerraRedirectUrl").and.callFake((format, exportUrl) => {
-                return `${TERRA_EXPORT_URL}#import-data?url=${exportUrl}`;
-            });
-        })
+            spyOn(configService, "getTerraRedirectUrl").and.callFake(
+                (format, exportUrl) => {
+                    return `${TERRA_EXPORT_URL}#import-data?url=${exportUrl}`;
+                }
+            );
+        });
 
         /**
          * Confirm terra service URL returns the terra workspace URL, when export to terra url is not empty.
          */
         it("should get terra service url return terra url when export to terra url is not empty", () => {
-
             // Confirm get terra service url returns terra url, when export to terra url is not empty - first execute the
             // method and then confirm the returned value is not null and equals "https://app.terra.bio/#import-data?url=terraURL".
-            const terraServiceURL = component.getTerraServiceUrl(ManifestDownloadFormat.TERRA_BDBAG,"terraURL");
+            const terraServiceURL = component.getTerraServiceUrl(
+                ManifestDownloadFormat.TERRA_BDBAG,
+                "terraURL"
+            );
             expect(terraServiceURL).not.toEqual(null);
-            expect(terraServiceURL).toEqual(`${TERRA_EXPORT_URL}#import-data?url=terraURL`);
+            expect(terraServiceURL).toEqual(
+                `${TERRA_EXPORT_URL}#import-data?url=terraURL`
+            );
         });
 
         /**
          * Confirm any file format selected returns false when no "fileFormat" facet terms are selected.
          */
         it(`should any file format selected return false when no "fileFormat" facet terms are selected`, () => {
-
             // Confirm any file format selected returns false, when no "fileFormat" facet terms are selected - first execute the
             // method and then confirm the returned value is false.
             const anyFormatSelected = component.isAnyFileFormatSelected([]);
@@ -231,10 +241,11 @@ describe("ExportToTerraComponent", () => {
          * Confirm any file format selected returns true when "fileFormat" facet terms are selected.
          */
         it(`should any file format selected return true when "fileFormat" facet terms are selected`, () => {
-
             // Confirm any file format selected returns true, when "fileFormat" facet terms are selected - first execute the
             // method and then confirm the returned value is true.
-            const anyFormatSelected = component.isAnyFileFormatSelected(SEARCH_TERMS_WITH_FILE_FORMAT);
+            const anyFormatSelected = component.isAnyFileFormatSelected(
+                SEARCH_TERMS_WITH_FILE_FORMAT
+            );
             expect(anyFormatSelected).toEqual(true);
         });
 
@@ -242,10 +253,14 @@ describe("ExportToTerraComponent", () => {
          * Confirm "Select File Types" is displayed when request status is not started.
          */
         it(`should display "Select File Types" when request status is "NOT_STARTED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.NOT_STARTED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Select Export File Types" is displayed
@@ -256,14 +271,22 @@ describe("ExportToTerraComponent", () => {
          * Confirm <file-type-summary-form> is displayed when request status is not started.
          */
         it(`should display component file-type-summary-form when request status is "NOT_STARTED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.NOT_STARTED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <file-type-summary-form> is displayed
-            const fileTypeSummaryListEl = expect(fixture.debugElement.nativeElement.querySelector("file-type-summary-form"));
+            const fileTypeSummaryListEl = expect(
+                fixture.debugElement.nativeElement.querySelector(
+                    "file-type-summary-form"
+                )
+            );
             expect(fileTypeSummaryListEl).not.toBe(null);
         });
 
@@ -271,14 +294,20 @@ describe("ExportToTerraComponent", () => {
          * Confirm <section-bar> is displayed when request status is not started.
          */
         it(`should display component section-bar when request status is "NOT_STARTED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.NOT_STARTED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <section-bar> is displayed
-            const sectionBarEl = expect(fixture.debugElement.nativeElement.querySelector("section-bar"));
+            const sectionBarEl = expect(
+                fixture.debugElement.nativeElement.querySelector("section-bar")
+            );
             expect(sectionBarEl).not.toBe(null);
         });
 
@@ -286,14 +315,22 @@ describe("ExportToTerraComponent", () => {
          * Confirm <data-use-notification> is displayed when request status is not started.
          */
         it(`should display component data-use-notification when request status is "NOT_STARTED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.NOT_STARTED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <data-use-notification> is displayed
-            const dataUseNotificationEl = expect(fixture.debugElement.nativeElement.querySelector("data-use-notification"));
+            const dataUseNotificationEl = expect(
+                fixture.debugElement.nativeElement.querySelector(
+                    "data-use-notification"
+                )
+            );
             expect(dataUseNotificationEl).not.toBe(null);
         });
 
@@ -301,24 +338,34 @@ describe("ExportToTerraComponent", () => {
          * Confirm "Your Export is Being Prepared" is not displayed when request status is not started.
          */
         it(`should not display "Your Export is Being Prepared" when request status is "NOT_STARTED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.NOT_STARTED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Your Export is Being Prepared" is not displayed
-            expect(isPanelHeaderDisplayed("Your Export is Being Prepared")).toEqual(false);
+            expect(
+                isPanelHeaderDisplayed("Your Export is Being Prepared")
+            ).toEqual(false);
         });
 
         /**
          * Confirm "Your Link is Ready" is not displayed when request status is not started.
          */
         it(`should not display "Your Link is Ready" when request status is "NOT_STARTED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.NOT_STARTED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Your Export is Ready" is not displayed
@@ -329,10 +376,14 @@ describe("ExportToTerraComponent", () => {
          * Confirm "Error" is not displayed when request status is not started.
          */
         it(`should not display "Error" when request status is "NOT_STARTED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.NOT_STARTED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Error" is not displayed
@@ -343,28 +394,41 @@ describe("ExportToTerraComponent", () => {
          * Confirm "Select Export File Types" is not displayed when request status is in progress.
          */
         it(`should not display "Select Export File Types" when request status is "IN_PROGRESS"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Select Export File Types" is not displayed
-            expect(isPanelHeaderDisplayed("Select Export File Types")).toEqual(false);
+            expect(isPanelHeaderDisplayed("Select Export File Types")).toEqual(
+                false
+            );
         });
 
         /**
          * Confirm <file-type-summary-form> is not displayed when request status is in progress.
          */
         it(`should not display component file-type-summary-form when request status is "IN_PROGRESS"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <file-type-summary-form> is not displayed
-            const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-form");
+            const fileTypeSummaryListEl =
+                fixture.debugElement.nativeElement.querySelector(
+                    "file-type-summary-form"
+                );
 
             expect(fileTypeSummaryListEl).toEqual(null);
         });
@@ -373,14 +437,19 @@ describe("ExportToTerraComponent", () => {
          * Confirm <section-bar> is not displayed when request status is in progress.
          */
         it(`should not display component section-bar when request status is "IN_PROGRESS"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <section-bar> is not displayed
-            const sectionBarEl = fixture.debugElement.nativeElement.querySelector("section-bar");
+            const sectionBarEl =
+                fixture.debugElement.nativeElement.querySelector("section-bar");
 
             expect(sectionBarEl).toEqual(null);
         });
@@ -389,14 +458,21 @@ describe("ExportToTerraComponent", () => {
          * Confirm <data-use-notification> is not displayed when request status is in progress.
          */
         it(`should not display component data-use-notification when request status is "IN_PROGRESS"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <data-use-notification> is not displayed
-            const dataUseNotificationEl = fixture.debugElement.nativeElement.querySelector("data-use-notification");
+            const dataUseNotificationEl =
+                fixture.debugElement.nativeElement.querySelector(
+                    "data-use-notification"
+                );
 
             expect(dataUseNotificationEl).toEqual(null);
         });
@@ -405,38 +481,54 @@ describe("ExportToTerraComponent", () => {
          * Confirm "Your Link is Being Prepared" is displayed when request status is in progress.
          */
         it(`should display "Your Link is Being Prepared" when request status is "IN_PROGRESS"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Your Export is Being Prepared" is displayed
-            expect(isPanelHeaderDisplayed("Your Link is Being Prepared")).toEqual(true);
+            expect(
+                isPanelHeaderDisplayed("Your Link is Being Prepared")
+            ).toEqual(true);
         });
 
         /**
          * Confirm "Your Export is Ready" is not displayed when request status is in progress.
          */
         it(`should not display "Your Export is Ready" when request status is "IN_PROGRESS"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Your Export is Ready" is not displayed
-            expect(isPanelHeaderDisplayed("Your Export is Ready")).toEqual(false);
+            expect(isPanelHeaderDisplayed("Your Export is Ready")).toEqual(
+                false
+            );
         });
 
         /**
          * Confirm "Error" is not displayed when request status is in progress.
          */
         it(`should not display "Error" when request status is "IN_PROGRESS"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.IN_PROGRESS,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Error" is not displayed
@@ -447,28 +539,41 @@ describe("ExportToTerraComponent", () => {
          * Confirm "Select Export File Types" is not displayed when request status is complete.
          */
         it(`should not display "Select Export File Types" when request status is "COMPLETE"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.COMPLETE,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Select Export File Types" is not displayed
-            expect(isPanelHeaderDisplayed("Select Export File Types")).toEqual(false);
+            expect(isPanelHeaderDisplayed("Select Export File Types")).toEqual(
+                false
+            );
         });
 
         /**
          * Confirm <file-type-summary-form> is not displayed when request status is complete.
          */
         it(`should not display component file-type-summary-form when request status is "COMPLETE"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.COMPLETE,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <file-type-summary-form> is not displayed
-            const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-form");
+            const fileTypeSummaryListEl =
+                fixture.debugElement.nativeElement.querySelector(
+                    "file-type-summary-form"
+                );
 
             expect(fileTypeSummaryListEl).toEqual(null);
         });
@@ -477,14 +582,19 @@ describe("ExportToTerraComponent", () => {
          * Confirm <section-bar> is displayed when request status is complete.
          */
         it(`should display component section-bar when request status is "COMPLETE"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.COMPLETE,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <section-bar> is displayed
-            const sectionBarEl = fixture.debugElement.nativeElement.querySelector("section-bar");
+            const sectionBarEl =
+                fixture.debugElement.nativeElement.querySelector("section-bar");
 
             expect(sectionBarEl).not.toBe(null);
         });
@@ -493,14 +603,21 @@ describe("ExportToTerraComponent", () => {
          * Confirm <data-use-notification> is displayed when request status is complete.
          */
         it(`should display component data-use-notification when request status is "COMPLETE"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.COMPLETE,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <data-use-notification> is displayed
-            const dataUseNotificationEl = fixture.debugElement.nativeElement.querySelector("data-use-notification");
+            const dataUseNotificationEl =
+                fixture.debugElement.nativeElement.querySelector(
+                    "data-use-notification"
+                );
 
             expect(dataUseNotificationEl).not.toBe(null);
         });
@@ -509,24 +626,34 @@ describe("ExportToTerraComponent", () => {
          * Confirm "Your Export is Being Prepared" is not displayed when request status is complete.
          */
         it(`should not display "Your Export is Being Prepared" when request status is "COMPLETE"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.COMPLETE,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Your Export is Being Prepared" is not displayed
-            expect(isPanelHeaderDisplayed("Your Export is Being Prepared")).toEqual(false);
+            expect(
+                isPanelHeaderDisplayed("Your Export is Being Prepared")
+            ).toEqual(false);
         });
 
         /**
          * Confirm "Your Link is Ready" is displayed when request status is complete.
          */
         it(`should display "Your Link is Ready" when request status is "COMPLETE"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.COMPLETE,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Your Link is Ready" is displayed
@@ -537,10 +664,14 @@ describe("ExportToTerraComponent", () => {
          * Confirm "Error" is not displayed when request status is complete.
          */
         it(`should not display "Error" when request status is "COMPLETE"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.COMPLETE,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Error" is not displayed
@@ -551,28 +682,41 @@ describe("ExportToTerraComponent", () => {
          * Confirm "Select Export File Types" is not displayed when request status is failed.
          */
         it(`should not display "Select Export File Types" when request status is "FAILED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.FAILED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Select Export File Types" is not displayed
-            expect(isPanelHeaderDisplayed("Select Export File Types")).toEqual(false);
+            expect(isPanelHeaderDisplayed("Select Export File Types")).toEqual(
+                false
+            );
         });
 
         /**
          * Confirm <file-type-summary-form> is not displayed when request status is failed.
          */
         it(`should not display component file-type-summary-form when request status is "FAILED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.FAILED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <file-type-summary-form> is not displayed
-            const fileTypeSummaryListEl = fixture.debugElement.nativeElement.querySelector("file-type-summary-form");
+            const fileTypeSummaryListEl =
+                fixture.debugElement.nativeElement.querySelector(
+                    "file-type-summary-form"
+                );
 
             expect(fileTypeSummaryListEl).toEqual(null);
         });
@@ -581,14 +725,19 @@ describe("ExportToTerraComponent", () => {
          * Confirm <section-bar> is not displayed when request status is failed.
          */
         it(`should not display component section-bar when request status is "FAILED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.FAILED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <section-bar> is not displayed
-            const sectionBarEl = fixture.debugElement.nativeElement.querySelector("section-bar");
+            const sectionBarEl =
+                fixture.debugElement.nativeElement.querySelector("section-bar");
 
             expect(sectionBarEl).toEqual(null);
         });
@@ -597,14 +746,21 @@ describe("ExportToTerraComponent", () => {
          * Confirm <data-use-notification> is not displayed when request status is failed.
          */
         it(`should not display component data-use-notification when request status is "FAILED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.FAILED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <data-use-notification> is not displayed
-            const dataUseNotificationEl = fixture.debugElement.nativeElement.querySelector("data-use-notification");
+            const dataUseNotificationEl =
+                fixture.debugElement.nativeElement.querySelector(
+                    "data-use-notification"
+                );
 
             expect(dataUseNotificationEl).toEqual(null);
         });
@@ -613,38 +769,54 @@ describe("ExportToTerraComponent", () => {
          * Confirm "Your Export is Being Prepared" is not displayed when request status is failed.
          */
         it(`should not display "Your Export is Being Prepared" when request status is "FAILED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.FAILED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Your Export is Being Prepared" is not displayed
-            expect(isPanelHeaderDisplayed("Your Export is Being Prepared")).toEqual(false);
+            expect(
+                isPanelHeaderDisplayed("Your Export is Being Prepared")
+            ).toEqual(false);
         });
 
         /**
          * Confirm "Your Export is Ready" is not displayed when request status is failed.
          */
         it(`should not display "Your Export is Ready" when request status is "FAILED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.FAILED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Your Export is Ready" is not displayed
-            expect(isPanelHeaderDisplayed("Your Export is Ready")).toEqual(false);
+            expect(isPanelHeaderDisplayed("Your Export is Ready")).toEqual(
+                false
+            );
         });
 
         /**
          * Confirm "Error" is displayed when request status is failed.
          */
         it(`should display "Error" when request status is "FAILED"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.FAILED} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.FAILED,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm "Error" is displayed
@@ -655,14 +827,22 @@ describe("ExportToTerraComponent", () => {
          * Confirm <copy-to-clipboard> is displayed when request status is complete.
          */
         it(`should display component copy-to-clipboard when request status is "COMPLETE"`, () => {
-
             store.overrideSelector(selectSelectedSearchTerms, []);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.COMPLETE} as TerraState);
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.COMPLETE,
+            } as TerraState);
             fixture.detectChanges();
 
             // Confirm <copy-to-clipboard> is displayed
-            const copyToClipboardEl = expect(fixture.debugElement.nativeElement.querySelector("copy-to-clipboard"));
+            const copyToClipboardEl = expect(
+                fixture.debugElement.nativeElement.querySelector(
+                    "copy-to-clipboard"
+                )
+            );
 
             expect(copyToClipboardEl).not.toBe(null);
         });
@@ -671,17 +851,29 @@ describe("ExportToTerraComponent", () => {
          * Confirm confirm store dispatch is called on click of request export to terra.
          */
         it("should store dispatch on click of request export", () => {
-
-            store.overrideSelector(selectSelectedSearchTerms, SEARCH_TERMS_WITH_FILE_FORMAT);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FILE_SUMMARY.fileTypeSummaries);
-            store.overrideSelector(selectExportToTerra, {exportToTerraStatus: ExportToTerraStatus.NOT_STARTED} as TerraState);
+            store.overrideSelector(
+                selectSelectedSearchTerms,
+                SEARCH_TERMS_WITH_FILE_FORMAT
+            );
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FILE_SUMMARY.fileTypeSummaries
+            );
+            store.overrideSelector(selectExportToTerra, {
+                exportToTerraStatus: ExportToTerraStatus.NOT_STARTED,
+            } as TerraState);
             store.overrideSelector(selectSystemStatusIndexing, false);
             fixture.detectChanges();
 
             spyOn(store, "dispatch").and.callThrough();
 
-            const onExportToTerra = spyOn(component, "onExportToTerra").and.callThrough();
-            const requestExportButton = fixture.debugElement.query(By.css("button"));
+            const onExportToTerra = spyOn(
+                component,
+                "onExportToTerra"
+            ).and.callThrough();
+            const requestExportButton = fixture.debugElement.query(
+                By.css("button")
+            );
 
             // Execute click on request manifest
             requestExportButton.triggerEventHandler("click", null);
@@ -693,52 +885,67 @@ describe("ExportToTerraComponent", () => {
          * Confirm new window opens when request status is complete.
          */
         it(`should new window open when request status is "COMPLETE"`, () => {
-
-            store.overrideSelector(selectSelectedSearchTerms, SEARCH_TERMS_WITH_FILE_FORMAT);
-            store.overrideSelector(selectFileManifestFileTypeSummaries, FileSummaryState.getDefaultState().fileTypeSummaries);
+            store.overrideSelector(
+                selectSelectedSearchTerms,
+                SEARCH_TERMS_WITH_FILE_FORMAT
+            );
+            store.overrideSelector(
+                selectFileManifestFileTypeSummaries,
+                FileSummaryState.getDefaultState().fileTypeSummaries
+            );
             store.overrideSelector(selectExportToTerra, {
                 exportToTerraStatus: ExportToTerraStatus.COMPLETE,
-                exportToTerraUrl: "terraURL"
+                exportToTerraUrl: "terraURL",
             } as TerraState);
             fixture.detectChanges();
 
             expect(window.open).toHaveBeenCalled();
-            expect(window.open).toHaveBeenCalledWith("https://app.terra.bio/#import-data?url=terraURL");
+            expect(window.open).toHaveBeenCalledWith(
+                "https://app.terra.bio/#import-data?url=terraURL"
+            );
         });
     });
 
     describe("pfb", () => {
-
         beforeEach(() => {
-            spyOn(configService, "getTerraExportUrl").and.callFake(() => TERRA_EXPORT_URL);
-        })
-        
+            spyOn(configService, "getTerraExportUrl").and.callFake(
+                () => TERRA_EXPORT_URL
+            );
+        });
+
         /**
          * Confirm terra service returns a URL that includes format=PFB if PFB is enabled and the manifest download
          * format is PFB.
          */
         it("adds format=PFB in dev", () => {
-
             spyOn(configService, "isEnvCGLDev").and.callFake(() => true);
 
-            const terraServiceURL = component.getTerraServiceUrl(ManifestDownloadFormat.TERRA_PFB,"terraURL");
+            const terraServiceURL = component.getTerraServiceUrl(
+                ManifestDownloadFormat.TERRA_PFB,
+                "terraURL"
+            );
             expect(terraServiceURL).not.toEqual(null);
-            expect(terraServiceURL).toEqual(`${TERRA_EXPORT_URL}#import-data?format=PFB&url=terraURL`);
+            expect(terraServiceURL).toEqual(
+                `${TERRA_EXPORT_URL}#import-data?format=PFB&url=terraURL`
+            );
         });
 
         /**
          * Confirm terra service returns a URL that does not include format=PFB when PFB is not enabled.
          */
         it("adds format=PFB in non-dev", () => {
-
             spyOn(configService, "isEnvCGLDev").and.callFake(() => false);
 
-            const terraServiceURL = component.getTerraServiceUrl(ManifestDownloadFormat.TERRA_PFB,"terraURL");
+            const terraServiceURL = component.getTerraServiceUrl(
+                ManifestDownloadFormat.TERRA_PFB,
+                "terraURL"
+            );
             expect(terraServiceURL).not.toEqual(null);
-            expect(terraServiceURL).toEqual(`${TERRA_EXPORT_URL}#import-data?format=PFB&url=terraURL`);
+            expect(terraServiceURL).toEqual(
+                `${TERRA_EXPORT_URL}#import-data?format=PFB&url=terraURL`
+            );
         });
     });
-
 
     /**
      * Returns true if panel header is displayed.
@@ -747,9 +954,13 @@ describe("ExportToTerraComponent", () => {
      * @returns {boolean}
      */
     function isPanelHeaderDisplayed(panelHeaderHeading: string): boolean {
+        const panelHeaderEls = fixture.debugElement.queryAll(
+            By.css("get-data-panel h4")
+        );
 
-        const panelHeaderEls = fixture.debugElement.queryAll(By.css("get-data-panel h4"));
-
-        return panelHeaderEls.some(panelHeader => panelHeader.nativeElement.innerHTML === panelHeaderHeading);
+        return panelHeaderEls.some(
+            (panelHeader) =>
+                panelHeader.nativeElement.innerHTML === panelHeaderHeading
+        );
     }
 });

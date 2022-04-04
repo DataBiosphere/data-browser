@@ -18,5 +18,5 @@ export const AppReducers = {
     config: configReducer.reducer,
     http: httpReducer.reducer,
     system: systemReducer.reducer,
-    terra: terraReducer.reducer
+    terra: terraReducer.reducer,
 };

@@ -11,7 +11,6 @@ import { ProjectEdits } from "./project-edits.model";
 import { Project } from "../../shared/project.model";
 
 export class ProjectEditsState implements ProjectEdits {
-
     projects: Project[];
     projectsById: Map<string, Project>;
 
@@ -35,12 +34,13 @@ export class ProjectEditsState implements ProjectEdits {
 
     /**
      * Project edits data has been successfully read from local JSON, store it.
-     * 
+     *
      * @param {FetchProjectEditsSuccessAction} action
      * @returns {ProjectEditsState}
      */
-    public fetchProjectEditsSuccess(action: FetchProjectEditsSuccessAction): ProjectEditsState {
-
+    public fetchProjectEditsSuccess(
+        action: FetchProjectEditsSuccessAction
+    ): ProjectEditsState {
         return new ProjectEditsState(action.projects);
     }
 

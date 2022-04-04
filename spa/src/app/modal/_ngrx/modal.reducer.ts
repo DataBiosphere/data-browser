@@ -1,7 +1,7 @@
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
- * 
+ *
  * Modal reducer, handles actions related to updating modal state.
  */
 
@@ -18,10 +18,11 @@ import { ModalState } from "./modal.state";
  * @param action {Action}
  * @returns {ModalState}
  */
-export function reducer(state: ModalState = ModalState.getDefaultState(), action: Action): ModalState {
-
+export function reducer(
+    state: ModalState = ModalState.getDefaultState(),
+    action: Action
+): ModalState {
     switch (action.type) {
-
         // Handle case where modal was closed
         case ModalClosedAction.ACTION_TYPE:
             return state.closeModal();

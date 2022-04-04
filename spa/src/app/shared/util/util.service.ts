@@ -10,7 +10,6 @@ import { Injectable } from "@angular/core";
 
 @Injectable()
 export class UtilService {
-
     /**
      * Returns true if specified object is an empty object.
      *
@@ -18,7 +17,9 @@ export class UtilService {
      * @returns {boolean}
      */
     public static isEmpty(obj) {
-
-        return !obj || Object.keys(obj).length === 0 && obj.constructor === Object;
+        return (
+            !obj ||
+            (Object.keys(obj).length === 0 && obj.constructor === Object)
+        );
     }
 }

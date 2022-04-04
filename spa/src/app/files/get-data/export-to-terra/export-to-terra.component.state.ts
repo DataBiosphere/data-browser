@@ -11,7 +11,6 @@ import { SearchTerm } from "../../search/search-term.model";
 import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 
 export interface ExportToTerraComponentState {
-
     exportToTerraStatus: ExportToTerraStatus;
     exportToTerraUrl: string;
     fileTypeSummaries: FileTypeSummary[];

@@ -11,11 +11,14 @@
 import { FileLocationTrigger } from "./file-location-trigger.model";
 
 export class FileLocationRequestEvent {
-
     /**
      * @param {string} fileUrl
      * @param fileName
      * @param {FileLocationTrigger} trigger
      */
-    constructor(public readonly fileUrl: string, public readonly fileName, public trigger: FileLocationTrigger) {}
+    constructor(
+        public readonly fileUrl: string,
+        public readonly fileName,
+        public trigger: FileLocationTrigger
+    ) {}
 }

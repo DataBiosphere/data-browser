@@ -19,12 +19,15 @@
     }
 
     /* Heading, link */
-    h4, a, .start p {
+    h4,
+    a,
+    .start p {
         margin: 0;
     }
 
     /* Separator */
-    &:before, &.loading:after {
+    &:before,
+    &.loading:after {
         border-radius: 3px;
         bottom: 10px;
         content: "";

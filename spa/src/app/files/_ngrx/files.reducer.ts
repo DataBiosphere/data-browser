@@ -29,5 +29,5 @@ export const reducer = {
     project: projectReducer.reducer,
     projectEdits: projectEditsReducer.reducer,
     search: searchReducer.reducer,
-    tableState: tableReducer.reducer
+    tableState: tableReducer.reducer,
 };

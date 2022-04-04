@@ -6,7 +6,12 @@
  */
 
 // Core dependencies
-import { Component, ChangeDetectionStrategy, OnDestroy, OnInit } from "@angular/core";
+import {
+    Component,
+    ChangeDetectionStrategy,
+    OnDestroy,
+    OnInit,
+} from "@angular/core";
 import { Store } from "@ngrx/store";
 
 // App dependencies
@@ -18,23 +23,22 @@ import { TitleService } from "../title/title.service";
     selector: "get-data",
     templateUrl: "./get-data.component.html",
     styleUrls: ["./get-data.component.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class GetDataComponent implements OnDestroy, OnInit {
-
     /**
      * @param {Store<AppState>} store
      * @param {TitleService} titleService
      */
-    public constructor(private titleService: TitleService, private store: Store<AppState>) {
-    }
+    public constructor(
+        private titleService: TitleService,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Clear files facets on destroy.
      */
     public ngOnDestroy() {
-
         this.store.dispatch(new ClearFilesFacetsAction());
     }
 
@@ -42,7 +46,6 @@ export class GetDataComponent implements OnDestroy, OnInit {
      * Set page title on load.
      */
     public ngOnInit() {
-
         this.titleService.setTitle("Export Selected Data");
     }
 }

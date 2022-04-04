@@ -19,10 +19,9 @@ import { ViewCatalogAction } from "../_ngrx/catalog/view-catalog.action";
 @Component({
     selector: "announcement-catalog",
     templateUrl: "./announcement-catalog.component.html",
-    styleUrls: ["./announcement-catalog.component.scss"]
+    styleUrls: ["./announcement-catalog.component.scss"],
 })
 export class AnnouncementCatalogComponent {
-
     // Inputs
     @Input() catalog: DCPCatalog;
 
@@ -31,13 +30,16 @@ export class AnnouncementCatalogComponent {
      * @param {Store<AppState>} store
      * @param {Window} window
      */
-    constructor(private configService: ConfigService, private store: Store<AppState>, @Inject("Window") private window: Window) {}
+    constructor(
+        private configService: ConfigService,
+        private store: Store<AppState>,
+        @Inject("Window") private window: Window
+    ) {}
 
     /**
      * Returns the URL to the catalog announcement page.
      */
     public getCatalogAnnouncementUrl(): string {
-
         return `${this.configService.getPortalUrl()}/dcp-updates`;
     }
 
@@ -47,7 +49,6 @@ export class AnnouncementCatalogComponent {
      * @returns {boolean}
      */
     public isCatalogDCP1(): boolean {
-
         return this.catalog === DCPCatalog.DCP1;
     }
 
@@ -55,12 +56,11 @@ export class AnnouncementCatalogComponent {
      * Handle select of catalog - dispatch event to track click on catalog, then redirect to catalog.
      */
     public onCatalogSelected(catalog: DCPCatalog) {
-        
         this.store.dispatch(new ViewCatalogAction(catalog));
-        
+
         const urlTokens = [this.configService.getExploreBasePath()];
         urlTokens.push(`/${EntityName.PROJECTS}`);
-        if ( catalog === DCPCatalog.DCP1 ) {
+        if (catalog === DCPCatalog.DCP1) {
             urlTokens.push(`?catalog=${catalog}`);
         }
         this.window.location.href = urlTokens.join("");

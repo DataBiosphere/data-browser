@@ -2,9 +2,9 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Possible integration values. 
+ * Possible integration values.
  */
 
 export enum IntegrationType {
-    "GET" = "get"
+    "GET" = "get",
 }

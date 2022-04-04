@@ -6,14 +6,12 @@
  */
 
 export class HamburgerState {
-
     public readonly open: boolean;
 
     /**
      * @param {boolean} open
      */
     constructor(open: boolean) {
-
         this.open = open;
     }
 
@@ -23,7 +21,6 @@ export class HamburgerState {
      * @returns {HamburgerState}
      */
     public closeHamburger(): HamburgerState {
-
         return new HamburgerState(false);
     }
 
@@ -33,7 +30,6 @@ export class HamburgerState {
      * @returns {HamburgerState}
      */
     public static getDefaultState() {
-
         return new HamburgerState(false);
     }
 
@@ -43,7 +39,6 @@ export class HamburgerState {
      * @returns {HamburgerState}
      */
     public toggleHamburger(): HamburgerState {
-
         return new HamburgerState(!this.open);
     }
 }

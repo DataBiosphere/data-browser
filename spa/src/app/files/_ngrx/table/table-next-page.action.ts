@@ -17,7 +17,6 @@ import { GAAction } from "../../../shared/analytics/ga-action.model";
 import { TrackingAction } from "../analytics/tracking.action";
 
 export class TableNextPageAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "TABLE.NEXT_PAGE";
     public readonly type = TableNextPageAction.ACTION_TYPE;
 
@@ -33,8 +32,7 @@ export class TableNextPageAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery, index}): GAEvent {
-
+    public asEvent({ catalog, currentQuery, index }): GAEvent {
         return {
             category: GACategory.SEARCH_RESULTS,
             action: GAAction.NEXT_PAGE,
@@ -42,8 +40,8 @@ export class TableNextPageAction implements Action, TrackingAction {
             dimensions: {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.CURRENT_QUERY]: currentQuery,
-                [GADimension.INDEX]: index
-            }
+                [GADimension.INDEX]: index,
+            },
         };
     }
 }

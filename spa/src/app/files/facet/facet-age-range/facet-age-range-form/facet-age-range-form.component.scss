@@ -9,7 +9,6 @@
 
 /* Facet age range form */
 form {
-    
     &.min-max-error {
         input {
             border-color: $hca-orange;
@@ -30,16 +29,16 @@ form {
     }
 
     /* Form control */
-    label, mat-radio-group {
+    label,
+    mat-radio-group {
         display: flex;
         flex: none;
     }
 
     /* Form control - container */
     label {
-
         /* Inputs - container */
-        &:nth-of-type(n+2) {
+        &:nth-of-type(n + 2) {
             margin-top: 8px;
         }
 
@@ -57,7 +56,7 @@ form {
         align-items: center;
 
         /* Radio button - margin between second and third */
-        mat-radio-button:nth-of-type(n+2) {
+        mat-radio-button:nth-of-type(n + 2) {
             margin-left: 10px;
         }
     }
@@ -78,14 +77,14 @@ form {
     }
 
     /* Input - hide spinner - chrome, safari */
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
 
     /* Input - hide spinner - firefox */
-    input[type=number] {
+    input[type="number"] {
         -moz-appearance: textfield;
     }
 
@@ -106,14 +105,15 @@ form {
             overflow: hidden;
             padding: 0 12px;
             text-transform: capitalize;
-            transition: background-color 400ms cubic-bezier(0.25, 0.8, 0.25, 1), border-color 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
-            
+            transition: background-color 400ms cubic-bezier(0.25, 0.8, 0.25, 1),
+                border-color 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+
             /* Apply - default */
             &.apply {
                 font-weight: 600;
                 min-width: 63px; // Maintain width during toggle between "Apply" and check mark
             }
-            
+
             /* Apply - valid or invalid/not submittable but maintain enabled UI during animation */
             &.apply:not([disabled]) {
                 border-color: rgba(28, 124, 199, 0.12);
@@ -131,7 +131,7 @@ form {
                 background-color: rgba(0, 0, 0, 0.03);
                 color: $hca-gray-medium;
             }
-            
+
             /** Apply - pristine but invalid, not submittable */
             &.apply[disabled]:not(.pristine) {
                 font-size: 0;
@@ -141,7 +141,7 @@ form {
                     font-size: 16px;
                 }
             }
-            
+
             /* Clear - default */
             &.clear {
                 border-color: transparent;
@@ -149,7 +149,7 @@ form {
                 padding: 0 8px;
                 margin: 0 0 0 8px;
             }
-            
+
             /* Clear = disabled */
             &.clear[disabled] {
                 color: $hca-gray-light;

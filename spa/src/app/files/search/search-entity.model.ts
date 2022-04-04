@@ -9,7 +9,6 @@
 import { SearchTerm } from "./search-term.model";
 
 export class SearchEntity implements SearchTerm {
-
     /**
      * @param {string} searchKey
      * @param {string} entityId
@@ -20,7 +19,8 @@ export class SearchEntity implements SearchTerm {
         private readonly searchKey: string, // "projectId"
         private readonly entityId: string, // "123abc...456def"
         private readonly entityName: string, // "1M Neuron"
-        private readonly count?: number) {}
+        private readonly count?: number
+    ) {}
 
     /**
      * Return the count. Only required when setting up search terms options for select from search box (and not when
@@ -29,7 +29,6 @@ export class SearchEntity implements SearchTerm {
      * @returns {number}
      */
     public getCount(): number {
-
         return this.count;
     }
 
@@ -39,7 +38,6 @@ export class SearchEntity implements SearchTerm {
      * @returns {string}
      */
     public getDisplayValue(): string {
-
         return this.entityName;
     }
 
@@ -50,8 +48,7 @@ export class SearchEntity implements SearchTerm {
      * @returns {string}
      */
     getId(): string {
-
-       return `${this.getSearchKey()}:${this.getSearchValue()}`;
+        return `${this.getSearchKey()}:${this.getSearchValue()}`;
     }
 
     /**
@@ -61,7 +58,6 @@ export class SearchEntity implements SearchTerm {
      * @returns {string}
      */
     public getSearchKey(): string {
-
         return this.searchKey;
     }
 
@@ -72,7 +68,6 @@ export class SearchEntity implements SearchTerm {
      * @returns {string}
      */
     public getSearchValue(): any {
-
         return this.entityId;
     }
 
@@ -85,7 +80,6 @@ export class SearchEntity implements SearchTerm {
      * @returns {any}
      */
     public getFilterParameterValue(): any {
-
         return this.entityId;
     }
 
@@ -95,9 +89,6 @@ export class SearchEntity implements SearchTerm {
      * @returns {string}
      */
     public getSortValue(): string {
-
         return this.getDisplayValue();
     }
 }
-
-

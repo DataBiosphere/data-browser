@@ -1,7 +1,7 @@
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
- * 
+ *
  * Pipe for formatting file sizes.
  */
 
@@ -9,12 +9,10 @@
 import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-    name: "fileSize"
+    name: "fileSize",
 })
 export class FileSizePipe implements PipeTransform {
-
     transform(value: number): string {
-
         const fileSizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
         // Determine file size display value and unit
@@ -24,10 +22,10 @@ export class FileSizePipe implements PipeTransform {
             val = val / 1024;
             sigFig += 1;
         }
-        
+
         // Prevent format of file size to "n.00 B" (display just "n B" instead)
         let precision = 2;
-        if ( sigFig === 0 ) {
+        if (sigFig === 0) {
             precision = 0;
         }
 

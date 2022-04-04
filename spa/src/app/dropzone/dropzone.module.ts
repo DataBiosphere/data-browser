@@ -15,20 +15,9 @@ import { DropzoneService } from "./dropzone.service";
 import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
-    imports: [
-        SharedModule
-    ],
-    declarations: [
-        DirectoryButtonComponent,
-        DropzoneComponent
-    ],
-    providers: [
-        DropzoneService
-    ],
-    exports: [
-        DirectoryButtonComponent,
-        DropzoneComponent
-    ]
+    imports: [SharedModule],
+    declarations: [DirectoryButtonComponent, DropzoneComponent],
+    providers: [DropzoneService],
+    exports: [DirectoryButtonComponent, DropzoneComponent],
 })
-export class DropzoneModule {
-}
+export class DropzoneModule {}

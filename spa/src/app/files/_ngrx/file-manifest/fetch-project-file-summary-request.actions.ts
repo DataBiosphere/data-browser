@@ -10,6 +10,7 @@
 import { Action } from "@ngrx/store";
 
 export class FetchProjectFileSummaryRequestAction implements Action {
-    public static ACTION_TYPE = "FILE_MANIFEST.FETCH_PROJECT_FILE_SUMMARY_REQUEST";
+    public static ACTION_TYPE =
+        "FILE_MANIFEST.FETCH_PROJECT_FILE_SUMMARY_REQUEST";
     public readonly type = FetchProjectFileSummaryRequestAction.ACTION_TYPE;
 }

@@ -24,30 +24,29 @@ import { Project } from "../shared/project.model";
 
 @Injectable()
 export class ProjectViewFactory {
-
     // Template variables
     private DATA_SUMMARY_NULL_VALUE_TO_DISPLAY_VALUE = {
-        "libraryConstructionApproach": "-",
-        "pairedEnd": "-",
+        libraryConstructionApproach: "-",
+        pairedEnd: "-",
     };
     private ACCEPT_LIST_DATA_SUMMARY_TO_KEY = {
-        "projectShortname": "",
-        "genusSpecies": "",
-        "sampleEntityType": "",
-        "organ": "",
-        "organPart": "",
-        "selectedCellType": "",
-        "modelOrgan": "",
-        "disease": "",
-        "donorDisease" :"",
-        "developmentStage": "",
-        "libraryConstructionApproach": "",
-        "nucleicAcidSource": "",
-        "pairedEnd": "",
-        "workflow": "",
-        "fileType": "fileFormat",
-        "totalCells": "",
-        "donorCount": ""
+        projectShortname: "",
+        genusSpecies: "",
+        sampleEntityType: "",
+        organ: "",
+        organPart: "",
+        selectedCellType: "",
+        modelOrgan: "",
+        disease: "",
+        donorDisease: "",
+        developmentStage: "",
+        libraryConstructionApproach: "",
+        nucleicAcidSource: "",
+        pairedEnd: "",
+        workflow: "",
+        fileType: "fileFormat",
+        totalCells: "",
+        donorCount: "",
     };
 
     /**
@@ -63,11 +62,12 @@ export class ProjectViewFactory {
      * @returns {ProjectView}
      */
     public getProjectView(catalog: Catalog, project: Project): ProjectView {
-
         return {
             accessions: this.buildAccessions(project),
             citationLink: this.buildCitationUrl(catalog, project.entryId),
-            collaboratingOrganizations: this.buildCollaboratingOrganizations(project.contributors),
+            collaboratingOrganizations: this.buildCollaboratingOrganizations(
+                project.contributors
+            ),
             contacts: this.buildContacts(project.contributors),
             contributors: this.buildContributors(project.contributors),
             dataCurators: this.buildDataCurators(project.contributors),
@@ -76,7 +76,6 @@ export class ProjectViewFactory {
         };
     }
 
-
     /**
      * Returns accessions converted to key value pairs.
      *
@@ -84,25 +83,23 @@ export class ProjectViewFactory {
      * @returns {KeyValuePair[]}
      */
     private buildAccessions(project: Project): KeyValuePair[] {
-        
         const pairs = [];
-        for ( let [label, accessions] of project.accessionsByLabel.entries() ) {
-            
+        for (let [label, accessions] of project.accessionsByLabel.entries()) {
             // Create view models for each accession value
-            const accessionViews = accessions.map(accession => {
-                const {id, url} = accession;
+            const accessionViews = accessions.map((accession) => {
+                const { id, url } = accession;
                 return {
                     key: id,
-                    value: url
-                }
+                    value: url,
+                };
             });
-            
+
             pairs.push({
                 key: label,
-                value: accessionViews
+                value: accessionViews,
             });
         }
-        
+
         return pairs;
     }
 
@@ -114,14 +111,12 @@ export class ProjectViewFactory {
      * @returns {string}
      */
     private buildCitationUrl(catalog: Catalog, projectId: string): string {
-
         // Add selected project to state - grab the project ID from the URL.
         const browserURL = this.configService.getBrowserUrl();
         const citationURL = `${browserURL}/explore/projects/${projectId}`;
 
         // Return citation with catalog param if viewing dcp1.
-        if ( catalog === DCPCatalog.DCP1 ) {
-
+        if (catalog === DCPCatalog.DCP1) {
             return `${citationURL}?catalog=${catalog}`;
         }
 
@@ -134,14 +129,17 @@ export class ProjectViewFactory {
      * @param {Contributor[]} contributors
      * @returns {CollaboratingOrganizationView[]}
      */
-    private buildCollaboratingOrganizations(contributors: Contributor[]): CollaboratingOrganizationView[] {
+    private buildCollaboratingOrganizations(
+        contributors: Contributor[]
+    ): CollaboratingOrganizationView[] {
+        const projectContributors =
+            this.filterContributorsWithProjectContributors(contributors);
 
-        const projectContributors = this.filterContributorsWithProjectContributors(contributors);
-
-        const contributorOrganizations = new Set(this.getCollaboratingOrganizations(projectContributors));
+        const contributorOrganizations = new Set(
+            this.getCollaboratingOrganizations(projectContributors)
+        );
 
         return [...contributorOrganizations].map((organization, i) => {
-
             return {
                 citation: i + 1,
                 name: organization,
@@ -156,15 +154,15 @@ export class ProjectViewFactory {
      * @returns {ContactView[]}
      */
     private buildContacts(contributors: Contributor[]): ContactView[] {
-
         return contributors
-            .filter(contributor => contributor.correspondingContributor)
-            .map(correspondingContributor => {
-
+            .filter((contributor) => contributor.correspondingContributor)
+            .map((correspondingContributor) => {
                 return {
-                    name: this.formatContributor(correspondingContributor.contactName),
+                    name: this.formatContributor(
+                        correspondingContributor.contactName
+                    ),
                     email: correspondingContributor.email,
-                    institution: correspondingContributor.institution
+                    institution: correspondingContributor.institution,
                 };
             });
     }
@@ -176,16 +174,20 @@ export class ProjectViewFactory {
      * @returns {ContributorView[]}
      */
     private buildContributors(contributors: Contributor[]): ContributorView[] {
+        const projectContributors =
+            this.filterContributorsWithProjectContributors(contributors);
+        const contributorOrganizations = new Set(
+            this.getCollaboratingOrganizations(projectContributors)
+        );
 
-        const projectContributors = this.filterContributorsWithProjectContributors(contributors);
-        const contributorOrganizations = new Set(this.getCollaboratingOrganizations(projectContributors));
-
-        return projectContributors.map(projectContributor => {
-
+        return projectContributors.map((projectContributor) => {
             return {
-                citation: [...contributorOrganizations].indexOf(projectContributor.institution) + 1,
+                citation:
+                    [...contributorOrganizations].indexOf(
+                        projectContributor.institution
+                    ) + 1,
                 name: this.formatContributor(projectContributor.contactName),
-                role: projectContributor.projectRole
+                role: projectContributor.projectRole,
             };
         });
     }
@@ -197,12 +199,12 @@ export class ProjectViewFactory {
      * @returns {ContributorView[]}
      */
     private buildDataCurators(contributors: Contributor[]): string[] {
-
         return contributors
-            .filter(contributor => this.isContributorDataCurator(contributor.projectRole))
-            .map(contributor => contributor.contactName)
-            .map(name => this.formatContributor(name));
-
+            .filter((contributor) =>
+                this.isContributorDataCurator(contributor.projectRole)
+            )
+            .map((contributor) => contributor.contactName)
+            .map((name) => this.formatContributor(name));
     }
 
     /**
@@ -212,19 +214,16 @@ export class ProjectViewFactory {
      * @returns {KeyValuePair[]}
      */
     private buildDataSummaries(project: Project): KeyValuePair[] {
-
         const filteredDataSummary = this.filterDataSummary(project);
 
-        return filteredDataSummary
-            .map(key => {
+        return filteredDataSummary.map((key) => {
+            const columnName = this.getColumnName(key);
 
-                const columnName = this.getColumnName(key);
-
-                return {
-                    key: columnName,
-                    value: this.stringifyValues(key, project[key])
-                }
-            });
+            return {
+                key: columnName,
+                value: this.stringifyValues(key, project[key]),
+            };
+        });
     }
 
     /**
@@ -234,29 +233,32 @@ export class ProjectViewFactory {
      * @returns {KeyValuePair[]}
      */
     private buildFileTypeCounts(project: Project): KeyValuePair[] {
-
         const localeStringPipe = new LocaleStringPipe();
-        
+
         // Calculate the total count of files
-        const totalCount = Array.from(project.fileTypeCounts.values()).reduce((accum, count) => {
-            return (accum + count);
-        });
+        const totalCount = Array.from(project.fileTypeCounts.values()).reduce(
+            (accum, count) => {
+                return accum + count;
+            }
+        );
 
         // Create file type view objects
         const fileTypeViews = [];
-        Array.from(project.fileTypeCounts.keys()).forEach(fileType => {
+        Array.from(project.fileTypeCounts.keys()).forEach((fileType) => {
             fileTypeViews.push({
                 key: fileType,
-                value: localeStringPipe.transform(project.fileTypeCounts.get(fileType))
-            })
+                value: localeStringPipe.transform(
+                    project.fileTypeCounts.get(fileType)
+                ),
+            });
         });
 
         // Sort file types by alpha, descending
         fileTypeViews.sort((ftv0, ftv1) => {
-            if ( ftv0.key > ftv1.key ) {
+            if (ftv0.key > ftv1.key) {
                 return 1;
             }
-            if ( ftv0.key < ftv1.key ) {
+            if (ftv0.key < ftv1.key) {
                 return -1;
             }
             return 0;
@@ -265,8 +267,8 @@ export class ProjectViewFactory {
         // Add the total file count to the set
         fileTypeViews.push({
             key: "Total",
-            value: localeStringPipe.transform(totalCount)
-        })
+            value: localeStringPipe.transform(totalCount),
+        });
 
         return fileTypeViews;
     }
@@ -278,10 +280,13 @@ export class ProjectViewFactory {
      * @param {Contributor[]} contributors
      * @returns {Contributor[]}
      */
-    private filterContributorsWithProjectContributors(contributors: Contributor[]): Contributor[] {
-
-        return contributors
-            .filter(contributor => !this.isContributorDataCurator(contributor.projectRole));
+    private filterContributorsWithProjectContributors(
+        contributors: Contributor[]
+    ): Contributor[] {
+        return contributors.filter(
+            (contributor) =>
+                !this.isContributorDataCurator(contributor.projectRole)
+        );
     }
 
     /**
@@ -289,27 +294,26 @@ export class ProjectViewFactory {
      *
      * Workflow will not display if "Unspecified".
      * Analysis Protocol "modelOrgan" will not display if the sampleEntityType is "specimens".
-     * 
+     *
      * @param {Project} project
      * @returns {string[]}
      */
     private filterDataSummary(project: Project): string[] {
-
-        return Object.keys(this.ACCEPT_LIST_DATA_SUMMARY_TO_KEY)
-            .filter(key => {
-
-                if ( key === "modelOrgan" ) {
-
-                    return !this.isSampleEntityTypeSpecimens(project.sampleEntityType);
+        return Object.keys(this.ACCEPT_LIST_DATA_SUMMARY_TO_KEY).filter(
+            (key) => {
+                if (key === "modelOrgan") {
+                    return !this.isSampleEntityTypeSpecimens(
+                        project.sampleEntityType
+                    );
                 }
 
-                if ( key === "workflow" ) {
-
+                if (key === "workflow") {
                     return this.isWorkflowNotUnspecified(project.workflow);
                 }
 
                 return true;
-            });
+            }
+        );
     }
 
     /**
@@ -319,7 +323,6 @@ export class ProjectViewFactory {
      * @returns {string}
      */
     private formatContributor(commaDelimitedName: string): string {
-
         return commaDelimitedName.split(/[ ,]+/).join(" ");
     }
 
@@ -333,13 +336,11 @@ export class ProjectViewFactory {
      * @returns {string}
      */
     private getColumnName(key: string): string {
-
         let columnName = key;
 
         const alternateKey = this.ACCEPT_LIST_DATA_SUMMARY_TO_KEY[columnName];
 
-        if ( alternateKey ) {
-
+        if (alternateKey) {
             columnName = alternateKey;
         }
 
@@ -352,9 +353,10 @@ export class ProjectViewFactory {
      * @param {Contributor[]} contributors
      * @returns {string[]}
      */
-    private getCollaboratingOrganizations(contributors: Contributor[]): string[] {
-
-        return contributors.map(contributor => contributor.institution)
+    private getCollaboratingOrganizations(
+        contributors: Contributor[]
+    ): string[] {
+        return contributors.map((contributor) => contributor.institution);
     }
 
     /**
@@ -364,7 +366,6 @@ export class ProjectViewFactory {
      * @returns {boolean}
      */
     private isContributorDataCurator(projectRole: string): boolean {
-
         return projectRole && projectRole.toLowerCase() === "data curator";
     }
 
@@ -375,7 +376,6 @@ export class ProjectViewFactory {
      * @returns {boolean}
      */
     private isSampleEntityTypeSpecimens(sampleEntityType: string): boolean {
-
         return sampleEntityType === "specimens";
     }
 
@@ -386,7 +386,6 @@ export class ProjectViewFactory {
      * @returns {boolean}
      */
     private isWorkflowNotUnspecified(workflow: string): boolean {
-
         return workflow !== "Unspecified";
     }
 
@@ -398,31 +397,25 @@ export class ProjectViewFactory {
      * @returns {string}
      */
     private stringifyValues(key: string, value: any): string {
-
         let valueIfNull = "Unspecified";
         const displayText = this.DATA_SUMMARY_NULL_VALUE_TO_DISPLAY_VALUE[key];
 
-        if ( displayText ) {
-
+        if (displayText) {
             valueIfNull = displayText;
         }
 
-        if ( !value ) {
-
+        if (!value) {
             return valueIfNull;
         }
 
-        if ( value.length === 0 ) {
-
+        if (value.length === 0) {
             return valueIfNull;
         }
 
         // Return number as string
-        if ( typeof value === "number" ) {
-
+        if (typeof value === "number") {
             // Donor count, estimated cells
-            if ( key === "totalCells" || key === "donorCount" ) {
-
+            if (key === "totalCells" || key === "donorCount") {
                 return new CountSizePipe().transform(value);
             }
 
@@ -430,12 +423,11 @@ export class ProjectViewFactory {
         }
 
         // Dedupe array values (e.g. file type summaries) and return as string
-        if ( Array.isArray(value) ) {
+        if (Array.isArray(value)) {
             return [...new Set(value)].join(", ");
         }
 
         // Return string as is
         return value;
-        
     }
 }

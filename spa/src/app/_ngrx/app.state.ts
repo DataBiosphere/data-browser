@@ -15,5 +15,10 @@ import { TerraState } from "../files/_ngrx/terra/terra.state";
 import { ModalState } from "../modal/_ngrx/modal.state";
 
 export interface AppState
-    extends ConfigState, FilesState, HttpState, ModalState, SupportRequestState, SystemState, TerraState {
-}
+    extends ConfigState,
+        FilesState,
+        HttpState,
+        ModalState,
+        SupportRequestState,
+        SystemState,
+        TerraState {}

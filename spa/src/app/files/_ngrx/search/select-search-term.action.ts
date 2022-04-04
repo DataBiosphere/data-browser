@@ -9,7 +9,6 @@
 import { SearchTermAction } from "./search-term.action";
 
 export interface SelectSearchTermAction extends SearchTermAction {
-
     selected: boolean;
 
     /**

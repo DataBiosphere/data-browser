@@ -9,7 +9,6 @@
 import EntitySpec from "../../shared/entity-spec";
 
 export interface GetDataOptionsComponentState {
-
     loaded: boolean;
     selectedEntity?: EntitySpec;
 }

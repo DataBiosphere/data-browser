@@ -9,15 +9,16 @@
 // App dependencies
 import { EntityRow } from "../entities/entity-row.model";
 import { EntityRowMapper } from "../entities/entity-row-mapper";
-import { getSelfOrFirst, getUnspecifiedIfNullValue } from "../table/table-methods";
+import {
+    getSelfOrFirst,
+    getUnspecifiedIfNullValue,
+} from "../table/table-methods";
 
 export class SampleRowMapper extends EntityRowMapper {
-
     /**
      * @param {any} row - data modelling row in current selected table.
      */
     constructor(row: any) {
-
         super(row);
     }
 
@@ -27,7 +28,7 @@ export class SampleRowMapper extends EntityRowMapper {
     public mapRow(): EntityRow {
         return Object.assign({}, super.mapRow(), {
             sampleId: getSelfOrFirst(this.samples.id),
-            projectId: getUnspecifiedIfNullValue(this.projects.projectId)
+            projectId: getUnspecifiedIfNullValue(this.projects.projectId),
         });
     }
 }

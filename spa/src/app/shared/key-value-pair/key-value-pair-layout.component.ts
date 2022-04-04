@@ -11,6 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "key-value-pair-layout",
     templateUrl: "./key-value-pair-layout.component.html",
-    styleUrls: ["./key-value-pair-layout.component.scss"]
+    styleUrls: ["./key-value-pair-layout.component.scss"],
 })
 export class KeyValuePairLayoutComponent {}

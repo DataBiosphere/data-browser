@@ -9,6 +9,6 @@
 import { Directive } from "@angular/core";
 
 @Directive({
-    selector: "[viewContainer]"
+    selector: "[viewContainer]",
 })
 export class ViewContainerDirective {}

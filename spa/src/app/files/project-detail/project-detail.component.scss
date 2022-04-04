@@ -8,7 +8,6 @@
 @import "../../site/theme/hca.vars";
 
 :host {
-
     /* Content container */
     div[content] {
         flex: 1;
@@ -18,7 +17,6 @@
 
 /* Project Title */
 .project-title {
-
     /* Project title */
     /* Styled similar to h2 fontsize-xl */
     h1 {
@@ -49,7 +47,7 @@
 
             /* Selected */
             &.selected {
-                border-color: #1F6B9A;
+                border-color: #1f6b9a;
                 background-color: $hca-primary;
             }
 
@@ -75,7 +73,7 @@
 }
 
 .project-downloads-container {
-    max-width: 600px; 
+    max-width: 600px;
 }
 
 /* Data use */

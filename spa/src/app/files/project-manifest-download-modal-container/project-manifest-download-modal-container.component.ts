@@ -15,15 +15,15 @@ import { takeUntil } from "rxjs/operators";
 // App dependencies
 import { ProjectManifestDownloadModalComponent } from "../project-manifest-download-modal/project-manifest-download-modal.component";
 
-
 @Component({
     selector: "project-manifest-download-modal-container",
     template: "",
     styleUrls: ["./project-manifest-download-modal-container.component.scss"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
-export class ProjectManifestDownloadModalContainerComponent implements OnDestroy {
-
+export class ProjectManifestDownloadModalContainerComponent
+    implements OnDestroy
+{
     private CSS_BACKDROP = "backdrop-white";
     private CSS_PANEL = "panel-invisible";
 
@@ -34,17 +34,15 @@ export class ProjectManifestDownloadModalContainerComponent implements OnDestroy
      * @param {ActivatedRoute} route
      */
     constructor(dialog: MatDialog, route: ActivatedRoute) {
-
-        route.params.pipe(takeUntil(this.ngDestroy$)).subscribe(params => {
-
+        route.params.pipe(takeUntil(this.ngDestroy$)).subscribe((params) => {
             dialog.open(ProjectManifestDownloadModalComponent, {
                 autoFocus: false,
                 backdropClass: this.CSS_BACKDROP,
                 data: {
-                    projectId: params.id
+                    projectId: params.id,
                 },
                 disableClose: true,
-                panelClass: this.CSS_PANEL
+                panelClass: this.CSS_PANEL,
             });
         });
     }
@@ -53,7 +51,6 @@ export class ProjectManifestDownloadModalContainerComponent implements OnDestroy
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }

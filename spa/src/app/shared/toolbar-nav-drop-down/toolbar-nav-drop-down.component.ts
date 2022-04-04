@@ -6,16 +6,20 @@
  */
 
 // Dependencies
-import { Component, EventEmitter, HostListener, OnInit, Output } from "@angular/core";
+import {
+    Component,
+    EventEmitter,
+    HostListener,
+    OnInit,
+    Output,
+} from "@angular/core";
 
 @Component({
     selector: "toolbar-nav-drop-down",
     templateUrl: "toolbar-nav-drop-down.component.html",
     styleUrls: ["toolbar-nav-drop-down.component.scss"],
 })
-
 export class ToolbarNavDropDownComponent implements OnInit {
-
     // Output
     @Output() dropDownMenuOpened = new EventEmitter<boolean>();
 
@@ -25,7 +29,6 @@ export class ToolbarNavDropDownComponent implements OnInit {
      */
     @HostListener("document:click")
     public onClickDocument() {
-
         // Any click event will close the drop down menu.
         this.onDropDownOpened(false);
     }
@@ -38,7 +41,6 @@ export class ToolbarNavDropDownComponent implements OnInit {
      * @param {MouseEvent} event
      */
     public onClickDropDown(event: MouseEvent) {
-
         event.stopPropagation();
     }
 
@@ -48,7 +50,6 @@ export class ToolbarNavDropDownComponent implements OnInit {
      * @param {boolean} opened
      */
     public onDropDownOpened(opened: boolean) {
-
         this.dropDownMenuOpened.emit(opened);
     }
 
@@ -56,7 +57,6 @@ export class ToolbarNavDropDownComponent implements OnInit {
      * Let parents know the drop down is now open.
      */
     ngOnInit() {
-
         this.onDropDownOpened(true);
     }
 }

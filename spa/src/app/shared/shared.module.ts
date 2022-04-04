@@ -98,7 +98,7 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         GTMService,
         ResponsiveService,
         RoutingService,
-        UtilService
+        UtilService,
     ],
     exports: [
         AnnouncementComponent,
@@ -130,8 +130,6 @@ import { WarningTitleComponent } from "./warning/warning-title.component";
         WarningComponent,
         WarningContentComponent,
         WarningTitleComponent,
-    ]
+    ],
 })
-export class SharedModule {
-}
-
+export class SharedModule {}

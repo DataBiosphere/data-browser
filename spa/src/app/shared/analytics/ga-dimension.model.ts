@@ -21,5 +21,5 @@ export enum GADimension {
     "RELATED_ENTITY_URL" = "relatedEntityUrl",
     "SOURCE" = "source", // UI element eg search bar
     "TERM" = "term",
-    "TOOL_NAME" = "toolName" // eg "bash" for bulk download, "Terra" for export
+    "TOOL_NAME" = "toolName", // eg "bash" for bulk download, "Terra" for export
 }

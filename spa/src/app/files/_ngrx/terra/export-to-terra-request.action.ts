@@ -19,14 +19,15 @@ import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { ToolName } from "../../shared/tool-name.model";
 
 export class ExportToTerraRequestAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "FILE.EXPORT_TO_TERRA_REQUEST";
     public readonly type = ExportToTerraRequestAction.ACTION_TYPE;
 
     /**
      * @param {ManifestDownloadFormat} manifestDownloadFormat
      */
-    constructor(public readonly manifestDownloadFormat: ManifestDownloadFormat) {}
+    constructor(
+        public readonly manifestDownloadFormat: ManifestDownloadFormat
+    ) {}
 
     /**
      * Return the export to Terra action as a GA event.
@@ -34,8 +35,7 @@ export class ExportToTerraRequestAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.EXPORT,
             action: GAAction.REQUEST,
@@ -43,8 +43,8 @@ export class ExportToTerraRequestAction implements Action, TrackingAction {
             dimensions: {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT,
-                [GADimension.TOOL_NAME]: ToolName.TERRA
-            }
+                [GADimension.TOOL_NAME]: ToolName.TERRA,
+            },
         };
     }
 }

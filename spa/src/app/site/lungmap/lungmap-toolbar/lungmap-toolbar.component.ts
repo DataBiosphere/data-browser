@@ -27,16 +27,16 @@ import { UrlService } from "../../../files/url/url.service";
 @Component({
     selector: "lungmap-toolbar",
     templateUrl: "lungmap-toolbar.component.html",
-    styleUrls: ["lungmap-toolbar.component.scss"]
+    styleUrls: ["lungmap-toolbar.component.scss"],
 })
-
-export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
-
+export class LungMAPToolbarComponent
+    implements HeaderComponent, OnDestroy, OnInit
+{
     // Template variables
     public dropDownMenuOpen = false;
     public portalUrl: string;
     public state$ = new BehaviorSubject<LungMAPToolbarComponentState>({
-        modalOpen: false
+        modalOpen: false,
     });
 
     // Locals
@@ -50,11 +50,13 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
      * @param {UrlService} urlService
      * @param {Router} router
      */
-    constructor(private store: Store<AppState>,
-                private configService: ConfigService,
-                private routingService: RoutingService,
-                private urlService: UrlService,
-                private router: Router) {
+    constructor(
+        private store: Store<AppState>,
+        private configService: ConfigService,
+        private routingService: RoutingService,
+        private urlService: UrlService,
+        private router: Router
+    ) {
         this.portalUrl = this.configService.getPortalUrl();
     }
 
@@ -64,9 +66,7 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
      * @returns {boolean}
      */
     public isExploreActiveUrl(): boolean {
-
-        if ( this.currentUrl ) {
-
+        if (this.currentUrl) {
             const explorePathExists = this.urlService.isViewingEntities();
             const homePathExists = this.currentUrl === "/";
 
@@ -80,7 +80,6 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
      * @param event
      */
     public onDropDownMenuOpened(event) {
-
         this.dropDownMenuOpen = event;
     }
 
@@ -90,10 +89,9 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
      * manually trigger the close here.
      */
     public onExploreLinkClicked() {
-
         this.store.dispatch(new SelectEntityAction(EntityName.PROJECTS));
 
-        if ( this.routingService.isPathActive([`/${EntityName.PROJECTS}`]) ) {
+        if (this.routingService.isPathActive([`/${EntityName.PROJECTS}`])) {
             this.store.dispatch(new CloseHamburgerAction());
         }
     }
@@ -104,7 +102,6 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
      * @param {MouseEvent} event
      */
     public toggleDropDownMenu(event: MouseEvent) {
-
         event.stopPropagation();
         this.dropDownMenuOpen = !this.dropDownMenuOpen;
     }
@@ -113,21 +110,20 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
      * Listens for the current url.
      */
     private initCurrentUrl() {
-
-        this.router.events.pipe(
-            filter(evt => evt instanceof NavigationEnd),
-            takeUntil(this.ngDestroy$)
-        ).subscribe((evt: NavigationEnd) => {
-
-            this.currentUrl = evt.url;
-        });
+        this.router.events
+            .pipe(
+                filter((evt) => evt instanceof NavigationEnd),
+                takeUntil(this.ngDestroy$)
+            )
+            .subscribe((evt: NavigationEnd) => {
+                this.currentUrl = evt.url;
+            });
     }
 
     /**
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -136,15 +132,13 @@ export class LungMAPToolbarComponent implements HeaderComponent, OnDestroy, OnIn
      * Listen for changes in modal opened/closed state and update header UI accordingly.
      */
     public ngOnInit() {
-
         // Sets up the current url
         this.initCurrentUrl();
 
-        this.store.pipe(
-            select(selectModalOpen),
-            takeUntil(this.ngDestroy$)
-        ).subscribe(modalOpen => {
-            this.state$.next({modalOpen});
-        });
+        this.store
+            .pipe(select(selectModalOpen), takeUntil(this.ngDestroy$))
+            .subscribe((modalOpen) => {
+                this.state$.next({ modalOpen });
+            });
     }
 }

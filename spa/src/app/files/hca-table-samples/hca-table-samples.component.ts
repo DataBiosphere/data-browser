@@ -9,10 +9,11 @@
 import {
     ChangeDetectorRef,
     Component,
-    ElementRef, Input,
+    ElementRef,
+    Input,
     OnDestroy,
     OnInit,
-    ViewChild
+    ViewChild,
 } from "@angular/core";
 import { MatSort, MatSortHeader, Sort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
@@ -30,7 +31,7 @@ import {
     selectPagination,
     selectTableData,
     selectTableLoading,
-    selectTermCountsByFacetName
+    selectTermCountsByFacetName,
 } from "../_ngrx/files.selectors";
 import { FetchSortedTableDataRequestAction } from "../_ngrx/table/fetch-sorted-table-data-request.action";
 import { SampleRowMapper } from "./sample-row-mapper";
@@ -44,28 +45,42 @@ import {
     getColumnDisplayName,
     getColumnSortKey,
     getColumnStyle,
-    isElementUnspecified
+    isElementUnspecified,
 } from "../table/table-methods";
 import { TableParams } from "../table/pagination/table-params.model";
 
 @Component({
     selector: "hca-table-samples",
     templateUrl: "./hca-table-samples.component.html",
-    styleUrls: ["./hca-table-samples.component.scss"]
+    styleUrls: ["./hca-table-samples.component.scss"],
 })
 export class HCATableSamplesComponent implements OnDestroy, OnInit {
-
     // Template variables
     data$: Observable<any[]>;
     public dataLoaded$: Observable<boolean>;
     public defaultSortOrder = {
         sort: "sampleId",
-        order: "asc"
+        order: "asc",
     };
     public displayedColumns = [
-        "sampleId", "projectTitle", "genusSpecies", "sampleEntityType", "organ", "organPart", "modelOrgan", "selectedCellType", 
-        "libraryConstructionApproach", "nucleicAcidSource", "pairedEnd", "workflow",
-        "organismAge", "biologicalSex", "disease", "donorDisease", "developmentStage", "totalCells"
+        "sampleId",
+        "projectTitle",
+        "genusSpecies",
+        "sampleEntityType",
+        "organ",
+        "organPart",
+        "modelOrgan",
+        "selectedCellType",
+        "libraryConstructionApproach",
+        "nucleicAcidSource",
+        "pairedEnd",
+        "workflow",
+        "organismAge",
+        "biologicalSex",
+        "disease",
+        "donorDisease",
+        "developmentStage",
+        "totalCells",
     ];
     public domainCountsByColumnName$: Observable<Map<string, number>>;
     public getColumnClass = getColumnClass;
@@ -92,10 +107,11 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
      * @param {ChangeDetectorRef} cdref
      * @param {ElementRef} elementRef
      */
-    constructor(private store: Store<AppState>,
-                private cdref: ChangeDetectorRef,
-                private elementRef: ElementRef) {
-    }
+    constructor(
+        private store: Store<AppState>,
+        private cdref: ChangeDetectorRef,
+        private elementRef: ElementRef
+    ) {}
 
     /**
      * Return the list of columns to be displayed.
@@ -103,7 +119,6 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
      * @returns {string[]}
      */
     public listColumns(): string[] {
-
         return this.displayedColumns;
     }
 
@@ -113,9 +128,11 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
      * @param {AnalysisProtocolViewedEvent} event
      */
     public onAnalysisProtocolViewed(event: AnalysisProtocolViewedEvent) {
-
-        const action =
-            new ViewAnalysisProtocolAction(event.analysisProtocol, event.url, GASource.SEARCH_RESULTS);
+        const action = new ViewAnalysisProtocolAction(
+            event.analysisProtocol,
+            event.url,
+            GASource.SEARCH_RESULTS
+        );
         this.store.dispatch(action);
     }
 
@@ -126,14 +143,19 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
      * @param {Sort} sort
      * @param {SelectedSearchTerm[]} selectedSearchTerms
      */
-    public sortTable(pm: Pagination, sort: Sort, selectedSearchTerms: SearchTerm[]) {
-
+    public sortTable(
+        pm: Pagination,
+        sort: Sort,
+        selectedSearchTerms: SearchTerm[]
+    ) {
         // Get column sort key, when sort key is specified by table config.
         const tableConfigColumnSortKey = getColumnSortKey(sort.active);
 
         // Set sort active to column sort key, when column sort key is specified and does not equal the sort active value.
-        if ( tableConfigColumnSortKey && tableConfigColumnSortKey !== sort.active ) {
-
+        if (
+            tableConfigColumnSortKey &&
+            tableConfigColumnSortKey !== sort.active
+        ) {
             sort.active = tableConfigColumnSortKey;
         }
 
@@ -142,8 +164,10 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
         // same header clears the sort. We want to force the sort to go back to the default sort - project title. We must
         // use this workaround here (_handleClick) due to a defect in programmatically setting the sort order in
         // Material (https://github.com/angular/components/issues/10242).
-        if ( !sort.direction ) {
-            const defaultSortHeader = this.matSort.sortables.get(this.defaultSortOrder.sort) as MatSortHeader;
+        if (!sort.direction) {
+            const defaultSortHeader = this.matSort.sortables.get(
+                this.defaultSortOrder.sort
+            ) as MatSortHeader;
             defaultSortHeader._handleClick();
             return;
         }
@@ -151,16 +175,18 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
         let tableParamsModel: TableParams = {
             size: pm.size,
             sort: sort.active,
-            order: sort.direction
+            order: sort.direction,
         };
 
-        const action =
-            new FetchSortedTableDataRequestAction(tableParamsModel, GAIndex.SAMPLES, GASource.SEARCH_RESULTS);
+        const action = new FetchSortedTableDataRequestAction(
+            tableParamsModel,
+            GAIndex.SAMPLES,
+            GASource.SEARCH_RESULTS
+        );
         this.store.dispatch(action);
     }
 
     ngAfterContentChecked() {
-
         this.cdref.detectChanges();
     }
 
@@ -168,7 +194,6 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -177,10 +202,11 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
      *  Set up table data source and pagination
      */
     ngOnInit() {
-
         // Initialize the new data source with an observable of the table data.
-        this.dataSource =
-            new EntitiesDataSource<SampleRowMapper>(this.store.pipe(select(selectTableData)), SampleRowMapper);
+        this.dataSource = new EntitiesDataSource<SampleRowMapper>(
+            this.store.pipe(select(selectTableData)),
+            SampleRowMapper
+        );
 
         // Get an observable of the table data.
         this.data$ = this.store.pipe(select(selectTableData));
@@ -193,13 +219,15 @@ export class HCATableSamplesComponent implements OnDestroy, OnInit {
 
         // Get the term counts for each facet - we'll use this as a basis for displaying a count of the current set of
         // values for each column
-        this.domainCountsByColumnName$ = this.store.pipe(select(selectTermCountsByFacetName));
+        this.domainCountsByColumnName$ = this.store.pipe(
+            select(selectTermCountsByFacetName)
+        );
 
         // Get the summary counts - used by columns with SUMMARY_COUNT countType
         this.selectFileSummary$ = this.store.pipe(select(selectFileSummary));
 
         this.dataLoaded$ = this.data$.pipe(
-            filter(data => !!data.length),
+            filter((data) => !!data.length),
             map(() => true)
         );
     }

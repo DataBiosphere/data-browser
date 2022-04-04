@@ -11,5 +11,5 @@ export const environment = {
     terraURL: "",
     title: "LungMAP Data Browser",
     deployment: "lungmap-dev",
-    zendeskURL: ""
+    zendeskURL: "",
 };

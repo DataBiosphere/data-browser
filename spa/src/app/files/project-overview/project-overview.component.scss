@@ -26,19 +26,27 @@ p {
 
 /* Display - block */
 /* Citation, contributors, contributor, curators, curator, .organizations, organization */
-.citation, .contributors, .contributors > span, .curators, .curators > span, .organizations, .organizations > span {
+.citation,
+.contributors,
+.contributors > span,
+.curators,
+.curators > span,
+.organizations,
+.organizations > span {
     display: block;
 }
 
 /* Display - flex */
 /* all <p>, class "flex50" */
-p, .flex50 {
+p,
+.flex50 {
     display: flex;
 }
 
 /* Flex - 1 */
 /* Class "flex50", "flex50" <div> */
-.flex50, .flex50 > div {
+.flex50,
+.flex50 > div {
     flex: 1;
 }
 
@@ -58,7 +66,10 @@ p, .flex50 {
 
 /* Margins - containers */
 /* Outer and inner lhs and rhs container */
-.outer > .lhs, .outer > .rhs, .inner > .lhs, .inner > .rhs {
+.outer > .lhs,
+.outer > .rhs,
+.inner > .lhs,
+.inner > .rhs {
     margin: 0;
 }
 
@@ -75,7 +86,7 @@ h4 + .stack {
 }
 
 /* Publication - add space between title and official publication indicator */
-.publication span+span {
+.publication span + span {
     margin-left: 4px;
 }
 
@@ -93,8 +104,8 @@ h4 + .stack {
 
 /* Sup */
 /* Contributors, organizations */
-.contributors, .organizations {
-
+.contributors,
+.organizations {
     sup {
         font-size: smaller;
         vertical-align: super;
@@ -102,7 +113,9 @@ h4 + .stack {
 }
 
 /* Contributors, curators, organizations */
-.contributors, .curators, .organizations {
+.contributors,
+.curators,
+.organizations {
     white-space: pre-wrap;
 }
 
@@ -121,7 +134,6 @@ h4 + .stack {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 480px) {
-
     /* Flex direction - row */
     /* Class "flex50 inner" */
     .flex50.inner {
@@ -145,7 +157,6 @@ h4 + .stack {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 600px) {
-
     /* Flex direction - column */
     /* Class "flex50 inner" */
     .flex50.inner {
@@ -169,7 +180,6 @@ h4 + .stack {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 720px) {
-
     /* Flex direction - row */
     /* Class "flex50 inner" */
     .flex50.inner {
@@ -193,7 +203,6 @@ h4 + .stack {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 960px) {
-
     /* Flex direction - row */
     /* Class "flex50 outer" */
     .flex50.outer {
@@ -217,7 +226,8 @@ h4 + .stack {
     }
 
     /* Inner lhs container */
-    .inner > .lhs, .inner > .rhs {
+    .inner > .lhs,
+    .inner > .rhs {
         margin-right: 0;
     }
 
@@ -232,7 +242,6 @@ h4 + .stack {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 1024px) {
-
     /* Styles */
 
     /* Margins - containers */
@@ -252,7 +261,6 @@ h4 + .stack {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 1440px) {
-
     /* Flex direction - row */
     /* Class "flex50 inner" */
     .flex50.inner {

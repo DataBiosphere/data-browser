@@ -15,14 +15,17 @@ import { GACategory } from "../../../shared/analytics/ga-category.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
-export class FetchFileFileLocationRequestAction implements Action, TrackingAction {
-
+export class FetchFileFileLocationRequestAction
+    implements Action, TrackingAction
+{
     public static ACTION_TYPE = "FILE.FETCH_FILE_FILE_LOCATION_REQUEST";
     public readonly type = FetchFileFileLocationRequestAction.ACTION_TYPE;
 
-    constructor(public readonly fileUrl: string,
-                public readonly fileName: string,
-                public readonly fileFormat: string) {}
+    constructor(
+        public readonly fileUrl: string,
+        public readonly fileName: string,
+        public readonly fileFormat: string
+    ) {}
 
     /**
      * Return the clear action as a GA event.
@@ -30,8 +33,7 @@ export class FetchFileFileLocationRequestAction implements Action, TrackingActio
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.FILE,
             action: GAAction.DOWNLOAD,
@@ -41,8 +43,8 @@ export class FetchFileFileLocationRequestAction implements Action, TrackingActio
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_URL]: this.fileUrl,
                 [GADimension.RELATED_ENTITY_TYPE]: this.fileFormat,
-                [GADimension.RELATED_ENTITY_ID]: this.fileName
-            }
+                [GADimension.RELATED_ENTITY_ID]: this.fileName,
+            },
         };
     }
 }

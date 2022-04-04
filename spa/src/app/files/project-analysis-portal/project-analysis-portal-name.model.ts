@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Set of supported project-level analysis portals.  
+ * Set of supported project-level analysis portals.
  */
 
 export enum ProjectAnalysisPortalName {
@@ -10,5 +10,5 @@ export enum ProjectAnalysisPortalName {
     "CELLXGENE" = "cellxgene",
     "GENOME_BROWSER" = "UCSC Genome Browser",
     "LUNGMAP_APPS" = "LungMAP Apps",
-    "STEM_CELL_HUB" = "The Stem Cell Hub"
+    "STEM_CELL_HUB" = "The Stem Cell Hub",
 }

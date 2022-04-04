@@ -17,7 +17,6 @@ import { CopyToClipboardComponent } from "../copy-to-clipboard/copy-to-clipboard
 import { FileDownloadComponent } from "./file-download.component";
 
 describe("FileDownloadComponent", () => {
-
     let component: FileDownloadComponent;
     let fixture: ComponentFixture<FileDownloadComponent>;
 
@@ -32,21 +31,14 @@ describe("FileDownloadComponent", () => {
     const TEST_VALUE_URL = "https://test.com";
     const TEST_FILE_DOWNLOAD = {
         name: TEST_VALUE_LABEL_MTX,
-        url: TEST_VALUE_URL
+        url: TEST_VALUE_URL,
     };
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
-            declarations: [
-                CopyToClipboardComponent,
-                FileDownloadComponent
-            ],
-            imports: [
-                ClipboardModule,
-                MatIconModule
-            ],
-            providers: []
+            declarations: [CopyToClipboardComponent, FileDownloadComponent],
+            imports: [ClipboardModule, MatIconModule],
+            providers: [],
         }).compileComponents();
 
         fixture = TestBed.createComponent(FileDownloadComponent);
@@ -57,7 +49,6 @@ describe("FileDownloadComponent", () => {
      * Smoke test
      */
     it("should create an instance", () => {
-
         expect(component).toBeTruthy();
     });
 
@@ -65,7 +56,6 @@ describe("FileDownloadComponent", () => {
      * Confirm url is added to href attribute.
      */
     it("should add url to href", () => {
-
         // Set up initial component state
         component.link = TEST_FILE_DOWNLOAD;
 
@@ -82,7 +72,6 @@ describe("FileDownloadComponent", () => {
      * Confirm file name label is displayed when label is a value.
      */
     it("displays file name label when label is a value", () => {
-
         // Set up initial component state
         component.link = TEST_FILE_DOWNLOAD;
 
@@ -99,10 +88,9 @@ describe("FileDownloadComponent", () => {
      * Confirm file name label is not displayed when label is empty.
      */
     it("should not display file name label when label is empty", () => {
-
         // Set up initial component state
         component.link = {
-            url: TEST_VALUE_URL
+            url: TEST_VALUE_URL,
         };
 
         // Trigger change detection so template updates accordingly
@@ -118,7 +106,6 @@ describe("FileDownloadComponent", () => {
      * Confirm component <copy-to-clipboard> is displayed when hide copy to clipboard is false.
      */
     it("displays component copy to clipboard when hide copy to clipboard is false", () => {
-
         // Set up initial component state
         component.link = TEST_FILE_DOWNLOAD;
         component.hideCopyToClipboard = false;
@@ -126,7 +113,9 @@ describe("FileDownloadComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        const copyToClipboardDE = getDEBySelector(SELECTOR_COMPONENT_COPY_TO_CLIPBOARD);
+        const copyToClipboardDE = getDEBySelector(
+            SELECTOR_COMPONENT_COPY_TO_CLIPBOARD
+        );
 
         // Confirm label is displayed
         expect(copyToClipboardDE).not.toBe(null);
@@ -136,7 +125,6 @@ describe("FileDownloadComponent", () => {
      * Confirm component <copy-to-clipboard> is not displayed when hide copy to clipboard is true.
      */
     it("should not display component copy to clipboard when hide copy to clipboard is true", () => {
-
         // Set up initial component state
         component.link = TEST_FILE_DOWNLOAD;
         component.hideCopyToClipboard = true;
@@ -144,7 +132,9 @@ describe("FileDownloadComponent", () => {
         // Trigger change detection so template updates accordingly
         fixture.detectChanges();
 
-        const copyToClipboardDE = getDEBySelector(SELECTOR_COMPONENT_COPY_TO_CLIPBOARD);
+        const copyToClipboardDE = getDEBySelector(
+            SELECTOR_COMPONENT_COPY_TO_CLIPBOARD
+        );
 
         // Confirm label is displayed
         expect(copyToClipboardDE).toBe(null);
@@ -154,16 +144,22 @@ describe("FileDownloadComponent", () => {
      * Confirm component <copy-to-clipboard> is displayed with input property "copyToClipboardLink" when url is a value.
      */
     it(`displays component copy to clipboard with input property "copyToClipboardLink" when url is a value`, () => {
-
         // Set up initial component state
         component.link = TEST_FILE_DOWNLOAD;
 
         fixture.detectChanges();
 
-        const copyToClipboardDE = getDEBySelector(SELECTOR_COMPONENT_COPY_TO_CLIPBOARD);
+        const copyToClipboardDE = getDEBySelector(
+            SELECTOR_COMPONENT_COPY_TO_CLIPBOARD
+        );
 
         // Confirm input property "copyToClipboardLink" equals input value "url"
-        expect(getDEInputPropertyValue(copyToClipboardDE, INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK)).toEqual(component.link.url);
+        expect(
+            getDEInputPropertyValue(
+                copyToClipboardDE,
+                INPUT_PROPERTY_COPY_TO_CLIPBOARD_LINK
+            )
+        ).toEqual(component.link.url);
     });
 
     /**
@@ -173,7 +169,6 @@ describe("FileDownloadComponent", () => {
      * @returns {DebugElement}
      */
     function getDEBySelector(selector: string): DebugElement {
-
         return fixture.debugElement.query(By.css(selector));
     }
 
@@ -184,9 +179,11 @@ describe("FileDownloadComponent", () => {
      * @param {string} inputProperty
      * @returns {any}
      */
-    function getDEInputPropertyValue(debugEl: DebugElement, inputProperty: string): any {
-
-        if ( !debugEl ) {
+    function getDEInputPropertyValue(
+        debugEl: DebugElement,
+        inputProperty: string
+    ): any {
+        if (!debugEl) {
             return;
         }
 
@@ -201,9 +198,7 @@ describe("FileDownloadComponent", () => {
      * @returns {any}
      */
     function getDEProperty(debugEl: DebugElement, property: string): any {
-
-        if ( !debugEl ) {
-
+        if (!debugEl) {
             return;
         }
 
@@ -217,9 +212,7 @@ describe("FileDownloadComponent", () => {
      * @returns {string}
      */
     function getDETextContent(debugEl: DebugElement): string {
-
-        if ( !debugEl ) {
-
+        if (!debugEl) {
             return;
         }
 

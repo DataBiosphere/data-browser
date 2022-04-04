@@ -40,7 +40,8 @@
     }
 
     /* Search and facet group menu */
-    .hca-input, .facet-group-menu {
+    .hca-input,
+    .facet-group-menu {
         align-items: center;
         border: 1px solid $hca-gray-light;
         border-radius: 3px;
@@ -63,7 +64,8 @@
         }
 
         /* Field is on focus */
-        &:focus, &.active {
+        &:focus,
+        &.active {
             border: 1px solid $hca-primary;
             outline: none;
         }
@@ -291,7 +293,6 @@
  * XSmall - iphone 5/SE
  */
 @media screen and (max-width: 374px) {
-
     /* Input on x-small device */
     .wrapper .hca-input {
         width: 200px;
@@ -303,10 +304,8 @@
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 960px) {
-
     /* Wrapper */
     .wrapper {
-
         /* Filter container */
         .filter {
             align-items: center;
@@ -318,14 +317,12 @@
             }
         }
     }
-
 }
 
 /**
  * HCA specific breakpoint
  */
 @media screen and (min-width: 1200px) {
-
     /* Wrapper */
     .wrapper {
         padding: 0 30px;
@@ -341,4 +338,3 @@
         }
     }
 }
-

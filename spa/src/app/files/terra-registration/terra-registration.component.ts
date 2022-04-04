@@ -23,15 +23,14 @@ import { TerraRegistrationComponentState } from "./terra-registration.component.
 @Component({
     selector: "terra-registration",
     templateUrl: "terra-registration.component.html",
-    styleUrls: ["terra-registration.component.scss"]
+    styleUrls: ["terra-registration.component.scss"],
 })
 export class TerraRegistrationComponent implements OnDestroy, OnInit {
-    
     // Template variables
     public state$ = new BehaviorSubject<TerraRegistrationComponentState>({
-        loaded: false
+        loaded: false,
     });
-    
+
     // Locals
     private ngDestroy$ = new Subject();
 
@@ -39,15 +38,17 @@ export class TerraRegistrationComponent implements OnDestroy, OnInit {
      * @param {ConfigService} configService
      * @param {Store<AppState} store
      */
-    constructor(private configService: ConfigService, private store: Store<AppState>) {}
+    constructor(
+        private configService: ConfigService,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Returns the Terra registration URL.
-     * 
+     *
      * @returns {string}
      */
     public getRegistrationUrl(): string {
-
         return this.configService.getTerraExportUrl();
     }
 
@@ -58,7 +59,6 @@ export class TerraRegistrationComponent implements OnDestroy, OnInit {
      * @returns {string}
      */
     public getEmail(user: GoogleUser): string {
-
         return user.getBasicProfile().getEmail();
     }
 
@@ -66,7 +66,6 @@ export class TerraRegistrationComponent implements OnDestroy, OnInit {
      * Dispatch event to logout user via Google.
      */
     public onLogoutClicked() {
-
         this.store.dispatch(new LogoutRequestAction());
     }
 
@@ -74,7 +73,6 @@ export class TerraRegistrationComponent implements OnDestroy, OnInit {
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -83,15 +81,13 @@ export class TerraRegistrationComponent implements OnDestroy, OnInit {
      * Grab the current user credentials.
      */
     public ngOnInit() {
-
-        this.store.pipe(
-            select(selectUser),
-            takeUntil(this.ngDestroy$)
-        ).subscribe(user => {
-            this.state$.next({
-                loaded: true,
-                user
-            })
-        });
+        this.store
+            .pipe(select(selectUser), takeUntil(this.ngDestroy$))
+            .subscribe((user) => {
+                this.state$.next({
+                    loaded: true,
+                    user,
+                });
+            });
     }
 }

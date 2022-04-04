@@ -7,7 +7,6 @@
  */
 
 export interface FacetGroup {
-
     facetGroupName: string;
     facetNames: string[];
 }

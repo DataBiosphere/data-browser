@@ -25,9 +25,11 @@ export class ViewAnalysisProtocolAction implements Action, TrackingAction {
      * @param {string} url
      * @param {GASource} source
      */
-    constructor(public workflow: string,
-                public url: string,
-                public source: GASource) {}
+    constructor(
+        public workflow: string,
+        public url: string,
+        public source: GASource
+    ) {}
 
     /**
      * Return the clear action as a GA event.
@@ -35,8 +37,7 @@ export class ViewAnalysisProtocolAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.PORTAL_LINK,
             action: GAAction.CLICK,
@@ -45,8 +46,8 @@ export class ViewAnalysisProtocolAction implements Action, TrackingAction {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_URL]: this.url,
-                [GADimension.SOURCE]: this.source
-            }
+                [GADimension.SOURCE]: this.source,
+            },
         };
     }
 }

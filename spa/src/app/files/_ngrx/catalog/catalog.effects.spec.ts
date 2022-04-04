@@ -32,7 +32,6 @@ import { LocalStorageService } from "../../../storage/local-storage.service";
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe("CatalogEffects", () => {
-
     let catalogService: CatalogService;
     let gtmService: GTMService;
     let effects: CatalogEffects;
@@ -41,7 +40,7 @@ describe("CatalogEffects", () => {
 
     const ATLAS = {
         defaultCatalog: DCPCatalog.DCP2,
-        catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2]
+        catalogs: [DCPCatalog.DCP1, DCPCatalog.DCP2],
     };
 
     // Override selectors
@@ -51,11 +50,8 @@ describe("CatalogEffects", () => {
      * Setup for each test in suite.
      */
     beforeEach(() => {
-
         TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule,
-            ],
+            imports: [RouterTestingModule],
             providers: [
                 provideMockActions(() => actions$),
                 CatalogEffects,
@@ -64,24 +60,27 @@ describe("CatalogEffects", () => {
                 GTMService,
                 {
                     provide: HttpClient,
-                    useValue: jasmine.createSpyObj("HttpClient", ["get"])
+                    useValue: jasmine.createSpyObj("HttpClient", ["get"]),
                 },
                 {
                     provide: LocalStorageService,
-                    useValue: jasmine.createSpyObj("LocalStorageService", ["get", "set"])
+                    useValue: jasmine.createSpyObj("LocalStorageService", [
+                        "get",
+                        "set",
+                    ]),
                 },
                 provideMockStore({
                     initialState: {
-                        catalog: CatalogState.getDefaultState()
-                    }
+                        catalog: CatalogState.getDefaultState(),
+                    },
                 }),
                 {
                     provide: "Window",
-                    useFactory: (() => {
+                    useFactory: () => {
                         return window;
-                    })
-                }
-            ]
+                    },
+                },
+            ],
         });
 
         catalogService = TestBed.inject(CatalogService);
@@ -98,14 +97,12 @@ describe("CatalogEffects", () => {
     });
 
     describe("fetchCatalogs$", () => {
-
         /**
          * Service is called on request action.
          */
         it("calls service method to fetch catalogs", () => {
-
             spyOn(catalogService, "fetchCatalogs").and.returnValue(of(ATLAS));
-            
+
             actions$ = of(new FetchCatalogsRequestAction());
             effects.fetchCatalogs$.subscribe();
             expect(catalogService.fetchCatalogs).toHaveBeenCalled();
@@ -115,15 +112,14 @@ describe("CatalogEffects", () => {
          * Fetch success action is dispatched
          */
         it("dispatches fetch success action", () => {
-
             actions$ = hot("--a-", {
-                a: new FetchCatalogsRequestAction()
+                a: new FetchCatalogsRequestAction(),
             });
 
             spyOn(catalogService, "fetchCatalogs").and.returnValue(of(ATLAS));
 
             const expected = cold("--b", {
-                b: new FetchCatalogsSuccessAction(ATLAS)
+                b: new FetchCatalogsSuccessAction(ATLAS),
             });
 
             expect(effects.fetchCatalogs$).toBeObservable(expected);
@@ -133,17 +129,18 @@ describe("CatalogEffects", () => {
          * Error actions are dispatched on error
          */
         it("dispatches error actions on error", () => {
-
             actions$ = hot("--a-", {
-                a: new FetchCatalogsRequestAction()
+                a: new FetchCatalogsRequestAction(),
             });
 
             const errorMessage = "error";
-            spyOn(catalogService, "fetchCatalogs").and.returnValue(throwError(errorMessage));
+            spyOn(catalogService, "fetchCatalogs").and.returnValue(
+                throwError(errorMessage)
+            );
 
             const expected = cold("--(bc)", {
                 b: new FetchCatalogsErrorAction(),
-                c: new ErrorAction(errorMessage)
+                c: new ErrorAction(errorMessage),
             });
 
             expect(effects.fetchCatalogs$).toBeObservable(expected);
@@ -151,20 +148,20 @@ describe("CatalogEffects", () => {
     });
 
     describe("viewCatalog$", () => {
-
         /**
          * Confirm tracking is called.
          */
         it("tracks view of catalog", () => {
-
             spyOn(gtmService, "trackEvent").and.callThrough();
 
             const action = new ViewCatalogAction("foo");
             actions$ = of(action);
             effects.viewCatalog$.subscribe();
-            expect(gtmService.trackEvent).toHaveBeenCalledWith(action.asEvent({
-                catalog: mockSelectCatalog
-            }));
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(
+                action.asEvent({
+                    catalog: mockSelectCatalog,
+                })
+            );
         });
     });
 });

@@ -10,10 +10,11 @@ import { TestBed } from "@angular/core/testing";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import {
     ActivatedRoute,
-    ActivatedRouteSnapshot, Params,
+    ActivatedRouteSnapshot,
+    Params,
     Router,
     RouterStateSnapshot,
-    UrlTree
+    UrlTree,
 } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
@@ -33,7 +34,6 @@ import { ActivatedRouteStub } from "../../../test/activated-route.stub";
 import { RouterStateSnapshotStub } from "../../../test/router-state-snapshot.stub";
 
 describe("FilterCanActivateGuard", () => {
-
     let activatedRouteSnapshot: jasmine.SpyObj<ActivatedRouteSnapshot>; // Required for canActivate
     let guard: FilterCanActivateGuard;
     let router: jasmine.SpyObj<Router>;
@@ -41,48 +41,59 @@ describe("FilterCanActivateGuard", () => {
     let routerStateSnapshotUrl: jasmine.Spy;
     let searchTermUrlService; // No type to enable jasmine mocking (eg .and.returnValue)
     let store: MockStore<FilesState>;
-    
+
     const selectedSearchTermsByKey = new Map([
-        [FileFacetName.GENUS_SPECIES, new Set([
-            new SearchFacetTerm(FileFacetName.GENUS_SPECIES, GenusSpecies.HOMO_SAPIENS)
-        ])]
+        [
+            FileFacetName.GENUS_SPECIES,
+            new Set([
+                new SearchFacetTerm(
+                    FileFacetName.GENUS_SPECIES,
+                    GenusSpecies.HOMO_SAPIENS
+                ),
+            ]),
+        ],
     ]);
 
     /**
      * Setup for each test in suite.
      */
     beforeEach(() => {
-
         TestBed.configureTestingModule({
-            imports: [
-            ],
+            imports: [],
             providers: [
                 // Nested dependency
                 {
                     provide: ActivatedRoute,
-                    useClass: ActivatedRouteStub
+                    useClass: ActivatedRouteStub,
                 },
                 FilterCanActivateGuard,
                 SearchTermUrlService,
                 {
                     provide: Router,
-                    useValue: jasmine.createSpyObj("Router", ["navigate", "parseUrl"])
+                    useValue: jasmine.createSpyObj("Router", [
+                        "navigate",
+                        "parseUrl",
+                    ]),
                 },
-                provideMockStore({initialState: DEFAULT_PROJECTS_STATE}),
-            ]
+                provideMockStore({ initialState: DEFAULT_PROJECTS_STATE }),
+            ],
         });
 
-        activatedRouteSnapshot = new ActivatedRouteSnapshotStub() as jasmine.SpyObj<ActivatedRouteSnapshot>;
+        activatedRouteSnapshot =
+            new ActivatedRouteSnapshotStub() as jasmine.SpyObj<ActivatedRouteSnapshot>;
         guard = TestBed.inject(FilterCanActivateGuard);
-        
-        routerStateSnapshot = new RouterStateSnapshotStub() as jasmine.SpyObj<RouterStateSnapshot>;
-        
+
+        routerStateSnapshot =
+            new RouterStateSnapshotStub() as jasmine.SpyObj<RouterStateSnapshot>;
+
         // Set up router to return stub UrlTree containing empty query params object, on parseUrl.
         router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
-        router.parseUrl.and.returnValue({queryParams: {} as Params} as UrlTree);
-        
+        router.parseUrl.and.returnValue({
+            queryParams: {} as Params,
+        } as UrlTree);
+
         searchTermUrlService = TestBed.inject(SearchTermUrlService);
-        
+
         store = TestBed.inject(Store) as MockStore<AppState>;
 
         // Set up router state snapshot to return dummy URL value.
@@ -100,13 +111,16 @@ describe("FilterCanActivateGuard", () => {
      * terms.
      */
     it("allows navigation to continue if filter and selected search terms are both empty", (doneFn: DoneFn) => {
-
         store.overrideSelector(selectSelectedSearchTermsBySearchKey, new Map());
-        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
+        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue(
+            {}
+        );
 
-        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
+        const canActivate = guard.canActivate(
+            activatedRouteSnapshot,
+            routerStateSnapshot
+        );
         (canActivate as Observable<boolean>).subscribe((returnValue) => {
-
             expect(returnValue).toEqual(true);
             doneFn();
         });
@@ -116,17 +130,25 @@ describe("FilterCanActivateGuard", () => {
      * Navigation redirects as is if filter is not currently specified but there are selected search terms.
      */
     it("redirects if filter does not match selected search terms", (doneFn: DoneFn) => {
+        store.overrideSelector(
+            selectSelectedSearchTermsBySearchKey,
+            selectedSearchTermsByKey
+        );
+        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue(
+            {}
+        );
 
-        store.overrideSelector(selectSelectedSearchTermsBySearchKey, selectedSearchTermsByKey);
-        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({});
-
-        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
+        const canActivate = guard.canActivate(
+            activatedRouteSnapshot,
+            routerStateSnapshot
+        );
         (canActivate as Observable<UrlTree>).subscribe((urlTree) => {
-
             const filterParam = urlTree.queryParams["filter"];
             expect(filterParam).toBeTruthy();
-            
-            const expectedFilter = searchTermUrlService.stringifySearchTerms(selectedSearchTermsByKey);
+
+            const expectedFilter = searchTermUrlService.stringifySearchTerms(
+                selectedSearchTermsByKey
+            );
             expect(filterParam).toEqual(expectedFilter);
             doneFn();
         });
@@ -136,17 +158,25 @@ describe("FilterCanActivateGuard", () => {
      * Navigation continues as is if filter is currently specified in URL and it matches the selected search terms.
      */
     it("allows navigation to continue if filter is specified in query string", (doneFn: DoneFn) => {
+        store.overrideSelector(
+            selectSelectedSearchTermsBySearchKey,
+            selectedSearchTermsByKey
+        );
 
-        store.overrideSelector(selectSelectedSearchTermsBySearchKey, selectedSearchTermsByKey);
+        const filter = searchTermUrlService.stringifySearchTerms(
+            selectedSearchTermsByKey
+        );
+        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({
+            filter,
+        });
 
-        const filter = searchTermUrlService.stringifySearchTerms(selectedSearchTermsByKey);
-        spyOnProperty(activatedRouteSnapshot, "queryParams").and.returnValue({filter});
-
-        const canActivate = guard.canActivate(activatedRouteSnapshot, routerStateSnapshot);
+        const canActivate = guard.canActivate(
+            activatedRouteSnapshot,
+            routerStateSnapshot
+        );
         (canActivate as Observable<boolean>).subscribe((returnValue) => {
-
             expect(returnValue).toEqual(true);
             doneFn();
         });
-    });    
+    });
 });

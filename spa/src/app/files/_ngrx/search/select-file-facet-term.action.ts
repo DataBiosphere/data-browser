@@ -21,8 +21,9 @@ import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 
-export class SelectFileFacetTermAction implements Action, SelectSearchTermAction, TrackingAction {
-
+export class SelectFileFacetTermAction
+    implements Action, SelectSearchTermAction, TrackingAction
+{
     public static ACTION_TYPE = "FILE.SEARCH.SELECT_FACET_TERM";
     public readonly type = SelectFileFacetTermAction.ACTION_TYPE;
 
@@ -32,10 +33,12 @@ export class SelectFileFacetTermAction implements Action, SelectSearchTermAction
      * @param {boolean} selected
      * @param {GASource} source
      */
-    constructor(public readonly facetName: string,
-                public readonly termName: string,
-                public readonly selected = true,
-                public source: GASource) {}
+    constructor(
+        public readonly facetName: string,
+        public readonly termName: string,
+        public readonly selected = true,
+        public source: GASource
+    ) {}
 
     /**
      * Return the selected file facet term a GA event.
@@ -43,8 +46,7 @@ export class SelectFileFacetTermAction implements Action, SelectSearchTermAction
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, index, currentQuery}): GAEvent {
-        
+    public asEvent({ catalog, index, currentQuery }): GAEvent {
         return {
             category: GACategory.SEARCH,
             action: this.selected ? GAAction.SELECT : GAAction.DESELECT,
@@ -56,8 +58,8 @@ export class SelectFileFacetTermAction implements Action, SelectSearchTermAction
                 [GADimension.FACET]: this.facetName,
                 [GADimension.INDEX]: index,
                 [GADimension.SOURCE]: this.source,
-                [GADimension.TERM]: this.termName
-            }
+                [GADimension.TERM]: this.termName,
+            },
         };
     }
 
@@ -67,7 +69,6 @@ export class SelectFileFacetTermAction implements Action, SelectSearchTermAction
      * @returns {SearchTerm}
      */
     public asSearchTerm(): SearchTerm {
-
         return new SearchFacetTerm(this.facetName, this.termName);
     }
 
@@ -75,7 +76,6 @@ export class SelectFileFacetTermAction implements Action, SelectSearchTermAction
      * They key of a facet file term is its name.
      */
     public getTermKey(): string {
-
         return this.termName;
     }
 }

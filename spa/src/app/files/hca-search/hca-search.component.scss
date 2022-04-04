@@ -26,7 +26,8 @@
     z-index: 14; /* Positions above overlay - to allow for direct change of menu selection */
 
     /* Field is on focus */
-    &:focus, &.active {
+    &:focus,
+    &.active {
         border: 1px solid $hca-primary;
         outline: none;
     }
@@ -107,7 +108,6 @@
  * XSmall - iphone 5/SE
  */
 @media screen and (max-width: 374px) {
-
     .hca-input {
         width: 200px;
     }
@@ -117,9 +117,7 @@
  * HCA specific breakpoint
  */
 @media screen and (min-width: 1200px) {
-
     .hca-input {
         width: 350px;
     }
 }
-

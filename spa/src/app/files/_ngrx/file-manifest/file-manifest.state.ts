@@ -27,15 +27,14 @@ const DEFAULT_FILE_MANIFEST_STATE = {
     filesFacets: [],
     fileTypeSummaries: [],
     manifestResponse: {
-        status: ManifestStatus.NOT_STARTED
+        status: ManifestStatus.NOT_STARTED,
     } as ManifestResponse,
     projectFileSummary: {} as FileSummary,
     projectSpeciesFacet: {} as Facet,
-    selectedProjectSearchTerms: []
+    selectedProjectSearchTerms: [],
 };
 
 export class FileManifestState {
-
     public readonly filesFacets: Facet[]; // Set of facets from files endpoint
     public readonly fileTypeSummaries: FileTypeSummary[];
     public readonly manifestResponse: ManifestResponse;
@@ -56,33 +55,32 @@ export class FileManifestState {
      * @returns {FileManifestState}
      */
     public clearFilesFacets(): FileManifestState {
-
         return new FileManifestState({
             filesFacets: [],
             fileTypeSummaries: this.fileTypeSummaries,
             manifestResponse: this.manifestResponse,
             projectFileSummary: this.projectFileSummary,
             projectSpeciesFacet: this.projectSpeciesFacet,
-            selectedProjectSearchTerms: this.selectedProjectSearchTerms
+            selectedProjectSearchTerms: this.selectedProjectSearchTerms,
         });
     }
 
     /**
      * File manifest request has been cancelled (for example, from navigation away from download); clear corresponding
      * state.
-     * 
+     *
      * @param {ClearFileManifestUrlAction} action
      */
     public clearFileManifestUrl(action: ClearFileManifestUrlAction) {
         return new FileManifestState({
             filesFacets: this.filesFacets,
             manifestResponse: {
-                status: ManifestStatus.NOT_STARTED
+                status: ManifestStatus.NOT_STARTED,
             } as ManifestResponse,
             fileTypeSummaries: this.fileTypeSummaries,
             projectFileSummary: this.projectFileSummary,
             projectSpeciesFacet: this.projectSpeciesFacet,
-            selectedProjectSearchTerms: this.selectedProjectSearchTerms
+            selectedProjectSearchTerms: this.selectedProjectSearchTerms,
         });
     }
 
@@ -97,25 +95,26 @@ export class FileManifestState {
             fileTypeSummaries: [],
             projectFileSummary: this.projectFileSummary,
             projectSpeciesFacet: this.projectSpeciesFacet,
-            selectedProjectSearchTerms: this.selectedProjectSearchTerms
+            selectedProjectSearchTerms: this.selectedProjectSearchTerms,
         });
     }
-    
+
     /**
      * Handle set of file facets returned from the files end point, used to populate data summary.
      *
      * @param {FetchFilesFacetsSuccessAction} action
      * @returns {FileManifestState}
      */
-    public receiveFilesFacets(action: FetchFilesFacetsSuccessAction): FileManifestState {
-
+    public receiveFilesFacets(
+        action: FetchFilesFacetsSuccessAction
+    ): FileManifestState {
         return new FileManifestState({
             filesFacets: action.filesFacets,
             fileTypeSummaries: this.fileTypeSummaries,
             manifestResponse: this.manifestResponse,
             projectFileSummary: this.projectFileSummary,
             projectSpeciesFacet: this.projectSpeciesFacet,
-            selectedProjectSearchTerms: this.selectedProjectSearchTerms
+            selectedProjectSearchTerms: this.selectedProjectSearchTerms,
         });
     }
 
@@ -127,14 +126,16 @@ export class FileManifestState {
      * @param {FetchFileManifestUrlSuccessAction} action
      * @returns {FileManifestState}
      */
-    public fetchFileManifestUrlSuccess(action: FetchFileManifestUrlSuccessAction) {
+    public fetchFileManifestUrlSuccess(
+        action: FetchFileManifestUrlSuccessAction
+    ) {
         return new FileManifestState({
             filesFacets: this.filesFacets,
             manifestResponse: action.response,
             fileTypeSummaries: this.fileTypeSummaries,
             projectFileSummary: this.projectFileSummary,
             projectSpeciesFacet: this.projectSpeciesFacet,
-            selectedProjectSearchTerms: this.selectedProjectSearchTerms
+            selectedProjectSearchTerms: this.selectedProjectSearchTerms,
         });
     }
 
@@ -153,14 +154,16 @@ export class FileManifestState {
      * @param {FetchFileManifestFileTypeSummariesSuccessAction} action
      * @returns {FileManifestState}
      */
-    public fetchFileTypeSummariesSuccess(action: FetchFileManifestFileTypeSummariesSuccessAction) {
+    public fetchFileTypeSummariesSuccess(
+        action: FetchFileManifestFileTypeSummariesSuccessAction
+    ) {
         return new FileManifestState({
             filesFacets: this.filesFacets,
             manifestResponse: this.manifestResponse,
             fileTypeSummaries: action.fileTypeSummaries,
             projectFileSummary: this.projectFileSummary,
             projectSpeciesFacet: this.projectSpeciesFacet,
-            selectedProjectSearchTerms: this.selectedProjectSearchTerms
+            selectedProjectSearchTerms: this.selectedProjectSearchTerms,
         });
     }
     /**
@@ -169,14 +172,16 @@ export class FileManifestState {
      * @param {FetchFileManifestFileTypeSummariesSuccessAction} action
      * @returns {FileManifestState}
      */
-    public fetchProjectFileSummary(action: FetchProjectFileSummarySuccessAction) {
+    public fetchProjectFileSummary(
+        action: FetchProjectFileSummarySuccessAction
+    ) {
         return new FileManifestState({
             filesFacets: this.filesFacets,
             manifestResponse: this.manifestResponse,
             fileTypeSummaries: this.fileTypeSummaries,
             projectFileSummary: action.fileSummary,
             projectSpeciesFacet: this.projectSpeciesFacet,
-            selectedProjectSearchTerms: this.selectedProjectSearchTerms
+            selectedProjectSearchTerms: this.selectedProjectSearchTerms,
         });
     }
 
@@ -186,8 +191,9 @@ export class FileManifestState {
      * @param {SelectProjectFileFacetTermAction} action
      * @returns {FacetState}
      */
-    public selectTerm(action: SelectProjectFileFacetTermAction): FileManifestState {
-
+    public selectTerm(
+        action: SelectProjectFileFacetTermAction
+    ): FileManifestState {
         const facetName = action.facetName;
         const termName = action.termName;
 
@@ -197,7 +203,10 @@ export class FileManifestState {
             fileTypeSummaries: this.fileTypeSummaries,
             projectFileSummary: this.projectFileSummary,
             projectSpeciesFacet: this.projectSpeciesFacet,
-            selectedProjectSearchTerms: this.updateSearchTermsOnTermSelected(action.asSearchTerm(), action.selected)
+            selectedProjectSearchTerms: this.updateSearchTermsOnTermSelected(
+                action.asSearchTerm(),
+                action.selected
+            ),
         });
     }
 
@@ -207,8 +216,9 @@ export class FileManifestState {
      * @param {SelectProjectFileFacetTermAction} action
      * @returns {FacetState}
      */
-    public setProjectSpeciesFacet(action: FetchProjectSpeciesFacetSuccessAction): FileManifestState {
-
+    public setProjectSpeciesFacet(
+        action: FetchProjectSpeciesFacetSuccessAction
+    ): FileManifestState {
         return new FileManifestState({
             filesFacets: this.filesFacets,
             manifestResponse: this.manifestResponse,
@@ -228,24 +238,25 @@ export class FileManifestState {
 
     /**
      * Term has been selected: build updated set of facets.
-     * 
+     *
      * @param {string} facetName
      * @param {string} termName
      * @returns {Facet[]}
      */
-    private updateFacetsOnTermSelected(facetName: string, termName: string): Facet[] {
-        
+    private updateFacetsOnTermSelected(
+        facetName: string,
+        termName: string
+    ): Facet[] {
         return this.filesFacets.reduce((accum, f) => {
-
             // Ignore facets that aren't file facets, or file facets that aren't the selected facet.
-            if ( !(f instanceof FileFacet) || f.name !== facetName) {
+            if (!(f instanceof FileFacet) || f.name !== facetName) {
                 accum.push(f);
             }
             // Otherwise update the selected value of the selected term.
             else {
                 accum.push(f.selectTerm(termName));
             }
-            
+
             return accum;
         }, []);
     }
@@ -257,20 +268,21 @@ export class FileManifestState {
      * @param {boolean} selected
      * @returns {SearchTerm[]}
      */
-    private updateSearchTermsOnTermSelected(searchTerm: SearchTerm, selected: boolean): SearchTerm[] {
-
+    private updateSearchTermsOnTermSelected(
+        searchTerm: SearchTerm,
+        selected: boolean
+    ): SearchTerm[] {
         // Handle case where search term is being added to set.
-        if ( selected ) {
-            return [
-                ...this.selectedProjectSearchTerms,
-                searchTerm
-            ];
+        if (selected) {
+            return [...this.selectedProjectSearchTerms, searchTerm];
         }
 
         // Handle case where search term is being removed from set.
-        return this.selectedProjectSearchTerms.filter(toFilter => {
-            return !(toFilter.getSearchKey() === searchTerm.getSearchKey() &&
-                toFilter.getSearchValue() === searchTerm.getSearchValue())
+        return this.selectedProjectSearchTerms.filter((toFilter) => {
+            return !(
+                toFilter.getSearchKey() === searchTerm.getSearchKey() &&
+                toFilter.getSearchValue() === searchTerm.getSearchValue()
+            );
         });
     }
 }

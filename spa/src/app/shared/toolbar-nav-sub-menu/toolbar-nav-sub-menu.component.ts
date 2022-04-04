@@ -13,6 +13,4 @@ import { Component } from "@angular/core";
     templateUrl: "toolbar-nav-sub-menu.component.html",
     styleUrls: ["toolbar-nav-sub-menu.component.scss"],
 })
-
-export class ToolbarNavSubMenuComponent {
-}
+export class ToolbarNavSubMenuComponent {}

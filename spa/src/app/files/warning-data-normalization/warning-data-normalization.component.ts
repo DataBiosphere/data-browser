@@ -14,10 +14,9 @@ import { ConfigService } from "../../config/config.service";
 @Component({
     selector: "warning-data-normalization",
     templateUrl: "./warning-data-normalization.component.html",
-    styleUrls: ["./warning-data-normalization.component.scss"]
+    styleUrls: ["./warning-data-normalization.component.scss"],
 })
 export class WarningDataNormalizationComponent {
-
     // Template variables
     portalUrl;
 
@@ -28,14 +27,12 @@ export class WarningDataNormalizationComponent {
         this.portalUrl = configService.getPortalUrl();
     }
 
-
     /**
      * Returns true if the atlas for the current environment is HCA.
      *
      * @returns {boolean}
      */
     public isAtlasHCA(): boolean {
-
         return this.configService.isAtlasHCA();
     }
 }

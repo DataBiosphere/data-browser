@@ -23,7 +23,6 @@ import { FILE_SUMMARY } from "../../shared/file-summary.mock";
 import { HCATooltipComponent } from "../../../shared/hca-tooltip/hca-tooltip.component";
 
 describe("GetDataSummaryComponent", () => {
-
     let component: GetDataSummaryComponent;
     let fixture: ComponentFixture<GetDataSummaryComponent>;
 
@@ -31,35 +30,36 @@ describe("GetDataSummaryComponent", () => {
     const SEARCH_TERMS = [
         new SearchFacetTerm("fileFormat", "fastq", 123),
         new SearchFacetTerm("disease", "ESRD", 8),
-        new SearchFacetTerm("genusSpecies", "Homo sapiens", 20)
+        new SearchFacetTerm("genusSpecies", "Homo sapiens", 20),
     ];
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [
                 SelectedDataSummaryComponent,
                 SelectedSearchTermsComponent,
                 GetDataSummaryComponent,
-                HCATooltipComponent
+                HCATooltipComponent,
             ],
-            imports: [
-                MatTooltipModule,
-                PipeModule
-            ],
+            imports: [MatTooltipModule, PipeModule],
             providers: [
                 {
                     provide: FacetDisplayService,
-                    useValue: jasmine.createSpyObj("FacetDisplayService", ["getFacetDisplayName"])
+                    useValue: jasmine.createSpyObj("FacetDisplayService", [
+                        "getFacetDisplayName",
+                    ]),
                 },
                 {
                     provide: SearchTermHttpService,
-                    useValue: jasmine.createSpyObj("SearchTermHttpService", ["bindSearchTerms", "marshallSearchTerms"])
+                    useValue: jasmine.createSpyObj("SearchTermHttpService", [
+                        "bindSearchTerms",
+                        "marshallSearchTerms",
+                    ]),
                 },
                 provideMockStore({
-                    initialState: {}
-                })
-            ]
+                    initialState: {},
+                }),
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(GetDataSummaryComponent);
@@ -70,41 +70,47 @@ describe("GetDataSummaryComponent", () => {
      * Confirm selected search terms <hca-file-filter-result> is displayed on init of state
      */
     it("should display selected search terms on init of state", () => {
-
         component.filesFacets = [];
         component.fileSummary = FILE_SUMMARY;
         component.selectedSearchTerms = [];
         fixture.detectChanges();
 
-        expect(fixture.debugElement.nativeElement.querySelector("selected-search-terms")).not.toBe(null);
+        expect(
+            fixture.debugElement.nativeElement.querySelector(
+                "selected-search-terms"
+            )
+        ).not.toBe(null);
     });
 
     /**
      * Confirm file summary <selected-data-summary> is displayed on init of state
      */
     it("should display file summary on init of state", () => {
-
         // Set up initial component state
         component.filesFacets = [];
         component.fileSummary = FILE_SUMMARY;
         component.selectedSearchTerms = [];
         fixture.detectChanges();
 
-        expect(fixture.debugElement.nativeElement.querySelector("selected-data-summary")).not.toBe(null);
+        expect(
+            fixture.debugElement.nativeElement.querySelector(
+                "selected-data-summary"
+            )
+        ).not.toBe(null);
     });
 
     /**
      * Confirm "No query applied to data" is displayed when selected search terms is empty.
      */
     it(`should display "All Data" when selected search terms is empty`, () => {
-
         // Set up initial component state
         component.filesFacets = [];
         component.fileSummary = FILE_SUMMARY;
         component.selectedSearchTerms = [];
         fixture.detectChanges();
 
-        const noQueryText = fixture.debugElement.query(By.css(".data-query p")).nativeElement.innerHTML;
+        const noQueryText = fixture.debugElement.query(By.css(".data-query p"))
+            .nativeElement.innerHTML;
 
         // Confirm "No query applied to data" is displayed
         expect(noQueryText).toEqual("All Data");
@@ -114,14 +120,15 @@ describe("GetDataSummaryComponent", () => {
      * Confirm "No query applied to data" is not displayed when selected search terms is not empty.
      */
     it(`should not display "No query applied to data" when selected search terms is not empty`, () => {
-
         // Set up initial component state
         component.filesFacets = [];
         component.fileSummary = FILE_SUMMARY;
         component.selectedSearchTerms = SEARCH_TERMS;
         fixture.detectChanges();
 
-        const noQueryTextEl = fixture.debugElement.query(By.css(".data-query p"));
+        const noQueryTextEl = fixture.debugElement.query(
+            By.css(".data-query p")
+        );
 
         // Confirm "No query applied to data" is not displayed
         expect(noQueryTextEl).toEqual(null);

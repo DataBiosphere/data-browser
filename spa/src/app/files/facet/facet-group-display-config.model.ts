@@ -9,7 +9,6 @@
 import { FacetDisplayConfig } from "./facet-display-config.model";
 
 export interface FacetGroupDisplayConfig {
-
     facetGroupName: string;
     facets: FacetDisplayConfig[];
 }

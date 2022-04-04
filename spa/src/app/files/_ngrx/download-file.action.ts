@@ -16,7 +16,6 @@ import { GAAction } from "../../shared/analytics/ga-action.model";
 import { GADimension } from "../../shared/analytics/ga-dimension.model";
 
 export class DownloadFileAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "FILE.DOWNLOAD";
     public readonly type = DownloadFileAction.ACTION_TYPE;
 
@@ -25,9 +24,11 @@ export class DownloadFileAction implements Action, TrackingAction {
      * @param {string} fileName
      * @param {string} fileFormat
      */
-    constructor(public fileUrl: string,
-                public fileName: string,
-                public fileFormat: string) {}
+    constructor(
+        public fileUrl: string,
+        public fileName: string,
+        public fileFormat: string
+    ) {}
 
     /**
      * Return the download file action as a GA event.
@@ -35,8 +36,7 @@ export class DownloadFileAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({currentQuery}): GAEvent {
-
+    public asEvent({ currentQuery }): GAEvent {
         return {
             category: GACategory.FILE,
             action: GAAction.DOWNLOAD,
@@ -45,8 +45,8 @@ export class DownloadFileAction implements Action, TrackingAction {
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_URL]: this.fileUrl,
                 [GADimension.RELATED_ENTITY_TYPE]: this.fileFormat,
-                [GADimension.RELATED_ENTITY_ID]: this.fileName
-            }
+                [GADimension.RELATED_ENTITY_ID]: this.fileName,
+            },
         };
     }
 }

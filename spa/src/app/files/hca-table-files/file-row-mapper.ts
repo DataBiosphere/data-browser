@@ -10,21 +10,20 @@
 import { EntityRow } from "../entities/entity-row.model";
 import { EntityRowMapper } from "../entities/entity-row-mapper";
 import {
-    getUnspecifiedIfNullValue, rollupMetadataArray
+    getUnspecifiedIfNullValue,
+    rollupMetadataArray,
 } from "../table/table-methods";
 
 export class FileRowMapper extends EntityRowMapper {
-    
     private file;
 
     /**
      * @param {any} row - data modelling row in current selected table.
      */
     constructor(row: any) {
-
         super(row);
 
-        // Always take the first value in the files array. This is a summary value and there should only ever be 
+        // Always take the first value in the files array. This is a summary value and there should only ever be
         // single value here. Also protect against null and empty array values.
         this.file = (row.files || [])[0] || {};
     }
@@ -34,14 +33,17 @@ export class FileRowMapper extends EntityRowMapper {
      */
     public mapRow(): EntityRow {
         return Object.assign({}, super.mapRow(), {
-            contentDescription: rollupMetadataArray("contentDescription", this.file.contentDescription || []),
+            contentDescription: rollupMetadataArray(
+                "contentDescription",
+                this.file.contentDescription || []
+            ),
             sampleId: this.samples.id,
             fileFormat: this.file.format,
             fileName: this.file.name,
             fileSize: getUnspecifiedIfNullValue(this.file.size),
             fileSource: getUnspecifiedIfNullValue(this.file.fileSource),
             projectId: getUnspecifiedIfNullValue(this.projects.projectId),
-            url: this.file.url
+            url: this.file.url,
         });
     }
 }

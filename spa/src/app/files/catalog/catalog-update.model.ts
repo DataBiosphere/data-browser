@@ -9,9 +9,8 @@
 import { Catalog } from "./catalog.model";
 
 export interface CatalogUpdate {
-
     catalog: Catalog;
     new: string[];
     runDate: Date;
-    updated: string[]
+    updated: string[];
 }

@@ -14,7 +14,6 @@ import { Action } from "@ngrx/store";
 import { Facet } from "../../facet/facet.model";
 
 export class FetchProjectSpeciesFacetSuccessAction implements Action {
-
     public static ACTION_TYPE = "FILE_MANIFEST.PROJECT_SPECIES_FACET_SUCCESS";
     public readonly type = FetchProjectSpeciesFacetSuccessAction.ACTION_TYPE;
 

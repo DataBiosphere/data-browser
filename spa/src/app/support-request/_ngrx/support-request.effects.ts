@@ -10,7 +10,13 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action, select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { concatMap, map, switchMap, take, withLatestFrom } from "rxjs/operators";
+import {
+    concatMap,
+    map,
+    switchMap,
+    take,
+    withLatestFrom,
+} from "rxjs/operators";
 
 // App dependencies
 import { AttachmentResponse } from "../attachment-response.model";
@@ -31,44 +37,50 @@ import { selectSupportRequestSource } from "./support-request.selectors";
 
 @Injectable()
 export class SupportRequestEffects {
-
     /**
      * @param {GTMService} gtmService
      * @param {SupportRequestService} supportRequestService
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private gtmService: GTMService,
-                private supportRequestService: SupportRequestService,
-                private store: Store<AppState>,
-                private actions$: Actions) {
-    }
+    constructor(
+        private gtmService: GTMService,
+        private supportRequestService: SupportRequestService,
+        private store: Store<AppState>,
+        private actions$: Actions
+    ) {}
 
     /**
      * Create support request.
      */
-    
-    createSupportRequest$: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
+
+    createSupportRequest$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
             ofType(CreateSupportRequestRequestAction.ACTION_TYPE),
-            concatMap(action => of(action).pipe(
-                withLatestFrom(
-                    this.store.pipe(select(selectCatalog), take(1)),
-                    this.store.pipe(select(selectSupportRequestSource), take(1))
+            concatMap((action) =>
+                of(action).pipe(
+                    withLatestFrom(
+                        this.store.pipe(select(selectCatalog), take(1)),
+                        this.store.pipe(
+                            select(selectSupportRequestSource),
+                            take(1)
+                        )
+                    )
                 )
-            )),
+            ),
             switchMap(([action, catalog, source]) => {
-
-                const supportRequest = (action as CreateSupportRequestRequestAction).supportRequest;
-                return this.supportRequestService.createSupportRequest(supportRequest)
-                    .pipe(
-                        map(response => ({response, catalog, source}))
-                    );
+                const supportRequest = (
+                    action as CreateSupportRequestRequestAction
+                ).supportRequest;
+                return this.supportRequestService
+                    .createSupportRequest(supportRequest)
+                    .pipe(map((response) => ({ response, catalog, source })));
             }),
-            map(({response, catalog, source}) => {
-
-                if ( response.error ) {
-                    return new CreateSupportRequestErrorAction(response.errorMessage);
+            map(({ response, catalog, source }) => {
+                if (response.error) {
+                    return new CreateSupportRequestErrorAction(
+                        response.errorMessage
+                    );
                 }
 
                 // Track successful submit of support request
@@ -78,31 +90,33 @@ export class SupportRequestEffects {
                     label: "",
                     dimensions: {
                         [GADimension.CATALOG]: catalog,
-                        [GADimension.SOURCE]: source
-                    }
+                        [GADimension.SOURCE]: source,
+                    },
                 });
 
                 return new CreateSupportRequestSuccessAction(response);
             })
-        ));
+        )
+    );
 
     /**
      * Upload attachment to a support request.
      */
-    
-    uploadAttachment$: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
+
+    uploadAttachment$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
             ofType(UploadAttachmentRequestAction.ACTION_TYPE),
             switchMap((action: UploadAttachmentRequestAction) => {
-
                 return this.supportRequestService.uploadAttachment(action.file);
             }),
             map((response: AttachmentResponse) => {
-
-                if ( response.error ) {
-                    return new UploadAttachmentErrorAction(response.errorMessage);
+                if (response.error) {
+                    return new UploadAttachmentErrorAction(
+                        response.errorMessage
+                    );
                 }
                 return new UploadAttachmentSuccessAction(response);
             })
-        ));
+        )
+    );
 }

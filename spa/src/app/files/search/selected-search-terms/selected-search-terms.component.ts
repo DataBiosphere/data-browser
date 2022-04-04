@@ -26,9 +26,7 @@ import { GASource } from "../../../shared/analytics/ga-source.model";
     templateUrl: "./selected-search-terms.component.html",
     styleUrls: ["./selected-search-terms.component.scss"],
 })
-
 export class SelectedSearchTermsComponent {
-
     // Inputs
     @Input() selectedSearchTerms: SearchTerm[];
     @Input() loading: boolean;
@@ -39,8 +37,10 @@ export class SelectedSearchTermsComponent {
      * @param {FacetDisplayService} facetDisplayService
      * @param {Store<AppState>} store
      */
-    constructor(private facetDisplayService: FacetDisplayService, private store: Store<AppState>) {
-    }
+    constructor(
+        private facetDisplayService: FacetDisplayService,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Returns facet name in format appropriate for display.
@@ -49,7 +49,6 @@ export class SelectedSearchTermsComponent {
      * @returns {string}
      */
     public getFacetName(facetName: string): string {
-
         return this.facetDisplayService.getFacetDisplayName(facetName);
     }
 
@@ -59,8 +58,12 @@ export class SelectedSearchTermsComponent {
      * @returns {string[]}
      */
     public getSelectedSearchFacets(): string[] {
-
-        return this.selectedSearchTerms.map(selectedSearchTerm => selectedSearchTerm.getSearchKey()).filter((facetName, i, facetNames) => facetNames.indexOf(facetName) === i);
+        return this.selectedSearchTerms
+            .map((selectedSearchTerm) => selectedSearchTerm.getSearchKey())
+            .filter(
+                (facetName, i, facetNames) =>
+                    facetNames.indexOf(facetName) === i
+            );
     }
 
     /**
@@ -70,8 +73,10 @@ export class SelectedSearchTermsComponent {
      * @returns {SearchTerm[]}
      */
     public getSelectedSearchTerms(selectedSearchFacet): SearchTerm[] {
-
-        return this.selectedSearchTerms.filter(selectedSearchTerm => selectedSearchTerm.getSearchKey() === selectedSearchFacet);
+        return this.selectedSearchTerms.filter(
+            (selectedSearchTerm) =>
+                selectedSearchTerm.getSearchKey() === selectedSearchFacet
+        );
     }
 
     /**
@@ -80,7 +85,6 @@ export class SelectedSearchTermsComponent {
      * @returns {boolean}
      */
     public isSelectedSearchTermsEmpty(): boolean {
-
         return this.selectedSearchTerms.length === 0;
     }
 
@@ -90,10 +94,10 @@ export class SelectedSearchTermsComponent {
      * @param selectedSearchFacet
      */
     public removeAllSelectedTermsInFacet(selectedSearchFacet) {
-
-        if ( this.removable ) {
+        if (this.removable) {
             this.getSelectedSearchTerms(selectedSearchFacet).forEach(
-                selectedSearchTerm => this.removeSearchTerm(selectedSearchTerm)
+                (selectedSearchTerm) =>
+                    this.removeSearchTerm(selectedSearchTerm)
             );
         }
     }
@@ -104,34 +108,33 @@ export class SelectedSearchTermsComponent {
      * @param {SearchTerm} searchTerm
      */
     public removeSearchTerm(searchTerm: SearchTerm) {
-
-        if ( !this.removable ) {
+        if (!this.removable) {
             return;
         }
 
         let action;
-        if ( searchTerm.getSearchKey() === FileFacetName.PROJECT_ID ) {
-            
+        if (searchTerm.getSearchKey() === FileFacetName.PROJECT_ID) {
             action = new SelectProjectIdAction(
                 searchTerm.getSearchValue(),
-                searchTerm.getDisplayValue(), 
+                searchTerm.getDisplayValue(),
                 false,
-                GASource.SELECTED_TERMS);
-        }
-        else if ( searchTerm.getSearchKey() === FacetAgeRangeName.ORGANISM_AGE_RANGE) {
-            
+                GASource.SELECTED_TERMS
+            );
+        } else if (
+            searchTerm.getSearchKey() === FacetAgeRangeName.ORGANISM_AGE_RANGE
+        ) {
             action = new ClearSelectedAgeRangeAction(
                 searchTerm.getSearchKey(),
                 searchTerm.getSearchValue(),
-                GASource.SELECTED_TERMS);
-        }
-        else {
-            
+                GASource.SELECTED_TERMS
+            );
+        } else {
             action = new SelectFileFacetTermAction(
                 searchTerm.getSearchKey(),
                 searchTerm.getSearchValue(),
                 false,
-                GASource.SELECTED_TERMS);
+                GASource.SELECTED_TERMS
+            );
         }
 
         this.store.dispatch(action);
@@ -141,7 +144,8 @@ export class SelectedSearchTermsComponent {
      * Dispatch event to remove all selected search terms, across all selected facets.
      */
     public removeAllSearchTerms() {
-
-        this.store.dispatch(new ClearSelectedTermsAction(GASource.SELECTED_TERMS));
+        this.store.dispatch(
+            new ClearSelectedTermsAction(GASource.SELECTED_TERMS)
+        );
     }
 }

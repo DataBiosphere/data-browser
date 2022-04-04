@@ -11,10 +11,9 @@ import { Component, Input } from "@angular/core";
 @Component({
     selector: "learn-more",
     templateUrl: "learn-more.component.html",
-    styleUrls: ["learn-more.component.scss"]
+    styleUrls: ["learn-more.component.scss"],
 })
 export class LearnMoreComponent {
-
     // Inputs
     @Input() learnMoreLink: string;
     @Input() targetBlank: boolean;

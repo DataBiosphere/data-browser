@@ -1,7 +1,7 @@
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
- * 
+ *
  * Terra auth reducer, handles actions related to handling Terra auth state.
  */
 
@@ -19,13 +19,16 @@ import { FetchTerraRegistrationSuccessAction } from "./fetch-terra-registration-
  * @param {Action} action
  * @returns {TerraAuthState}
  */
-export function reducer(state: TerraAuthState = TerraAuthState.getDefaultState(), action: Action): TerraAuthState {
-
+export function reducer(
+    state: TerraAuthState = TerraAuthState.getDefaultState(),
+    action: Action
+): TerraAuthState {
     switch (action.type) {
-
         // Update registered
         case FetchTerraRegistrationSuccessAction.ACTION_TYPE:
-            return state.onTerraRegistrationStatusSuccess(action as FetchTerraRegistrationSuccessAction);
+            return state.onTerraRegistrationStatusSuccess(
+                action as FetchTerraRegistrationSuccessAction
+            );
 
         // Logout successful, reset Terra auth state
         case LogoutSuccessAction.ACTION_TYPE:

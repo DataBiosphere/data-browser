@@ -13,7 +13,8 @@ import { Action } from "@ngrx/store";
 import { FileSummary } from "../../file-summary/file-summary.model";
 
 export class FetchProjectFileSummarySuccessAction implements Action {
-    public static ACTION_TYPE = "FILE_MANIFEST.FETCH_PROJECT_FILE_SUMMARY_SUCCESS";
+    public static ACTION_TYPE =
+        "FILE_MANIFEST.FETCH_PROJECT_FILE_SUMMARY_SUCCESS";
     public readonly type = FetchProjectFileSummarySuccessAction.ACTION_TYPE;
     constructor(public readonly fileSummary: FileSummary) {}
 }

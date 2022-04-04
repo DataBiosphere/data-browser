@@ -14,5 +14,4 @@ import { Component } from "@angular/core";
     templateUrl: "./facet-menu-option.component.html",
     styleUrls: ["./facet-menu-option.component.scss"],
 })
-export class FacetMenuOptionComponent {
-}
+export class FacetMenuOptionComponent {}

@@ -5,7 +5,6 @@
  * Table data status placeholder component.
  */
 
-
 // Core dependencies
 import { Component, Input } from "@angular/core";
 
@@ -17,19 +16,15 @@ import { animate, style, transition, trigger } from "@angular/animations";
     templateUrl: "./hca-table-data-status-placeholder.component.html",
     styleUrls: ["./hca-table-data-status-placeholder.component.scss"],
     animations: [
-        trigger(
-            "statusAnimation", [
-                transition(":leave", [
-                    style({opacity: 1}),
-                    animate("300ms 0.1s ease-out", style({opacity: 0}))
-                ])
-            ]
-        )
-    ]
+        trigger("statusAnimation", [
+            transition(":leave", [
+                style({ opacity: 1 }),
+                animate("300ms 0.1s ease-out", style({ opacity: 0 })),
+            ]),
+        ]),
+    ],
 })
-
 export class HCATableDataStatusPlaceholderComponent {
-
     // Inputs
     @Input() tableData: any[];
     @Input() loading: boolean;
@@ -44,12 +39,11 @@ export class HCATableDataStatusPlaceholderComponent {
      * @returns {string}
      */
     public getTableStatus(): string {
-
-        if ( this.loading ) {
+        if (this.loading) {
             return "Loading...";
         }
 
-        if ( !this.loading && this.tableData.length === 0 ) {
+        if (!this.loading && this.tableData.length === 0) {
             return "No Results";
         }
 

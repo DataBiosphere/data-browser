@@ -17,19 +17,22 @@ import { InitCatalogUpdateAction } from "./init-catalog-update.action";
 import { SelectCatalogAction } from "./select-catalog.action";
 import { SetCatalogUpdatedSinceLastVisitAction } from "./set-catalog-updated-since-last-visit.action";
 
-export function reducer(state: CatalogState = CatalogState.getDefaultState(), action: Action): CatalogState {
-
+export function reducer(
+    state: CatalogState = CatalogState.getDefaultState(),
+    action: Action
+): CatalogState {
     switch (action.type) {
-
         // Handle response from catalogs endpoint
         case FetchCatalogsSuccessAction.ACTION_TYPE:
-            return state.fetchCatalogsSuccess((action as FetchCatalogsSuccessAction));
+            return state.fetchCatalogsSuccess(
+                action as FetchCatalogsSuccessAction
+            );
 
         // Handle error during request for catalogs
         case FetchCatalogsErrorAction.ACTION_TYPE:
-            return state.fetchCatalogsError((action as FetchCatalogsErrorAction));
-            
-            // Initialize catalog update
+            return state.fetchCatalogsError(action as FetchCatalogsErrorAction);
+
+        // Initialize catalog update
         case InitCatalogUpdateAction.ACTION_TYPE:
             return state.initCatalogUpdate(action as InitCatalogUpdateAction);
 
@@ -40,10 +43,12 @@ export function reducer(state: CatalogState = CatalogState.getDefaultState(), ac
         // View state has been parsed from URL param on app init
         case SetViewStateAction.ACTION_TYPE:
             return state.setCatalog((action as SetViewStateAction).catalog);
-            
-            // Save flag indicating if catalog has been updated since last visit.
+
+        // Save flag indicating if catalog has been updated since last visit.
         case SetCatalogUpdatedSinceLastVisitAction.ACTION_TYPE:
-            return state.setCatalogUpdatedSinceLastVisit(action as SetCatalogUpdatedSinceLastVisitAction);
+            return state.setCatalogUpdatedSinceLastVisit(
+                action as SetCatalogUpdatedSinceLastVisitAction
+            );
 
         default:
             return state;

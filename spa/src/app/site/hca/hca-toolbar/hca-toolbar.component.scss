@@ -27,7 +27,8 @@
     text-decoration: none;
     text-transform: capitalize;
 
-    &.active, &:hover {
+    &.active,
+    &:hover {
         color: $hca-black;
     }
 
@@ -87,8 +88,8 @@ mat-toolbar {
         top: 0;
         z-index: 1001;
 
-      toolbar-tools,
-      .nav-bar {
+        toolbar-tools,
+        .nav-bar {
             display: none; /* Hide toolbar tools and nav bar */
         }
     }
@@ -122,7 +123,6 @@ mat-toolbar {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 840px) {
-
     @mixin toolbar-link() {
         color: $hca-gray-dark;
 
@@ -140,7 +140,6 @@ mat-toolbar {
     }
 
     mat-toolbar {
-
         /* Second toolbar row - nav bar */
         mat-toolbar-row.nav-bar {
             display: flex; /* Always show nav bar */
@@ -237,7 +236,7 @@ mat-toolbar {
     .catalog-update-chip:after {
         background-color: $hca-orange;
         border-radius: 50%;
-        content: '';
+        content: "";
         height: 8px;
         position: absolute;
         right: -8px;
@@ -295,4 +294,3 @@ mat-toolbar {
         background-color: transparent;
     }
 }
-

@@ -9,7 +9,6 @@
 import { TermSortable } from "../sort/term-sortable.model";
 
 export class Term implements TermSortable {
-
     public readonly name: string;
     public readonly count: number;
     public readonly selected: boolean;
@@ -41,9 +40,6 @@ export class Term implements TermSortable {
      * @returns {string}
      */
     public getSortValue(): string {
-
         return this.name;
     }
 }
-
-

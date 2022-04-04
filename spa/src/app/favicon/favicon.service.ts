@@ -11,7 +11,6 @@ import { Inject, Injectable } from "@angular/core";
 
 @Injectable()
 export class FaviconService {
-
     /**
      * @param {Document} document
      */
@@ -19,11 +18,10 @@ export class FaviconService {
 
     /**
      * Set the correct path for this environment, for each favicon and the manifest file.
-     * 
+     *
      * @param {string} faviconPath
      */
     public setFaviconPaths(faviconPath: string) {
-        
         const faviconsHTML = `
             <link rel="icon" type="image/png" sizes="32x32" href="${faviconPath}favicon-32x32.png">
             <link rel="icon" type="image/png" sizes="128x128" href="${faviconPath}android-icon-128x128.png">
@@ -35,7 +33,7 @@ export class FaviconService {
             <link rel="manifest" href="${faviconPath}manifest.json">
             <meta name="theme-color" content="#ffffff">
         `;
-        
+
         this.document.head.innerHTML += faviconsHTML;
     }
 }

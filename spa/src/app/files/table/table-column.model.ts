@@ -29,24 +29,23 @@ export interface TableColumn {
 export enum ColumnAlignment {
     "CENTER",
     "LEFT",
-    "RIGHT"
+    "RIGHT",
 }
 
 export enum ColumnFlexDirection {
-    "COLUMN"
+    "COLUMN",
 }
 
 export enum CountType {
     "DOMAIN_COUNT",
     "NONE",
-    "SUMMARY_COUNT"
+    "SUMMARY_COUNT",
 }
 
 export enum OverflowType {
-    "VISIBLE" = "visible"
+    "VISIBLE" = "visible",
 }
 
 export enum PositionType {
-    "RELATIVE" = "relative"
+    "RELATIVE" = "relative",
 }
-

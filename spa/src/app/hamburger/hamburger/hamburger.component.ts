@@ -20,13 +20,12 @@ import { ToggleHamburgerAction } from "../_ngrx/toggle-hamburger.action";
 @Component({
     selector: "hamburger",
     templateUrl: "./hamburger.component.html",
-    styleUrls: ["./hamburger.component.scss"]
+    styleUrls: ["./hamburger.component.scss"],
 })
 export class HamburgerComponent implements OnInit {
-
     // Template/public variables
     public state$ = new BehaviorSubject<HamburgerComponentState>({
-        open: false
+        open: false,
     });
 
     // Locals
@@ -36,12 +35,11 @@ export class HamburgerComponent implements OnInit {
      * @param {Store<HamburgerState>} store
      */
     constructor(private store: Store<HamburgerState>) {}
-    
+
     /**
      * Handle click on hamburger.
      */
     public onHamburgerToggleClicked() {
-        
         this.store.dispatch(new ToggleHamburgerAction());
     }
 
@@ -49,22 +47,19 @@ export class HamburgerComponent implements OnInit {
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
 
     /**
-     * Grab current state of hamburger. 
+     * Grab current state of hamburger.
      */
     public ngOnInit() {
-
         // Grab the current catalog value - we need this for the announcement banner
-        this.store.pipe(
-            select(selectHamburgerOpen),
-            takeUntil(this.ngDestroy$)
-        ).subscribe(open => {
-            this.state$.next({open});
-        })
+        this.store
+            .pipe(select(selectHamburgerOpen), takeUntil(this.ngDestroy$))
+            .subscribe((open) => {
+                this.state$.next({ open });
+            });
     }
 }

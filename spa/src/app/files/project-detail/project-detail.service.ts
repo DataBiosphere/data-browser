@@ -16,29 +16,30 @@ import { AppState } from "../../_ngrx/app.state";
 
 @Injectable()
 export class ProjectDetailService {
-
     /**
      * @param {Store<AppState>} store
      * @param {Meta} meta
      * @param {Window} window
      */
-    constructor(private store: Store<AppState>,
-                private meta: Meta,
-                @Inject("Window") private window: Window) {
-    }
+    constructor(
+        private store: Store<AppState>,
+        private meta: Meta,
+        @Inject("Window") private window: Window
+    ) {}
 
     /**
      * Update meta tags with project details.
-     * 
+     *
      * @param {string} projectTitle
      * @param {string} tabName
      */
     public addProjectMeta(projectTitle: string, tabName?: string) {
-
-        const metaDescription = tabName ? `${tabName}: ${projectTitle}` : projectTitle;
+        const metaDescription = tabName
+            ? `${tabName}: ${projectTitle}`
+            : projectTitle;
         this.meta.addTag({
             name: "description",
-            content: metaDescription
+            content: metaDescription,
         });
     }
 
@@ -46,7 +47,6 @@ export class ProjectDetailService {
      * Remove project detail meta tags.
      */
     public removeProjectMeta() {
-
         this.meta.removeTag(`name="description"`);
     }
 }

@@ -17,17 +17,10 @@ import { SharedModule } from "../shared/shared.module";
 @NgModule({
     imports: [
         SharedModule,
-        StoreModule.forFeature("modal", modalReducer.reducer)
+        StoreModule.forFeature("modal", modalReducer.reducer),
     ],
-    declarations: [
-        ModalLayoutComponent
-    ],
-    providers: [
-    ],
-    exports: [
-        ModalLayoutComponent
-    ]
+    declarations: [ModalLayoutComponent],
+    providers: [],
+    exports: [ModalLayoutComponent],
 })
-export class ModalModule {
-}
-
+export class ModalModule {}

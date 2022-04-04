@@ -13,10 +13,7 @@ import { ConfigService } from "./config.service";
 import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
-    imports: [
-        SharedModule
-    ],
-    providers: [ConfigService]
+    imports: [SharedModule],
+    providers: [ConfigService],
 })
-export class ConfigModule {
-}
+export class ConfigModule {}

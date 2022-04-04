@@ -6,13 +6,10 @@
  */
 
 // Default init
-const DEFAULT_INIT = {
-};
+const DEFAULT_INIT = {};
 
 export class InitState {
-
     constructor(init = DEFAULT_INIT) {
-
         Object.assign(this, init);
     }
 
@@ -20,7 +17,6 @@ export class InitState {
      * @returns {InitState}
      */
     public static getDefaultState(): InitState {
-
         return new InitState();
     }
 }

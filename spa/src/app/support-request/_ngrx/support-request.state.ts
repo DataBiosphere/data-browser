@@ -18,7 +18,6 @@ import { UploadAttachmentErrorAction } from "./upload-attachment-error.action";
 import { DeleteAttachmentAction } from "./delete-attachment.action";
 
 export class SupportRequestState {
-
     /**
      * @param {SupportRequest} supportRequest
      */
@@ -30,7 +29,6 @@ export class SupportRequestState {
      * @returns {SupportRequestState}
      */
     public static getDefaultState(): SupportRequestState {
-
         return new SupportRequestState({
             active: false,
             attachmentRejected: false,
@@ -39,7 +37,7 @@ export class SupportRequestState {
             submitError: false,
             submitErrorMessage: "",
             submitting: false,
-            submitted: false
+            submitted: false,
         });
     }
 
@@ -48,12 +46,13 @@ export class SupportRequestState {
      *
      * @param {DeleteAttachmentAction} action
      */
-    public onAttachmentDeleted(action: DeleteAttachmentAction): SupportRequestState {
-
+    public onAttachmentDeleted(
+        action: DeleteAttachmentAction
+    ): SupportRequestState {
         return new SupportRequestState({
             ...this.supportRequest,
             attachmentName: "",
-            attachmentToken: ""
+            attachmentToken: "",
         });
     }
 
@@ -62,8 +61,9 @@ export class SupportRequestState {
      *
      * @param {UploadAttachmentSuccessAction} action
      */
-    public onAttachmentDropRejected(action: AttachmentDropRejectAction): SupportRequestState {
-
+    public onAttachmentDropRejected(
+        action: AttachmentDropRejectAction
+    ): SupportRequestState {
         return new SupportRequestState({
             ...this.supportRequest,
             attachmentRejected: true,
@@ -73,17 +73,18 @@ export class SupportRequestState {
 
     /**
      * Handle submit of support request form.
-     * 
+     *
      * @param {CreateSupportRequestRequestAction} action
      */
-    public onCreateSupportRequestRequest(action: CreateSupportRequestRequestAction): SupportRequestState {
-
+    public onCreateSupportRequestRequest(
+        action: CreateSupportRequestRequestAction
+    ): SupportRequestState {
         return new SupportRequestState({
             ...this.supportRequest,
             submitError: false,
             submitErrorMessage: "",
             submitting: true,
-            submitted: false
+            submitted: false,
         });
     }
 
@@ -92,14 +93,15 @@ export class SupportRequestState {
      *
      * @param {CreateSupportRequestErrorAction} action
      */
-    public onCreateSupportRequestError(action: CreateSupportRequestErrorAction): SupportRequestState {
-
+    public onCreateSupportRequestError(
+        action: CreateSupportRequestErrorAction
+    ): SupportRequestState {
         return new SupportRequestState({
             ...this.supportRequest,
             submitError: true,
             submitErrorMessage: action.errorMessage,
             submitting: false,
-            submitted: false
+            submitted: false,
         });
     }
 
@@ -108,14 +110,15 @@ export class SupportRequestState {
      *
      * @param {CreateSupportRequestSuccessAction} action
      */
-    public onCreateSupportRequestSuccess(action: CreateSupportRequestSuccessAction): SupportRequestState {
-
+    public onCreateSupportRequestSuccess(
+        action: CreateSupportRequestSuccessAction
+    ): SupportRequestState {
         return new SupportRequestState({
             ...this.supportRequest,
             submitError: false,
             submitErrorMessage: "",
             submitting: false,
-            submitted: true
+            submitted: true,
         });
     }
 
@@ -124,12 +127,13 @@ export class SupportRequestState {
      *
      * @param {UploadAttachmentErrorAction} action
      */
-    public onUploadAttachmentError(action: UploadAttachmentErrorAction): SupportRequestState {
-
+    public onUploadAttachmentError(
+        action: UploadAttachmentErrorAction
+    ): SupportRequestState {
         return new SupportRequestState({
             ...this.supportRequest,
             attachmentUploadError: true,
-            attachmentUploading: false
+            attachmentUploading: false,
         });
     }
 
@@ -138,13 +142,14 @@ export class SupportRequestState {
      *
      * @param {UploadAttachmentRequestAction} action
      */
-    public onUploadAttachmentRequest(action: UploadAttachmentRequestAction): SupportRequestState {
-
+    public onUploadAttachmentRequest(
+        action: UploadAttachmentRequestAction
+    ): SupportRequestState {
         return new SupportRequestState({
             ...this.supportRequest,
             attachmentUploadError: false,
             attachmentUploading: true,
-            attachmentRejected: false
+            attachmentRejected: false,
         });
     }
 
@@ -153,15 +158,16 @@ export class SupportRequestState {
      *
      * @param {UploadAttachmentSuccessAction} action
      */
-    public onUploadAttachmentSuccess(action: UploadAttachmentSuccessAction): SupportRequestState {
-
+    public onUploadAttachmentSuccess(
+        action: UploadAttachmentSuccessAction
+    ): SupportRequestState {
         return new SupportRequestState({
             ...this.supportRequest,
             attachmentRejected: false,
             attachmentRejection: null,
             attachmentName: action.response.attachmentName,
             attachmentToken: action.response.token,
-            attachmentUploading: false
+            attachmentUploading: false,
         });
     }
 
@@ -171,17 +177,17 @@ export class SupportRequestState {
      * @param {UpdateSupportRequestActiveAction} action
      * @returns {SupportRequestState}
      */
-    public setActive(action: UpdateSupportRequestActiveAction): SupportRequestState {
-
+    public setActive(
+        action: UpdateSupportRequestActiveAction
+    ): SupportRequestState {
         const updatedSupportRequest = {
             ...this.supportRequest,
-            active: action.active
+            active: action.active,
         };
-        
-        if ( action.active ) {
+
+        if (action.active) {
             updatedSupportRequest.source = action.source;
-        }
-        else {
+        } else {
             delete updatedSupportRequest.source;
         }
 

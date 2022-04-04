@@ -18,8 +18,9 @@ import { GAIndex } from "../../../shared/analytics/ga-index.model";
 import { GASource } from "../../../shared/analytics/ga-source.model";
 import { TableParams } from "../../table/pagination/table-params.model";
 
-export class FetchSortedTableDataRequestAction implements Action, TrackingAction {
-    
+export class FetchSortedTableDataRequestAction
+    implements Action, TrackingAction
+{
     public static ACTION_TYPE = "TABLE.SORTED_DATA_REQUEST";
     public readonly type = FetchSortedTableDataRequestAction.ACTION_TYPE;
 
@@ -28,9 +29,11 @@ export class FetchSortedTableDataRequestAction implements Action, TrackingAction
      * @param {GAIndex} index
      * @param {GASource} source
      */
-    constructor(public tableParams: TableParams,
-                public index: GAIndex,
-                public source: GASource) {}
+    constructor(
+        public tableParams: TableParams,
+        public index: GAIndex,
+        public source: GASource
+    ) {}
 
     /**
      * Return the cleared age range action as a GA event.
@@ -38,8 +41,7 @@ export class FetchSortedTableDataRequestAction implements Action, TrackingAction
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.SEARCH_RESULTS,
             action: GAAction.SORT,
@@ -50,7 +52,7 @@ export class FetchSortedTableDataRequestAction implements Action, TrackingAction
                 [GADimension.DIRECTION]: this.tableParams.order,
                 [GADimension.INDEX]: this.index,
                 [GADimension.SOURCE]: this.source,
-            }
+            },
         };
     }
 }

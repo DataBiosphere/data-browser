@@ -19,17 +19,19 @@ export const selectSystem = createFeatureSelector<SystemState>("system");
  *
  * @returns {SystemStatus}
  */
-export const selectSystemStatus = createSelector(selectSystem, (systemState: SystemState) => {
-
-    return systemState.systemStatus;
-});
+export const selectSystemStatus = createSelector(
+    selectSystem,
+    (systemState: SystemState) => {
+        return systemState.systemStatus;
+    }
+);
 
 /**
  * Returns true if indexing is in progress.
  */
-export const selectSystemStatusIndexing = createSelector(selectSystem, (systemState: SystemState) => {
-
-    return systemState.systemStatus.indexing;
-});
-
-
+export const selectSystemStatusIndexing = createSelector(
+    selectSystem,
+    (systemState: SystemState) => {
+        return systemState.systemStatus.indexing;
+    }
+);

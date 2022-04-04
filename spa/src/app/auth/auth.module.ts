@@ -20,10 +20,8 @@ import { SharedModule } from "../shared/shared.module";
     imports: [
         EffectsModule.forFeature([AuthEffects]),
         StoreModule.forFeature("auth", authReducer.reducer),
-        SharedModule
+        SharedModule,
     ],
-    providers: [
-        AuthService
-    ]
+    providers: [AuthService],
 })
 export class AuthModule {}

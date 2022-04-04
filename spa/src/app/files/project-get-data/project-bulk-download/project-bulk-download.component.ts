@@ -3,7 +3,7 @@
  * https://www.humancellatlas.org/
  *
  * Component responsible for displaying project bulk download component, and handling the corresponding functionality.
- * 
+ *
  *  * Example Hierarchy:
  * ------------------
  * ProjectBulkDownloadComponent
@@ -13,7 +13,7 @@
  *           - fetch project-specific summary (required for right side stats)
  *           - fetch project-specific file type summaries excluding file types (required for file type form, requires update on select of file type)
  *           - fetch project-specific file facets (requires update on select of file type)
- *           - fetch project download-specific selected facets (project, species, file types) 
+ *           - fetch project download-specific selected facets (project, species, file types)
  *        - onRequest
  *            - request project manifest download
  *   - Select
@@ -24,7 +24,7 @@
  *     - select download status
  *   - Renders
  *     - different states of download (file type summary form, in progress, completed)
- * 
+ *
  * ProjectLayoutComponent
  *   - Renders
  *     - general layout and right side states
@@ -73,17 +73,17 @@ import { ClearFileManifestUrlAction } from "../../_ngrx/file-manifest/clear-file
 @Component({
     selector: "project-bulk-download",
     templateUrl: "./project-bulk-download.component.html",
-    styleUrls: ["./project-bulk-download.component.scss"]
+    styleUrls: ["./project-bulk-download.component.scss"],
 })
 export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
-
     // Template variables
-    public executionEnvironment: BulkDownloadExecutionEnvironment = BulkDownloadExecutionEnvironment.BASH;
+    public executionEnvironment: BulkDownloadExecutionEnvironment =
+        BulkDownloadExecutionEnvironment.BASH;
 
     // Template variables
     public portalURL: string;
     public state$ = new BehaviorSubject<ProjectBulkDownloadState>({
-        loaded: false
+        loaded: false,
     });
 
     // Locals
@@ -101,8 +101,8 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
         private projectDetailService: ProjectDetailService,
         private store: Store<AppState>,
         private activatedRoute: ActivatedRoute,
-        private router: Router) {
-
+        private router: Router
+    ) {
         this.portalURL = this.configService.getPortalUrl();
     }
 
@@ -113,8 +113,10 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @param {BulkDownloadExecutionEnvironment} executionEnvironment
      * @returns {string}
      */
-    public getCurlCommand(manifestResponse: ManifestResponse, executionEnvironment: BulkDownloadExecutionEnvironment): string {
-
+    public getCurlCommand(
+        manifestResponse: ManifestResponse,
+        executionEnvironment: BulkDownloadExecutionEnvironment
+    ): string {
         return manifestResponse.commandLine[executionEnvironment];
     }
 
@@ -122,23 +124,25 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * Return user to project overview
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Project Overview";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
      * Returns the species facet, required for displaying species form.
-     * 
+     *
      * @param {Facet[]} filesFacets
      * @returns {Facet}
      */
     public getSpeciesFacet(filesFacets: Facet[]): Facet {
-
-        return filesFacets.find(facet => facet.name === FileFacetName.GENUS_SPECIES) as FileFacet;
+        return filesFacets.find(
+            (facet) => facet.name === FileFacetName.GENUS_SPECIES
+        ) as FileFacet;
     }
 
     /**
@@ -148,36 +152,36 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @param {BulkDownloadExecutionEnvironment} os
      * @returns {string}
      */
-    getInvalidFormMessage(selectedSearchTerms: SearchTerm[], os: BulkDownloadExecutionEnvironment) {
-
+    getInvalidFormMessage(
+        selectedSearchTerms: SearchTerm[],
+        os: BulkDownloadExecutionEnvironment
+    ) {
         const invalidFields = [];
-        if ( !this.isFileTypeValid(selectedSearchTerms) ) {
+        if (!this.isFileTypeValid(selectedSearchTerms)) {
             invalidFields.push("file type");
         }
-        if ( !this.isSpeciesValid(selectedSearchTerms) ) {
+        if (!this.isSpeciesValid(selectedSearchTerms)) {
             invalidFields.push("species");
         }
-        if ( !this.isExecutionEnvironmentValid(os) ) {
+        if (!this.isExecutionEnvironmentValid(os)) {
             invalidFields.push("shell");
         }
-        if ( invalidFields.length === 0 ) {
+        if (invalidFields.length === 0) {
             return "";
         }
 
         const fields = [];
-        if ( invalidFields.length > 2 ) {
+        if (invalidFields.length > 2) {
             invalidFields.forEach((invalidField, i) => {
-                if (i === invalidFields.length -1 ) {
+                if (i === invalidFields.length - 1) {
                     fields.push(" and ");
                     fields.push(invalidField);
-                }
-                else {
+                } else {
                     fields.push(invalidField);
                     fields.push(", ");
                 }
-            }, );
-        }
-        else {
+            });
+        } else {
             fields.push(invalidFields.join(" and "));
         }
 
@@ -186,22 +190,27 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
 
     /**
      * Returns true if any terms in the given facet are selected.
-     * 
+     *
      * @param {FileFacetName} facetName
      * @param {SearchTerm[]} selectedSearchTerms
      * @returns {boolean}
      */
-    public isAnyTermSelected(facetName: FileFacetName, selectedSearchTerms: SearchTerm[]): boolean {
-
-        return selectedSearchTerms.some(selectedSearchTerm =>
-            selectedSearchTerm.getSearchKey() === facetName);
+    public isAnyTermSelected(
+        facetName: FileFacetName,
+        selectedSearchTerms: SearchTerm[]
+    ): boolean {
+        return selectedSearchTerms.some(
+            (selectedSearchTerm) =>
+                selectedSearchTerm.getSearchKey() === facetName
+        );
     }
 
     /**
      * Returns true if there no file type summaries.
      */
-    public isFileTypeSummariesEmpty(fileTypeSummaries: FileTypeSummary[]): boolean {
-
+    public isFileTypeSummariesEmpty(
+        fileTypeSummaries: FileTypeSummary[]
+    ): boolean {
         return fileTypeSummaries.length === 0;
     }
 
@@ -212,7 +221,6 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isDownloadComplete(manifestResponse: ManifestResponse): boolean {
-
         return manifestResponse.status === ManifestStatus.COMPLETE;
     }
 
@@ -223,7 +231,6 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isDownloadInProgress(manifestResponse: ManifestResponse): boolean {
-
         return manifestResponse.status === ManifestStatus.IN_PROGRESS;
     }
 
@@ -234,7 +241,6 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     public isDownloadNotStarted(manifestResponse: ManifestResponse): boolean {
-
         return manifestResponse.status === ManifestStatus.NOT_STARTED;
     }
 
@@ -246,11 +252,15 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @param {BulkDownloadExecutionEnvironment} os
      * @returns {boolean}
      */
-    public isRequestFormValid(selectedSearchTerms: SearchTerm[], os: BulkDownloadExecutionEnvironment): boolean {
-
-        return this.isFileTypeValid(selectedSearchTerms) &&
+    public isRequestFormValid(
+        selectedSearchTerms: SearchTerm[],
+        os: BulkDownloadExecutionEnvironment
+    ): boolean {
+        return (
+            this.isFileTypeValid(selectedSearchTerms) &&
             this.isSpeciesValid(selectedSearchTerms) &&
-            this.isExecutionEnvironmentValid(os);
+            this.isExecutionEnvironmentValid(os)
+        );
     }
 
     /**
@@ -260,9 +270,14 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @param {BulkDownloadExecutionEnvironment} shell
      * @param {string} curl
      */
-    public onDataLinkCopied(project: Project, shell: BulkDownloadExecutionEnvironment, curl: string) {
-
-        this.store.dispatch(new CopyToClipboardProjectBulkDownloadAction(project, shell, curl));
+    public onDataLinkCopied(
+        project: Project,
+        shell: BulkDownloadExecutionEnvironment,
+        curl: string
+    ) {
+        this.store.dispatch(
+            new CopyToClipboardProjectBulkDownloadAction(project, shell, curl)
+        );
     }
 
     /**
@@ -270,8 +285,9 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      *
      * @param {BulkDownloadExecutionEnvironment} executionEnvironment
      */
-    public onExecutionEnvironmentSelected(executionEnvironment: BulkDownloadExecutionEnvironment) {
-
+    public onExecutionEnvironmentSelected(
+        executionEnvironment: BulkDownloadExecutionEnvironment
+    ) {
         this.executionEnvironment = executionEnvironment;
     }
 
@@ -281,19 +297,21 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @param facetTermSelectedEvent {FacetTermSelectedEvent}
      */
     public onFacetTermSelected(facetTermSelectedEvent: FacetTermSelectedEvent) {
-
         // Dispatch action to update project download-specific facets
         const action = new SelectProjectFileFacetTermAction(
             facetTermSelectedEvent.facetName,
             facetTermSelectedEvent.termName,
             null, // Display value only required for project ID facet
-            facetTermSelectedEvent.selected);
+            facetTermSelectedEvent.selected
+        );
         this.store.dispatch(action);
 
         // Kick off request for project-specific file type summaries. Required for populating file type form. Update
         // of file types summaries only required if change in species.
-        if ( facetTermSelectedEvent.facetName === FileFacetName.GENUS_SPECIES ) {
-            this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction(true));
+        if (facetTermSelectedEvent.facetName === FileFacetName.GENUS_SPECIES) {
+            this.store.dispatch(
+                new FetchFileManifestFileTypeSummariesRequestAction(true)
+            );
         }
 
         // Kick off request for project-specific summary including any selected file types. Required for populating
@@ -310,11 +328,19 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @param {Project} project
      * @param {BulkDownloadExecutionEnvironment} shell
      */
-    public onRequestManifest(project: Project,
-                             shell: BulkDownloadExecutionEnvironment) {
-
-        this.store.dispatch(new FetchFileManifestUrlRequestAction(ManifestDownloadFormat.CURL, true));
-        this.store.dispatch(new RequestProjectBulkDownloadAction(project, shell));
+    public onRequestManifest(
+        project: Project,
+        shell: BulkDownloadExecutionEnvironment
+    ) {
+        this.store.dispatch(
+            new FetchFileManifestUrlRequestAction(
+                ManifestDownloadFormat.CURL,
+                true
+            )
+        );
+        this.store.dispatch(
+            new RequestProjectBulkDownloadAction(project, shell)
+        );
     }
 
     /**
@@ -323,31 +349,33 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @param {string} projectId
      */
     public onTabSelected(projectId: string): void {
-
         this.router.navigate(["/projects", projectId], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
     /**
      * Returns true if execution environment form field is valid. That is, execution environment has been selected.
-     * 
+     *
      *  @param {BulkDownloadExecutionEnvironment} os
      */
-    private isExecutionEnvironmentValid(os: BulkDownloadExecutionEnvironment): boolean {
-
+    private isExecutionEnvironmentValid(
+        os: BulkDownloadExecutionEnvironment
+    ): boolean {
         return !!os;
     }
 
     /**
-     * Returns true if file type form field is valid. That is, at least one file type has been selected. 
-     * 
+     * Returns true if file type form field is valid. That is, at least one file type has been selected.
+     *
      * @param {SearchTerm[]} selectedSearchTerms
      * @returns {boolean}
      */
     private isFileTypeValid(selectedSearchTerms: SearchTerm[]): boolean {
-
-        return this.isAnyTermSelected(FileFacetName.FILE_FORMAT, selectedSearchTerms);
+        return this.isAnyTermSelected(
+            FileFacetName.FILE_FORMAT,
+            selectedSearchTerms
+        );
     }
 
     /**
@@ -357,15 +385,16 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * @returns {boolean}
      */
     private isSpeciesValid(selectedSearchTerms: SearchTerm[]): boolean {
-
-        return this.isAnyTermSelected(FileFacetName.GENUS_SPECIES, selectedSearchTerms);
+        return this.isAnyTermSelected(
+            FileFacetName.GENUS_SPECIES,
+            selectedSearchTerms
+        );
     }
-    
+
     /**
      * Clear download-related state from store, kill subscriptions.
      */
     public ngOnDestroy() {
-
         // Clear project-specific:
         // - file type summaries
         // - response status
@@ -389,29 +418,38 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
      * Set up selectors and request initial data set.
      */
     public ngOnInit() {
-
         // Add selected project to state - grab the project ID from the URL. Update download state to include selected
         // project ID.
-        const projectId = this.activatedRoute.parent.snapshot.paramMap.get("id");
+        const projectId =
+            this.activatedRoute.parent.snapshot.paramMap.get("id");
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project then dispatch related events
         const project$ = this.store.pipe(
             select(selectSelectedProject),
             takeUntil(this.ngDestroy$),
-            filter(project => !!project),
+            filter((project) => !!project),
             take(1),
-            tap(project => {
-
-                // Add project to selected search terms state. 
+            tap((project) => {
+                // Add project to selected search terms state.
                 this.store.dispatch(
-                    new SelectProjectFileFacetTermAction(FileFacetName.PROJECT_ID, projectId, project.projectShortname, true));
+                    new SelectProjectFileFacetTermAction(
+                        FileFacetName.PROJECT_ID,
+                        projectId,
+                        project.projectShortname,
+                        true
+                    )
+                );
 
                 // Determine species count of project; required for autoselecting species checkbox
-                this.store.dispatch(new FetchProjectSpeciesFacetRequestAction());
+                this.store.dispatch(
+                    new FetchProjectSpeciesFacetRequestAction()
+                );
 
                 // Kick off request for project-specific file type summaries. Required for populating file type form.
-                this.store.dispatch(new FetchFileManifestFileTypeSummariesRequestAction(true));
+                this.store.dispatch(
+                    new FetchFileManifestFileTypeSummariesRequestAction(true)
+                );
 
                 // Kick off request for project-specific summary including any selected file types. Required for populating
                 // right side stats.
@@ -426,58 +464,73 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
         const fileManifest$ = this.store.pipe(select(selectFileManifest));
 
         // Set up initial state
-        combineLatest([
-            project$,
-            fileManifest$
-        ]).pipe(
-            takeUntil(this.ngDestroy$),
-            filter(([,fileManifest]) => {
-                return fileManifest.filesFacets.length && Object.keys(fileManifest.projectFileSummary).length > 0
-            }),
-            map(([project, fileManifest]) => {
+        combineLatest([project$, fileManifest$])
+            .pipe(
+                takeUntil(this.ngDestroy$),
+                filter(([, fileManifest]) => {
+                    return (
+                        fileManifest.filesFacets.length &&
+                        Object.keys(fileManifest.projectFileSummary).length > 0
+                    );
+                }),
+                map(([project, fileManifest]) => {
+                    const selectedSearchTermNames =
+                        fileManifest.selectedProjectSearchTerms.map(
+                            (searchTerm) => searchTerm.getDisplayValue()
+                        );
 
-                const selectedSearchTermNames = fileManifest.selectedProjectSearchTerms
-                    .map(searchTerm => searchTerm.getDisplayValue());
+                    return {
+                        filesFacets: fileManifest.filesFacets,
+                        fileSummary: fileManifest.projectFileSummary,
+                        fileTypeSummaries: fileManifest.fileTypeSummaries,
+                        loaded: true,
+                        manifestResponse: fileManifest.manifestResponse,
+                        project,
+                        projectSpeciesFacet: fileManifest.projectSpeciesFacet,
+                        selectedSearchTerms:
+                            fileManifest.selectedProjectSearchTerms,
+                        selectedSearchTermNames,
+                    };
+                })
+            )
+            .subscribe((state) => {
+                this.state$.next(state);
 
-                return {
-                    filesFacets: fileManifest.filesFacets,
-                    fileSummary: fileManifest.projectFileSummary,
-                    fileTypeSummaries: fileManifest.fileTypeSummaries,
-                    loaded: true,
-                    manifestResponse: fileManifest.manifestResponse,
-                    project,
-                    projectSpeciesFacet: fileManifest.projectSpeciesFacet,
-                    selectedSearchTerms: fileManifest.selectedProjectSearchTerms,
-                    selectedSearchTermNames
-                };
-            })
-        ).subscribe(state => {
-
-            this.state$.next(state);
-
-            // Update description meta for this project
-            this.projectDetailService.addProjectMeta(state.project.projectTitle, ProjectTab.PROJECT_BULK_DOWNLOAD);
-        });
+                // Update description meta for this project
+                this.projectDetailService.addProjectMeta(
+                    state.project.projectTitle,
+                    ProjectTab.PROJECT_BULK_DOWNLOAD
+                );
+            });
 
         // Autoselect species if project only has a single species
-        const speciesSelector$ = this.state$.pipe(
-            takeUntil(this.ngDestroy$),
-            skip(1) // Skip initial value
-        ).subscribe(state => {
-
-            // If project only has a single species, select it if it hasn't been selected already
-            const projectSpeciesFacet = state.projectSpeciesFacet as FileFacet;
-            const singleSpecies = projectSpeciesFacet.termCount === 1;
-            if ( singleSpecies ) {
-                const term = projectSpeciesFacet.terms[0];
-                if ( state.selectedSearchTermNames.indexOf(term.name) === -1 ) {
-                    const selectSpeciesAction =
-                        new SelectProjectFileFacetTermAction(projectSpeciesFacet.name, term.name, null, true);
-                    this.store.dispatch(selectSpeciesAction);
+        const speciesSelector$ = this.state$
+            .pipe(
+                takeUntil(this.ngDestroy$),
+                skip(1) // Skip initial value
+            )
+            .subscribe((state) => {
+                // If project only has a single species, select it if it hasn't been selected already
+                const projectSpeciesFacet =
+                    state.projectSpeciesFacet as FileFacet;
+                const singleSpecies = projectSpeciesFacet.termCount === 1;
+                if (singleSpecies) {
+                    const term = projectSpeciesFacet.terms[0];
+                    if (
+                        state.selectedSearchTermNames.indexOf(term.name) === -1
+                    ) {
+                        const selectSpeciesAction =
+                            new SelectProjectFileFacetTermAction(
+                                projectSpeciesFacet.name,
+                                term.name,
+                                null,
+                                true
+                            );
+                        this.store.dispatch(selectSpeciesAction);
+                    }
                 }
-            }
 
-            speciesSelector$.unsubscribe();
-        });
+                speciesSelector$.unsubscribe();
+            });
     }
 }

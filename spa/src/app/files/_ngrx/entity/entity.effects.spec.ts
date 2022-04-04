@@ -29,7 +29,6 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { EntityName } from "../../shared/entity-name.model";
 
 describe("EntityEffects", () => {
-
     let gtmService: GTMService;
     let effects: EntityEffects;
     let actions$: Observable<any>;
@@ -44,14 +43,16 @@ describe("EntityEffects", () => {
             entitySpecs: [],
             selectedEntity: "foo",
             selectedProject: null,
-            tableModels: [{
-                pagination: {} as any,
-                data: [],
-                loading: false,
-                tableName: "foo",
-                termCountsByFacetName: new Map()
-            }]
-        }
+            tableModels: [
+                {
+                    pagination: {} as any,
+                    data: [],
+                    loading: false,
+                    tableName: "foo",
+                    termCountsByFacetName: new Map(),
+                },
+            ],
+        },
     };
     const mockSelectPreviousQuery = "";
 
@@ -59,25 +60,22 @@ describe("EntityEffects", () => {
      * Setup for each test in suite.
      */
     beforeEach(() => {
-
         TestBed.configureTestingModule({
-            imports: [
-                HttpClientTestingModule
-            ],
+            imports: [HttpClientTestingModule],
             providers: [
                 provideMockActions(() => actions$),
                 EntityEffects,
                 GTMService,
                 provideMockStore({
-                    initialState: {}
+                    initialState: {},
                 }),
                 {
                     provide: "Window",
-                    useFactory: (() => {
+                    useFactory: () => {
                         return window;
-                    })
-                }
-            ]
+                    },
+                },
+            ],
         });
 
         gtmService = TestBed.inject(GTMService);
@@ -96,16 +94,14 @@ describe("EntityEffects", () => {
 
     // TODO update to include Terra registration functionality
     xdescribe("onLogin$", () => {
-
         /**
          * Login action triggers clear of cached data followed by a select PROJECTS entity action.
          */
         it("clears and reloads projects data on login", () => {
-
             // The select project action is translated into a fetch file facets action, with the update project table flag
             // set to false
             actions$ = hot("--a-", {
-                a: new LoginSuccessAction({} as any)
+                a: new LoginSuccessAction({} as any),
             });
 
             const expected = cold("--(bc)", {
@@ -118,16 +114,14 @@ describe("EntityEffects", () => {
     });
 
     describe("onLogout$", () => {
-
         /**
          * Logout action triggers clear of cached data followed by a select PROJECTS entity action.
          */
         it("clears and reloads projects data on logout", () => {
-
             // The select project action is translated into a fetch file facets action, with the update project table flag
             // set to false
             actions$ = hot("--a-", {
-                a: new LogoutSuccessAction()
+                a: new LogoutSuccessAction(),
             });
 
             const expected = cold("--(bc)", {
@@ -140,37 +134,38 @@ describe("EntityEffects", () => {
     });
 
     describe("switchTabs$", () => {
-
         /**
          * Confirm tracking is called.
          */
         it("tracks click on entity", () => {
-
             spyOn(gtmService, "trackEvent").and.callThrough();
 
             const action = new SelectEntityAction("foo");
             actions$ = of(action);
             effects.switchTabs$.subscribe();
-            expect(gtmService.trackEvent).toHaveBeenCalledWith(action.asEvent({
-                catalog: mockSelectCatalog,
-                currentQuery: mockSelectPreviousQuery
-            }));
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(
+                action.asEvent({
+                    catalog: mockSelectCatalog,
+                    currentQuery: mockSelectPreviousQuery,
+                })
+            );
         });
 
         /**
          * Confirm tracking is called.
          */
         it("tracks click on back to entities", () => {
-
             spyOn(gtmService, "trackEvent").and.callThrough();
 
             const action = new BackToEntityAction("foo");
             actions$ = of(action);
             effects.switchTabs$.subscribe();
-            expect(gtmService.trackEvent).toHaveBeenCalledWith(action.asEvent({
-                catalog: mockSelectCatalog,
-                currentQuery: mockSelectPreviousQuery
-            }));
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(
+                action.asEvent({
+                    catalog: mockSelectCatalog,
+                    currentQuery: mockSelectPreviousQuery,
+                })
+            );
         });
     });
 });

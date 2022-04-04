@@ -11,7 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "project-summary-stats",
     templateUrl: "./project-summary-stats.component.html",
-    styleUrls: ["./project-summary-stats.component.scss"]
+    styleUrls: ["./project-summary-stats.component.scss"],
 })
-export class ProjectSummaryStatsComponent {
-}
+export class ProjectSummaryStatsComponent {}

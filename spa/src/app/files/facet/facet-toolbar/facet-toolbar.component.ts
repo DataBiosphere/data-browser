@@ -6,7 +6,14 @@
  */
 
 // Core dependencies
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    SimpleChanges,
+} from "@angular/core";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { Store } from "@ngrx/store";
 
@@ -36,9 +43,7 @@ import { GASource } from "../../../shared/analytics/ga-source.model";
     templateUrl: "./facet-toolbar.component.html",
     styleUrls: ["./facet-toolbar.component.scss"],
 })
-
 export class FacetToolbarComponent implements OnChanges {
-
     // Template variables
     public facetDoubleWideOrganismAge: boolean;
     public fileFacetGroups: FacetGroup[];
@@ -62,23 +67,23 @@ export class FacetToolbarComponent implements OnChanges {
      * @param {TermSortService} termSortService
      * @param {Store<AppState>} store
      */
-    constructor(private deviceService: DeviceDetectorService,
-                private facetDisplayService: FacetDisplayService,
-                private responsiveService: ResponsiveService,
-                private termSortService: TermSortService,
-                private store: Store<AppState>) {
-    }
+    constructor(
+        private deviceService: DeviceDetectorService,
+        private facetDisplayService: FacetDisplayService,
+        private responsiveService: ResponsiveService,
+        private termSortService: TermSortService,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Return the minimum value for the specified age range facet.
-     * 
+     *
      * @param {string} facetName
      * @returns {number}
      */
     getAgeRangeMin(facetName: string): number {
-        
         const facet = this.getFacet(facetName) as FacetAgeRange;
-        if ( !facet ) {
+        if (!facet) {
             return 0;
         }
 
@@ -92,12 +97,11 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {number}
      */
     getAgeRangeMax(facetName: string): number {
-
         const facet = this.getFacet(facetName) as FacetAgeRange;
-        if ( !facet ) {
+        if (!facet) {
             return 0;
         }
-        
+
         return facet.ageRange.ageMax;
     }
 
@@ -108,23 +112,21 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {AgeUnit}
      */
     getAgeRangeUnit(facetName: string): AgeUnit {
-
         const facet = this.getFacet(facetName) as FacetAgeRange;
-        if ( !facet ) {
+        if (!facet) {
             return AgeUnit.year;
         }
-        
+
         return facet.ageRange.ageUnit;
     }
 
     /**
      * Returns the facet given a facet name.
-     * 
+     *
      * @param {string} facetName
      * @returns {Facet}
      */
     public getFacet(facetName: string): Facet {
-
         return this.facets.find(function (fileFacet) {
             return fileFacet.name === facetName;
         });
@@ -137,8 +139,10 @@ export class FacetToolbarComponent implements OnChanges {
      * @param {number} indexOfFacetGroupMenu
      * @returns {{[p: string]: string}}
      */
-    public getFacetGroupStyles(facetGroup: FacetGroup, indexOfFacetGroupMenu: number): { [key: string]: string } {
-
+    public getFacetGroupStyles(
+        facetGroup: FacetGroup,
+        indexOfFacetGroupMenu: number
+    ): { [key: string]: string } {
         const facetGroupFacetNames = facetGroup.facetNames;
         const numberOfFacets = facetGroupFacetNames.length;
         const numberOfFacetGroups = this.fileFacetGroups.length;
@@ -151,62 +155,101 @@ export class FacetToolbarComponent implements OnChanges {
          * If it doesn't, we will use double the standard facet width */
         this.facetDoubleWideOrganismAge = false;
         /* Facet group includes ORGANISM_AGE_RANGE facet */
-        const facetGroupHasOrganismAge = facetGroupFacetNames.includes(FacetAgeRangeName.ORGANISM_AGE_RANGE);
-        const widthOfInputBox = document.getElementsByClassName("hca-input")[0].getBoundingClientRect().width;
+        const facetGroupHasOrganismAge = facetGroupFacetNames.includes(
+            FacetAgeRangeName.ORGANISM_AGE_RANGE
+        );
+        const widthOfInputBox = document
+            .getElementsByClassName("hca-input")[0]
+            .getBoundingClientRect().width;
         /* Width of facet group menu - inclusive of margin 8px on the menu - 158px or 128px */
-        const widthOfFacetGroupMenu = document.getElementsByClassName("facet-group-menu")[0].getBoundingClientRect().width + 8;
+        const widthOfFacetGroupMenu =
+            document
+                .getElementsByClassName("facet-group-menu")[0]
+                .getBoundingClientRect().width + 8;
         /* Width of facet group menus - (excludes first and last margin - 8px) - 782px or 632px */
-        const widthOfFacetGroupMenus = document.getElementById("facet-group-menus").getBoundingClientRect().width - 8;
+        const widthOfFacetGroupMenus =
+            document.getElementById("facet-group-menus").getBoundingClientRect()
+                .width - 8;
 
         /* AllowableWidth determines whether the fileFacets are able to be left aligned with its menu.
          * Calculated using width of menus, and the position of menu e.g. box number 1, 2, 3 etc..., 158px is width inclusive of margin on the menu */
-        const allowableWidthIfLeftAligned = (widthOfFacetGroupMenus - (widthOfFacetGroupMenu * indexOfFacetGroupMenu));
+        const allowableWidthIfLeftAligned =
+            widthOfFacetGroupMenus -
+            widthOfFacetGroupMenu * indexOfFacetGroupMenu;
         /* Position right - if right aligned */
-        const right = (widthOfFacetGroupMenu * (numberOfFacetGroups - 1 - indexOfFacetGroupMenu));
+        const right =
+            widthOfFacetGroupMenu *
+            (numberOfFacetGroups - 1 - indexOfFacetGroupMenu);
         /* Position left - if left aligned */
-        const left = this.isWindowWidthSmallTablet() ? (widthOfFacetGroupMenu * indexOfFacetGroupMenu) : (widthOfInputBox + (widthOfFacetGroupMenu * indexOfFacetGroupMenu) + 8);
+        const left = this.isWindowWidthSmallTablet()
+            ? widthOfFacetGroupMenu * indexOfFacetGroupMenu
+            : widthOfInputBox +
+              widthOfFacetGroupMenu * indexOfFacetGroupMenu +
+              8;
         /* Left position of menu - assists with check if fileFacets can be left aligned with screen */
-        const leftPosOfSelectBox = this.isWindowWidthSmallTablet() ? ((widthOfFacetGroupMenu * (indexOfFacetGroupMenu + 1)) - 8) : ((widthOfFacetGroupMenu * (indexOfFacetGroupMenu + 1)) + widthOfInputBox);
+        const leftPosOfSelectBox = this.isWindowWidthSmallTablet()
+            ? widthOfFacetGroupMenu * (indexOfFacetGroupMenu + 1) - 8
+            : widthOfFacetGroupMenu * (indexOfFacetGroupMenu + 1) +
+              widthOfInputBox;
         /* Maximum allowable width for facet display */
         const maxAllowableWidth = document.getElementById("filter").offsetWidth;
 
         /* Width required for fileFacets - 14px for left and right padding and border, 216px or 256px for each facet inside drop down */
-        let widthRequired = facetGroupHasOrganismAge ? (numberOfFacets - 1) * widthOfFacet + widthOfFacetOrganismAge + 14 : numberOfFacets * widthOfFacet + 14;
+        let widthRequired = facetGroupHasOrganismAge
+            ? (numberOfFacets - 1) * widthOfFacet + widthOfFacetOrganismAge + 14
+            : numberOfFacets * widthOfFacet + 14;
         let maxHeight;
 
         /* Calculate max allowable height of hca-options - scrolls if extends beyond page bounds */
-        if ( this.selectIndex === indexOfFacetGroupMenu ) {
-
-            maxHeight = (document.body.getBoundingClientRect().height - document.getElementById("facet-group").getBoundingClientRect().top) + "px";
+        if (this.selectIndex === indexOfFacetGroupMenu) {
+            maxHeight =
+                document.body.getBoundingClientRect().height -
+                document.getElementById("facet-group").getBoundingClientRect()
+                    .top +
+                "px";
         }
 
         /* Wrap fileFacets if the widthRequired is greater than the maximum allowable width.
          * Calculate number of fileFacets that fits neatly in the first row of the max allowable width.
          * Then calculate new width. */
-        if ( widthRequired > maxAllowableWidth ) {
-
+        if (widthRequired > maxAllowableWidth) {
             /* Set facet ORGANISM_AGE_RANGE double wide of standard facet width */
             this.facetDoubleWideOrganismAge = true;
 
-            const numberOfFacetsPerRow = Math.trunc((maxAllowableWidth - 14) / widthOfFacet);
-            widthRequired = (numberOfFacetsPerRow * widthOfFacet) + 14;
+            const numberOfFacetsPerRow = Math.trunc(
+                (maxAllowableWidth - 14) / widthOfFacet
+            );
+            widthRequired = numberOfFacetsPerRow * widthOfFacet + 14;
         }
 
         /* Rules of alignment:
          * Facets will be left aligned with own menu if it can be contained between itself and last facet menu.
          * Facets will be left aligned with screen if the widthRequired is greater than the position of the facet's menu.
          * Facets will be right aligned with last facet menu. */
-        let leftPos = widthRequired < allowableWidthIfLeftAligned ? "0" : widthRequired < leftPosOfSelectBox ? "unset" : (-left + "px");
-        let rightPos = widthRequired < allowableWidthIfLeftAligned ? "unset" : widthRequired < leftPosOfSelectBox ? (-right + "px") : "unset";
-        let minWidth = (widthRequired + "px");
-        let maxWidth = widthRequired < allowableWidthIfLeftAligned ? (allowableWidthIfLeftAligned + "px") : (widthOfFacetGroupMenus + "px");
+        let leftPos =
+            widthRequired < allowableWidthIfLeftAligned
+                ? "0"
+                : widthRequired < leftPosOfSelectBox
+                ? "unset"
+                : -left + "px";
+        let rightPos =
+            widthRequired < allowableWidthIfLeftAligned
+                ? "unset"
+                : widthRequired < leftPosOfSelectBox
+                ? -right + "px"
+                : "unset";
+        let minWidth = widthRequired + "px";
+        let maxWidth =
+            widthRequired < allowableWidthIfLeftAligned
+                ? allowableWidthIfLeftAligned + "px"
+                : widthOfFacetGroupMenus + "px";
 
         return {
-            "left": leftPos,
-            "maxHeight": maxHeight,
-            "maxWidth": maxWidth,
-            "minWidth": minWidth,
-            "right": rightPos
+            left: leftPos,
+            maxHeight: maxHeight,
+            maxWidth: maxWidth,
+            minWidth: minWidth,
+            right: rightPos,
         };
     }
 
@@ -216,8 +259,7 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {number}
      */
     public getFacetWidth(): number {
-
-        return (this.isWindowWidthHCAMedium() ? 216 : 256);
+        return this.isWindowWidthHCAMedium() ? 216 : 256;
     }
 
     /**
@@ -227,7 +269,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {name}
      */
     private getFacetDisplayName(fileFacetName: string): string {
-
         return this.facetDisplayService.getFacetDisplayName(fileFacetName);
     }
 
@@ -237,8 +278,7 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {string}
      */
     public getIsOpenClass(f, t) {
-
-        if ( this.openIndex === t && this.selectedFacet === f ) {
+        if (this.openIndex === t && this.selectedFacet === f) {
             return "open";
         }
 
@@ -251,7 +291,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {string}
      */
     public getLabelName(activeTab: EntitySpec): string {
-
         return activeTab.displayName;
     }
 
@@ -259,11 +298,9 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {string}
      */
     public getOptionsSmallClass() {
-
-        if ( this.selectIndex == 1 ) {
+        if (this.selectIndex == 1) {
             return "hca-options-small";
-        }
-        else {
+        } else {
             return "hca-options-small hide";
         }
     }
@@ -275,7 +312,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {Term[]}
      */
     public getSortedFacetTerms(facetName: string): Term[] {
-
         const facet = this.getFacet(facetName) as FileFacet;
         const sortedTerms = [...facet.terms];
         this.termSortService.sortTerms(facetName, sortedTerms);
@@ -287,7 +323,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {boolean}
      */
     public isDeviceMobile(): boolean {
-
         return this.deviceService.isMobile();
     }
 
@@ -298,7 +333,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {number | boolean}
      */
     public isFacetGroupActive(activePosition) {
-
         return this.facets.length && this.selectIndex === activePosition;
     }
 
@@ -309,7 +343,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {boolean}
      */
     public isFacetOrganismAge(facetName: string): boolean {
-
         return facetName === FacetAgeRangeName.ORGANISM_AGE_RANGE;
     }
 
@@ -319,7 +352,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {boolean}
      */
     public isWindowWidthHCAMedium() {
-
         return this.responsiveService.isWindowWidthHCAMedium();
     }
 
@@ -329,7 +361,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {boolean}
      */
     public isWindowWidthSmall() {
-
         return this.responsiveService.isWindowWidthSmall();
     }
 
@@ -339,7 +370,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {boolean}
      */
     public isWindowWidthSmallTablet() {
-
         return this.responsiveService.isWindowWidthSmallTablet();
     }
 
@@ -350,8 +380,11 @@ export class FacetToolbarComponent implements OnChanges {
      * @param {AgeRange} ageRange
      */
     public onAgeRangeCleared(facetName: string, ageRange: AgeRange) {
-
-        const action = new ClearSelectedAgeRangeAction(facetName, ageRange, GASource.FACET_BROWSER);
+        const action = new ClearSelectedAgeRangeAction(
+            facetName,
+            ageRange,
+            GASource.FACET_BROWSER
+        );
         this.store.dispatch(action);
     }
 
@@ -362,8 +395,11 @@ export class FacetToolbarComponent implements OnChanges {
      * @param {AgeRange} ageRange
      */
     public onAgeRangeSelected(facetName: string, ageRange: AgeRange) {
-
-        const action = new SelectFacetAgeRangeAction(facetName, ageRange, GASource.FACET_BROWSER);
+        const action = new SelectFacetAgeRangeAction(
+            facetName,
+            ageRange,
+            GASource.FACET_BROWSER
+        );
         this.store.dispatch(action);
     }
 
@@ -373,28 +409,26 @@ export class FacetToolbarComponent implements OnChanges {
      * @param facetTermSelectedEvent {FacetTermSelectedEvent}
      */
     public onFacetTermSelected(facetTermSelectedEvent: FacetTermSelectedEvent) {
-
         const action = new SelectFileFacetTermAction(
             facetTermSelectedEvent.facetName,
             facetTermSelectedEvent.termName,
             facetTermSelectedEvent.selected,
-            GASource.FACET_BROWSER);
+            GASource.FACET_BROWSER
+        );
         this.store.dispatch(action);
     }
 
     /**
      * Mobile only - update state to indicate accordion section is now open, and facet contained inside is visible.
-     * 
+     *
      * @param {F} f
      * @param {T} t
      */
     public onFacetAccordionOpened(f, t) {
-
-        if ( this.selectedFacet == f && this.openIndex == t ) {
+        if (this.selectedFacet == f && this.openIndex == t) {
             this.selectedFacet = null;
             this.openIndex = null;
-        }
-        else {
+        } else {
             this.selectedFacet = f;
             this.openIndex = t;
         }
@@ -406,7 +440,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @param event
      */
     public onFacetMenuOpen(event) {
-
         this.menuOpen.emit(event);
         this.selectIndex = null;
         this.openIndex = null;
@@ -418,14 +451,10 @@ export class FacetToolbarComponent implements OnChanges {
      * @param {number} index
      */
     public onToggleFacetMenu(index: number) {
-
-        if ( index === this.selectIndex ) {
-
+        if (index === this.selectIndex) {
             this.menuOpen.emit(false);
             this.selectIndex = null;
-        }
-        else {
-
+        } else {
             this.menuOpen.emit(true);
             this.selectIndex = index;
         }
@@ -439,7 +468,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @returns {string}
      */
     public trackFileFacetByFn(index, fileFacet: FileFacet): string {
-
         return fileFacet.name;
     }
 
@@ -450,8 +478,10 @@ export class FacetToolbarComponent implements OnChanges {
      * @param {FacetGroup} facetGroup
      * @returns {string}
      */
-    public trackFileFacetGroupsByFn(index: number, facetGroup: FacetGroup): string {
-
+    public trackFileFacetGroupsByFn(
+        index: number,
+        facetGroup: FacetGroup
+    ): string {
         return facetGroup.facetGroupName;
     }
 
@@ -459,22 +489,24 @@ export class FacetToolbarComponent implements OnChanges {
      * Group the specified fileFacets into groups, for display in facet drop downs.
      */
     private initFacetGroups() {
-
         // Get the set of available fileFacets.
-        const specifiedFacetNames = this.facets.map(facet => facet.name);
+        const specifiedFacetNames = this.facets.map((facet) => facet.name);
 
         // Iterate over the facet groups definition and filter out any fileFacets that are not in the set of
         // available fileFacets.
-        this.fileFacetGroups = this.facetDisplayService.getFacetGroups().map((group) => {
+        this.fileFacetGroups = this.facetDisplayService
+            .getFacetGroups()
+            .map((group) => {
+                const groupFacetNames = group.facetNames.filter(
+                    (facetName: string) => {
+                        return specifiedFacetNames.indexOf(facetName) >= 0;
+                    }
+                );
 
-            const groupFacetNames = group.facetNames.filter((facetName: string) => {
-                return specifiedFacetNames.indexOf(facetName) >= 0;
+                return Object.assign({}, group, {
+                    facetNames: groupFacetNames,
+                });
             });
-
-            return Object.assign({}, group, {
-                facetNames: groupFacetNames
-            });
-        });
     }
 
     /**
@@ -483,7 +515,6 @@ export class FacetToolbarComponent implements OnChanges {
      * @param {SimpleChanges} changes
      */
     ngOnChanges(changes: SimpleChanges) {
-
         this.initFacetGroups();
     }
 }

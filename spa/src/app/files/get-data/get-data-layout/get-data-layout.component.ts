@@ -7,7 +7,14 @@
 
 // Core dependencies
 import { animate, style, transition, trigger } from "@angular/animations";
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    OnInit,
+    Output,
+} from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
@@ -28,22 +35,21 @@ import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
     animations: [
         trigger("fadeIn", [
             transition(":enter", [
-                style({opacity: 0}),
-                animate("750ms ease-out", style({opacity: 1}))
-            ])
-        ])
-    ]
+                style({ opacity: 0 }),
+                animate("750ms ease-out", style({ opacity: 1 })),
+            ]),
+        ]),
+    ],
 })
 export class GetDataLayoutComponent implements OnDestroy, OnInit {
-
     // Locals
     private ngDestroy$ = new Subject<boolean>();
-    
+
     // Template variables
     public state$ = new BehaviorSubject<GetDataLayoutComponentState>({
-        loaded: false
+        loaded: false,
     });
-    
+
     // Inputs
     @Input() tabs: EntitySpec[];
     @Output() tabSelected = new EventEmitter<EntitySpec>();
@@ -55,11 +61,10 @@ export class GetDataLayoutComponent implements OnDestroy, OnInit {
 
     /**
      * Handle click on back button.
-     * 
+     *
      * @param {EntitySpec} entitySpec
      */
     public onTabSelected(entitySpec: EntitySpec): void {
-        
         this.tabSelected.emit(entitySpec);
     }
 
@@ -67,7 +72,6 @@ export class GetDataLayoutComponent implements OnDestroy, OnInit {
      * Clear summary and kill subscriptions on exit of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -76,7 +80,6 @@ export class GetDataLayoutComponent implements OnDestroy, OnInit {
      * Set up state.
      */
     public ngOnInit() {
-
         // Get the list of facets to display. Must pull these from the files endpoint.
         this.store.dispatch(new FetchFilesFacetsRequestAction());
 
@@ -94,12 +97,11 @@ export class GetDataLayoutComponent implements OnDestroy, OnInit {
                 })
             )
             .subscribe(([filesFacets, fileSummary, selectedSearchTerms]) => {
-
                 this.state$.next({
                     filesFacets,
                     fileSummary,
                     loaded: true,
-                    selectedSearchTerms
+                    selectedSearchTerms,
                 });
             });
     }

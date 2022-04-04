@@ -15,7 +15,7 @@ export interface FileSummaryResponse {
     fileCount: number;
     fileTypeSummaries: FileTypeSummaryResponse[];
     organTypes: string[];
-    projects: FileSummaryProjectResponse[]
+    projects: FileSummaryProjectResponse[];
     projectCount: number;
     specimenCount: number;
     totalCellCount: number; // Deprecated as per DB 2118

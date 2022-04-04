@@ -22,31 +22,35 @@ import { SystemStatusSuccessAction } from "./system-status-success.action";
 
 @Injectable()
 export class SystemEffects {
-
     /**
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      * @param {SystemService} systemService
      */
-    constructor(private store: Store<AppState>,
-                private actions$: Actions,
-                private systemService: SystemService) {
-    }
+    constructor(
+        private store: Store<AppState>,
+        private actions$: Actions,
+        private systemService: SystemService
+    ) {}
 
     /**
      * Trigger fetch of system status.
      *
      * @type {Observable<Action>}
      */
-    
-    systemStatus$: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
-            ofType(SystemStatusRequestAction.ACTION_TYPE),
-            switchMap((action: SystemStatusRequestAction) => 
-                this.systemService.fetchSystemStatus(action.catalog)),
-            map((response: SystemStatusResponse) => {
 
-                return new SystemStatusSuccessAction(response.ok, response.indexing);
+    systemStatus$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(SystemStatusRequestAction.ACTION_TYPE),
+            switchMap((action: SystemStatusRequestAction) =>
+                this.systemService.fetchSystemStatus(action.catalog)
+            ),
+            map((response: SystemStatusResponse) => {
+                return new SystemStatusSuccessAction(
+                    response.ok,
+                    response.indexing
+                );
             })
-        ));
+        )
+    );
 }

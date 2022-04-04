@@ -11,7 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "announcement",
     templateUrl: "announcement.component.html",
-    styleUrls: ["announcement.component.scss"]
+    styleUrls: ["announcement.component.scss"],
 })
-export class AnnouncementComponent {
-}
+export class AnnouncementComponent {}

@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Side effects of analysis protocol-related actions. 
+ * Side effects of analysis protocol-related actions.
  */
 
 // Core dependencies
@@ -21,33 +21,45 @@ import { ViewAnalysisProtocolAction } from "./view-analysis-protocol.action";
 
 @Injectable()
 export class AnalysisProtocolEffects {
-
     /**
      * @param {GTMService} gtmService
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private gtmService: GTMService,
-                private store: Store<AppState>,
-                private actions$: Actions) {}
+    constructor(
+        private gtmService: GTMService,
+        private store: Store<AppState>,
+        private actions$: Actions
+    ) {}
 
     /**
      * Track click of link to analysis protocol in the Data Portal.
      */
-    
-    viewAnalysisProtocol$ = createEffect(() => this.actions$.pipe(
-        ofType(ViewAnalysisProtocolAction.ACTION_TYPE),
-        concatMap(action => of(action).pipe(
-            withLatestFrom(
-                this.store.pipe(select(selectCatalog), take(1)),
-                this.store.pipe(select(selectPreviousQuery), take(1))
-            )
-        )),
-        tap(([action, catalog, queryWhenActionTriggered]) => {
-            this.gtmService.trackEvent((action as ViewAnalysisProtocolAction).asEvent({
-                catalog,
-                currentQuery: queryWhenActionTriggered
-            }));
-        })
-    ), {dispatch: false});
+
+    viewAnalysisProtocol$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(ViewAnalysisProtocolAction.ACTION_TYPE),
+                concatMap((action) =>
+                    of(action).pipe(
+                        withLatestFrom(
+                            this.store.pipe(select(selectCatalog), take(1)),
+                            this.store.pipe(
+                                select(selectPreviousQuery),
+                                take(1)
+                            )
+                        )
+                    )
+                ),
+                tap(([action, catalog, queryWhenActionTriggered]) => {
+                    this.gtmService.trackEvent(
+                        (action as ViewAnalysisProtocolAction).asEvent({
+                            catalog,
+                            currentQuery: queryWhenActionTriggered,
+                        })
+                    );
+                })
+            ),
+        { dispatch: false }
+    );
 }

@@ -11,5 +11,5 @@ export const environment = {
     terraURL: "",
     title: "HCA Data Browser",
     deployment: "dcp2",
-    zendeskURL: "https://support.terra.bio"
+    zendeskURL: "https://support.terra.bio",
 };

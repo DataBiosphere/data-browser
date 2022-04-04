@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Directive handling drag, drop and click-related functionality of file upload. 
+ * Directive handling drag, drop and click-related functionality of file upload.
  */
 
 // Core dependencies
@@ -20,7 +20,7 @@ import {
     OnDestroy,
     Output,
     QueryList,
-    ViewChild
+    ViewChild,
 } from "@angular/core";
 import { fromEvent, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -33,10 +33,11 @@ import { DropzoneService } from "./dropzone.service";
 @Component({
     selector: "dropzone",
     templateUrl: "dropzone.component.html",
-    styleUrls: ["dropzone.component.scss"]
+    styleUrls: ["dropzone.component.scss"],
 })
-export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDestroy {
-
+export class DropzoneComponent
+    implements AfterContentInit, AfterViewInit, OnDestroy
+{
     // Locals
     private directoryOpen = false;
     private dragTargets = [];
@@ -44,12 +45,14 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
 
     // Bindings
     @HostBinding("class.dragging") dragging: boolean;
-    
+
     // Content child/ren
-    @ContentChildren(
-        DirectoryButtonComponent,
-        {descendants: true, read: ElementRef}) directoryButtonElementRefs: QueryList<ElementRef>;
-    
+    @ContentChildren(DirectoryButtonComponent, {
+        descendants: true,
+        read: ElementRef,
+    })
+    directoryButtonElementRefs: QueryList<ElementRef>;
+
     // View child/ren
     @ViewChild("file") fileInputElementRef: ElementRef;
 
@@ -65,13 +68,16 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
      * @param {ElementRef} elementRef - allow access via ViewChild/ren
      * @param {Window} window
      */
-    constructor(private dropzoneService: DropzoneService, private elementRef: ElementRef, @Inject("Window") private window: Window) {}
+    constructor(
+        private dropzoneService: DropzoneService,
+        private elementRef: ElementRef,
+        @Inject("Window") private window: Window
+    ) {}
 
     /**
      * @param {DragEvent} evt
      */
     @HostListener("dragenter", ["$event"]) onDragEnter(evt) {
-
         evt.preventDefault();
         evt.stopPropagation();
 
@@ -83,15 +89,14 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
      * @param {DragEvent} evt
      */
     @HostListener("dragleave", ["$event"]) public onDragLeave(evt) {
-
         evt.preventDefault();
         evt.stopPropagation();
 
         const targetIndex = this.dragTargets.indexOf(evt.target);
-        if ( targetIndex >= 0 ) {
+        if (targetIndex >= 0) {
             this.dragTargets.splice(targetIndex, 1);
         }
-        if ( this.dragTargets.length === 0 ) {
+        if (this.dragTargets.length === 0) {
             this.dragging = false;
         }
     }
@@ -100,7 +105,6 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
      * @param {DragEvent} evt
      */
     @HostListener("dragover", ["$event"]) onDragOver(evt) {
-
         evt.preventDefault();
         evt.stopPropagation();
     }
@@ -109,37 +113,34 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
      * @param {DragEvent | Event} evt - handles either drop of file or change in value of file input.
      */
     @HostListener("drop", ["$event"]) onDrop(evt) {
-
         evt.preventDefault();
         evt.stopPropagation();
 
         this.dragTargets = [];
         this.dragging = false;
 
-        if ( !this.dropzoneService.isEventWithFiles(evt) ) {
+        if (!this.dropzoneService.isEventWithFiles(evt)) {
             return;
         }
 
         let files;
-        if ( this.dropzoneService.isDragEvent(evt) ) {
+        if (this.dropzoneService.isDragEvent(evt)) {
             files = this.dropzoneService.getDraggedFiles(evt);
-        }
-        else {
+        } else {
             files = this.dropzoneService.getInputFiles(evt);
         }
-        
+
         this.onFilesSelected(files);
     }
 
     /**
-     * The set of directory buttons has been initialized or updated: hook up click event with file input click. 
+     * The set of directory buttons has been initialized or updated: hook up click event with file input click.
      */
     private initDirectoryButtons(directoryButtonElementRefs: ElementRef[]) {
-
-        if ( !directoryButtonElementRefs || !directoryButtonElementRefs.length ) {
+        if (!directoryButtonElementRefs || !directoryButtonElementRefs.length) {
             return;
         }
-        
+
         directoryButtonElementRefs.forEach((directoryButtonElementRef) => {
             this.initDirectoryButton(directoryButtonElementRef);
         });
@@ -147,12 +148,11 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
 
     /**
      * Handle click on directory button - trigger click on hidden file input.
-     * 
+     *
      * @param {ElementRef} directoryButtonElementRef
      */
     private initDirectoryButton(directoryButtonElementRef: ElementRef) {
-
-        if ( !directoryButtonElementRef ) {
+        if (!directoryButtonElementRef) {
             return;
         }
         fromEvent(directoryButtonElementRef.nativeElement, "click")
@@ -162,26 +162,31 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
 
     /**
      * Handle select or drop of files.
-     * 
+     *
      * @param {File[]} files
      */
     private onFilesSelected(files: File[]) {
-
         // Check file count - reject if more than one file was dropped but multiple files are not allowed
         // TODO extension - update this to emit an array of errors for each file
-        if ( !this.dropzoneService.isFileCountValid(files.length, this.multiple) ) {
-            this.dropRejected.emit(this.dropzoneService.TOO_MANY_FILES_REJECTION);
+        if (
+            !this.dropzoneService.isFileCountValid(files.length, this.multiple)
+        ) {
+            this.dropRejected.emit(
+                this.dropzoneService.TOO_MANY_FILES_REJECTION
+            );
             return;
         }
 
         // Check max file size
         // TODO extension - update this to emit an array of errors for each file
-        if ( !this.dropzoneService.isFileSizeValid(files, this.maxSize) ) {
-            this.dropRejected.emit(this.dropzoneService.FILE_TOO_LARGE(this.maxSize));
+        if (!this.dropzoneService.isFileSizeValid(files, this.maxSize)) {
+            this.dropRejected.emit(
+                this.dropzoneService.FILE_TOO_LARGE(this.maxSize)
+            );
             return;
         }
 
-        if ( files.length > 0 ) {
+        if (files.length > 0) {
             this.dropAccepted.emit(files);
         }
     }
@@ -190,7 +195,6 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
      * Open OS file browser.
      */
     private openDirectory() {
-
         this.directoryOpen = true;
         this.fileInputElementRef.nativeElement.value = null;
         this.fileInputElementRef.nativeElement.click();
@@ -201,7 +205,6 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
      * get a handle on the projected directory button.
      */
     ngAfterContentInit() {
-
         // Set up initial directory button click handler
         this.initDirectoryButtons(this.directoryButtonElementRefs.toArray());
 
@@ -216,7 +219,6 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
      * Add listener on file input change to handle files selected via OS file directory.
      */
     ngAfterViewInit() {
-
         // Set up change listener on file input
         fromEvent(this.fileInputElementRef.nativeElement, "change")
             .pipe(takeUntil(this.ngDestroy$))
@@ -227,7 +229,6 @@ export class DropzoneComponent implements AfterContentInit, AfterViewInit, OnDes
      * Kill subscriptions on destroy of component.
      */
     ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }

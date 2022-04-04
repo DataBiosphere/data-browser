@@ -19,17 +19,22 @@ import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { Project } from "../../shared/project.model";
 
-export class FetchProjectMatrixFileLocationRequestAction implements Action, TrackingAction {
+export class FetchProjectMatrixFileLocationRequestAction
+    implements Action, TrackingAction
+{
+    public static ACTION_TYPE =
+        "PROJECT.FETCH_PROJECT_MATRIX_FILE_LOCATION_REQUEST";
+    public readonly type =
+        FetchProjectMatrixFileLocationRequestAction.ACTION_TYPE;
 
-    public static ACTION_TYPE = "PROJECT.FETCH_PROJECT_MATRIX_FILE_LOCATION_REQUEST";
-    public readonly type = FetchProjectMatrixFileLocationRequestAction.ACTION_TYPE;
-
-    constructor(public readonly project: Project,
-                public readonly projectUrl: string,
-                public readonly projectMatrixType: ProjectMatrixType,
-                public readonly fileUrl: string,
-                public readonly fileName: string,
-                public readonly trigger: FileLocationTrigger) {}
+    constructor(
+        public readonly project: Project,
+        public readonly projectUrl: string,
+        public readonly projectMatrixType: ProjectMatrixType,
+        public readonly fileUrl: string,
+        public readonly fileName: string,
+        public readonly trigger: FileLocationTrigger
+    ) {}
 
     /**
      * Return the file location request action as a GA event.
@@ -37,23 +42,20 @@ export class FetchProjectMatrixFileLocationRequestAction implements Action, Trac
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog}): GAEvent {
-
+    public asEvent({ catalog }): GAEvent {
         // Currently only two types of matrices - CGM and DCP
         let relatedEntityType;
-        if ( this.projectMatrixType === ProjectMatrixType.CGM ) {
+        if (this.projectMatrixType === ProjectMatrixType.CGM) {
             relatedEntityType = GAEntityType.PROJECT_CGM_MATRIX;
-        }
-        else {
+        } else {
             relatedEntityType = GAEntityType.PROJECT_DCP_MATRIX;
         }
 
         let action;
-        if ( this.trigger === FileLocationTrigger.DOWNLOAD ) {
-            action = GAAction.DOWNLOAD_PROJECT_MATRIX
-        }
-        else {
-            action = GAAction.COPY_PROJECT_MATRIX
+        if (this.trigger === FileLocationTrigger.DOWNLOAD) {
+            action = GAAction.DOWNLOAD_PROJECT_MATRIX;
+        } else {
+            action = GAAction.COPY_PROJECT_MATRIX;
         }
 
         return {
@@ -66,8 +68,8 @@ export class FetchProjectMatrixFileLocationRequestAction implements Action, Trac
                 [GADimension.ENTITY_URL]: this.projectUrl,
                 [GADimension.RELATED_ENTITY_ID]: this.fileName,
                 [GADimension.RELATED_ENTITY_TYPE]: relatedEntityType,
-                [GADimension.RELATED_ENTITY_URL]: this.fileUrl
-            }
-        }
+                [GADimension.RELATED_ENTITY_URL]: this.fileUrl,
+            },
+        };
     }
 }

@@ -7,8 +7,7 @@
  *
  * Theme based on instructions found at: https://github.com/angular/material2/blob/master/docs/theming.md
  */
-@use '@angular/material' as mat;
-
+@use "@angular/material" as mat;
 
 // Include the base styles for Angular Material core. We include this here so that you only
 // have to load a single css file for Angular Material in your app.

@@ -20,32 +20,31 @@ import { TerraAuthState } from "./terra-auth.state";
 
 @Injectable()
 export class TerraAuthEffects {
-
     /**
      * @param terraAuthService
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      */
-    constructor(private terraAuthService: TerraAuthService,
-                private store: Store<TerraAuthState>,
-                private actions$: Actions) {
-    }
+    constructor(
+        private terraAuthService: TerraAuthService,
+        private store: Store<TerraAuthState>,
+        private actions$: Actions
+    ) {}
 
     /**
      * User has logged in; check Terra registration status.
      */
-    
-    onLogin$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(
-            LoginSuccessAction.ACTION_TYPE
-        ),
-        switchMap(() => {
-           return this.terraAuthService.getRegistrationStatus();
-        }),
-        map(() => {
 
-            // Wait for Terra registration response, then continue as is.
-            return new NoOpAction();
-        })
-    ));
+    onLogin$: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
+            ofType(LoginSuccessAction.ACTION_TYPE),
+            switchMap(() => {
+                return this.terraAuthService.getRegistrationStatus();
+            }),
+            map(() => {
+                // Wait for Terra registration response, then continue as is.
+                return new NoOpAction();
+            })
+        )
+    );
 }

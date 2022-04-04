@@ -11,10 +11,9 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 @Component({
     selector: "support-request-button",
     templateUrl: "support-request-button.component.html",
-    styleUrls: ["support-request-button.component.scss"]
+    styleUrls: ["support-request-button.component.scss"],
 })
 export class SupportRequestButtonComponent {
-    
     // Input
     @Input() visible: boolean;
 
@@ -23,11 +22,10 @@ export class SupportRequestButtonComponent {
 
     /**
      * Handle click on support request button.
-     * 
+     *
      * @param {MouseEvent} event
      */
     public onButtonClicked(event: MouseEvent) {
-
         event.stopPropagation();
         this.buttonClicked.emit(true);
     }

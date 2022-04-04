@@ -8,7 +8,6 @@
 // App dependencies
 
 export interface DownloadButtonComponentState {
-
     disabled?: boolean;
     loaded: boolean;
 }

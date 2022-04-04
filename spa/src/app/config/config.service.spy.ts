@@ -24,5 +24,5 @@ export const ConfigServiceSpy = jasmine.createSpyObj("ConfigService", [
     "isEnvCGLDev",
     "isEnvLocal",
     "isEnvDCP2",
-    "getZendeskUrl"
+    "getZendeskUrl",
 ]);

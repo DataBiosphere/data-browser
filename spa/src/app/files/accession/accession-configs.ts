@@ -17,52 +17,57 @@ const ACCESSION_CONFIGS: AccessionConfig[] = [
     {
         identifierOrgPrefix: "arrayexpress",
         label: "Array Express Accessions",
-        responseKey: "array_express"
+        responseKey: "array_express",
     },
     {
         identifierOrgPrefix: "biostudies",
         label: "BioStudies Accessions",
-        responseKey: "biostudies"
+        responseKey: "biostudies",
     },
     {
         identifierOrgPrefix: "ega.study",
         label: "EGA Accessions",
-        responseKey: "ega"
+        responseKey: "ega",
     },
     {
         identifierOrgPrefix: "dpgap",
         label: "dbGaP Accessions",
-        responseKey: "dpgap"
+        responseKey: "dpgap",
     },
     {
         identifierOrgPrefix: "geo",
         label: "GEO Series Accessions",
-        responseKey: "geo_series"
+        responseKey: "geo_series",
     },
     {
         identifierOrgPrefix: "ena.embl",
         label: "INSDC Project Accessions",
-        responseKey: "insdc_project"
+        responseKey: "insdc_project",
     },
     {
         identifierOrgPrefix: "ena.embl",
         label: "INSDC Study Accessions",
-        responseKey: "insdc_study"
+        responseKey: "insdc_study",
     },
 ];
 
 /**
  * Build up map of accession configs keyed by response key.
  */
-export const ACCESSION_CONFIGS_BY_RESPONSE_KEY = groupAccessionBy("responseKey", ACCESSION_CONFIGS);
+export const ACCESSION_CONFIGS_BY_RESPONSE_KEY = groupAccessionBy(
+    "responseKey",
+    ACCESSION_CONFIGS
+);
 
 /**
  * Group accession configs by the given key.
  * @param {AccessionConfigKeys} groupBy
  * @param {AccessionConfig[]} configs
  */
-function groupAccessionBy(groupBy: AccessionConfigKeys, configs: AccessionConfig[]): Map<string, AccessionConfig> {
-
+function groupAccessionBy(
+    groupBy: AccessionConfigKeys,
+    configs: AccessionConfig[]
+): Map<string, AccessionConfig> {
     return configs.reduce((accum, config) => {
         accum.set(config[groupBy], config);
         return accum;

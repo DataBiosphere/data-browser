@@ -6,7 +6,6 @@
  */
 
 export interface FileLocationAPIResponse {
-
     Location: string;
     "Retry-After": number;
     Status: number;

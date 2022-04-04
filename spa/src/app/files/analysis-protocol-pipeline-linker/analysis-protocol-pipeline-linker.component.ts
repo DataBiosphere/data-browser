@@ -15,24 +15,23 @@ import { ConfigService } from "../../config/config.service";
 @Component({
     selector: "analysis-protocol-pipeline-linker",
     templateUrl: "./analysis-protocol-pipeline-linker.component.html",
-    styleUrls: ["./analysis-protocol-pipeline-linker.component.scss"]
+    styleUrls: ["./analysis-protocol-pipeline-linker.component.scss"],
 })
-
 export class AnalysisProtocolPipelineLinkerComponent {
-
     // Inputs
     @Input() workflow: string;
-    
+
     // Outputs
-    @Output() analysisProtocolViewed = new EventEmitter<AnalysisProtocolViewedEvent>();
+    @Output() analysisProtocolViewed =
+        new EventEmitter<AnalysisProtocolViewedEvent>();
 
     // Template variables
     public portalURL: string;
 
     // Locals
     private pipelineLinksByAnalysisProtocolKey = {
-        "smartseq2": "/pipelines/smart-seq2-workflow",
-        "optimus": "/pipelines/optimus-workflow"
+        smartseq2: "/pipelines/smart-seq2-workflow",
+        optimus: "/pipelines/optimus-workflow",
     };
 
     /**
@@ -40,7 +39,6 @@ export class AnalysisProtocolPipelineLinkerComponent {
      * @param {ConfigService} configService
      */
     constructor(private configService: ConfigService) {
-
         this.portalURL = this.configService.getPortalUrl();
     }
 
@@ -51,18 +49,20 @@ export class AnalysisProtocolPipelineLinkerComponent {
      * @returns {string}
      */
     public getPipelineLink(analysisProtocol: string): string {
+        const analysisProtocolKey = this.findAnalysisProtocolKey(
+            this.pipelineLinksByAnalysisProtocolKey,
+            analysisProtocol
+        );
 
-        const analysisProtocolKey = this.findAnalysisProtocolKey(this.pipelineLinksByAnalysisProtocolKey, analysisProtocol);
-
-        if ( !analysisProtocolKey ) {
-
+        if (!analysisProtocolKey) {
             return "/";
         }
 
-        const pipelineLink = this.pipelineLinksByAnalysisProtocolKey[analysisProtocolKey];
+        const pipelineLink =
+            this.pipelineLinksByAnalysisProtocolKey[analysisProtocolKey];
 
         return `${this.portalURL}${pipelineLink}`;
-    };
+    }
 
     /**
      * Returns true if the analysis protocol has a corresponding pipeline in the Data Portal.
@@ -71,8 +71,10 @@ export class AnalysisProtocolPipelineLinkerComponent {
      * @returns {boolean}
      */
     public isAnalysisProtocolLinked(analysisProtocol: string): boolean {
-
-        return !!this.findAnalysisProtocolKey(this.pipelineLinksByAnalysisProtocolKey, analysisProtocol);
+        return !!this.findAnalysisProtocolKey(
+            this.pipelineLinksByAnalysisProtocolKey,
+            analysisProtocol
+        );
     }
 
     /**
@@ -81,9 +83,7 @@ export class AnalysisProtocolPipelineLinkerComponent {
      * @returns {string[]}
      */
     public listAnalysisProtocols(): string[] {
-
-        if ( !this.workflow ) {
-
+        if (!this.workflow) {
             return [];
         }
 
@@ -92,14 +92,13 @@ export class AnalysisProtocolPipelineLinkerComponent {
 
     /**
      * Let parents know analysis protocol link has been clicked.
-     * 
+     *
      * @param {string} analysisProtocol
      */
     public onAnalysisProtocolLinkClicked(analysisProtocol: string) {
-
         this.analysisProtocolViewed.emit({
             analysisProtocol,
-            url: this.getPipelineLink(analysisProtocol)
+            url: this.getPipelineLink(analysisProtocol),
         });
     }
 
@@ -110,10 +109,11 @@ export class AnalysisProtocolPipelineLinkerComponent {
      * @param {string} analysisProtocol
      * @returns {string}
      */
-    private findAnalysisProtocolKey(pipelineLinksByAnalysisProtocol: Object, analysisProtocol: string): string {
-
-        return Object.keys(pipelineLinksByAnalysisProtocol).find(key => {
-
+    private findAnalysisProtocolKey(
+        pipelineLinksByAnalysisProtocol: Object,
+        analysisProtocol: string
+    ): string {
+        return Object.keys(pipelineLinksByAnalysisProtocol).find((key) => {
             return analysisProtocol.includes(key);
         });
     }

@@ -7,5 +7,5 @@
 
 export enum SectionBarPosition {
     "LEFT" = "left",
-    "TOP" = "top"
-};
+    "TOP" = "top",
+}

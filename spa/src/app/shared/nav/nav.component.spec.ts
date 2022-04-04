@@ -18,7 +18,6 @@ import { HCATooltipComponent } from "../hca-tooltip/hca-tooltip.component";
 import { MatTooltipModule } from "@angular/material/tooltip";
 
 describe("NavComponent", () => {
-
     let component: NavComponent;
     let fixture: ComponentFixture<NavComponent>;
 
@@ -28,47 +27,60 @@ describe("NavComponent", () => {
     // Input values
     const INPUT_VALUE_NAV_ITEMS = [
         {
-            "display": "Project Information",
-            "routerLink": ["/projects", "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce"]
+            display: "Project Information",
+            routerLink: ["/projects", "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce"],
         },
         {
-            "display": "External Resources",
-            "routerLink": ["/projects", "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce", "external-resources"]
+            display: "External Resources",
+            routerLink: [
+                "/projects",
+                "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce",
+                "external-resources",
+            ],
         },
         {
-            "display": "Project Metadata",
-            "routerLink": ["/projects", "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce", "project-metadata"]
+            display: "Project Metadata",
+            routerLink: [
+                "/projects",
+                "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce",
+                "project-metadata",
+            ],
         },
         {
-            "display": "Project Matrices",
-            "routerLink": ["/projects", "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce", "project-matrices"]
+            display: "Project Matrices",
+            routerLink: [
+                "/projects",
+                "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce",
+                "project-matrices",
+            ],
         },
         {
-            "display": "Summary Stats",
-            "routerLink": ["/projects", "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce", "summary-stats"]
+            display: "Summary Stats",
+            routerLink: [
+                "/projects",
+                "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce",
+                "summary-stats",
+            ],
         },
         {
-            "display": "Data Citation",
-            "routerLink": ["/projects", "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce", "data-citation"]
+            display: "Data Citation",
+            routerLink: [
+                "/projects",
+                "efb89bf7-5191-4dd2-8fe6-c6cb15f38dce",
+                "data-citation",
+            ],
         },
     ];
 
     // Test values
-    const TEST_VALUE_ROUTER_LINK_PROJECT_INFORMATION = INPUT_VALUE_NAV_ITEMS[0].routerLink.join("/");
+    const TEST_VALUE_ROUTER_LINK_PROJECT_INFORMATION =
+        INPUT_VALUE_NAV_ITEMS[0].routerLink.join("/");
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
-            declarations: [
-                NavComponent,
-                HCATooltipComponent
-            ],
-            imports: [
-                MatTooltipModule,
-                RouterModule,
-                RouterTestingModule
-            ],
-            providers: []
+            declarations: [NavComponent, HCATooltipComponent],
+            imports: [MatTooltipModule, RouterModule, RouterTestingModule],
+            providers: [],
         }).compileComponents();
 
         fixture = TestBed.createComponent(NavComponent);
@@ -79,7 +91,6 @@ describe("NavComponent", () => {
      * Smoke test
      */
     it("should create an instance", () => {
-
         expect(component).toBeTruthy();
     });
 
@@ -87,7 +98,6 @@ describe("NavComponent", () => {
      * Confirm single nav is displayed when single nav value.
      */
     it("displays single nav when single nav value", () => {
-
         component.navItems = INPUT_VALUE_NAV_ITEMS.slice(0, 1);
 
         fixture.detectChanges();
@@ -100,7 +110,6 @@ describe("NavComponent", () => {
      * Confirm multiple nav is displayed when multiple nav values.
      */
     it("displays multiple nav when multiple nav values", () => {
-
         component.navItems = INPUT_VALUE_NAV_ITEMS;
 
         fixture.detectChanges();
@@ -113,7 +122,6 @@ describe("NavComponent", () => {
      * Confirm no nav is displayed when no nav values.
      */
     it("does not display nav when no nav values", () => {
-
         component.navItems = [];
 
         fixture.detectChanges();
@@ -126,26 +134,28 @@ describe("NavComponent", () => {
      * Confirm displays nav display value.
      */
     it("displays nav display value", () => {
-
         component.navItems = INPUT_VALUE_NAV_ITEMS;
 
         fixture.detectChanges();
 
         // Confirm displays nav display value
-        expect(getNavDEs()[0].nativeElement.innerText).toEqual(INPUT_VALUE_NAV_ITEMS[0].display);
+        expect(getNavDEs()[0].nativeElement.innerText).toEqual(
+            INPUT_VALUE_NAV_ITEMS[0].display
+        );
     });
 
     /**
      * Confirm href is added to nav link.
      */
     it("adds href to nav link", () => {
-
         component.navItems = INPUT_VALUE_NAV_ITEMS;
 
         fixture.detectChanges();
 
         // Confirm nav router is added to href attribute
-        expect(getNavDEs()[0].properties.pathname).toEqual(TEST_VALUE_ROUTER_LINK_PROJECT_INFORMATION);
+        expect(getNavDEs()[0].properties.pathname).toEqual(
+            TEST_VALUE_ROUTER_LINK_PROJECT_INFORMATION
+        );
     });
 
     /**
@@ -154,7 +164,6 @@ describe("NavComponent", () => {
      * @returns {DebugElement[]}
      */
     function getNavDEs(): DebugElement[] {
-
         return fixture.debugElement.queryAll(By.css(SELECTOR_NAV));
     }
 });

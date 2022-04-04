@@ -23,7 +23,6 @@ import { AttachmentAPIResponse } from "./attachment-api-response.model";
 
 @Injectable()
 export class SupportRequestService {
-
     // LOCALS
     private static PATH_REQUESTS = "api/v2/requests.json";
     private static PATH_UPLOADS = "api/v2/uploads.json";
@@ -33,93 +32,99 @@ export class SupportRequestService {
      * @param {HttpClient} httpClient
      * @param {Store<AppState>} store
      */
-    constructor(private configService: ConfigService, private httpClient: HttpClient, private store: Store<AppState>) {}
+    constructor(
+        private configService: ConfigService,
+        private httpClient: HttpClient,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Post support request to Zendesk.
      */
-    public createSupportRequest(supportRequest: SupportRequestPost): Observable<SupportRequestResponse> {
-
+    public createSupportRequest(
+        supportRequest: SupportRequestPost
+    ): Observable<SupportRequestResponse> {
         // Set up request headers
         const headers = new HttpHeaders({
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         });
-        
+
         const body = {
             request: {
                 comment: {
                     body: `${supportRequest.description}\n\n------------------\nSubmitted from: ${supportRequest.requestedFromUrl}`,
-                    uploads: [supportRequest.attachmentToken]
+                    uploads: [supportRequest.attachmentToken],
                 },
                 custom_fields: [
-                    {id: 360012782111, value: supportRequest.email},
-                    {id: 360007369412, value: supportRequest.description},
-                    {id: 360007369392, value: supportRequest.subject},
-                    {id: 360012744452, value: supportRequest.type}
+                    { id: 360012782111, value: supportRequest.email },
+                    { id: 360007369412, value: supportRequest.description },
+                    { id: 360007369392, value: supportRequest.subject },
+                    { id: 360012744452, value: supportRequest.type },
                 ],
                 requester: {
                     email: supportRequest.email,
-                    name: supportRequest.name
+                    name: supportRequest.name,
                 },
                 subject: supportRequest.subject,
-                ticket_form_id: 360000932232
-            }
+                ticket_form_id: 360000932232,
+            },
         };
 
-        const url = `${this.configService.getZendeskUrl()}/${SupportRequestService.PATH_REQUESTS}`;
+        const url = `${this.configService.getZendeskUrl()}/${
+            SupportRequestService.PATH_REQUESTS
+        }`;
         return this.httpClient
-            .post<SupportRequestAPIResponse>(url, body, {headers})
+            .post<SupportRequestAPIResponse>(url, body, { headers })
             .pipe(
                 catchError((e) => {
                     return of({
                         error: true,
-                        errorMessage: e.message
+                        errorMessage: e.message,
                     });
                 }),
                 map((response: SupportRequestResponse) => {
-
                     return {
                         id: response.id,
                         error: response.error,
-                        errorMessage: response.errorMessage
-                    }
+                        errorMessage: response.errorMessage,
+                    };
                 })
             );
     }
 
     /**
      * Upload file as attachment to request.
-     * 
+     *
      * @param {File} file
      */
     public uploadAttachment(file: File): Observable<AttachmentResponse> {
-
         // Set up request headers
         const headers = new HttpHeaders({
-            "Content-Type": "application/binary"
+            "Content-Type": "application/binary",
         });
 
         // Set up request params
         const params = new HttpParams().set("filename", file.name);
 
-        const url = `${this.configService.getZendeskUrl()}/${SupportRequestService.PATH_UPLOADS}`;
+        const url = `${this.configService.getZendeskUrl()}/${
+            SupportRequestService.PATH_UPLOADS
+        }`;
         return this.httpClient
-            .post<AttachmentAPIResponse>(url, file, {headers, params})
+            .post<AttachmentAPIResponse>(url, file, { headers, params })
             .pipe(
                 catchError((e) => {
                     return of({
                         error: true,
-                        errorMessage: e.message
+                        errorMessage: e.message,
                     });
                 }),
                 map((response: AttachmentAPIResponse) => {
-
                     const upload = response.upload;
                     return {
                         attachmentName: upload?.attachment?.file_name,
                         error: response.error,
                         errorMessage: response.errorMessage,
-                        token: upload?.token
+                        token: upload?.token,
                     };
                 })
             );

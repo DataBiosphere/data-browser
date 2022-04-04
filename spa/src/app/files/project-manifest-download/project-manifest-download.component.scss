@@ -43,7 +43,6 @@ p:first-of-type {
 
 /* Component project-metadata - project detail view */
 :host-context(project-metadata) {
-
     /* Initial paragraph */
     p:first-of-type {
         margin: 0 0 24px;
@@ -61,7 +60,7 @@ p:first-of-type {
     }
 
     /* Download label, error state on download */
-    > span  {
+    > span {
         margin: 0;
     }
 }

@@ -19,4 +19,7 @@ export const selectFile = createFeatureSelector<FileState>("file");
 /**
  * Returns the set of file locations.
  */
-export const selectFileFileLocations =  createSelector(selectFile, (state) => state.fileFileLocationsByFileUrl);
+export const selectFileFileLocations = createSelector(
+    selectFile,
+    (state) => state.fileFileLocationsByFileUrl
+);

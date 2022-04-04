@@ -16,7 +16,6 @@ import { GTMService } from "../shared/analytics/gtm.service";
 
 @Injectable()
 export class SurveyEffects {
-
     /**
      * @param {GTMService} gtmService
      * @param {Actions} actions$
@@ -26,11 +25,17 @@ export class SurveyEffects {
     /**
      * Track click on survey launch button.
      */
-    
-    trackTakeSurvey$ = createEffect(() => this.actions$.pipe(
-        ofType(TakeSurveyAction.ACTION_TYPE),
-        tap((action) => {
-            this.gtmService.trackEvent((action as TakeSurveyAction).asEvent());
-        })
-    ), {dispatch: false});
+
+    trackTakeSurvey$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(TakeSurveyAction.ACTION_TYPE),
+                tap((action) => {
+                    this.gtmService.trackEvent(
+                        (action as TakeSurveyAction).asEvent()
+                    );
+                })
+            ),
+        { dispatch: false }
+    );
 }

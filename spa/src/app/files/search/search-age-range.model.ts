@@ -11,13 +11,11 @@ import { AgeRange } from "../facet/facet-age-range/age-range.model";
 import { AgeInAgeUnit } from "../facet/facet-age-range/facet-age-range-form/age-in-age-unit.pipe";
 
 export class SearchAgeRange implements SearchTerm {
-
     /**
      * @param {string} facetName
      * @param {AgeRange} ageRange
      */
-    constructor(public readonly facetName: string,
-                public ageRange: AgeRange) {}
+    constructor(public readonly facetName: string, public ageRange: AgeRange) {}
 
     /**
      * We never user display age ranges in the search autosuggest (where this count would be used).
@@ -25,7 +23,6 @@ export class SearchAgeRange implements SearchTerm {
      * @returns {number}
      */
     public getCount(): number {
-
         throw `Error attempting to access count for age range search term "${this.facetName}".`;
     }
 
@@ -35,11 +32,16 @@ export class SearchAgeRange implements SearchTerm {
      * @returns {string}
      */
     public getDisplayValue(): string {
-
         const ageInAgeUnit = new AgeInAgeUnit();
         const ageUnit = this.ageRange.ageUnit;
-        const minDisplay = ageInAgeUnit.transform(this.ageRange.ageMin, ageUnit);
-        const maxDisplay = ageInAgeUnit.transform(this.ageRange.ageMax, ageUnit);
+        const minDisplay = ageInAgeUnit.transform(
+            this.ageRange.ageMin,
+            ageUnit
+        );
+        const maxDisplay = ageInAgeUnit.transform(
+            this.ageRange.ageMax,
+            ageUnit
+        );
         const ageUnitDisplay = maxDisplay === 1 ? ageUnit : `${ageUnit}s`;
         return `between ${minDisplay} and ${maxDisplay} ${ageUnitDisplay}`;
     }
@@ -51,8 +53,7 @@ export class SearchAgeRange implements SearchTerm {
      * @returns {string}
      */
     getId(): string {
-
-       return `${this.getSearchKey()}:${this.getSearchValue()}`;
+        return `${this.getSearchKey()}:${this.getSearchValue()}`;
     }
 
     /**
@@ -62,7 +63,6 @@ export class SearchAgeRange implements SearchTerm {
      * @returns {string}
      */
     public getSearchKey(): string {
-
         return this.facetName;
     }
 
@@ -73,7 +73,6 @@ export class SearchAgeRange implements SearchTerm {
      * @returns {string}
      */
     public getSearchValue(): any {
-
         return this.ageRange;
     }
 
@@ -86,7 +85,6 @@ export class SearchAgeRange implements SearchTerm {
      * @returns {any}
      */
     public getFilterParameterValue(): any {
-
         return [this.ageRange.ageMin, this.ageRange.ageMax];
     }
 
@@ -96,9 +94,6 @@ export class SearchAgeRange implements SearchTerm {
      * @returns {string}
      */
     public getSortValue(): string {
-
         return this.getDisplayValue();
     }
 }
-
-

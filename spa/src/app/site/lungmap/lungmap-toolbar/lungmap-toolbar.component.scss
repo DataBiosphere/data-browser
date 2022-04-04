@@ -27,7 +27,8 @@
     text-decoration: none;
     text-transform: capitalize;
 
-    &.active, &:hover {
+    &.active,
+    &:hover {
         color: $hca-secondary;
     }
 
@@ -104,12 +105,12 @@ mat-toolbar {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 840px) {
-
     @mixin toolbar-link() {
         color: $hca-white;
         opacity: 0.8;
 
-        &.active, &:hover {
+        &.active,
+        &:hover {
             color: $hca-white;
             opacity: 1;
         }
@@ -128,7 +129,6 @@ mat-toolbar {
     }
 
     mat-toolbar {
-
         /* Second toolbar row - nav bar */
         mat-toolbar-row.nav-bar {
             display: flex; /* Always show nav bar */

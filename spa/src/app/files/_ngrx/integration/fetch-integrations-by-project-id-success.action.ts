@@ -13,7 +13,10 @@ import { Portal } from "./portal.model";
 
 export class FetchIntegrationsByProjectIdSuccessAction implements Action {
     public static ACTION_TYPE = "FILE.INTEGRATIONS_BY_PROJECT_ID_FETCH_SUCCESS";
-    public readonly type = FetchIntegrationsByProjectIdSuccessAction.ACTION_TYPE;
-    constructor(public readonly projectId: string, public readonly integrations: Portal[]) {}
+    public readonly type =
+        FetchIntegrationsByProjectIdSuccessAction.ACTION_TYPE;
+    constructor(
+        public readonly projectId: string,
+        public readonly integrations: Portal[]
+    ) {}
 }
-

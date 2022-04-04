@@ -35,18 +35,16 @@ import { SupportRequestSubmittedComponent } from "../support-request-submitted/s
 import { SupportRequestType } from "../support-request-type.model";
 
 describe("SupportRequestForm", () => {
-
     let component: SupportRequestFormComponent;
     let fixture: ComponentFixture<SupportRequestFormComponent>;
     const testStore = jasmine.createSpyObj("Store", ["pipe", "dispatch"]);
     const windowMock = {
         location: {
-            href: "http://test.com"
-        }
+            href: "http://test.com",
+        },
     };
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [
                 AttachmentErrorComponent,
@@ -56,7 +54,7 @@ describe("SupportRequestForm", () => {
                 SupportRequestErrorComponent,
                 SupportRequestFormComponent,
                 SupportRequestSubmittedComponent,
-                SupportRequestFormComponent
+                SupportRequestFormComponent,
             ],
             imports: [
                 DropzoneModule,
@@ -64,22 +62,25 @@ describe("SupportRequestForm", () => {
                 MatProgressSpinnerModule,
                 MatSelectModule,
                 ReactiveFormsModule,
-                SharedModule
+                SharedModule,
             ],
             providers: [
                 {
                     provide: SupportRequestService,
-                    userValue: jasmine.createSpyObj("SupportRequestService", ["createSupportRequest", "uploadAttachment"])
+                    userValue: jasmine.createSpyObj("SupportRequestService", [
+                        "createSupportRequest",
+                        "uploadAttachment",
+                    ]),
                 },
                 {
                     provide: Store,
-                    useValue: testStore
+                    useValue: testStore,
                 },
                 {
                     provide: "Window",
-                    useValue: windowMock
-                }
-            ]
+                    useValue: windowMock,
+                },
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(SupportRequestFormComponent);
@@ -89,11 +90,12 @@ describe("SupportRequestForm", () => {
     /**
      * Confirm subject field is required.
      */
-    it ("marks empty subject field as invalid", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+    it("marks empty subject field as invalid", () => {
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         const formGroup = component.supportRequestGroup;
         const control = formGroup.controls["subject"];
@@ -105,11 +107,12 @@ describe("SupportRequestForm", () => {
     /**
      * Confirm description field is required.
      */
-    it ("marks empty description field as invalid", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+    it("marks empty description field as invalid", () => {
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         const formGroup = component.supportRequestGroup;
         const control = formGroup.controls["description"];
@@ -121,11 +124,12 @@ describe("SupportRequestForm", () => {
     /**
      * Confirm name field is required.
      */
-    it ("marks empty name field as invalid", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+    it("marks empty name field as invalid", () => {
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         const formGroup = component.supportRequestGroup;
         const control = formGroup.controls["name"];
@@ -137,11 +141,12 @@ describe("SupportRequestForm", () => {
     /**
      * Confirm email field is required.
      */
-    it ("marks empty email field as invalid", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+    it("marks empty email field as invalid", () => {
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         const formGroup = component.supportRequestGroup;
         const control = formGroup.controls["email"];
@@ -154,10 +159,11 @@ describe("SupportRequestForm", () => {
      * Send button is disabled if form is invalid.
      */
     it("disables send button if form is invalid", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         // Confirm subject field is empty (this is a required field)
         const formGroup = component.supportRequestGroup;
@@ -165,7 +171,9 @@ describe("SupportRequestForm", () => {
         control.setValue("");
         fixture.detectChanges();
 
-        const submitBtnDE = fixture.debugElement.query(By.css(".support-request-button-submit"));
+        const submitBtnDE = fixture.debugElement.query(
+            By.css(".support-request-button-submit")
+        );
         expect(submitBtnDE.nativeElement.disabled).toBeTruthy();
     });
 
@@ -173,11 +181,12 @@ describe("SupportRequestForm", () => {
      * Send button is disabled if form is submitted.
      */
     it("disables send button if form is submitted", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest,
-            submitting: true
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+                submitting: true,
+            })
+        );
 
         const formGroup = component.supportRequestGroup;
         formGroup.setValue({
@@ -185,7 +194,7 @@ describe("SupportRequestForm", () => {
             email: "first@last.com",
             name: "first last",
             subject: "subject",
-            type: SupportRequestType.QUESTION
+            type: SupportRequestType.QUESTION,
         });
 
         const formGroupValue = formGroup.value;
@@ -194,7 +203,9 @@ describe("SupportRequestForm", () => {
         component.onSupportRequestSubmitted(formGroup, attachmentToken);
         fixture.detectChanges();
 
-        const submitBtnDE = fixture.debugElement.query(By.css(".support-request-button-submit"));
+        const submitBtnDE = fixture.debugElement.query(
+            By.css(".support-request-button-submit")
+        );
         expect(submitBtnDE.nativeElement.disabled).toBeTruthy();
     });
 
@@ -202,10 +213,11 @@ describe("SupportRequestForm", () => {
      * Dispatches delete action on delete of attachment.
      */
     it("dispatches delete action on delete of attachment", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         component.onAttachmentDeleted();
 
@@ -217,10 +229,11 @@ describe("SupportRequestForm", () => {
      * Dispatches upload action on drop of attachment.
      */
     it("dispatches upload action on drop of attachment", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         const files = [{} as File] as any;
         component.onAttachmentDropped(files);
@@ -233,10 +246,11 @@ describe("SupportRequestForm", () => {
      * Dispatches submit action on submit of form.
      */
     it("dispatches submit action on submit of form", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         const formGroup = component.supportRequestGroup;
 
@@ -245,7 +259,7 @@ describe("SupportRequestForm", () => {
             email: "first@last.com",
             name: "first last",
             subject: "subject",
-            type: SupportRequestType.QUESTION
+            type: SupportRequestType.QUESTION,
         });
 
         const formGroupValue = formGroup.value;
@@ -256,8 +270,8 @@ describe("SupportRequestForm", () => {
         const expectedAction = new CreateSupportRequestRequestAction({
             ...formGroupValue,
             attachmentToken,
-            requestedFromUrl: windowMock.location.href
-        }); 
+            requestedFromUrl: windowMock.location.href,
+        });
         expect(testStore.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
@@ -265,10 +279,11 @@ describe("SupportRequestForm", () => {
      * Check support request post model is built correctly.
      */
     it("builds support request model", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         const formGroup = component.supportRequestGroup;
         formGroup.setValue({
@@ -276,17 +291,21 @@ describe("SupportRequestForm", () => {
             email: "first@last.com",
             name: "first last",
             subject: "subject",
-            type: SupportRequestType.QUESTION
+            type: SupportRequestType.QUESTION,
         });
 
         const formGroupValue = formGroup.value;
         const attachmentToken = "123";
         const requestedFromUrl = windowMock.location.href;
-        const supportRequest = component["buildSupportRequest"](formGroup, attachmentToken, requestedFromUrl);
+        const supportRequest = component["buildSupportRequest"](
+            formGroup,
+            attachmentToken,
+            requestedFromUrl
+        );
         expect(supportRequest).toEqual({
             ...formGroupValue,
             attachmentToken,
-            requestedFromUrl
+            requestedFromUrl,
         });
     });
 
@@ -294,19 +313,20 @@ describe("SupportRequestForm", () => {
      * Dispatches rejected action if file is rejected on drop.
      */
     it("dispatches attachment rejected action on drop of file that is too large", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         const dropError = {
             code: DropErrorCode.FILE_TOO_LARGE,
-            message: "File is larger than 2MB bytes"
+            message: "File is larger than 2MB bytes",
         };
 
         component.onAttachmentRejected(dropError);
         fixture.detectChanges();
-        
+
         const expectedAction = new AttachmentDropRejectAction(dropError);
         expect(testStore.dispatch).toHaveBeenCalledWith(expectedAction);
     });
@@ -315,21 +335,24 @@ describe("SupportRequestForm", () => {
      * Displays error message on drop of file that is too large.
      */
     it("displays error message on drop of file that is too large", () => {
-
         const dropError = {
             code: DropErrorCode.FILE_TOO_LARGE,
-            message: "File is larger than 2MB bytes"
+            message: "File is larger than 2MB bytes",
         };
 
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest,
-            attachmentRejected: true,
-            attachmentRejection: dropError
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+                attachmentRejected: true,
+                attachmentRejection: dropError,
+            })
+        );
 
         fixture.detectChanges();
 
-        const submitBtnDEs = fixture.debugElement.queryAll(By.css(".support-request-error.field"));
+        const submitBtnDEs = fixture.debugElement.queryAll(
+            By.css(".support-request-error.field")
+        );
         expect(submitBtnDEs.length).toEqual(1);
     });
 
@@ -337,15 +360,18 @@ describe("SupportRequestForm", () => {
      * Displays error message on upload error of attachment.
      */
     it("displays error message on upload error of file", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest,
-            attachmentUploadError: true
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+                attachmentUploadError: true,
+            })
+        );
 
         fixture.detectChanges();
 
-        const submitBtnDEs = fixture.debugElement.queryAll(By.css(".support-request-error.field"));
+        const submitBtnDEs = fixture.debugElement.queryAll(
+            By.css(".support-request-error.field")
+        );
         expect(submitBtnDEs.length).toEqual(1);
     });
 
@@ -353,15 +379,18 @@ describe("SupportRequestForm", () => {
      * Displays error message on error of submit.
      */
     it("displays error message on submit error", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest,
-            submitError: true
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+                submitError: true,
+            })
+        );
 
         fixture.detectChanges();
 
-        const submitBtnDEs = fixture.debugElement.queryAll(By.css(".support-request-error.submit"));
+        const submitBtnDEs = fixture.debugElement.queryAll(
+            By.css(".support-request-error.submit")
+        );
         expect(submitBtnDEs.length).toEqual(1);
     });
 
@@ -369,15 +398,18 @@ describe("SupportRequestForm", () => {
      * Displays thank you on successful submit.
      */
     it("displays thank you on successful submit", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest,
-            submitted: true
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+                submitted: true,
+            })
+        );
 
         fixture.detectChanges();
 
-        const submitBtnDEs = fixture.debugElement.queryAll(By.css("support-request-submitted"));
+        const submitBtnDEs = fixture.debugElement.queryAll(
+            By.css("support-request-submitted")
+        );
         expect(submitBtnDEs.length).toEqual(1);
     });
 
@@ -385,10 +417,11 @@ describe("SupportRequestForm", () => {
      * Dispatches reset action on destroy of form.
      */
     it("dispatches reset action on destroy of form", () => {
-
-        testStore.pipe.and.returnValues(of({
-            ...SupportRequestState.getDefaultState().supportRequest
-        }));
+        testStore.pipe.and.returnValues(
+            of({
+                ...SupportRequestState.getDefaultState().supportRequest,
+            })
+        );
 
         component.ngOnDestroy();
 

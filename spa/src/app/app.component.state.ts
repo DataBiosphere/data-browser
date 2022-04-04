@@ -10,9 +10,8 @@ import { Catalog } from "./files/catalog/catalog.model";
 import { SystemStatus } from "./system/_ngrx/system-status.model";
 
 export interface AppComponentState {
-
     catalog?: Catalog;
-    error?: boolean,
+    error?: boolean;
     systemStatus?: SystemStatus;
-    terraRegistrationRequired?: boolean; 
+    terraRegistrationRequired?: boolean;
 }

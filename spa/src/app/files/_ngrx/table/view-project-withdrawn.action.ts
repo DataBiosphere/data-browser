@@ -16,7 +16,6 @@ import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
 export class ViewProjectWithdrawnAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "PROJECT.VIEW_PROJECT_WITHDRAWN";
     public readonly type = ViewProjectWithdrawnAction.ACTION_TYPE;
 
@@ -26,10 +25,12 @@ export class ViewProjectWithdrawnAction implements Action, TrackingAction {
      * @param {string} projectUrl
      * @param {string} redirectUrl
      */
-    constructor(public projectId: string,
-                public projectShortname: string,
-                public projectUrl: string,
-                public redirectUrl: string) {}
+    constructor(
+        public projectId: string,
+        public projectShortname: string,
+        public projectUrl: string,
+        public redirectUrl: string
+    ) {}
 
     /**
      * Return the project integration action as a GA event.
@@ -37,8 +38,7 @@ export class ViewProjectWithdrawnAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.PROJECT,
             action: GAAction.VIEW_WITHDRAWN_PROJECT,
@@ -48,8 +48,8 @@ export class ViewProjectWithdrawnAction implements Action, TrackingAction {
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_ID]: this.projectId,
                 [GADimension.ENTITY_URL]: this.projectUrl,
-                [GADimension.RELATED_ENTITY_URL]: this.redirectUrl
-            }
+                [GADimension.RELATED_ENTITY_URL]: this.redirectUrl,
+            },
         };
     }
 }

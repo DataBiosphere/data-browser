@@ -17,7 +17,6 @@ import { GAAction } from "../../../shared/analytics/ga-action.model";
 import { TableParams } from "../../table/pagination/table-params.model";
 
 export class TablePreviousPageAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "TABLE.PREVIOUS_PAGE";
     public readonly type = TablePreviousPageAction.ACTION_TYPE;
 
@@ -33,8 +32,7 @@ export class TablePreviousPageAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery, index}): GAEvent {
-
+    public asEvent({ catalog, currentQuery, index }): GAEvent {
         return {
             category: GACategory.SEARCH_RESULTS,
             action: GAAction.PREVIOUS_PAGE,
@@ -42,9 +40,8 @@ export class TablePreviousPageAction implements Action, TrackingAction {
             dimensions: {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.CURRENT_QUERY]: currentQuery,
-                [GADimension.INDEX]: index
-            }
+                [GADimension.INDEX]: index,
+            },
         };
     }
 }
-

@@ -12,7 +12,7 @@ import {
     HttpEvent,
     HttpHandler,
     HttpInterceptor,
-    HttpRequest
+    HttpRequest,
 } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -28,40 +28,47 @@ import { TerraAuthService } from "../auth-terra/terra-auth.service";
 
 @Injectable()
 export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
-
     // Constants
-    private NO_REDIRECT_PATHS = [
-        "/integrations"
-    ];
+    private NO_REDIRECT_PATHS = ["/integrations"];
 
     /**
      * @param {ConfigService} configService
      * @param {Router} router
      * @param {Store<AppState>} store
      */
-    constructor(private configService: ConfigService, private router: Router, private store: Store<AppState>) {}
+    constructor(
+        private configService: ConfigService,
+        private router: Router,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * @param {HttpRequest<any>} req
      * @param {HttpHandler} next
      * @returns {Observable<HttpEvent<any>>}
      */
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+    intercept(
+        req: HttpRequest<any>,
+        next: HttpHandler
+    ): Observable<HttpEvent<any>> {
         return next.handle(req).pipe(
             catchError((error) => {
-
-                if ( error instanceof HttpErrorResponse ) {
-
+                if (error instanceof HttpErrorResponse) {
                     // Allow system service to handle health check errors, HEAD checks, Zendesk errors or Terra
                     // registration errors.
-                    if ( this.isNoRedirectOnError(req, error) ) {
+                    if (this.isNoRedirectOnError(req, error)) {
                         return throwError(error);
                     }
 
                     // Save error to store
                     const errorMessage = this.parseErrorMessage(error);
-                    this.store.dispatch(new ErrorResponseAction(req.url, error.status, errorMessage));
+                    this.store.dispatch(
+                        new ErrorResponseAction(
+                            req.url,
+                            error.status,
+                            errorMessage
+                        )
+                    );
 
                     return EMPTY;
                 }
@@ -73,19 +80,23 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
 
     /**
      * Returns true if the error should be ignored by interceptor and handled by calling code.
-     * 
+     *
      * @param {HttpRequest<any>} req
      * @param {HttpErrorResponse} error
      * @returns {boolean}
      */
-    private isNoRedirectOnError(req: HttpRequest<any>, error: HttpErrorResponse): boolean {
-
-        return this.isHEADRequest(req) ||
+    private isNoRedirectOnError(
+        req: HttpRequest<any>,
+        error: HttpErrorResponse
+    ): boolean {
+        return (
+            this.isHEADRequest(req) ||
             this.isMatrixArchivePreviewError(error) ||
             this.isNoRedirectPath(req, error) ||
             this.isHealthCheckError(error) ||
             this.isTerraRegistrationStatusCheck(error) ||
-            this.isZendeskError(error);
+            this.isZendeskError(error)
+        );
     }
 
     /**
@@ -95,11 +106,14 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
      * @param {HttpErrorResponse} error
      * @returns {boolean}
      */
-    private isNoRedirectPath(req: HttpRequest<any>, error: HttpErrorResponse): boolean {
-
+    private isNoRedirectPath(
+        req: HttpRequest<any>,
+        error: HttpErrorResponse
+    ): boolean {
         const path = new URL(error.url).pathname;
-        return error.status === 400 && 
-            this.NO_REDIRECT_PATHS.indexOf(path) >= 0;
+        return (
+            error.status === 400 && this.NO_REDIRECT_PATHS.indexOf(path) >= 0
+        );
     }
 
     /**
@@ -110,17 +124,18 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
      * @returns {boolean}
      */
     private isHealthCheckError(error: HttpErrorResponse): boolean {
-
-        return error.status === 503 && new URL(error.url).pathname === "/health/progress";
+        return (
+            error.status === 503 &&
+            new URL(error.url).pathname === "/health/progress"
+        );
     }
 
     /**
      * Returns true if the request method is HEAD.
-     * 
+     *
      * @param {HttpRequest<any>} req
      */
     private isHEADRequest(req: HttpRequest<any>): boolean {
-        
         return req.method === "HEAD";
     }
 
@@ -131,8 +146,11 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
      * @returns {boolean}
      */
     private isMatrixArchivePreviewError(error: HttpErrorResponse): boolean {
-
-        return new URL(error.url).pathname.indexOf(APIEndpoints.PROJECT_MATRIX_ARCHIVE_PREVIEW) >= 0;
+        return (
+            new URL(error.url).pathname.indexOf(
+                APIEndpoints.PROJECT_MATRIX_ARCHIVE_PREVIEW
+            ) >= 0
+        );
     }
 
     /**
@@ -142,11 +160,12 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
      * @returns {boolean}
      */
     private isTerraRegistrationStatusCheck(error: HttpErrorResponse): boolean {
-
         const url = new URL(error.url);
-        return error.status === 404 &&
+        return (
+            error.status === 404 &&
             url.origin === this.configService.getTerraUrl() &&
-            url.pathname === TerraAuthService.PATH_REGISTRATION_STATUS;
+            url.pathname === TerraAuthService.PATH_REGISTRATION_STATUS
+        );
     }
 
     /**
@@ -156,32 +175,33 @@ export class HCAHttpResponseErrorInterceptor implements HttpInterceptor {
      * @returns {boolean}
      */
     private isZendeskError(error: HttpErrorResponse): boolean {
-
         const url = new URL(error.url);
-        return error.status === 422 && url.origin === this.configService.getZendeskUrl();
+        return (
+            error.status === 422 &&
+            url.origin === this.configService.getZendeskUrl()
+        );
     }
-    
+
     /**
      * Grab the error message from the response error - we'll add this to the store. Must handle different formats of
      * error responses.
-     * 
+     *
      * @param {HttpErrorResponse} error
      * @returns {string}
      */
     private parseErrorMessage(error: HttpErrorResponse): string {
-
-        if ( !error.error ) {
+        if (!error.error) {
             return error.toString();
         }
-        
+
         // Handle progress event errors
-        if ( error.error instanceof ProgressEvent ) {
+        if (error.error instanceof ProgressEvent) {
             return error.message;
         }
 
         // Check for errors handled by Azul where response body is in a format similar to:
         // {Code: "BadRequest", Message": "BadRequestError: Invalid query parameter `catalog`" }
-        if ( error.error.Message ) {
+        if (error.error.Message) {
             return error.error.Message;
         }
 

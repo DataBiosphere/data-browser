@@ -9,7 +9,6 @@
 import { SupportRequestType } from "./support-request-type.model";
 
 export interface SupportRequestPost {
-
     attachmentToken: string;
     description: string;
     email: string;

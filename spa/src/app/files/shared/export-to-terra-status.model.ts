@@ -10,5 +10,5 @@ export enum ExportToTerraStatus {
     "INITIATED" = "INITIATED",
     "IN_PROGRESS" = "IN_PROGRESS",
     "COMPLETE" = "COMPLETE",
-    "FAILED" = "FAILED"
+    "FAILED" = "FAILED",
 }

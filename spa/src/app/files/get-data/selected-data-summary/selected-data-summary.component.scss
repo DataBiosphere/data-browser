@@ -8,7 +8,6 @@
 @import "../../../site/theme/hca.vars";
 
 :host {
-
     display: flex;
     flex-direction: column;
 
@@ -22,7 +21,9 @@
 
         /* Text - count, label, terms */
         /* Mimics HCA paragraph font class "fontsize-xs" */
-        .count, .label, .terms {
+        .count,
+        .label,
+        .terms {
             font-family: "Montserrat", sans-serif;
             font-size: 13px;
             letter-spacing: normal;
@@ -30,7 +31,8 @@
             margin: 0;
         }
 
-        .count, .terms {
+        .count,
+        .terms {
             font-weight: 400;
         }
 
@@ -51,7 +53,6 @@
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 1280px) {
-
     /* Summary - container */
     :host .summary {
         flex-direction: row-reverse;

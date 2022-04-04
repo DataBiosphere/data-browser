@@ -11,8 +11,6 @@ import { Component } from "@angular/core";
 @Component({
     selector: "hca-table-column-header",
     templateUrl: "./hca-table-column-header.component.html",
-    styleUrls: ["./hca-table-column-header.component.scss"]
+    styleUrls: ["./hca-table-column-header.component.scss"],
 })
-
-export class HCATableColumnHeaderComponent {
-}
+export class HCATableColumnHeaderComponent {}

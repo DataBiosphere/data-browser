@@ -15,32 +15,42 @@ import { TerraAuthState } from "./terra-auth.state";
 /**
  * Get the Terra auth state from the app state.
  */
-export const selectTerraAuth = createFeatureSelector<TerraAuthState>("terraAuth");
+export const selectTerraAuth =
+    createFeatureSelector<TerraAuthState>("terraAuth");
 
 /**
  * Return true if the auth state has been initialized.
  */
-export const selectTerraAuthInit =
-    createSelector(selectTerraAuth, (state: TerraAuthState) => state.init);
+export const selectTerraAuthInit = createSelector(
+    selectTerraAuth,
+    (state: TerraAuthState) => state.init
+);
 
 /**
  * Return true if the user is registered with Terra
  */
-export const selectTerraRegistered =
-    createSelector(selectTerraAuth, (state: TerraAuthState) => state.registered);
+export const selectTerraRegistered = createSelector(
+    selectTerraAuth,
+    (state: TerraAuthState) => state.registered
+);
 
 /**
  * Return true if the user is registered with Terra
  */
-export const selectTerraAuthInitAndRegistered =
-    createSelector(selectTerraAuth, (state: TerraAuthState) => ({
+export const selectTerraAuthInitAndRegistered = createSelector(
+    selectTerraAuth,
+    (state: TerraAuthState) => ({
         init: state.init,
-        registered: state.registered
-    }));
+        registered: state.registered,
+    })
+);
 
 /**
  * Returns true if Terra registration is required.
  */
-export const selectTerraRegistrationRequired =
-    createSelector(selectAuthenticated, selectTerraAuth, (authenticated: boolean, terraAuthState: TerraAuthState) => 
-        authenticated && terraAuthState.init && !terraAuthState.registered);
+export const selectTerraRegistrationRequired = createSelector(
+    selectAuthenticated,
+    selectTerraAuth,
+    (authenticated: boolean, terraAuthState: TerraAuthState) =>
+        authenticated && terraAuthState.init && !terraAuthState.registered
+);

@@ -20,31 +20,30 @@ import { ProjectEditsService } from "../../shared/project-edits.service";
 
 @Injectable()
 export class ProjectEditsEffects {
-
     /**
      * @param {Store<AppState>} store
      * @param {Actions} actions$
      * @param {ProjectEditsService} projectEditsService
      */
-    constructor(private store: Store<AppState>,
-                private actions$: Actions,
-                private projectEditsService: ProjectEditsService) {
-    }
-    
+    constructor(
+        private store: Store<AppState>,
+        private actions$: Actions,
+        private projectEditsService: ProjectEditsService
+    ) {}
+
     /**
      * Trigger fetch of project edits.
      */
-    
-    fetchProjectEdits: Observable<Action> = createEffect(() => this.actions$
-        .pipe(
+
+    fetchProjectEdits: Observable<Action> = createEffect(() =>
+        this.actions$.pipe(
             ofType(FetchProjectEditsRequestAction.ACTION_TYPE),
             switchMap(() => {
-
                 return this.projectEditsService.fetchProjectEdits();
             }),
             map((projects) => {
-
                 return new FetchProjectEditsSuccessAction(projects);
             })
-        ));
+        )
+    );
 }

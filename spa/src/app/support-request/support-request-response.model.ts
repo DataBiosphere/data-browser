@@ -6,7 +6,6 @@
  */
 
 export interface SupportRequestResponse {
-
     id?: number;
     error?: boolean;
     errorMessage?: string;

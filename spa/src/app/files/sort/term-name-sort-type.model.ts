@@ -7,5 +7,5 @@
 
 export enum TermNameSortType {
     "AGE_UNIT" = "AGE_UNIT",
-    "NUMBER_RANGE" = "NUMBER_RANGE"
+    "NUMBER_RANGE" = "NUMBER_RANGE",
 }

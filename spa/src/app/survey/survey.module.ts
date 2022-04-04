@@ -22,12 +22,7 @@ import { SurveyMatrixUIComponent } from "./survey-matrix-ui/survey-matrix-ui.com
         SharedModule,
         StoreModule.forFeature("survey", surveyReducer.reducer),
     ],
-    declarations: [
-        SurveyMatrixUIComponent
-    ],
-    exports: [
-        SurveyMatrixUIComponent
-    ]
+    declarations: [SurveyMatrixUIComponent],
+    exports: [SurveyMatrixUIComponent],
 })
-export class SurveyModule {
-}
+export class SurveyModule {}

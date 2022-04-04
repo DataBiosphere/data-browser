@@ -4,16 +4,16 @@
  *
  * Model of value selected to filter facets and/or entity search results. It is essentially a key/value pair with
  * additional convenience methods for identifying the search term, as well as methods for display.
- * 
+ *
  * The key/value pair accessors are getSearchKey and getSearchValue.
- * 
+ *
  * The ID accessor getId is used when iterating over sets of search terms that are grouped by facet and term
  * (search key and search term). The ID is never used when marshalling or parsing search terms for request/response
  * functionality.
- * 
+ *
  * getCount is used purely for the search autosuggest and is therefore optional when building search terms from selected
  * facets.
- * 
+ *
  * TODO:
  * Can we split SearchTerm into SelectableSearchTerm and SelectedSearchTerm concepts, where one models a search term
  * option to be included in the search autosuggest (and includes the getCount method) and the other models a facet value
@@ -24,7 +24,6 @@
 import { TermSortable } from "../sort/term-sortable.model";
 
 export interface SearchTerm extends TermSortable {
-
     /**
      * Return the count. Only required when setting up search terms options for select from search box (and not when
      * when setting up search terms from selected facets.
@@ -73,5 +72,3 @@ export interface SearchTerm extends TermSortable {
      */
     getFilterParameterValue(): any;
 }
-
-

@@ -6,7 +6,14 @@
  */
 
 // Core dependencies
-import { Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from "@angular/core";
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Output,
+    ViewChild,
+} from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 
 // App dependencies
@@ -17,10 +24,9 @@ import { MatIcon } from "@angular/material/icon";
     styleUrls: ["./facet-menu.component.scss"],
 })
 export class FacetMenuComponent {
-
     // Output
     @Output() menuOpen = new EventEmitter<boolean>();
-    
+
     // View child/ren
     @ViewChild(MatIcon, { read: ElementRef }) closeElRef: ElementRef;
 
@@ -31,14 +37,13 @@ export class FacetMenuComponent {
      *
      * @param event
      */
-    @HostListener("click", ['$event'])
+    @HostListener("click", ["$event"])
     public onClickFacetGroup(event) {
-
-        if ( !this.closeElRef ) {
+        if (!this.closeElRef) {
             return;
         }
 
-        if ( this.closeElRef.nativeElement !== event.target ) {
+        if (this.closeElRef.nativeElement !== event.target) {
             event.stopPropagation();
         }
     }

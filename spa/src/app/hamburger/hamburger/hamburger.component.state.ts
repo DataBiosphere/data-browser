@@ -6,6 +6,5 @@
  */
 
 export interface HamburgerComponentState {
-
     open: boolean;
 }

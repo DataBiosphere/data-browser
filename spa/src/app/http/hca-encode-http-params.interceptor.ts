@@ -12,7 +12,7 @@ import {
     HttpHandler,
     HttpInterceptor,
     HttpParams,
-    HttpRequest
+    HttpRequest,
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 
@@ -21,14 +21,19 @@ import { HCAHttpParameterCodec } from "./hca-http-parameter-codec";
 
 @Injectable()
 export class HCAEncodeHttpParamsInterceptor implements HttpInterceptor {
-
     /**
      * @param {HttpRequest<any>} req
      * @param {HttpHandler} next
      * @returns {Observable<HttpEvent<any>>}
      */
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const params = new HttpParams({encoder: new HCAHttpParameterCodec(), fromString: req.params.toString()});
-        return next.handle(req.clone({params}));
+    intercept(
+        req: HttpRequest<any>,
+        next: HttpHandler
+    ): Observable<HttpEvent<any>> {
+        const params = new HttpParams({
+            encoder: new HCAHttpParameterCodec(),
+            fromString: req.params.toString(),
+        });
+        return next.handle(req.clone({ params }));
     }
 }

@@ -11,7 +11,13 @@
  */
 
 // Core dependencies
-import { Component, HostListener, Inject, OnDestroy, OnInit } from "@angular/core";
+import {
+    Component,
+    HostListener,
+    Inject,
+    OnDestroy,
+    OnInit,
+} from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { NavigationStart, Router, RouterEvent } from "@angular/router";
 import { select, Store } from "@ngrx/store";
@@ -33,17 +39,19 @@ import { TitleService } from "../title/title.service";
 @Component({
     selector: "project-manifest-download-modal",
     templateUrl: "./project-manifest-download-modal.component.html",
-    styleUrls: ["./project-manifest-download-modal.component.scss"]
+    styleUrls: ["./project-manifest-download-modal.component.scss"],
 })
-export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit {
-
+export class ProjectManifestDownloadModalComponent
+    implements OnDestroy, OnInit
+{
     // Locals
     private ngDestroy$ = new Subject();
 
     // Template variables
-    public state$ = new BehaviorSubject<ProjectManifestDownloadModalComponentState>({
-        loaded: false
-    });
+    public state$ =
+        new BehaviorSubject<ProjectManifestDownloadModalComponentState>({
+            loaded: false,
+        });
 
     /**
      * @param {Store<AppState>} store
@@ -52,11 +60,13 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
      * @param data
      * @param {Router} router
      */
-    constructor(private store: Store<AppState>,
-                private titleService: TitleService,
-                private dialogRef: MatDialogRef<ProjectManifestDownloadModalComponent>,
-                @Inject(MAT_DIALOG_DATA) private data: any,
-                private router: Router) {}
+    constructor(
+        private store: Store<AppState>,
+        private titleService: TitleService,
+        private dialogRef: MatDialogRef<ProjectManifestDownloadModalComponent>,
+        @Inject(MAT_DIALOG_DATA) private data: any,
+        private router: Router
+    ) {}
 
     /**
      * Redirect to projects list - called from template on click of close icon, or on keyup of escape key. The resulting
@@ -64,9 +74,8 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
      */
     @HostListener("window:keyup.esc")
     public redirectToProjects(): void {
-
         this.router.navigate([EntityName.PROJECTS], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
@@ -74,36 +83,39 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
      * Close the modal on any server or client-side error.
      */
     private initCloseOnError() {
-
-        this.store.pipe(
-            select(selectIsError),
-            filter(error => error),
-            filter(() => !!this.dialogRef),
-            takeUntil(this.ngDestroy$)
-        ).subscribe(() => {
-            this.dialogRef.close();
-        });
+        this.store
+            .pipe(
+                select(selectIsError),
+                filter((error) => error),
+                filter(() => !!this.dialogRef),
+                takeUntil(this.ngDestroy$)
+            )
+            .subscribe(() => {
+                this.dialogRef.close();
+            });
     }
 
     /**
      * Close the modal on any navigation event.
      */
     private initCloseOnNavigation() {
-
-        this.router.events.pipe(
-            filter((event: RouterEvent) => event instanceof NavigationStart),
-            filter(() => !!this.dialogRef),
-            takeUntil(this.ngDestroy$)
-        ).subscribe(() => {
-            this.dialogRef.close();
-        });
+        this.router.events
+            .pipe(
+                filter(
+                    (event: RouterEvent) => event instanceof NavigationStart
+                ),
+                filter(() => !!this.dialogRef),
+                takeUntil(this.ngDestroy$)
+            )
+            .subscribe(() => {
+                this.dialogRef.close();
+            });
     }
 
     /**
      * Kill subscriptions on destroy of component. Clear selected project.
      */
     public ngOnDestroy() {
-
         this.store.dispatch(new ModalClosedAction());
         this.store.dispatch(new ClearSelectedProjectAction());
 
@@ -116,20 +128,19 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
      * close the modal.
      */
     public ngOnInit(): void {
-
         this.initCloseOnError();
         this.initCloseOnNavigation();
 
         // Request project details so we can display the project title
         const projectId = this.data.projectId;
         this.store.dispatch(new FetchProjectRequestAction(projectId));
-        
+
         // Grab the selected project
         const selectedProject$ = this.store.pipe(
             select(selectSelectedProject),
             takeUntil(this.ngDestroy$)
         );
-        
+
         // Check if there are any errors
         const error$ = this.store.pipe(
             select(selectIsError),
@@ -140,11 +151,13 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
         combineLatest([selectedProject$, error$])
             .pipe(
                 takeUntil(this.ngDestroy$),
-                filter(([project]) => !!project && project.entryId === projectId)
-            ).subscribe(([project, error]) => {
-                
+                filter(
+                    ([project]) => !!project && project.entryId === projectId
+                )
+            )
+            .subscribe(([project, error]) => {
                 // Don't continue to show modal or project if there's been an error, let error handling occur.
-                if ( error ) {
+                if (error) {
                     return;
                 }
 
@@ -152,9 +165,9 @@ export class ProjectManifestDownloadModalComponent implements OnDestroy, OnInit 
                 this.store.dispatch(new ModalOpenedAction());
                 this.state$.next({
                     loaded: !!project,
-                    project
+                    project,
                 });
-                
+
                 // Set document title to be project title.
                 this.titleService.setTitle(project.projectTitle);
             });

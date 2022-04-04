@@ -24,12 +24,13 @@ import { Project } from "../shared/project.model";
 @Component({
     selector: "project-manifest-download",
     templateUrl: "./project-manifest-download.component.html",
-    styleUrls: ["./project-manifest-download.component.scss"]
+    styleUrls: ["./project-manifest-download.component.scss"],
 })
 export class ProjectManifestDownloadComponent implements OnDestroy {
-
     // Template variables
-    public state$ = new BehaviorSubject<ProjectManifestDownloadComponentState>({});
+    public state$ = new BehaviorSubject<ProjectManifestDownloadComponentState>(
+        {}
+    );
 
     // Locals
     private ngDestroy$ = new Subject<boolean>();
@@ -42,18 +43,25 @@ export class ProjectManifestDownloadComponent implements OnDestroy {
      * @param {Store<AppState>} store
      * @param {Window} window
      */
-    public constructor(private store: Store<AppState>, @Inject("Window") private window: Window) {}
+    public constructor(
+        private store: Store<AppState>,
+        @Inject("Window") private window: Window
+    ) {}
 
     /**
      * Request the manifest file location for the specified project.
      *
      * @param {FileLocationRequestEvent} fileLocationRequestEvent
      */
-    public onFileLocationRequested(fileLocationRequestEvent: FileLocationRequestEvent) {
-
+    public onFileLocationRequested(
+        fileLocationRequestEvent: FileLocationRequestEvent
+    ) {
         const projectUrl = window.location.href;
-        const action =
-            new FetchProjectManifestFileLocationRequestAction(this.project, projectUrl, fileLocationRequestEvent.trigger);
+        const action = new FetchProjectManifestFileLocationRequestAction(
+            this.project,
+            projectUrl,
+            fileLocationRequestEvent.trigger
+        );
         this.store.dispatch(action);
     }
 
@@ -61,8 +69,9 @@ export class ProjectManifestDownloadComponent implements OnDestroy {
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
-        this.store.dispatch(new ClearProjectManifestFileLocationAction(this.project.entryId));
+        this.store.dispatch(
+            new ClearProjectManifestFileLocationAction(this.project.entryId)
+        );
 
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
@@ -72,12 +81,11 @@ export class ProjectManifestDownloadComponent implements OnDestroy {
      * Determine the current status of the file location request, if any.
      */
     public ngOnInit() {
-
         this.store
             .pipe(
                 select(selectProjectManifestFileLocation(this.project.entryId)),
                 takeUntil(this.ngDestroy$)
             )
-            .subscribe(fileLocation => this.state$.next({fileLocation}));
+            .subscribe((fileLocation) => this.state$.next({ fileLocation }));
     }
 }

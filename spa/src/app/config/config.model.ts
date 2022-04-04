@@ -6,7 +6,6 @@
  */
 
 export class Config {
-
     /**
      * @param {string} atlas
      * @param {string} browserURL
@@ -21,16 +20,18 @@ export class Config {
      * @param {string} title
      * @param {string} zendeskURL
      */
-    constructor(public readonly atlas: string,
-                public readonly browserURL: string,
-                public readonly dataURL: string,
-                public readonly defaultCatalog: string,
-                public readonly deployment: string,
-                public readonly googleOAuthClientId: string,
-                public readonly portalURL: string,
-                public readonly projectMetaURL: string,
-                public readonly terraExportURL: string,
-                public readonly terraURL: string,
-                public readonly title: string,
-                public readonly zendeskURL: string) {}
+    constructor(
+        public readonly atlas: string,
+        public readonly browserURL: string,
+        public readonly dataURL: string,
+        public readonly defaultCatalog: string,
+        public readonly deployment: string,
+        public readonly googleOAuthClientId: string,
+        public readonly portalURL: string,
+        public readonly projectMetaURL: string,
+        public readonly terraExportURL: string,
+        public readonly terraURL: string,
+        public readonly title: string,
+        public readonly zendeskURL: string
+    ) {}
 }

@@ -42,5 +42,5 @@ export enum GAAction {
     "VIEW_OVERVIEW" = "View Overview", // View project overview tab
     "VIEW_SUMMARY_STATS" = "View Summary Stats", // View project summary stats tab - not implemented
     "VIEW_WITHDRAWN_PROJECT" = "View Withdrawn Project", // View withdrawn project
-    "VISUALIZE" = "Visualize"
+    "VISUALIZE" = "Visualize",
 }

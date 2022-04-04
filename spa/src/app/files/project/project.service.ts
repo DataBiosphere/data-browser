@@ -28,7 +28,6 @@ import { Project } from "../shared/project.model";
 
 @Injectable()
 export class ProjectService {
-
     // Constants
     private DATE_FORMAT = "yyyy-MM-dd HH:mm 'GMT'";
     private DATE_TZ = "GMT";
@@ -42,30 +41,37 @@ export class ProjectService {
      * @param {SearchTermHttpService} searchTermHttpService
      * @param {HttpClient} httpClient
      */
-    constructor(private configService: ConfigService, 
-                private httpService: HttpService,
-                private searchTermHttpService: SearchTermHttpService,
-                private httpClient: HttpClient) {
-    }
+    constructor(
+        private configService: ConfigService,
+        private httpService: HttpService,
+        private searchTermHttpService: SearchTermHttpService,
+        private httpClient: HttpClient
+    ) {}
 
     /**
      * Return the URL to kick off polling for a project manifest.
-     * 
+     *
      * @param {Catalog} catalog
      * @param {string} projectId
      * @param {string} projectTitle
      * @returns {string}
      */
-    public getProjectManifestFileLocationUrl(catalog: Catalog, projectId: string, projectTitle: string): string {
-
+    public getProjectManifestFileLocationUrl(
+        catalog: Catalog,
+        projectId: string,
+        projectTitle: string
+    ): string {
         const searchTerms = [
-            new SearchEntity(FileFacetName.PROJECT_ID, projectId, projectTitle)
+            new SearchEntity(FileFacetName.PROJECT_ID, projectId, projectTitle),
         ];
-        const query = 
-            new ICGCQuery(catalog, this.searchTermHttpService.marshallSearchTerms(searchTerms), ManifestDownloadFormat.COMPACT);
-        const params = new HttpParams({fromObject: query} as any);
+        const query = new ICGCQuery(
+            catalog,
+            this.searchTermHttpService.marshallSearchTerms(searchTerms),
+            ManifestDownloadFormat.COMPACT
+        );
+        const params = new HttpParams({ fromObject: query } as any);
         const manifestUrl = this.configService.getFileManifestUrl();
-        return `${manifestUrl}?${params.toString()}`; 
+        return `${manifestUrl}?${params.toString()}`;
     }
 
     /**
@@ -78,11 +84,14 @@ export class ProjectService {
      * @param {Project} projectOverrides
      * @returns {Observable<Project>}
      */
-    public fetchProjectById(catalog: Catalog, projectId: string, projectOverrides: Project): Observable<Project> {
-
+    public fetchProjectById(
+        catalog: Catalog,
+        projectId: string,
+        projectOverrides: Project
+    ): Observable<Project> {
         const url = this.configService.getProjectUrl(projectId);
         const params = this.httpService.createIndexParams(catalog, {});
-        return this.httpClient.get<Project>(url, {params}).pipe(
+        return this.httpClient.get<Project>(url, { params }).pipe(
             map((response) => {
                 return this.bindProject(response, projectOverrides);
             })
@@ -96,14 +105,19 @@ export class ProjectService {
      * @param {string} matrixVersion
      * @returns {Observable<ArchiveFile[]>>}
      */
-    public fetchProjectMatrixArchiveFiles(matrixId: string, matrixVersion: string): Observable<ArchiveFile[]> {
-
-        const url = this.configService.getProjectMatrixArchivePreviewUrl(matrixId, matrixVersion);
+    public fetchProjectMatrixArchiveFiles(
+        matrixId: string,
+        matrixVersion: string
+    ): Observable<ArchiveFile[]> {
+        const url = this.configService.getProjectMatrixArchivePreviewUrl(
+            matrixId,
+            matrixVersion
+        );
         return this.httpClient.get<ArchivePreviewResponse>(url).pipe(
             // Map errors to empty archive preview
-            catchError(_ => {
+            catchError((_) => {
                 return of({
-                    files: []
+                    files: [],
                 });
             }),
             map((response) => {
@@ -114,20 +128,22 @@ export class ProjectService {
 
     /**
      * Bind the archive preview response to a set of archive file view objects.
-     * 
+     *
      * @param {ArchivePreviewResponse} response
      * @returns {ArchiveFile[]}
      */
     private bindArchiveFiles(response: ArchivePreviewResponse): ArchiveFile[] {
-
-        return response.files.map(archiveFile => {
+        return response.files.map((archiveFile) => {
             const { name: fileName, modified, size } = archiveFile;
-            const modifiedFormatted =
-                this.datePipe.transform(new Date(modified), this.DATE_FORMAT, this.DATE_TZ);
+            const modifiedFormatted = this.datePipe.transform(
+                new Date(modified),
+                this.DATE_FORMAT,
+                this.DATE_TZ
+            );
             return {
                 fileName,
-                modified : modifiedFormatted,
-                size
+                modified: modifiedFormatted,
+                size,
             };
         });
     }
@@ -140,7 +156,6 @@ export class ProjectService {
      * @returns {Project}
      */
     private bindProject(response: any, projectOverrides: Project): Project {
-
         const mapper = new ProjectMapper(response, projectOverrides);
         const project = mapper.mapRow() as Project;
         project.analysisPortals = projectOverrides.analysisPortals ?? [];

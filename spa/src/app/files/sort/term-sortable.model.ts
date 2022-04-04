@@ -7,7 +7,6 @@
  */
 
 export interface TermSortable {
-
     /**
      * Return value to be used as the key when sorting the term.
      *
@@ -15,4 +14,3 @@ export interface TermSortable {
      */
     getSortValue(): string;
 }
-

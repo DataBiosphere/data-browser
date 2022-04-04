@@ -34,8 +34,12 @@ import { ProjectComponent } from "./project/project.component";
 export const routes: Route[] = [
     {
         path: "files",
-        canActivate: [BrowserCanActivateGuard, CatalogCanActivateGuard, FilterCanActivateGuard],
-        component: FilesComponent
+        canActivate: [
+            BrowserCanActivateGuard,
+            CatalogCanActivateGuard,
+            FilterCanActivateGuard,
+        ],
+        component: FilesComponent,
     },
     {
         path: "export",
@@ -46,42 +50,46 @@ export const routes: Route[] = [
             {
                 path: "",
                 pathMatch: "full",
-                component: GetDataOptionsComponent
+                component: GetDataOptionsComponent,
             },
             {
                 path: "get-curl-command",
-                component: BulkDownloadComponent
+                component: BulkDownloadComponent,
             },
             {
                 path: "get-curl-command/select-species",
-                component: BulkDownloadSpeciesFormComponent
+                component: BulkDownloadSpeciesFormComponent,
             },
             {
                 path: "download-manifest",
-                component: ManifestDownloadComponent
+                component: ManifestDownloadComponent,
             },
             {
                 path: "download-manifest/select-species",
-                component: ManifestDownloadSpeciesFormComponent
+                component: ManifestDownloadSpeciesFormComponent,
             },
             {
                 path: "export-to-terra",
-                component: ExportToTerraComponent
+                component: ExportToTerraComponent,
             },
             {
                 path: "export-to-terra/select-species",
-                component: ExportToTerraSpeciesFormComponent
-            }
-        ]
+                component: ExportToTerraSpeciesFormComponent,
+            },
+        ],
     },
     {
         path: "get-data", // Deprecated; maintained for backwards compatibility of bookmarks.
-        redirectTo: "export"
+        redirectTo: "export",
     },
     {
         path: "samples",
-        canActivate: [BrowserCanActivateGuard, CatalogCanActivateGuard, FilterCanActivateGuard],
-        component: FilesComponent
+        canActivate: [
+            BrowserCanActivateGuard,
+            CatalogCanActivateGuard,
+            FilterCanActivateGuard,
+        ],
+        component: FilesComponent,
     },
     {
         path: "projects",
@@ -92,7 +100,7 @@ export const routes: Route[] = [
                 path: "",
                 pathMatch: "full",
                 canActivate: [FilterCanActivateGuard],
-                component: FilesComponent
+                component: FilesComponent,
             },
             {
                 path: ":id",
@@ -105,15 +113,15 @@ export const routes: Route[] = [
                             {
                                 path: "",
                                 pathMatch: "full",
-                                component: ProjectDetailComponent
+                                component: ProjectDetailComponent,
                             },
                             {
                                 path: "get-curl-command",
-                                component: ProjectBulkDownloadComponent
+                                component: ProjectBulkDownloadComponent,
                             },
                             {
                                 path: "export-to-terra",
-                                component: ProjectTerraExportComponent
+                                component: ProjectTerraExportComponent,
                             },
                             {
                                 path: "project-metadata",
@@ -121,40 +129,40 @@ export const routes: Route[] = [
                             },
                             {
                                 path: "project-matrices",
-                                component: ProjectMatricesComponent
+                                component: ProjectMatricesComponent,
                             },
                             {
                                 path: "expression-matrices", // Deprecated; maintained for backwards compatibility of bookmarks.
-                                redirectTo: ""
+                                redirectTo: "",
                             },
                             {
                                 path: "external-resources", // Deprecated; maintained for backwards compatibility of bookmarks.
-                                redirectTo: ""
+                                redirectTo: "",
                             },
                             {
                                 path: "summary-stats", // Deprecated; maintained for backwards compatibility of bookmarks.
-                                redirectTo: ""
+                                redirectTo: "",
                             },
                             {
                                 path: "data-citation", // Deprecated; maintained for backwards compatibility of bookmarks.
-                                redirectTo: ""
-                            }
-                        ]
-                    }
-                ]
+                                redirectTo: "",
+                            },
+                        ],
+                    },
+                ],
             },
             {
                 path: ":id/m/project-metadata",
-                component: ProjectManifestDownloadModalContainerComponent
+                component: ProjectManifestDownloadModalContainerComponent,
             },
             {
                 path: ":id/m/project-matrices",
-                component: ProjectMatrixDownloadModalContainerComponent
+                component: ProjectMatrixDownloadModalContainerComponent,
             },
             {
-                path: ":id/m/expression-matrices",  // Deprecated; maintained for backwards compatibility of bookmarks.
-                redirectTo: ":id/m/project-matrices"
-            }
-        ]
-    }
+                path: ":id/m/expression-matrices", // Deprecated; maintained for backwards compatibility of bookmarks.
+                redirectTo: ":id/m/project-matrices",
+            },
+        ],
+    },
 ];

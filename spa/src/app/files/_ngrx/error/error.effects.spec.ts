@@ -19,9 +19,7 @@ import { HttpState } from "../../../http/_ngrx/http.state";
 import { selectIsError } from "../../../http/_ngrx/http.selectors";
 import { ClearErrorStateAction } from "../../../http/_ngrx/http-clear-state-error.actions";
 
-
 describe("ErrorEffects", () => {
-
     let actions$: Observable<any>;
     let effects: ErrorEffects;
     let store: MockStore<HttpState>;
@@ -29,25 +27,24 @@ describe("ErrorEffects", () => {
     const navigation$ = new ReplaySubject<RouterEvent>(1);
     const routerMock = {
         events: navigation$.asObservable(),
-        navigate: jasmine.createSpy("navigate")
+        navigate: jasmine.createSpy("navigate"),
     };
 
     /**
      * Setup for each test in suite.
      */
     beforeEach(() => {
-        
         TestBed.configureTestingModule({
-            imports: [
-            ],
+            imports: [],
             providers: [
                 provideMockActions(() => actions$),
                 ErrorEffects,
-                provideMockStore({initialState: HttpState.getDefaultState()}), {
+                provideMockStore({ initialState: HttpState.getDefaultState() }),
+                {
                     provide: Router,
-                    useValue: routerMock
-                }
-            ]
+                    useValue: routerMock,
+                },
+            ],
         });
 
         effects = TestBed.inject(ErrorEffects);
@@ -63,17 +60,15 @@ describe("ErrorEffects", () => {
     });
 
     describe("clearError$", () => {
-
         /**
          * Clears error on navigate if app is currently in error state.
          */
         it("clears error on navigate", (doneFn: DoneFn) => {
-            
             // Spy on dispatch to check that clear action is dispatched
             spyOn(store, "dispatch");
 
             // Navigate
-            navigation$.next(new NavigationStart(1, "/", ));
+            navigation$.next(new NavigationStart(1, "/"));
 
             // Confirm clear action is dispatched
             effects.clearError$.subscribe((dispatchedAction) => {

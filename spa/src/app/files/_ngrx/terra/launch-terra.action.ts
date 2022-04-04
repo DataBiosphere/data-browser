@@ -18,14 +18,13 @@ import { ToolName } from "../../shared/tool-name.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
 export class LaunchTerraAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "FILE.LAUNCH_TERRA";
     public readonly type = LaunchTerraAction.ACTION_TYPE;
 
     /**
      * @param exportToTerraUrl
      */
-    constructor(private readonly  exportToTerraUrl: string) {}
+    constructor(private readonly exportToTerraUrl: string) {}
 
     /**
      * Return the launch Terra action as a GA event.
@@ -33,8 +32,7 @@ export class LaunchTerraAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.EXPORT,
             action: GAAction.LAUNCH,
@@ -43,8 +41,8 @@ export class LaunchTerraAction implements Action, TrackingAction {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_EXPORT_LINK,
                 [GADimension.ENTITY_URL]: this.exportToTerraUrl,
-                [GADimension.TOOL_NAME]: ToolName.TERRA
-            }
+                [GADimension.TOOL_NAME]: ToolName.TERRA,
+            },
         };
     }
 }

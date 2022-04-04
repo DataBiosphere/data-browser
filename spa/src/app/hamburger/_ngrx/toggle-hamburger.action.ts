@@ -9,7 +9,6 @@
 import { Action } from "@ngrx/store";
 
 export class ToggleHamburgerAction implements Action {
-
     public static ACTION_TYPE = "HAMBURGER.TOGGLED";
     public readonly type = ToggleHamburgerAction.ACTION_TYPE;
 }

@@ -6,7 +6,6 @@
  */
 
 :host {
-
     /* Wrapper */
     .wrapper {
         padding: 0 16px; /* Gutter 16px */
@@ -30,7 +29,6 @@ hca-section-title + hca-tab {
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
 @media screen and (min-width: 600px) {
-
     /* Project detail page, get data flow */
     :host-context(project-detail) .wrapper,
     :host-context(get-data) .wrapper {
@@ -42,9 +40,7 @@ hca-section-title + hca-tab {
  * HCA specific breakpoint
  */
 @media screen and (min-width: 1200px) {
-
     :host {
-
         /* Wrapper */
         .wrapper {
             padding: 0 30px; /* Gutter 30px */

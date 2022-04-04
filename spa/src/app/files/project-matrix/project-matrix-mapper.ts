@@ -13,22 +13,20 @@ import { ProjectMatrixView } from "./project-matrix-view.model";
 import { isNullOrUndefined } from "../table/table-methods";
 
 export class ProjectMatrixMapper {
-
     // Set of meta required for display
     private META_REQUIRED = [
         FileFacetName.GENUS_SPECIES,
         FileFacetName.LIBRARY_CONSTRUCTION_APPROACH,
-        FileFacetName.ORGAN
+        FileFacetName.ORGAN,
     ];
 
     /**
      * Convert matrices tree structure into set of rows representing matrix files and their corresponding values.
-     * 
+     *
      * @param {any} responseTree
      * @returns {ProjectMatrixView[]}
      */
     public bindMatrices(responseTree = {}): ProjectMatrixView[] {
-
         const matrixViews = this.flattenResponseTree(responseTree);
         const boundViewModels = this.mergeDuplicatedMatrixViews(matrixViews);
         const viewModels = this.updateViewsMissingMeta(boundViewModels);
@@ -45,42 +43,52 @@ export class ProjectMatrixMapper {
      * @param {{[key: string]: string}} meta
      * @returns {ProjectMatrixView}
      */
-    private createMatrixView(file: MatrixResponseFile, meta: {[key: string]: string}): ProjectMatrixView {
-
+    private createMatrixView(
+        file: MatrixResponseFile,
+        meta: { [key: string]: string }
+    ): ProjectMatrixView {
         // Create matrix view, starting with core file values.
-        const {contentDescription, matrixCellCount, name, size, uuid, url, version} = file;
-        const matrixView =  {
+        const {
+            contentDescription,
+            matrixCellCount,
+            name,
+            size,
+            uuid,
+            url,
+            version,
+        } = file;
+        const matrixView = {
             contentDescription,
             fileName: name,
             id: uuid,
             matrixCellCount,
             size,
             url,
-            version
+            version,
         };
 
         // Convert meta values into arrays. There may be identical files in separate branches of the tree and we'll
-        // collate and merge the meta for each duplicated file specifications into an array. It is also possible that a 
+        // collate and merge the meta for each duplicated file specifications into an array. It is also possible that a
         // meta value is a comma-separated value: split, trim and add as individual values.
-        for ( let [key, value] of Object.entries(meta) ) {
-
-            matrixView[key] = value.split(",").map(v => v.trim());
+        for (let [key, value] of Object.entries(meta)) {
+            matrixView[key] = value.split(",").map((v) => v.trim());
         }
 
         return matrixView;
     }
 
-
     /**
      * Create matrix views for the specified set of matrix file response format.
-     * 
+     *
      * @param {MatrixResponseFile[]} files
      * @param {{[key: string]: string}} meta
      * @returns {ProjectMatrixView[]}
      */
-    private createMatrixViews(files: MatrixResponseFile[], meta: {[key: string]: string}): ProjectMatrixView[] {
-        
-        return files.map(file => {
+    private createMatrixViews(
+        files: MatrixResponseFile[],
+        meta: { [key: string]: string }
+    ): ProjectMatrixView[] {
+        return files.map((file) => {
             return this.createMatrixView(file, meta);
         });
     }
@@ -93,27 +101,29 @@ export class ProjectMatrixMapper {
      * @param {any} meta - set of tags associated with depth-first, postorder traversal of tree
      * @param {any[]} views - file objects flattened from depth-first, postorder, traversal of tree
      */
-    private flattenResponseTree(tree, meta = {}, views = []): ProjectMatrixView[] {
-
+    private flattenResponseTree(
+        tree,
+        meta = {},
+        views = []
+    ): ProjectMatrixView[] {
         // If we've got an array, we're at the files leaf; create views for each file.
-        if ( Array.isArray(tree) ) {
+        if (Array.isArray(tree)) {
             views.push(...this.createMatrixViews(tree, meta));
             return;
         }
 
         // Otherwise, continue traversing tree.
-        for ( let [key, value] of Object.entries(tree) ) {
-
-            if ( typeof value !== "object" || value === null ) {
+        for (let [key, value] of Object.entries(tree)) {
+            if (typeof value !== "object" || value === null) {
                 continue;
             }
 
             // Grab the key/value pair values for the current key. Add any keys as a value for the current key, branch
-            // meta and repeat. For example, given { ..."libraryConstructionApproach": {"10x": { "stage": ...} } where 
+            // meta and repeat. For example, given { ..."libraryConstructionApproach": {"10x": { "stage": ...} } where
             // libraryConstructionApproach is the current key, we must add 10x as a value for libraryConstructionApproach
             // and continue on to the next depth level in the tree.
-            for ( let [nextKey, nextSubtree] of Object.entries(value as any) ) {
-                const branchedMeta = {...meta};
+            for (let [nextKey, nextSubtree] of Object.entries(value as any)) {
+                const branchedMeta = { ...meta };
                 branchedMeta[key] = nextKey;
                 this.flattenResponseTree(nextSubtree, branchedMeta, views);
             }
@@ -124,14 +134,13 @@ export class ProjectMatrixMapper {
 
     /**
      * Returns true if species, library construction approach or organ value is missing from the specified view.
-     * 
+     *
      * @param {ProjectMatrixView} view
      * @returns {boolean}
      */
     private isViewMissingMeta(view: ProjectMatrixView): boolean {
-
-        for ( let i = 0 ; i < this.META_REQUIRED.length ; i++ ) {
-            if ( !view[this.META_REQUIRED[i]] ) {
+        for (let i = 0; i < this.META_REQUIRED.length; i++) {
+            if (!view[this.META_REQUIRED[i]]) {
                 return true;
             }
         }
@@ -146,8 +155,10 @@ export class ProjectMatrixMapper {
      * @param {ProjectMatrixView} mergeWithView
      * @returns {ProjectMatrixView[]}
      */
-    private mergeDuplicatedMatrixView(viewToMerge: ProjectMatrixView, mergeWithView: ProjectMatrixView): ProjectMatrixView {
-
+    private mergeDuplicatedMatrixView(
+        viewToMerge: ProjectMatrixView,
+        mergeWithView: ProjectMatrixView
+    ): ProjectMatrixView {
         // Create new view - for immutability - to hold merged values.
         const mergedView = {
             contentDescription: mergeWithView.contentDescription,
@@ -156,25 +167,24 @@ export class ProjectMatrixMapper {
             matrixCellCount: mergeWithView.matrixCellCount,
             size: mergeWithView.size,
             url: mergeWithView.url,
-            version: mergeWithView.version
+            version: mergeWithView.version,
         };
-        
-        for ( let [key, value] of Object.entries(viewToMerge) ) {
 
+        for (let [key, value] of Object.entries(viewToMerge)) {
             // Ignore core, non-meta, file values: these values are constant across all files and don't need to be merged.
             // That is, fileName and url. We can assume non-array values are core values.
-            if ( !Array.isArray(value) ) {
+            if (!Array.isArray(value)) {
                 continue;
             }
-            
+
             // Add values, if they exist, from both the view to merge with and the view that we are attempting to merge.
             const mergedMeta = new Set<string>([
-                ...mergeWithView[key] || [],
-                ...value || []
+                ...(mergeWithView[key] || []),
+                ...(value || []),
             ]);
             mergedView[key] = Array.from(mergedMeta.values());
         }
-        
+
         return mergedView;
     }
 
@@ -184,18 +194,21 @@ export class ProjectMatrixMapper {
      * @param {ProjectMatrixView[]} matrixViews
      * @returns {ProjectMatrixView[]}
      */
-    private mergeDuplicatedMatrixViews(matrixViews: ProjectMatrixView[]): ProjectMatrixView[] {
-
+    private mergeDuplicatedMatrixViews(
+        matrixViews: ProjectMatrixView[]
+    ): ProjectMatrixView[] {
         const viewsByUrl = matrixViews.reduce((accum, matrixView) => {
+            const { url } = matrixView;
 
-            const {url} = matrixView;
-
-            // Check if we have already added a matrix view for this file and if so, merge meta of views. 
-            if ( accum.has(url) ) {
+            // Check if we have already added a matrix view for this file and if so, merge meta of views.
+            if (accum.has(url)) {
                 const mergeWith = accum.get(url);
-                accum.set(url, this.mergeDuplicatedMatrixView(matrixView, mergeWith));
+                accum.set(
+                    url,
+                    this.mergeDuplicatedMatrixView(matrixView, mergeWith)
+                );
             }
-            // Otherwise a matrix view has not yet been added for this file, add this as the first. 
+            // Otherwise a matrix view has not yet been added for this file, add this as the first.
             else {
                 accum.set(url, matrixView);
             }
@@ -208,65 +221,64 @@ export class ProjectMatrixMapper {
 
     /**
      * Sort matrix views by display columns: species, organ, library construction approach, file name.
-     * 
+     *
      * @param {ProjectMatrixView[]} matrixViews
      */
     private sortMatrixViews(matrixViews: ProjectMatrixView[]) {
-        
         matrixViews.sort((view0, view1) => {
-
             // Sort by species
-            const species0 = (view0[FileFacetName.GENUS_SPECIES] || []).join("");
-            const species1 = (view1[FileFacetName.GENUS_SPECIES] || []).join("");
-            if ( species0 > species1 ) {
+            const species0 = (view0[FileFacetName.GENUS_SPECIES] || []).join(
+                ""
+            );
+            const species1 = (view1[FileFacetName.GENUS_SPECIES] || []).join(
+                ""
+            );
+            if (species0 > species1) {
                 return 1;
-            }
-            else if ( species0 < species1 ) {
+            } else if (species0 < species1) {
                 return -1;
             }
-            
+
             // Sort by organ
             const organ0 = (view0[FileFacetName.ORGAN] || []).join("");
             const organ1 = (view1[FileFacetName.ORGAN] || []).join("");
-            if ( organ0 > organ1 ) {
+            if (organ0 > organ1) {
                 return 1;
-            }
-            else if ( organ0 < organ1 ) {
+            } else if (organ0 < organ1) {
                 return -1;
             }
 
             // Sort by library construction approach
-            const lca0 = (view0[FileFacetName.LIBRARY_CONSTRUCTION_APPROACH] || []).join("");
-            const lca1 = (view1[FileFacetName.LIBRARY_CONSTRUCTION_APPROACH] || []).join("");
-            if ( lca0 > lca1 ) {
+            const lca0 = (
+                view0[FileFacetName.LIBRARY_CONSTRUCTION_APPROACH] || []
+            ).join("");
+            const lca1 = (
+                view1[FileFacetName.LIBRARY_CONSTRUCTION_APPROACH] || []
+            ).join("");
+            if (lca0 > lca1) {
                 return 1;
-            }
-            else if ( lca0 < lca1 ) {
+            } else if (lca0 < lca1) {
                 return -1;
             }
 
             return 0;
         });
     }
-    
+
     /**
      * Sort meta values of file view model.
-     * 
+     *
      * @param {ProjectMatrixView[]} matrixViews
      */
     private sortMatrixViewsMeta(matrixViews: ProjectMatrixView[]) {
-
-        matrixViews.forEach(matrixView => {
-
-            Object.values(matrixView).forEach(value => {
-
-                if ( Array.isArray(value) ) {
+        matrixViews.forEach((matrixView) => {
+            Object.values(matrixView).forEach((value) => {
+                if (Array.isArray(value)) {
                     value.sort();
                 }
             });
         });
     }
-
 
     /**
      * Correct any missing required meta (specifically species, library construction approach or organ) on the given
@@ -276,10 +288,9 @@ export class ProjectMatrixMapper {
      * @returns {ProjectMatrixView}
      */
     private updateViewMissingMeta(view: ProjectMatrixView): ProjectMatrixView {
-
         const updatedView = Object.assign({}, view);
-        this.META_REQUIRED.forEach(requiredMeta => {
-            if ( isNullOrUndefined(updatedView[requiredMeta]) ) {
+        this.META_REQUIRED.forEach((requiredMeta) => {
+            if (isNullOrUndefined(updatedView[requiredMeta])) {
                 updatedView[requiredMeta] = ["Unspecified"];
             }
         });
@@ -293,10 +304,11 @@ export class ProjectMatrixMapper {
      * @param {ProjectMatrixView[]} views
      * @returns {ProjectMatrixView[]}
      */
-    private updateViewsMissingMeta(views: ProjectMatrixView[]): ProjectMatrixView[] {
-
-        return views.map(view => {
-            if ( !this.isViewMissingMeta(view) ) {
+    private updateViewsMissingMeta(
+        views: ProjectMatrixView[]
+    ): ProjectMatrixView[] {
+        return views.map((view) => {
+            if (!this.isViewMissingMeta(view)) {
                 return view;
             }
             return this.updateViewMissingMeta(view);

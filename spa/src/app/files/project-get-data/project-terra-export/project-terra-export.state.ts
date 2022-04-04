@@ -13,11 +13,10 @@ import { ExportToTerraStatus } from "../../shared/export-to-terra-status.model";
 import { Project } from "../../shared/project.model";
 
 export interface ProjectTerraExportState {
-
     exportToTerraStatus?: ExportToTerraStatus;
     exportToTerraUrl?: string;
     loaded: boolean;
-    filesFacets?: Facet[]
+    filesFacets?: Facet[];
     fileSummary?: FileSummary;
     fileTypeSummaries?: FileTypeSummary[];
     project?: Project;

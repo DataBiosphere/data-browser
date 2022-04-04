@@ -35,22 +35,17 @@ import { SupportRequestSubmittedComponent } from "./support-request-submitted/su
         ReactiveFormsModule,
         SharedModule,
         StoreModule.forFeature("supportRequest", supportRequestReducer.reducer),
-        EffectsModule.forFeature([SupportRequestEffects])
+        EffectsModule.forFeature([SupportRequestEffects]),
     ],
-    providers: [
-        SupportRequestService
-    ],
+    providers: [SupportRequestService],
     declarations: [
         AttachmentErrorComponent,
         SupportRequestButtonComponent,
         SupportRequestComponent,
         SupportRequestErrorComponent,
         SupportRequestFormComponent,
-        SupportRequestSubmittedComponent
+        SupportRequestSubmittedComponent,
     ],
-    exports: [
-        SupportRequestComponent
-    ]
+    exports: [SupportRequestComponent],
 })
-export class SupportRequestModule {
-}
+export class SupportRequestModule {}

@@ -13,15 +13,16 @@ import { AuthInitAction } from "./auth-init.action";
 import { LoginSuccessAction } from "./login-success.action";
 
 export class AuthState {
-
     /**
      * @param {boolean} init
      * @param {boolean} authenticated
      * @param {GoogleUser} user
      */
-    constructor(public readonly init: boolean, 
-                public readonly authenticated: boolean, 
-                public readonly user: GoogleUser) {}
+    constructor(
+        public readonly init: boolean,
+        public readonly authenticated: boolean,
+        public readonly user: GoogleUser
+    ) {}
 
     /**
      * Update state to indicate auth initialization has been completed.
@@ -29,27 +30,24 @@ export class AuthState {
      * @param {AuthInitAction} authInitAction
      */
     public onInit(authInitAction: AuthInitAction) {
-
         return new AuthState(true, this.authenticated, this.user);
     }
 
     /**
      * Update state with user details.
-     * 
+     *
      * @param {LoginSuccessAction} loginSuccessAction
      */
     public onAuthenticated(loginSuccessAction: LoginSuccessAction) {
-
-        return new AuthState(this.init, true, loginSuccessAction.user)
+        return new AuthState(this.init, true, loginSuccessAction.user);
     }
-    
+
     /**
      * Create default support request state.
      *
      * @returns {SupportRequestState}
      */
     public static getDefaultState(): AuthState {
-
         return new AuthState(false, false, null);
     }
 }

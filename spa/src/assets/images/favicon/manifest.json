@@ -2,9 +2,9 @@
     "name": "Human Cell Atlas Data Browser",
     "icons": [
         {
-            "src": "\/android-icon-192x192.png",
+            "src": "/android-icon-192x192.png",
             "sizes": "192x192",
-            "type": "image\/png",
+            "type": "image/png",
             "density": "4.0"
         }
     ]

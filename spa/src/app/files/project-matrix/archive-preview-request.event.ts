@@ -6,10 +6,12 @@
  */
 
 export class ArchivePreviewRequestEvent {
-
     /**
      * @param {string} matrixId
      * @param {string} matrixVersion
      */
-    constructor(public readonly matrixId: string, public readonly matrixVersion) {}
+    constructor(
+        public readonly matrixId: string,
+        public readonly matrixVersion
+    ) {}
 }

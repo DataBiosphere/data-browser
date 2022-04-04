@@ -18,7 +18,8 @@ mat-radio-button + mat-radio-button {
 }
 
 /* Catalog label, clear button */
-.radio-label, .clear-label {
+.radio-label,
+.clear-label {
     display: inline;
     font-size: 12px;
     margin-right: 16px;
@@ -31,4 +32,3 @@ mat-radio-button + mat-radio-button {
     font-size: 12px;
     margin-left: 8px;
 }
-

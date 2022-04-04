@@ -14,10 +14,9 @@ import { ConfigService } from "../../../config/config.service";
 @Component({
     selector: "lungmap-data-use-notification",
     templateUrl: "./lungmap-data-use-notification.component.html",
-    styleUrls: ["./lungmap-data-use-notification.component.scss"]
+    styleUrls: ["./lungmap-data-use-notification.component.scss"],
 })
 export class LungMAPDataUseNotificationComponent {
-
     // Template variables
     public portalURL: string;
 
@@ -26,7 +25,6 @@ export class LungMAPDataUseNotificationComponent {
      * @param {ConfigService} configService
      */
     public constructor(private configService: ConfigService) {
-
         this.portalURL = this.configService.getPortalUrl();
     }
 }

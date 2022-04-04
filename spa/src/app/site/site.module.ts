@@ -48,7 +48,7 @@ import { ViewContainerDirective } from "./site-config/view-conatainer.directive"
 
         ConfigModule,
         HamburgerModule,
-        SharedModule
+        SharedModule,
     ],
     declarations: [
         DataPolicyFooterComponent,
@@ -64,24 +64,22 @@ import { ViewContainerDirective } from "./site-config/view-conatainer.directive"
         LungMAPFooterComponent,
         LungMAPToolbarComponent,
         StickyFooterComponent,
-        ViewContainerDirective
+        ViewContainerDirective,
     ],
     providers: [
         {
             provide: SITE_CONFIG_SERVICE,
             useFactory: (configService: ConfigService) => {
                 const atlas = configService.getAtlas();
-                if ( atlas === AtlasName.HCA ) {
+                if (atlas === AtlasName.HCA) {
                     return new HCASiteConfigService();
-                }
-                else if ( atlas === AtlasName.LUNGMAP ) {
+                } else if (atlas === AtlasName.LUNGMAP) {
                     return new LungMAPSiteConfigService();
-                }
-                else {
+                } else {
                     throw `SiteConfigService not configured for atlas: '${atlas}'`;
                 }
             },
-            deps: [ConfigService]
+            deps: [ConfigService],
         },
     ],
     exports: [
@@ -98,9 +96,7 @@ import { ViewContainerDirective } from "./site-config/view-conatainer.directive"
         LungMAPFooterComponent,
         LungMAPToolbarComponent,
         StickyFooterComponent,
-        ViewContainerDirective
-    ]
+        ViewContainerDirective,
+    ],
 })
-export class SiteModule {
-}
-
+export class SiteModule {}

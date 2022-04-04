@@ -15,14 +15,14 @@ import { HCAEllipsisTextComponent } from "./hca-ellipsis-text.component";
 @Component({
     selector: "hca-content-ellipsis",
     templateUrl: "./hca-content-ellipsis.component.html",
-    styleUrls: ["./hca-content-ellipsis.component.scss"]
+    styleUrls: ["./hca-content-ellipsis.component.scss"],
 })
-
 export class HCAContentEllipsisComponent {
-
     // View child/ren. Static false for both as we must wait for after view init (ie child components have been initialized)
-    @ViewChild(HCAEllipsisTextComponent, { read: ElementRef }) textElementRef: ElementRef; 
-    @ViewChild(HCATooltipComponent, { read: ElementRef }) tooltipElementRef: ElementRef;
+    @ViewChild(HCAEllipsisTextComponent, { read: ElementRef })
+    textElementRef: ElementRef;
+    @ViewChild(HCATooltipComponent, { read: ElementRef })
+    tooltipElementRef: ElementRef;
 
     /**
      * Returns the text content of the element of interest.
@@ -30,16 +30,15 @@ export class HCAContentEllipsisComponent {
      * @returns {string}
      */
     public getTooltipContent(): string {
-
         // Return empty string if there is no text child
-        if ( !this.textElementRef ) {
+        if (!this.textElementRef) {
             return "";
         }
 
         // Grab the content of the text child. Remove any trailing slashes - this is specific to multi value columns
         // and can be removed once multi value column implementation is refactored. TODO.
         const tooltipContent = this.textElementRef.nativeElement.textContent;
-        if ( tooltipContent.endsWith("/") ) {
+        if (tooltipContent.endsWith("/")) {
             return tooltipContent.slice(0, -1);
         }
         return this.textElementRef.nativeElement.textContent;
@@ -52,17 +51,18 @@ export class HCAContentEllipsisComponent {
      * @returns {boolean}
      */
     public isTooltipDisabled(): boolean {
-
         // Return false if we didn't find a tooltip child or a text child
-        if ( !this.tooltipElementRef || !this.textElementRef ) {
+        if (!this.tooltipElementRef || !this.textElementRef) {
             return false;
         }
 
         // Grab the width of the text to be displayed
-        const contentWidth = this.textElementRef.nativeElement.getBoundingClientRect().width;
+        const contentWidth =
+            this.textElementRef.nativeElement.getBoundingClientRect().width;
 
         // We can use the tooltip to determine the width available
-        const containerWidth = this.tooltipElementRef.nativeElement.getBoundingClientRect().width;
+        const containerWidth =
+            this.tooltipElementRef.nativeElement.getBoundingClientRect().width;
 
         // The tooltip is only enabled if the width of the ellipsis content is wider than the container width
         return contentWidth <= containerWidth;

@@ -1,4 +1,3 @@
-
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
@@ -10,7 +9,6 @@
 import { Action } from "@ngrx/store";
 
 export class LogoutSuccessAction implements Action {
-
     public static ACTION_TYPE = "AUTH.LOGOUT_SUCCESS";
     public readonly type = LogoutSuccessAction.ACTION_TYPE;
 }

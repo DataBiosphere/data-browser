@@ -22,31 +22,31 @@ import { SessionContinueAction } from "./_ngrx/session-continue-action";
 
 @Injectable()
 export class AuthService {
-
     /**
      * @param {ConfigService} configService
      * @param {Store<AppState>} store
      * @param {NgZone} ngZone
      * @param {Window} window
      */
-    constructor(private configService: ConfigService,
-                private store: Store<AuthState>,
-                private ngZone: NgZone,
-                @Inject("Window") private window: Window) {}
+    constructor(
+        private configService: ConfigService,
+        private store: Store<AuthState>,
+        private ngZone: NgZone,
+        @Inject("Window") private window: Window
+    ) {}
 
     /**
      * Initialize auth on app init. Must return promise here as this method is called during Angular's app
      * initialization and we need to resolve the auth details before any components are instantiated, or API endpoints
      * are hit.
-     * 
+     *
      * Currently dev only.
-     * 
+     *
      * @returns {Promise<boolean>>} - true if user is authenticated
      */
     public init(): Promise<boolean> {
-
         // Auth is currently only enabled on environments with a configured client ID
-        if ( !this.configService.isAuthEnabled() ) {
+        if (!this.configService.isAuthEnabled()) {
             this.onInit();
             return Promise.resolve(false);
         }
@@ -56,14 +56,15 @@ export class AuthService {
         // Wait for auth to be completed before allowing app init to continue (as we require auth for initial
         // API requests).
         return new Promise((resolve) => {
-            
-            this.store.pipe(
-                select(selectAuthInitAndAuthenticated),
-                filter(({init}) => init),
-                take(1),
-            ).subscribe(({authenticated}) => {
-                resolve(authenticated);
-            });
+            this.store
+                .pipe(
+                    select(selectAuthInitAndAuthenticated),
+                    filter(({ init }) => init),
+                    take(1)
+                )
+                .subscribe(({ authenticated }) => {
+                    resolve(authenticated);
+                });
         });
     }
 
@@ -71,7 +72,6 @@ export class AuthService {
      * Login user via Google.
      */
     public login() {
-
         const auth2 = this.getGAPI().auth2.getAuthInstance();
         auth2.signIn();
     }
@@ -80,18 +80,16 @@ export class AuthService {
      * Logout user.
      */
     public logout() {
-
         const auth2 = this.getGAPI().auth2.getAuthInstance();
         auth2.signOut();
     }
 
     /**
      * Dispatch of actions from third-party callbacks must be exectued from within Angular context.
-     * 
+     *
      * @param {Action} action
      */
     private dispatch(action: Action) {
-
         this.ngZone.run(() => {
             this.store.dispatch(action);
         });
@@ -101,7 +99,6 @@ export class AuthService {
      * Return the Google API object.
      */
     private getGAPI(): any {
-
         return this.window["gapi"];
     }
 
@@ -109,36 +106,37 @@ export class AuthService {
      * Initialize sign in and set up listeners.
      */
     private initAuthListeners() {
+        this.getGAPI()
+            .auth2.init({
+                client_id: this.configService.getGoogleOAuthClientId(),
+            })
+            .then(() => {
+                // Listen for sign-in state changes.
+                const signedIn =
+                    this.getGAPI().auth2.getAuthInstance().isSignedIn;
+                signedIn.listen((authenticated: boolean) =>
+                    this.onSignInChanged(authenticated)
+                );
 
-        this.getGAPI().auth2.init({
-            client_id: this.configService.getGoogleOAuthClientId()
-        }).then(() => {
-
-            // Listen for sign-in state changes.
-            const signedIn = this.getGAPI().auth2.getAuthInstance().isSignedIn; 
-            signedIn.listen((authenticated: boolean) => this.onSignInChanged(authenticated));
-
-            // Handle initial sign-in state.
-            this.onInitialLoginState(signedIn.get());
-        });
+                // Handle initial sign-in state.
+                this.onInitialLoginState(signedIn.get());
+            });
     }
 
     /**
      * Dispatch action to indicate auth has been initialized.
      */
     private onInit() {
-
         this.dispatch(new AuthInitAction()); // TODO revisit - dispatch action regardless of success/error (finally?)
     }
 
     /**
      * Handle initial login state. If user is authenticated, save user state to store.
-     * 
+     *
      * @param {boolean} authenticated
      */
     private onInitialLoginState(authenticated: boolean) {
-
-        if ( authenticated ) {
+        if (authenticated) {
             this.dispatch(new SessionContinueAction(this.getCurrentUser()));
         }
 
@@ -148,11 +146,10 @@ export class AuthService {
 
     /**
      * Return the authenticated Google user.
-     * 
+     *
      * @returns {GoogleUser}
      */
     private getCurrentUser(): GoogleUser {
-
         return this.getGAPI().auth2.getAuthInstance().currentUser.get();
     }
 
@@ -162,13 +159,11 @@ export class AuthService {
      * @param {boolean} authenticated
      */
     private onSignInChanged(authenticated: boolean) {
-
-        if ( authenticated ) {
+        if (authenticated) {
             this.dispatch(new LoginSuccessAction(this.getCurrentUser()));
             this.onInit();
-        }
-        else {
+        } else {
             this.dispatch(new LogoutSuccessAction());
         }
-    };
+    }
 }

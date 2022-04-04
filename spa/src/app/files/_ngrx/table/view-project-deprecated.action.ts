@@ -16,7 +16,6 @@ import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
 export class ViewProjectDeprecatedAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "PROJECT.VIEW_PROJECT_DEPRECATED";
     public readonly type = ViewProjectDeprecatedAction.ACTION_TYPE;
 
@@ -25,9 +24,11 @@ export class ViewProjectDeprecatedAction implements Action, TrackingAction {
      * @param {string} projectShortname
      * @param {string} projectUrl
      */
-    constructor(public projectId: string,
-                public projectShortname: string,
-                public projectUrl: string) {}
+    constructor(
+        public projectId: string,
+        public projectShortname: string,
+        public projectUrl: string
+    ) {}
 
     /**
      * Return the project integration action as a GA event.
@@ -35,8 +36,7 @@ export class ViewProjectDeprecatedAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.PROJECT,
             action: GAAction.VIEW_DEPRECATED_PROJECT,
@@ -45,8 +45,8 @@ export class ViewProjectDeprecatedAction implements Action, TrackingAction {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.CURRENT_QUERY]: currentQuery,
                 [GADimension.ENTITY_ID]: this.projectId,
-                [GADimension.ENTITY_URL]: this.projectUrl
-            }
+                [GADimension.ENTITY_URL]: this.projectUrl,
+            },
         };
     }
 }

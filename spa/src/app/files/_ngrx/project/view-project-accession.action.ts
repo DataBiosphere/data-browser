@@ -17,7 +17,6 @@ import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 
 export class ViewProjectAccessionAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "PROJECT.VIEW_PROJECT_ACCESSION";
     public readonly type = ViewProjectAccessionAction.ACTION_TYPE;
 
@@ -27,10 +26,12 @@ export class ViewProjectAccessionAction implements Action, TrackingAction {
      * @param {string} accession
      * @param {string} accessionUrl
      */
-    constructor(public projectId: string,
-                public projectTitle: string,
-                public accession: string,
-                public accessionUrl: string) {}
+    constructor(
+        public projectId: string,
+        public projectTitle: string,
+        public accession: string,
+        public accessionUrl: string
+    ) {}
 
     /**
      * Return the view accession action as a GA event.
@@ -38,8 +39,7 @@ export class ViewProjectAccessionAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog}): GAEvent {
-
+    public asEvent({ catalog }): GAEvent {
         return {
             category: GACategory.PROJECT,
             action: GAAction.VIEW_PROJECT_ACCESSION,
@@ -48,9 +48,10 @@ export class ViewProjectAccessionAction implements Action, TrackingAction {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_ID]: this.projectId,
                 [GADimension.RELATED_ENTITY_ID]: this.accession,
-                [GADimension.RELATED_ENTITY_TYPE]: GAEntityType.PROJECT_ACCESSION,
-                [GADimension.RELATED_ENTITY_URL]: this.accessionUrl
-            }
-        }
+                [GADimension.RELATED_ENTITY_TYPE]:
+                    GAEntityType.PROJECT_ACCESSION,
+                [GADimension.RELATED_ENTITY_URL]: this.accessionUrl,
+            },
+        };
     }
 }

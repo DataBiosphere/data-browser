@@ -13,7 +13,7 @@ import { FacetState } from "./facet.state";
 import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
 
 /**
- * Return facet slice. 
+ * Return facet slice.
  */
 export const selectFacet = createFeatureSelector<FacetState>("facet");
 
@@ -34,6 +34,11 @@ export const selectFacetFileFacets = createSelector(selectFacet, (state) => {
 /**
  * Return the file format facet from the store.
  */
-export const selectFileFormatsFileFacet = createSelector(selectFacet, (state) => {
-    return state.fileFacets.find((facet) => facet.name === FileFacetName.FILE_FORMAT);
-});
+export const selectFileFormatsFileFacet = createSelector(
+    selectFacet,
+    (state) => {
+        return state.fileFacets.find(
+            (facet) => facet.name === FileFacetName.FILE_FORMAT
+        );
+    }
+);

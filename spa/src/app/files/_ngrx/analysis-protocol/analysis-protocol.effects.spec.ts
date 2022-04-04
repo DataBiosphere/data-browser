@@ -23,7 +23,6 @@ import { GTMService } from "../../../shared/analytics/gtm.service";
 import { ViewAnalysisProtocolAction } from "./view-analysis-protocol.action";
 
 describe("AnalysisProtocolEffects", () => {
-
     let gtmService: GTMService;
     let effects: AnalysisProtocolEffects;
     let actions$: Observable<any>;
@@ -37,25 +36,22 @@ describe("AnalysisProtocolEffects", () => {
      * Setup for each test in suite.
      */
     beforeEach(() => {
-
         TestBed.configureTestingModule({
-            imports: [
-                HttpClientTestingModule
-            ],
+            imports: [HttpClientTestingModule],
             providers: [
                 AnalysisProtocolEffects,
                 provideMockActions(() => actions$),
                 GTMService,
                 provideMockStore({
-                    initialState: {}
+                    initialState: {},
                 }),
                 {
                     provide: "Window",
-                    useFactory: (() => {
+                    useFactory: () => {
                         return window;
-                    })
-                }
-            ]
+                    },
+                },
+            ],
         });
 
         gtmService = TestBed.inject(GTMService);
@@ -72,21 +68,25 @@ describe("AnalysisProtocolEffects", () => {
     });
 
     describe("viewAnalysisProtocol$", () => {
-
         /**
          * Confirm tracking is called.
          */
         it("tracks click on analysis protocol", () => {
-
             spyOn(gtmService, "trackEvent").and.callThrough();
 
-            const action = new ViewAnalysisProtocolAction("foo", "http://foo.com", GASource.SEARCH_RESULTS);
+            const action = new ViewAnalysisProtocolAction(
+                "foo",
+                "http://foo.com",
+                GASource.SEARCH_RESULTS
+            );
             actions$ = of(action);
             effects.viewAnalysisProtocol$.subscribe();
-            expect(gtmService.trackEvent).toHaveBeenCalledWith(action.asEvent({
-                catalog: mockSelectCatalog,
-                currentQuery: mockSelectPreviousQuery
-            }));
+            expect(gtmService.trackEvent).toHaveBeenCalledWith(
+                action.asEvent({
+                    catalog: mockSelectCatalog,
+                    currentQuery: mockSelectPreviousQuery,
+                })
+            );
         });
     });
 });

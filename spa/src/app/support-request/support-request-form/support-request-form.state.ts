@@ -8,7 +8,6 @@ import { DropError } from "../../dropzone/drop-error.model";
  */
 
 export class SupportRequestFormState {
-
     attachmentRejected: boolean;
     attachmentRejection?: DropError;
     attachmentName?: string;

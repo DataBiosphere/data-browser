@@ -14,10 +14,9 @@ import EntitySpec from "../../files/shared/entity-spec";
 @Component({
     selector: "pop-layout",
     templateUrl: "pop-layout.component.html",
-    styleUrls: ["pop-layout.component.scss"]
+    styleUrls: ["pop-layout.component.scss"],
 })
 export class PopLayoutComponent {
-
     // Inputs/outputs
     @Input() activeTab: EntitySpec;
     @Input() tabs: EntitySpec[];
@@ -29,12 +28,10 @@ export class PopLayoutComponent {
      * @returns {EntitySpec}
      */
     public getActiveTab(): EntitySpec {
-
-        if ( this.activeTab ) {
+        if (this.activeTab) {
             return this.activeTab;
-        }
-        else {
-            return {key: "", displayName: ""};
+        } else {
+            return { key: "", displayName: "" };
         }
     }
 
@@ -44,8 +41,7 @@ export class PopLayoutComponent {
      * @returns {EntitySpec[]}
      */
     public isTabsVisible(): boolean {
-
-        return !!(this.tabs && this.tabs.length); 
+        return !!(this.tabs && this.tabs.length);
     }
 
     /**
@@ -54,7 +50,6 @@ export class PopLayoutComponent {
      * @param {EntitySpec} tab
      */
     public onTabSelected(tab: EntitySpec) {
-        
         this.tabSelected.emit(tab);
     }
 }

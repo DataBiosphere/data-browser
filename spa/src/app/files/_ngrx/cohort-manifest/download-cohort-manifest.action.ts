@@ -15,7 +15,6 @@ import { GAEntityType } from "../../../shared/analytics/ga-entity-type.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 
 export class DownloadCohortManifestAction implements Action, TrackingAction {
-    
     public static ACTION_TYPE = "EXPORT.DOWNLOAD_COHORT_MANIFEST";
     public readonly type = DownloadCohortManifestAction.ACTION_TYPE;
 
@@ -30,8 +29,7 @@ export class DownloadCohortManifestAction implements Action, TrackingAction {
      * @param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, currentQuery}): GAEvent {
-
+    public asEvent({ catalog, currentQuery }): GAEvent {
         return {
             category: GACategory.MANIFEST,
             action: GAAction.DOWNLOAD,
@@ -39,8 +37,8 @@ export class DownloadCohortManifestAction implements Action, TrackingAction {
             dimensions: {
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_TYPE]: GAEntityType.COHORT_MANIFEST_LINK,
-                [GADimension.ENTITY_URL]: this.manifestUrl
-            }
+                [GADimension.ENTITY_URL]: this.manifestUrl,
+            },
         };
     }
 }

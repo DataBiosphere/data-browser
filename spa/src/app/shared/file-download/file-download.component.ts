@@ -12,10 +12,9 @@ import { FileDownloadLink } from "./file-download.model";
 @Component({
     selector: "file-download",
     templateUrl: "./file-download.component.html",
-    styleUrls: ["./file-download.component.scss"]
+    styleUrls: ["./file-download.component.scss"],
 })
 export class FileDownloadComponent {
-
     // Inputs/outputs
     @Input() link: FileDownloadLink;
     @Input() hideCopyToClipboard: boolean;
@@ -24,12 +23,11 @@ export class FileDownloadComponent {
 
     /**
      * Let parent components know download link has been clicked.
-     * 
+     *
      * @param {FileDownloadLink} link
      */
     public onLinkClicked(link: FileDownloadLink) {
-        
-        this.linkClicked.emit(link)
+        this.linkClicked.emit(link);
     }
 
     /**
@@ -38,7 +36,6 @@ export class FileDownloadComponent {
      * @param {FileDownloadLink} url
      */
     public onLinkCopiedToClipboard(link: FileDownloadLink) {
-
-        this.linkCopiedToClipboard.emit(link)
+        this.linkCopiedToClipboard.emit(link);
     }
 }

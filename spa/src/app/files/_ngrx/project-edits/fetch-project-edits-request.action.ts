@@ -13,4 +13,3 @@ export class FetchProjectEditsRequestAction implements Action {
     public readonly type = FetchProjectEditsRequestAction.ACTION_TYPE;
     constructor() {}
 }
-

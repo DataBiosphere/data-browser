@@ -8,7 +8,11 @@
 
 // Core dependencies
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from "@angular/router";
+import {
+    ActivatedRouteSnapshot,
+    CanActivate,
+    RouterStateSnapshot,
+} from "@angular/router";
 import { DeviceDetectorService } from "ngx-device-detector";
 
 // App dependencies
@@ -17,20 +21,24 @@ import { AtlasName } from "../../files/atlas/atlas-name.model";
 
 @Injectable()
 export class BrowserCanActivateGuard implements CanActivate {
-
     /**
      * @param {ConfigService} configService
      * @param {DeviceDetectorService} deviceService
      */
-    constructor(private configService: ConfigService, private deviceService: DeviceDetectorService) {}
+    constructor(
+        private configService: ConfigService,
+        private deviceService: DeviceDetectorService
+    ) {}
 
     /**
      * @param {ActivatedRouteSnapshot} activatedRouteSnapshot
      * @param {RouterStateSnapshot} routerStateSnapshot
      * @returns {boolean}
      */
-    canActivate(activatedRouteSnapshot: ActivatedRouteSnapshot, routerStateSnapshot: RouterStateSnapshot): boolean {
-
+    canActivate(
+        activatedRouteSnapshot: ActivatedRouteSnapshot,
+        routerStateSnapshot: RouterStateSnapshot
+    ): boolean {
         return this.isBrowserSupported();
     }
 
@@ -40,14 +48,13 @@ export class BrowserCanActivateGuard implements CanActivate {
      * @returns {boolean}
      */
     private isBrowserSupported(): boolean {
-
         // Display browser not supported for Internet Explorer.
-        if ( this.deviceService.browser === "IE" ) {
+        if (this.deviceService.browser === "IE") {
             const atlas = this.configService.getAtlas();
-            if ( atlas === AtlasName.LUNGMAP ) {
-                window.location.href = "/static/lungmap-browser-not-supported.html";
-            }
-            else {
+            if (atlas === AtlasName.LUNGMAP) {
+                window.location.href =
+                    "/static/lungmap-browser-not-supported.html";
+            } else {
                 window.location.href = "/static/browser-not-supported.html";
             }
             return false;

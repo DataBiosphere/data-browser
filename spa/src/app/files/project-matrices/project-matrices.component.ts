@@ -17,7 +17,7 @@ import { AppState } from "../../_ngrx/app.state";
 import { selectSelectedProject } from "../_ngrx/files.selectors";
 import {
     selectProjectMatrixArchivePreviewsByProjectId,
-    selectProjectMatrixFileLocationsByProjectId
+    selectProjectMatrixFileLocationsByProjectId,
 } from "../_ngrx/project/project.selectors";
 import { FetchProjectRequestAction } from "../_ngrx/table/table.actions";
 import { ProjectDetailService } from "../project-detail/project-detail.service";
@@ -28,16 +28,15 @@ import EntitySpec from "../shared/entity-spec";
 @Component({
     selector: "project-matrices",
     templateUrl: "./project-matrices.component.html",
-    styleUrls: ["./project-matrices.component.scss"]
+    styleUrls: ["./project-matrices.component.scss"],
 })
 export class ProjectMatricesComponent implements OnDestroy, OnInit {
-
     // Locals
     private ngDestroy$ = new Subject<boolean>();
 
     // Template variables
     public state$ = new BehaviorSubject<ProjectMatricesComponentState>({
-        loaded: false
+        loaded: false,
     });
 
     /**
@@ -46,21 +45,24 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
      * @param {ActivatedRoute} activatedRoute
      * @param {Router} router
      */
-    constructor(private projectDetailService: ProjectDetailService,
-                private store: Store<AppState>,
-                private activatedRoute: ActivatedRoute,
-                private router: Router) {}
+    constructor(
+        private projectDetailService: ProjectDetailService,
+        private store: Store<AppState>,
+        private activatedRoute: ActivatedRoute,
+        private router: Router
+    ) {}
 
     /**
      * Return user to project overview
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Project Overview";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
@@ -69,9 +71,8 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
      * @param {string} projectId
      */
     public onTabSelected(projectId: string): void {
-
         this.router.navigate(["/projects", projectId], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
@@ -79,7 +80,6 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
      * Clear project meta tags.
      */
     public ngOnDestroy() {
-
         // Set up tracking of project tab
         this.projectDetailService.removeProjectMeta();
 
@@ -91,41 +91,52 @@ export class ProjectMatricesComponent implements OnDestroy, OnInit {
      * Update state with selected project.
      */
     public ngOnInit() {
-
         // Add selected project to state - grab the project ID from the URL.
-        const projectId = this.activatedRoute.parent.snapshot.paramMap.get("id");
+        const projectId =
+            this.activatedRoute.parent.snapshot.paramMap.get("id");
         this.store.dispatch(new FetchProjectRequestAction(projectId));
 
         // Grab reference to selected project
         const project$ = this.store.pipe(select(selectSelectedProject));
 
         // Get any resolved matrix file locations for the selected projects
-        const projectMatrixFileLocationsByFileUrl$ = 
-            this.store.pipe(select(selectProjectMatrixFileLocationsByProjectId(projectId)));
+        const projectMatrixFileLocationsByFileUrl$ = this.store.pipe(
+            select(selectProjectMatrixFileLocationsByProjectId(projectId))
+        );
 
         // List archive previews for the selected project's matrices.
-        const projectMatrixArchivePreviewsByMatrixId$ = 
-            this.store.pipe(select(selectProjectMatrixArchivePreviewsByProjectId(projectId)));
+        const projectMatrixArchivePreviewsByMatrixId$ = this.store.pipe(
+            select(selectProjectMatrixArchivePreviewsByProjectId(projectId))
+        );
 
         combineLatest([
             project$,
             projectMatrixArchivePreviewsByMatrixId$,
-            projectMatrixFileLocationsByFileUrl$
+            projectMatrixFileLocationsByFileUrl$,
         ])
-        .pipe(
-            takeUntil(this.ngDestroy$),
-            filter(([project]) => !!project)
-        ).subscribe(([project, projectMatrixArchivePreviewsByMatrixId, projectMatrixFileLocationsByFileUrl]) => {
-    
-            this.state$.next({
-                loaded: true,
-                project,
-                projectMatrixArchivePreviewsByMatrixId,
-                projectMatrixFileLocationsByFileUrl
-            });
+            .pipe(
+                takeUntil(this.ngDestroy$),
+                filter(([project]) => !!project)
+            )
+            .subscribe(
+                ([
+                    project,
+                    projectMatrixArchivePreviewsByMatrixId,
+                    projectMatrixFileLocationsByFileUrl,
+                ]) => {
+                    this.state$.next({
+                        loaded: true,
+                        project,
+                        projectMatrixArchivePreviewsByMatrixId,
+                        projectMatrixFileLocationsByFileUrl,
+                    });
 
-            // Set up project description meta
-            this.projectDetailService.addProjectMeta(project.projectTitle, ProjectTab.PROJECT_MATRICES);
-        });
+                    // Set up project description meta
+                    this.projectDetailService.addProjectMeta(
+                        project.projectTitle,
+                        ProjectTab.PROJECT_MATRICES
+                    );
+                }
+            );
     }
 }

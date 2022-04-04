@@ -14,7 +14,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { RouterTestingModule } from "@angular/router/testing";
-import { By, HAMMER_LOADER } from '@angular/platform-browser';
+import { By, HAMMER_LOADER } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Store } from "@ngrx/store";
 import { ClipboardModule } from "ngx-clipboard";
@@ -47,7 +47,6 @@ import { TableRendererService } from "../table/table-renderer.service";
 import { PaginationService } from "../table/pagination/pagination.service";
 
 describe("HCATableSamplesComponent", () => {
-
     let component: HCATableSamplesComponent;
     let fixture: ComponentFixture<HCATableSamplesComponent>;
 
@@ -76,12 +75,13 @@ describe("HCATableSamplesComponent", () => {
     const COLUMN_NAME_TOTAL_CELLS = "totalCells";
 
     // Component names
-    const COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER = "analysis-protocol-pipeline-linker";
-    const COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH = "hca-content-unspecified-dash";
+    const COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER =
+        "analysis-protocol-pipeline-linker";
+    const COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH =
+        "hca-content-unspecified-dash";
     const COMPONENT_NAME_HCA_TABLE_SORT = "hca-table-sort";
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [
                 AnalysisProtocolPipelineLinkerComponent,
@@ -99,7 +99,7 @@ describe("HCATableSamplesComponent", () => {
                 HCATableSortComponent,
                 HCATooltipComponent,
                 DownloadModalButtonComponent,
-                TableScroll
+                TableScroll,
             ],
             imports: [
                 BrowserAnimationsModule,
@@ -110,38 +110,41 @@ describe("HCATableSamplesComponent", () => {
                 MatTableModule,
                 MatTooltipModule,
                 PipeModule,
-                RouterTestingModule
+                RouterTestingModule,
             ],
             providers: [
                 ConfigService,
                 EntityRequestService,
                 {
                     provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
-                    useValue: () => new Promise(() => {
-                    })
+                    useValue: () => new Promise(() => {}),
                 },
                 PaginationService,
                 {
                     provide: ResponsiveService,
-                    useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
+                    useValue: jasmine.createSpyObj("ResponsiveService", [
+                        "isWindowWidthHCAMedium",
+                        "isWindowWidthSmallTablet",
+                        "isWindowWidthSmall",
+                    ]),
                 },
                 {
                     provide: Store,
-                    useValue: testStore
+                    useValue: testStore,
                 },
                 {
                     provide: TableRendererService,
                     useValue: jasmine.createSpyObj("TableRendererService", {
-                        "onRenderCompleted": of(true)
-                    })
+                        onRenderCompleted: of(true),
+                    }),
                 },
                 {
                     provide: "Window",
-                    useFactory: (() => {
+                    useFactory: () => {
                         return window;
-                    })
-                }
-            ]
+                    },
+                },
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(HCATableSamplesComponent);
@@ -149,14 +152,11 @@ describe("HCATableSamplesComponent", () => {
     }));
 
     describe("Sort", () => {
-
         /**
          * Confirm sort functionality is set up in component.
          */
         it("should set up sort functionality on init", () => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -176,9 +176,7 @@ describe("HCATableSamplesComponent", () => {
          * Confirm sort function is called on click of sort header.
          */
         it("should call sort on click of sort header", () => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -212,9 +210,7 @@ describe("HCATableSamplesComponent", () => {
          * the second to desc and the third clears the direction.
          */
         it("should reset sort order to default on clear of sort", () => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -244,17 +240,19 @@ describe("HCATableSamplesComponent", () => {
             // Execute third click to clear sort
             sortHeaderDE.triggerEventHandler("click", null);
             fixture.detectChanges();
-            expect(component.matSort.active).toEqual(component.defaultSortOrder.sort);
-            expect(component.matSort.direction).toEqual(component.defaultSortOrder.order);
+            expect(component.matSort.active).toEqual(
+                component.defaultSortOrder.sort
+            );
+            expect(component.matSort.direction).toEqual(
+                component.defaultSortOrder.order
+            );
         });
 
         /**
          * Confirm component <hca-table-sort> is displayed in totalCells header.
          */
         it("should display component hca-table-sort in totalCells header", () => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -267,16 +265,18 @@ describe("HCATableSamplesComponent", () => {
             fixture.detectChanges();
 
             // Confirm column header displays component
-            expect(isComponentDisplayed(findHeader(COLUMN_NAME_TOTAL_CELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
+            expect(
+                isComponentDisplayed(
+                    findHeader(COLUMN_NAME_TOTAL_CELLS),
+                    COMPONENT_NAME_HCA_TABLE_SORT
+                )
+            ).toBe(true);
         });
     });
 
     describe("Columns", () => {
-
         beforeEach(waitForAsync(() => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -294,90 +294,100 @@ describe("HCATableSamplesComponent", () => {
          * Confirm development stage column labeled as "Development Stage" is displayed.
          */
         it(`displays column "Development Stage" column `, () => {
-
-            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
+            const columnHeaderDE = findHeaderTitle(
+                COLUMN_NAME_DEVELOPMENT_STAGE
+            );
 
             // Confirm column title is displayed
             expect(columnHeaderDE).toBeTruthy();
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DEVELOPMENT_STAGE);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_DEVELOPMENT_STAGE
+            );
         });
 
         /**
          * Confirm specimen disease column labeled as "Disease Status (Specimen)" is displayed.
          */
         it(`displays column "Disease Status (Specimen)" column`, () => {
-
-            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_SPECIMEN_DISEASE);
+            const columnHeaderDE = findHeaderTitle(
+                COLUMN_NAME_SPECIMEN_DISEASE
+            );
 
             // Confirm column title is displayed
             expect(columnHeaderDE).toBeTruthy();
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_SPECIMEN_DISEASE);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_SPECIMEN_DISEASE
+            );
         });
 
         /**
          * Confirm specimen disease column labeled as "Disease Status (Donor)" is displayed.
          */
         it(`displays column "Disease Status (Donor)" column`, () => {
-
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DONOR_DISEASE);
 
             // Confirm column title is displayed
             expect(columnHeaderDE).toBeTruthy();
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DONOR_DISEASE);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_DONOR_DISEASE
+            );
         });
 
         /**
          * Confirm modelOrgan column labeled as "Model Organ" is displayed.
          */
         it(`should display column "Model Organ"`, () => {
-
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_MODEL_ORGAN);
 
             // Confirm column title is displayed
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_MODEL_ORGAN);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_MODEL_ORGAN
+            );
         });
 
         /**
          * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed.
          */
         it(`displays column "Nucleic Acid Source" column`, () => {
-
-            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
+            const columnHeaderDE = findHeaderTitle(
+                COLUMN_NAME_NUCLEIC_ACID_SOURCE
+            );
 
             // Confirm column title is displayed
             expect(columnHeaderDE).toBeTruthy();
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_NUCLEIC_ACID_SOURCE
+            );
         });
 
         /**
          * Confirm workflow column labeled as "Analysis Protocol" is displayed.
          */
         it(`should display column "Analysis Protocol"`, () => {
-
             const columnHeaderDE = findHeader(COLUMN_NAME_WORKFLOW);
 
             // Confirm column title is displayed
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_WORKFLOW);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_WORKFLOW
+            );
         });
 
         /**
          * Confirm totalCells column labeled as "Cell Count Estimate" is displayed.
          */
         it(`should display column "Cell Count Estimate"`, () => {
-
             const columnHeaderDE = findHeader(COLUMN_NAME_TOTAL_CELLS);
 
             // Confirm column title is displayed
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_TOTAL_CELLS);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_TOTAL_CELLS
+            );
         });
     });
 
     describe("Model Organ Column", () => {
-
         beforeEach(waitForAsync(() => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -394,10 +404,12 @@ describe("HCATableSamplesComponent", () => {
          * Confirm component <hca-content-unspecified-dash> is displayed when model organ value is empty.
          */
         it("should display component hca-content-unspecified-dash when model organ value is empty", () => {
-
             // Confirm row with empty array values in column "Model Organ" displays component
-            const actual =
-                findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_MODEL_ORGAN, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH);
+            const actual = findColumnCellComponent(
+                INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES,
+                COLUMN_NAME_MODEL_ORGAN,
+                COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH
+            );
             expect(actual).not.toBe(null);
         });
 
@@ -405,10 +417,12 @@ describe("HCATableSamplesComponent", () => {
          * Confirm component <hca-content-unspecified-dash> is displayed when model organ value is null.
          */
         it("should display component hca-content-unspecified-dash when model organ value is null", () => {
-
             // Confirm row with null values in column "Model Organ" displays component
-            const actual =
-                findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_MODEL_ORGAN, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH);
+            const actual = findColumnCellComponent(
+                INDEX_TABLE_ROW_NULL_VALUES,
+                COLUMN_NAME_MODEL_ORGAN,
+                COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH
+            );
             expect(actual).not.toBe(null);
         });
 
@@ -416,24 +430,23 @@ describe("HCATableSamplesComponent", () => {
          * Confirm model organ value is displayed.
          */
         it("should display model organ", () => {
-
             // Confirm row with single values in column "Model Organ" does display component
             const modelOrganDE = findColumnCells(COLUMN_NAME_MODEL_ORGAN)[0];
             const actual = modelOrganDE.nativeElement.textContent;
-            const expected = SAMPLES_TABLE_MODEL.data[INDEX_TABLE_ROW_SINGLE_VALUES].samples[0].modelOrgan.join(", ");
+            const expected =
+                SAMPLES_TABLE_MODEL.data[
+                    INDEX_TABLE_ROW_SINGLE_VALUES
+                ].samples[0].modelOrgan.join(", ");
             expect(actual).toEqual(expected);
         });
     });
-    
-    describe("Workflow Column", () => {
 
+    describe("Workflow Column", () => {
         /**
          * Confirm component <hca-content-unspecified-dash> is displayed when workflow value is empty.
          */
         it("should display component hca-content-unspecified-dash when workflow value is empty", () => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -446,16 +459,20 @@ describe("HCATableSamplesComponent", () => {
             fixture.detectChanges();
 
             // Confirm row with empty values in column "Analysis Protocol" displays component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH
+                )
+            ).not.toBe(null);
         });
 
         /**
          * Confirm component <hca-content-unspecified-dash> is displayed when workflow value is null.
          */
         it("should display component hca-content-unspecified-dash when workflow value is null", () => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -468,16 +485,20 @@ describe("HCATableSamplesComponent", () => {
             fixture.detectChanges();
 
             // Confirm row with null values in column "Analysis Protocol" displays component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_NULL_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH
+                )
+            ).not.toBe(null);
         });
 
         /**
          * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is empty.
          */
         it("should not display component analysis protocol pipeline linker when workflow value is empty", () => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -491,16 +512,20 @@ describe("HCATableSamplesComponent", () => {
             fixture.detectChanges();
 
             // Confirm row with empty values in column "Analysis Protocol" does not display component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER
+                )
+            ).toBe(null);
         });
 
         /**
          * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is null.
          */
         it("should not display component analysis protocol pipeline linker when workflow value is null", () => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -514,16 +539,20 @@ describe("HCATableSamplesComponent", () => {
             fixture.detectChanges();
 
             // Confirm row with null values in column "Analysis Protocol" does not display component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_NULL_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER
+                )
+            ).toBe(null);
         });
 
         /**
          * Confirm component <analysis-protocol-pipeline-linker> is displayed when workflow is single value.
          */
         it("should display component analysis protocol pipeline linker when workflow is single value", () => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -536,16 +565,20 @@ describe("HCATableSamplesComponent", () => {
             fixture.detectChanges();
 
             // Confirm row with single value in column "Analysis Protocol" does display component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).not.toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_SINGLE_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER
+                )
+            ).not.toBe(null);
         });
 
         /**
          * Confirm component <hca-content-unspecified-dash> is not displayed when workflow is single value.
          */
         it("should not display component hca-content-unspecified-dash when workflow is single value", () => {
-
-            testStore.pipe
-                .and.returnValues(
+            testStore.pipe.and.returnValues(
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.data),
                 of(SAMPLES_TABLE_MODEL.loading),
@@ -559,7 +592,13 @@ describe("HCATableSamplesComponent", () => {
             fixture.detectChanges();
 
             // Confirm row with single values in column "Analysis Protocol" does not display component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_SINGLE_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH
+                )
+            ).toBe(null);
         });
     });
 
@@ -570,7 +609,6 @@ describe("HCATableSamplesComponent", () => {
      * @returns {DebugElement[]}
      */
     function findColumnCells(columnName: string): DebugElement[] {
-
         return fixture.debugElement.queryAll(
             By.css(`.mat-cell.mat-column-${columnName}`)
         );
@@ -584,11 +622,14 @@ describe("HCATableSamplesComponent", () => {
      * @param {string} componentName
      * @returns {DebugElement}
      */
-    function findColumnCellComponent(rowIndex: number, columnName: string, componentName: string): DebugElement {
-
+    function findColumnCellComponent(
+        rowIndex: number,
+        columnName: string,
+        componentName: string
+    ): DebugElement {
         const columnRowDE = findColumnCells(columnName)[rowIndex];
 
-        if ( !columnRowDE ) {
+        if (!columnRowDE) {
             return null;
         }
 
@@ -601,9 +642,10 @@ describe("HCATableSamplesComponent", () => {
      * @param {string} columnName
      */
     function findHeader(columnName: string): DebugElement {
-
         return fixture.debugElement.query(
-            By.css(`hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`)
+            By.css(
+                `hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`
+            )
         );
     }
 
@@ -613,9 +655,10 @@ describe("HCATableSamplesComponent", () => {
      * @param {string} columnName
      */
     function findHeaderTitle(columnName: string): DebugElement {
-
         return fixture.debugElement.query(
-            By.css(`hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`)
+            By.css(
+                `hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`
+            )
         );
     }
 
@@ -625,12 +668,8 @@ describe("HCATableSamplesComponent", () => {
      * @param {DebugElement} columnHeaderDE
      */
     function findSortHeader(columnHeaderDE): DebugElement {
-
-        return columnHeaderDE.query(
-            By.directive(MatSortHeader)
-        );
+        return columnHeaderDE.query(By.directive(MatSortHeader));
     }
-
 
     /**
      * Returns true if component is a child of the specified debug element.
@@ -639,18 +678,20 @@ describe("HCATableSamplesComponent", () => {
      * @param {string} componentName
      * @returns {boolean}
      */
-    function isComponentDisplayed(debugElement: DebugElement, componentName: string): boolean {
-
-        if ( !debugElement ) {
-
+    function isComponentDisplayed(
+        debugElement: DebugElement,
+        componentName: string
+    ): boolean {
+        if (!debugElement) {
             return false;
         }
 
-        if ( !debugElement.children ) {
-
+        if (!debugElement.children) {
             return false;
         }
 
-        return debugElement.children.some(child => child.name === componentName);
+        return debugElement.children.some(
+            (child) => child.name === componentName
+        );
     }
 });

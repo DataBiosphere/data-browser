@@ -16,7 +16,6 @@ import { ClipboardModule } from "ngx-clipboard";
 import { CopyToClipboardComponent } from "./copy-to-clipboard.component";
 
 describe("CopyToClipboardComponent", () => {
-
     let component: CopyToClipboardComponent;
     let fixture: ComponentFixture<CopyToClipboardComponent>;
 
@@ -24,16 +23,10 @@ describe("CopyToClipboardComponent", () => {
     const TEST_VALUE_COPY_TO_CLIPBOARD_LABEL = "link";
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
-            declarations: [
-                CopyToClipboardComponent
-            ],
-            imports: [
-                ClipboardModule,
-                MatIconModule
-            ],
-            providers: []
+            declarations: [CopyToClipboardComponent],
+            imports: [ClipboardModule, MatIconModule],
+            providers: [],
         }).compileComponents();
 
         fixture = TestBed.createComponent(CopyToClipboardComponent);
@@ -44,7 +37,6 @@ describe("CopyToClipboardComponent", () => {
      * Smoke test
      */
     it("should create an instance", () => {
-
         expect(component).toBeTruthy();
     });
 
@@ -52,7 +44,6 @@ describe("CopyToClipboardComponent", () => {
      * Confirm get copied text method returns "Link copied".
      */
     it(`should get copied text method return "Link copied"`, () => {
-
         // Set up initial component state
         component.copyToClipboardLabel = TEST_VALUE_COPY_TO_CLIPBOARD_LABEL;
 
@@ -63,7 +54,6 @@ describe("CopyToClipboardComponent", () => {
      * Confirm get copy text method returns "Copy link".
      */
     it(`should get copy text method return "Copy link"`, () => {
-
         // Set up initial component state
         component.copyToClipboardLabel = TEST_VALUE_COPY_TO_CLIPBOARD_LABEL;
 
@@ -74,7 +64,6 @@ describe("CopyToClipboardComponent", () => {
      * Confirm copied method returns true when copied is true.
      */
     it("should copied method return true when copied is true", () => {
-
         expect(component.isCopied(true)).toEqual(true);
     });
 
@@ -82,7 +71,6 @@ describe("CopyToClipboardComponent", () => {
      * Confirm copied method returns false when copied is false.
      */
     it("should copied method return false when copied is false", () => {
-
         expect(component.isCopied(false)).toEqual(false);
     });
 
@@ -90,7 +78,6 @@ describe("CopyToClipboardComponent", () => {
      * Confirm "Copy link" is displayed when copied is false.
      */
     it(`displays "Copy link" when copied is false`, () => {
-
         // Set up initial component state
         component.copyToClipboardLabel = TEST_VALUE_COPY_TO_CLIPBOARD_LABEL;
 
@@ -102,14 +89,15 @@ describe("CopyToClipboardComponent", () => {
 
         // Confirm text is displayed
         const copyInstructionDE = getDEBySelector(".fontsize-xxs");
-        expect(copyInstructionDE.nativeElement.textContent).toEqual("Copy link");
+        expect(copyInstructionDE.nativeElement.textContent).toEqual(
+            "Copy link"
+        );
     });
 
     /**
      * Confirm "Linked copied" is displayed when copied is true.
      */
     it(`displays "Link copied" when copied is true`, () => {
-
         // Set up initial component state
         component.copyToClipboardLabel = TEST_VALUE_COPY_TO_CLIPBOARD_LABEL;
 
@@ -121,14 +109,15 @@ describe("CopyToClipboardComponent", () => {
 
         // Confirm text is displayed
         const copyInstructionDE = getDEBySelector(".fontsize-xxs");
-        expect(copyInstructionDE.nativeElement.textContent).toEqual("Link copied");
+        expect(copyInstructionDE.nativeElement.textContent).toEqual(
+            "Link copied"
+        );
     });
 
     /**
      * Confirm method copy is called on click of copy to clipboard.
      */
     it("should method copy is called on click of copy to clipboard", () => {
-
         const onCopy = spyOn(component, "onCopy");
         const requestCopyToClipboard = getDEBySelector(".clipboard-copy");
 
@@ -142,7 +131,6 @@ describe("CopyToClipboardComponent", () => {
      * Confirm copied is true on click of copy to clipboard.
      */
     it("should copied is true on click of copy to clipboard", () => {
-
         const requestCopyToClipboard = getDEBySelector(".clipboard-copy");
 
         // Execute click on copy to clipboard
@@ -158,7 +146,6 @@ describe("CopyToClipboardComponent", () => {
      * @returns {DebugElement}
      */
     function getDEBySelector(selector: string): DebugElement {
-
         return fixture.debugElement.query(By.css(selector));
     }
 });

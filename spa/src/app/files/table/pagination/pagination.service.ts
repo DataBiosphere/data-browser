@@ -14,47 +14,43 @@ import { TableParams } from "./table-params.model";
 
 @Injectable()
 export class PaginationService {
-
     /**
      * Return the values pagination request param values to be included in a request to the entity API.
      *
      * @param {TableParams} tableParams
      * @returns {{[key: string]: string}}
      */
-    public buildFetchSearchResultsPaginationParams(tableParams: TableParams): {[key: string]: string} {
-
+    public buildFetchSearchResultsPaginationParams(tableParams: TableParams): {
+        [key: string]: string;
+    } {
         const params = {
-            size: tableParams.size.toString(10)
+            size: tableParams.size.toString(10),
         };
 
-        if ( tableParams.sort && tableParams.order ) {
+        if (tableParams.sort && tableParams.order) {
             params["sort"] = tableParams.sort;
             params["order"] = tableParams.order;
         }
 
         // Check if there is paging - use search_after_uid and not search_after as null is a valid value for
         // search_after
-        if ( tableParams.search_after_uid ) {
-
+        if (tableParams.search_after_uid) {
             params["search_after"] = tableParams.search_after;
             params["search_after_uid"] = tableParams.search_after_uid;
         }
 
         // Use search_before_uid and not search_before as null is a valid value for search_before
-        if ( tableParams.search_before_uid ) {
-
+        if (tableParams.search_before_uid) {
             params["search_before"] = tableParams.search_before;
             params["search_before_uid"] = tableParams.search_before_uid;
         }
 
         // Check if there is paging
-        if ( tableParams.next) {
-
+        if (tableParams.next) {
             params["next"] = tableParams.next;
         }
 
-        if ( tableParams.previous ) {
-
+        if (tableParams.previous) {
             params["previous"] = tableParams.previous;
         }
 
@@ -68,12 +64,11 @@ export class PaginationService {
      * @returns {TableParams}
      */
     buildNextPageTableParams(pagination: Pagination): TableParams {
-
         return {
             next: pagination.next,
             order: pagination.order,
             size: pagination.size,
-            sort: pagination.sort
+            sort: pagination.sort,
         };
     }
 
@@ -84,15 +79,13 @@ export class PaginationService {
      * @returns {TableParams}
      */
     buildPreviousPageTableParams(pagination: Pagination): TableParams {
-
         return {
             order: pagination.order,
             previous: pagination.previous,
             size: pagination.size,
-            sort: pagination.sort
+            sort: pagination.sort,
         };
     }
-
 
     /**
      * Returns true if the current page is the first page.
@@ -101,8 +94,7 @@ export class PaginationService {
      * @returns {boolean}
      */
     isFirstPage(pagination: Pagination): boolean {
-
-        return pagination.previous === null
+        return pagination.previous === null;
     }
 
     /**
@@ -112,7 +104,6 @@ export class PaginationService {
      * @returns {boolean}
      */
     isLastPage(pagination: Pagination): boolean {
-
-        return pagination.next === null
+        return pagination.next === null;
     }
 }

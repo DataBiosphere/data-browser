@@ -26,7 +26,10 @@ import { GetDataLayoutComponent } from "../get-data-layout/get-data-layout.compo
 import { GetDataSummaryComponent } from "../get-data-summary/get-data-summary.component";
 import { selectFilesFacets } from "../../_ngrx/file-manifest/file-manifest.selectors";
 import { FileSummaryState } from "../../_ngrx/file-summary/file-summary.state";
-import { selectFileSummary, selectSelectedEntitySpec } from "../../_ngrx/files.selectors";
+import {
+    selectFileSummary,
+    selectSelectedEntitySpec,
+} from "../../_ngrx/files.selectors";
 import { selectSelectedSearchTerms } from "../../_ngrx/search/search.selectors";
 import { PipeModule } from "../../../pipe/pipe.module";
 import { SelectedSearchTermsComponent } from "../../search/selected-search-terms/selected-search-terms.component";
@@ -39,7 +42,6 @@ import { PopLayoutComponent } from "../../../shared/pop-layout/pop-layout.compon
 import { Term } from "../../shared/term.model";
 
 describe("GetDataOptionsComponent", () => {
-
     let component: GetDataOptionsComponent;
     let fixture: ComponentFixture<GetDataOptionsComponent>;
     let store: MockStore;
@@ -50,7 +52,6 @@ describe("GetDataOptionsComponent", () => {
      * Setup before each test.
      */
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [
                 GetDataLayoutComponent,
@@ -62,24 +63,26 @@ describe("GetDataOptionsComponent", () => {
                 HCATooltipComponent,
                 PopLayoutComponent,
                 SelectedDataSummaryComponent,
-                SelectedSearchTermsComponent
+                SelectedSearchTermsComponent,
             ],
             imports: [
                 BrowserAnimationsModule,
                 MatTooltipModule,
                 PipeModule,
-                RouterTestingModule
+                RouterTestingModule,
             ],
             providers: [
                 {
                     provide: ConfigService,
-                    useValue: jasmine.createSpyObj("ConfigService", ["getPortalUrl"])
+                    useValue: jasmine.createSpyObj("ConfigService", [
+                        "getPortalUrl",
+                    ]),
                 },
                 FacetDisplayService,
                 provideMockStore({
-                    initialState: {}
-                })
-            ]
+                    initialState: {},
+                }),
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(GetDataOptionsComponent);
@@ -87,16 +90,21 @@ describe("GetDataOptionsComponent", () => {
 
         // Set up selectors for children components
         store = TestBed.inject(Store) as MockStore;
-        store.overrideSelector(selectFilesFacets, [new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
-            new Term(GenusSpecies.HOMO_SAPIENS, 100, false)
-        ])]);
-        store.overrideSelector(selectFileSummary, FileSummaryState.getDefaultState());
+        store.overrideSelector(selectFilesFacets, [
+            new FileFacet(FileFacetName.GENUS_SPECIES, 100, [
+                new Term(GenusSpecies.HOMO_SAPIENS, 100, false),
+            ]),
+        ]);
+        store.overrideSelector(
+            selectFileSummary,
+            FileSummaryState.getDefaultState()
+        );
         store.overrideSelector(selectSelectedSearchTerms, []);
-        
+
         // Set up selector for fixture
         store.overrideSelector(selectSelectedEntitySpec, {
             key: "key",
-            displayName: "Key"
+            displayName: "Key",
         });
     }));
 
@@ -109,28 +117,31 @@ describe("GetDataOptionsComponent", () => {
      * Confirm "Bulk Download" is displayed.
      */
     it(`displays "Bulk Download"`, () => {
-
         fixture.detectChanges();
 
-        expect(isPanelHeaderDisplayed(`Download Selected Data Using "curl"`)).toEqual(true);
+        expect(
+            isPanelHeaderDisplayed(`Download Selected Data Using "curl"`)
+        ).toEqual(true);
     });
 
     /**
      * Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed.
      */
     it(`displays "Download a File Manifest with Metadata for the Selected Data"`, () => {
-
         fixture.detectChanges();
 
         // Confirm "Request a File Manifest (for downloading files via the HCA CLI)" is displayed
-        expect(isPanelHeaderDisplayed("Download a File Manifest with Metadata for the Selected Data")).toEqual(true);
+        expect(
+            isPanelHeaderDisplayed(
+                "Download a File Manifest with Metadata for the Selected Data"
+            )
+        ).toEqual(true);
     });
 
     /**
-     * Confirm "Analyze in Terra" is displayed 
+     * Confirm "Analyze in Terra" is displayed
      */
     it(`displays "Analyze in Terra"`, () => {
-
         fixture.detectChanges();
 
         // Confirm "Export to Terra" is displayed
@@ -144,7 +155,6 @@ describe("GetDataOptionsComponent", () => {
      * @returns {DebugElement}
      */
     function getButtonEl(panelDownloadType: string): DebugElement {
-
         const buttonEls = fixture.debugElement.queryAll(By.css("button"));
         const buttonIndex = DOWNLOAD_DISPLAY_ORDER.indexOf(panelDownloadType);
 
@@ -158,10 +168,14 @@ describe("GetDataOptionsComponent", () => {
      * @returns {boolean}
      */
     function isPanelHeaderDisplayed(panelHeaderHeading: string): boolean {
+        const panelHeaderEls = fixture.debugElement.queryAll(
+            By.css("get-data-panel h4")
+        );
 
-        const panelHeaderEls = fixture.debugElement.queryAll(By.css("get-data-panel h4"));
-
-        return panelHeaderEls.some(panelHeader => panelHeader.nativeElement.innerHTML === panelHeaderHeading);
+        return panelHeaderEls.some(
+            (panelHeader) =>
+                panelHeader.nativeElement.innerHTML === panelHeaderHeading
+        );
     }
 
     /**
@@ -171,9 +185,12 @@ describe("GetDataOptionsComponent", () => {
      * @returns {boolean}
      */
     function isPanelTextDisplayed(panelText: string): boolean {
+        const panelTextEls = fixture.debugElement.queryAll(
+            By.css("get-data-panel p")
+        );
 
-        const panelTextEls = fixture.debugElement.queryAll(By.css("get-data-panel p"));
-
-        return panelTextEls.map(panelTextEl => panelTextEl.nativeElement.innerHTML).some(panelTextHTML => panelTextHTML === panelText);
+        return panelTextEls
+            .map((panelTextEl) => panelTextEl.nativeElement.innerHTML)
+            .some((panelTextHTML) => panelTextHTML === panelText);
     }
 });

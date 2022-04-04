@@ -21,15 +21,13 @@ import { FooterComponent } from "../../site-config/footer.component";
 @Component({
     selector: "lungmap-footer",
     templateUrl: "lungmap-footer.component.html",
-    styleUrls: ["lungmap-footer.component.scss"]
+    styleUrls: ["lungmap-footer.component.scss"],
 })
-
 export class LungMAPFooterComponent implements FooterComponent {
-
     // Template variables
     public portalUrl: string;
     public state$ = new BehaviorSubject<LungMAPFooterState>({
-        modalOpen: false
+        modalOpen: false,
     });
 
     // Locals
@@ -39,8 +37,10 @@ export class LungMAPFooterComponent implements FooterComponent {
      * @param {Store<AppState>} store
      * @param {ConfigService} configService
      */
-    constructor(private store: Store<AppState>,
-                private configService: ConfigService) {
+    constructor(
+        private store: Store<AppState>,
+        private configService: ConfigService
+    ) {
         this.portalUrl = this.configService.getPortalUrl();
     }
 
@@ -48,7 +48,6 @@ export class LungMAPFooterComponent implements FooterComponent {
      * Kill subscriptions on destroy of component.
      */
     public ngOnDestroy() {
-
         this.ngDestroy$.next(true);
         this.ngDestroy$.complete();
     }
@@ -57,12 +56,10 @@ export class LungMAPFooterComponent implements FooterComponent {
      * Listen for changes in modal opened/closed state and update header UI accordingly.
      */
     public ngOnInit() {
-
-        this.store.pipe(
-            select(selectModalOpen),
-            takeUntil(this.ngDestroy$)
-        ).subscribe(modalOpen => {
-            this.state$.next({modalOpen});
-        });
+        this.store
+            .pipe(select(selectModalOpen), takeUntil(this.ngDestroy$))
+            .subscribe((modalOpen) => {
+                this.state$.next({ modalOpen });
+            });
     }
 }

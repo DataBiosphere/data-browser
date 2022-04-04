@@ -10,5 +10,5 @@ export enum GenusSpecies {
     "homo_sapiens" = "homo sapiens", // Lower case to handle bad data
     "MUS_MUSCULUS" = "Mus musculus",
     "DANIO_RERIO" = "Danio rerio",
-    "UNSPECIFIED" = "Unspecified"
+    "UNSPECIFIED" = "Unspecified",
 }

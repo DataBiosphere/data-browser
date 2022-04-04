@@ -9,13 +9,16 @@
 import { SearchTerm } from "./search-term.model";
 
 export class SearchFacetTerm implements SearchTerm {
-
     /**
      * @param {string} facetName
      * @param {string} termName
      * @param {number} count - only required when setting up search terms for select from search box (and not when actually selecting a term)
      */
-    constructor(private readonly facetName: string, private readonly termName: string, private readonly count?: number) {}
+    constructor(
+        private readonly facetName: string,
+        private readonly termName: string,
+        private readonly count?: number
+    ) {}
 
     /**
      * Return the count. Only required when setting up search terms options for select from search box (and not when
@@ -24,7 +27,6 @@ export class SearchFacetTerm implements SearchTerm {
      * @returns {number}
      */
     public getCount(): number {
-
         return this.count;
     }
 
@@ -34,7 +36,6 @@ export class SearchFacetTerm implements SearchTerm {
      * @returns {string}
      */
     public getDisplayValue(): string {
-
         return this.termName;
     }
 
@@ -45,7 +46,6 @@ export class SearchFacetTerm implements SearchTerm {
      * @returns {string}
      */
     getId(): string {
-
         return `${this.getSearchKey()}:${this.getSearchValue()}`;
     }
 
@@ -56,7 +56,6 @@ export class SearchFacetTerm implements SearchTerm {
      * @returns {string}
      */
     public getSearchKey(): string {
-
         return this.facetName;
     }
 
@@ -67,7 +66,6 @@ export class SearchFacetTerm implements SearchTerm {
      * @returns {string}
      */
     public getSearchValue(): any {
-
         return this.termName;
     }
 
@@ -80,16 +78,15 @@ export class SearchFacetTerm implements SearchTerm {
      * @returns {any}
      */
     public getFilterParameterValue(): any {
-
-        if ( this.termName === "Unspecified" ) {
+        if (this.termName === "Unspecified") {
             return null;
         }
 
-        if ( this.termName === "true" ) {
+        if (this.termName === "true") {
             return true;
         }
 
-        if ( this.termName === "false" ) {
+        if (this.termName === "false") {
             return false;
         }
 
@@ -102,9 +99,6 @@ export class SearchFacetTerm implements SearchTerm {
      * @returns {string}
      */
     public getSortValue(): string {
-
         return this.termName;
     }
 }
-
-

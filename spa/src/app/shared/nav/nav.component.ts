@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Component for displaying nav. 
+ * Component for displaying nav.
  */
 
 // Core dependencies
@@ -14,10 +14,9 @@ import { NavItem } from "./nav-item.model";
 @Component({
     selector: "nav",
     templateUrl: "./nav.component.html",
-    styleUrls: ["./nav.component.scss"]
+    styleUrls: ["./nav.component.scss"],
 })
 export class NavComponent {
-
     // Inputs
     @Input() navItems: NavItem[];
 
@@ -28,9 +27,7 @@ export class NavComponent {
      * @returns {string}
      */
     public getTooltipContent(navItem: NavItem): string {
-
-        if ( navItem && navItem.tooltip ) {
-
+        if (navItem && navItem.tooltip) {
             return navItem.tooltip;
         }
         return "";
@@ -43,8 +40,7 @@ export class NavComponent {
      * @returns {boolean}
      */
     public isRouterLink(routerLink: string[]): boolean {
-
-        return !!routerLink
+        return !!routerLink;
     }
 
     /**
@@ -54,7 +50,6 @@ export class NavComponent {
      * @returns {boolean}
      */
     public isTooltipDisabled(navItem: NavItem): boolean {
-
         return !(navItem.disabled && !!navItem.tooltip);
     }
 }

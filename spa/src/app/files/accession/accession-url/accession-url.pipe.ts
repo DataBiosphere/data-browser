@@ -12,10 +12,9 @@ import { Pipe, PipeTransform } from "@angular/core";
 import { AccessionConfig } from "../accession-config.model";
 
 @Pipe({
-    name: "accessionUrl"
+    name: "accessionUrl",
 })
 export class AccessionUrlPipe implements PipeTransform {
-    
     private IDENTIFIERS_ORG_URL = "https://identifiers.org";
 
     /**
@@ -26,12 +25,10 @@ export class AccessionUrlPipe implements PipeTransform {
      * @returns {string}
      */
     transform(accessionId: string, identifierOrgPrefix: string): string {
-
-        if ( !accessionId || !identifierOrgPrefix ) {
+        if (!accessionId || !identifierOrgPrefix) {
             return "";
         }
 
         return `${this.IDENTIFIERS_ORG_URL}/${identifierOrgPrefix}:${accessionId}`;
     }
-
 }

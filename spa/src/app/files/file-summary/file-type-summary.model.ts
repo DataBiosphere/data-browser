@@ -1,7 +1,7 @@
 /**
  * Human Cell Atlas
  * https://www.humancellatlas.org/
- * 
+ *
  * Fe model of file type summary returned as part of /summary response or, /projects or /samples responses.
  */
 

@@ -3,7 +3,7 @@
  * https://www.humancellatlas.org/
  *
  * Action triggered when project bulk download is requested.
- * 
+ *
  * TODO
  * Move download-related tracking actions and effects to file-manifest.
  */
@@ -20,8 +20,9 @@ import { GADimension } from "../../../shared/analytics/ga-dimension.model";
 import { GAEvent } from "../../../shared/analytics/ga-event.model";
 import { Project } from "../../shared/project.model";
 
-export class RequestProjectBulkDownloadAction implements Action, TrackingAction {
-    
+export class RequestProjectBulkDownloadAction
+    implements Action, TrackingAction
+{
     public static ACTION_TYPE = "PROJECT.REQUEST_PROJECT_BULK_DOWNLOAD";
     public readonly type = RequestProjectBulkDownloadAction.ACTION_TYPE;
 
@@ -29,8 +30,10 @@ export class RequestProjectBulkDownloadAction implements Action, TrackingAction 
      * @param {Project} project
      * @param {BulkDownloadExecutionEnvironment} shell
      */
-    constructor(private project: Project,
-                private shell: BulkDownloadExecutionEnvironment) {}
+    constructor(
+        private project: Project,
+        private shell: BulkDownloadExecutionEnvironment
+    ) {}
 
     /**
      * Return the request bulk download action as a GA event.
@@ -38,8 +41,7 @@ export class RequestProjectBulkDownloadAction implements Action, TrackingAction 
      * param {{[key: string]: any}} dimensions
      * @returns {GAEvent}
      */
-    public asEvent({catalog, terms}): GAEvent {
-
+    public asEvent({ catalog, terms }): GAEvent {
         return {
             category: GACategory.PROJECT,
             action: GAAction.REQUEST_PROJECT_CURL,
@@ -48,9 +50,8 @@ export class RequestProjectBulkDownloadAction implements Action, TrackingAction 
                 [GADimension.CATALOG]: catalog,
                 [GADimension.ENTITY_ID]: this.project.entryId,
                 [GADimension.TERM]: terms,
-                [GADimension.TOOL_NAME]: this.shell
-            }
+                [GADimension.TOOL_NAME]: this.shell,
+            },
         };
     }
 }
-

@@ -15,13 +15,13 @@ export const AppRoutes: Route[] = [
             {
                 path: "",
                 redirectTo: "/projects",
-                pathMatch: "full"
+                pathMatch: "full",
             },
             {
                 path: "**",
                 redirectTo: "/projects",
-                pathMatch: "full"
-            }
-        ]
-    }
+                pathMatch: "full",
+            },
+        ],
+    },
 ];

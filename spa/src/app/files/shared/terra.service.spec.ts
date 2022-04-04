@@ -25,37 +25,46 @@ import { TerraService } from "./terra.service";
 import { ManifestDownloadFormat } from "../file-manifest/manifest-download-format.model";
 
 describe("TerraService:", () => {
-
     let httpClientSpy: { get: jasmine.Spy };
     let terraService: TerraService;
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [],
             imports: [],
-            providers: []
+            providers: [],
         });
 
-        const configService =
-            jasmine.createSpyObj("ConfigService", ["getEntitiesUrl", "getSummaryUrl", "getFileManifestUrl"]);
+        const configService = jasmine.createSpyObj("ConfigService", [
+            "getEntitiesUrl",
+            "getSummaryUrl",
+            "getFileManifestUrl",
+        ]);
         configService.getEntitiesUrl.and.returnValue(""); // Required for testing catalog params on public methods
         configService.getSummaryUrl.and.returnValue(""); // Required for testing catalog params on public methods
         configService.getFileManifestUrl.and.returnValue(""); // Required for testing catalog params on public methods
-        
+
         const responseTermService = new ResponseTermService();
-        const searchTermHttpService = new SearchTermHttpService(responseTermService);
+        const searchTermHttpService = new SearchTermHttpService(
+            responseTermService
+        );
 
         const httpService = new HttpService();
         const paginationService = new PaginationService();
-        const entityRequestService = new EntityRequestService(configService, httpService, searchTermHttpService, paginationService);
+        const entityRequestService = new EntityRequestService(
+            configService,
+            httpService,
+            searchTermHttpService,
+            paginationService
+        );
         const filesService = new FilesService(
             configService,
             entityRequestService,
             httpService,
             searchTermHttpService,
             responseTermService,
-            <any>httpClientSpy);
+            <any>httpClientSpy
+        );
 
         // Create spy for httpClient.get
         httpClientSpy = jasmine.createSpyObj("HttpClient", ["get"]);
@@ -64,49 +73,50 @@ describe("TerraService:", () => {
             configService,
             filesService,
             searchTermHttpService,
-            <any>httpClientSpy);
-        
+            <any>httpClientSpy
+        );
+
         terraService = new TerraService(
             configService,
             fileManifestService,
             searchTermHttpService,
-            <any>httpClientSpy);
+            <any>httpClientSpy
+        );
     }));
 
     /**
      * Confirm catalog param is not included in export to Terra if not specified.
      */
     it("doesn't include catalog param in file manifest URL request if catalog is NONE", () => {
-
-        httpClientSpy.get.and.returnValue(of({
-            status: ExportToTerraStatus.IN_PROGRESS
-        }));
+        httpClientSpy.get.and.returnValue(
+            of({
+                status: ExportToTerraStatus.IN_PROGRESS,
+            })
+        );
 
         terraService.exportToTerra(
-            "", 
+            "",
             [],
             new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
-            ManifestDownloadFormat.TERRA_BDBAG, 
-            of());
+            ManifestDownloadFormat.TERRA_BDBAG,
+            of()
+        );
 
-                expect(httpClientSpy.get).toHaveBeenCalled();
-                expect(httpClientSpy.get).not.toHaveBeenCalledWith(
-                    jasmine.anything(),
-                    {
-                        params: jasmine.stringMatching(/catalog\=dcp1/)
-                    }
-                );
-                
+        expect(httpClientSpy.get).toHaveBeenCalled();
+        expect(httpClientSpy.get).not.toHaveBeenCalledWith(jasmine.anything(), {
+            params: jasmine.stringMatching(/catalog\=dcp1/),
+        });
     });
 
     /**
      * Confirm catalog param is included in export to Terra if specified.
      */
     it("includes catalog param if catalog is DCP1", () => {
-
-        httpClientSpy.get.and.returnValue(of({
-            status: ExportToTerraStatus.IN_PROGRESS
-        }));
+        httpClientSpy.get.and.returnValue(
+            of({
+                status: ExportToTerraStatus.IN_PROGRESS,
+            })
+        );
 
         const catalog = DCPCatalog.DCP1;
         terraService.exportToTerra(
@@ -114,13 +124,11 @@ describe("TerraService:", () => {
             [],
             new FileFacet(FileFacetName.FILE_FORMAT, 0, []),
             ManifestDownloadFormat.TERRA_BDBAG,
-            of());
+            of()
+        );
 
-            expect(httpClientSpy.get).toHaveBeenCalledWith(
-                jasmine.anything(),
-                {
-                    params: jasmine.stringMatching(/catalog\=dcp1/)
-                }
-            );
+        expect(httpClientSpy.get).toHaveBeenCalledWith(jasmine.anything(), {
+            params: jasmine.stringMatching(/catalog\=dcp1/),
+        });
     });
 });

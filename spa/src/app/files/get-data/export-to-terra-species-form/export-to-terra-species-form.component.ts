@@ -15,10 +15,9 @@ import EntitySpec from "../../shared/entity-spec";
 @Component({
     selector: "export-to-terra-species-form",
     templateUrl: "./export-to-terra-species-form.component.html",
-    styleUrls: ["./export-to-terra-species-form.component.scss"]
+    styleUrls: ["./export-to-terra-species-form.component.scss"],
 })
 export class ExportToTerraSpeciesFormComponent {
-
     /**
      * @param {Router} router
      */
@@ -28,21 +27,21 @@ export class ExportToTerraSpeciesFormComponent {
      * Return user to export options.
      */
     public getBackButtonTab(): EntitySpec[] {
-
         const key = "Export Data";
-        return [{
-            key,
-            displayName: key
-        }];
+        return [
+            {
+                key,
+                displayName: key,
+            },
+        ];
     }
 
     /**
      * Handle click on back button.
      */
     public onTabSelected(): void {
-
         this.router.navigate(["/export"], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 
@@ -50,9 +49,8 @@ export class ExportToTerraSpeciesFormComponent {
      * Species has been selected, navigate to export.
      */
     public onSpeciesSelected(): void {
-
         this.router.navigate(["/export", "export-to-terra"], {
-            queryParamsHandling: "preserve"
+            queryParamsHandling: "preserve",
         });
     }
 }

@@ -18,5 +18,5 @@ export enum GACategory {
     "SEARCH" = "Search",
     "SEARCH_RESULTS" = "Search Results",
     "SUPPORT_REQUEST" = "Support Request",
-    "SURVEY" = "Survey"
+    "SURVEY" = "Survey",
 }

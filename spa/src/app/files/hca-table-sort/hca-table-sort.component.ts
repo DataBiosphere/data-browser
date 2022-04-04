@@ -12,8 +12,6 @@ import { Component, ViewEncapsulation } from "@angular/core";
     selector: "hca-table-sort",
     templateUrl: "./hca-table-sort.component.html",
     styleUrls: ["./hca-table-sort.component.scss"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
-
-export class HCATableSortComponent {
-}
+export class HCATableSortComponent {}

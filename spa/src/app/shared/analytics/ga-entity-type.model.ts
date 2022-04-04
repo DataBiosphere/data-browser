@@ -18,5 +18,5 @@ export enum GAEntityType {
     "PROJECT_ACCESSION" = "Project Accession",
     "PROJECT_CGM_MATRIX" = "Project CGM Matrix",
     "PROJECT_DCP_MATRIX" = "Project DCP Matrix",
-    "PROJECT_MANIFEST" = "Project Manifest"
+    "PROJECT_MANIFEST" = "Project Manifest",
 }

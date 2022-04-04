@@ -14,11 +14,7 @@ import { FaviconService } from "./favicon.service";
 @NgModule({
     imports: [],
     declarations: [],
-    providers: [
-        FaviconService
-    ],
-    exports: []
+    providers: [FaviconService],
+    exports: [],
 })
-export class FaviconModule {
-}
-
+export class FaviconModule {}

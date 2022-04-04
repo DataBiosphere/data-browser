@@ -19,10 +19,11 @@ import { ClearErrorStateAction } from "./http-clear-state-error.actions";
  * @param action {Action}
  * @returns {HttpState}
  */
-export function reducer(state: HttpState = HttpState.getDefaultState(), action: Action): HttpState {
-
+export function reducer(
+    state: HttpState = HttpState.getDefaultState(),
+    action: Action
+): HttpState {
     switch (action.type) {
-
         // Handle case where error state is to be cleared.
         case ClearErrorStateAction.ACTION_TYPE:
             return state.clearErrorState(action as ClearErrorStateAction);

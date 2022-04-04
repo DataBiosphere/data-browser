@@ -6,7 +6,15 @@
  */
 
 // Core dependencies
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from "@angular/core";
+import {
+    Component,
+    ElementRef,
+    Input,
+    OnChanges,
+    OnInit,
+    SimpleChanges,
+    ViewChild,
+} from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { Store } from "@ngrx/store";
@@ -32,7 +40,6 @@ import { GASource } from "../../shared/analytics/ga-source.model";
     styleUrls: ["./hca-search.component.scss"],
 })
 export class HCASearchComponent implements OnInit, OnChanges {
-
     // Template variables
     searchTermOptionGroups: SearchTermOptionGroup[] = [];
     filteredSearchTerms$: Observable<SearchTermOptionGroup[]>;
@@ -51,21 +58,24 @@ export class HCASearchComponent implements OnInit, OnChanges {
      * @param {TermSortService} termSortService
      * @param {Store<AppState>} store
      */
-    constructor(private facetDisplayService: FacetDisplayService,
-                private termSortService: TermSortService,
-                private store: Store<AppState>) {}
+    constructor(
+        private facetDisplayService: FacetDisplayService,
+        private termSortService: TermSortService,
+        private store: Store<AppState>
+    ) {}
 
     /**
      * Display function on select of search term. Note, search box is cleared immediately after select so this value
      * is only displayed if an error occurs and search box can not be cleared.
-     * 
+     *
      * @param {SelectedSearchTermOption} selectedSearchTermOption
      */
-    public selectedSearchTermOptionDisplayFn(selectedSearchTermOption?: SelectedSearchTermOption): string | undefined {
-
-        return selectedSearchTermOption ?
-            `${selectedSearchTermOption.optionGroup.searchKey}-${selectedSearchTermOption.option.displayValue}` :
-            undefined;
+    public selectedSearchTermOptionDisplayFn(
+        selectedSearchTermOption?: SelectedSearchTermOption
+    ): string | undefined {
+        return selectedSearchTermOption
+            ? `${selectedSearchTermOption.optionGroup.searchKey}-${selectedSearchTermOption.option.displayValue}`
+            : undefined;
     }
 
     /**
@@ -75,8 +85,7 @@ export class HCASearchComponent implements OnInit, OnChanges {
      * @returns {string}
      */
     public getTruncatedClass(displayValue: string): string {
-
-        if ( displayValue.indexOf(" ") === -1 ) {
+        if (displayValue.indexOf(" ") === -1) {
             return "truncate";
         }
 
@@ -90,16 +99,26 @@ export class HCASearchComponent implements OnInit, OnChanges {
      * @param {MatAutocompleteSelectedEvent} event
      */
     public onSearchTermSelected(event: MatAutocompleteSelectedEvent) {
-
         const selectedSearchTermOption = event.option.value;
-        
+
         const searchKey = selectedSearchTermOption.optionGroup.searchKey;
         const displayValue = selectedSearchTermOption.option.displayValue;
         const searchValue = selectedSearchTermOption.option.searchValue;
 
-        const action = (searchKey === FileFacetName.PROJECT_ID) ?
-            new SelectProjectIdAction(searchValue, displayValue, true, GASource.SEARCH) :
-            new SelectFileFacetTermAction(searchKey, searchValue, true, GASource.SEARCH);
+        const action =
+            searchKey === FileFacetName.PROJECT_ID
+                ? new SelectProjectIdAction(
+                      searchValue,
+                      displayValue,
+                      true,
+                      GASource.SEARCH
+                  )
+                : new SelectFileFacetTermAction(
+                      searchKey,
+                      searchValue,
+                      true,
+                      GASource.SEARCH
+                  );
         this.store.dispatch(action);
 
         // Clear the filter input.
@@ -116,43 +135,48 @@ export class HCASearchComponent implements OnInit, OnChanges {
      * @returns {SearchTermOptionGroup[]}
      */
     private filterSearchTerms(searchString: string): SearchTermOptionGroup[] {
-
-        if ( searchString === "" ) {
+        if (searchString === "") {
             return this.searchTermOptionGroups;
         }
 
         // once you select its the term in here how to avoid?
-        if ( typeof searchString !== "string" ) {
+        if (typeof searchString !== "string") {
             return this.searchTermOptionGroups;
         }
-        
+
         const santiziedString = searchString.trim();
 
-        const filteredSearchTermGroupOptions = this.searchTermOptionGroups.reduce((accum, searchTermOptionGroup) => {
+        const filteredSearchTermGroupOptions =
+            this.searchTermOptionGroups.reduce(
+                (accum, searchTermOptionGroup) => {
+                    // See if we have any terms matching the search criteria
+                    const options = searchTermOptionGroup.options.filter(
+                        (option) => {
+                            return option.displayValue
+                                .toLowerCase()
+                                .includes(santiziedString.toLowerCase());
+                        }
+                    );
 
-            // See if we have any terms matching the search criteria
-            const options = searchTermOptionGroup.options.filter((option) => {
-                return option.displayValue.toLowerCase().includes(santiziedString.toLowerCase());
-            });
+                    // Add option group to result set, if it has terms matching search criteria
+                    if (options.length > 0) {
+                        accum.push({
+                            displayValue: searchTermOptionGroup.displayValue,
+                            searchKey: searchTermOptionGroup.searchKey,
+                            options: options,
+                        } as SearchTermOptionGroup);
+                    }
 
-            // Add option group to result set, if it has terms matching search criteria
-            if ( options.length > 0 ) {
-                accum.push({
-                    displayValue: searchTermOptionGroup.displayValue,
-                    searchKey: searchTermOptionGroup.searchKey,
-                    options: options
-                } as SearchTermOptionGroup);
-            }
-
-            return accum;
-        }, []);
+                    return accum;
+                },
+                []
+            );
 
         // Return new list of searchable facets, unless the list is empty
-        if ( filteredSearchTermGroupOptions.length > 0 ) {
+        if (filteredSearchTermGroupOptions.length > 0) {
             this.searchReturnsEmpty = false;
             return filteredSearchTermGroupOptions;
-        }
-        else {
+        } else {
             this.searchReturnsEmpty = true;
             return this.searchTermOptionGroups;
         }
@@ -162,53 +186,67 @@ export class HCASearchComponent implements OnInit, OnChanges {
      * Set up the set of search terms that can be searched over.
      */
     private setupSearchTerms() {
-
         // Make a set of search terms IDs so we can easily check to see if a term is selected.
-        const selectedSearchTermIds = this.selectedSearchTerms.map(searchTerm => searchTerm.getId());
+        const selectedSearchTermIds = this.selectedSearchTerms.map(
+            (searchTerm) => searchTerm.getId()
+        );
 
         // Create grouped options to back autosuggest
-        const optionGroupsByFacetName = this.searchTerms.reduce((accum, searchTerm) => {
+        const optionGroupsByFacetName = this.searchTerms.reduce(
+            (accum, searchTerm) => {
+                const searchKey = searchTerm.getSearchKey();
 
-            const searchKey = searchTerm.getSearchKey();
-            
-            // Check if we've already created an option group for this facet
-            let searchTermGroup = accum.get(searchKey);
-            if ( !searchTermGroup ) {
-               searchTermGroup = {
-                   displayValue: this.facetDisplayService.getFacetDisplayName(searchKey),
-                   searchKey: searchKey,
-                   options: []
-               } as SearchTermOptionGroup;
-               accum.set(searchKey, searchTermGroup);
-            }
+                // Check if we've already created an option group for this facet
+                let searchTermGroup = accum.get(searchKey);
+                if (!searchTermGroup) {
+                    searchTermGroup = {
+                        displayValue:
+                            this.facetDisplayService.getFacetDisplayName(
+                                searchKey
+                            ),
+                        searchKey: searchKey,
+                        options: [],
+                    } as SearchTermOptionGroup;
+                    accum.set(searchKey, searchTermGroup);
+                }
 
-            // Add search term to search term group if it's not one of the already selected search terms
-            if ( selectedSearchTermIds.indexOf(searchTerm.getId()) === -1 ) {
-                searchTermGroup.options.push(new SearchTermOption(
-                    searchTerm.getDisplayValue(),
-                    searchTerm.getCount(),
-                    searchTerm.getSearchValue(),
-                    searchTerm.getSortValue())
-                );
-            }
+                // Add search term to search term group if it's not one of the already selected search terms
+                if (selectedSearchTermIds.indexOf(searchTerm.getId()) === -1) {
+                    searchTermGroup.options.push(
+                        new SearchTermOption(
+                            searchTerm.getDisplayValue(),
+                            searchTerm.getCount(),
+                            searchTerm.getSearchValue(),
+                            searchTerm.getSortValue()
+                        )
+                    );
+                }
 
-            return accum;
-        }, new Map<string, SearchTermOptionGroup>());
-        
+                return accum;
+            },
+            new Map<string, SearchTermOptionGroup>()
+        );
+
         // Remove any search term groups that have no search terms
-        const searchableOptionGroups = Array.from(optionGroupsByFacetName.values())
-            .filter((searchTermGroupOption) => {
-                return searchTermGroupOption.options.length > 0;
-            });
+        const searchableOptionGroups = Array.from(
+            optionGroupsByFacetName.values()
+        ).filter((searchTermGroupOption) => {
+            return searchTermGroupOption.options.length > 0;
+        });
 
         // Sort option groups by facet name
         searchableOptionGroups.sort((optionGroup0, optionGroup1) => {
-            return optionGroup0.displayValue > optionGroup1.displayValue ? 1 : -1;
+            return optionGroup0.displayValue > optionGroup1.displayValue
+                ? 1
+                : -1;
         });
-        
+
         // Sort options by term name
         searchableOptionGroups.forEach((optionGroup) => {
-            this.termSortService.sortTerms(optionGroup.searchKey, optionGroup.options);
+            this.termSortService.sortTerms(
+                optionGroup.searchKey,
+                optionGroup.options
+            );
         });
 
         this.searchTermOptionGroups = searchableOptionGroups;
@@ -220,7 +258,6 @@ export class HCASearchComponent implements OnInit, OnChanges {
      * @param {SimpleChanges} changes
      */
     ngOnChanges(changes: SimpleChanges) {
-
         this.setupSearchTerms();
         this.filterControl.setValue("");
     }
@@ -229,11 +266,9 @@ export class HCASearchComponent implements OnInit, OnChanges {
      * Set up filter function on change of value on search input.
      */
     ngOnInit() {
-
-        this.filteredSearchTerms$ = this.filterControl.valueChanges
-            .pipe(
-                startWith(""),
-                map(searchString => this.filterSearchTerms(searchString)));
-
+        this.filteredSearchTerms$ = this.filterControl.valueChanges.pipe(
+            startWith(""),
+            map((searchString) => this.filterSearchTerms(searchString))
+        );
     }
 }

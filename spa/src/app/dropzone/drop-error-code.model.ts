@@ -6,7 +6,6 @@
  */
 
 export enum DropErrorCode {
-
     "FILE_TOO_LARGE" = "file-too-large",
     "TOO_MANY_FILES" = "too-many-files",
 }

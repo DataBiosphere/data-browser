@@ -11,6 +11,5 @@ export const environment = {
     terraURL: "https://sam.dsde-dev.broadinstitute.org",
     title: "HCA Data Browser",
     deployment: "local",
-    zendeskURL: "https://support.terra.bio"
+    zendeskURL: "https://support.terra.bio",
 };
- 

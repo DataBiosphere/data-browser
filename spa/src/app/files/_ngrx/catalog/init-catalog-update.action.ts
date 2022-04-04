@@ -12,7 +12,6 @@ import { Action } from "@ngrx/store";
 import { CatalogUpdate } from "../../catalog/catalog-update.model";
 
 export class InitCatalogUpdateAction implements Action {
-    
     public static ACTION_TYPE = "CATALOG.INIT_CATALOG_UPDATE";
     public readonly type = InitCatalogUpdateAction.ACTION_TYPE;
 

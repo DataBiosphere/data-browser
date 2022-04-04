@@ -14,6 +14,7 @@ import { DataReleasePolicyLinkComponent } from "../../site-config/data-release-p
 @Component({
     selector: "lungmap-data-release-policy-link",
     templateUrl: "lungmap-data-release-policy-link.component.html",
-    styleUrls: ["lungmap-data-release-policy-link.component.scss"]
+    styleUrls: ["lungmap-data-release-policy-link.component.scss"],
 })
-export class LungMAPDataReleasePolicyLinkComponent implements DataReleasePolicyLinkComponent {}
+export class LungMAPDataReleasePolicyLinkComponent
+    implements DataReleasePolicyLinkComponent {}

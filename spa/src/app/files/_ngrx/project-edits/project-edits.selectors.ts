@@ -14,13 +14,16 @@ import { ProjectEditsState } from "./project-edits.state";
 /**
  * Returns the project edits-related slice of state.
  */
-export const selectProjectEdits = createFeatureSelector<ProjectEditsState>("projectEdits");
+export const selectProjectEdits =
+    createFeatureSelector<ProjectEditsState>("projectEdits");
 
 /**
  * Returns all projects.
  */
-export const selectProjects =
-    createSelector(selectProjectEdits, (state) => state.projects);
+export const selectProjects = createSelector(
+    selectProjectEdits,
+    (state) => state.projects
+);
 
 /**
  * Returns the project edits with the specified ID.
@@ -29,5 +32,3 @@ export const selectProjectEditsById = (id: string) =>
     createSelector(selectProjectEdits, (state) => {
         return state.projectsById.get(id) || {};
     });
-
-

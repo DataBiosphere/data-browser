@@ -12,5 +12,5 @@ export enum FileLocationStatus {
     "IN_PROGRESS" = "IN_PROGRESS", // Response has been received from Azul (and with either contain the file location or the URL to poll for the file location)
     "FAILED" = "FAILED",
     "NOT_STARTED" = "NOT_STARTED",
-    "REQUESTED" = "REQUESTED" // User has request filed location but request has not yet been sent to Azul
+    "REQUESTED" = "REQUESTED", // User has request filed location but request has not yet been sent to Azul
 }

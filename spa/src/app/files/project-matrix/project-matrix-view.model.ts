@@ -17,5 +17,5 @@ export interface ProjectMatrixView {
     size: number;
     url: string;
     version: string;
-    [key: string]: any // Allow additional meta eg library construction approach, species
+    [key: string]: any; // Allow additional meta eg library construction approach, species
 }

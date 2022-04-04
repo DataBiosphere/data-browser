@@ -21,11 +21,10 @@
 
     /* HCA table */
     .hca-table {
-
         mat-table {
-
             /* Row - header and cell */
-            mat-header-row, mat-row {
+            mat-header-row,
+            mat-row {
                 align-items: stretch;
             }
 
@@ -40,7 +39,8 @@
             }
 
             /* Cell - header and cell */
-            mat-header-cell, mat-cell {
+            mat-header-cell,
+            mat-cell {
                 flex: 0 1 10%; /* NB: flex variation to project and samples tables */
                 padding: 0;
             }
@@ -49,7 +49,6 @@
                 align-items: flex-start;
                 padding-top: 24px;
             }
-
 
             mat-cell {
                 align-items: stretch;

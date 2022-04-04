@@ -14,7 +14,7 @@ import { MatSortHeader, MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { RouterTestingModule } from "@angular/router/testing";
-import { By, HAMMER_LOADER } from '@angular/platform-browser';
+import { By, HAMMER_LOADER } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { Store } from "@ngrx/store";
@@ -42,14 +42,17 @@ import { HCATableSortComponent } from "../hca-table-sort/hca-table-sort.componen
 import { SelectProjectIdAction } from "../_ngrx/search/select-project-id.action";
 import { PipeModule } from "../../pipe/pipe.module";
 import { AppState } from "../../_ngrx/app.state";
-import { selectCatalog, selectDefaultCatalog } from "../_ngrx/catalog/catalog.selectors";
+import {
+    selectCatalog,
+    selectDefaultCatalog,
+} from "../_ngrx/catalog/catalog.selectors";
 import { FilesState } from "../_ngrx/files.state";
 import {
     selectFileSummary,
     selectPagination,
     selectTableData,
     selectTableLoading,
-    selectTermCountsByFacetName
+    selectTermCountsByFacetName,
 } from "../_ngrx/files.selectors";
 import { DEFAULT_PROJECTS_STATE } from "../_ngrx/files.state.mock";
 import { FileSummaryState } from "../_ngrx/file-summary/file-summary.state";
@@ -73,13 +76,12 @@ import { SITE_CONFIG_SERVICE } from "../../site/site-config/site-config.token";
 import { CatalogUpdateChipComponent } from "../catalog/catalog-update-chip/catalog-update-chip.component";
 
 describe("HCATableProjectsComponent", () => {
-
     let component: HCATableProjectsComponent;
     let fixture: ComponentFixture<HCATableProjectsComponent>;
 
     let store: MockStore<FilesState>;
 
-    const defaultCatalog  = DCPCatalog.DCP2;
+    const defaultCatalog = DCPCatalog.DCP2;
     const selectedCatalog = DCPCatalog.DCP2;
 
     const INDEX_TABLE_ROW_SINGLE_VALUES = 0;
@@ -117,8 +119,10 @@ describe("HCATableProjectsComponent", () => {
     const COLUMN_NAME_WORKFLOW = "workflow";
 
     // Component names
-    const COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER = "analysis-protocol-pipeline-linker";
-    const COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH = "hca-content-unspecified-dash";
+    const COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER =
+        "analysis-protocol-pipeline-linker";
+    const COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH =
+        "hca-content-unspecified-dash";
     const COMPONENT_NAME_HCA_TABLE_SORT = "hca-table-sort";
     const COMPONENT_NAME_MAT_ICON = "mat-icon";
 
@@ -137,7 +141,6 @@ describe("HCATableProjectsComponent", () => {
     const TEST_VALUE_ROUTER_LINK = "/projects/";
 
     beforeEach(waitForAsync(() => {
-
         TestBed.configureTestingModule({
             declarations: [
                 AnalysisProtocolPipelineLinkerComponent,
@@ -162,7 +165,7 @@ describe("HCATableProjectsComponent", () => {
                 HCATableSortComponent,
                 HCATooltipComponent,
                 SectionBarComponent,
-                TableScroll
+                TableScroll,
             ],
             imports: [
                 BrowserAnimationsModule,
@@ -173,42 +176,51 @@ describe("HCATableProjectsComponent", () => {
                 MatTableModule,
                 MatTooltipModule,
                 PipeModule,
-                RouterTestingModule
+                RouterTestingModule,
             ],
             providers: [
                 ConfigService,
                 {
                     provide: DeviceDetectorService,
-                    useValue: jasmine.createSpyObj("DeviceDetectorService", ["getDeviceInfo", "isMobile", "isTablet", "isDesktop"])
+                    useValue: jasmine.createSpyObj("DeviceDetectorService", [
+                        "getDeviceInfo",
+                        "isMobile",
+                        "isTablet",
+                        "isDesktop",
+                    ]),
                 },
                 EntityRequestService,
                 {
                     provide: HAMMER_LOADER, // https://github.com/angular/components/issues/14668#issuecomment-450474862
-                    useValue: () => new Promise(() => {
-                    })
+                    useValue: () => new Promise(() => {}),
                 },
                 PaginationService,
                 {
                     provide: ResponsiveService,
-                    useValue: jasmine.createSpyObj("ResponsiveService", ["isWindowWidthHCAMedium", "isWindowWidthSmallTablet", "isWindowWidthSmall"])
+                    useValue: jasmine.createSpyObj("ResponsiveService", [
+                        "isWindowWidthHCAMedium",
+                        "isWindowWidthSmallTablet",
+                        "isWindowWidthSmall",
+                    ]),
                 },
                 {
                     provide: SITE_CONFIG_SERVICE,
-                    useClass: HCASiteConfigService
+                    useClass: HCASiteConfigService,
                 },
-                provideMockStore({initialState: DEFAULT_PROJECTS_STATE}),
+                provideMockStore({ initialState: DEFAULT_PROJECTS_STATE }),
                 {
                     provide: TableRendererService,
                     useValue: jasmine.createSpyObj("TableRendererService", {
-                        "onRenderCompleted": of(true)
-                    })
-                }, {
+                        onRenderCompleted: of(true),
+                    }),
+                },
+                {
                     provide: "Window",
-                    useFactory: (() => {
+                    useFactory: () => {
                         return window;
-                    })
-                }
-            ]
+                    },
+                },
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(HCATableProjectsComponent);
@@ -216,10 +228,22 @@ describe("HCATableProjectsComponent", () => {
 
         store = TestBed.inject(Store) as MockStore<AppState>;
         store.overrideSelector(selectTableData, PROJECTS_TABLE_MODEL.data);
-        store.overrideSelector(selectTableLoading, PROJECTS_TABLE_MODEL.loading);
-        store.overrideSelector(selectPagination, PROJECTS_TABLE_MODEL.pagination);
-        store.overrideSelector(selectTermCountsByFacetName, PROJECTS_TABLE_MODEL.termCountsByFacetName);
-        store.overrideSelector(selectFileSummary, FILE_SUMMARY as FileSummaryState);
+        store.overrideSelector(
+            selectTableLoading,
+            PROJECTS_TABLE_MODEL.loading
+        );
+        store.overrideSelector(
+            selectPagination,
+            PROJECTS_TABLE_MODEL.pagination
+        );
+        store.overrideSelector(
+            selectTermCountsByFacetName,
+            PROJECTS_TABLE_MODEL.termCountsByFacetName
+        );
+        store.overrideSelector(
+            selectFileSummary,
+            FILE_SUMMARY as FileSummaryState
+        );
         store.overrideSelector(selectDefaultCatalog, selectedCatalog);
         store.overrideSelector(selectCatalog, selectedCatalog);
     }));
@@ -230,12 +254,10 @@ describe("HCATableProjectsComponent", () => {
     });
 
     describe("Sort", () => {
-
         /**
          * Confirm sort functionality is set up in component.
          */
         it("should set up sort functionality on init", () => {
-
             component.selectedProjectIds = [];
             fixture.detectChanges();
 
@@ -247,7 +269,6 @@ describe("HCATableProjectsComponent", () => {
          * Confirm sort function is called on click of sort header.
          */
         it("should call sort on click of sort header", () => {
-
             component.selectedProjectIds = [];
             fixture.detectChanges();
 
@@ -273,7 +294,6 @@ describe("HCATableProjectsComponent", () => {
          * the second to desc and the third clears the direction.
          */
         it("should reset sort order to default on clear of sort", () => {
-
             component.selectedProjectIds = [];
             fixture.detectChanges();
 
@@ -295,29 +315,35 @@ describe("HCATableProjectsComponent", () => {
             // Execute third click to clear sort
             sortHeaderDE.triggerEventHandler("click", null);
             fixture.detectChanges();
-            expect(component.matSort.active).toEqual(component.defaultSortOrder.sort);
-            expect(component.matSort.direction).toEqual(component.defaultSortOrder.order);
+            expect(component.matSort.active).toEqual(
+                component.defaultSortOrder.sort
+            );
+            expect(component.matSort.direction).toEqual(
+                component.defaultSortOrder.order
+            );
         });
 
         /**
          * Confirm component <hca-table-sort> is displayed in totalCells header.
          */
         it("should display component hca-table-sort in totalCells header", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
             // Confirm column header displays component
-            expect(isComponentDisplayed(findHeaderTitle(COLUMN_NAME_TOTAL_CELLS), COMPONENT_NAME_HCA_TABLE_SORT)).toBe(true);
+            expect(
+                isComponentDisplayed(
+                    findHeaderTitle(COLUMN_NAME_TOTAL_CELLS),
+                    COMPONENT_NAME_HCA_TABLE_SORT
+                )
+            ).toBe(true);
         });
     });
 
     describe("Columns", () => {
-        
         beforeEach(waitForAsync(() => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
@@ -328,129 +354,149 @@ describe("HCATableProjectsComponent", () => {
          * Confirm project title column labeled as "Project Title" is displayed.
          */
         it(`displays column "Project Title"`, () => {
-
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_PROJECT_TITLE);
 
             // Confirm column title is displayed
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_PROJECT_TITLE);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_PROJECT_TITLE
+            );
         });
 
         /**
          * Confirm workflow column labeled as "Analysis Protocol" is displayed.
          */
         it(`should display column "Analysis Protocol"`, () => {
-
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_WORKFLOW);
 
             // Confirm column title is displayed
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_WORKFLOW);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_WORKFLOW
+            );
         });
 
         /**
          * Confirm development stage column labeled as "Development Stage" is displayed.
          */
         it(`displays column "Development Stage" column`, () => {
-
-            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DEVELOPMENT_STAGE);
+            const columnHeaderDE = findHeaderTitle(
+                COLUMN_NAME_DEVELOPMENT_STAGE
+            );
 
             // Confirm column title is displayed
             expect(columnHeaderDE).toBeTruthy();
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DEVELOPMENT_STAGE);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_DEVELOPMENT_STAGE
+            );
         });
 
         /**
          * Confirm specimen disease column labeled as "Disease Status (Specimen)" is displayed.
          */
         it(`displays column "Disease Status (Specimen)" column`, () => {
-
-            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_SPECIMEN_DISEASE);
+            const columnHeaderDE = findHeaderTitle(
+                COLUMN_NAME_SPECIMEN_DISEASE
+            );
 
             // Confirm column title is displayed
             expect(columnHeaderDE).toBeTruthy();
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_SPECIMEN_DISEASE);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_SPECIMEN_DISEASE
+            );
         });
 
         /**
          * Confirm specimen disease column labeled as "Disease Status (Donor)" is displayed.
          */
         it(`displays column "Disease Status (Donor)" column`, () => {
-
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DONOR_DISEASE);
 
             // Confirm column title is displayed
             expect(columnHeaderDE).toBeTruthy();
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DONOR_DISEASE);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_DONOR_DISEASE
+            );
         });
 
         /**
          * Confirm organ part column labeled as "Organ Part" is displayed.
          */
         it(`should display column "Organ Part"`, () => {
-
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_ORGAN_PART);
 
             // Confirm column title is displayed
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_ORGAN_PART);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_ORGAN_PART
+            );
         });
 
         /**
          * Confirm modelOrgan column labeled as "Model Organ" is displayed.
          */
         it(`should display column "Model Organ"`, () => {
-
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_MODEL_ORGAN);
 
             // Confirm column title is displayed
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_MODEL_ORGAN);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_MODEL_ORGAN
+            );
         });
 
         /**
          * Confirm nucleic acid source column labeled as "Nucleic Acid Source" is displayed.
          */
         it(`displays column "Nucleic Acid Source" column`, () => {
-
-            const columnHeaderDE = findHeaderTitle(COLUMN_NAME_NUCLEIC_ACID_SOURCE);
+            const columnHeaderDE = findHeaderTitle(
+                COLUMN_NAME_NUCLEIC_ACID_SOURCE
+            );
 
             // Confirm column title is displayed
             expect(columnHeaderDE).toBeTruthy();
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_NUCLEIC_ACID_SOURCE);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_NUCLEIC_ACID_SOURCE
+            );
         });
 
         /**
          * Confirm donorCount column labeled as "Donor Count" is displayed.
          */
         it(`should display column "Donor Count"`, () => {
-
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_DONOR_COUNT);
 
             // Confirm column title is displayed
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_DONOR_COUNT);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_DONOR_COUNT
+            );
         });
 
         /**
          * Confirm totalCells column labeled as "Cell Count Estimate" is displayed.
          */
         it(`should display column "Cell Count Estimate"`, () => {
-
             const columnHeaderDE = findHeaderTitle(COLUMN_NAME_TOTAL_CELLS);
 
             // Confirm column title is displayed
-            expect(columnHeaderDE.nativeElement.innerText).toEqual(COLUMN_TITLE_TOTAL_CELLS);
+            expect(columnHeaderDE.nativeElement.innerText).toEqual(
+                COLUMN_TITLE_TOTAL_CELLS
+            );
         });
     });
 
     describe("Project Selection", () => {
-
         /**
          * Confirm store dispatch is called when on project selected.
          */
         it("dispatches action to store, to select project id action, when project selected", () => {
-
             spyOn(store, "dispatch").and.callThrough();
 
             const projectId = PROJECTS_TABLE_MODEL.data[0].entryId;
-            const projectName = PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle;
-            const selectProjectIdAction = new SelectProjectIdAction(projectId, projectName, true, GASource.SEARCH_RESULTS);
+            const projectName =
+                PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle;
+            const selectProjectIdAction = new SelectProjectIdAction(
+                projectId,
+                projectName,
+                true,
+                GASource.SEARCH_RESULTS
+            );
 
             // Confirm store dispatch is called
             component.onProjectSelected(projectId, projectName, false);
@@ -461,47 +507,61 @@ describe("HCATableProjectsComponent", () => {
          * Confirm project title cell class "selected" is true when project is selected.
          */
         it(`displays project title cell with class "selected" when project is selected`, () => {
-
-            component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
+            component.selectedProjectIds = [
+                "ae5237b4-633f-403a-afc6-cb87e6f90db1",
+            ];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
-            const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+            const projectTitleCheckBoxDE = findDEBySelector(
+                SELECTOR_CHART_LEGEND_BAR
+            );
 
             // Confirm class is displayed
-            expect(projectTitleCheckBoxDE.classes[CLASSNAME_SELECTED]).toEqual(true);
+            expect(projectTitleCheckBoxDE.classes[CLASSNAME_SELECTED]).toEqual(
+                true
+            );
         });
 
         /**
          * Confirm project title cell class "selected" is false when project is not selected.
          */
         it(`displays project title cell with class "selected" is false when project is not selected`, () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
-            const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+            const projectTitleCheckBoxDE = findDEBySelector(
+                SELECTOR_CHART_LEGEND_BAR
+            );
 
             // Confirm class is not displayed
-            expect(projectTitleCheckBoxDE.classes[CLASSNAME_SELECTED]).toBeFalsy();
+            expect(
+                projectTitleCheckBoxDE.classes[CLASSNAME_SELECTED]
+            ).toBeFalsy();
         });
 
         /**
          * Confirm component <mat-icon> is displayed when project is selected.
          */
         it("displays component mat icon when project is selected", () => {
-
-            component.selectedProjectIds = ["ae5237b4-633f-403a-afc6-cb87e6f90db1"];
+            component.selectedProjectIds = [
+                "ae5237b4-633f-403a-afc6-cb87e6f90db1",
+            ];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
-            const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+            const projectTitleCheckBoxDE = findDEBySelector(
+                SELECTOR_CHART_LEGEND_BAR
+            );
 
-            const matIconDE = findChildDEByName(projectTitleCheckBoxDE, COMPONENT_NAME_MAT_ICON);
+            const matIconDE = findChildDEByName(
+                projectTitleCheckBoxDE,
+                COMPONENT_NAME_MAT_ICON
+            );
 
             // Confirm component is displayed
             expect(matIconDE.name).toEqual(COMPONENT_NAME_MAT_ICON);
@@ -511,15 +571,19 @@ describe("HCATableProjectsComponent", () => {
          * Confirm component <mat-icon> is not displayed when project is not selected.
          */
         it("should not display component mat icon when project is not selected", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
-            const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+            const projectTitleCheckBoxDE = findDEBySelector(
+                SELECTOR_CHART_LEGEND_BAR
+            );
 
-            const matIconDE = findChildDEByName(projectTitleCheckBoxDE, COMPONENT_NAME_MAT_ICON);
+            const matIconDE = findChildDEByName(
+                projectTitleCheckBoxDE,
+                COMPONENT_NAME_MAT_ICON
+            );
 
             // Confirm component is not displayed
             expect(matIconDE).toBeUndefined();
@@ -529,13 +593,14 @@ describe("HCATableProjectsComponent", () => {
          * Confirm on project selected is called on click of project title check box.
          */
         it("on project selected is called on click of project title check box", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
-            const projectTitleCheckBoxDE = findDEBySelector(SELECTOR_CHART_LEGEND_BAR);
+            const projectTitleCheckBoxDE = findDEBySelector(
+                SELECTOR_CHART_LEGEND_BAR
+            );
 
             const projectSelected = spyOn(component, "onProjectSelected");
 
@@ -546,34 +611,37 @@ describe("HCATableProjectsComponent", () => {
     });
 
     describe("Project Title Column", () => {
-
         /**
          * Confirm cell text project title is displayed.
          */
         it("displays project title", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
-            const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
+            const projectTitleDE = findDEBySelector(
+                SELECTOR_CELL_PROJECT_TITLE
+            );
 
             // Confirm cell text is displayed
-            expect(projectTitleDE.nativeElement.innerText).toEqual(PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle);
+            expect(projectTitleDE.nativeElement.innerText).toEqual(
+                PROJECTS_TABLE_MODEL.data[0].projects[0].projectTitle
+            );
         });
 
         /**
          * Confirm project title entry id is added to router link.
          */
         it("renders link to project", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
-            const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
+            const projectTitleDE = findDEBySelector(
+                SELECTOR_CELL_PROJECT_TITLE
+            );
 
             // Confirm project title entry id is added router link, default catalog is not included in link
             const expected = `${TEST_VALUE_ROUTER_LINK}${PROJECTS_TABLE_MODEL.data[0].entryId}`;
@@ -584,9 +652,8 @@ describe("HCATableProjectsComponent", () => {
          * Confirm project title entry id is added to router link.
          */
         it("renders project link with non-default catalog", () => {
-
             component.selectedProjectIds = [];
-            
+
             // Update selected catalog
             const dcp1Catalog = DCPCatalog.DCP1;
             store.overrideSelector(selectCatalog, dcp1Catalog);
@@ -594,19 +661,22 @@ describe("HCATableProjectsComponent", () => {
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
-            const projectTitleDE = findDEBySelector(SELECTOR_CELL_PROJECT_TITLE);
+            const projectTitleDE = findDEBySelector(
+                SELECTOR_CELL_PROJECT_TITLE
+            );
 
             // Confirm project title entry id is added router link, default catalog is not included in link
             const expected = `${TEST_VALUE_ROUTER_LINK}${PROJECTS_TABLE_MODEL.data[0].entryId}?catalog=${dcp1Catalog}`;
-            const {properties} = projectTitleDE; 
-            expect(`${properties.pathname}${properties.search}`).toEqual(expected);
+            const { properties } = projectTitleDE;
+            expect(`${properties.pathname}${properties.search}`).toEqual(
+                expected
+            );
         });
-        
+
         /**
          * Confirm ngClass "center", "flex-column" and "right" on project title mat header cell are false.
          */
         it(`returns false values for classes "center", "flex-column" and "right" on project title mat header cell`, () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
@@ -616,7 +686,9 @@ describe("HCATableProjectsComponent", () => {
 
             // Confirm classes are false
             expect(projectTitleHeaderDE.classes[CLASSNAME_CENTER]).toBeFalsy();
-            expect(projectTitleHeaderDE.classes[CLASSNAME_FLEXCOLUMN]).toBeFalsy();
+            expect(
+                projectTitleHeaderDE.classes[CLASSNAME_FLEXCOLUMN]
+            ).toBeFalsy();
             expect(projectTitleHeaderDE.classes[CLASSNAME_RIGHT]).toBeFalsy();
         });
 
@@ -624,7 +696,6 @@ describe("HCATableProjectsComponent", () => {
          * Confirm ngStyle "flex", "max-width", "overflow", "position" on project title mat header cell return empty and "min-width" returns "300px".
          */
         it(`returns empty values for styles "flex", "max-width", "overflow", "position" and "300px" for style "min-width" on project title mat header cell`, () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
@@ -635,7 +706,9 @@ describe("HCATableProjectsComponent", () => {
             // Confirm all styles are empty, except for min width which is "300px"
             expect(projectTitleHeaderDE.styles[STYLE_FLEX]).toEqual("");
             expect(projectTitleHeaderDE.styles[STYLE_MAX_WIDTH]).toEqual("");
-            expect(projectTitleHeaderDE.styles[STYLE_MIN_WIDTH]).toEqual("300px");
+            expect(projectTitleHeaderDE.styles[STYLE_MIN_WIDTH]).toEqual(
+                "300px"
+            );
             expect(projectTitleHeaderDE.styles[STYLE_OVERFLOW]).toEqual("");
             expect(projectTitleHeaderDE.styles[STYLE_POSITION]).toEqual("");
         });
@@ -644,13 +717,14 @@ describe("HCATableProjectsComponent", () => {
          * Confirm ngClass "center", "flex-column" and "right" on project title mat cell are false.
          */
         it(`returns false values for classes "center", "flex-column" and "right" on project title mat cell`, () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
-            const projectTitleDE = findColumnCells(COLUMN_NAME_PROJECT_TITLE)[0];
+            const projectTitleDE = findColumnCells(
+                COLUMN_NAME_PROJECT_TITLE
+            )[0];
 
             // Confirm classes are false
             expect(projectTitleDE.classes[CLASSNAME_CENTER]).toBeFalsy();
@@ -662,13 +736,14 @@ describe("HCATableProjectsComponent", () => {
          * Confirm ngStyle "flex", "max-width", "overflow", "position" on project title mat cell return empty and "min-width" returns "300px".
          */
         it(`returns empty values for styles "flex", "max-width", "overflow", "position" and "300px" for style "min-width" on project title mat cell`, () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
-            const projectTitleDE = findColumnCells(COLUMN_NAME_PROJECT_TITLE)[0];
+            const projectTitleDE = findColumnCells(
+                COLUMN_NAME_PROJECT_TITLE
+            )[0];
 
             // Confirm all styles are empty, except for min width which is "300px"
             expect(projectTitleDE.styles[STYLE_FLEX]).toEqual("");
@@ -680,9 +755,7 @@ describe("HCATableProjectsComponent", () => {
     });
 
     describe("Model Organ Column", () => {
-
         beforeEach(waitForAsync(() => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
@@ -693,10 +766,12 @@ describe("HCATableProjectsComponent", () => {
          * Confirm component <hca-content-unspecified-dash> is displayed when model organ value is empty.
          */
         it("should display component hca-content-unspecified-dash when model organ value is empty", () => {
-
             // Confirm row with empty array values in column "Model Organ" displays component
-            const actual = 
-                findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_MODEL_ORGAN, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH); 
+            const actual = findColumnCellComponent(
+                INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES,
+                COLUMN_NAME_MODEL_ORGAN,
+                COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH
+            );
             expect(actual).not.toBe(null);
         });
 
@@ -704,10 +779,12 @@ describe("HCATableProjectsComponent", () => {
          * Confirm component <hca-content-unspecified-dash> is displayed when model organ value is null.
          */
         it("should display component hca-content-unspecified-dash when model organ value is null", () => {
-
             // Confirm row with null values in column "Model Organ" displays component
-            const actual = 
-                findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_MODEL_ORGAN, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH);
+            const actual = findColumnCellComponent(
+                INDEX_TABLE_ROW_NULL_VALUES,
+                COLUMN_NAME_MODEL_ORGAN,
+                COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH
+            );
             expect(actual).not.toBe(null);
         });
 
@@ -715,100 +792,131 @@ describe("HCATableProjectsComponent", () => {
          * Confirm model organ value is displayed.
          */
         it("should display model organ", () => {
-
             // Confirm row with single values in column "Model Organ" does display component
             const modelOrganDE = findColumnCells(COLUMN_NAME_MODEL_ORGAN)[0];
             const actual = modelOrganDE.nativeElement.textContent;
-            const expected = PROJECTS_TABLE_MODEL.data[INDEX_TABLE_ROW_SINGLE_VALUES].samples[0].modelOrgan.join(", ");
+            const expected =
+                PROJECTS_TABLE_MODEL.data[
+                    INDEX_TABLE_ROW_SINGLE_VALUES
+                ].samples[0].modelOrgan.join(", ");
             expect(actual).toEqual(expected);
         });
     });
 
     describe("Workflow Column", () => {
-
         /**
          * Confirm component <hca-content-unspecified-dash> is displayed when workflow value is empty.
          */
         it("should display component hca-content-unspecified-dash when workflow value is empty", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
             // Confirm row with empty array values in column "Analysis Protocol" displays component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH
+                )
+            ).not.toBe(null);
         });
 
         /**
          * Confirm component <hca-content-unspecified-dash> is displayed when workflow value is null.
          */
         it("should display component hca-content-unspecified-dash when workflow value is null", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
             // Confirm row with null values in column "Analysis Protocol" displays component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).not.toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_NULL_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH
+                )
+            ).not.toBe(null);
         });
 
         /**
          * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is empty.
          */
         it("should not display component analysis protocol pipeline linker when workflow value is empty", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
             // Confirm row with empty array values in column "Analysis Protocol" does not display component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_EMPTY_ARRAY_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER
+                )
+            ).toBe(null);
         });
 
         /**
          * Confirm component <analysis-protocol-pipeline-linker> is not displayed when workflow value is null.
          */
         it("should not display component analysis protocol pipeline linker when workflow value is null", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
             // Confirm row with null values in column "Analysis Protocol" does not display component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_NULL_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_NULL_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER
+                )
+            ).toBe(null);
         });
 
         /**
          * Confirm component <analysis-protocol-pipeline-linker> is displayed when workflow is single value.
          */
         it("should display component analysis protocol pipeline linker when workflow is single value", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
             // Confirm row with single values in column "Analysis Protocol" does display component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER)).not.toBe(null);
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_SINGLE_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_ANALYSIS_PROTOCOL_PIPELINE_LINKER
+                )
+            ).not.toBe(null);
         });
 
         /**
          * Confirm component <hca-content-unspecified-dash> is not displayed when workflow is single value.
          */
         it("should not display component hca-content-unspecified-dash when workflow is single value", () => {
-
             component.selectedProjectIds = [];
 
             // Trigger change detection so template updates accordingly
             fixture.detectChanges();
 
             // Confirm row with single values in column "Analysis Protocol" does not display component
-            expect(findColumnCellComponent(INDEX_TABLE_ROW_SINGLE_VALUES, COLUMN_NAME_WORKFLOW, COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH)).toBe(null);
-        });        
+            expect(
+                findColumnCellComponent(
+                    INDEX_TABLE_ROW_SINGLE_VALUES,
+                    COLUMN_NAME_WORKFLOW,
+                    COMPONENT_NAME_HCA_CONTENT_UNSPECIFIED_DASH
+                )
+            ).toBe(null);
+        });
     });
 
     /**
@@ -818,14 +926,15 @@ describe("HCATableProjectsComponent", () => {
      * @param {string} name
      * @returns {DebugElement}
      */
-    function findChildDEByName(debugEl: DebugElement, name: string): DebugElement {
-
-        if ( !debugEl ) {
-
+    function findChildDEByName(
+        debugEl: DebugElement,
+        name: string
+    ): DebugElement {
+        if (!debugEl) {
             return;
         }
 
-        return debugEl.children.find(c => c.name === name);
+        return debugEl.children.find((c) => c.name === name);
     }
 
     /**
@@ -835,10 +944,7 @@ describe("HCATableProjectsComponent", () => {
      * @returns {DebugElement[]}
      */
     function findDEBySelector(selector: string): DebugElement {
-
-        return fixture.debugElement.query(
-            By.css(selector)
-        );
+        return fixture.debugElement.query(By.css(selector));
     }
 
     /**
@@ -848,7 +954,6 @@ describe("HCATableProjectsComponent", () => {
      * @returns {DebugElement[]}
      */
     function findColumnCells(columnName: string): DebugElement[] {
-
         return fixture.debugElement.queryAll(
             By.css(`.mat-cell.mat-column-${columnName}`)
         );
@@ -862,11 +967,14 @@ describe("HCATableProjectsComponent", () => {
      * @param {string} componentName
      * @returns {DebugElement}
      */
-    function findColumnCellComponent(rowIndex: number, columnName: string, componentName: string): DebugElement {
-
+    function findColumnCellComponent(
+        rowIndex: number,
+        columnName: string,
+        componentName: string
+    ): DebugElement {
         const columnRowDE = findColumnCells(columnName)[rowIndex];
 
-        if ( !columnRowDE ) {
+        if (!columnRowDE) {
             return null;
         }
 
@@ -879,7 +987,6 @@ describe("HCATableProjectsComponent", () => {
      * @param {string} columnName
      */
     function findHeader(columnName: string): DebugElement {
-
         return fixture.debugElement.query(
             By.css(`.mat-header-cell.mat-column-${columnName}`)
         );
@@ -891,9 +998,10 @@ describe("HCATableProjectsComponent", () => {
      * @param {string} columnName
      */
     function findHeaderTitle(columnName: string): DebugElement {
-
         return fixture.debugElement.query(
-            By.css(`hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`)
+            By.css(
+                `hca-table-column-header-title[ng-reflect-column-name="${columnName}"]`
+            )
         );
     }
 
@@ -903,10 +1011,7 @@ describe("HCATableProjectsComponent", () => {
      * @param {DebugElement} columnHeaderDE
      */
     function findSortHeader(columnHeaderDE): DebugElement {
-
-        return columnHeaderDE.query(
-            By.directive(MatSortHeader)
-        );
+        return columnHeaderDE.query(By.directive(MatSortHeader));
     }
 
     /**
@@ -916,18 +1021,20 @@ describe("HCATableProjectsComponent", () => {
      * @param {string} componentName
      * @returns {boolean}
      */
-    function isComponentDisplayed(debugElement: DebugElement, componentName: string): boolean {
-
-        if ( !debugElement ) {
-
+    function isComponentDisplayed(
+        debugElement: DebugElement,
+        componentName: string
+    ): boolean {
+        if (!debugElement) {
             return false;
         }
 
-        if ( !debugElement.children ) {
-
+        if (!debugElement.children) {
             return false;
         }
 
-        return debugElement.children.some(child => child.name === componentName);
+        return debugElement.children.some(
+            (child) => child.name === componentName
+        );
     }
 });

@@ -6,7 +6,6 @@
  */
 
 export interface AttachmentResponse {
-
     error?: boolean;
     errorMessage?: string;
     attachmentName?: string;

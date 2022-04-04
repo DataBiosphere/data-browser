@@ -18,14 +18,14 @@ import { TableState } from "./table/table.state";
 import { TerraState } from "./terra/terra.state";
 
 export interface FilesState {
-    catalog: CatalogState,
+    catalog: CatalogState;
     terra: TerraState;
     fileSummary: FileSummaryState;
     facet: FacetState;
     fileManifest: FileManifestState;
-    integration: IntegrationState,
+    integration: IntegrationState;
     project: ProjectState;
-    projectEdits: ProjectEditsState,
+    projectEdits: ProjectEditsState;
     search: SearchState;
     tableState: TableState;
 }
