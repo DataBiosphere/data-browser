@@ -462,14 +462,12 @@ describe("URL Effects", () => {
         /**
          * Catalog param set in query string.
          */
-        it("updates query stirng with new catalog value", () => {
+        it("updates query string with new catalog value", () => {
             const selectedCatalog = DCPCatalog.DCP1;
-            actions$ = hot("-a", {
-                a: new SelectCatalogAction(selectedCatalog),
-            });
+            actions$ = of(new SelectCatalogAction(selectedCatalog));
 
             // Dispatch false - straight pass-through of actions
-            expect(effects.updateCatalogQueryParam$).toBeObservable(actions$);
+            effects.updateCatalogQueryParam$.subscribe();
 
             // Smoke test of navigate
             expect(routerMock.navigate).toHaveBeenCalled();
