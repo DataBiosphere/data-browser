@@ -10,32 +10,53 @@ import requests
 def authenticate_ga():
 	ga.authenticate();
 
-def format_fancy_chart(df):
-    df2 = df.copy(deep=True)
-    
-    data_cols = [c for c in df2.columns]
-    
-    df2['Quarter'] = df2.index.quarter
-    df2['Year'] = df2.index.year
+def percent_change(a, b):
+	return (b - a)/a * 100
 
-    df2 = df2.groupby(['Year','Quarter']).sum()
-    
-    df2.columns = pd.MultiIndex.from_tuples([(name, 'Value') for name in data_cols])
-    
-    for name in data_cols:
-        df2[(name, '% Change')] = df2[name].pct_change().mul(100)
-    
-    df2 = df2[[(a, b) for a in data_cols for b in ['Value', '% Change']]]
-    
-    s = df2.style.format(na_rep='', formatter={(name, '% Change'): '({:.2f}%)' for name in data_cols})
-    s = s.applymap(lambda v: 'color: red' if v < 0 else 'color: green' if v > 0 else None, subset=[(name, '% Change') for name in data_cols])
-    s = s.set_table_styles([
-        {'selector': 'th.col_heading', 'props': 'text-align: center'},
-        {'selector': 'thead > tr:nth-child(2)', 'props': 'display: none'},
-        {'selector': 'td.col1, td.col3', 'props': 'text-align: left; padding-left: 0'}
-    ], overwrite=False)
+def format_pc_change_table(df, include_plus=False):
+	# Expects pairs of columns in a 2D multi-index where the second column is named "% Change"
+	
+	change_cols = [name for name in df.columns if name[1] == '% Change']
+	
+	change_format = '({:+.2f}%)' if include_plus else '({:.2f}%)'
+	
+	s = df.style.format(na_rep='', formatter={name: change_format for name in change_cols})
+	s = s.applymap(lambda v: 'color: red' if v < 0 else 'color: green' if v > 0 else None, subset=change_cols)
+	s = s.set_table_styles([
+		{'selector': 'th.col_heading', 'props': 'text-align: center'},
+		{'selector': 'thead > tr:nth-child(2)', 'props': 'display: none'},
+		{'selector': ', '.join(["td.col%i" % (i * 2 + 1) for i in range(len(change_cols))]), 'props': 'text-align: left; padding-left: 0'}
+	], overwrite=False)
 
-    return s
+	return s
+
+def format_change_over_time_table(df):
+	df2 = df.copy(deep=True)
+	
+	data_cols = [c for c in df2.columns]
+	
+	df2['Quarter'] = df2.index.quarter
+	df2['Year'] = df2.index.year
+
+	df2 = df2.groupby(['Year','Quarter']).sum()
+	
+	df2.columns = pd.MultiIndex.from_tuples([(name, 'Value') for name in data_cols])
+	
+	for name in data_cols:
+		df2[(name, '% Change')] = df2[name].pct_change().mul(100)
+	
+	df2 = df2[[(a, b) for a in data_cols for b in ['Value', '% Change']]]
+	
+	return format_pc_change_table(df2)
+
+def format_table_with_change(df, df_prev):
+	# The data frames must have the same column names but may have some different indices
+	
+	df_joined = df.join(df_prev, rsuffix="_prev")
+	df_change = pd.concat([v for name in df.columns for v in (df_joined[name], percent_change(df_joined[name], df_joined[name + "_prev"]))], axis=1)
+	df_change.columns = pd.MultiIndex.from_tuples([(df_change.columns[i - i%2], "Value" if i%2 == 0 else "% Change") for (i, name) in enumerate(df_change.columns)])
+	
+	return format_pc_change_table(df_change, True)
 
 def plot_users_over_time(ga_property, start_date, end_date):
 
@@ -93,18 +114,26 @@ def plot_users_over_time(ga_property, start_date, end_date):
 	plt.show()
 
 
-	display(format_fancy_chart(df))
+	display(format_change_over_time_table(df))
+
+def get_top_ga_df(ga_property, metric, dimension, start_date, end_date, ascending=True, limit=20):
+	df = ga.get_metrics_by_dimensions(ga_property, metric, dimension, start_date, end_date)
+	
+	df.set_index(dimension, inplace=True)
+	df[metric] = df[metric].astype(str).astype(int)
+	df = df.sort_values(by=[metric], ascending=ascending)
+	
+	if not limit is None:
+		df = df.tail(limit) if ascending else df.head(limit)
+	
+	return df
 
 def plot_hbar(ga_property, title, xlabel, ylabel, metric, dimension, start_date, end_date):
 
-	df = ga.get_metrics_by_dimensions(ga_property, metric,dimension, start_date, end_date)
+	df = get_top_ga_df(ga_property, metric, dimension, start_date, end_date)
 
 	fontsize=16
-	position = list(range(1, 20))
-
-	df.set_index(dimension, inplace=True)
-	df[metric] = df[metric].astype(str).astype(int)
-	df = df.sort_values(by=[metric]).tail(20)
+	# position = list(range(1, 20))
 
 	fig, ax = plt.subplots(figsize=(16, 9))
 	plt.barh(df.index, df[metric]) #Link the df with the axis
@@ -120,6 +149,20 @@ def plot_hbar(ga_property, title, xlabel, ylabel, metric, dimension, start_date,
 
 	plt.rcParams['font.size'] = fontsize
 	plt.show()
+
+def show_difference_table(ga_property, xlabel, ylabel, metric, dimension, period_src, prev_period_src):
+	period = pd.Period(period_src)
+	prev_period = pd.Period(prev_period_src)
+	
+	df = get_top_ga_df(ga_property, metric, dimension, period.start_time.isoformat()[:10], period.end_time.isoformat()[:10], ascending=False)
+	df_prev = get_top_ga_df(ga_property, metric, dimension, prev_period.start_time.isoformat()[:10], prev_period.end_time.isoformat()[:10], ascending=False, limit=None)
+	
+	df.rename(columns={metric: xlabel}, inplace=True)
+	df_prev.rename(columns={metric: xlabel}, inplace=True)
+	df.index.rename(ylabel, inplace=True)
+	df_prev.index.rename(ylabel, inplace=True)
+	
+	display(format_table_with_change(df, df_prev))
 
 
 def plot_downloads():
