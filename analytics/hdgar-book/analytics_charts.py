@@ -13,7 +13,7 @@ def authenticate_ga():
 def percent_change(a, b):
 	return (b - a)/a * 100
 
-def format_pc_change_table(df, include_plus=False):
+def format_pc_change_table(df, include_plus=False, cell_classes=None):
 	# Expects pairs of columns in a 2D multi-index where the second column is named "% Change"
 	
 	change_cols = [name for name in df.columns if name[1] == '% Change']
@@ -22,10 +22,16 @@ def format_pc_change_table(df, include_plus=False):
 	
 	s = df.style.format(na_rep='', formatter={name: change_format for name in change_cols})
 	s = s.applymap(lambda v: 'color: red' if v < 0 else 'color: green' if v > 0 else None, subset=change_cols)
+	if not cell_classes is None:
+		s = s.set_td_classes(cell_classes)
 	s = s.set_table_styles([
+		{'selector': '', 'props': 'width: 100%; table-layout: auto'},
 		{'selector': 'th.col_heading', 'props': 'text-align: center'},
 		{'selector': 'thead > tr:nth-child(2)', 'props': 'display: none'},
-		{'selector': ', '.join(["td.col%i" % (i * 2 + 1) for i in range(len(change_cols))]), 'props': 'text-align: left; padding-left: 0'}
+		{'selector': ', '.join(["td.col%i" % (i * 2 + 1) for i in range(len(change_cols))]), 'props': 'text-align: left; padding-left: 0'},
+		{'selector': '.up::before', 'props': 'content: "↑\\00a0"; color: gray'},
+		{'selector': '.down::before', 'props': 'content: "↓\\00a0"; color: gray'},
+		{'selector': '.new::before', 'props': 'content: "+\\00a0"; color: gray'}
 	], overwrite=False)
 
 	return s
@@ -50,13 +56,26 @@ def format_change_over_time_table(df):
 	return format_pc_change_table(df2)
 
 def format_table_with_change(df, df_prev):
-	# The data frames must have the same column names but may have some different indices
+	# The data frames must have the same column names but may have some different rows
 	
 	df_joined = df.join(df_prev, rsuffix="_prev")
 	df_change = pd.concat([v for name in df.columns for v in (df_joined[name], percent_change(df_joined[name], df_joined[name + "_prev"]))], axis=1)
 	df_change.columns = pd.MultiIndex.from_tuples([(df_change.columns[i - i%2], "Value" if i%2 == 0 else "% Change") for (i, name) in enumerate(df_change.columns)])
 	
-	return format_pc_change_table(df_change, True)
+	indices = pd.DataFrame(index=df.index)
+	indices["index"] = range(indices.shape[0])
+	indices_prev = pd.DataFrame(index=df_prev.index)
+	indices_prev["index"] = range(indices_prev.shape[0])
+	indices_combined = indices.join(indices_prev, rsuffix="_prev")
+	
+	indices_diff = indices_combined["index"] - indices_combined["index_prev"]
+	classes_series = indices_diff.map(lambda v: "new" if pd.isna(v) else "up" if v > 0 else "down" if v < 0 else None)
+	
+	classes = pd.DataFrame(index=df_change.index, columns=df_change.columns)
+	classes[:] = None
+	classes.iloc[:, [0]] = classes_series
+	
+	return format_pc_change_table(df_change, include_plus=True, cell_classes=classes)
 
 def plot_users_over_time(ga_property, start_date, end_date):
 
