@@ -57,7 +57,7 @@ build_cgl-dev:
     - ./insert-gtm-snippet.sh
     - cd spa
     - npm run build-cgl-dev
-    - npm run update-sitemap -- catalog=dcp14
+    - npm run update-sitemap -- catalog=dcp15
   only:
     - main
 build_cgl-ux-dev:
