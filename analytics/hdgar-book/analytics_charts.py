@@ -28,6 +28,8 @@ def format_pc_change_table(df, include_plus=False, cell_classes=None):
 		{'selector': '', 'props': 'width: 100%; table-layout: auto'},
 		{'selector': 'th.col_heading', 'props': 'text-align: center'},
 		{'selector': 'thead > tr:nth-child(2)', 'props': 'display: none'},
+		{'selector': 'th.index_name', 'props': 'text-align: left'},
+		{'selector': 'th.row_heading', 'props': 'text-align: left'},
 		{'selector': ', '.join(["td.col%i" % (i * 2 + 1) for i in range(len(change_cols))]), 'props': 'text-align: left; padding-left: 0'},
 		{'selector': '.up::before', 'props': 'content: "↑\\00a0"; color: gray'},
 		{'selector': '.down::before', 'props': 'content: "↓\\00a0"; color: gray'},
@@ -53,7 +55,7 @@ def format_change_over_time_table(df):
 	
 	df2 = df2[[(a, b) for a in data_cols for b in ['Value', '% Change']]]
 	
-	return format_pc_change_table(df2)
+	return format_pc_change_table(df2, include_plus=True)
 
 def format_table_with_change(df, df_prev):
 	# The data frames must have the same column names but may have some different rows
