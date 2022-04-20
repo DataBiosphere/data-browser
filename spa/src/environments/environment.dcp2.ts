@@ -2,7 +2,7 @@ export const environment = {
     production: true,
     atlas: "hca",
     dataURL: "https://service.azul.data.humancellatlas.org",
-    defaultCatalog: "dcp14",
+    defaultCatalog: "dcp15",
     browserURL: "https://data.humancellatlas.org",
     googleOAuthClientId: "",
     portalURL: "https://data.humancellatlas.org",
