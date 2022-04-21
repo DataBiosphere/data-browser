@@ -67,7 +67,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "fibers": "^5.0.1",
-    "html-webpack-plugin": "4.3.0",
+    "html-webpack-plugin": "5.5.0",
     "husky": "4.2.5",
     "jasmine-core": "^4.0.1",
     "jasmine-marbles": "^0.8.4",
