@@ -15,6 +15,9 @@ stages:
     - cd spa
     - npm install
     - cd ..
+    - cd scripts
+    - npm install
+    - cd ..
   artifacts:
       paths:
         - dist
@@ -56,6 +59,8 @@ build_prod:
     - ./insert-gtm-snippet.sh
     - cd spa
     - npm run build-cgl-dcp2
+    - cd ..
+    - cd scripts
     - npm run update-sitemap -- catalog=dcp15
   only:
     - prod
@@ -73,6 +78,8 @@ build_lungmap-prod:
     - ./insert-gtm-snippet.sh
     - cd spa
     - npm run build-lungmap-prod
+    - cd ..
+    - cd scripts
     - npm run update-sitemap -- catalog=lm2
   only:
     - lungmap-prod
