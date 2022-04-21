@@ -26,8 +26,7 @@
                     </p>
                     <download-button
                             [disabled]="!isRequestFormValid(state.selectedSearchTerms)"
-                            (downloadClicked)="onExportToTerra(state.project, manifestDownloadFormat)">Request curl
-                        Command
+                            (downloadClicked)="onExportToTerra(state.project, manifestDownloadFormat)">Request Link
                     </download-button>
                     <section-bar [position]="'top'"><data-use-notification></data-use-notification></section-bar>
                 </ng-container>
