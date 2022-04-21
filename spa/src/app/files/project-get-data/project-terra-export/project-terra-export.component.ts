@@ -74,7 +74,7 @@ import { TerraService } from "../../shared/terra.service";
 })
 export class ProjectTerraExportComponent implements OnDestroy, OnInit {
     // Template variables
-    public manifestDownloadFormat = ManifestDownloadFormat.TERRA_BDBAG;
+    public manifestDownloadFormat;
     public portalURL: string;
     public selectedSearchTermNames: string[] = [];
     public selectedSearchTerms: SearchTerm[] = [];
@@ -102,6 +102,13 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
         private router: Router
     ) {
         this.portalURL = this.configService.getPortalUrl();
+
+        // Default manifest download format to BDBAG for HCA otherwise PFB for LungMAP.
+        if (this.configService.isAtlasHCA()) {
+            this.manifestDownloadFormat = ManifestDownloadFormat.TERRA_BDBAG;
+        } else {
+            this.manifestDownloadFormat = ManifestDownloadFormat.TERRA_PFB;
+        }
     }
 
     /**
@@ -144,13 +151,19 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
     }
 
     /**
-     * Return set of possible manifest download formats.
+     * Return set of possible manifest download formats: BDBAG and PFB for HCA, PFB only for LungMAP.
      */
     public getManifestDownloadFormats(): ManifestDownloadFormat[] {
-        return [
-            ManifestDownloadFormat.TERRA_BDBAG,
-            ManifestDownloadFormat.TERRA_PFB,
-        ];
+        // HCA
+        if (this.configService.isAtlasHCA()) {
+            return [
+                ManifestDownloadFormat.TERRA_BDBAG,
+                ManifestDownloadFormat.TERRA_PFB,
+            ];
+        }
+
+        // LungMAP
+        return [ManifestDownloadFormat.TERRA_PFB];
     }
 
     /**
