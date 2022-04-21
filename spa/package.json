@@ -55,7 +55,7 @@
     "@angular/cli": "^13.3.1",
     "@angular/compiler-cli": "^13.3.1",
     "@angular/language-service": "^13.3.1",
-    "@aws-sdk/client-s3": "^3.52.0",
+    "@aws-sdk/client-s3": "^3.74.0",
     "@aws-sdk/credential-providers": "^3.52.0",
     "@ngrx/store-devtools": "^13.1.0",
     "@types/gapi": "^0.0.41",
