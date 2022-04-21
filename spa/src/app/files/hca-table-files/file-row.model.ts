@@ -14,5 +14,5 @@ export interface FileRow extends EntityRow {
     fileSize: number;
     fileSource: string;
     sampleId: string;
-    url: string;
+    url: string | null;
 }

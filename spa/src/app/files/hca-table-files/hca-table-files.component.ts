@@ -160,13 +160,21 @@ export class HCATableFilesComponent implements OnInit {
     }
 
     /**
-     * Returns true if file format is not matrix.
+     * Returns true if file format is not matrix, otherwise true if file URL is specified.
      *
+     * @param {string | null} url
      * @param {string} fileFormat
      * @returns {boolean}
      */
-    public isFileLocationDownloadEnabled(fileFormat: string): boolean {
-        return fileFormat !== FileFormat.MATRIX;
+    public isFileLocationDownloadEnabled(
+        url: string | null,
+        fileFormat: string
+    ): boolean {
+        if (fileFormat === FileFormat.MATRIX) {
+            return false;
+        }
+
+        return !!url;
     }
 
     /**

@@ -16,7 +16,7 @@
                     <mat-cell *matCellDef="let element" [ngClass]="getColumnClass('fileName')"
                               [ngStyle]="getColumnStyle('fileName')">
                         <div [ngClass]="getFileDownloadClass(element.fileName)">
-                            <ng-container [ngSwitch]="isFileLocationDownloadEnabled(element.fileFormat)">
+                            <ng-container [ngSwitch]="isFileLocationDownloadEnabled(element.url, element.fileFormat)">
                                 <file-location-download *ngSwitchCase="true"
                                                         [fileLocation]="getFileLocationByFileUrl(fileFileLocationsByFileUrls$ | async, element.url)"
                                                         [fileName]="element.fileName"
