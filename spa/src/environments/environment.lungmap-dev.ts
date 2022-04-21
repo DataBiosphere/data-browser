@@ -1,7 +1,7 @@
 export const environment = {
     production: true,
     atlas: "lungmap",
-    dataURL: "https://service.azul.data.humancellatlas.org",
+    dataURL: "https://service.dev.singlecell.gi.ucsc.edu",
     defaultCatalog: "lm2",
     browserURL: "https://data-browser.dev.lungmap.net",
     googleOAuthClientId: "",
