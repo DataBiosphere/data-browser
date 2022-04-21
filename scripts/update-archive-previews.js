@@ -1,20 +1,22 @@
-const { promisify } = require("util");
-const fs = require("fs");
-const fsPromises = require("fs/promises");
-const path = require("path");
-const got = require("got");
-const {
+import { promisify } from "util";
+import fs, { promises as fsPromises } from "fs";
+import path from "path";
+import got from "got";
+import {
     S3Client,
     PutObjectCommand,
     HeadObjectCommand,
-} = require("@aws-sdk/client-s3");
+} from "@aws-sdk/client-s3";
 
-const { fromIni } = require("@aws-sdk/credential-providers");
+import { fromIni } from "@aws-sdk/credential-providers";
 
-const pipeline = promisify(require("stream").pipeline);
-const exec = promisify(require("child_process").exec);
+import { pipeline as callbackPipeline } from "stream";
+import { exec as callbackExec } from "child_process";
 
-const outPath = path.resolve("../../downloads");
+const pipeline = promisify(callbackPipeline);
+const exec = promisify(callbackExec);
+
+const outPath = path.resolve("../downloads");
 
 const scriptArgs = {};
 
@@ -45,7 +47,7 @@ let client;
         });
     } else {
         hcaApiUrl =
-            "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22fileFormat%22%3A%7B%22is%22%3A%5B%22zip%22%2C%22zip.gz%22%2C%22tar%22%2C%22tar.gz%22%5D%7D%7D&size=500&catalog=dcp14";
+            "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22fileFormat%22%3A%7B%22is%22%3A%5B%22zip%22%2C%22zip.gz%22%2C%22tar%22%2C%22tar.gz%22%5D%7D%7D&size=500&catalog=dcp13";
         if (env === "test") {
             bucketName = "cc-archive-preview-test";
             client = new S3Client({ region: "us-east-1" });
@@ -56,7 +58,7 @@ let client;
                 credentials: fromIni({
                     profile: "platform-hca-prod",
                     mfaCodeProvider: async (mfaSerial) => {
-                        return "327428";
+                        return "451871";
                     },
                 }),
             });
@@ -72,7 +74,7 @@ let client;
     //TODO: Delete downloads content on startup...
 
     (async function () {
-        try {
+		try {
             await fsPromises.mkdir(outPath);
         } catch (e) {
             // ignoring the error under the assumption that the folder already exists
@@ -150,10 +152,7 @@ async function processFile(file) {
         const fileDlName = file.name || file.uuid + "." + file.format;
         const fileDlPath = path.resolve(outPath, fileDlName);
 
-        if (
-            fileDlPath.substring(0, outPath.length + 1) !==
-            outPath + path.sep
-        ) {
+        if (fileDlPath.substring(0, outPath.length + 1) !== outPath + path.sep) {
             throw new Error("Invalid archive name");
         }
 
@@ -206,9 +205,7 @@ async function generateManifest(uuid, version, fileName) {
         if (/\.gz$/i.test(fileName)) {
             zipName = `TEMP_${fileName}_ungz.zip`;
             await exec(
-                `gzip -dc ${formatBashString(fileName)} > ${formatBashString(
-                    zipName
-                )}`,
+                `gzip -dc ${formatBashString(fileName)} > ${formatBashString(zipName)}`,
                 { cwd: outPath }
             );
         } else {
@@ -216,12 +213,9 @@ async function generateManifest(uuid, version, fileName) {
         }
 
         // get file list:
-        const { stdout } = await exec(
-            `unzip -Z1 ${formatBashString(zipName)}`,
-            {
-                cwd: outPath,
-            }
-        );
+        const { stdout } = await exec(`unzip -Z1 ${formatBashString(zipName)}`, {
+            cwd: outPath,
+        });
         filesString = stdout;
         // extract files:
         await exec(
