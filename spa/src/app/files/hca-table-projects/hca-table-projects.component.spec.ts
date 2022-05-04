@@ -74,6 +74,7 @@ import { HCADataReleasePolicyLinkComponent } from "../../site/hca/hca-data-relea
 import { HCASiteConfigService } from "../../site/hca/hca-site-config.service";
 import { SITE_CONFIG_SERVICE } from "../../site/site-config/site-config.token";
 import { CatalogUpdateChipComponent } from "../catalog/catalog-update-chip/catalog-update-chip.component";
+import { selectAuthenticated } from "../../auth/_ngrx/auth.selectors";
 
 describe("HCATableProjectsComponent", () => {
     let component: HCATableProjectsComponent;
@@ -246,6 +247,11 @@ describe("HCATableProjectsComponent", () => {
         );
         store.overrideSelector(selectDefaultCatalog, selectedCatalog);
         store.overrideSelector(selectCatalog, selectedCatalog);
+        store.overrideSelector(selectAuthenticated, false);
+
+        // Set up config service
+        const configService = TestBed.inject(ConfigService);
+        spyOn(configService, "isAuthEnabled").and.returnValue(false);
     }));
 
     // Reset selectors after each test

@@ -62,6 +62,7 @@ import { DataReleasePolicyLinkComponent } from "../../../site/data-release-polic
 import { HCASiteConfigService } from "../../../site/hca/hca-site-config.service";
 import { selectSystemStatusIndexing } from "../../../system/_ngrx/system.selectors";
 import { DownloadButtonComponent } from "../../../shared/download-button/download-button.component";
+import { selectAuthenticated } from "../../../auth/_ngrx/auth.selectors";
 
 describe("ManifestDownloadComponent", () => {
     let component: ManifestDownloadComponent;
@@ -118,6 +119,7 @@ describe("ManifestDownloadComponent", () => {
                     useValue: jasmine.createSpyObj("ConfigService", [
                         "getPortalUrl",
                         "isAtlasHCA",
+                        "isAuthEnabled",
                     ]),
                 },
                 FacetDisplayService,
@@ -159,6 +161,7 @@ describe("ManifestDownloadComponent", () => {
         );
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectSystemStatusIndexing, false);
+        store.overrideSelector(selectAuthenticated, false);
 
         component = fixture.componentInstance;
     }));

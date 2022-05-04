@@ -23,6 +23,7 @@ import { DataUseNotificationComponent } from "../../site/data-use-notification/d
 import { HCADataUseNotificationComponent } from "../../site/hca/hca-data-use-notification/hca-data-use-notification.component";
 import { HCADataReleasePolicyLinkComponent } from "../../site/hca/hca-data-release-policy-link/hca-data-release-policy-link.component";
 import { DataReleasePolicyLinkComponent } from "../../site/data-release-policy-link/data-release-policy-link.component";
+import { selectAuthenticated } from "../../auth/_ngrx/auth.selectors";
 
 describe("ProjectDownloadManifestComponent", () => {
     let component: ProjectManifestDownloadComponent;
