@@ -68,6 +68,7 @@ import { HCASiteConfigService } from "../../../site/hca/hca-site-config.service"
 import { WarningDataNormalizationComponent } from "../../warning-data-normalization/warning-data-normalization.component";
 import { DownloadButtonComponent } from "../../../shared/download-button/download-button.component";
 import { selectSystemStatusIndexing } from "../../../system/_ngrx/system.selectors";
+import { selectAuthenticated } from "../../../auth/_ngrx/auth.selectors";
 
 describe("ExportToTerraComponent", () => {
     let component: ExportToTerraComponent;
@@ -192,8 +193,10 @@ describe("ExportToTerraComponent", () => {
             FileSummaryState.getDefaultState()
         );
         store.overrideSelector(selectSelectedSearchTerms, []);
+        store.overrideSelector(selectAuthenticated, false);
 
         configService = TestBed.inject(ConfigService);
+        spyOn(configService, "isAuthEnabled").and.returnValue(false);
         terraService = fixture.debugElement.injector.get(TerraService);
     }));
 

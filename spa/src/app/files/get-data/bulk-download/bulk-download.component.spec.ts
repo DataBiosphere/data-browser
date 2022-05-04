@@ -68,6 +68,7 @@ import { WarningDataNormalizationComponent } from "../../warning-data-normalizat
 import { DataReleasePolicyLinkComponent } from "../../../site/data-release-policy-link/data-release-policy-link.component";
 import { DownloadButtonComponent } from "../../../shared/download-button/download-button.component";
 import { selectSystemStatusIndexing } from "../../../system/_ngrx/system.selectors";
+import { selectAuthenticated } from "../../../auth/_ngrx/auth.selectors";
 
 describe("BulkDownloadComponent", () => {
     let component: BulkDownloadComponent;
@@ -147,6 +148,7 @@ describe("BulkDownloadComponent", () => {
         );
         store.overrideSelector(selectSelectedSearchTerms, []);
         store.overrideSelector(selectSystemStatusIndexing, false);
+        store.overrideSelector(selectAuthenticated, false);
     }));
 
     // Reset selectors after each test.

@@ -1,5 +1,10 @@
+<p class="fontsize-xs" *ngIf="state$ | async as state">
+    <span *ngIf="isConfidentialityVisible(state.authenticated)">
+        Downloaded and exported data or metadata may contain controlled access information. Sharing of data downloads and exports are governed by the data acceptable use policy.
+    </span>
+</p>
 <p class="fontsize-xs">
-    <span>Downloaded data is governed by the </span>
+    <span>Downloaded and exported data is governed by the </span>
     <data-release-policy-link></data-release-policy-link>
     <span> and licensed under the </span>
     <a href="https://creativecommons.org/licenses/by/4.0/"
