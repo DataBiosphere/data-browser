@@ -1,0 +1,1 @@
+export const URL: string = process.env.API_URL ?? ''
