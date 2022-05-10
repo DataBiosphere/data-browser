@@ -53,7 +53,7 @@
     "@angular-eslint/schematics": "^13.2.0",
     "@angular-eslint/template-parser": "^13.2.0",
     "@angular/cli": "^13.3.1",
-    "@angular/compiler-cli": "^13.3.1",
+    "@angular/compiler-cli": "^13.3.6",
     "@angular/language-service": "^13.3.1",
     "@ngrx/store-devtools": "^13.1.0",
     "@types/gapi": "^0.0.41",
