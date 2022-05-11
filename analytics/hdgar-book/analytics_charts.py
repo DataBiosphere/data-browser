@@ -5,10 +5,22 @@ import numpy as np
 from google.cloud import bigquery
 import json
 import requests
+from functools import cache
+from IPython.core.display import HTML
 
 
 def authenticate_ga():
 	ga.authenticate();
+
+def display_link(url, text):
+	display(HTML('<a href="{}" target="_blank">{}</a>'.format(url, text)))
+
+@cache
+def get_project_name(id):
+	return requests.get("https://service.azul.data.humancellatlas.org/index/projects/" + id).json()["projects"][0]["projectTitle"]
+
+def display_project_link(id):
+	display_link("https://data.humancellatlas.org/explore/projects/" + id, get_project_name(id))
 
 def percent_change(a, b):
 	return (b - a)/a * 100
