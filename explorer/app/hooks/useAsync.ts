@@ -1,5 +1,14 @@
+/**
+ * Hook to make API async calls and handles the API result state.
+ */
 import React, { useCallback, useLayoutEffect, useReducer, useRef } from 'react'
 
+/**
+ * Hook to safely call a async function, by checking if the component is mounted before the call
+ * 
+ * @param dispatch function to be called in case the component is mounted
+ * @returns a memoized function that will call the @dispatch param or nothing
+ */
 const useSafeDispatch = <T>(dispatch: (args: T) => void) => {
   const mounted = React.useRef(false)
   useLayoutEffect(() => {
@@ -22,6 +31,11 @@ interface State<T> {
   error?: Error
 }
 
+/**
+ * Hook to safely call async functions and managing the result's state.
+ * @param state API request's initial state. Default to idle
+ * @returns set of functions to be used to as request handlers
+ */
 export const useAsync = <T>(state: State<T> = { status: 'idle' }) => {
   const initialStateRef = useRef<State<T>>(state)
   const [{ status, data, error }, setState] = useReducer(

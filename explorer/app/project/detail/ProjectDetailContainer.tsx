@@ -1,12 +1,11 @@
+/**
+ * Container component that will wrap all presentational components used by the project's detail page
+ */
 import React from 'react'
 import { PrettyJSON } from '../../components'
+import { ProjectViewModel } from '../../models'
 
-export interface ProjectDetailContainerProps {
-    json: string
-    projectName: string
-}
-
-export const ProjectDetailContainer = ({json, projectName}: ProjectDetailContainerProps) => {
+export const ProjectDetailContainer = ({json, projectName}: ProjectViewModel) => {
     return (
         <>
             <h1>{projectName}</h1>
