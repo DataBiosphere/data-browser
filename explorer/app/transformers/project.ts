@@ -11,7 +11,7 @@ import { ProjectItemViewModel, ProjectResponse, ProjectViewModel, ProjectListRes
  * @returns @see ProjectViewModel
  */
 export const detailToView = (value: ProjectResponse): ProjectViewModel => ({
-    json: JSON.stringify(value),
+    json: JSON.stringify(value, null, 2),
     projectName: value.projects[0].projectTitle
 })
 
