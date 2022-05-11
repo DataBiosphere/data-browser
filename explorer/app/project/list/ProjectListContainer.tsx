@@ -1,31 +1,22 @@
+/**
+ * Container component that will wrap all presentational components used by the project's list page.
+ */
 import Link from 'next/link'
 import React from 'react'
+import { LinkTable } from '../../components'
+import { ProjectListViewModel } from '../../models'
 
-export interface ProjectListContainerProps {
-    items: {
-        projectName: string
-        projectUuid: string
-    }[]
-}
+export const ProjectListContainer = ({items}: ProjectListViewModel) => {
 
-export const ProjectListContainer = ({items}: ProjectListContainerProps) => {
+    const tableItems = items.map(item => ({
+        label: item.projectName,
+        url: `/explore/projects/${item.uuid}`
+    }))
+
     return (
     <>
         <h1>Project List</h1>
-        <div>
-            <ul>
-                {
-                items.map(
-                    item => (
-                    <li key={item.projectUuid}>
-                        <Link href={`/explore/projects/${item.projectUuid}`}>
-                            <a>{item.projectName}</a>
-                        </Link>
-                    </li>
-                    )
-                )}
-            </ul>
-        </div>
+        <LinkTable items={tableItems} />
     </>
     )
 }

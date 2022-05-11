@@ -1,15 +1,16 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import React from 'react'
+import { ProjectViewModel } from '../../../app/models'
 import { list as projectList, detail as projectDetail } from '../../../app/project/api/service'
-import { ProjectDetailContainer, ProjectDetailContainerProps } from '../../../app/project/detail'
+import { ProjectDetailContainer } from '../../../app/project/detail'
 import { TRANSFORMERS } from '../../../app/transformers'
 
 interface PageUrl extends ParsedUrlQuery {
     uuid: string
 }
 
-const ProjectDetailPage: React.FC<ProjectDetailContainerProps> = (props: ProjectDetailContainerProps) => {
+const ProjectDetailPage: React.FC<ProjectViewModel> = (props: ProjectViewModel) => {
     return <ProjectDetailContainer {...props}/>
 }
 

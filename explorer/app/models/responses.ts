@@ -4,6 +4,7 @@ export interface ProjectResponse {
     projects: {
         projectId: string
         projectShortname: string
+        projectTitle: string
     }[]
 }
 

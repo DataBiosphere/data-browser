@@ -2,15 +2,30 @@
  * Projects transformers. Used to have a configurable way to transform different response models into a 
  * single view model expected by container components.
  */
-import { ProjectResponse, ProjectViewModel } from "../models";
+import { ProjectItemViewModel, ProjectResponse, ProjectViewModel, ProjectListResponse, ProjectListViewModel } from "../models";
 
 /**
  * Transforms a set of different response types (at the moment we only have ProjectResponse) to a viewModel, that will be used by 
  * @see ProjectDetailContainer
- * @param list Api's response type
+ * @param value Api's response type
  * @returns @see ProjectViewModel
  */
-export const detailToView = (list: ProjectResponse): ProjectViewModel => ({
-    json: JSON.stringify(list),
-    projectName: list.projects[0].projectTitle
+export const detailToView = (value: ProjectResponse): ProjectViewModel => ({
+    json: JSON.stringify(value),
+    projectName: value.projects[0].projectTitle
 })
+
+/**
+ * Transforms a set of different response types (at the moment we only have ProjectListResponse) to a viewModel, that will be used by 
+ * @see ProjectListContainer
+ * @param list API's response type
+ * @returns @see ProjectListViewModel
+ */
+export const listToView = (list: ProjectListResponse): ProjectListViewModel => {
+    return {
+        items: list.hits.map(hit => ({
+            projectName: hit.projects[0].projectTitle,
+            uuid: hit.projects[0].projectId
+        }))
+    }
+}
