@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import React from 'react'
 import { list as projectList, detail as projectDetail } from '../../../app/project/api/service'
-import { ProjectDetailContainer, ProjectDetailContainerProps } from '../../../app/project/detail/ProjectDetailContainer'
+import { ProjectDetailContainer, ProjectDetailContainerProps } from '../../../app/project/detail'
 
 interface PageUrl extends ParsedUrlQuery {
     uuid: string
@@ -29,7 +29,7 @@ export const getStaticProps: GetStaticProps = async ({params}: GetStaticPropsCon
     const data = await projectDetail((params as PageUrl).uuid)
     return {
         props: {
-            json: data,
+            json: JSON.stringify(data),
             projectName: data.projects[0].projectShortname
         }
     }

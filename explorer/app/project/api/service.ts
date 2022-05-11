@@ -1,9 +1,9 @@
 import { convertUrlParams } from './../../utils';
-import { URL } from "../../shared"
+import { CATALOG_VERSION, URL } from "../../shared"
 import { ListParams, ProjectListResponse, ProjectResponse, VersionParam } from '../../models';
 
 const DEFAULT_VERSION: VersionParam = {
-    catalog: 'dcp2'
+    catalog: CATALOG_VERSION
 }
 
 const DEFAULT_LIST_PARAMS: ListParams = {

@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
 import { useAsync } from './../../hooks/useAsync';
-import * as service from './service'
 
 interface ProjectResponse {
     hits: {
@@ -11,7 +9,7 @@ interface ProjectResponse {
 }
 
 export const useProjects = () => {
-    const {isLoading, run, data} = useAsync<ProjectResponse[]>()
+    const {isLoading, data} = useAsync<ProjectResponse[]>()
 
     return {data, isLoading}
 }
