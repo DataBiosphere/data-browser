@@ -1,1 +1,1 @@
-export {useAsync} from './useAsync'
+export { useAsync } from "./useAsync";

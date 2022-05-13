@@ -1,1 +1,1 @@
-export {PrettyJSON} from './PrettyJSON'
+export { PrettyJSON } from "./PrettyJSON";

@@ -1,1 +1,1 @@
-export {LinkTable} from './LinkTable'
+export { LinkTable } from "./LinkTable";
