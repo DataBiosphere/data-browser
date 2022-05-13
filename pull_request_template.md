@@ -1,15 +1,12 @@
 ### Reviewers
-**Functional:** 
 
-**Readability:** 
-
-## Changes
+### Changes
 - add
 - remove
 - modify
 
-## Definition of Done (from ticket)
+### Definition of Done (from ticket)
 
-## QA steps (optional)
+### QA steps (optional)
 
-## Known Issues
+### Known Issues
