@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
+import { Page } from "../../../app/components";
 import { ProjectViewModel } from "../../../app/models";
 import {
   listAll as projectList,
@@ -16,7 +17,11 @@ interface PageUrl extends ParsedUrlQuery {
 const ProjectDetailPage: React.FC<ProjectViewModel> = (
   props: ProjectViewModel
 ) => {
-  return <ProjectDetailContainer {...props} />;
+  return (
+    <Page>
+      <ProjectDetailContainer {...props} />
+    </Page>
+  );
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {

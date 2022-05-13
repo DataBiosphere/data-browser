@@ -6,7 +6,7 @@ interface PaginatedResponse {
     count: number;
     total: number;
     size: number;
-    next: string;
+    next?: string;
     previous?: string;
     pages: number;
     sort: string;
