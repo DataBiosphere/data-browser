@@ -3,11 +3,29 @@
  */
 import Link from "next/link";
 import React from "react";
-import { LinkTable } from "../../components";
+import { Column } from "react-table";
+import { Table } from "../../components";
 import { ProjectListViewModel } from "../../models";
 
+interface TableItem {
+  label: string;
+  url: string;
+}
+
+const columnsConfig: Column<TableItem>[] = [
+  {
+    accessor: "label",
+    Header: "Project Name",
+    Cell: (item) => (
+      <Link href={item.row.original.url}>
+        <a>{item.row.original.label}</a>
+      </Link>
+    ),
+  },
+];
+
 export const ProjectListContainer = ({ items }: ProjectListViewModel) => {
-  const tableItems = items.map((item) => ({
+  const tableItems: TableItem[] = items.map((item) => ({
     label: item.projectName,
     url: `/explore/projects/${item.uuid}`,
   }));
@@ -15,7 +33,11 @@ export const ProjectListContainer = ({ items }: ProjectListViewModel) => {
   return (
     <>
       <h1>Project List</h1>
-      <LinkTable items={tableItems} />
+      <Table<TableItem>
+        items={tableItems}
+        columns={columnsConfig}
+        pageSize={25}
+      />
     </>
   );
 };

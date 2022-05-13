@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
 import React from "react";
 import { ProjectListViewModel } from "../../../app/models";
-import { list as projectList } from "../../../app/project/api/service";
+import { listAll as projectList } from "../../../app/project/api";
 import { ProjectListContainer } from "../../../app/project/list";
 import { TRANSFORMERS } from "../../../app/transformers";
 
