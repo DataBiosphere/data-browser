@@ -1,2 +1,2 @@
 export { useProjects } from "./useProjects";
-export { list } from "./service";
+export { list, listAll, detail } from "./service";

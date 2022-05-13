@@ -3,9 +3,9 @@ import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { ProjectViewModel } from "../../../app/models";
 import {
-  list as projectList,
+  listAll as projectList,
   detail as projectDetail,
-} from "../../../app/project/api/service";
+} from "../../../app/project/api";
 import { ProjectDetailContainer } from "../../../app/project/detail";
 import { TRANSFORMERS } from "../../../app/transformers";
 
