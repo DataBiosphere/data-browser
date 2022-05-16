@@ -6,33 +6,43 @@ from google.cloud import bigquery
 import json
 import requests
 from functools import cache
-from IPython.core.display import HTML
+# from IPython.core.display import HTML
+import re
 
 
 def authenticate_ga():
 	ga.authenticate();
 
-def display_link(url, text):
-	display(HTML('<a href="{}" target="_blank">{}</a>'.format(url, text)))
+# def display_link(url, text):
+# 	display(HTML('<a href="{}" target="_blank">{}</a>'.format(url, text)))
 
 @cache
 def get_project_name(id):
 	return requests.get("https://service.azul.data.humancellatlas.org/index/projects/" + id).json()["projects"][0]["projectTitle"]
 
-def display_project_link(id):
-	display_link("https://data.humancellatlas.org/explore/projects/" + id, get_project_name(id))
+# def display_project_link(id):
+# 	display_link("https://data.humancellatlas.org/explore/projects/" + id, get_project_name(id))
 
-def percent_change(a, b):
-	return (b - a)/a * 100
+def percent_change(valfrom, valto):
+	return (valto - valfrom)/valfrom * 100
 
-def format_pc_change_table(df, include_plus=False, cell_classes=None):
+def add_url_title(val):
+	match = isinstance(val, str) and re.search("\\/explore\\/projects\\/([^\\/#?]+)", val)
+	return get_project_name(match.group(1)) + "\r\n" + val if match else val
+
+def format_pc_change_table(df, include_plus=False, cell_classes=None, hide_index=False):
 	# Expects pairs of columns in a 2D multi-index where the second column is named "% Change"
 	
 	change_cols = [name for name in df.columns if name[1] == '% Change']
 	
 	change_format = '({:+.2f}%)' if include_plus else '({:.2f}%)'
 	
-	s = df.style.format(na_rep='', formatter={name: change_format for name in change_cols})
+	s = df.style
+	if hide_index:
+		s = s.hide(axis="index")
+	else:
+		s = s.format_index(add_url_title)
+	s = s.format(na_rep='', formatter={name: change_format for name in change_cols})
 	s = s.applymap(lambda v: 'color: red' if v < 0 else 'color: green' if v > 0 else None, subset=change_cols)
 	if not cell_classes is None:
 		s = s.set_td_classes(cell_classes)
@@ -41,7 +51,7 @@ def format_pc_change_table(df, include_plus=False, cell_classes=None):
 		{'selector': 'th.col_heading', 'props': 'text-align: center'},
 		{'selector': 'thead > tr:nth-child(2)', 'props': 'display: none'},
 		{'selector': 'th.index_name', 'props': 'text-align: left'},
-		{'selector': 'th.row_heading', 'props': 'text-align: left'},
+		{'selector': 'th.row_heading', 'props': 'text-align: left; white-space: pre-wrap'},
 		{'selector': ', '.join(["td.col%i" % (i * 2 + 1) for i in range(len(change_cols))]), 'props': 'text-align: left; padding-left: 0'},
 		{'selector': '.up::before', 'props': 'content: "↑\\00a0"; color: gray'},
 		{'selector': '.down::before', 'props': 'content: "↓\\00a0"; color: gray'},
@@ -69,11 +79,11 @@ def format_change_over_time_table(df):
 	
 	return format_pc_change_table(df2, include_plus=True)
 
-def format_table_with_change(df, df_prev):
+def format_table_with_change(df, df_prev, hide_index=False, show_direction=True):
 	# The data frames must have the same column names but may have some different rows
 	
 	df_joined = df.join(df_prev, rsuffix="_prev")
-	df_change = pd.concat([v for name in df.columns for v in (df_joined[name], percent_change(df_joined[name], df_joined[name + "_prev"]))], axis=1)
+	df_change = pd.concat([v for name in df.columns for v in (df_joined[name], percent_change(df_joined[name + "_prev"], df_joined[name]))], axis=1)
 	df_change.columns = pd.MultiIndex.from_tuples([(df_change.columns[i - i%2], "Value" if i%2 == 0 else "% Change") for (i, name) in enumerate(df_change.columns)])
 	
 	indices = pd.DataFrame(index=df.index)
@@ -83,13 +93,13 @@ def format_table_with_change(df, df_prev):
 	indices_combined = indices.join(indices_prev, rsuffix="_prev")
 	
 	indices_diff = indices_combined["index"] - indices_combined["index_prev"]
-	classes_series = indices_diff.map(lambda v: "new" if pd.isna(v) else "up" if v > 0 else "down" if v < 0 else None)
+	classes_series = indices_diff.map(lambda v: "new" if pd.isna(v) else None if not show_direction or v == 0 else "up" if v < 0 else "down") # lower index = higher in chart
 	
 	classes = pd.DataFrame(index=df_change.index, columns=df_change.columns)
 	classes[:] = None
 	classes.iloc[:, [0]] = classes_series
 	
-	return format_pc_change_table(df_change, include_plus=True, cell_classes=classes)
+	return format_pc_change_table(df_change, include_plus=True, cell_classes=classes, hide_index=hide_index)
 
 def plot_users_over_time(ga_property, start_date, end_date):
 
@@ -149,12 +159,17 @@ def plot_users_over_time(ga_property, start_date, end_date):
 
 	display(format_change_over_time_table(df))
 
-def get_top_ga_df(ga_property, metric, dimension, start_date, end_date, ascending=True, limit=20):
-	df = ga.get_metrics_by_dimensions(ga_property, metric, dimension, start_date, end_date)
+def get_top_ga_df(ga_property, metrics, dimensions, start_date, end_date, ascending=True, limit=20, filters=None, num_keep_dimensions=1):
+	df = ga.get_metrics_by_dimensions(ga_property, ",".join(metrics), dimensions and ",".join(dimensions), start_date, end_date, filters=filters)
 	
-	df.set_index(dimension, inplace=True)
-	df[metric] = df[metric].astype(str).astype(int)
-	df = df.sort_values(by=[metric], ascending=ascending)
+	if dimensions:
+		if len(dimensions) > 1:
+			df.drop(columns=dimensions[num_keep_dimensions:], inplace=True);
+		df.set_index(dimensions[:num_keep_dimensions], inplace=True)
+	for metric in metrics:
+		df[metric] = df[metric].astype(str).astype(int)
+	if ascending != None:
+		df = df.sort_values(by=metrics, ascending=ascending)
 	
 	if not limit is None:
 		df = df.tail(limit) if ascending else df.head(limit)
@@ -163,7 +178,7 @@ def get_top_ga_df(ga_property, metric, dimension, start_date, end_date, ascendin
 
 def plot_hbar(ga_property, title, xlabel, ylabel, metric, dimension, start_date, end_date):
 
-	df = get_top_ga_df(ga_property, metric, dimension, start_date, end_date)
+	df = get_top_ga_df(ga_property, [metric], dimension and [dimension], start_date, end_date)
 
 	fontsize=16
 	# position = list(range(1, 20))
@@ -183,19 +198,36 @@ def plot_hbar(ga_property, title, xlabel, ylabel, metric, dimension, start_date,
 	plt.rcParams['font.size'] = fontsize
 	plt.show()
 
-def show_difference_table(ga_property, xlabel, ylabel, metric, dimension, period_src, prev_period_src):
-	period = pd.Period(period_src)
-	prev_period = pd.Period(prev_period_src)
+def show_difference_table(ga_property, xlabels, ylabels, metrics, dimensions, period, prev_period, filters=None, ordered=True):
+	if isinstance(xlabels, str):
+		xlabels = [xlabels]
+	if isinstance(metrics, str):
+		metrics = [metrics]
+	if isinstance(dimensions, str):
+		dimensions = [dimensions]
 	
-	df = get_top_ga_df(ga_property, metric, dimension, period.start_time.isoformat()[:10], period.end_time.isoformat()[:10], ascending=False)
-	df_prev = get_top_ga_df(ga_property, metric, dimension, prev_period.start_time.isoformat()[:10], prev_period.end_time.isoformat()[:10], ascending=False, limit=None)
+	period = pd.Period(period)
+	prev_period = pd.Period(prev_period)
 	
-	df.rename(columns={metric: xlabel}, inplace=True)
-	df_prev.rename(columns={metric: xlabel}, inplace=True)
-	df.index.rename(ylabel, inplace=True)
-	df_prev.index.rename(ylabel, inplace=True)
+	shared_params = {
+		"ga_property": ga_property,
+		"metrics": metrics,
+		"dimensions": dimensions,
+		"filters": filters,
+		"ascending": False if ordered else None,
+		"num_keep_dimensions": len(ylabels) if isinstance(ylabels, list) else 1
+	}
+	df = get_top_ga_df(start_date=period.start_time.isoformat()[:10], end_date=period.end_time.isoformat()[:10], **shared_params)
+	df_prev = get_top_ga_df(start_date=prev_period.start_time.isoformat()[:10], end_date=prev_period.end_time.isoformat()[:10], **shared_params)
 	
-	display(format_table_with_change(df, df_prev))
+	xlabels_dict = {metric: xlabel for metric, xlabel in zip(metrics, xlabels)}
+	df.rename(columns=xlabels_dict, inplace=True)
+	df_prev.rename(columns=xlabels_dict, inplace=True)
+	if dimensions:
+		df.index.rename(ylabels, inplace=True)
+		df_prev.index.rename(ylabels, inplace=True)
+	
+	display(format_table_with_change(df, df_prev, show_direction=ordered, hide_index=not dimensions))
 
 
 def plot_downloads():
@@ -271,7 +303,7 @@ def plot_downloads():
 	plt.show()
 
 def plot_ethnicity():
-	catalog = "dcp13"
+	catalog = "dcp15"
 
 	def get_sources_expr():
 		sources = requests.get("https://service.azul.data.humancellatlas.org/repository/sources?catalog=" + catalog).json()["sources"]
