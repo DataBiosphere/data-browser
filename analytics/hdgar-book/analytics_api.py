@@ -28,7 +28,7 @@ def get_accounts():
     accounts = service.management().accounts().list().execute
         
 
-def get_metrics_by_dimensions(property, metrics, dimensions, start_date, end_date):
+def get_metrics_by_dimensions(property, metrics, dimensions, start_date, end_date, filters=None):
     
     if service == None:
         authenticate()
@@ -44,6 +44,7 @@ def get_metrics_by_dimensions(property, metrics, dimensions, start_date, end_dat
         'end_date':end_date,
         'dimensions':dimensions,
         'metrics':metrics,
+		'filters':filters,
         'start_index':1,
         'max_results':1000
     }
@@ -76,7 +77,7 @@ def results_to_df(results):
         data = result.get('rows')
 
         # Crete the dataframe
-        df = df.append(pd.DataFrame(data, columns = column_names))
+        df = pd.concat([df, pd.DataFrame(data, columns = column_names)])
 
     return df
 
