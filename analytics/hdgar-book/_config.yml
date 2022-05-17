@@ -3,3 +3,8 @@ author: "..."
 
 execute:
   execute_notebooks: force
+
+sphinx:
+  recursive_update: true
+  config:
+    execution_timeout: 120
