@@ -30,7 +30,7 @@ def add_url_title(val):
 	match = isinstance(val, str) and re.search("\\/explore\\/projects\\/([^\\/#?]+)", val)
 	return get_project_name(match.group(1)) + "\r\n" + val if match else val
 
-def format_pc_change_table(df, include_plus=False, cell_classes=None, hide_index=False):
+def format_pc_change_table(df, include_plus=False, cell_classes=None, hide_index=False, hide_columns=False):
 	# Expects pairs of columns in a 2D multi-index where the second column is named "% Change"
 	
 	change_cols = [name for name in df.columns if name[1] == '% Change']
@@ -42,16 +42,18 @@ def format_pc_change_table(df, include_plus=False, cell_classes=None, hide_index
 		s = s.hide(axis="index")
 	else:
 		s = s.format_index(add_url_title)
+	if hide_columns:
+		s = s.hide(axis="columns")
 	s = s.format(na_rep='', formatter={name: change_format for name in change_cols})
 	s = s.applymap(lambda v: 'color: red' if v < 0 else 'color: green' if v > 0 else None, subset=change_cols)
 	if not cell_classes is None:
 		s = s.set_td_classes(cell_classes)
 	s = s.set_table_styles([
-		{'selector': '', 'props': 'width: 100%; table-layout: auto'},
+		{'selector': '', 'props': 'width: 100%; table-layout: auto; display: table'},
 		{'selector': 'th.col_heading', 'props': 'text-align: center'},
 		{'selector': 'thead > tr:nth-child(2)', 'props': 'display: none'},
 		{'selector': 'th.index_name', 'props': 'text-align: left'},
-		{'selector': 'th.row_heading', 'props': 'text-align: left; white-space: pre-wrap; line-break: anywhere'},
+		{'selector': 'th.row_heading', 'props': 'text-align: left; white-space: pre-wrap; line-break: anywhere; font-weight: normal'},
 		{'selector': ', '.join(["td.col%i" % (i * 2 + 1) for i in range(len(change_cols))]), 'props': 'text-align: left; padding-left: 0'},
 		{'selector': '.up::before', 'props': 'content: "↑\\00a0"; color: gray'},
 		{'selector': '.down::before', 'props': 'content: "↓\\00a0"; color: gray'},
@@ -79,7 +81,7 @@ def format_change_over_time_table(df):
 	
 	return format_pc_change_table(df2, include_plus=True)
 
-def format_table_with_change(df, df_prev, hide_index=False, show_direction=True):
+def format_table_with_change(df, df_prev, hide_index=False, show_direction=True, hide_columns=False):
 	# The data frames must have the same column names but may have some different rows
 	
 	df_joined = df.join(df_prev, rsuffix="_prev")
@@ -99,7 +101,7 @@ def format_table_with_change(df, df_prev, hide_index=False, show_direction=True)
 	classes[:] = None
 	classes.iloc[:, [0]] = classes_series
 	
-	return format_pc_change_table(df_change, include_plus=True, cell_classes=classes, hide_index=hide_index)
+	return format_pc_change_table(df_change, include_plus=True, cell_classes=classes, hide_index=hide_index, hide_columns=hide_columns)
 
 def plot_users_over_time(ga_property, start_date, end_date):
 
@@ -220,14 +222,20 @@ def show_difference_table(ga_property, xlabels, ylabels, metrics, dimensions, pe
 	df = get_top_ga_df(start_date=period.start_time.isoformat()[:10], end_date=period.end_time.isoformat()[:10], **shared_params)
 	df_prev = get_top_ga_df(start_date=prev_period.start_time.isoformat()[:10], end_date=prev_period.end_time.isoformat()[:10], **shared_params)
 	
-	xlabels_dict = {metric: xlabel for metric, xlabel in zip(metrics, xlabels)}
-	df.rename(columns=xlabels_dict, inplace=True)
-	df_prev.rename(columns=xlabels_dict, inplace=True)
-	if dimensions:
-		df.index.rename(ylabels, inplace=True)
-		df_prev.index.rename(ylabels, inplace=True)
+	is_single_cell = df.shape[0] == 1 and df.shape[1] == 1 and df_prev.shape[0] == 1 and df_prev.shape[1] == 1
 	
-	display(format_table_with_change(df, df_prev, show_direction=ordered, hide_index=not dimensions))
+	if is_single_cell and not dimensions:
+		df.index = pd.Index(xlabels)
+		df_prev.index = pd.Index(xlabels)
+	else:
+		xlabels_dict = {metric: xlabel for metric, xlabel in zip(metrics, xlabels)}
+		df.rename(columns=xlabels_dict, inplace=True)
+		df_prev.rename(columns=xlabels_dict, inplace=True)
+		if dimensions:
+			df.index.rename(ylabels, inplace=True)
+			df_prev.index.rename(ylabels, inplace=True)
+	
+	display(format_table_with_change(df, df_prev, show_direction=ordered, hide_index=not dimensions and not is_single_cell, hide_columns=is_single_cell))
 
 
 def plot_downloads():
