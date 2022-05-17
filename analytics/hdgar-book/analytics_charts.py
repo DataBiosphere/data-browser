@@ -51,7 +51,7 @@ def format_pc_change_table(df, include_plus=False, cell_classes=None, hide_index
 		{'selector': 'th.col_heading', 'props': 'text-align: center'},
 		{'selector': 'thead > tr:nth-child(2)', 'props': 'display: none'},
 		{'selector': 'th.index_name', 'props': 'text-align: left'},
-		{'selector': 'th.row_heading', 'props': 'text-align: left; white-space: pre-wrap'},
+		{'selector': 'th.row_heading', 'props': 'text-align: left; white-space: pre-wrap; line-break: anywhere'},
 		{'selector': ', '.join(["td.col%i" % (i * 2 + 1) for i in range(len(change_cols))]), 'props': 'text-align: left; padding-left: 0'},
 		{'selector': '.up::before', 'props': 'content: "↑\\00a0"; color: gray'},
 		{'selector': '.down::before', 'props': 'content: "↓\\00a0"; color: gray'},
@@ -118,7 +118,7 @@ def plot_users_over_time(ga_property, start_date, end_date):
 
 
 	# Rename for display
-	df.rename(columns={'ga:1dayUsers':'Daily Users', 'ga:uniquePageviews':'Unique Pageviews'}, inplace=True)
+	df.rename(columns={'ga:1dayUsers':'Total Daily Users', 'ga:uniquePageviews':'Total Unique Pageviews'}, inplace=True)
 
 	#Smooth (coiuld we not just use 7 day users then?)
 	# df = df.rolling(window=1).mean()
@@ -157,7 +157,7 @@ def plot_users_over_time(ga_property, start_date, end_date):
 	plt.show()
 
 
-	display(format_change_over_time_table(df))
+	return format_change_over_time_table(df)
 
 def get_top_ga_df(ga_property, metrics, dimensions, start_date, end_date, ascending=True, limit=20, filters=None, num_keep_dimensions=1):
 	df = ga.get_metrics_by_dimensions(ga_property, ",".join(metrics), dimensions and ",".join(dimensions), start_date, end_date, filters=filters)

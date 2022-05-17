@@ -1,2 +1,4 @@
 format: jb-book
-root: hca-dcp-google-analytics-report
+root: user-analytics
+chapters:
+- file: data-analytics
