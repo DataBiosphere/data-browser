@@ -18,7 +18,11 @@ def authenticate_ga():
 
 @cache
 def get_project_name(id):
-	return requests.get("https://service.azul.data.humancellatlas.org/index/projects/" + id).json()["projects"][0]["projectTitle"]
+	info = requests.get("https://service.azul.data.humancellatlas.org/index/projects/" + id).json()
+	if "projects" in info:
+		return info["projects"][0]["projectTitle"]
+	else:
+		return id
 
 # def display_project_link(id):
 # 	display_link("https://data.humancellatlas.org/explore/projects/" + id, get_project_name(id))
@@ -26,9 +30,26 @@ def get_project_name(id):
 def percent_change(valfrom, valto):
 	return (valto - valfrom)/valfrom * 100
 
-def add_url_title(val):
-	match = isinstance(val, str) and re.search("\\/explore\\/projects\\/([^\\/#?]+)", val)
-	return get_project_name(match.group(1)) + "\r\n" + val if match else val
+def format_export_url_info(type, secondary_type, filter):
+	result = type.replace("-", " ")
+	if secondary_type:
+		result += ", " + secondary_type.replace("-", " ")
+	for facet in json.loads(filter):
+		if facet["facetName"] == "projectId":
+			result += "\r\nProject: " + ", ".join([get_project_name(id) for id in facet["terms"]])
+		else:
+			result += "\r\n" + facet["facetName"] + ": " + ", ".join(facet["terms"])
+	return result
+
+def adjust_table_index_key(val):
+	if isinstance(val, str):
+		match = re.search("\\/explore\\/(?:projects\\/([^\\/#?]+)|export\\/(export-to-terra|get-curl-command|download-manifest)(?:\\/(select-species))?\\?filter=(.+))", val)
+		if match:
+			if match.group(1):
+				return get_project_name(match.group(1)) + "\r\n" + val
+			else:
+				return format_export_url_info(match.group(2), match.group(3), match.group(4))
+	return val
 
 def format_pc_change_table(df, include_plus=False, cell_classes=None, hide_index=False, hide_columns=False):
 	# Expects pairs of columns in a 2D multi-index where the second column is named "% Change"
@@ -41,10 +62,10 @@ def format_pc_change_table(df, include_plus=False, cell_classes=None, hide_index
 	if hide_index:
 		s = s.hide(axis="index")
 	else:
-		s = s.format_index(add_url_title)
+		s = s.format_index(adjust_table_index_key)
 	if hide_columns:
 		s = s.hide(axis="columns")
-	s = s.format(na_rep='', formatter={name: change_format for name in change_cols})
+	s = s.format(na_rep='', formatter=lambda v: '' if v == np.inf else change_format.format(v), subset=change_cols)
 	s = s.applymap(lambda v: 'color: red' if v < 0 else 'color: green' if v > 0 else None, subset=change_cols)
 	if not cell_classes is None:
 		s = s.set_td_classes(cell_classes)
@@ -284,31 +305,39 @@ def plot_downloads():
 
 	df = client.query(QUERY).result().to_dataframe(create_bqstorage_client=False)
 	df.set_index("day", inplace=True)
-
-	ax_total = df["totalSessionCount"].plot(title='Number of sessions per day downloading files', legend=False, xlabel='')
-	plt.show()
 	
-	df_a = df[["fastqSessionCount", "bamSessionCount", "matrixSessionCount", "otherSessionCount"]].rolling("7d").mean()
+	def plot_total():
+		plt.rc("font", size=16)
+
+		ax_total = df["totalSessionCount"].plot(title='Number of sessions per day downloading files', legend=False, xlabel='', figsize=(16, 9))
+		plt.show()
 	
-	axs_a = df_a.plot(subplots=True, ylim=(0, df_a.max().max() + 5), title="Number of sessions per day downloading given file types", xlabel="")
-	axs_a[0].get_figure().set_size_inches(7, 6)
-	axs_a[0].legend(["FASTQ"])
-	axs_a[1].legend(["BAM"])
-	axs_a[2].legend(["Matrix"])
-	axs_a[3].legend(["Other"])
-	plt.tight_layout()
-	plt.show()
+	def plot_a():
+		plt.rc("font", size=16)
 
-	df_b = pd.concat([
-		(df["matrixSessionCount"] - df["loomMatrixSessionCount"]).rename("CGMs only"),
-		(df["loomMatrixSessionCount"] + df["otherMatrixSessionCount"] - df["matrixSessionCount"]).rename("CGMs and DCP matrices"),
-		(df["matrixSessionCount"] - df["otherMatrixSessionCount"]).rename("DCP matrices only")
-	], axis=1).rolling("7d").mean()
+		df_a = df[["fastqSessionCount", "bamSessionCount", "matrixSessionCount", "otherSessionCount"]].rolling("7d").mean()
+		
+		axs_a = df_a.plot(subplots=True, ylim=(0, df_a.max().max() + 5), title="Number of sessions per day downloading given file types", xlabel="", figsize=(16, 9))
+		axs_a[0].legend(["FASTQ"])
+		axs_a[1].legend(["BAM"])
+		axs_a[2].legend(["Matrix"])
+		axs_a[3].legend(["Other"])
+		plt.tight_layout()
+		plt.show()
 
-	ax_b = df_b.plot(kind="area", stacked=True, title="Number of sessions per day downloading matrices", xlabel="")
-	ax_b.get_figure().set_size_inches(7, 5)
-	plt.tight_layout()
-	plt.show()
+	def plot_b():
+		plt.rc("font", size=16)
+
+		df_b = pd.concat([
+			(df["matrixSessionCount"] - df["loomMatrixSessionCount"]).rename("CGMs only"),
+			(df["loomMatrixSessionCount"] + df["otherMatrixSessionCount"] - df["matrixSessionCount"]).rename("CGMs and DCP matrices"),
+			(df["matrixSessionCount"] - df["otherMatrixSessionCount"]).rename("DCP matrices only")
+		], axis=1).rolling("7d").mean()
+		ax_b = df_b.plot(kind="area", stacked=True, title="Number of sessions per day downloading matrices", xlabel="", figsize=(16, 9))
+		plt.tight_layout()
+		plt.show()
+	
+	return plot_total, plot_a, plot_b
 
 def plot_ethnicity():
 	catalog = "dcp15"
@@ -354,14 +383,21 @@ def plot_ethnicity():
 	
 	series_a.sort_values(inplace=True, ascending=False)
 	
-	ax_a = series_a.plot(kind="barh", title="Donor ethnicity (" + catalog.upper() + ") - Specified vs. Unspecified", xlabel="")
-	ax_a.set_xlabel("Donors")
-	plt.tight_layout()
-	plt.show()
+	def plot_a():
+		plt.rc("font", size=16)
+
+		ax_a = series_a.plot(kind="barh", title="Donor ethnicity (" + catalog.upper() + ") - Specified vs. Unspecified", xlabel="", figsize=(16, 9))
+		ax_a.set_xlabel("Donors")
+		plt.tight_layout()
+		plt.show()
 	
-	ax_b = series_b.plot(kind="barh", title="Donor ethnicity (" + catalog.upper() + ")", xlabel="")
-	ax_b.get_figure().set_size_inches(10, 6)
-	ax_b.set_xlabel("Donors")
-	plt.tight_layout()
-	plt.show()
+	def plot_b():
+		plt.rc("font", size=16)
+	
+		ax_b = series_b.plot(kind="barh", title="Donor ethnicity (" + catalog.upper() + ")", xlabel="", figsize=(16, 9))
+		ax_b.set_xlabel("Donors")
+		plt.tight_layout()
+		plt.show()
+	
+	return plot_a, plot_b
 
