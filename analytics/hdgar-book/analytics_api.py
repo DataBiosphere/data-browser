@@ -45,7 +45,7 @@ def get_metrics_by_dimensions(property, metrics, dimensions, start_date, end_dat
         'dimensions':dimensions,
         'metrics':metrics,
 		'filters':filters,
-		# 'segment':'gaid::q-RjXBSdQ-i18vXOOoXl5g',
+		'segment':'gaid::q-RjXBSdQ-i18vXOOoXl5g',
         'start_index':1,
         'max_results':1000
     }
