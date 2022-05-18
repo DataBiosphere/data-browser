@@ -5,3 +5,8 @@ export * from "./Body";
 export * from "./Footer";
 export * from "./Header";
 export * from "./Page";
+export * from "./Logo";
+export * from "./NavLinks";
+export * from "./Search";
+export * from "./ProfileComponent";
+export * from "./SocialLinks";
