@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:hca-dcp": "cp ./site-config/hca-dcp/dev/.env .env.development && next dev",
     "build": "next build && next export",
+    "build:hca-dcp": "cp ./site-config/hca-dcp/prod/.env .env.production && next build && next export",
     "start": "next start",
     "lint": "next lint",
     "check-format": "prettier --check .",

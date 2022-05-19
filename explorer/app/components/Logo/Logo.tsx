@@ -19,9 +19,10 @@ export const Logo: React.FC<LogoProps> = ({
       <Image
         src={url}
         alt="Company logo"
-        loader={({ src }) => src}
+        loader={({ src }) => src} //TODO: This loader is just a placeholder for now. It will change when we start serving real images.
         width={width}
         height={height}
+        unoptimized
       />
       {slogan && <span>{slogan}</span>}
     </div>

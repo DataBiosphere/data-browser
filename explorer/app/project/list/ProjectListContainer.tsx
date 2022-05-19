@@ -31,13 +31,10 @@ export const ProjectListContainer = ({ items }: ProjectListViewModel) => {
   }));
 
   return (
-    <>
-      <h1>Project List</h1>
-      <Table<TableItem>
-        items={tableItems}
-        columns={columnsConfig}
-        pageSize={25}
-      />
-    </>
+    <Table<TableItem>
+      items={tableItems}
+      columns={columnsConfig}
+      pageSize={25}
+    />
   );
 };

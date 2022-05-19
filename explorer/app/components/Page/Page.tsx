@@ -4,21 +4,21 @@
  */
 
 import React from "react";
+import { config } from "../../config";
 import { Body } from "../Body";
 import { Footer } from "../Footer";
-import { Header, HeaderProps } from "../Header";
+import { Header } from "../Header";
 
 interface PageProps {
   children: React.ReactNode | React.ReactNode[];
-  header: HeaderProps;
 }
 
-export const Page = ({ children, header }: PageProps) => {
+export const Page = ({ children }: PageProps) => {
   return (
     //FIXME: Styling will change when we decide about the approach we want to
     //   follow for this project
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <Header {...header} />
+      <Header {...config().layout.header} />
       <Body>{children}</Body>
       <Footer>Footer</Footer>
     </div>
