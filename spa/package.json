@@ -56,7 +56,7 @@
     "@angular/compiler-cli": "^13.3.1",
     "@angular/language-service": "^13.3.1",
     "@ngrx/store-devtools": "^13.1.0",
-    "@types/gapi": "^0.0.41",
+    "@types/gapi": "^0.0.42",
     "@types/gapi.auth2": "^0.0.56",
     "@types/jasmine": "^4.0.2",
     "@types/jasminewd2": "2.0.10",
