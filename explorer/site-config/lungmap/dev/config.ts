@@ -1,6 +1,7 @@
 import { SiteConfig } from "../../../app/config/model";
 
 const config: SiteConfig = {
+  redirectRootToPath: "/explore/projects",
   datasources: {
     catalog: "dcp2",
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
