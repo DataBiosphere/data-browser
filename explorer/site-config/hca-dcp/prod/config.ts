@@ -12,6 +12,7 @@ const config: SiteConfig = {
         url: "https://www.webhostingsecretrevealed.net/wp-content/uploads/logo-nightwatch-300x300.jpg",
         height: 30,
         width: 30,
+        alt: "Human Cell Atlas Data Coordination Platform",
       },
       navLinks: {
         links: [

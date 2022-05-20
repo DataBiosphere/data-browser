@@ -8,6 +8,7 @@ export default {
   argTypes: {
     slogan: { control: "text" },
     url: { control: "text" },
+    alt: { control: "text" },
     width: { control: "number" },
     height: { control: "number" },
   },
@@ -21,6 +22,7 @@ WithSlogan.args = {
   url: "https://www.webhostingsecretrevealed.net/wp-content/uploads/logo-nightwatch-300x300.jpg",
   width: 30,
   height: 30,
+  alt: "NHGRI Analysis Visualization and Informatics Lab-space",
 };
 
 export const WithoutSlogan = Template.bind({});

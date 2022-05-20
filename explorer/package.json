@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev:lungmap": "cp ./site-config/lungmap/dev/.env .env.development && next dev",
+    "build:lungmap": "cp ./site-config/lungmap/prod/.env .env.production && next build && next export",
+    "dev:anvil": "cp ./site-config/anvil/dev/.env .env.development && next dev",
+    "build:anvil": "cp ./site-config/anvil/prod/.env .env.production && next build && next export",
     "dev": "next dev",
     "dev:hca-dcp": "cp ./site-config/hca-dcp/dev/.env .env.development && next dev",
     "build": "next build && next export",

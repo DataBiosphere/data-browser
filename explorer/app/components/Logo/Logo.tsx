@@ -6,6 +6,7 @@ export interface LogoProps {
   slogan?: string;
   width: number;
   height: number;
+  alt: string;
 }
 
 export const Logo: React.FC<LogoProps> = ({
@@ -13,12 +14,13 @@ export const Logo: React.FC<LogoProps> = ({
   slogan,
   width,
   height,
+  alt,
 }: LogoProps) => {
   return (
     <div>
       <Image
         src={url}
-        alt="Company logo"
+        alt={alt}
         loader={({ src }) => src} //TODO: This loader is just a placeholder for now. It will change when we start serving real images.
         width={width}
         height={height}

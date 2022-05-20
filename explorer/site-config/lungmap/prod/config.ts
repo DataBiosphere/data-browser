@@ -8,11 +8,11 @@ const config: SiteConfig = {
   layout: {
     header: {
       logo: {
-        slogan: "HCA DPC",
+        slogan: "LungMAP",
         url: "https://www.webhostingsecretrevealed.net/wp-content/uploads/logo-nightwatch-300x300.jpg",
         height: 30,
         width: 30,
-        alt: "Human Cell Atlas Data Coordination Platform",
+        alt: "LungMAP Data Browser",
       },
       navLinks: {
         links: [
