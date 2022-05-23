@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-
 import { Header } from "./Header";
+import HcaLogo from "../../../images/hca-logo.png";
 
 export default {
   title: "Components/Header",
@@ -24,10 +24,8 @@ Primary.args = {
   searchEnabled: true,
   logo: {
     slogan: "NHGRI Analysis Visualization and Informatics Lab-space",
-    url: "https://www.webhostingsecretrevealed.net/wp-content/uploads/logo-nightwatch-300x300.jpg",
+    url: HcaLogo,
     alt: "NHGRI Analysis Visualization and Informatics Lab-space",
-    width: 30,
-    height: 30,
   },
   navAlignment: "center",
   navLinks: {

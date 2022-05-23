@@ -1,11 +1,12 @@
+import { StaticImageData } from "next/image";
 import React from "react";
-import Image from "next/image";
+import { StaticImage } from "../StaticImage";
 
 export interface LogoProps {
-  url: string;
+  url: StaticImageData;
   slogan?: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   alt: string;
 }
 
@@ -18,14 +19,7 @@ export const Logo: React.FC<LogoProps> = ({
 }: LogoProps) => {
   return (
     <div>
-      <Image
-        src={url}
-        alt={alt}
-        loader={({ src }) => src} //TODO: This loader is just a placeholder for now. It will change when we start serving real images.
-        width={width}
-        height={height}
-        unoptimized
-      />
+      <StaticImage src={url} alt={alt} width={width} height={height} />
       {slogan && <span>{slogan}</span>}
     </div>
   );

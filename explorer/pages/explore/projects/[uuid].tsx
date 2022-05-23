@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
-import { HeaderProps, Page } from "../../../app/components";
+import { Page } from "../../../app/components";
 import { ProjectViewModel } from "../../../app/models";
 import {
   listAll as projectList,

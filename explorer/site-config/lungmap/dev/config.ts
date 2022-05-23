@@ -1,39 +1,45 @@
 import { SiteConfig } from "../../../app/config/model";
+import LungMapLogo from "images/lungmap-logo.png";
 
 const config: SiteConfig = {
   redirectRootToPath: "/explore/projects",
   datasources: {
-    catalog: "dcp2",
+    catalog: "lm2",
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
   layout: {
     header: {
       logo: {
-        slogan: "LungMAP",
-        url: "https://www.webhostingsecretrevealed.net/wp-content/uploads/logo-nightwatch-300x300.jpg",
-        height: 30,
-        width: 30,
+        url: LungMapLogo,
         alt: "LungMAP Data Browser",
       },
       navLinks: {
         links: [
           {
-            label: "Google",
-            url: "https://google.com",
+            label: "Explore",
+            url: "https://data-browser.lungmap.net/explore/projects",
+          },
+          {
+            label: "Metadata",
+            url: "https://data-browser.lungmap.net/metadata",
+          },
+          {
+            label: "APIs",
+            url: "https://data-browser.lungmap.net/apis",
           },
         ],
       },
       socialLinks: {
         links: [
           {
-            type: "github",
-            url: "https://github.com/BruceRodrigues",
+            type: "twitter",
+            url: "https://twitter.com/lungmapnet",
           },
         ],
       },
       navAlignment: "left",
-      searchEnabled: true,
-      authenticationEnabled: true,
+      searchEnabled: false,
+      authenticationEnabled: false,
     },
   },
 };

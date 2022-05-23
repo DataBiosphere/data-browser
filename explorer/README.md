@@ -18,6 +18,23 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
+## Image Optimization
+
+For optimizing images at build time we're using [next-optimized-images](https://github.com/cyrilwanner/next-optimized-images). This is necessary since
+we are exporting the application into html files, so NextJs built-in image optimizations won't work.  
+To work alongside this library we also need to install the optimization packages we want. For this project we're using:  
+- [imagemin-mozjpeg](https://www.npmjs.com/package/imagemin-mozjpeg) - Optimizes JPEG images
+- [imagemin-optipng](https://www.npmjs.com/package/imagemin-optipng) - Optimizes PNG images
+- [imagemin-svgo](https://www.npmjs.com/package/imagemin-svgo) - Optimizes SVG images
+
+Static image optimizations will be handle by the `<StaticImage>` component, which should receive a `StaticImageData` as `src`. To do that, just import a image (placed under the `images` folder) using ES Modules, othersiwe the image src would be just a string and expected to be served by a third source, like a S3 bucket.
+
+```
+    import Image from "images/myImage.png"
+```
+
+
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

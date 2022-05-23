@@ -1,6 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Logo } from "./Logo";
+import HcaLogo from "../../../images/hca-logo.png";
 
 export default {
   title: "Components/Logo",
@@ -19,9 +20,7 @@ const Template: ComponentStory<typeof Logo> = (args) => <Logo {...args} />;
 export const WithSlogan = Template.bind({});
 WithSlogan.args = {
   slogan: "NHGRI Analysis Visualization and Informatics Lab-space",
-  url: "https://www.webhostingsecretrevealed.net/wp-content/uploads/logo-nightwatch-300x300.jpg",
-  width: 30,
-  height: 30,
+  url: HcaLogo,
   alt: "NHGRI Analysis Visualization and Informatics Lab-space",
 };
 
