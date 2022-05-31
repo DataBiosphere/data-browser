@@ -6,6 +6,7 @@ const config: SiteConfig = {
     catalog: "dcp2",
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
+  entities: [],
   layout: {
     header: {
       logo: {

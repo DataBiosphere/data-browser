@@ -1,14 +1,14 @@
 //Project
-export interface ProjectViewModel {
-  json: string;
-  projectName: string;
+export interface DetailViewModel {
+  json?: string;
+  detailName?: string;
 }
 
-export interface ProjectItemViewModel {
+export interface ItemViewModel {
   uuid: string;
-  projectName: string;
+  name: string;
 }
 
-export interface ProjectListViewModel {
-  items: ProjectItemViewModel[];
+export interface ListViewModel {
+  items: ItemViewModel[];
 }

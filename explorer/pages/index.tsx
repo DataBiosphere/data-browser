@@ -1,6 +1,6 @@
 import React from "react";
-import { Redirect } from "../app/components";
-import { config } from "../app/config";
+import { Redirect } from "../app/components/Redirect/Redirect";
+import { config } from "../app/config/config";
 
 const HomePage = () => {
   const { redirectRootToPath } = config();

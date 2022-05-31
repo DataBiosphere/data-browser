@@ -25,9 +25,7 @@ const ICONS: { [K in SocialType]: string } = {
   discourse: "D",
 };
 
-export const SocialLinks: React.FC<SocialLinksProps> = ({
-  links,
-}: SocialLinksProps) => {
+export const SocialLinks = ({ links }: SocialLinksProps): JSX.Element => {
   return (
     <div>
       {links.map((link) => (

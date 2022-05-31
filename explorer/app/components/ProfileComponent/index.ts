@@ -1,1 +1,0 @@
-export { ProfileComponent } from "./ProfileComponent";

@@ -1,5 +1,14 @@
 import { SiteConfig } from "../../../app/config/model";
 import HcaLogo from "images/hca-logo.png";
+import {
+  projectListToView,
+  filesListToView,
+  samplesListToView,
+  projectDetailToView,
+  fileDetailToView,
+  sampleDetailToView,
+  getProjectId,
+} from "app/transformers/hca";
 
 const config: SiteConfig = {
   redirectRootToPath: "/explore/projects",
@@ -7,6 +16,31 @@ const config: SiteConfig = {
     catalog: "dcp2",
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
+  entities: [
+    {
+      label: "Projects",
+      apiPath: "index/projects",
+      route: "projects",
+      listTransformer: projectListToView,
+      detailTransformer: projectDetailToView,
+      getId: getProjectId,
+      staticLoad: true,
+    },
+    {
+      label: "Files",
+      apiPath: "index/files",
+      route: "files",
+      listTransformer: filesListToView,
+      detailTransformer: fileDetailToView,
+    },
+    {
+      label: "Samples",
+      apiPath: "index/samples",
+      route: "samples",
+      listTransformer: samplesListToView,
+      detailTransformer: sampleDetailToView,
+    },
+  ],
   layout: {
     header: {
       logo: {

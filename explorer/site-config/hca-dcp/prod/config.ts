@@ -1,7 +1,9 @@
 import { SiteConfig } from "../../../app/config/model";
 import HcaLogo from "images/hca-logo.png";
+import devConfig from "../dev/config";
 
 const config: SiteConfig = {
+  ...devConfig,
   redirectRootToPath: "/explore/projects",
   datasources: {
     catalog: "dcp15",

@@ -4,10 +4,10 @@
  */
 
 import React from "react";
-import { config } from "../../config";
-import { Body } from "../Body";
-import { Footer } from "../Footer";
-import { Header } from "../Header";
+import { config } from "../../config/config";
+import { Body } from "../Body/Body";
+import { Footer } from "../Footer/Footer";
+import { Header } from "../Header/Header";
 
 interface PageProps {
   children: React.ReactNode | React.ReactNode[];

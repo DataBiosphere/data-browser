@@ -1,5 +1,14 @@
 import { SiteConfig } from "../../../app/config/model";
 import LungMapLogo from "images/lungmap-logo.png";
+import {
+  fileDetailToView,
+  filesListToView,
+  getProjectId,
+  projectDetailToView,
+  projectListToView,
+  sampleDetailToView,
+  samplesListToView,
+} from "app/transformers/hca";
 
 const config: SiteConfig = {
   redirectRootToPath: "/explore/projects",
@@ -7,6 +16,31 @@ const config: SiteConfig = {
     catalog: "lm2",
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
+  entities: [
+    {
+      label: "Projects",
+      apiPath: "index/projects",
+      route: "projects",
+      listTransformer: projectListToView,
+      detailTransformer: projectDetailToView,
+      staticLoad: true,
+      getId: getProjectId,
+    },
+    {
+      label: "Files",
+      apiPath: "index/files",
+      route: "files",
+      listTransformer: filesListToView,
+      detailTransformer: fileDetailToView,
+    },
+    {
+      label: "Samples",
+      apiPath: "index/samples",
+      route: "samples",
+      listTransformer: samplesListToView,
+      detailTransformer: sampleDetailToView,
+    },
+  ],
   layout: {
     header: {
       logo: {

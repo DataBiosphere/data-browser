@@ -6,7 +6,10 @@ interface RedirectProps {
   destination: string;
 }
 
-export const Redirect: React.FC<RedirectProps> = ({ destination, replace }) => {
+export const Redirect = ({
+  destination,
+  replace,
+}: RedirectProps): JSX.Element => {
   const router = useRouter();
 
   useEffect(() => {

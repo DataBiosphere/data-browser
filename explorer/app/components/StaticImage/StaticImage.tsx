@@ -16,11 +16,11 @@ export interface StaticImageProps {
   alt: string;
 }
 
-export const StaticImage: React.FC<StaticImageProps> = ({
+export const StaticImage = ({
   src,
   width,
   height,
   alt,
-}) => {
+}: StaticImageProps): JSX.Element => {
   return <img src={src as any} alt={alt} width={width} height={height} />;
 };

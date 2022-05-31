@@ -7,9 +7,7 @@ interface PrettyJSONProps {
   value: string;
 }
 
-export const PrettyJSON: React.FC<PrettyJSONProps> = ({
-  value,
-}: PrettyJSONProps) => {
+export const PrettyJSON = ({ value }: PrettyJSONProps): JSX.Element => {
   return (
     <div>
       <pre>{value}</pre>

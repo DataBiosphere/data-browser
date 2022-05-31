@@ -1,7 +1,9 @@
 import { SiteConfig } from "../../../app/config/model";
 import AnvilLogo from "images/anvil-logo.png";
+import devConfig from "../dev/config";
 
 const config: SiteConfig = {
+  ...devConfig,
   datasources: {
     catalog: "dcp2",
     url: "https://service.dev.singlecell.gi.ucsc.edu/",

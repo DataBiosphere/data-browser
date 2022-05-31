@@ -9,8 +9,8 @@ interface PaginatedResponse {
     next?: string;
     previous?: string;
     pages: number;
-    sort: string;
-    order: "asc" | "desc";
+    sort?: string;
+    order?: "asc" | "desc";
   };
 }
 
@@ -23,6 +23,39 @@ export interface ProjectResponse {
   }[];
 }
 
+//Samples
+export interface SampleResponse {
+  samples: {
+    id: string;
+  }[];
+}
+
+//Files
+export interface FileResponse {
+  files: {
+    name: string;
+    uuid: string;
+  }[];
+}
+
 export interface ProjectListResponse extends PaginatedResponse {
   hits: ProjectResponse[];
 }
+
+export interface SampleListResponse extends PaginatedResponse {
+  hits: SampleResponse[];
+}
+
+export interface FileListResponse extends PaginatedResponse {
+  hits: FileResponse[];
+}
+
+export type DetailResponseType =
+  | ProjectResponse
+  | FileResponse
+  | SampleResponse;
+
+export type ListResponseType =
+  | ProjectListResponse
+  | SampleListResponse
+  | FileListResponse;

@@ -1,7 +1,9 @@
 import { SiteConfig } from "../../../app/config/model";
 import LungMapLogo from "images/lungmap-logo.png";
+import devConfig from "../dev/config";
 
 const config: SiteConfig = {
+  ...devConfig,
   redirectRootToPath: "/explore/projects",
   datasources: {
     catalog: "lm2",

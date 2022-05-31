@@ -1,7 +1,7 @@
 /**
  * Hook to make API async calls and handles the API result state.
  */
-import React, { useCallback, useLayoutEffect, useReducer, useRef } from "react";
+import React, { useCallback, useReducer, useRef, useEffect } from "react";
 
 /**
  * Hook to safely call a async function, by checking if the component is mounted before the call
@@ -11,7 +11,7 @@ import React, { useCallback, useLayoutEffect, useReducer, useRef } from "react";
  */
 const useSafeDispatch = <T>(dispatch: (args: T) => void) => {
   const mounted = React.useRef(false);
-  useLayoutEffect(() => {
+  useEffect(() => {
     mounted.current = true;
     return () => {
       mounted.current = false;
