@@ -1,0 +1,329 @@
+from . import api as ga
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+from IPython.core.display import HTML
+from html import escape as escape_html
+
+
+authenticate_ga = ga.authenticate
+
+def init_tables():
+	display(HTML("""
+		<style>
+			
+			.analyticsTable {
+				display: grid;
+			}
+			
+			/*
+			.anaEven {
+				background: #f5f5f5;
+			}
+			*/
+			
+			.anaIndex:not(.anaColName) {
+				white-space: pre-wrap;
+				line-break: anywhere;
+			}
+			
+			.anaColName {
+				font-weight: bold;
+				border-bottom: 1px solid black;
+			}
+			
+			.anaIndex, .anaColName, .anaCell {
+				padding: 0.3em;
+			}
+			
+			.anaSubcolLeft, .anaIndex {
+				padding-left: 0.7em;
+			}
+			
+			.anaSubcolRight {
+				padding-right: 0.7em;
+			}
+			
+			.anaColName:not(.anaIndex) {
+				text-align: center;
+			}
+			
+			.anaCell:not(.anaIndex) {
+				text-align: right;
+			}
+			
+			.analyticsTable .up::before {
+				content: "↑";
+				color: gray;
+			}
+			
+			.analyticsTable .down::before {
+				content: "↓";
+				color: gray;
+			}
+			
+			.analyticsTable .new::before {
+				content: "+";
+				color: gray;
+			}
+			
+			.anaPositive {
+				color: green;
+			}
+			
+			.anaNegative {
+				color: red;
+			}
+			
+		</style>
+	"""))
+
+def percent_change(valfrom, valto):
+	return (valto - valfrom)/valfrom * 100
+
+def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_index=False, hide_index=False, hide_columns=False, **other_params):
+	if not isinstance(column_defs, dict):
+		column_defs = {None: column_defs}
+	
+	index_runs = None
+	
+	if collapse_index:
+		index_df = df.index.to_frame(index=False)
+		index_runs = [index_df[name].groupby((index_df[name] != index_df[name].shift()).cumsum()).transform(lambda g: [g.shape[0]] + [0] * (g.shape[0] - 1)) for name in index_df.columns]
+	
+	
+	def apply_formatter(formatter, val, *rest):
+		if formatter:
+			result = formatter(val, *rest)
+			return (result[0] if result[1] else escape_html(result[0])) if isinstance(result, tuple) else escape_html(result)
+		else:
+			return escape_html(str(val))
+	
+	def make_index_col_code(v, classes, row_n, icol_n):
+		if index_runs and index_runs[icol_n][row_n] == 0:
+			return ""
+		result = '<div class="anaIndex ' + classes + '"'
+		if index_runs:
+			result += ' style="grid-row: span ' + str(index_runs[icol_n][row_n]) + '"'
+		result += '>' + apply_formatter(index_key_formatter, v) + '</div>'
+		return result
+	
+	def make_index_code(val, classes, row_n):
+		if hide_index:
+			return ""
+		if not isinstance(val, tuple):
+			val = (val,)
+		return "".join([make_index_col_code(v, classes, row_n, icol_n) for icol_n, v in enumerate(val)])
+	
+	def make_item_col_code(val, classes, i, c, cdef):
+		return '<div class="anaCell ' + classes + '">' + (apply_formatter(cdef[1], val, i, c) if isinstance(cdef, tuple) else escape_html(str(val))) + '</div>'
+	
+	def make_item_code(val, classes, i, c):
+		this_column_defs = column_defs[c if c in column_defs else None]
+		return "".join([make_item_col_code(val, classes + (" anaSubcolLeft" if subcol_n == 0 else " anaSubcolRight" if subcol_n == len(this_column_defs) - 1 else ""), i, c, cdef) for subcol_n, cdef in enumerate(this_column_defs)])
+	
+	def make_row_code(row, n, i):
+		row_class = "anaOdd" if n%2 else "anaEven"
+		return make_index_code(i, row_class, n) + "".join([make_item_code(item, row_class, i, c) for c, item in row.iteritems()])
+	
+	
+	result_text = '<div class="analyticsTable" style="grid-template-columns: '
+	
+	if not hide_index:
+		if isinstance(df.index, pd.MultiIndex):
+			result_text += 'repeat(' + str(df.index.nlevels - 1) + ', auto) '
+		result_text += '1fr '
+	
+	result_text += " ".join([cdef[0] if isinstance(cdef, tuple) else cdef for name in df.columns for cdef in column_defs[name if name in column_defs else None]]) + '">'
+	
+	if not hide_columns:
+		if not hide_index:
+			if isinstance(df.index, pd.MultiIndex):
+				result_text += "".join(['<div class="anaIndex anaColName">' + escape_html(name) + '</div>' for name in df.index.names])
+			else:
+				result_text += '<div class="anaIndex anaColName">' + escape_html(df.index.name) + '</div>'
+		result_text += "".join(['<div class="anaColName" style="grid-column: span ' + str(len(column_defs[name if name in column_defs else None])) + '">' + escape_html(str(name)) + '</div>' for name in df.columns])
+	
+	result_text += "".join([make_row_code(row, n, i) for n, (i, row) in enumerate(df.iterrows())])
+	
+	result_text += '</div>'
+	
+	
+	return HTML(result_text)
+
+def format_pc_change_table(df, include_plus=False, row_symbols=None, **other_params):
+	# Expects pairs of columns in a 2D multi-index where the columns are name "Value" and "% Change"
+	
+	df_values = pd.concat([df[name].rename(name[0]) for name in df.columns if name[1] == "Value"], axis="columns")
+	df_changes = pd.concat([df[name].rename(name[0]) for name in df.columns if name[1] == "% Change"], axis="columns")
+	
+	change_format = '({:+.2f}%)' if include_plus else '({:.2f}%)'
+	
+	def format_change_value(val):
+		return "" if pd.isna(val) or val == np.inf else ('<div class="' + ("anaNegative" if val < 0 else "anaPositive" if val > 0 else "anaZero") + '">' + change_format.format(val) + '</div>', True)
+	
+	def format_row_symbol(name):
+		return ('<div class="' + name + '"></div>', True) if name else ""
+	
+	column_defs = ["minmax(3em, min-content)", ("minmax(6em, min-content)", lambda v, i, c: format_change_value(df_changes.loc[i, c]))]
+	
+	if not row_symbols is None:
+		column_defs = {None: column_defs, df_values.columns[0]: [("1.5em", lambda v, i, c: format_row_symbol(row_symbols.loc[i, (c, "Value")]))] + column_defs}
+	
+	return format_table(df_values, column_defs, **other_params)
+
+def format_change_over_time_table(df):
+	df2 = df.copy(deep=True)
+	
+	data_cols = [c for c in df2.columns]
+	
+	df2['Quarter'] = df2.index.quarter
+	df2['Year'] = df2.index.year
+
+	df2 = df2.groupby(['Year','Quarter']).sum()
+	
+	df2.columns = pd.MultiIndex.from_tuples([(name, 'Value') for name in data_cols])
+	
+	for name in data_cols:
+		df2[(name, '% Change')] = df2[name].pct_change().mul(100)
+	
+	df2 = df2[[(a, b) for a in data_cols for b in ['Value', '% Change']]]
+	
+	return format_pc_change_table(df2, include_plus=True, collapse_index=True)
+
+def format_table_with_change(df, df_prev, show_symbols=True, **other_params):
+	# The data frames must have the same column names but may have some different rows
+	
+	df_joined = df.join(df_prev, rsuffix="_prev")
+	df_change = pd.concat([v for name in df.columns for v in (df_joined[name], percent_change(df_joined[name + "_prev"], df_joined[name]))], axis=1)
+	df_change.columns = pd.MultiIndex.from_tuples([(df_change.columns[i - i%2], "Value" if i%2 == 0 else "% Change") for (i, name) in enumerate(df_change.columns)])
+	
+	indices = pd.DataFrame(index=df.index)
+	indices["index"] = range(indices.shape[0])
+	indices_prev = pd.DataFrame(index=df_prev.index)
+	indices_prev["index"] = range(indices_prev.shape[0])
+	indices_combined = indices.join(indices_prev, rsuffix="_prev")
+	
+	indices_diff = indices_combined["index"] - indices_combined["index_prev"]
+	
+	classes = None
+	
+	if show_symbols:
+		classes_series = indices_diff.map(lambda v: "new" if pd.isna(v) else None if v == 0 else "up" if v < 0 else "down") # lower index = higher in chart
+		classes = pd.DataFrame(index=df_change.index, columns=df_change.columns)
+		classes[:] = None
+		classes.iloc[:, [0]] = classes_series
+	
+	return format_pc_change_table(df_change, include_plus=True, row_symbols=classes, **other_params)
+
+def get_top_ga_df(metrics, dimensions, ascending=True, limit=20, num_keep_dimensions=1, **other_params):
+	df = ga.get_metrics_by_dimensions(metrics, dimensions, **other_params)
+	
+	if dimensions:
+		if len(dimensions) > 1:
+			df.drop(columns=dimensions[num_keep_dimensions:], inplace=True);
+		df.set_index(dimensions[:num_keep_dimensions], inplace=True)
+	for metric in metrics:
+		df[metric] = df[metric].astype(str).astype(int)
+	if ascending != None:
+		df = df.sort_values(by=metrics, ascending=ascending)
+	
+	if not limit is None:
+		df = df.tail(limit) if ascending else df.head(limit)
+	
+	return df
+
+def strings_to_lists(*vals):
+	return [[v] if isinstance(v, str) else v for v in vals]
+
+def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_period, rows_type="ordered", **other_params):
+	xlabels, metrics, dimensions = strings_to_lists(xlabels, metrics, dimensions)
+	
+	period = pd.Period(period)
+	prev_period = pd.Period(prev_period)
+	
+	shared_params = {
+		"metrics": metrics,
+		"dimensions": dimensions,
+		"ascending": False if rows_type == "ordered" else None,
+		"num_keep_dimensions": len(ylabels) if isinstance(ylabels, list) else 1
+	}
+	df = get_top_ga_df(**shared_params, start_date=period.start_time.isoformat()[:10], end_date=period.end_time.isoformat()[:10], **other_params)
+	df_prev = get_top_ga_df(**shared_params, start_date=prev_period.start_time.isoformat()[:10], end_date=prev_period.end_time.isoformat()[:10], **other_params)
+	
+	is_single_cell = df.shape[0] == 1 and df.shape[1] == 1 and df_prev.shape[0] == 1 and df_prev.shape[1] == 1
+	
+	if is_single_cell and not dimensions:
+		df.index = pd.Index(xlabels)
+		df_prev.index = pd.Index(xlabels)
+	else:
+		xlabels_dict = {metric: xlabel for metric, xlabel in zip(metrics, xlabels)}
+		df.rename(columns=xlabels_dict, inplace=True)
+		df_prev.rename(columns=xlabels_dict, inplace=True)
+		if dimensions:
+			df.index.rename(ylabels, inplace=True)
+			df_prev.index.rename(ylabels, inplace=True)
+	
+	display(format_table_with_change(df, df_prev, show_symbols=(rows_type == "ordered" or rows_type == "unordered"), hide_index=not dimensions and not is_single_cell, hide_columns=is_single_cell, **other_params))
+
+def show_plot_over_time(titles, xlabels, metrics, format_table=True, **other_params):
+	titles, xlabels, metrics = strings_to_lists(titles, xlabels, metrics)
+	
+	df = ga.get_metrics_by_dimensions(metrics, "ga:date", **other_params)
+
+	# Convert date to datetime object
+	df["ga:date"] = pd.to_datetime(df['ga:date'])
+	df.set_index('ga:date', inplace=True)
+
+	# Convert strings returned by API to integers. Can we do this earlier!
+	# If not numeric data the series won't graph
+	for name in metrics:
+		df[name] = df[name].astype(str).astype(int)
+
+
+	# Rename for display
+	df.rename(columns={name: xlabels[i] for i, name in enumerate(metrics)}, inplace=True)
+
+	#Smooth (coiuld we not just use 7 day users then?)
+	# df = df.rolling(window=1).mean()
+
+	# Notes: Linking Mandas and Matplotlib
+	# https://stackoverflow.com/questions/29568110/how-to-use-ax-with-pandas-and-matplotlib
+
+	fontsize=16
+	
+	if isinstance(titles[0], str):
+		fig, ax = plt.subplots(figsize=(16, 9))
+		df.plot(ax=ax) #Link the df with the axis
+
+		ax.set_xlabel('Time', fontsize=fontsize)
+		ax.set_ylabel('Count', fontsize=fontsize)
+
+		for label in (ax.get_xticklabels() + ax.get_yticklabels()):
+			label.set_fontsize(fontsize)
+
+		plt.rcParams['font.size'] = fontsize
+		fig.suptitle(titles[0])
+		plt.show()
+
+	if len(titles) > 1 and isinstance(titles[1], str):
+		# Average per qurter
+
+		dfmean = df.rolling(window=30).mean()
+		fig, ax = plt.subplots(figsize=(16, 9))
+		dfmean.plot(ax=ax) #Link the df with the axis
+
+		ax.set_xlabel('Time', fontsize=fontsize)
+		ax.set_ylabel('Count', fontsize=fontsize)
+
+		for label in (ax.get_xticklabels() + ax.get_yticklabels()):
+			label.set_fontsize(fontsize)
+
+		plt.rcParams['font.size'] = fontsize
+		fig.suptitle(titles[1])
+		plt.show()
+
+	
+	if format_table:
+		return format_change_over_time_table(df)
+
