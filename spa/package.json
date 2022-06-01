@@ -54,7 +54,7 @@
     "@angular-eslint/template-parser": "^13.2.0",
     "@angular/cli": "^13.3.1",
     "@angular/compiler-cli": "^13.3.1",
-    "@angular/language-service": "^13.3.1",
+    "@angular/language-service": "^13.3.11",
     "@ngrx/store-devtools": "^13.1.0",
     "@types/gapi": "^0.0.41",
     "@types/gapi.auth2": "^0.0.56",
