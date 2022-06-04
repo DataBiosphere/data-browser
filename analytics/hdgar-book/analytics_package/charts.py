@@ -14,6 +14,9 @@ def init_tables():
 			
 			.analyticsTable {
 				display: grid;
+				--symbol-width: 1.5em;
+				--value-width: 2.9em;
+				--percentage-width: 6.8em;
 			}
 			
 			/*
@@ -37,11 +40,11 @@ def init_tables():
 			}
 			
 			.anaSubcolLeft, .anaIndex {
-				padding-left: 0.7em;
+				padding-left: 1em;
 			}
 			
 			.anaSubcolRight {
-				padding-right: 0.7em;
+				padding-right: 1em;
 			}
 			
 			.anaColName:not(.anaIndex) {
@@ -165,22 +168,23 @@ def format_pc_change_table(df, include_plus=False, row_symbols=None, **other_par
 	def format_row_symbol(name):
 		return ('<div class="' + name + '"></div>', True) if name else ""
 	
-	column_defs = ["minmax(3em, min-content)", ("minmax(6em, min-content)", lambda v, i, c: format_change_value(df_changes.loc[i, c]))]
+	column_defs = ["minmax(var(--value-width), min-content)", ("minmax(var(--percentage-width), min-content)", lambda v, i, c: format_change_value(df_changes.loc[i, c]))]
 	
 	if not row_symbols is None:
-		column_defs = {None: column_defs, df_values.columns[0]: [("1.5em", lambda v, i, c: format_row_symbol(row_symbols.loc[i, (c, "Value")]))] + column_defs}
+		column_defs = {None: column_defs, df_values.columns[0]: [("var(--symbol-width)", lambda v, i, c: format_row_symbol(row_symbols.loc[i, (c, "Value")]))] + column_defs}
 	
 	return format_table(df_values, column_defs, **other_params)
 
-def format_change_over_time_table(df):
+def format_change_over_time_table(df, table_subindex="Month", **other_params):
 	df2 = df.copy(deep=True)
 	
 	data_cols = [c for c in df2.columns]
 	
-	df2['Quarter'] = df2.index.quarter
+	df2[table_subindex] = df2.index.quarter if table_subindex == "Quarter" else df2.index.month_name()
+		
 	df2['Year'] = df2.index.year
 
-	df2 = df2.groupby(['Year','Quarter']).sum()
+	df2 = df2.groupby(['Year', table_subindex], sort=False).sum()
 	
 	df2.columns = pd.MultiIndex.from_tuples([(name, 'Value') for name in data_cols])
 	
@@ -266,11 +270,22 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 	
 	display(format_table_with_change(df, df_prev, show_symbols=(rows_type == "ordered" or rows_type == "unordered"), hide_index=not dimensions and not is_single_cell, hide_columns=is_single_cell, **other_params))
 
-def show_plot_over_time(titles, xlabels, metrics, format_table=True, **other_params):
+def make_month_filter(filter_cols):
+	def filter(df):
+		non_filter_cols = [name for name in df.columns if not name in filter_cols]
+		filtered = df[df.index.month != (df.index + pd.Timedelta(days=1)).month]
+		filtered = filtered.set_axis(filtered.index.to_period("M").to_timestamp(), axis="index")
+		agg = df[non_filter_cols].groupby(df.index.to_period("M")).sum()
+		agg = agg.set_axis(agg.index.to_timestamp(), axis="index")
+		return pd.concat([filtered[name] if name in filter_cols else agg[name] for name in df.columns], axis="columns", join="inner")
+	
+	return filter
+
+def show_plot_over_time(titles, xlabels, metrics, format_table=True, df_filter=None, **other_params):
 	titles, xlabels, metrics = strings_to_lists(titles, xlabels, metrics)
 	
 	df = ga.get_metrics_by_dimensions(metrics, "ga:date", **other_params)
-
+	
 	# Convert date to datetime object
 	df["ga:date"] = pd.to_datetime(df['ga:date'])
 	df.set_index('ga:date', inplace=True)
@@ -279,7 +294,9 @@ def show_plot_over_time(titles, xlabels, metrics, format_table=True, **other_par
 	# If not numeric data the series won't graph
 	for name in metrics:
 		df[name] = df[name].astype(str).astype(int)
-
+	
+	if (not df_filter is None):
+		df = df_filter(df)
 
 	# Rename for display
 	df.rename(columns={name: xlabels[i] for i, name in enumerate(metrics)}, inplace=True)
@@ -325,5 +342,5 @@ def show_plot_over_time(titles, xlabels, metrics, format_table=True, **other_par
 
 	
 	if format_table:
-		return format_change_over_time_table(df)
+		return format_change_over_time_table(df, **other_params)
 
