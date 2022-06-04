@@ -18,31 +18,34 @@ def get_project_name(id):
 		return id
 
 def format_export_url_info(type, secondary_type, filter):
-	result = type.replace("-", " ")
+	result = escape_html(type.replace("-", " "))
 	if secondary_type:
-		result += ", " + secondary_type.replace("-", " ")
+		result += escape_html(", " + secondary_type.replace("-", " "))
 	for facet in json.loads(filter):
 		if facet["facetName"] == "projectId":
-			result += "\r\nProject: " + ", ".join([get_project_name(id) for id in facet["terms"]])
+			result += "\r\nProject: " + ", ".join(['<a href="https://data.humancellatlas.org/explore/projects/' + id + '">' + get_project_name(id) + '</a>' for id in facet["terms"]])
 		else:
-			result += "\r\n" + facet["facetName"] + ": " + ", ".join(facet["terms"])
-	return result
+			result += escape_html("\r\n" + facet["facetName"] + ": " + ", ".join(facet["terms"]))
+	return (result, True)
 
 def adjust_table_index_key(val):
 	if isinstance(val, str):
-		match = re.search("\\/explore\\/(?:projects\\/([^\\/#?]+)|export\\/(export-to-terra|get-curl-command|download-manifest)(?:\\/(select-species))?\\?filter=(.+))", val)
+		match = re.search("^\\/explore\\/(?:projects\\/([^\\/#?]+)|export\\/(export-to-terra|get-curl-command|download-manifest)(?:\\/(select-species))?\\?filter=(.+))", val)
 		if match:
 			if match.group(1):
 				return ('<a href="' + escape_html("https://data.humancellatlas.org" + val) + '">' + escape_html(get_project_name(match.group(1))) + '</a>', True)
 			else:
 				return format_export_url_info(match.group(2), match.group(3), match.group(4))
+		elif val[0] == "/":
+			return ('<a href="' + escape_html("https://data.humancellatlas.org" + val) + '">' + escape_html(val) + '</a>', True)
 	return val
 
 def plot_users_over_time(**other_params):
 	return ac.show_plot_over_time(
-		["Daily Activity Overview", "Daily Activity Overview 30 Day average"],
-		["Total Daily Users", "Total Unique Pageviews"],
-		["ga:1dayUsers", "ga:uniquePageviews"],
+		"Monthly Activity Overview",
+		["Users", "Total Unique Pageviews"],
+		["ga:30dayUsers", "ga:uniquePageviews"],
+		df_filter=ac.make_month_filter(["ga:30dayUsers"]),
 		**other_params
 	)
 
