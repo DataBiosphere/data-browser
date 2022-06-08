@@ -62,7 +62,6 @@ export class ProjectRowMapper extends EntityRowMapper {
         const estimatedCellCount = this.calculateEstimatedCellCount(
             row,
             this.projects,
-            this.cellSuspensions
         );
 
         return Object.assign({}, row, {
@@ -87,31 +86,16 @@ export class ProjectRowMapper extends EntityRowMapper {
      * Calculate the estimated cell count for this project. The estimated cell count is the greater between the estimated
      * cell count for the project, if any, and the totalCell value from cellSuspensions.
      */
-    private calculateEstimatedCellCount(
-        row,
-        project,
-        cellSuspensions
-    ): string | number {
+    private calculateEstimatedCellCount(row, project): string {
         const { estimatedCellCount } = project;
 
-        // If there's no estimated cell count for the project, return the total from cell suspensions (the totalCells
-        // value on row has already been formatted for display and can be returned as is).
-        if (!estimatedCellCount) {
-            return row.totalCells; // Formatted totalCells value.
-        }
-
-        // If there's no totalCell value, return the estimated cell count. Use the totalCell value from cell suspensions
-        // here as this will be the raw number (rather than the formatted display value on row).
-        if (!cellSuspensions.totalCells) {
+        // If there's an estimated cell count for the project, return it as the cell count.
+        if (estimatedCellCount) {
             return getUnspecifiedIfNullValue(estimatedCellCount);
         }
 
-        // Otherwise there's both a totalCells value from cell suspensions and an project estimated cell count: use
-        // the greater value of the two.
-        if (cellSuspensions.totalCells > estimatedCellCount) {
-            return row.totalCells; // Return the formatted totalCells value from row.
-        }
-        return estimatedCellCount;
+        // Otherwise, return the (already formatted) cell suspension total count.
+        return row.totalCells;
     }
 
     /**
