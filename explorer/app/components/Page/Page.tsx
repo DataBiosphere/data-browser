@@ -8,19 +8,20 @@ import { config } from "../../config/config";
 import { Body } from "../Body/Body";
 import { Footer } from "../Footer/Footer";
 import { Header } from "../Header/Header";
+import { Container, Content } from "./Page.styles";
 
 interface PageProps {
   children: React.ReactNode | React.ReactNode[];
 }
 
-export const Page = ({ children }: PageProps) => {
+export const Page = ({ children }: PageProps): JSX.Element => {
   return (
-    //FIXME: Styling will change when we decide about the approach we want to
-    //   follow for this project
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <Container>
       <Header {...config().layout.header} />
-      <Body>{children}</Body>
-      <Footer>Footer</Footer>
-    </div>
+      <Content>
+        <Body>{children}</Body>
+        <Footer>Footer</Footer>
+      </Content>
+    </Container>
   );
 };

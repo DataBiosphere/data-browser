@@ -11,7 +11,7 @@ export const Table = <T extends object>({
   items,
   columns,
   pageSize,
-}: TableProps<T>) => {
+}: TableProps<T>): JSX.Element => {
   const {
     nextPage,
     previousPage,

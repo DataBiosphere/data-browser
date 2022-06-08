@@ -18,7 +18,23 @@ export const Primary = Template.bind({});
 Primary.args = {
   links: [
     {
+      type: "twitter",
+      url: "https://github.com/BruceRodrigues",
+    },
+    {
       type: "github",
+      url: "https://github.com/BruceRodrigues",
+    },
+    {
+      type: "youtube",
+      url: "https://github.com/BruceRodrigues",
+    },
+    {
+      type: "discourse",
+      url: "https://github.com/BruceRodrigues",
+    },
+    {
+      type: "slack",
       url: "https://github.com/BruceRodrigues",
     },
   ],

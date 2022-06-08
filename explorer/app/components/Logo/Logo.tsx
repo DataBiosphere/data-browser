@@ -1,6 +1,8 @@
+import { Typography } from "@mui/material";
 import { StaticImageData } from "next/image";
 import React from "react";
 import { StaticImage } from "../StaticImage/StaticImage";
+import { Container, SloganContainer } from "./Logo.styles";
 
 export interface LogoProps {
   url: StaticImageData;
@@ -18,9 +20,20 @@ export const Logo = ({
   alt,
 }: LogoProps): JSX.Element => {
   return (
-    <div>
+    <Container>
       <StaticImage src={url} alt={alt} width={width} height={height} />
-      {slogan && <span>{slogan}</span>}
-    </div>
+      {slogan && (
+        <SloganContainer>
+          <Typography
+            color={(theme) => theme.palette.colorInk}
+            component="span"
+            fontSize={12}
+            lineHeight="18px"
+          >
+            {slogan}
+          </Typography>
+        </SloganContainer>
+      )}
+    </Container>
   );
 };
