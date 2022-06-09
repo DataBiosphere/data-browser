@@ -7,8 +7,8 @@ export default {
   component: ProfileComponent,
 } as ComponentMeta<typeof ProfileComponent>;
 
-const Template: ComponentStory<typeof ProfileComponent> = (args) => (
-  <ProfileComponent {...args} />
+const Template: ComponentStory<typeof ProfileComponent> = () => (
+  <ProfileComponent />
 );
 
 export const Primary = Template.bind({});

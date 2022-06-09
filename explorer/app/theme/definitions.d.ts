@@ -1,23 +1,13 @@
 import { TypographyStyleOptions } from "@mui/material/styles/createTypography";
 import { Theme as MuiTheme } from "@mui/material/styles";
+import { CustomColors } from "./theme";
 
 declare module "@mui/material/styles" {
-  interface Palette {
-    colorInk: string;
-    colorInkLight: string;
-    colorSmokeDark: string;
-    colorSmoke: string;
-    colorSmokeLight: string;
-    colorSmokeLightest: string;
-  }
-  interface PaletteOptions {
-    colorInk: string;
-    colorInkLight: string;
-    colorSmokeDark: string;
-    colorSmoke: string;
-    colorSmokeLight: string;
-    colorSmokeLightest: string;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface Palette extends CustomColors {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface PaletteOptions extends CustomColors {}
+
   interface TypographyVariants {
     "text-heading-xlarge": TypographyStyleOptions;
     "text-heading-large": TypographyStyleOptions;
@@ -83,7 +73,6 @@ declare module "@mui/material/Typography" {
     "TEXT-UPPERCASE-500": true;
   }
 }
-
 declare module "@emotion/react" {
   export interface Theme extends MuiTheme {
     name: "EmotionTheme";

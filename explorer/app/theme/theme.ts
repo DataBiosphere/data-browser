@@ -1,5 +1,15 @@
 import { createTheme } from "@mui/material/styles";
 
+export interface CustomColors {
+  colorInk: string;
+  colorInkLight: string;
+  colorSmokeDark: string;
+  colorSmoke: string;
+  colorSmokeLight: string;
+  colorSmokeLightest: string;
+  colorPrimartAnvil: string;
+}
+
 export const theme = createTheme({
   spacing: 4,
   typography: {
@@ -64,7 +74,7 @@ export const theme = createTheme({
     },
     "text-body-400-2lines": {
       fontFamily: "Inter",
-      fontSize: 16,
+      fontSize: 14,
       lineHeight: "24px",
       fontWeight: 400,
     },
@@ -95,5 +105,6 @@ export const theme = createTheme({
     colorSmoke: "#E1E3E5",
     colorSmokeLight: "#F6F6F7",
     colorSmokeLightest: "#FAFBFB",
+    colorPrimartAnvil: "#035C94",
   },
 });
