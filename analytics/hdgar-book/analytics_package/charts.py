@@ -6,6 +6,41 @@ from IPython.core.display import HTML
 from html import escape as escape_html
 
 
+"""
+
+init_tables must be called in the notebook to insert a required stylesheet
+
+
+Functions related to tables and data frames will pass any extra parameters they recieve down to any such functions that they call
+These parameters include the ones used by get_metrics_by_dimensions in the api module, as well as the table formatting parameters outlined below
+
+
+Table formatting parameters, by table types
+These parameters can be used with functions producing tables of the given type
+Exceptions to this rule are given in parentheses
+
+All tables:
+index_key_formatter
+collapse_index (supplanted in format_change_over_time_table, show_plot_over_time - always True)
+hide_index (supplanted in show_difference_table - determined by data shape)
+hide_columns (supplanted in show_difference_table - determined by data shape)
+
+Percent change tables:
+include_plus
+row_symbols (supplanted in format_table_with_change, show_difference_table - automatically inserted if show_symbols is True)
+
+Change over time tables:
+table_subindex
+
+Change between frames tables:
+show_symbols (supplanted in show_difference_table - determined based on rows_type)
+
+Change between periods tables:
+rows_type
+
+"""
+
+
 authenticate_ga = ga.authenticate
 
 def init_tables():
@@ -154,7 +189,7 @@ def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_ind
 	
 	return HTML(result_text)
 
-def format_pc_change_table(df, include_plus=False, row_symbols=None, **other_params):
+def format_pc_change_table(df, include_plus=True, row_symbols=None, **other_params):
 	# Expects pairs of columns in a 2D multi-index where the columns are name "Value" and "% Change"
 	
 	df_values = pd.concat([df[name].rename(name[0]) for name in df.columns if name[1] == "Value"], axis="columns")
@@ -193,7 +228,7 @@ def format_change_over_time_table(df, table_subindex="Month", **other_params):
 	
 	df2 = df2[[(a, b) for a in data_cols for b in ['Value', '% Change']]]
 	
-	return format_pc_change_table(df2, include_plus=True, collapse_index=True)
+	return format_pc_change_table(df2, collapse_index=True)
 
 def format_table_with_change(df, df_prev, show_symbols=True, **other_params):
 	# The data frames must have the same column names but may have some different rows
@@ -218,7 +253,7 @@ def format_table_with_change(df, df_prev, show_symbols=True, **other_params):
 		classes[:] = None
 		classes.iloc[:, [0]] = classes_series
 	
-	return format_pc_change_table(df_change, include_plus=True, row_symbols=classes, **other_params)
+	return format_pc_change_table(df_change, row_symbols=classes, **other_params)
 
 def get_top_ga_df(metrics, dimensions, ascending=True, limit=20, num_keep_dimensions=1, **other_params):
 	df = ga.get_metrics_by_dimensions(metrics, dimensions, **other_params)
