@@ -15,11 +15,12 @@ Functions related to tables and data frames will pass any extra parameters they 
 These parameters include the ones used by get_metrics_by_dimensions in the api module, as well as the table formatting parameters outlined below
 
 
-Table formatting parameters, by table types
+Table formatting/construction parameters, by table types
 These parameters can be used with functions producing tables of the given type
 Exceptions to this rule are given in parentheses
 
 All tables:
+num_keep_dimensions (supplanted in show_difference_table - determined based on ylabels)
 index_key_formatter
 collapse_index (supplanted in format_change_over_time_table, show_plot_over_time - always True)
 hide_index (supplanted in show_difference_table - determined by data shape)
@@ -182,7 +183,7 @@ def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_ind
 				result_text += '<div class="anaIndex anaColName">' + escape_html(df.index.name) + '</div>'
 		result_text += "".join(['<div class="anaColName" style="grid-column: span ' + str(len(column_defs[name if name in column_defs else None])) + '">' + escape_html(str(name)) + '</div>' for name in df.columns])
 	
-	result_text += "".join([make_row_code(row, n, i) for n, (i, row) in enumerate(df.iterrows())])
+	result_text += "".join([make_row_code(df.loc[[i]].astype("O").loc[i], n, i) for n, i in enumerate(df.index)])
 	
 	result_text += '</div>'
 	
@@ -203,7 +204,10 @@ def format_pc_change_table(df, include_plus=True, row_symbols=None, **other_para
 	def format_row_symbol(name):
 		return ('<div class="' + name + '"></div>', True) if name else ""
 	
-	column_defs = ["minmax(var(--value-width), min-content)", ("minmax(var(--percentage-width), min-content)", lambda v, i, c: format_change_value(df_changes.loc[i, c]))]
+	column_defs = [
+		("minmax(var(--value-width), min-content)", lambda v, i, c: str(v) if isinstance(v, int) else "{:.2f}".format(v)),
+		("minmax(var(--percentage-width), min-content)", lambda v, i, c: format_change_value(df_changes.loc[i, c]))
+	]
 	
 	if not row_symbols is None:
 		column_defs = {None: column_defs, df_values.columns[0]: [("var(--symbol-width)", lambda v, i, c: format_row_symbol(row_symbols.loc[i, (c, "Value")]))] + column_defs}
@@ -255,7 +259,18 @@ def format_table_with_change(df, df_prev, show_symbols=True, **other_params):
 	
 	return format_pc_change_table(df_change, row_symbols=classes, **other_params)
 
-def get_top_ga_df(metrics, dimensions, ascending=True, limit=20, num_keep_dimensions=1, **other_params):
+def get_top_ga_df(metrics, dimensions, ascending=True, limit=20, **other_params):
+	df = get_data_df(metrics, dimensions, **other_params)
+	
+	if ascending != None:
+		df = df.sort_values(by=metrics, ascending=ascending)
+	
+	if not limit is None:
+		df = df.tail(limit) if ascending else df.head(limit)
+	
+	return df
+
+def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix="_percentage", num_keep_dimensions=None, **other_params):
 	df = ga.get_metrics_by_dimensions(metrics, dimensions, **other_params)
 	
 	if dimensions:
@@ -264,11 +279,10 @@ def get_top_ga_df(metrics, dimensions, ascending=True, limit=20, num_keep_dimens
 		df.set_index(dimensions[:num_keep_dimensions], inplace=True)
 	for metric in metrics:
 		df[metric] = df[metric].astype(str).astype(int)
-	if ascending != None:
-		df = df.sort_values(by=metrics, ascending=ascending)
 	
-	if not limit is None:
-		df = df.tail(limit) if ascending else df.head(limit)
+	if percentage_metrics:
+		for metric in percentage_metrics:
+			df.insert(list(df.columns).index(metric) + 1, metric + percentage_suffix, df[metric] / df[metric].sum() * 100)
 	
 	return df
 
@@ -296,7 +310,7 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 		df.index = pd.Index(xlabels)
 		df_prev.index = pd.Index(xlabels)
 	else:
-		xlabels_dict = {metric: xlabel for metric, xlabel in zip(metrics, xlabels)}
+		xlabels_dict = {col: xlabel for col, xlabel in zip(df.columns, xlabels)}
 		df.rename(columns=xlabels_dict, inplace=True)
 		df_prev.rename(columns=xlabels_dict, inplace=True)
 		if dimensions:
@@ -319,17 +333,12 @@ def make_month_filter(filter_cols):
 def show_plot_over_time(titles, xlabels, metrics, format_table=True, df_filter=None, **other_params):
 	titles, xlabels, metrics = strings_to_lists(titles, xlabels, metrics)
 	
-	df = ga.get_metrics_by_dimensions(metrics, "ga:date", **other_params)
+	df = get_data_df(metrics, "ga:date", **other_params)
 	
 	# Convert date to datetime object
 	df["ga:date"] = pd.to_datetime(df['ga:date'])
 	df.set_index('ga:date', inplace=True)
 
-	# Convert strings returned by API to integers. Can we do this earlier!
-	# If not numeric data the series won't graph
-	for name in metrics:
-		df[name] = df[name].astype(str).astype(int)
-	
 	if (not df_filter is None):
 		df = df_filter(df)
 
