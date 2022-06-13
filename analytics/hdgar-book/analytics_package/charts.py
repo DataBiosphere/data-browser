@@ -25,6 +25,7 @@ index_key_formatter
 collapse_index (supplanted in format_change_over_time_table, show_plot_over_time - always True)
 hide_index (supplanted in show_difference_table - determined by data shape)
 hide_columns (supplanted in show_difference_table - determined by data shape)
+split_vertical
 
 Percent change tables:
 include_plus
@@ -64,6 +65,7 @@ def init_tables():
 			.anaIndex:not(.anaColName) {
 				white-space: pre-wrap;
 				line-break: anywhere;
+				word-break: break-all;
 			}
 			
 			.anaColName {
@@ -120,25 +122,36 @@ def init_tables():
 def percent_change(valfrom, valto):
 	return (valto - valfrom)/valfrom * 100
 
-def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_index=False, hide_index=False, hide_columns=False, **other_params):
+def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_index=False, hide_index=False, hide_columns=False, split_vertical=None, **other_params):
 	if not isinstance(column_defs, dict):
 		column_defs = {None: column_defs}
 	
-	index_runs = None
+	header_text = 'grid-template-columns: '
 	
-	if collapse_index:
-		index_df = df.index.to_frame(index=False)
-		index_runs = [index_df[name].groupby((index_df[name] != index_df[name].shift()).cumsum()).transform(lambda g: [g.shape[0]] + [0] * (g.shape[0] - 1)) for name in index_df.columns]
+	if not hide_index:
+		if isinstance(df.index, pd.MultiIndex):
+			header_text += 'repeat(' + str(df.index.nlevels - 1) + ', auto) '
+		header_text += '1fr '
+	
+	header_text += " ".join([cdef[0] if isinstance(cdef, tuple) else cdef for name in df.columns for cdef in column_defs[name if name in column_defs else None]]) + '">'
+	
+	if not hide_columns:
+		if not hide_index:
+			if isinstance(df.index, pd.MultiIndex):
+				header_text += "".join(['<div class="anaIndex anaColName">' + escape_html(name) + '</div>' for name in df.index.names])
+			else:
+				header_text += '<div class="anaIndex anaColName">' + escape_html(df.index.name) + '</div>'
+		header_text += "".join(['<div class="anaColName" style="grid-column: span ' + str(len(column_defs[name if name in column_defs else None])) + '">' + escape_html(str(name)) + '</div>' for name in df.columns])
 	
 	
 	def apply_formatter(formatter, val, *rest):
 		if formatter:
 			result = formatter(val, *rest)
-			return (result[0] if result[1] else escape_html(result[0])) if isinstance(result, tuple) else escape_html(result)
+			return (str(result[0]) if result[1] else escape_html(str(result[0]))) if isinstance(result, tuple) else escape_html(str(result))
 		else:
 			return escape_html(str(val))
 	
-	def make_index_col_code(v, classes, row_n, icol_n):
+	def make_index_col_code(index_runs, v, classes, row_n, icol_n):
 		if index_runs and index_runs[icol_n][row_n] == 0:
 			return ""
 		result = '<div class="anaIndex ' + classes + '"'
@@ -147,12 +160,12 @@ def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_ind
 		result += '>' + apply_formatter(index_key_formatter, v) + '</div>'
 		return result
 	
-	def make_index_code(val, classes, row_n):
+	def make_index_code(index_runs, val, classes, row_n):
 		if hide_index:
 			return ""
 		if not isinstance(val, tuple):
 			val = (val,)
-		return "".join([make_index_col_code(v, classes, row_n, icol_n) for icol_n, v in enumerate(val)])
+		return "".join([make_index_col_code(index_runs, v, classes, row_n, icol_n) for icol_n, v in enumerate(val)])
 	
 	def make_item_col_code(val, classes, i, c, cdef):
 		return '<div class="anaCell ' + classes + '">' + (apply_formatter(cdef[1], val, i, c) if isinstance(cdef, tuple) else escape_html(str(val))) + '</div>'
@@ -161,31 +174,38 @@ def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_ind
 		this_column_defs = column_defs[c if c in column_defs else None]
 		return "".join([make_item_col_code(val, classes + (" anaSubcolLeft" if subcol_n == 0 else " anaSubcolRight" if subcol_n == len(this_column_defs) - 1 else ""), i, c, cdef) for subcol_n, cdef in enumerate(this_column_defs)])
 	
-	def make_row_code(row, n, i):
+	def make_row_code(index_runs, row, n, i):
 		row_class = "anaOdd" if n%2 else "anaEven"
-		return make_index_code(i, row_class, n) + "".join([make_item_code(item, row_class, i, c) for c, item in row.iteritems()])
+		return make_index_code(index_runs, i, row_class, n) + "".join([make_item_code(item, row_class, i, c) for c, item in row.iteritems()])
+	
+	def format_table_split(df, final):
+		index_runs = None
+		
+		if collapse_index:
+			index_df = df.index.to_frame(index=False)
+			index_runs = [index_df[name].groupby((index_df[name] != index_df[name].shift()).cumsum()).transform(lambda g: [g.shape[0]] + [0] * (g.shape[0] - 1)) for name in index_df.columns]
+		
+		result_text = '<div class="analyticsTable" style="'
+		if not final:
+			result_text += 'page-break-after: always; '
+		result_text += header_text
+		result_text += "".join([make_row_code(index_runs, df.loc[[i]].astype("O").loc[i], n, i) for n, i in enumerate(df.index)])
+		result_text += '</div>'
+		
+		return result_text
 	
 	
-	result_text = '<div class="analyticsTable" style="grid-template-columns: '
+	result_text = None
 	
-	if not hide_index:
-		if isinstance(df.index, pd.MultiIndex):
-			result_text += 'repeat(' + str(df.index.nlevels - 1) + ', auto) '
-		result_text += '1fr '
-	
-	result_text += " ".join([cdef[0] if isinstance(cdef, tuple) else cdef for name in df.columns for cdef in column_defs[name if name in column_defs else None]]) + '">'
-	
-	if not hide_columns:
-		if not hide_index:
-			if isinstance(df.index, pd.MultiIndex):
-				result_text += "".join(['<div class="anaIndex anaColName">' + escape_html(name) + '</div>' for name in df.index.names])
-			else:
-				result_text += '<div class="anaIndex anaColName">' + escape_html(df.index.name) + '</div>'
-		result_text += "".join(['<div class="anaColName" style="grid-column: span ' + str(len(column_defs[name if name in column_defs else None])) + '">' + escape_html(str(name)) + '</div>' for name in df.columns])
-	
-	result_text += "".join([make_row_code(df.loc[[i]].astype("O").loc[i], n, i) for n, i in enumerate(df.index)])
-	
-	result_text += '</div>'
+	if split_vertical:
+		if not isinstance(split_vertical, list):
+			split_vertical = [split_vertical]
+		split_indices = np.cumsum(split_vertical)
+		result_text = "".join([format_table_split(df.iloc[(0 if j == 0 else split_indices[j - 1]):index], j == len(split_indices - 1) and index == df.shape[0]) for j, index in enumerate(split_indices)])
+		if split_indices[-1] < df.shape[0]:
+			result_text += format_table_split(df.iloc[split_indices[-1]:], True)
+	else:
+		result_text = format_table_split(df, True)
 	
 	
 	return HTML(result_text)
@@ -232,7 +252,7 @@ def format_change_over_time_table(df, table_subindex="Month", **other_params):
 	
 	df2 = df2[[(a, b) for a in data_cols for b in ['Value', '% Change']]]
 	
-	return format_pc_change_table(df2, collapse_index=True)
+	return format_pc_change_table(df2, collapse_index=True, **other_params)
 
 def format_table_with_change(df, df_prev, show_symbols=True, **other_params):
 	# The data frames must have the same column names but may have some different rows
@@ -274,7 +294,7 @@ def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix=
 	df = ga.get_metrics_by_dimensions(metrics, dimensions, **other_params)
 	
 	if dimensions:
-		if len(dimensions) > 1:
+		if len(dimensions) > 1 and not num_keep_dimensions is None:
 			df.drop(columns=dimensions[num_keep_dimensions:], inplace=True);
 		df.set_index(dimensions[:num_keep_dimensions], inplace=True)
 	for metric in metrics:
@@ -336,8 +356,7 @@ def show_plot_over_time(titles, xlabels, metrics, format_table=True, df_filter=N
 	df = get_data_df(metrics, "ga:date", **other_params)
 	
 	# Convert date to datetime object
-	df["ga:date"] = pd.to_datetime(df['ga:date'])
-	df.set_index('ga:date', inplace=True)
+	df.index = pd.to_datetime(df.index)
 
 	if (not df_filter is None):
 		df = df_filter(df)
@@ -345,25 +364,18 @@ def show_plot_over_time(titles, xlabels, metrics, format_table=True, df_filter=N
 	# Rename for display
 	df.rename(columns={name: xlabels[i] for i, name in enumerate(metrics)}, inplace=True)
 
-	#Smooth (coiuld we not just use 7 day users then?)
-	# df = df.rolling(window=1).mean()
-
-	# Notes: Linking Mandas and Matplotlib
+	# Notes: Linking Pandas and Matplotlib
 	# https://stackoverflow.com/questions/29568110/how-to-use-ax-with-pandas-and-matplotlib
 
-	fontsize=16
+	plt.rc("font", size=16)
 	
 	if isinstance(titles[0], str):
 		fig, ax = plt.subplots(figsize=(16, 9))
 		df.plot(ax=ax) #Link the df with the axis
 
-		ax.set_xlabel('Time', fontsize=fontsize)
-		ax.set_ylabel('Count', fontsize=fontsize)
+		ax.set_xlabel('Time')
+		ax.set_ylabel('Count')
 
-		for label in (ax.get_xticklabels() + ax.get_yticklabels()):
-			label.set_fontsize(fontsize)
-
-		plt.rcParams['font.size'] = fontsize
 		fig.suptitle(titles[0])
 		plt.show()
 
@@ -374,13 +386,9 @@ def show_plot_over_time(titles, xlabels, metrics, format_table=True, df_filter=N
 		fig, ax = plt.subplots(figsize=(16, 9))
 		dfmean.plot(ax=ax) #Link the df with the axis
 
-		ax.set_xlabel('Time', fontsize=fontsize)
-		ax.set_ylabel('Count', fontsize=fontsize)
+		ax.set_xlabel('Time')
+		ax.set_ylabel('Count')
 
-		for label in (ax.get_xticklabels() + ax.get_yticklabels()):
-			label.set_fontsize(fontsize)
-
-		plt.rcParams['font.size'] = fontsize
 		fig.suptitle(titles[1])
 		plt.show()
 

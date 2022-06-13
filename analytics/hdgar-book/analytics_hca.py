@@ -23,9 +23,9 @@ def format_export_url_info(type, secondary_type, filter):
 		result += escape_html(", " + secondary_type.replace("-", " "))
 	for facet in json.loads(filter):
 		if facet["facetName"] == "projectId":
-			result += "\r\nProject: " + ", ".join(['<a href="https://data.humancellatlas.org/explore/projects/' + id + '">' + get_project_name(id) + '</a>' for id in facet["terms"]])
+			result += "\nProject: " + ", ".join(['<a href="https://data.humancellatlas.org/explore/projects/' + id + '">' + get_project_name(id) + '</a>' for id in facet["terms"]])
 		else:
-			result += escape_html("\r\n" + facet["facetName"] + ": " + ", ".join(facet["terms"]))
+			result += escape_html("\n" + facet["facetName"] + ": " + ", ".join(facet["terms"]))
 	return (result, True)
 
 def adjust_table_index_key(val):
@@ -131,7 +131,7 @@ def plot_downloads():
 	return plot_total, plot_a, plot_b
 
 def plot_ethnicity():
-	catalog = "dcp15"
+	catalog = "dcp16"
 
 	def get_sources_expr():
 		sources = requests.get("https://service.azul.data.humancellatlas.org/repository/sources?catalog=" + catalog).json()["sources"]
