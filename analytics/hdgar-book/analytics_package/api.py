@@ -6,9 +6,9 @@ import pandas as pd
 
 service = None
 
-def authenticate():
+def authenticate(secret_name):
 	
-	ANALYTICS_REPORTING_CLIENT_SECRET_PATH=os.getenv('ANALYTICS_REPORTING_CLIENT_SECRET_PATH')
+	ANALYTICS_REPORTING_CLIENT_SECRET_PATH=os.getenv(secret_name)
 
 	flow = InstalledAppFlow.from_client_secrets_file(ANALYTICS_REPORTING_CLIENT_SECRET_PATH,
 		scopes=['https://www.googleapis.com/auth/analytics.readonly'])
