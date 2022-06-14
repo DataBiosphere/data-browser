@@ -1,4 +1,4 @@
-import analytics_package.charts as ac
+import analytics_package.analytics.charts as ac
 import pandas as pd
 import matplotlib.pyplot as plt
 from google.cloud import bigquery
