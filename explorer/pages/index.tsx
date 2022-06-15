@@ -1,9 +1,9 @@
+import { useConfig } from "app/hooks/useConfig";
 import React from "react";
 import { Redirect } from "../app/components/Redirect/Redirect";
-import { config } from "../app/config/config";
 
 const HomePage = () => {
-  const { redirectRootToPath } = config();
+  const { redirectRootToPath } = useConfig();
 
   if (redirectRootToPath) {
     return <Redirect destination={redirectRootToPath} replace />;

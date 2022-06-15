@@ -4,7 +4,7 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { Page } from "../../../app/components/Page/page";
-import { DetailViewModel } from "../../../app/models/viewModels";
+import { DetailModel } from "../../../app/models/viewModels";
 import { detail, listAll } from "../../../app/entity/api/service";
 import { DetailContainer } from "../../../app/entity/detail/DetailContainer";
 
@@ -13,7 +13,7 @@ interface PageUrl extends ParsedUrlQuery {
   slug: string;
 }
 
-const DetailPage = (props: DetailViewModel): JSX.Element => {
+const DetailPage = (props: DetailModel): JSX.Element => {
   return (
     <Page>
       <DetailContainer {...props} />
@@ -49,15 +49,15 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<DetailViewModel> = async ({
+export const getStaticProps: GetStaticProps<DetailModel> = async ({
   params,
 }: GetStaticPropsContext) => {
   const { slug } = params as PageUrl;
-  const entity = getCurrentEntity(slug);
-  let props: DetailViewModel = {};
+  const entity = getCurrentEntity(slug, config());
+  const props: DetailModel = {};
   if (entity?.staticLoad) {
     const data = await detail((params as PageUrl).uuid, entity.apiPath);
-    props = entity.detailTransformer(data);
+    props.data = data;
   }
   return {
     props,

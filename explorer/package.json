@@ -21,6 +21,7 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.0",
     "@mui/material": "^5.8.1",
+    "copy-to-clipboard": "^3.3.1",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-optipng": "^8.0.0",
     "imagemin-svgo": "^9.0.0",
@@ -29,7 +30,8 @@
     "next-optimized-images": "^2.6.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-table": "^7.7.0"
+    "react-table": "^7.7.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
@@ -44,6 +46,7 @@
     "@types/react": "18.0.9",
     "@types/react-dom": "18.0.3",
     "@types/react-table": "^7.7.12",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "5.23.0",
     "babel-loader": "^8.2.5",
     "eslint": "8.15.0",

@@ -16,10 +16,45 @@ interface PaginatedResponse {
 
 // Project
 export interface ProjectResponse {
+  entryId: string;
+  protocols: {
+    workflow?: string[];
+    libraryConstructionApproach?: string[];
+    nucleicAcidSource?: string[];
+    pairedEnd?: boolean[];
+  }[];
+  fileTypeSummaries: {
+    format: string;
+    count: number;
+  }[];
+  donorOrganisms: {
+    genusSpecies: string[];
+    disease: string[];
+    developmentStage: string[];
+    donorCount: number;
+  }[];
+  samples: {
+    sampleEntityType: string[];
+    organ: string[];
+    organPart: string[];
+    disease: string[];
+  }[];
   projects: {
     projectId: string;
     projectShortname: string;
     projectTitle: string;
+    projectDescription: string;
+    contributedAnalyses: object;
+    estimatedCellCount: number;
+    supplementaryLinks: string[];
+    contributors: {
+      correspondingContributor?: boolean;
+      contactName: string;
+      email?: string;
+      institution: string;
+      laboratory?: string;
+      projectRole?: string;
+    }[];
   }[];
 }
 

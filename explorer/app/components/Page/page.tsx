@@ -8,7 +8,7 @@ import React from "react";
 
 // App dependencies
 import { Body } from "../Body/Body";
-import { config } from "../../config/config";
+import { useConfig } from "app/hooks/useConfig";
 import { Footer } from "../Footer/Footer";
 import { Header } from "../Header/header";
 
@@ -20,9 +20,11 @@ interface PageProps {
 }
 
 export const Page = ({ children }: PageProps): JSX.Element => {
+  const config = useConfig();
+
   return (
     <Container>
-      <Header {...config().layout.header} />
+      <Header {...config.layout.header} />
       <Content>
         <Body>{children}</Body>
         <Footer>Footer</Footer>

@@ -1,24 +1,42 @@
 /**
  * Container component that will wrap all presentational components used by an entity detail page
  */
-import { useEntityDetailData } from "app/hooks/useEntityData";
+import { Layout } from "app/components";
+import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
+import { useConfig } from "app/hooks/useConfig";
+import { useFetchEntity } from "app/hooks/useFetchEntity";
+import { DetailResponseType } from "app/models/responses";
 import React from "react";
-import { PrettyJSON } from "../../components/PrettyJSON/PrettyJSON";
-import { DetailViewModel } from "../../models/viewModels";
+import { DetailModel } from "../../models/viewModels";
 
-export const DetailContainer = (props: DetailViewModel) => {
-  const { data, isLoading } = useEntityDetailData(props);
+export const DetailContainer = (props: DetailModel) => {
+  const { response, isLoading } = useFetchEntity(props);
+  const config = useConfig();
+  const mainColumn = config.detail?.mainColumn;
+  const sideColumn = config.detail?.sideColumn;
 
-  if (isLoading || !data) {
+  if (isLoading || !response) {
     return <span>LOADING...</span>; //TODO: return the loading UI component
   }
 
-  const { detailName, json } = data;
+  if (!mainColumn || !sideColumn) {
+    return null;
+  }
 
   return (
-    <>
-      <h1>{detailName}</h1>
-      {json && <PrettyJSON value={json} />}
-    </>
+    <Layout
+      mainColumn={
+        <ComponentCreator<DetailResponseType>
+          components={mainColumn}
+          response={response}
+        />
+      }
+      sideColumn={
+        <ComponentCreator<DetailResponseType>
+          components={sideColumn}
+          response={response}
+        />
+      }
+    />
   );
 };

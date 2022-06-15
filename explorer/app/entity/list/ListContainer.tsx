@@ -2,7 +2,7 @@
  * Container component that will wrap all presentational components used by and entity list page.
  */
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
-import { useEntityListData } from "app/hooks/useEntityData";
+import { useFetchEntities } from "app/hooks/useFetchEntities";
 import Link from "next/link";
 import React from "react";
 import { Column } from "react-table";
@@ -28,7 +28,7 @@ const columnsConfig: Column<TableItem>[] = [
 
 export const ListContainer = (props: ListViewModel) => {
   const entity = useCurrentEntity();
-  const { data, isLoading } = useEntityListData(props);
+  const { data, isLoading } = useFetchEntities(props);
 
   if (!entity || isLoading || !data) {
     return <span>LOADING...</span>; //TODO: return the loading UI component

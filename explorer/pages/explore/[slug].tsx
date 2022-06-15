@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps<ListViewModel> = async (
   context: GetStaticPropsContext
 ) => {
   const { slug } = context.params as PageUrl;
-  const entity = getCurrentEntity(slug);
+  const entity = getCurrentEntity(slug, config());
 
   if (!entity) {
     return {
