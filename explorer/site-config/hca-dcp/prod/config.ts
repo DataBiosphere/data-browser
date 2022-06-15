@@ -1,6 +1,10 @@
+// App dependencies
+import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { SiteConfig } from "../../../app/config/model";
-import HcaLogo from "images/hca-logo.png";
 import devConfig from "../dev/config";
+
+// Images
+import HcaLogo from "images/hca-logo.png";
 
 const config: SiteConfig = {
   ...devConfig,
@@ -11,10 +15,14 @@ const config: SiteConfig = {
   },
   layout: {
     header: {
+      authenticationEnabled: false,
       logo: {
-        url: HcaLogo,
         alt: "Human Cell Atlas Data Coordination Platform",
+        height: 40,
+        link: "/explore/projects",
+        src: HcaLogo,
       },
+      navAlignment: ELEMENT_ALIGNMENT.LEFT,
       navLinks: {
         links: [
           {
@@ -51,6 +59,8 @@ const config: SiteConfig = {
           },
         ],
       },
+      searchEnabled: false,
+      slogan: undefined,
       socialLinks: {
         links: [
           {
@@ -67,9 +77,6 @@ const config: SiteConfig = {
           },
         ],
       },
-      navAlignment: "left",
-      searchEnabled: false,
-      authenticationEnabled: false,
     },
   },
 };

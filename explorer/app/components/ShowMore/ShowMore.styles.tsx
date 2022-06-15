@@ -10,7 +10,7 @@ export const Container = styled.div`
   .MuiButton-root {
     text-transform: none;
     padding-left: 0;
-    color: ${({ theme }) => theme.palette.colorPrimartAnvil};
+    color: ${({ theme }) => theme.palette.primaryAnvil};
     font-weight: ${({ theme }) =>
       theme.typography["text-body-400-2lines"].fontWeight};
   }

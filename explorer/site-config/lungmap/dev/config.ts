@@ -1,5 +1,6 @@
+// App dependencies
+import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { SiteConfig } from "../../../app/config/model";
-import LungMapLogo from "images/lungmap-logo.png";
 import {
   fileDetailToView,
   filesListToView,
@@ -9,6 +10,9 @@ import {
   sampleDetailToView,
   samplesListToView,
 } from "app/transformers/hca";
+
+// Images
+import LungMapLogo from "images/lungmap-logo.png";
 
 const config: SiteConfig = {
   redirectRootToPath: "/explore/projects",
@@ -43,10 +47,14 @@ const config: SiteConfig = {
   ],
   layout: {
     header: {
+      authenticationEnabled: false,
       logo: {
-        url: LungMapLogo,
         alt: "LungMAP Data Browser",
+        height: 40,
+        link: "/explore/projects",
+        src: LungMapLogo,
       },
+      navAlignment: ELEMENT_ALIGNMENT.LEFT,
       navLinks: {
         links: [
           {
@@ -63,6 +71,8 @@ const config: SiteConfig = {
           },
         ],
       },
+      searchEnabled: false,
+      slogan: undefined,
       socialLinks: {
         links: [
           {
@@ -71,9 +81,6 @@ const config: SiteConfig = {
           },
         ],
       },
-      navAlignment: "left",
-      searchEnabled: false,
-      authenticationEnabled: false,
     },
   },
 };

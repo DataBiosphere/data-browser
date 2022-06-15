@@ -1,6 +1,6 @@
 import { DetailResponseType, ListResponseType } from "app/models/responses";
 import { DetailViewModel, ListViewModel } from "app/models/viewModels";
-import { HeaderProps } from "../components/Header/Header";
+import { HeaderProps } from "../components/Header/header";
 
 type ListTransformerFunction<T extends ListResponseType> = (
   response: T

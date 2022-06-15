@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import React from "react";
-import { Page } from "../../app/components/Page/Page";
+import { Page } from "../../app/components/Page/page";
 import { ListViewModel } from "../../app/models/viewModels";
 import { ListContainer } from "../../app/entity/list/ListContainer";
 import { config } from "app/config/config";

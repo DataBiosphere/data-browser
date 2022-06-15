@@ -1,5 +1,9 @@
-import { ThemeProvider } from "@mui/material/styles";
+// Core dependencies
 import { ThemeProvider as Emotion10ThemeProvider } from "emotion-theming";
+import { CssBaseline } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+
+// App dependencies
 import { theme } from "../app/theme"
 
 export const parameters = {
@@ -10,12 +14,14 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  layout: "fullscreen",
 }
 
 const withThemeProvider = (Story, context) => {
   return (
     <Emotion10ThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Story {...context} />
       </ThemeProvider>
     </Emotion10ThemeProvider>

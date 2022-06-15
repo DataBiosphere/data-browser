@@ -3,7 +3,7 @@ import { getCurrentEntity } from "app/hooks/useCurrentEntity";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
-import { Page } from "../../../app/components/Page/Page";
+import { Page } from "../../../app/components/Page/page";
 import { DetailViewModel } from "../../../app/models/viewModels";
 import { detail, listAll } from "../../../app/entity/api/service";
 import { DetailContainer } from "../../../app/entity/detail/DetailContainer";

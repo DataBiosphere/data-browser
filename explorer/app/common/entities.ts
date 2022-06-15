@@ -1,0 +1,5 @@
+export enum ELEMENT_ALIGNMENT {
+  CENTER = "CENTER",
+  LEFT = "LEFT",
+  RIGHT = "RIGHT",
+}

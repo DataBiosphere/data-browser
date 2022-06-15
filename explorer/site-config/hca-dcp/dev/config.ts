@@ -1,14 +1,18 @@
+// App dependencies
+import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { SiteConfig } from "../../../app/config/model";
-import HcaLogo from "images/hca-logo.png";
 import {
-  projectListToView,
-  filesListToView,
-  samplesListToView,
-  projectDetailToView,
   fileDetailToView,
-  sampleDetailToView,
+  filesListToView,
   getProjectId,
+  projectDetailToView,
+  projectListToView,
+  sampleDetailToView,
+  samplesListToView,
 } from "app/transformers/hca";
+
+// Images
+import HcaLogo from "images/hca-logo.png";
 
 const config: SiteConfig = {
   redirectRootToPath: "/explore/projects",
@@ -44,8 +48,10 @@ const config: SiteConfig = {
   layout: {
     header: {
       logo: {
-        url: HcaLogo,
         alt: "Human Cell Atlas Data Coordination Platform",
+        height: 40,
+        link: "/explore/projects",
+        src: HcaLogo,
       },
       navLinks: {
         links: [
@@ -99,8 +105,9 @@ const config: SiteConfig = {
           },
         ],
       },
-      navAlignment: "left",
+      navAlignment: ELEMENT_ALIGNMENT.LEFT,
       searchEnabled: false,
+      slogan: undefined,
       authenticationEnabled: false,
     },
   },

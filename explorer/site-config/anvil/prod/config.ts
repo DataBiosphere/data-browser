@@ -1,6 +1,10 @@
+// App dependencies
+import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { SiteConfig } from "../../../app/config/model";
-import AnvilLogo from "images/anvil-logo.png";
 import devConfig from "../dev/config";
+
+// Images
+import AnvilLogo from "images/anvil-logo.png";
 
 const config: SiteConfig = {
   ...devConfig,
@@ -10,11 +14,14 @@ const config: SiteConfig = {
   },
   layout: {
     header: {
+      authenticationEnabled: false,
       logo: {
-        slogan: "NHGRI Analysis Visualization and Informatics Lab-space",
-        url: AnvilLogo,
         alt: "NHGRI Analysis Visualization and Informatics Lab-space",
+        height: 40,
+        link: "/",
+        src: AnvilLogo,
       },
+      navAlignment: ELEMENT_ALIGNMENT.CENTER,
       navLinks: {
         links: [
           {
@@ -51,6 +58,8 @@ const config: SiteConfig = {
           },
         ],
       },
+      searchEnabled: false,
+      slogan: "NHGRI Analysis Visualization and Informatics Lab-space",
       socialLinks: {
         links: [
           {
@@ -75,9 +84,6 @@ const config: SiteConfig = {
           },
         ],
       },
-      navAlignment: "center",
-      searchEnabled: false,
-      authenticationEnabled: false,
     },
   },
 };

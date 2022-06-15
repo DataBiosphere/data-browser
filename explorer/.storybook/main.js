@@ -14,9 +14,9 @@ module.exports = {
   "framework": "@storybook/react",
   webpackFinal: async (config) => {
     return {
-       ...config,
+      ...config,
       resolve: {
-         ...config.resolve,
+        ...config.resolve,
         alias: {
           ...config.resolve.alias,
           "@emotion/core": toPath("node_modules/@emotion/react"),

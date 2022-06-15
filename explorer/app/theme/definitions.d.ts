@@ -1,78 +1,116 @@
-import { TypographyStyleOptions } from "@mui/material/styles/createTypography";
+// Core dependencies
 import { Theme as MuiTheme } from "@mui/material/styles";
+import { TypographyStyleOptions } from "@mui/material/styles/createTypography";
+
+// App dependencies
 import { CustomColors } from "./theme";
 
-declare module "@mui/material/styles" {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface Palette extends CustomColors {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface PaletteOptions extends CustomColors {}
+/**
+ * Palette definitions.
+ */
+declare module "@mui/material/styles/createPalette" {
+  interface Palette {
+    ink: CustomColors["ink"];
+    inkLight: CustomColors["inkLight"];
+    primaryAnvil: CustomColors["primaryAnvil"];
+    smoke: CustomColors["smoke"];
+    smokeDark: CustomColors["smokeDark"];
+    smokeLight: CustomColors["smokeLight"];
+    smokeLightest: CustomColors["smokeLightest"];
+  }
 
-  interface TypographyVariants {
-    "text-heading-xlarge": TypographyStyleOptions;
-    "text-heading-large": TypographyStyleOptions;
-    "text-heading": TypographyStyleOptions;
-    "text-heading-small": TypographyStyleOptions;
-    "text-body-large-500": TypographyStyleOptions;
-    "text-body-large-400": TypographyStyleOptions;
-    "text-body-large-400-2lines": TypographyStyleOptions;
-    "text-body-500": TypographyStyleOptions;
-    "text-body-400": TypographyStyleOptions;
-    "text-body-400-2lines": TypographyStyleOptions;
-    "text-body-small-500": TypographyStyleOptions;
-    "text-body-small-400": TypographyStyleOptions;
-    "TEXT-UPPERCASE-500": TypographyStyleOptions;
-  }
-  interface TypographyVariantsOptions {
-    "text-heading-xlarge": TypographyStyleOptions;
-    "text-heading-large": TypographyStyleOptions;
-    "text-heading": TypographyStyleOptions;
-    "text-heading-small": TypographyStyleOptions;
-    "text-body-large-500": TypographyStyleOptions;
-    "text-body-large-400": TypographyStyleOptions;
-    "text-body-large-400-2lines": TypographyStyleOptions;
-    "text-body-500": TypographyStyleOptions;
-    "text-body-400": TypographyStyleOptions;
-    "text-body-400-2lines": TypographyStyleOptions;
-    "text-body-small-500": TypographyStyleOptions;
-    "text-body-small-400": TypographyStyleOptions;
-    "TEXT-UPPERCASE-500": TypographyStyleOptions;
-  }
-  interface TypographyPropsVariantOverrides {
-    "text-heading-xlarge": true;
-    "text-heading-large": true;
-    "text-heading": true;
-    "text-heading-small": true;
-    "text-body-large-500": true;
-    "text-body-large-400": true;
-    "text-body-large-400-2lines": true;
-    "text-body-500": true;
-    "text-body-400": true;
-    "text-body-400-2lines": true;
-    "text-body-small-500": true;
-    "text-body-small-400": true;
-    "TEXT-UPPERCASE-500": true;
+  interface PaletteOptions {
+    ink?: CustomColors["ink"];
+    inkLight?: CustomColors["inkLight"];
+    primaryAnvil?: CustomColors["primaryAnvil"];
+    smoke?: CustomColors["smoke"];
+    smokeDark?: CustomColors["smokeDark"];
+    smokeLight?: CustomColors["smokeLight"];
+    smokeLightest?: CustomColors["smokeLightest"];
   }
 }
 
-// Update the Typography's variant prop options
+/**
+ * Typography definitions.
+ */
+declare module "@mui/material/styles" {
+  interface TypographyVariants {
+    "text-body-400": TypographyStyleOptions;
+    "text-body-400-2lines": TypographyStyleOptions;
+    "text-body-500": TypographyStyleOptions;
+    "text-body-large-400": TypographyStyleOptions;
+    "text-body-large-400-2lines": TypographyStyleOptions;
+    "text-body-large-500": TypographyStyleOptions;
+    "text-body-small-400": TypographyStyleOptions;
+    "text-body-small-500": TypographyStyleOptions;
+    "text-heading": TypographyStyleOptions;
+    "text-heading-large": TypographyStyleOptions;
+    "text-heading-small": TypographyStyleOptions;
+    "text-heading-xlarge": TypographyStyleOptions;
+    "text-uppercase-500": TypographyStyleOptions;
+  }
+
+  interface TypographyVariantsOptions {
+    "text-body-400"?: TypographyStyleOptions;
+    "text-body-400-2lines"?: TypographyStyleOptions;
+    "text-body-500"?: TypographyStyleOptions;
+    "text-body-large-400"?: TypographyStyleOptions;
+    "text-body-large-400-2lines"?: TypographyStyleOptions;
+    "text-body-large-500"?: TypographyStyleOptions;
+    "text-body-small-400"?: TypographyStyleOptions;
+    "text-body-small-500"?: TypographyStyleOptions;
+    "text-heading"?: TypographyStyleOptions;
+    "text-heading-large"?: TypographyStyleOptions;
+    "text-heading-small"?: TypographyStyleOptions;
+    "text-heading-xlarge"?: TypographyStyleOptions;
+    "text-uppercase-500"?: TypographyStyleOptions;
+  }
+}
+
+/**
+ * Typography's variant prop options.
+ */
 declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
-    "text-heading-xlarge": true;
-    "text-heading-large": true;
-    "text-heading": true;
-    "text-heading-small": true;
-    "text-body-large-500": true;
-    "text-body-large-400": true;
-    "text-body-large-400-2lines": true;
-    "text-body-500": true;
     "text-body-400": true;
     "text-body-400-2lines": true;
-    "text-body-small-500": true;
+    "text-body-500": true;
+    "text-body-large-400": true;
+    "text-body-large-400-2lines": true;
+    "text-body-large-500": true;
     "text-body-small-400": true;
-    "TEXT-UPPERCASE-500": true;
+    "text-body-small-500": true;
+    "text-heading": true;
+    "text-heading-large": true;
+    "text-heading-small": true;
+    "text-heading-xlarge": true;
+    "text-uppercase-500": true;
   }
 }
+
+/**
+ * Button variant prop options.
+ */
+declare module "@mui/material/Button" {
+  interface ButtonPropsVariantOverrides {
+    nav: true;
+  }
+}
+
+/**
+ * IconButton variant prop options.
+ */
+declare module "@mui/material/IconButton" {
+  interface IconButtonPropsColorOverrides {
+    ink: true;
+    inkLight: true;
+  }
+
+  interface IconButtonPropsSizeOverrides {
+    xlarge: true;
+  }
+}
+
 declare module "@emotion/react" {
   export interface Theme extends MuiTheme {
     name: "EmotionTheme";
