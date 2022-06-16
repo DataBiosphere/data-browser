@@ -20,6 +20,8 @@ These parameters can be used with functions producing tables of the given type
 Exceptions to this rule are given in parentheses
 
 All tables:
+rows_limit
+df_processor
 num_keep_dimensions (supplanted in show_difference_table - determined based on ylabels)
 index_key_formatter
 collapse_index (supplanted in format_change_over_time_table, show_plot_over_time - always True)
@@ -122,7 +124,7 @@ def init_tables():
 def percent_change(valfrom, valto):
 	return (valto - valfrom)/valfrom * 100
 
-def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_index=False, hide_index=False, hide_columns=False, split_vertical=None, **other_params):
+def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_index=False, hide_index=False, hide_columns=False, split_vertical=None, pre_render_processor=None, **other_params):
 	if not isinstance(column_defs, dict):
 		column_defs = {None: column_defs}
 	
@@ -234,7 +236,7 @@ def format_pc_change_table(df, include_plus=True, row_symbols=None, **other_para
 	
 	return format_table(df_values, column_defs, **other_params)
 
-def format_change_over_time_table(df, table_subindex="Month", **other_params):
+def format_change_over_time_table(df, table_subindex="Month", change_dir=1, **other_params):
 	df2 = df.copy(deep=True)
 	
 	data_cols = [c for c in df2.columns]
@@ -248,7 +250,7 @@ def format_change_over_time_table(df, table_subindex="Month", **other_params):
 	df2.columns = pd.MultiIndex.from_tuples([(name, 'Value') for name in data_cols])
 	
 	for name in data_cols:
-		df2[(name, '% Change')] = df2[name].pct_change().mul(100)
+		df2[(name, '% Change')] = df2[name][::change_dir].pct_change()[::change_dir].mul(100)
 	
 	df2 = df2[[(a, b) for a in data_cols for b in ['Value', '% Change']]]
 	
@@ -279,18 +281,18 @@ def format_table_with_change(df, df_prev, show_symbols=True, **other_params):
 	
 	return format_pc_change_table(df_change, row_symbols=classes, **other_params)
 
-def get_top_ga_df(metrics, dimensions, ascending=True, limit=20, **other_params):
+def get_top_ga_df(metrics, dimensions, ascending=True, rows_limit=30, **other_params):
 	df = get_data_df(metrics, dimensions, **other_params)
 	
 	if ascending != None:
 		df = df.sort_values(by=metrics, ascending=ascending)
 	
-	if not limit is None:
-		df = df.tail(limit) if ascending else df.head(limit)
+	if not rows_limit is None:
+		df = df.tail(rows_limit) if ascending else df.head(rows_limit)
 	
 	return df
 
-def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix="_percentage", num_keep_dimensions=None, **other_params):
+def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix="_percentage", num_keep_dimensions=None, df_processor=None, **other_params):
 	df = ga.get_metrics_by_dimensions(metrics, dimensions, **other_params)
 	
 	if dimensions:
@@ -303,6 +305,9 @@ def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix=
 	if percentage_metrics:
 		for metric in percentage_metrics:
 			df.insert(list(df.columns).index(metric) + 1, metric + percentage_suffix, df[metric] / df[metric].sum() * 100)
+	
+	if df_processor:
+		df = df_processor(df)
 	
 	return df
 
