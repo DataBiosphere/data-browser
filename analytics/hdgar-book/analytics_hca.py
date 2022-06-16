@@ -46,6 +46,8 @@ def plot_users_over_time(**other_params):
 		["Users", "Total Unique Pageviews"],
 		["ga:30dayUsers", "ga:uniquePageviews"],
 		df_filter=ac.make_month_filter(["ga:30dayUsers"]),
+		df_processor=lambda df: df[::-1],
+		change_dir=-1,
 		**other_params
 	)
 

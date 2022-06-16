@@ -1,3 +1,25 @@
+@media not print {
+	a.hca-logo {
+		margin-bottom: 3em;
+		display: block
+	}
+}
+
+@media print {
+	main.bd-content {
+		padding-top: 2em !important;
+	}
+
+	.onlyprint {
+		padding-top: 4em;
+	}
+
+	a.hca-logo {
+		position: absolute;
+		top: 0;
+	}
+}
+
 .container {
 	max-width: unset;
 }
