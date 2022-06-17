@@ -38,6 +38,7 @@ declare module "@mui/material/styles" {
     "text-body-400": TypographyStyleOptions;
     "text-body-400-2lines": TypographyStyleOptions;
     "text-body-500": TypographyStyleOptions;
+    "text-body-500-2lines": TypographyStyleOptions;
     "text-body-large-400": TypographyStyleOptions;
     "text-body-large-400-2lines": TypographyStyleOptions;
     "text-body-large-500": TypographyStyleOptions;
@@ -54,6 +55,7 @@ declare module "@mui/material/styles" {
     "text-body-400"?: TypographyStyleOptions;
     "text-body-400-2lines"?: TypographyStyleOptions;
     "text-body-500"?: TypographyStyleOptions;
+    "text-body-500-2lines"?: TypographyStyleOptions;
     "text-body-large-400"?: TypographyStyleOptions;
     "text-body-large-400-2lines"?: TypographyStyleOptions;
     "text-body-large-500"?: TypographyStyleOptions;
@@ -75,6 +77,7 @@ declare module "@mui/material/Typography" {
     "text-body-400": true;
     "text-body-400-2lines": true;
     "text-body-500": true;
+    "text-body-500-2lines": true;
     "text-body-large-400": true;
     "text-body-large-400-2lines": true;
     "text-body-large-500": true;

@@ -23,9 +23,6 @@ export const mainColumn = [
         children: [
           {
             component: Typography,
-            props: {
-              component: "p",
-            },
             transformer: T.projectsToProjDescription,
           } as ComponentConfig<typeof Typography, ProjectResponse>,
         ],
@@ -33,7 +30,8 @@ export const mainColumn = [
       {
         component: C.Section,
         props: {
-          title: "Contacts",
+          collapsable: true,
+          title: "Contact",
         },
         children: [
           {

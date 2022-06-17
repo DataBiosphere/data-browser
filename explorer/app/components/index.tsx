@@ -1,5 +1,5 @@
 export { ShowMore } from "./ShowMore/ShowMore";
-export { Contacts } from "./Contacts/Contacts";
+export { Contacts } from "./Contacts/contacts";
 export { Citations } from "./Citations/Citations";
 export { FileCounts } from "./FileCounts/FileCounts";
 export { IconList } from "./IconList/IconList";

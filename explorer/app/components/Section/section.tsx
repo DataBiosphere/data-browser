@@ -1,5 +1,5 @@
 // Core dependencies
-import { Box, Collapse } from "@mui/material";
+import { Collapse } from "@mui/material";
 import { CollapseProps } from "@mui/material/Collapse/Collapse";
 import React, { ReactNode, useEffect, useState } from "react";
 
@@ -7,6 +7,9 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { CollapseButton } from "./components/CollapseButton/collapseButton";
 import { SectionTitle } from "./components/SectionTitle/sectionTitle";
 import { useBreakpointHelper } from "../../hooks/useBreakpointHelper";
+
+// Styles
+import { Section as SectionContainer, SectionSummary } from "./section.styles";
 
 interface Props {
   children: ReactNode;
@@ -50,8 +53,8 @@ export const Section = ({
   }, [mobile]);
 
   return (
-    <Box display="flex" flexDirection="column" gap={2} padding={5}>
-      <Box display="flex" justifyContent="space-between">
+    <SectionContainer>
+      <SectionSummary>
         <SectionTitle title={title} />
         {mobile && collapsable && (
           <CollapseButton
@@ -59,7 +62,7 @@ export const Section = ({
             onToggleExpanded={onToggleExpanded}
           />
         )}
-      </Box>
+      </SectionSummary>
       {collapsable ? (
         <Collapse in={expanded} timeout={transitionDuration}>
           {children}
@@ -67,6 +70,6 @@ export const Section = ({
       ) : (
         children
       )}
-    </Box>
+    </SectionContainer>
   );
 };

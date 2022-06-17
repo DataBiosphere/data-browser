@@ -31,9 +31,9 @@ export const projectToContacts = (
 
   return {
     contacts: value.map((contributor) => ({
-      name: contributor.contactName,
       email: contributor.email,
       institution: contributor.institution,
+      name: contributor.contactName,
     })),
   };
 };
@@ -335,6 +335,9 @@ export const projectsToProjDescription = (
   return {
     children: project ? project.projects[0].projectDescription : "None",
     color: "ink",
+    mb: 0,
+    mt: 4,
+    paragraph: true,
     variant: "text-body-400-2lines",
   };
 };

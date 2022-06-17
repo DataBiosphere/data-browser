@@ -23,7 +23,13 @@ const Template: ComponentStory<typeof Section> = (args) => (
 export const Primary = Template.bind({});
 Primary.args = {
   children: (
-    <Typography color="ink" component="p" variant="text-body-400-2lines">
+    <Typography
+      color="ink"
+      mb={0}
+      mt={4}
+      paragraph
+      variant="text-body-400-2lines"
+    >
       A comprehensive cellular anatomy of normal human prostate is essential for
       solving the cellular origins of benign prostatic hyperplasia and prostate
       cancer. The tools used to analyze the contribution of individual cell
