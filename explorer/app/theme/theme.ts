@@ -200,6 +200,23 @@ export const theme = createTheme(defaultTheme, {
             padding: 14,
           },
         },
+        {
+          props: {
+            size: "xsmall",
+          },
+          style: {
+            padding: 2,
+          },
+        },
+        {
+          props: {
+            edge: "end",
+            size: "xsmall",
+          },
+          style: {
+            marginRight: -2,
+          },
+        },
       ],
     },
     MuiToolbar: {

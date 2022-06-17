@@ -1,25 +1,29 @@
+// Core dependencies
+import { Typography } from "@mui/material";
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Section } from "./Section";
+
+// App dependencies
+import { Section } from "./section";
 
 export default {
-  title: "Components/Section",
-  component: Section,
   argTypes: {
+    children: { control: "object" },
+    collapsable: { control: "boolean" },
     title: { control: "text" },
-    children: { controle: "object" },
   },
+  component: Section,
+  title: "Components/Section",
 } as ComponentMeta<typeof Section>;
 
 const Template: ComponentStory<typeof Section> = (args) => (
-  <Section {...args} />
+  <Section {...args}>{args.children}</Section>
 );
 
 export const Primary = Template.bind({});
 Primary.args = {
-  title: "Project description",
   children: (
-    <p>
+    <Typography color="ink" component="p" variant="text-body-400-2lines">
       A comprehensive cellular anatomy of normal human prostate is essential for
       solving the cellular origins of benign prostatic hyperplasia and prostate
       cancer. The tools used to analyze the contribution of individual cell
@@ -35,6 +39,8 @@ Primary.args = {
       distribution, and purification tools for each cell type in the human
       prostate create a powerful resource for experimental design in human
       prostate disease.
-    </p>
+    </Typography>
   ),
+  collapsable: false,
+  title: "Description",
 };

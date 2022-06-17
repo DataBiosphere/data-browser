@@ -1,7 +1,11 @@
-import { ComponentConfig } from "app/config/model";
+// Core dependencies
+import { Typography } from "@mui/material";
+
+// App dependencies
 import * as C from "../../../app/components";
-import * as T from "./transformer";
+import { ComponentConfig } from "app/config/model";
 import { ProjectResponse } from "app/models/responses";
+import * as T from "./transformer";
 
 export const mainColumn = [
   {
@@ -13,22 +17,17 @@ export const mainColumn = [
       {
         component: C.Section,
         props: {
-          title: "Project description",
+          collapsable: false,
+          title: "Description",
         },
         children: [
           {
-            component: C.ShowMore,
+            component: Typography,
             props: {
-              maxLines: 6,
-              buttonLabelShow: "Read More",
+              component: "p",
             },
-            children: [
-              {
-                component: C.Text,
-                transformer: T.projectsToProjDescription,
-              } as ComponentConfig<typeof C.Text, ProjectResponse>,
-            ],
-          } as ComponentConfig<typeof C.ShowMore, ProjectResponse>,
+            transformer: T.projectsToProjDescription,
+          } as ComponentConfig<typeof Typography, ProjectResponse>,
         ],
       } as ComponentConfig<typeof C.Section, ProjectResponse>,
       {

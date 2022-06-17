@@ -1,9 +1,12 @@
+// Core dependencies
+import { Typography } from "@mui/material";
 import React from "react";
-import { ProjectResponse } from "app/models/responses";
+
+// App dependencies
 import * as C from "../../../app/components";
+import { ProjectResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
 import { concatStrings } from "app/utils/string";
-import { isSSR } from "app/utils/ssr";
 
 const getOrganizations = (project: ProjectResponse): string[] => {
   return Array.from(
@@ -328,15 +331,11 @@ export const projectsToFileCounts = (
 
 export const projectsToProjDescription = (
   project: ProjectResponse
-): React.ComponentProps<typeof C.Text> => {
-  if (!project) {
-    return { children: "None" };
-  }
-
+): React.ComponentProps<typeof Typography> => {
   return {
+    children: project ? project.projects[0].projectDescription : "None",
+    color: "ink",
     variant: "text-body-400-2lines",
-    customColor: "ink",
-    children: project.projects[0].projectDescription,
   };
 };
 
