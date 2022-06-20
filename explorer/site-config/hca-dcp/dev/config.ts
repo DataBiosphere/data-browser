@@ -1,14 +1,11 @@
 // App dependencies
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { SiteConfig } from "../../../app/config/model";
-import {
-  filesListToView,
-  getProjectId,
-  projectListToView,
-  samplesListToView,
-} from "app/transformers/hca";
-import { sideColumn } from "./sideColumn";
-import { mainColumn } from "./mainColumn";
+
+// Entities config
+import { projectEntity } from "./projectsEntity";
+import { samplesEntity } from "./samplesEntity";
+import { filesEntity } from "./filesEntity";
 
 // Images
 import HcaLogo from "images/hca-logo.png";
@@ -19,28 +16,7 @@ const config: SiteConfig = {
     catalog: "dcp2",
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [
-    {
-      label: "Projects",
-      apiPath: "index/projects",
-      route: "projects",
-      listTransformer: projectListToView,
-      getId: getProjectId,
-      staticLoad: true,
-    },
-    {
-      label: "Files",
-      apiPath: "index/files",
-      route: "files",
-      listTransformer: filesListToView,
-    },
-    {
-      label: "Samples",
-      apiPath: "index/samples",
-      route: "samples",
-      listTransformer: samplesListToView,
-    },
-  ],
+  entities: [projectEntity, filesEntity, samplesEntity],
   layout: {
     header: {
       logo: {
@@ -106,10 +82,6 @@ const config: SiteConfig = {
       slogan: undefined,
       authenticationEnabled: false,
     },
-  },
-  detail: {
-    sideColumn: sideColumn,
-    mainColumn: mainColumn,
   },
 };
 

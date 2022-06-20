@@ -1,5 +1,13 @@
 import React from "react";
 import { Column, TableState, usePagination, useTable } from "react-table";
+import {
+  Table as MuiTable,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { Pagination } from "../Pagination/pagination";
 
 interface TableProps<T extends object> {
   items: T[];
@@ -22,6 +30,8 @@ export const Table = <T extends object>({
     prepareRow,
     canPreviousPage,
     canNextPage,
+    pageOptions,
+    state: { pageIndex },
   } = useTable<T>(
     {
       columns,
@@ -35,41 +45,41 @@ export const Table = <T extends object>({
 
   return (
     <>
-      <table {...getTableProps()}>
-        <thead>
-          <tr>
+      <MuiTable {...getTableProps()}>
+        <TableHead>
+          <TableRow>
             {headers.map((column) => (
-              <th {...column.getHeaderProps()} key={column.id}>
+              <TableCell {...column.getHeaderProps()} key={column.id}>
                 {column.render("Header")}
-              </th>
+              </TableCell>
             ))}
-          </tr>
-        </thead>
-        <tbody {...getTableBodyProps()}>
+          </TableRow>
+        </TableHead>
+        <TableBody {...getTableBodyProps()}>
           {page.map((row, i) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()} key={i}>
+              <TableRow {...row.getRowProps()} key={i}>
                 {row.cells.map((cell, index) => {
                   return (
-                    <td {...cell.getCellProps()} key={index}>
+                    <TableCell {...cell.getCellProps()} key={index}>
                       {cell.render("Cell")}
-                    </td>
+                    </TableCell>
                   );
                 })}
-              </tr>
+              </TableRow>
             );
           })}
-        </tbody>
-      </table>
-      <div>
-        <button onClick={previousPage} disabled={!canPreviousPage}>
-          {"<"}
-        </button>
-        <button onClick={nextPage} disabled={!canNextPage}>
-          {">"}
-        </button>
-      </div>
+        </TableBody>
+      </MuiTable>
+      <Pagination
+        currentPage={pageIndex + 1}
+        onNextPage={nextPage}
+        onPreviousPage={previousPage}
+        canNextPage={canNextPage}
+        canPreviousPage={canPreviousPage}
+        totalPage={pageOptions.length}
+      />
     </>
   );
 };

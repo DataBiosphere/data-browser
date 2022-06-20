@@ -1,27 +1,21 @@
-import { DetailResponseType, ListResponseType } from "app/models/responses";
-import { ListViewModel } from "app/models/viewModels";
+import { DetailResponseType } from "app/models/responses";
 import { HeaderProps } from "../components/Header/header";
 import { JSXElementConstructor } from "react";
-
-type ListTransformerFunction<T extends ListResponseType> = (
-  response: T
-) => ListViewModel;
 
 type GetIdFunction<T extends DetailResponseType> = (detail: T) => string;
 
 /**
- * Interface used to define the entities and router that will be used on the application.
+ * Interface used to define the entities and router that will be used on the application, alongside with
+ * the detail and the list page configuration.
  */
-export interface EntityConfig<
-  L extends ListResponseType = any,
-  D extends DetailResponseType = any
-> {
+export interface EntityConfig<D extends DetailResponseType = any> {
   label: string;
   route: string;
   apiPath: string;
-  listTransformer: ListTransformerFunction<L>;
   getId?: GetIdFunction<D>;
   staticLoad?: boolean;
+  detail?: DetailConfig;
+  list?: ListConfig;
 }
 
 /**
@@ -34,7 +28,7 @@ export interface ComponentConfig<
   T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any> = any,
   D = any
 > {
-  component: React.FC<any>;
+  component: React.FC<React.ComponentProps<T>>;
   props?: React.ComponentProps<T>;
   children?: ComponentConfig[];
   transformer?: (model: D) => React.ComponentProps<T>;
@@ -56,6 +50,20 @@ export interface DetailConfig {
   sideColumn: ComponentConfig[];
 }
 
+export interface ColumnConfig<
+  T,
+  C extends keyof JSX.IntrinsicElements | JSXElementConstructor<any> = any
+> {
+  header: string;
+  key: string;
+  tooltip?: string;
+  componentConfig: ComponentConfig<C, T>;
+}
+
+export interface ListConfig<T = any> {
+  columns: ColumnConfig<T>[];
+}
+
 /**
  * Interface that will hold the whole configuration for a given site.
  */
@@ -66,5 +74,4 @@ export interface SiteConfig {
     header: HeaderProps;
   };
   entities: EntityConfig[];
-  detail?: DetailConfig;
 }

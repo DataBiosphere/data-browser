@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import React from "react";
 import { Page } from "../../app/components/Page/page";
-import { ListViewModel } from "../../app/models/viewModels";
+import { ListModel } from "../../app/models/viewModels";
 import { ListContainer } from "../../app/entity/list/ListContainer";
 import { config } from "app/config/config";
 import { ParsedUrlQuery } from "querystring";
@@ -13,7 +13,7 @@ interface PageUrl extends ParsedUrlQuery {
   slug: string;
 }
 
-const ListPage = (props: ListViewModel): JSX.Element => {
+const ListPage = (props: ListModel): JSX.Element => {
   return (
     <Page>
       <ListContainer {...props} />
@@ -34,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<ListViewModel> = async (
+export const getStaticProps: GetStaticProps<ListModel> = async (
   context: GetStaticPropsContext
 ) => {
   const { slug } = context.params as PageUrl;
@@ -52,7 +52,7 @@ export const getStaticProps: GetStaticProps<ListViewModel> = async (
 
   return {
     props: {
-      ...entity.listTransformer(resultList),
+      data: resultList,
     },
   };
 };

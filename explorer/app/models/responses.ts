@@ -39,6 +39,9 @@ export interface ProjectResponse {
     organPart: string[];
     disease: string[];
   }[];
+  cellSuspensions?: {
+    totalCells: number;
+  }[];
   projects: {
     projectId: string;
     projectShortname: string;
@@ -60,6 +63,9 @@ export interface ProjectResponse {
 
 //Samples
 export interface SampleResponse {
+  projects: {
+    projectTitle: string[];
+  }[];
   samples: {
     id: string;
   }[];
@@ -67,9 +73,13 @@ export interface SampleResponse {
 
 //Files
 export interface FileResponse {
+  projects: {
+    projectTitle: string[];
+  }[];
   files: {
     name: string;
     uuid: string;
+    format: string;
   }[];
 }
 

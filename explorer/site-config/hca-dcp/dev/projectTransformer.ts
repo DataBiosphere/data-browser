@@ -342,6 +342,20 @@ export const projectsToProjDescription = (
   };
 };
 
+export const projectsToProjTitle = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Text> => {
+  if (!project) {
+    return { children: "None" };
+  }
+
+  return {
+    variant: "text-body-400-2lines",
+    customColor: "ink",
+    children: project.projects[0].projectTitle,
+  };
+};
+
 export const projectsToSupplementaryLinksLabel = (): React.ComponentProps<
   typeof C.Text
 > => {
@@ -415,7 +429,7 @@ export const projectsToSupplementaryLinks = (
 export const projectsToAnalysisPortals = (
   project: ProjectResponse
 ): React.ComponentProps<typeof C.IconList> => {
-  if (!project) {
+  if (!project.entryId) {
     return { icons: [] };
   }
 
@@ -432,5 +446,50 @@ export const projectsToAnalysisPortals = (
         alt: entry.label ?? "",
       },
     })),
+  };
+};
+
+export const projectsToProjectTitleColumn = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Links> => {
+  return {
+    links: [
+      {
+        label: project.projects[0].projectTitle,
+        url: `/explore/projects/${project.projects[0].projectId}`,
+      },
+    ],
+  };
+};
+
+export const projectsToSpeciesColumn = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Text> => {
+  if (!project.donorOrganisms) {
+    return {
+      children: "",
+    };
+  }
+  return {
+    variant: "text-body-400",
+    customColor: "ink",
+    children: concatStrings(
+      project.donorOrganisms.flatMap((orgnanism) => orgnanism.genusSpecies)
+    ),
+  };
+};
+
+export const projectsToCellCountColumn = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Text> => {
+  if (!project.cellSuspensions) {
+    return {
+      children: "",
+    };
+  }
+  return {
+    variant: "text-body-400",
+    customColor: "ink",
+    children: project.cellSuspensions[0].totalCells,
   };
 };

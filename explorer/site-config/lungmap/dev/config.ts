@@ -1,12 +1,7 @@
 // App dependencies
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { SiteConfig } from "../../../app/config/model";
-import {
-  filesListToView,
-  getProjectId,
-  projectListToView,
-  samplesListToView,
-} from "app/transformers/hca";
+import { getProjectId } from "app/transformers/hca";
 
 // Images
 import LungMapLogo from "images/lungmap-logo.png";
@@ -23,7 +18,6 @@ const config: SiteConfig = {
       label: "Projects",
       apiPath: "index/projects",
       route: "projects",
-      listTransformer: projectListToView,
       staticLoad: true,
       getId: getProjectId,
     },
@@ -31,13 +25,11 @@ const config: SiteConfig = {
       label: "Files",
       apiPath: "index/files",
       route: "files",
-      listTransformer: filesListToView,
     },
     {
       label: "Samples",
       apiPath: "index/samples",
       route: "samples",
-      listTransformer: samplesListToView,
     },
   ],
   layout: {

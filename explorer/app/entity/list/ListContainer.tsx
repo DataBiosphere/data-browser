@@ -1,51 +1,34 @@
 /**
  * Container component that will wrap all presentational components used by and entity list page.
  */
+import { TableCreator } from "app/components/TableCreator/tableCreator";
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
 import { useFetchEntities } from "app/hooks/useFetchEntities";
-import Link from "next/link";
+import { DetailResponseType } from "app/models/responses";
 import React from "react";
-import { Column } from "react-table";
-import { Table } from "../../components/Table/Table";
-import { ListViewModel } from "../../models/viewModels";
+import { ListModel } from "../../models/viewModels";
 
-interface TableItem {
-  label: string;
-  url: string;
-}
-
-const columnsConfig: Column<TableItem>[] = [
-  {
-    accessor: "label",
-    Header: "Project Name",
-    Cell: (item) => (
-      <Link href={item.row.original.url}>
-        <a>{item.row.original.label}</a>
-      </Link>
-    ),
-  },
-];
-
-export const ListContainer = (props: ListViewModel) => {
+export const ListContainer = (props: ListModel) => {
   const entity = useCurrentEntity();
-  const { data, isLoading } = useFetchEntities(props);
+  const { response, isLoading } = useFetchEntities(props);
+  const columnsConfig = entity?.list?.columns;
 
-  if (!entity || isLoading || !data) {
+  if (!entity || isLoading || !response) {
     return <span>LOADING...</span>; //TODO: return the loading UI component
   }
 
-  const tableItems: TableItem[] = data.items.map((item) => ({
-    label: item.name,
-    url: `/explore/${encodeURIComponent(entity.route)}/${encodeURIComponent(
-      item.uuid
-    )}`,
-  }));
+  if (!columnsConfig) {
+    return <span>EMPTY CONFIG</span>; //TODO: return the empty config UI component
+  }
+
+  if (!response.hits) {
+    return <span>EMPTY LIST</span>; //TODO: return the empty list UI component
+  }
 
   return (
-    <Table<TableItem>
-      items={tableItems}
+    <TableCreator<DetailResponseType>
       columns={columnsConfig}
-      pageSize={25}
+      items={response.hits}
     />
   );
 };

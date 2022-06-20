@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 import * as C from "../../../app/components";
 import { ComponentConfig } from "app/config/model";
 import { ProjectResponse } from "app/models/responses";
-import * as T from "./transformer";
+import * as T from "./projectTransformer";
 
 export const mainColumn = [
   {

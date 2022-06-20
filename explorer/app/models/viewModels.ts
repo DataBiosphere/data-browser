@@ -1,4 +1,4 @@
-import { DetailResponseType } from "./responses";
+import { DetailResponseType, ListResponseType } from "./responses";
 
 //Project
 export interface DetailModel {
@@ -10,6 +10,6 @@ export interface ItemViewModel {
   name: string;
 }
 
-export interface ListViewModel {
-  items: ItemViewModel[];
+export interface ListModel {
+  data?: ListResponseType;
 }

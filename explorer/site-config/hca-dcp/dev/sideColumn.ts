@@ -1,6 +1,6 @@
 import { ComponentConfig } from "app/config/model";
 import * as C from "../../../app/components";
-import * as T from "./transformer";
+import * as T from "./projectTransformer";
 import { ProjectResponse } from "app/models/responses";
 
 export const sideColumn = [

@@ -1,12 +1,14 @@
-import { ListViewModel } from "app/models/viewModels";
+import { isDevelopment } from "app/shared/constants";
+import { ListModel } from "app/models/viewModels";
 import { ListResponseType } from "app/models/responses";
 import { list } from "app/entity/api/service";
 import { useEffect } from "react";
 import { useAsync } from "./useAsync";
 import { useCurrentEntity } from "./useCurrentEntity";
+import { isSSR } from "app/utils/ssr";
 
 interface UseEntityListResponse {
-  data?: ListViewModel;
+  response?: ListResponseType;
   isLoading: boolean;
 }
 
@@ -17,9 +19,7 @@ interface UseEntityListResponse {
  * @param value statically loaded data, if any
  * @returns an object with the loaded data and a flag indicating is the data is loading
  */
-export const useFetchEntities = (
-  value?: ListViewModel
-): UseEntityListResponse => {
+export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
   const entity = useCurrentEntity();
   const {
     data: apiData,
@@ -28,21 +28,21 @@ export const useFetchEntities = (
   } = useAsync<ListResponseType>();
 
   useEffect(() => {
-    if (entity && !entity.staticLoad) {
+    if (entity && (!entity.staticLoad || isDevelopment()) && !isSSR()) {
       run(list(entity.apiPath));
     }
   }, [entity, run]);
 
   if (!entity) {
-    return { data: { items: [] }, isLoading: false };
+    return { isLoading: false }; //TODO: return a error to make the user know that the entity doest exist
   }
 
-  if (entity.staticLoad) {
-    return { data: value, isLoading: false };
+  if (entity.staticLoad && !isDevelopment()) {
+    return { response: value?.data, isLoading: false };
   }
 
   return {
-    data: apiData ? entity.listTransformer(apiData) : { items: [] },
+    response: apiData,
     isLoading: apiIsLoading,
   };
 };
