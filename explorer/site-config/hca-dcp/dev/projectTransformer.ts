@@ -334,11 +334,6 @@ export const projectsToProjDescription = (
 ): React.ComponentProps<typeof Typography> => {
   return {
     children: project ? project.projects[0].projectDescription : "None",
-    color: "ink",
-    mb: 0,
-    mt: 4,
-    paragraph: true,
-    variant: "text-body-400-2lines",
   };
 };
 

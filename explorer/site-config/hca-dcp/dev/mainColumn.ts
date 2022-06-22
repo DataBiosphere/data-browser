@@ -22,9 +22,20 @@ export const mainColumn = [
         },
         children: [
           {
-            component: Typography,
-            transformer: T.projectsToProjDescription,
-          } as ComponentConfig<typeof Typography, ProjectResponse>,
+            component: C.SectionContent,
+            props: {
+              gap: 4,
+            },
+            children: [
+              {
+                component: Typography,
+                props: {
+                  variant: "inherit",
+                },
+                transformer: T.projectsToProjDescription,
+              } as ComponentConfig<typeof Typography, ProjectResponse>,
+            ],
+          } as ComponentConfig<typeof C.SectionContent, ProjectResponse>,
         ],
       } as ComponentConfig<typeof C.Section, ProjectResponse>,
       {
