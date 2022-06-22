@@ -1,24 +1,19 @@
+// Core dependencies
 import { Box } from "@mui/material";
-import React from "react";
+import React, { ReactNode } from "react";
 
-interface LayoutProps {
-  mainColumn: React.ReactNode;
-  sideColumn: React.ReactNode;
+interface Props {
+  mainColumn: ReactNode;
+  sideColumn: ReactNode;
+  top: ReactNode;
 }
 
-export const Layout = ({
-  mainColumn,
-  sideColumn,
-}: LayoutProps): JSX.Element => {
+export const Layout = ({ mainColumn, sideColumn, top }: Props): JSX.Element => {
   return (
-    <Box
-      display="flex"
-      flexDirection="row"
-      width="100%"
-      gap={(theme) => theme.spacing(4)}
-    >
-      <Box width="100%">{mainColumn}</Box>
-      <Box width={350} display="flex">
+    <Box color="ink" display="grid" gap={4} mx="auto" maxWidth={1232}>
+      {top}
+      <Box display="grid" gap={4} gridAutoFlow="column">
+        {mainColumn}
         {sideColumn}
       </Box>
     </Box>

@@ -92,7 +92,7 @@ declare module "@mui/material/Typography" {
 }
 
 /**
- * Button variant prop options.
+ * Button prop options.
  */
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
@@ -101,7 +101,16 @@ declare module "@mui/material/Button" {
 }
 
 /**
- * IconButton variant prop options.
+ * Chip prop options.
+ */
+declare module "@mui/material/Chip" {
+  interface ChipPropsVariantOverrides {
+    status: true;
+  }
+}
+
+/**
+ * IconButton prop options.
  */
 declare module "@mui/material/IconButton" {
   interface IconButtonPropsColorOverrides {

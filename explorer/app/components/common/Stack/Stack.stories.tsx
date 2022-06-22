@@ -1,11 +1,22 @@
+// Core dependencies
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
+
+// App dependencies
 import { Stack } from "./Stack";
 
 export default {
-  title: "Components/Stack",
+  argTypes: {
+    children: { control: "object" },
+    direction: {
+      control: "select",
+      options: ["column", "row"],
+    },
+    gap: { control: "number" },
+    spacing: { control: "number" },
+  },
   component: Stack,
-  children: { controle: "object" },
+  title: "Components/Stack",
 } as ComponentMeta<typeof Stack>;
 
 const Template: ComponentStory<typeof Stack> = (args) => <Stack {...args} />;

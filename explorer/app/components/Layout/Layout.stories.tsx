@@ -1,14 +1,18 @@
+// Core dependencies
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
+
+// App dependencies
 import { Layout } from "./Layout";
 
 export default {
-  title: "Components/Layout",
-  component: Layout,
   argTypes: {
     mainColumn: { control: "object" },
     sideColumn: { control: "object" },
+    top: { control: "object" },
   },
+  component: Layout,
+  title: "Components/Layout",
 } as ComponentMeta<typeof Layout>;
 
 const Template: ComponentStory<typeof Layout> = (args) => <Layout {...args} />;
@@ -25,6 +29,12 @@ Primary.args = {
     <div
       key={2}
       style={{ width: 500, height: 500, backgroundColor: "blue" }}
+    ></div>
+  ),
+  top: (
+    <div
+      key={3}
+      style={{ width: 500, height: 500, backgroundColor: "yellow" }}
     ></div>
   ),
 };

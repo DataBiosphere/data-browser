@@ -6,9 +6,6 @@ import { ProjectResponse } from "app/models/responses";
 export const sideColumn = [
   {
     component: C.Stack,
-    props: {
-      border: true,
-    },
     children: [
       {
         component: C.Section,

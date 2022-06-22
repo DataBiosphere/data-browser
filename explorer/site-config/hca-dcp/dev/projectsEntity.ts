@@ -1,10 +1,12 @@
-import { getProjectId } from "app/transformers/hca";
-import * as T from "./projectTransformer";
+// App dependencies
 import * as C from "../../../app/components";
-import { sideColumn } from "./sideColumn";
-import { mainColumn } from "./mainColumn";
 import { ComponentConfig, ListConfig } from "../../../app/config/model";
 import { ProjectResponse } from "app/models/responses";
+import { getProjectId } from "app/transformers/hca";
+import { mainColumn } from "./mainColumn";
+import * as T from "./projectTransformer";
+import { sideColumn } from "./sideColumn";
+import { top } from "./top";
 
 /**
  * Entity config object responsible to config anything related to the /explore/projects route.
@@ -16,8 +18,9 @@ export const projectEntity = {
   getId: getProjectId,
   staticLoad: true,
   detail: {
-    sideColumn: sideColumn,
     mainColumn: mainColumn,
+    sideColumn: sideColumn,
+    top: top,
   },
   list: {
     columns: [

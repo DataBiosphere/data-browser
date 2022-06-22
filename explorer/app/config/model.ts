@@ -1,6 +1,9 @@
+// Core dependencies
+import { JSXElementConstructor } from "react";
+
+// App dependencies
 import { DetailResponseType } from "app/models/responses";
 import { HeaderProps } from "../components/Header/header";
-import { JSXElementConstructor } from "react";
 
 type GetIdFunction<T extends DetailResponseType> = (detail: T) => string;
 
@@ -43,11 +46,12 @@ export interface DataSourceConfig {
 }
 
 /**
- * Interface to define the the set of components that will be used for the two columns of the details pages.
+ * Interface to define the set of components that will be used for the detail page.
  */
 export interface DetailConfig {
   mainColumn: ComponentConfig[];
   sideColumn: ComponentConfig[];
+  top: ComponentConfig[];
 }
 
 export interface ColumnConfig<

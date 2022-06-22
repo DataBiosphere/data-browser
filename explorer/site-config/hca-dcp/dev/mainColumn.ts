@@ -10,9 +10,6 @@ import * as T from "./projectTransformer";
 export const mainColumn = [
   {
     component: C.Stack,
-    props: {
-      border: true,
-    },
     children: [
       {
         component: C.Section,

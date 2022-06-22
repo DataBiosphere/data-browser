@@ -19,6 +19,10 @@ export interface CustomColors {
  */
 const defaultTheme = createTheme({
   palette: {
+    info: {
+      contrastText: "#00729C",
+      main: "#97D6EA",
+    },
     ink: "#212B36",
     inkLight: "#637381",
     primaryAnvil: "#035C94",
@@ -26,6 +30,10 @@ const defaultTheme = createTheme({
     smokeDark: "#C4CDD5",
     smokeLight: "#F6F6F7",
     smokeLightest: "#FAFBFB",
+    warning: {
+      contrastText: "#B54708",
+      main: "#FFD79D",
+    },
   },
   spacing: 4,
   typography: {
@@ -149,6 +157,25 @@ export const theme = createTheme(defaultTheme, {
               padding: "6px 12px",
             },
           },
+        },
+      ],
+    },
+    MuiChip: {
+      defaultProps: {
+        size: "small",
+      },
+      styleOverrides: {
+        status: {
+          ...defaultTheme.typography["text-body-small-500"],
+          borderColor: defaultTheme.palette.common.white,
+          borderStyle: "solid",
+          borderWidth: 2,
+          height: 24,
+        },
+      },
+      variants: [
+        {
+          props: { variant: "status" },
         },
       ],
     },
