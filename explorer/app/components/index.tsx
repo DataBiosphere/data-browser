@@ -1,6 +1,7 @@
 export { ShowMore } from "./ShowMore/ShowMore";
 export { Contacts } from "./Contacts/contacts";
 export { Citations } from "./Citations/Citations";
+export { DataReleasePolicy } from "./DataReleasePolicy/dataReleasePolicy";
 export { FileCounts } from "./FileCounts/FileCounts";
 export { IconList } from "./IconList/IconList";
 export { StaticImage } from "./common/StaticImage/staticImage";

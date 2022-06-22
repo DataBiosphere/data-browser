@@ -158,9 +158,13 @@ export const mainColumn = [
         },
         children: [
           {
-            component: C.TextLinks,
-            transformer: T.projectsToDataRlsPolicy,
-          } as ComponentConfig<typeof C.TextLinks>,
+            component: C.SectionContent,
+            children: [
+              {
+                component: C.DataReleasePolicy,
+              } as ComponentConfig<typeof C.DataReleasePolicy>,
+            ],
+          } as ComponentConfig<typeof C.SectionContent>,
         ],
       } as ComponentConfig<typeof C.Section, ProjectResponse>,
     ],

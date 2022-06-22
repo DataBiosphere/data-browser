@@ -395,22 +395,6 @@ export const projectsToCitations = (
   };
 };
 
-export const projectsToDataRlsPolicy = (): React.ComponentProps<
-  typeof C.TextLinks
-> => {
-  return {
-    values: [
-      {
-        text: "For information regarding data sharing and data use, please see our ",
-        link: {
-          label: "HCA Data Release Policy",
-          url: "https://www.humancellatlas.org/data-release-policy/",
-        },
-      },
-    ],
-  };
-};
-
 export const projectsToSupplementaryLinks = (
   project: ProjectResponse
 ): React.ComponentProps<typeof C.Links> => {
