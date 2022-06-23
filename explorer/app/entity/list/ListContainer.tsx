@@ -4,7 +4,6 @@
 import { TableCreator } from "app/components/TableCreator/tableCreator";
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
 import { useFetchEntities } from "app/hooks/useFetchEntities";
-import { DetailResponseType } from "app/models/responses";
 import React from "react";
 import { ListModel } from "../../models/viewModels";
 
@@ -26,7 +25,7 @@ export const ListContainer = (props: ListModel) => {
   }
 
   return (
-    <TableCreator<DetailResponseType>
+    <TableCreator
       columns={columnsConfig}
       items={response.hits}
       pageSize={response.pagination.size}

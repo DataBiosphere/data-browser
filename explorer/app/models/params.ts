@@ -1,7 +1,3 @@
-export interface VersionParam {
-  catalog?: string;
-}
-
-export interface ListParams extends VersionParam {
+export interface ListParams {
   size?: string;
 }

@@ -1,9 +1,11 @@
 import { config } from "../config/config";
 
 /**
- * Env vars
+ * Site specific environment variables
  */
 export const URL: string = config().datasources.url;
-export const CATALOG_VERSION: string = config().datasources.catalog;
+export const DEFAULT_LIST_PARAMS = config().datasources.defaultListParams ?? {};
+export const DEFAULT_DETAIL_PARAMS =
+  config().datasources.defaultDetailParams ?? {};
 
 export const isDevelopment = () => process.env.NODE_ENV === "development";

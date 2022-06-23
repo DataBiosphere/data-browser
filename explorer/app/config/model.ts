@@ -2,16 +2,15 @@
 import { JSXElementConstructor } from "react";
 
 // App dependencies
-import { DetailResponseType } from "app/models/responses";
 import { HeaderProps } from "../components/Header/header";
 
-type GetIdFunction<T extends DetailResponseType> = (detail: T) => string;
+type GetIdFunction<T> = (detail: T) => string;
 
 /**
  * Interface used to define the entities and router that will be used on the application, alongside with
  * the detail and the list page configuration.
  */
-export interface EntityConfig<D extends DetailResponseType = any> {
+export interface EntityConfig<D = any> {
   label: string;
   route: string;
   apiPath: string;
@@ -38,10 +37,15 @@ export interface ComponentConfig<
 }
 
 /**
- * Interface to defermine the api URL and version
+ * Interface to determine the API URL and version
  */
 export interface DataSourceConfig {
-  catalog: string;
+  defaultListParams?: {
+    [key: string]: string;
+  };
+  defaultDetailParams?: {
+    [key: string]: string;
+  };
   url: string;
 }
 

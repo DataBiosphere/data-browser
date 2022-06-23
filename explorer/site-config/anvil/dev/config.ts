@@ -4,13 +4,17 @@ import { SiteConfig } from "../../../app/config/model";
 
 // Images
 import AnvilLogo from "images/anvil-logo.png";
+import { filesEntity } from "./filesEntity";
 
 const config: SiteConfig = {
   datasources: {
-    catalog: "dcp2",
-    url: "https://service.dev.singlecell.gi.ucsc.edu/",
+    defaultListParams: {
+      sort: "entryId",
+    },
+    url: "https://service.nadove2.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [],
+  redirectRootToPath: "/explore/files",
+  entities: [filesEntity],
   layout: {
     header: {
       authenticationEnabled: false,
