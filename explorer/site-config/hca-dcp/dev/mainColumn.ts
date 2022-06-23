@@ -13,18 +13,9 @@ export const mainColumn = [
         transformer: T.projectsToProjDescription,
       } as ComponentConfig<typeof C.Description, ProjectResponse>,
       {
-        component: C.Section,
-        props: {
-          collapsable: true,
-          title: "Contact",
-        },
-        children: [
-          {
-            component: C.Contacts,
-            transformer: T.projectToContacts,
-          } as ComponentConfig<typeof C.Contacts, ProjectResponse>,
-        ],
-      } as ComponentConfig<typeof C.Section, ProjectResponse>,
+        component: C.Contacts,
+        transformer: T.projectToContacts,
+      } as ComponentConfig<typeof C.Contacts, ProjectResponse>,
       {
         component: C.Section,
         props: {

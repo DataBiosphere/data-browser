@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { ShowMore } from "./ShowMore";
-import { Contacts } from "../Contacts/contacts";
+import { Contacts } from "../Project/components/Contacts/contacts";
 
 export default {
   title: "Components/ShowMore",

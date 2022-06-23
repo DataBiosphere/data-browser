@@ -1,9 +1,9 @@
 export { ShowMore } from "./ShowMore/ShowMore";
-export { Contacts } from "./Contacts/contacts";
 export { Citations } from "./Citations/Citations";
 export { FileCounts } from "./FileCounts/FileCounts";
 export { IconList } from "./IconList/IconList";
 export { StaticImage } from "./common/StaticImage/staticImage";
+export { Contacts } from "./Project/components/Contacts/contacts";
 export { DataReleasePolicy } from "./Project/components/DataReleasePolicy/dataReleasePolicy";
 export { Description } from "./Project/components/Description/description";
 export { SectionContent } from "./Project/components/Section/components/SectionContent/sectionContent";

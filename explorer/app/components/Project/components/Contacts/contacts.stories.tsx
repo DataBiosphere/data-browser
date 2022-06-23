@@ -10,15 +10,15 @@ export default {
     contacts: { control: "array" },
   },
   component: Contacts,
-  title: "Components/Contacts",
+  title: "ProjectOverview/Section/Contacts",
 } as ComponentMeta<typeof Contacts>;
 
 const Template: ComponentStory<typeof Contacts> = (args) => (
   <Contacts {...args} />
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const ProjectContacts = Template.bind({});
+ProjectContacts.args = {
   contacts: [
     {
       email: "gervaise.henry@utsouthwestern.edu",

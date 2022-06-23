@@ -3,7 +3,10 @@ import React from "react";
 
 // App dependencies
 import * as C from "../../../app/components";
-import { getProjectDescription } from "../../../app/components/Project/common/projectTransformer";
+import {
+  getProjectContacts,
+  getProjectDescription,
+} from "../../../app/components/Project/common/projectTransformer";
 import { STATUS } from "app/components/StatusBadge/statusBadge";
 import { ProjectResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
@@ -22,20 +25,8 @@ const getOrganizations = (project: ProjectResponse): string[] => {
 export const projectToContacts = (
   project: ProjectResponse
 ): React.ComponentProps<typeof C.Contacts> => {
-  if (!project) {
-    return { contacts: [] };
-  }
-
-  const value = project.projects[0].contributors.filter(
-    (item) => !!item.correspondingContributor
-  );
-
   return {
-    contacts: value.map((contributor) => ({
-      email: contributor.email,
-      institution: contributor.institution,
-      name: contributor.contactName,
-    })),
+    contacts: getProjectContacts(project),
   };
 };
 
