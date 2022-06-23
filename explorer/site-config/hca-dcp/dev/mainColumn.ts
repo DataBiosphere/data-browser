@@ -129,21 +129,8 @@ export const mainColumn = [
         ],
       } as ComponentConfig<typeof C.Section, ProjectResponse>,
       {
-        component: C.Section,
-        props: {
-          title: "Data Release Policy",
-        },
-        children: [
-          {
-            component: C.SectionContent,
-            children: [
-              {
-                component: C.DataReleasePolicy,
-              } as ComponentConfig<typeof C.DataReleasePolicy>,
-            ],
-          } as ComponentConfig<typeof C.SectionContent>,
-        ],
-      } as ComponentConfig<typeof C.Section, ProjectResponse>,
+        component: C.DataReleasePolicy,
+      } as ComponentConfig<typeof C.DataReleasePolicy>,
     ],
   } as ComponentConfig<typeof C.Stack, ProjectResponse>,
 ];
