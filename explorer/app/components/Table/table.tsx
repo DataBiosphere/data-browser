@@ -8,34 +8,46 @@ import {
   TableRow,
 } from "@mui/material";
 import { Pagination } from "../Pagination/pagination";
+import { PaginationConfig } from "app/hooks/useFetchEntities";
 
 interface TableProps<T extends object> {
   items: T[];
   pageSize: number;
   columns: Column<T>[];
+  total?: number;
+  pagination?: PaginationConfig;
 }
 
+/**
+ * This table can be Controlled or Uncontrolled based on the set of props passed to it.
+ * Controlled table will receive the navigation functions and it will be used for dynamic loads.
+ * Uncontrolled table will take advantage of React Table's state and will be used for static loads.
+ */
 export const Table = <T extends object>({
   items,
   columns,
   pageSize,
+  total,
+  pagination,
 }: TableProps<T>): JSX.Element => {
   const {
-    nextPage,
-    previousPage,
     getTableProps,
     headers,
     getTableBodyProps,
     page,
     prepareRow,
-    canPreviousPage,
-    canNextPage,
+    canNextPage: tableCanNextPage,
+    canPreviousPage: tableCanPreviousPage,
+    nextPage: tableNextPage,
+    previousPage: tablePreviousPage,
     pageOptions,
     state: { pageIndex },
   } = useTable<T>(
     {
       columns,
       data: items,
+      manualPagination: !!pagination,
+      pageCount: total,
       initialState: {
         pageSize: pageSize,
       } as TableState,
@@ -73,12 +85,12 @@ export const Table = <T extends object>({
         </TableBody>
       </MuiTable>
       <Pagination
-        currentPage={pageIndex + 1}
-        onNextPage={nextPage}
-        onPreviousPage={previousPage}
-        canNextPage={canNextPage}
-        canPreviousPage={canPreviousPage}
-        totalPage={pageOptions.length}
+        currentPage={pagination?.currentPage ?? pageIndex + 1}
+        onNextPage={pagination?.nextPage ?? tableNextPage}
+        onPreviousPage={pagination?.previousPage ?? tablePreviousPage}
+        canNextPage={pagination?.canNextPage ?? tableCanNextPage}
+        canPreviousPage={pagination?.canPreviousPage ?? tableCanPreviousPage}
+        totalPage={total ?? pageOptions.length}
       />
     </>
   );

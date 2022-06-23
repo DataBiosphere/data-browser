@@ -42,7 +42,7 @@ export const useFetchEntity = (
     return { isLoading: false }; //TODO: return a error to make the user know that the entity doest exist
   }
 
-  if (entity.staticLoad && !isDevelopment()) {
+  if (entity.staticLoad) {
     return { isLoading: false, response: value?.data };
   }
 

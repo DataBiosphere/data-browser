@@ -27,7 +27,16 @@ export const list = async (
   listParams?: ListParams
 ): Promise<ListResponseType> => {
   const params = { ...DEFAULT_LIST_PARAMS, ...listParams };
-  const res = await fetch(`${URL}${apiPath}?${convertUrlParams(params)}`);
+  return await fetchList(`${URL}${apiPath}?${convertUrlParams(params)}`);
+};
+
+/**
+ * Make a get request to get a a list of entities.
+ * @param url absolute URL to be used on the request
+ * @returns
+ */
+export const fetchList = async (url: string): Promise<ListResponseType> => {
+  const res = await fetch(url);
   return await res.json();
 };
 

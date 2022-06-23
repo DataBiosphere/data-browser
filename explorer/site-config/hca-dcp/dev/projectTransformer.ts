@@ -470,7 +470,7 @@ export const projectsToSpeciesColumn = (
 export const projectsToCellCountColumn = (
   project: ProjectResponse
 ): React.ComponentProps<typeof C.Text> => {
-  if (!project.cellSuspensions) {
+  if (!project.cellSuspensions?.[0]) {
     return {
       children: "",
     };
