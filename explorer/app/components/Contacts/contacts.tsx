@@ -4,11 +4,11 @@ import Link from "next/link";
 import React from "react";
 
 // App dependencies
-import { SectionContent } from "../Section/components/SectionContent/sectionContent";
-import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
+import { SectionContent } from "../Project/components/Section/components/SectionContent/sectionContent";
+import { SectionDetailsEmpty } from "../Project/components/Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 
 // Styles
-import { SectionContentListItem } from "../Section/components/SectionContent/sectionContent.styles";
+import { SectionContentListItem } from "../Project/components/Section/components/SectionContent/sectionContent.styles";
 
 interface Contact {
   email?: string;

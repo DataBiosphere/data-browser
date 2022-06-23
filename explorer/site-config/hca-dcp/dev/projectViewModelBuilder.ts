@@ -1,9 +1,9 @@
 // Core dependencies
-import { Typography } from "@mui/material";
 import React from "react";
 
 // App dependencies
 import * as C from "../../../app/components";
+import { getProjectDescription } from "../../../app/components/Project/common/projectTransformer";
 import { STATUS } from "app/components/StatusBadge/statusBadge";
 import { ProjectResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
@@ -332,9 +332,9 @@ export const projectsToFileCounts = (
 
 export const projectsToProjDescription = (
   project: ProjectResponse
-): React.ComponentProps<typeof Typography> => {
+): React.ComponentProps<typeof C.Description> => {
   return {
-    children: project ? project.projects[0].projectDescription : "None",
+    projectDescription: getProjectDescription(project) || "None",
   };
 };
 

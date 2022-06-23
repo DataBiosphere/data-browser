@@ -1,40 +1,17 @@
-// Core dependencies
-import { Typography } from "@mui/material";
-
 // App dependencies
 import * as C from "../../../app/components";
 import { ComponentConfig } from "app/config/model";
 import { ProjectResponse } from "app/models/responses";
-import * as T from "./projectTransformer";
+import * as T from "./projectViewModelBuilder";
 
 export const mainColumn = [
   {
     component: C.Stack,
     children: [
       {
-        component: C.Section,
-        props: {
-          collapsable: false,
-          title: "Description",
-        },
-        children: [
-          {
-            component: C.SectionContent,
-            props: {
-              gap: 4,
-            },
-            children: [
-              {
-                component: Typography,
-                props: {
-                  variant: "inherit",
-                },
-                transformer: T.projectsToProjDescription,
-              } as ComponentConfig<typeof Typography, ProjectResponse>,
-            ],
-          } as ComponentConfig<typeof C.SectionContent, ProjectResponse>,
-        ],
-      } as ComponentConfig<typeof C.Section, ProjectResponse>,
+        component: C.Description,
+        transformer: T.projectsToProjDescription,
+      } as ComponentConfig<typeof C.Description, ProjectResponse>,
       {
         component: C.Section,
         props: {

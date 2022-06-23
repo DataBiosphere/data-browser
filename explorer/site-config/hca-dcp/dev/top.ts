@@ -2,7 +2,7 @@
 import * as C from "../../../app/components";
 import { ComponentConfig } from "app/config/model";
 import { ProjectResponse } from "app/models/responses";
-import * as T from "./projectTransformer";
+import * as T from "./projectViewModelBuilder";
 
 export const top = [
   {

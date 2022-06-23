@@ -4,7 +4,7 @@ import { ComponentConfig, ListConfig } from "../../../app/config/model";
 import { ProjectResponse } from "app/models/responses";
 import { getProjectId } from "app/transformers/hca";
 import { mainColumn } from "./mainColumn";
-import * as T from "./projectTransformer";
+import * as T from "./projectViewModelBuilder";
 import { sideColumn } from "./sideColumn";
 import { top } from "./top";
 

@@ -6,7 +6,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 // App dependencies
 import { CollapseButton } from "./components/CollapseButton/collapseButton";
 import { SectionTitle } from "./components/SectionTitle/sectionTitle";
-import { useBreakpointHelper } from "../../hooks/useBreakpointHelper";
+import { useBreakpointHelper } from "../../../../hooks/useBreakpointHelper";
 
 // Styles
 import { Section as SectionContainer, SectionSummary } from "./section.styles";
@@ -14,7 +14,7 @@ import { Section as SectionContainer, SectionSummary } from "./section.styles";
 interface Props {
   children: ReactNode;
   collapsable?: boolean;
-  title?: string;
+  title: string;
 }
 
 export const Section = ({

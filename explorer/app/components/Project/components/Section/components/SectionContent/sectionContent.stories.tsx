@@ -3,7 +3,7 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 // App dependencies
-import { Policy } from "../../../DataReleasePolicy/dataReleasePolicy.stories";
+import { Policy } from "../../../../../DataReleasePolicy/dataReleasePolicy.stories";
 import { SectionContent } from "./sectionContent";
 
 export default {
