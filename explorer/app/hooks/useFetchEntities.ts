@@ -10,6 +10,7 @@ import { isSSR } from "app/utils/ssr";
 export interface PaginationConfig {
   nextPage: () => void;
   previousPage: () => void;
+  resetPage: () => void;
   canNextPage: boolean;
   canPreviousPage: boolean;
   currentPage: number;
@@ -59,6 +60,10 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
     }
   }, [apiData?.pagination.previous, run]);
 
+  const resetPage = useCallback(() => {
+    setCurrentPage(DEFAULT_CURRENT_PAGE);
+  }, []);
+
   if (!entity) {
     return {
       isLoading: false,
@@ -78,6 +83,7 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
     pagination: {
       nextPage,
       previousPage,
+      resetPage,
       canNextPage: !!apiData?.pagination.next,
       canPreviousPage: !!apiData?.pagination.previous,
       currentPage,

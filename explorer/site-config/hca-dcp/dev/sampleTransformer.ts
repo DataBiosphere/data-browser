@@ -5,7 +5,7 @@ import * as C from "../../../app/components";
 export const samplesToSampleIDColumn = (
   sample: SampleResponse
 ): React.ComponentProps<typeof C.Links> => {
-  if (!sample.samples) {
+  if (!sample.samples?.[0]) {
     return {
       links: [],
     };
@@ -24,7 +24,7 @@ export const samplesToSampleIDColumn = (
 export const samplesToProjTitleColumn = (
   sample: SampleResponse
 ): React.ComponentProps<typeof C.Text> => {
-  if (!sample.projects) {
+  if (!sample.projects?.[0]) {
     return {};
   }
 

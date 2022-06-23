@@ -5,7 +5,7 @@ import * as C from "../../../app/components";
 export const filesToFileNameColumn = (
   file: FileResponse
 ): React.ComponentProps<typeof C.Links> => {
-  if (!file.files) {
+  if (!file.files?.[0]) {
     return {
       links: [],
     };
@@ -24,7 +24,7 @@ export const filesToFileNameColumn = (
 export const filesToFileFormatColumn = (
   file: FileResponse
 ): React.ComponentProps<typeof C.Text> => {
-  if (!file.files) {
+  if (!file.files?.[0]) {
     return {};
   }
 
@@ -38,7 +38,7 @@ export const filesToFileFormatColumn = (
 export const filesToProjTitleColumn = (
   file: FileResponse
 ): React.ComponentProps<typeof C.Text> => {
-  if (!file.projects) {
+  if (!file.projects?.[0]) {
     return {};
   }
 
