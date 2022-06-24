@@ -83,6 +83,7 @@ export interface FileResponse {
   }[];
 }
 
+// Anvil file
 export interface AnvilFileResponse {
   activities: {
     activity_type: string[];
@@ -109,6 +110,37 @@ export interface AnvilFileResponse {
     sourceId: string;
     sourceSpec: string;
   }[];
+}
+
+// Summary
+export interface SummaryResponse {
+  cellCountSummaries: {
+    countOfDocsWithOrganType: number;
+    organType: string[];
+    totalCellCountByOrgan: number;
+  }[];
+  donorCount: number;
+  fileCount: number;
+  fileTypeSummaries: {
+    count: number;
+    format: string;
+    matrixCellCount: number;
+    totalSize: number;
+  }[];
+  labCount: number;
+  organTypes: string[];
+  projectCount: number;
+  projects: {
+    cellSuspensions?: {
+      totalCells?: number;
+    };
+    projects: {
+      estimatedCellCount: number;
+    };
+  }[];
+  speciesCount: number;
+  specimenCount: number;
+  totalFileSize: number;
 }
 
 export interface ListResponseType<T = any> extends PaginatedResponse {

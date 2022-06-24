@@ -17,3 +17,4 @@ export { Links } from "./Links/Links";
 export { Stack } from "./common/Stack/Stack";
 export { StatusBadge } from "./StatusBadge/statusBadge";
 export { Tooltip } from "./Tooltip/tooltip";
+export { ValueInline } from "./ValueInline/valueInline";

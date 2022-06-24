@@ -9,13 +9,17 @@ import { useConfig } from "app/hooks/useConfig";
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
 import { useFetchEntities } from "app/hooks/useFetchEntities";
 import { ListModel } from "../../models/viewModels";
+import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
+import { useSummary } from "app/hooks/useSummary";
 
 export const ListContainer = (props: ListModel) => {
   const entity = useCurrentEntity();
-  const { entities } = useConfig();
+  const { entities, summary } = useConfig();
+  const { response: summaryResponse } = useSummary();
   const { response, isLoading, pagination } = useFetchEntities(props);
   const { asPath, push } = useRouter();
   const columnsConfig = entity?.list?.columns;
+  const summaryComponents = summary?.components;
 
   if (!columnsConfig || !entity) {
     return <span>EMPTY CONFIG</span>; //TODO: return the empty config UI component
@@ -51,6 +55,12 @@ export const ListContainer = (props: ListModel) => {
 
   return (
     <>
+      {summaryComponents && (
+        <ComponentCreator
+          components={summaryComponents}
+          response={summaryResponse}
+        />
+      )}
       <Tabs
         onTabChange={handleTabChanged}
         selectedTab={selectedTab}

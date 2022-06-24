@@ -12,6 +12,8 @@ interface Props {
   children: ReactNode | ReactNode[];
   direction?: StackProps["direction"];
   divider?: StackProps["divider"];
+  justifyContent?: StackProps["justifyContent"];
+  alignItems?: StackProps["alignItems"];
   gap?: number;
   spacing?: number;
 }
@@ -20,6 +22,8 @@ export const Stack = ({
   children,
   direction = "column",
   divider = undefined,
+  justifyContent,
+  alignItems,
   gap = 0,
   spacing = 0,
 }: Props): JSX.Element => {
@@ -27,6 +31,8 @@ export const Stack = ({
     <Stacker
       direction={direction}
       divider={divider}
+      justifyContent={justifyContent}
+      alignItems={alignItems}
       gap={gap}
       spacing={spacing}
     >

@@ -6,6 +6,7 @@ import { SiteConfig } from "../../../app/config/model";
 import { projectEntity } from "./projectsEntity";
 import { samplesEntity } from "./samplesEntity";
 import { filesEntity } from "./filesEntity";
+import { summary } from "./summary";
 
 // Images
 import HcaLogo from "images/hca-logo.png";
@@ -24,6 +25,10 @@ const config: SiteConfig = {
       catalog: CATALOG_DCP2,
     },
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
+  },
+  summary: {
+    apiPath: "index/summary",
+    components: summary,
   },
   entities: [projectEntity, filesEntity, samplesEntity],
   layout: {

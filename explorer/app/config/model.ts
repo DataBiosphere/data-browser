@@ -58,6 +58,14 @@ export interface DetailConfig {
   top: ComponentConfig[];
 }
 
+/**
+ * Interface to determine the summary components and endpoint placed above the entities list.
+ */
+export interface SummaryConfig {
+  apiPath: string;
+  components: ComponentConfig[];
+}
+
 export interface ColumnConfig<
   T,
   C extends keyof JSX.IntrinsicElements | JSXElementConstructor<any> = any
@@ -81,5 +89,6 @@ export interface SiteConfig {
   layout: {
     header: HeaderProps;
   };
+  summary?: SummaryConfig;
   entities: EntityConfig[];
 }

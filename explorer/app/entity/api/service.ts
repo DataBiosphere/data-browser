@@ -9,7 +9,7 @@ import {
   URL,
 } from "../../shared/constants";
 import { ListParams } from "../../models/params";
-import { ListResponseType } from "../../models/responses";
+import { ListResponseType, SummaryResponse } from "../../models/responses";
 
 /**
  * Request to get a list of entities.
@@ -72,5 +72,19 @@ export const detail = async (
   const res = await fetch(
     `${URL}${apiPath}/${id}?${convertUrlParams({ ...param })}`
   );
+  return await res.json();
+};
+
+/**
+ * Request to a single summary object that doesn't need id
+ * @param apiPath
+ * @param param
+ * @returns @see SummaryResponse
+ */
+export const summary = async (
+  apiPath: string,
+  param = DEFAULT_DETAIL_PARAMS
+): Promise<SummaryResponse> => {
+  const res = await fetch(`${URL}${apiPath}?${convertUrlParams({ ...param })}`);
   return await res.json();
 };
