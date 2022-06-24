@@ -2,7 +2,7 @@
 import { createTheme } from "@mui/material/styles";
 
 // App dependencies
-import { BREAKPOINT } from "app/hooks/useBreakpointHelper";
+import { BREAKPOINT } from "../hooks/useBreakpointHelper";
 
 /**
  * Custom colors
@@ -172,6 +172,11 @@ export const theme = createTheme(defaultTheme, {
           },
         },
       ],
+    },
+    MuiButtonBase: {
+      defaultProps: {
+        disableRipple: true,
+      },
     },
     MuiChip: {
       defaultProps: {

@@ -7,7 +7,6 @@ export { Contacts } from "./Project/components/Contacts/contacts";
 export { DataReleasePolicy } from "./Project/components/DataReleasePolicy/dataReleasePolicy";
 export { Description } from "./Project/components/Description/description";
 export { ProjectHeader } from "./Project/components/ProjectHeader/projectHeader";
-export { SectionContent } from "./Project/components/Section/components/SectionContent/sectionContent";
 export { Section } from "./Project/components/Section/section";
 export { ProjectTitle } from "./ProjectTitle/projectTitle";
 export { Text } from "./Text/Text";

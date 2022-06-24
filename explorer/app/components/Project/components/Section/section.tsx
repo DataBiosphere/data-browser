@@ -1,10 +1,11 @@
 // Core dependencies
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 import { Collapse } from "@mui/material";
 import { CollapseProps } from "@mui/material/Collapse/Collapse";
 import React, { ReactNode, useEffect, useState } from "react";
 
 // App dependencies
-import { CollapseButton } from "./components/CollapseButton/collapseButton";
 import { SectionTitle } from "./components/SectionTitle/sectionTitle";
 import {
   BREAKPOINT,
@@ -13,7 +14,11 @@ import {
 } from "../../../../hooks/useBreakpointHelper";
 
 // Styles
-import { Section as SectionContainer, SectionSummary } from "./section.styles";
+import {
+  Section as SectionContainer,
+  SectionContent as Content,
+  SectionSummary,
+} from "./section.styles";
 
 interface Props {
   children: ReactNode;
@@ -28,11 +33,16 @@ export const Section = ({
 }: Props): JSX.Element => {
   const mobile = useBreakpointHelper(
     BREAKPOINT_FN_NAME.DOWN,
-    BREAKPOINT.DESKTOP
+    BREAKPOINT.TABLET
   );
   const [expanded, setExpanded] = useState<boolean>(false);
   const [transitionDuration, setTransitionDuration] =
     useState<CollapseProps["timeout"]>(0);
+  const disabled = !mobile || !collapsable;
+  const ExpandIcon = expanded ? RemoveIcon : AddIcon;
+  const SectionContent = (
+    <Content variant="text-body-400-2lines">{children}</Content>
+  );
 
   const onToggleExpanded = () => {
     setExpanded((expanded) => !expanded);
@@ -45,7 +55,7 @@ export const Section = ({
 
   // Sets collapseTimeout state on change of media breakpoint.
   // Delays setting transitionDuration state for mobile breakpoint to facilitate the immediate transition from
-  //  desktop to mobile.
+  // tablet to mobile.
   useEffect(() => {
     if (mobile) {
       const duration = setTimeout(() => {
@@ -61,21 +71,16 @@ export const Section = ({
 
   return (
     <SectionContainer>
-      <SectionSummary>
+      <SectionSummary disabled={disabled} onClick={onToggleExpanded}>
         <SectionTitle title={title} />
-        {mobile && collapsable && (
-          <CollapseButton
-            expanded={expanded}
-            onToggleExpanded={onToggleExpanded}
-          />
-        )}
+        {!disabled && <ExpandIcon fontSize="small" />}
       </SectionSummary>
-      {collapsable ? (
+      {!disabled ? (
         <Collapse in={expanded} timeout={transitionDuration}>
-          {children}
+          {SectionContent}
         </Collapse>
       ) : (
-        children
+        SectionContent
       )}
     </SectionContainer>
   );
