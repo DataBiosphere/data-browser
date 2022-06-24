@@ -53,7 +53,7 @@ const config: SiteConfig = {
         links: [
           {
             label: "Explore",
-            url: "https://data-browser.lungmap.net/explore/projects",
+            url: "/explore/projects",
           },
           {
             label: "Metadata",

@@ -43,7 +43,7 @@ const config: SiteConfig = {
         links: [
           {
             label: "Explore",
-            url: "https://data.humancellatlas.org/explore/projects",
+            url: "/explore/projects",
           },
           {
             label: "Guides",

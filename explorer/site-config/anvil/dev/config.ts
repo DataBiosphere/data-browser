@@ -37,7 +37,7 @@ const config: SiteConfig = {
           },
           {
             label: "Datasets",
-            url: "https://anvilproject.org/data",
+            url: "/explore/files",
           },
           {
             label: "News",
