@@ -3,6 +3,7 @@ import { Theme as MuiTheme } from "@mui/material/styles";
 import { TypographyStyleOptions } from "@mui/material/styles/createTypography";
 
 // App dependencies
+import { BREAKPOINT } from "../hooks/useBreakpointHelper";
 import { CustomColors } from "./theme";
 
 /**
@@ -31,9 +32,20 @@ declare module "@mui/material/styles/createPalette" {
 }
 
 /**
- * Typography definitions.
+ * Breakpoint and typography definitions.
  */
 declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    xs: false;
+    sm: false;
+    md: false;
+    lg: false;
+    xl: false;
+    [BREAKPOINT.MOBILE]: true;
+    [BREAKPOINT.DESKTOP]: true;
+    [BREAKPOINT.TABLET]: true;
+  }
+
   interface TypographyVariants {
     "text-body-400": TypographyStyleOptions;
     "text-body-400-2lines": TypographyStyleOptions;
@@ -121,6 +133,15 @@ declare module "@mui/material/IconButton" {
   interface IconButtonPropsSizeOverrides {
     xlarge: true;
     xsmall: true;
+  }
+}
+
+/**
+ * Paper prop options.
+ */
+declare module "@mui/material/Paper" {
+  interface PaperPropsVariantOverrides {
+    panel: true;
   }
 }
 

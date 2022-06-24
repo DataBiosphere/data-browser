@@ -6,30 +6,35 @@ import * as T from "./projectViewModelBuilder";
 
 export const top = [
   {
-    component: C.Stack,
-    props: {
-      gap: 1,
-    },
+    component: C.ProjectHeader,
     children: [
-      // Insert breadcrumbs
       {
-        component: C.ProjectTitle,
-        transformer: T.projectsToProjTitle,
-      } as ComponentConfig<typeof C.ProjectTitle, ProjectResponse>,
-    ],
-  } as ComponentConfig<typeof C.Stack, ProjectResponse>,
-  {
-    component: C.Stack,
-    props: {
-      direction: "row",
-      gap: 4,
-    },
-    children: [
-      // Insert select project
+        component: C.Stack,
+        props: {
+          gap: 1,
+        },
+        children: [
+          // Insert breadcrumbs
+          {
+            component: C.ProjectTitle,
+            transformer: T.projectsToProjTitle,
+          } as ComponentConfig<typeof C.ProjectTitle, ProjectResponse>,
+        ],
+      } as ComponentConfig<typeof C.Stack, ProjectResponse>,
       {
-        component: C.StatusBadge,
-        transformer: T.projectsToProjStatus,
-      } as ComponentConfig<typeof C.StatusBadge, ProjectResponse>,
+        component: C.Stack,
+        props: {
+          direction: "row",
+          gap: 4,
+        },
+        children: [
+          // Insert select project
+          {
+            component: C.StatusBadge,
+            transformer: T.projectsToProjStatus,
+          } as ComponentConfig<typeof C.StatusBadge, ProjectResponse>,
+        ],
+      } as ComponentConfig<typeof C.Stack, ProjectResponse>,
     ],
-  } as ComponentConfig<typeof C.Stack, ProjectResponse>,
+  } as ComponentConfig<typeof C.ProjectHeader, ProjectResponse>,
 ];

@@ -7,13 +7,13 @@
 import React from "react";
 
 // App dependencies
-import { Body } from "../Body/Body";
 import { useConfig } from "app/hooks/useConfig";
 import { Footer } from "../Footer/Footer";
 import { Header } from "../Header/header";
+import { Main } from "../Main/main";
 
 // Styles
-import { Container, Content } from "./page.styles";
+import { PageLayout } from "./page.styles";
 
 interface PageProps {
   children: React.ReactNode | React.ReactNode[];
@@ -23,12 +23,10 @@ export const Page = ({ children }: PageProps): JSX.Element => {
   const config = useConfig();
 
   return (
-    <Container>
+    <PageLayout>
       <Header {...config.layout.header} />
-      <Content>
-        <Body>{children}</Body>
-        <Footer>Footer</Footer>
-      </Content>
-    </Container>
+      <Main>{children}</Main>
+      <Footer>Footer</Footer>
+    </PageLayout>
   );
 };

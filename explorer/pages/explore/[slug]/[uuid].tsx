@@ -1,22 +1,25 @@
-import { config } from "app/config/config";
-import { getCurrentEntity } from "app/hooks/useCurrentEntity";
+// Core dependencies
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
+
+// App dependencies
 import { Page } from "../../../app/components/Page/page";
-import { DetailModel } from "../../../app/models/viewModels";
+import { config } from "app/config/config";
 import { detail, listAll } from "../../../app/entity/api/service";
-import { DetailContainer } from "../../../app/entity/detail/DetailContainer";
+import { getCurrentEntity } from "app/hooks/useCurrentEntity";
+import { DetailModel } from "../../../app/models/viewModels";
+import { Project } from "../../../app/views/Project/project";
 
 interface PageUrl extends ParsedUrlQuery {
-  uuid: string;
   slug: string;
+  uuid: string;
 }
 
-const DetailPage = (props: DetailModel): JSX.Element => {
+const ProjectPage = (props: DetailModel): JSX.Element => {
   return (
     <Page>
-      <DetailContainer {...props} />
+      <Project {...props} />
     </Page>
   );
 };
@@ -64,4 +67,4 @@ export const getStaticProps: GetStaticProps<DetailModel> = async ({
   };
 };
 
-export default DetailPage;
+export default ProjectPage;

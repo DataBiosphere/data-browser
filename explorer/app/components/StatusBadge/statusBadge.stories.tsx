@@ -10,14 +10,14 @@ export default {
     status: { control: "select", options: Array.from(Object.keys(STATUS)) },
   },
   component: StatusBadge,
-  title: "Components/StatusBadge",
+  title: "Project/Top",
 } as ComponentMeta<typeof StatusBadge>;
 
 const Template: ComponentStory<typeof StatusBadge> = (args) => (
   <StatusBadge {...args} />
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const ProjectStatus = Template.bind({});
+ProjectStatus.args = {
   status: STATUS.NEW,
 };

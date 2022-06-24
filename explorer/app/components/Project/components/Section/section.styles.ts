@@ -2,6 +2,7 @@
 import styled from "@emotion/styled";
 
 export const Section = styled.div`
+  background-color: ${({ theme }) => theme.palette.common.white};
   display: flex;
   flex-direction: column;
   padding: 20px;

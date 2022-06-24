@@ -1,6 +1,9 @@
 // Core dependencies
 import { createTheme } from "@mui/material/styles";
 
+// App dependencies
+import { BREAKPOINT } from "app/hooks/useBreakpointHelper";
+
 /**
  * Custom colors
  */
@@ -18,7 +21,17 @@ export interface CustomColors {
  * Default theme
  */
 const defaultTheme = createTheme({
+  breakpoints: {
+    values: {
+      [BREAKPOINT.DESKTOP]: 1440,
+      [BREAKPOINT.MOBILE]: 0,
+      [BREAKPOINT.TABLET]: 768,
+    },
+  },
   palette: {
+    background: {
+      default: "#F6F6F7", // smokeLight
+    },
     info: {
       contrastText: "#00729C",
       main: "#97D6EA",
@@ -153,7 +166,7 @@ export const theme = createTheme(defaultTheme, {
             "&:hover": {
               backgroundColor: defaultTheme.palette.smokeLight,
             },
-            [defaultTheme.breakpoints.up("lg")]: {
+            [defaultTheme.breakpoints.up(BREAKPOINT.DESKTOP)]: {
               padding: "6px 12px",
             },
           },
@@ -256,14 +269,32 @@ export const theme = createTheme(defaultTheme, {
         underline: "hover",
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        panel: {
+          backgroundColor: defaultTheme.palette.smoke,
+          borderColor: defaultTheme.palette.smoke,
+          borderStyle: "solid",
+          borderWidth: 1,
+          boxShadow: "0px 1px 4px 0px rgba(0, 0, 0, 0.07)",
+          display: "grid",
+          gap: 1,
+        },
+      },
+      variants: [
+        {
+          props: { variant: "panel" },
+        },
+      ],
+    },
     MuiToolbar: {
       styleOverrides: {
         root: {
-          [defaultTheme.breakpoints.up("xs")]: {
+          [defaultTheme.breakpoints.up(BREAKPOINT.MOBILE)]: {
             paddingLeft: 12,
             paddingRight: 12,
           },
-          [defaultTheme.breakpoints.up("lg")]: {
+          [defaultTheme.breakpoints.up(BREAKPOINT.DESKTOP)]: {
             paddingLeft: 16,
             paddingRight: 16,
           },

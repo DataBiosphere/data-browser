@@ -6,7 +6,11 @@ import React, { ReactNode, useEffect, useState } from "react";
 // App dependencies
 import { CollapseButton } from "./components/CollapseButton/collapseButton";
 import { SectionTitle } from "./components/SectionTitle/sectionTitle";
-import { useBreakpointHelper } from "../../../../hooks/useBreakpointHelper";
+import {
+  BREAKPOINT,
+  BREAKPOINT_FN_NAME,
+  useBreakpointHelper,
+} from "../../../../hooks/useBreakpointHelper";
 
 // Styles
 import { Section as SectionContainer, SectionSummary } from "./section.styles";
@@ -22,7 +26,10 @@ export const Section = ({
   collapsable = false,
   title,
 }: Props): JSX.Element => {
-  const mobile = useBreakpointHelper("down", "lg");
+  const mobile = useBreakpointHelper(
+    BREAKPOINT_FN_NAME.DOWN,
+    BREAKPOINT.DESKTOP
+  );
   const [expanded, setExpanded] = useState<boolean>(false);
   const [transitionDuration, setTransitionDuration] =
     useState<CollapseProps["timeout"]>(0);

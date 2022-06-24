@@ -6,7 +6,18 @@
 // Core dependencies
 import { Breakpoint, Theme, useMediaQuery } from "@mui/material";
 
-type BreakpointFnName = "up" | "down";
+export const enum BREAKPOINT {
+  DESKTOP = "desktop",
+  MOBILE = "mobile",
+  TABLET = "tablet",
+}
+
+export const enum BREAKPOINT_FN_NAME {
+  DOWN = "down",
+  UP = "up",
+}
+
+type BreakpointFnName = BREAKPOINT_FN_NAME;
 type BreakpointKey = Breakpoint | number;
 
 export const useBreakpointHelper = (

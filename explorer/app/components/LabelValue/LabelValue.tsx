@@ -13,7 +13,11 @@ export const LabelValue = ({ label, value }: LabelValueProps): JSX.Element => {
       <Text variant="text-body-400-2lines" customColor="inkLight">
         {label}
       </Text>
-      <Text variant="text-body-400-2lines" customColor="ink">
+      <Text
+        variant="text-body-400-2lines"
+        customColor="ink"
+        sx={{ wordBreak: "break-word" }} // TODO(cc) to be resolved with #94 (Update project details component to match refined mocks)
+      >
         {value}
       </Text>
     </Box>
