@@ -5,6 +5,7 @@ import { humanFileSize } from "app/utils/fileSize";
 
 const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
+/* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here*/
 export const filesToFileNameColumn = (
   file: FileResponse
 ): React.ComponentProps<typeof C.Links> => {
@@ -33,8 +34,8 @@ export const filesToFileFormatColumn = (
 
   return {
     children: file.files[0].format,
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -47,8 +48,8 @@ export const filesToProjTitleColumn = (
 
   return {
     children: concatStrings(file.projects[0].projectTitle),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -61,8 +62,8 @@ export const filesToFileSizeColumn = (
 
   return {
     children: humanFileSize(file.files[0].size),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -75,8 +76,8 @@ export const filesToContentDescColumn = (
 
   return {
     children: concatStrings(file.files[0].contentDescription),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -86,14 +87,15 @@ export const filesToCellCountColumn = (
   if (!file.projects?.[0].estimatedCellCount) {
     return {
       children: 0,
-      variant: "text-body-400",
       customColor: "ink",
+      variant: "text-body-400",
     };
   }
 
   return {
     children: formatter.format(file.projects[0].estimatedCellCount),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
+/* eslint-enable sonarjs/no-duplicate-string -- watching for duplicate strings here */

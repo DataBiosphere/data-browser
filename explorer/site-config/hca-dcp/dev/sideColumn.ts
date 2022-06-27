@@ -5,28 +5,20 @@ import * as T from "./projectViewModelBuilder";
 
 export const sideColumn = [
   {
-    component: C.Section,
-    props: {
-      title: "Analysis Portals",
-    },
     children: [
       {
         component: C.IconList,
         transformer: T.projectsToAnalysisPortals,
       } as ComponentConfig<typeof C.IconList, ProjectResponse>,
     ],
-  } as ComponentConfig<typeof C.Section>,
-  {
     component: C.Section,
     props: {
-      title: "Project Details",
+      title: "Analysis Portals",
     },
+  } as ComponentConfig<typeof C.Section>,
+  {
     children: [
       {
-        component: C.Stack,
-        props: {
-          gap: 4,
-        },
         children: [
           {
             component: C.LabelValue,
@@ -89,19 +81,27 @@ export const sideColumn = [
             transformer: T.projectsToDonorCount,
           } as ComponentConfig<typeof C.LabelValue, ProjectResponse>,
         ],
+        component: C.Stack,
+        props: {
+          gap: 4,
+        },
       } as ComponentConfig<typeof C.Stack>,
     ],
-  } as ComponentConfig<typeof C.Section>,
-  {
     component: C.Section,
     props: {
-      title: "File Counts",
+      title: "Project Details",
     },
+  } as ComponentConfig<typeof C.Section>,
+  {
     children: [
       {
         component: C.FileCounts,
         transformer: T.projectsToFileCounts,
       } as ComponentConfig<typeof C.FileCounts, ProjectResponse>,
     ],
+    component: C.Section,
+    props: {
+      title: "File Counts",
+    },
   } as ComponentConfig<typeof C.Section>,
 ];

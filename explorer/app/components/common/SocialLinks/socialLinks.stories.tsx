@@ -6,12 +6,14 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { SocialLinks } from "./socialLinks";
 
 export default {
-  title: "Components/SocialLinks",
-  component: SocialLinks,
   argTypes: {
     links: { control: "object" },
   },
+  component: SocialLinks,
+  title: "Components/SocialLinks",
 } as ComponentMeta<typeof SocialLinks>;
+
+const GITHUB_URL = "https://github.com";
 
 const Template: ComponentStory<typeof SocialLinks> = (args) => (
   <SocialLinks {...args} />
@@ -22,23 +24,23 @@ Primary.args = {
   links: [
     {
       type: "twitter",
-      url: "https://github.com/BruceRodrigues",
+      url: GITHUB_URL,
     },
     {
       type: "github",
-      url: "https://github.com/BruceRodrigues",
+      url: GITHUB_URL,
     },
     {
       type: "youtube",
-      url: "https://github.com/BruceRodrigues",
+      url: GITHUB_URL,
     },
     {
       type: "discourse",
-      url: "https://github.com/BruceRodrigues",
+      url: GITHUB_URL,
     },
     {
       type: "slack",
-      url: "https://github.com/BruceRodrigues",
+      url: GITHUB_URL,
     },
   ],
 };

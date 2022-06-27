@@ -3,12 +3,12 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Citations } from "./Citations";
 
 export default {
-  title: "Components/Citations",
-  component: Citations,
   argTypes: {
-    citations: { control: "array" },
     align: { control: "select", options: ["left", "right"] },
+    citations: { control: "array" },
   },
+  component: Citations,
+  title: "Components/Citations",
 } as ComponentMeta<typeof Citations>;
 
 const Template: ComponentStory<typeof Citations> = (args) => (
@@ -19,8 +19,8 @@ export const Cotributors = Template.bind({});
 Cotributors.args = {
   citations: [
     {
-      value: "Allon M Klein",
       citation: "3",
+      value: "Allon M Klein",
     },
     {
       value: "Amedeo Vetere",
@@ -29,8 +29,8 @@ Cotributors.args = {
       value: "Bridget K Wagner",
     },
     {
-      value: "Gervaise H Henry (Computational Scientist)",
       citation: "1",
+      value: "Gervaise H Henry (Computational Scientist)",
     },
   ],
 };
@@ -39,21 +39,21 @@ export const Organizations = Template.bind({});
 Organizations.args = {
   citations: [
     {
-      value: "Institute of Genetic Medicine",
+      align: "left",
       citation: "3",
-      align: "left",
+      value: "Institute of Genetic Medicine",
     },
     {
+      align: "left",
       value: "Institute of Cellular Medicine",
-      align: "left",
     },
     {
+      align: "left",
       value: "Newcastle University",
-      align: "left",
     },
     {
-      value: "Wellcome Sanger Institute",
       align: "left",
+      value: "Wellcome Sanger Institute",
     },
   ],
 };

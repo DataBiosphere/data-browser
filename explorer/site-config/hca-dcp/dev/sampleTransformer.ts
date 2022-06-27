@@ -4,6 +4,7 @@ import * as C from "../../../app/components";
 
 const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
+/* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
 export const samplesToSampleIDColumn = (
   sample: SampleResponse
 ): React.ComponentProps<typeof C.Links> => {
@@ -32,8 +33,8 @@ export const samplesToProjTitleColumn = (
 
   return {
     children: concatStrings(sample.projects[0].projectTitle),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -48,8 +49,8 @@ export const samplesToSpeciesColumn = (
     children: concatStrings(
       sample.donorOrganisms.flatMap((orgnanism) => orgnanism.genusSpecies)
     ),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -62,8 +63,8 @@ export const samplesToSampleTypeColumn = (
 
   return {
     children: concatStrings(sample.samples[0].sampleEntityType),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -76,8 +77,8 @@ export const samplesToLibConsApproachColumn = (
 
   return {
     children: concatStrings(sample.protocols[0].libraryConstructionApproach),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -90,8 +91,8 @@ export const samplesToAnatomicalEntityColumn = (
 
   return {
     children: concatStrings(sample.samples[0].organ),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 export const samplesToDiseaseDonorColumn = (
@@ -103,8 +104,8 @@ export const samplesToDiseaseDonorColumn = (
 
   return {
     children: concatStrings(sample.donorOrganisms[0].disease),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 export const samplesToCellCountColumn = (
@@ -113,14 +114,15 @@ export const samplesToCellCountColumn = (
   if (!sample.projects?.[0].estimatedCellCount) {
     return {
       children: 0,
-      variant: "text-body-400",
       customColor: "ink",
+      variant: "text-body-400",
     };
   }
 
   return {
     children: formatter.format(sample.projects[0].estimatedCellCount),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
+/* eslint-enable sonarjs/no-duplicate-string -- watching for duplicate strings here */

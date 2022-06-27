@@ -7,11 +7,11 @@ import UCSCCellIcon from "../../../images/icons/ucsc-cell.svg";
 import UCSCGenomeIcon from "../../../images/icons/ucsc-genome.svg";
 
 export default {
-  title: "Components/IconList",
-  component: IconList,
   argTypes: {
     icons: { control: "array" },
   },
+  component: IconList,
+  title: "Components/IconList",
 } as ComponentMeta<typeof IconList>;
 
 const Template: ComponentStory<typeof IconList> = (args) => (
@@ -22,32 +22,32 @@ export const AnalysisPortals = Template.bind({});
 AnalysisPortals.args = {
   icons: [
     {
-      label: "UCSC Genome Browser",
       icon: {
         alt: "UCSC Genome Browser",
         path: UCSCGenomeIcon,
       },
+      label: "UCSC Genome Browser",
     },
     {
-      label: "UCSC Cell Browser",
       icon: {
         alt: "UCSC Cell Browser",
         path: UCSCCellIcon,
       },
+      label: "UCSC Cell Browser",
     },
     {
-      label: "Cellxgene",
       icon: {
         alt: "Cellxgene",
         path: CellXGeneIcon,
       },
+      label: "Cellxgene",
     },
     {
-      label: "Stem Cell Hub",
       icon: {
         alt: "Stem Cell Hub",
         path: StemIcon,
       },
+      label: "Stem Cell Hub",
     },
   ],
 };

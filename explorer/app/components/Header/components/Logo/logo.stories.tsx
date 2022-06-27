@@ -6,8 +6,6 @@ import AnvilLogo from "../../../../../images/anvil-logo.png";
 import LungMapLogo from "../../../../../images/lungmap-logo.png";
 
 export default {
-  title: "Components/Logo",
-  component: Logo,
   argTypes: {
     alt: { control: "text" },
     height: { control: "number" },
@@ -15,6 +13,8 @@ export default {
     src: { control: "text" },
     width: { control: "number" },
   },
+  component: Logo,
+  title: "Components/Logo",
 } as ComponentMeta<typeof Logo>;
 
 const Template: ComponentStory<typeof Logo> = (args) => <Logo {...args} />;

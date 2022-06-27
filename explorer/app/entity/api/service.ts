@@ -68,6 +68,7 @@ export const detail = async (
   id: string,
   apiPath: string,
   param = DEFAULT_DETAIL_PARAMS
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- this response type can't be determined beforehand
 ): Promise<any> => {
   const res = await fetch(
     `${URL}${apiPath}/${id}?${convertUrlParams({ ...param })}`

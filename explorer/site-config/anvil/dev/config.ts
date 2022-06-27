@@ -13,7 +13,6 @@ const config: SiteConfig = {
     },
     url: "https://service.nadove2.dev.singlecell.gi.ucsc.edu/",
   },
-  redirectRootToPath: "/explore/files",
   entities: [filesEntity],
   layout: {
     header: {
@@ -89,6 +88,7 @@ const config: SiteConfig = {
       },
     },
   },
+  redirectRootToPath: "/explore/files",
 };
 
 export default config;

@@ -3,11 +3,11 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { ValueBlock } from "./ValueBlock";
 
 export default {
-  title: "Components/ValueBlock",
-  component: ValueBlock,
   argTypes: {
     items: { control: "array" },
   },
+  component: ValueBlock,
+  title: "Components/ValueBlock",
 } as ComponentMeta<typeof ValueBlock>;
 
 const Template: ComponentStory<typeof ValueBlock> = (args) => (

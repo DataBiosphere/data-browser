@@ -33,8 +33,8 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
         const data = await listAll(entity.apiPath);
         return data.hits.map((hit) => ({
           params: {
-            uuid: entity.getId?.(hit) ?? "",
             slug: entity.route,
+            uuid: entity.getId?.(hit) ?? "",
           },
         }));
       }
@@ -47,8 +47,8 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
     .filter(({ params }) => !!params);
 
   return {
-    paths: result,
     fallback: true,
+    paths: result,
   };
 };
 

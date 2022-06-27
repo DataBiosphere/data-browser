@@ -9,9 +9,9 @@ const countFormatter = Intl.NumberFormat("en", { notation: "compact" });
 
 export const title = (): React.ComponentProps<typeof C.Text> => {
   return {
-    variant: "text-heading-large",
-    customColor: "ink",
     children: "Explore Data: DCP 2.0 Data View",
+    customColor: "ink",
+    variant: "text-heading-large",
   };
 };
 

@@ -46,6 +46,7 @@ declare module "@mui/material/styles" {
     [BREAKPOINT.TABLET]: true;
   }
 
+  /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
   interface TypographyVariants {
     "text-body-400": TypographyStyleOptions;
     "text-body-400-2lines": TypographyStyleOptions;
@@ -102,6 +103,7 @@ declare module "@mui/material/Typography" {
     "text-uppercase-500": true;
   }
 }
+/* eslint-enable sonarjs/no-duplicate-string  -- watching duplicate strings here */
 
 /**
  * Button prop options.

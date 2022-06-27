@@ -14,56 +14,48 @@ export const mainColumn = [
     transformer: T.projectToContacts,
   } as ComponentConfig<typeof C.Contacts, ProjectResponse>,
   {
-    component: C.Section,
-    props: {
-      title: "Contributors",
-    },
     children: [
       {
         component: C.Citations,
         transformer: T.projectsToContributors,
       } as ComponentConfig<typeof C.Citations, ProjectResponse>,
     ],
-  } as ComponentConfig<typeof C.Section, ProjectResponse>,
-  {
     component: C.Section,
     props: {
-      title: "Collaborating Organizations",
+      title: "Contributors",
     },
+  } as ComponentConfig<typeof C.Section, ProjectResponse>,
+  {
     children: [
       {
         component: C.Citations,
         transformer: T.projectsToOrganizations,
       } as ComponentConfig<typeof C.Citations, ProjectResponse>,
     ],
-  } as ComponentConfig<typeof C.Section, ProjectResponse>,
-  {
     component: C.Section,
     props: {
-      title: "Data Curators",
+      title: "Collaborating Organizations",
     },
+  } as ComponentConfig<typeof C.Section, ProjectResponse>,
+  {
     children: [
       {
         component: C.TextLinks,
         transformer: T.projectsToDataCurators,
       } as ComponentConfig<typeof C.TextLinks, ProjectResponse>,
     ],
+    component: C.Section,
+    props: {
+      title: "Data Curators",
+    },
   } as ComponentConfig<typeof C.Section, ProjectResponse>,
   {
     component: C.Citation,
     transformer: T.projectsToCitation,
   } as ComponentConfig<typeof C.Citation, ProjectResponse>,
   {
-    component: C.Section,
-    props: {
-      title: "Supplementary Links",
-    },
     children: [
       {
-        component: C.Stack,
-        props: {
-          gap: 2,
-        },
         children: [
           {
             component: C.Text,
@@ -72,26 +64,34 @@ export const mainColumn = [
           {
             component: C.Links,
             props: {
-              showCopyButton: true,
               enumerate: true,
+              showCopyButton: true,
             },
             transformer: T.projectsToSupplementaryLinks,
           } as ComponentConfig<typeof C.Links>,
         ],
+        component: C.Stack,
+        props: {
+          gap: 2,
+        },
       } as ComponentConfig<typeof C.Stack>,
     ],
-  } as ComponentConfig<typeof C.Section, ProjectResponse>,
-  {
     component: C.Section,
     props: {
-      title: "Accessions",
+      title: "Supplementary Links",
     },
+  } as ComponentConfig<typeof C.Section, ProjectResponse>,
+  {
     children: [
       {
         component: C.TextLinks,
         transformer: T.projectsToAccessions,
       } as ComponentConfig<typeof C.TextLinks>,
     ],
+    component: C.Section,
+    props: {
+      title: "Accessions",
+    },
   } as ComponentConfig<typeof C.Section, ProjectResponse>,
   {
     component: C.DataReleasePolicy,

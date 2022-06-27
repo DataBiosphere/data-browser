@@ -81,14 +81,14 @@ export const useAsync = <T>(state: State<T> = { status: "idle" }) => {
   );
 
   return {
+    data,
+    error,
+    isError: status === "rejected",
     isIdle: status === "idle",
     isLoading: status === "pending",
-    isError: status === "rejected",
     isSuccess: status === "resolved",
-    error,
-    status,
-    data,
-    run,
     reset,
+    run,
+    status,
   };
 };

@@ -27,6 +27,8 @@ export const Item = ({
     setshowTooltip(false);
   };
 
+  const numberValue = number !== undefined ? `${number}. ` : "";
+
   return (
     <Box display="flex">
       <Link href={link.url} passHref>
@@ -36,7 +38,7 @@ export const Item = ({
           customColor="primaryAnvil"
           sx={{ wordBreak: "break-word" }} // TODO(cc) to be resolved with #89 (Update citation component to match refined mocks)
         >
-          {`${number !== undefined ? `${number}. ` : ""} ${link.label}`}
+          {`${numberValue} ${link.label}`}
         </Text>
       </Link>
       {showCopyButton && (

@@ -10,6 +10,7 @@ type GetIdFunction<T> = (detail: T) => string;
  * Interface used to define the entities and router that will be used on the application, alongside with
  * the detail and the list page configuration.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
 export interface EntityConfig<D = any> {
   label: string;
   route: string;
@@ -26,6 +27,7 @@ export interface EntityConfig<D = any> {
  * making any necessary transformations.
  *
  */
+/* eslint-disable @typescript-eslint/no-explicit-any -- This config model is part of a generic array */
 export interface ComponentConfig<
   T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any> = any,
   D = any
@@ -35,6 +37,7 @@ export interface ComponentConfig<
   children?: ComponentConfig[];
   transformer?: (model: D) => React.ComponentProps<T>;
 }
+/* eslint-enable @typescript-eslint/no-explicit-any -- This config model is part of a generic array */
 
 /**
  * Interface to determine the API URL and version
@@ -68,6 +71,7 @@ export interface SummaryConfig {
 
 export interface ColumnConfig<
   T,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
   C extends keyof JSX.IntrinsicElements | JSXElementConstructor<any> = any
 > {
   header: string;
@@ -76,6 +80,7 @@ export interface ColumnConfig<
   componentConfig: ComponentConfig<C, T>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model can receive any model as type
 export interface ListConfig<T = any> {
   columns: ColumnConfig<T>[];
 }

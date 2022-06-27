@@ -3,8 +3,8 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { ValueInline } from "./valueInline";
 
 export default {
-  title: "Components/ValueInline",
   component: ValueInline,
+  title: "Components/ValueInline",
 } as ComponentMeta<typeof ValueInline>;
 
 const Template: ComponentStory<typeof ValueInline> = (args) => (

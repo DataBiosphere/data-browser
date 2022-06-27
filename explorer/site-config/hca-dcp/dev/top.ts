@@ -6,13 +6,8 @@ import * as T from "./projectViewModelBuilder";
 
 export const top = [
   {
-    component: C.ProjectHeader,
     children: [
       {
-        component: C.Stack,
-        props: {
-          gap: 1,
-        },
         children: [
           // Insert breadcrumbs
           {
@@ -20,13 +15,12 @@ export const top = [
             transformer: T.projectsToProjTitle,
           } as ComponentConfig<typeof C.ProjectTitle, ProjectResponse>,
         ],
-      } as ComponentConfig<typeof C.Stack, ProjectResponse>,
-      {
         component: C.Stack,
         props: {
-          direction: "row",
-          gap: 4,
+          gap: 1,
         },
+      } as ComponentConfig<typeof C.Stack, ProjectResponse>,
+      {
         children: [
           // Insert select project
           {
@@ -34,7 +28,13 @@ export const top = [
             transformer: T.projectsToProjStatus,
           } as ComponentConfig<typeof C.StatusBadge, ProjectResponse>,
         ],
+        component: C.Stack,
+        props: {
+          direction: "row",
+          gap: 4,
+        },
       } as ComponentConfig<typeof C.Stack, ProjectResponse>,
     ],
+    component: C.ProjectHeader,
   } as ComponentConfig<typeof C.ProjectHeader, ProjectResponse>,
 ];

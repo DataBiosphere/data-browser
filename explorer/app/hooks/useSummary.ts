@@ -32,7 +32,7 @@ export const useSummary = (): UseSummaryResponse => {
   }
 
   return {
-    response,
     isLoading: apiIsLoading,
+    response,
   };
 };

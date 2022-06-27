@@ -25,6 +25,7 @@ const getOrganizations = (project: ProjectResponse): string[] => {
   );
 };
 
+/* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
 export const projectToContacts = (
   project: ProjectResponse
 ): React.ComponentProps<typeof C.Contacts> => {
@@ -45,8 +46,8 @@ export const projectsToContributors = (
 
   return {
     citations: projectValue.contributors.map((contributor) => ({
-      value: `${contributor.contactName} (${contributor.projectRole})`,
       citation: `${organizations.indexOf(contributor.institution) + 1}`,
+      value: `${contributor.contactName} (${contributor.projectRole})`,
     })),
   };
 };
@@ -80,11 +81,11 @@ export const projectsToAccessions = (
   return {
     values: [
       {
-        text: "Array Express Accessions: ",
         link: {
           label: "E-MTAB-8581",
           url: "https://www.ebi.ac.uk/arrayexpress/access/experiments/E-MTAB-8581",
         },
+        text: "Array Express Accessions: ",
       },
     ],
   };
@@ -102,8 +103,8 @@ export const projectsToOrganizations = (
   return {
     align: "left",
     citations: organizations.map((organization, index) => ({
-      value: organization,
       citation: `${index + 1}`,
+      value: organization,
     })),
   };
 };
@@ -316,8 +317,8 @@ export const projectsToFileCounts = (
 
   return {
     files: project.fileTypeSummaries.map((file) => ({
-      name: file.format,
       count: file.count,
+      name: file.format,
     })),
   };
 };
@@ -356,11 +357,11 @@ export const projectsToSupplementaryLinksLabel = (): React.ComponentProps<
   typeof C.Text
 > => {
   return {
-    variant: "text-body-400-2lines",
-    customColor: "ink",
     children: `To reference this Supplementary links are provided by contributors and represent items
      such as additional data which can’t be hosted here; code that was used to analyze this data; or
      tools and visualizations associated with this specific dataset.project, please use the following link:`,
+    customColor: "ink",
+    variant: "text-body-400-2lines",
   };
 };
 
@@ -381,13 +382,13 @@ export const projectsToSupplementaryLinks = (
 
   return {
     enumerate: true,
-    showCopyButton: true,
     links: project.projects[0].supplementaryLinks
       .filter((value) => !!value)
       .map((link) => ({
         label: link,
         url: link,
       })),
+    showCopyButton: true,
   };
 };
 
@@ -405,11 +406,11 @@ export const projectsToAnalysisPortals = (
 
   return {
     icons: entry.analysisPortals.map((entry) => ({
-      label: entry.label,
       icon: {
-        path: entry.icon,
         alt: entry.label ?? "",
+        path: entry.icon,
       },
+      label: entry.label,
     })),
   };
 };
@@ -436,11 +437,11 @@ export const projectsToSpeciesColumn = (
     };
   }
   return {
-    variant: "text-body-400",
-    customColor: "ink",
     children: concatStrings(
       project.donorOrganisms.flatMap((orgnanism) => orgnanism.genusSpecies)
     ),
+    customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -453,9 +454,9 @@ export const projectsToCellCountColumn = (
     };
   }
   return {
-    variant: "text-body-400",
-    customColor: "ink",
     children: `${formatter.format(project.cellSuspensions[0].totalCells)}`,
+    customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -470,8 +471,8 @@ export const projectsToLibConstApproachColumn = (
 
   return {
     children: concatStrings(project.protocols[0].libraryConstructionApproach),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -485,8 +486,8 @@ export const projectsToAnatomicalEntityColumn = (
   }
   return {
     children: concatStrings(project.samples[0].organ),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -501,7 +502,8 @@ export const projectsToDiseaseDonorColumn = (
 
   return {
     children: concatStrings(project.donorOrganisms[0].disease),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
+/* eslint-enable sonarjs/no-duplicate-string -- watching for duplicate strings here */

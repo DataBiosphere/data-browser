@@ -156,6 +156,7 @@ export interface SummaryResponse {
   totalFileSize: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- this type can't be determined beforehand
 export interface ListResponseType<T = any> extends PaginatedResponse {
   hits: T[];
 }

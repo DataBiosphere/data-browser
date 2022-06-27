@@ -4,23 +4,12 @@ import * as T from "./summaryViewModelBuilder";
 
 export const summary = [
   {
-    component: C.Stack,
-    props: {
-      direction: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
     children: [
       {
         component: C.Text,
         transformer: T.title,
       } as ComponentConfig<typeof C.Text>,
       {
-        component: C.Stack,
-        props: {
-          direction: "row",
-          gap: 2,
-        },
         children: [
           {
             component: C.ValueInline,
@@ -39,7 +28,18 @@ export const summary = [
             transformer: T.summaryToFiles,
           } as ComponentConfig<typeof C.ValueInline>,
         ],
+        component: C.Stack,
+        props: {
+          direction: "row",
+          gap: 2,
+        },
       } as ComponentConfig<typeof C.Stack>,
     ],
+    component: C.Stack,
+    props: {
+      alignItems: "center",
+      direction: "row",
+      justifyContent: "space-between",
+    },
   } as ComponentConfig<typeof C.Stack>,
 ];

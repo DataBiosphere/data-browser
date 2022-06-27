@@ -3,11 +3,11 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { NavLinks } from "./navLinks";
 
 export default {
-  title: "Components/NavLinks",
-  component: NavLinks,
   argTypes: {
     links: { control: "object" },
   },
+  component: NavLinks,
+  title: "Components/NavLinks",
 } as ComponentMeta<typeof NavLinks>;
 
 const Template: ComponentStory<typeof NavLinks> = (args) => (

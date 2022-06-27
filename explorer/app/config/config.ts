@@ -7,10 +7,10 @@ import lungMapDev from "../../site-config/lungmap/dev/config";
 import { SiteConfig } from "./model";
 
 const CONFIGS: { [k: string]: SiteConfig } = {
+  "anvil-dev": anvilDev,
+  "anvil-prod": anvilProd,
   "hca-dcp-dev": hcaDcpDev,
   "hca-dcp-prod": hcaDcpProd,
-  "anvil-prod": anvilProd,
-  "anvil-dev": anvilDev,
   "lungmap-dev": lungMapDev,
   "lungmap-prod": lungMapProd,
 };

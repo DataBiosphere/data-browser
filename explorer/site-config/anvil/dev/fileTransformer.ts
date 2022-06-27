@@ -2,6 +2,7 @@ import { concatStrings } from "app/utils/string";
 import { AnvilFileResponse } from "app/models/responses";
 import * as C from "../../../app/components";
 
+/* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
 export const filesToDatasetNameColumn = (
   file: AnvilFileResponse
 ): React.ComponentProps<typeof C.Text> => {
@@ -11,8 +12,8 @@ export const filesToDatasetNameColumn = (
 
   return {
     children: file.datasets[0].dataset_name,
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -25,8 +26,8 @@ export const filesToFileFormatColumn = (
 
   return {
     children: file.files[0].file_format,
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -39,8 +40,8 @@ export const filesToFileIdColumn = (
 
   return {
     children: file.files[0].file_id,
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -53,8 +54,8 @@ export const filesToFileTypeColumn = (
 
   return {
     children: file.files[0].file_type,
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
@@ -67,7 +68,8 @@ export const filesToDataModalityColumn = (
 
   return {
     children: concatStrings(file.files[0].data_modality),
-    variant: "text-body-400",
     customColor: "ink",
+    variant: "text-body-400",
   };
 };
+/* eslint-enable sonarjs/no-duplicate-string -- watching for duplicate strings */

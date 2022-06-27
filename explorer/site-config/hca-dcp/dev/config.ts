@@ -13,37 +13,35 @@ import HcaLogo from "images/hca-logo.png";
 
 const CATALOG_DCP2 = "dcp2";
 const PAGINATION_PAGE_SIZE = "25";
+const PROJECTS_URL = "/explore/projects";
 
 const config: SiteConfig = {
-  redirectRootToPath: "/explore/projects",
   datasources: {
+    defaultDetailParams: {
+      catalog: CATALOG_DCP2,
+    },
     defaultListParams: {
       catalog: CATALOG_DCP2,
       size: PAGINATION_PAGE_SIZE,
     },
-    defaultDetailParams: {
-      catalog: CATALOG_DCP2,
-    },
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
-  },
-  summary: {
-    apiPath: "index/summary",
-    components: summary,
   },
   entities: [projectEntity, filesEntity, samplesEntity],
   layout: {
     header: {
+      authenticationEnabled: false,
       logo: {
         alt: "Human Cell Atlas Data Coordination Platform",
         height: 40,
-        link: "/explore/projects",
+        link: PROJECTS_URL,
         src: HcaLogo,
       },
+      navAlignment: ELEMENT_ALIGNMENT.LEFT,
       navLinks: {
         links: [
           {
             label: "Explore",
-            url: "/explore/projects",
+            url: PROJECTS_URL,
           },
           {
             label: "Guides",
@@ -75,6 +73,8 @@ const config: SiteConfig = {
           },
         ],
       },
+      searchEnabled: false,
+      slogan: undefined,
       socialLinks: {
         links: [
           {
@@ -91,11 +91,12 @@ const config: SiteConfig = {
           },
         ],
       },
-      navAlignment: ELEMENT_ALIGNMENT.LEFT,
-      searchEnabled: false,
-      slogan: undefined,
-      authenticationEnabled: false,
     },
+  },
+  redirectRootToPath: PROJECTS_URL,
+  summary: {
+    apiPath: "index/summary",
+    components: summary,
   },
 };
 

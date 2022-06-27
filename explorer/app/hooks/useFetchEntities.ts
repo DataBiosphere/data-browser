@@ -72,21 +72,21 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
 
   if (entity.staticLoad) {
     return {
-      response: value?.data,
       isLoading: false,
+      response: value?.data,
     };
   }
 
   return {
-    response: apiData,
     isLoading: apiIsLoading,
     pagination: {
-      nextPage,
-      previousPage,
-      resetPage,
       canNextPage: !!apiData?.pagination.next,
       canPreviousPage: !!apiData?.pagination.previous,
       currentPage,
+      nextPage,
+      previousPage,
+      resetPage,
     },
+    response: apiData,
   };
 };

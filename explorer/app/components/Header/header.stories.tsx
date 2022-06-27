@@ -7,20 +7,20 @@ import LungMapLogo from "../../../images/lungmap-logo.png";
 import { ELEMENT_ALIGNMENT } from "../../common/entities";
 
 export default {
-  title: "Components/Header",
-  component: Header,
   argTypes: {
     authenticationEnabled: { control: "boolean" },
-    searchEnabled: { control: "boolean" },
     logo: { control: "object" },
     navAlignment: {
       control: "select",
       options: [ELEMENT_ALIGNMENT.LEFT, ELEMENT_ALIGNMENT.CENTER],
     },
     navLinks: { control: "array" },
+    searchEnabled: { control: "boolean" },
     slogan: { control: "text" },
     socialLinks: { control: "array" },
   },
+  component: Header,
+  title: "Components/Header",
 } as ComponentMeta<typeof Header>;
 
 const Template: ComponentStory<typeof Header> = (args) => <Header {...args} />;
@@ -28,7 +28,6 @@ const Template: ComponentStory<typeof Header> = (args) => <Header {...args} />;
 export const Anvil = Template.bind({});
 Anvil.args = {
   authenticationEnabled: false,
-  searchEnabled: true,
   logo: {
     alt: "NHGRI Analysis Visualization and Informatics Lab-space",
     height: 40,
@@ -72,6 +71,7 @@ Anvil.args = {
       },
     ],
   },
+  searchEnabled: true,
   slogan: "NHGRI Analysis Visualization and Informatics Lab-space",
   socialLinks: {
     links: [
@@ -98,7 +98,6 @@ Anvil.args = {
 export const HCA = Template.bind({});
 HCA.args = {
   authenticationEnabled: true,
-  searchEnabled: true,
   logo: {
     alt: "Anvil",
     height: 40,
@@ -142,6 +141,7 @@ HCA.args = {
       },
     ],
   },
+  searchEnabled: true,
   slogan: undefined,
   socialLinks: {
     links: [
@@ -163,7 +163,6 @@ HCA.args = {
 export const LungMap = Template.bind({});
 LungMap.args = {
   authenticationEnabled: false,
-  searchEnabled: true,
   logo: {
     alt: "LungMap",
     height: 40,
@@ -187,6 +186,7 @@ LungMap.args = {
       },
     ],
   },
+  searchEnabled: true,
   slogan: undefined,
   socialLinks: {
     links: [

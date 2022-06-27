@@ -26,20 +26,20 @@ export const NavLinks = ({
     <Box
       display="flex"
       flex={1}
-      flexDirection={{ mobile: "column", desktop: "row" }}
+      flexDirection={{ desktop: "row", mobile: "column" }}
       gap={2}
       justifyContent={{
-        mobile: undefined,
         desktop: center ? "center" : "flex-start",
+        mobile: undefined,
       }}
-      marginLeft={{ mobile: undefined, desktop: center ? undefined : 6 }}
+      marginLeft={{ desktop: center ? undefined : 6, mobile: undefined }}
     >
       {links.map(({ label, url }) => (
         <Link key={url} href={url} passHref>
           <Button
             href="passHref"
             sx={{
-              justifyContent: { mobile: "flex-start", desktop: "unset" },
+              justifyContent: { desktop: "unset", mobile: "flex-start" },
             }}
             variant="nav"
           >

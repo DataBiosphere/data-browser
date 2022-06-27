@@ -53,7 +53,8 @@ export const Header = ({
   searchEnabled,
   slogan,
   socialLinks,
-}: HeaderProps): JSX.Element => {
+}: // eslint-disable-next-line sonarjs/cognitive-complexity -- TODO(cc) revisit
+HeaderProps): JSX.Element => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const desktop = useBreakpointHelper(
     BREAKPOINT_FN_NAME.UP,
@@ -64,14 +65,14 @@ export const Header = ({
   const contentProps = desktop
     ? {}
     : {
-        hideBackdrop: true,
         ModalProps: { sx: { top: `${HEADER_HEIGHT}px` } },
-        onClose: () => setDrawerOpen(false),
-        open: drawerOpen,
         PaperProps: {
           elevation: 0,
           sx: { marginTop: HEADER_HEIGHT / 4, width: "100%" },
         },
+        hideBackdrop: true,
+        onClose: () => setDrawerOpen(false),
+        open: drawerOpen,
       };
   const contentContainerProps = desktop
     ? {}
@@ -137,8 +138,8 @@ export const Header = ({
             sx={{
               alignItems: "center",
               display: "flex",
-              flex: { mobile: 1, desktop: "none" },
-              gap: { mobile: 3, desktop: 2 },
+              flex: { desktop: "none", mobile: 1 },
+              gap: { desktop: 2, mobile: 3 },
               justifyContent: "flex-end",
             }}
           >

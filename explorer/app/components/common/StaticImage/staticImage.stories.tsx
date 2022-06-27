@@ -4,14 +4,14 @@ import { StaticImage } from "./staticImage";
 import HcaLogo from "../../../../images/hca-logo.png";
 
 export default {
-  title: "Components/StaticImage",
-  component: StaticImage,
   argTypes: {
     alt: { control: "text" },
     height: { control: "number" },
     src: { control: "text" },
     width: { control: "number" },
   },
+  component: StaticImage,
+  title: "Components/StaticImage",
 } as ComponentMeta<typeof StaticImage>;
 
 const Template: ComponentStory<typeof StaticImage> = (args) => (

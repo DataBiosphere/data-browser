@@ -3,16 +3,16 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Pagination } from "./pagination";
 
 export default {
-  title: "Components/Pagination",
-  component: Pagination,
   argTypes: {
-    currentPage: { control: "number" },
-    totalPage: { control: "number" },
     canNextPage: { control: "boolean" },
     canPreviousPage: { control: "boolean" },
+    currentPage: { control: "number" },
     onNextPage: { action: "nextPage" },
     onPreviousPage: { action: "previousPage" },
+    totalPage: { control: "number" },
   },
+  component: Pagination,
+  title: "Components/Pagination",
 } as ComponentMeta<typeof Pagination>;
 
 const Template: ComponentStory<typeof Pagination> = (args) => (

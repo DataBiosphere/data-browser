@@ -163,6 +163,7 @@ export const theme = createTheme(defaultTheme, {
             padding: "12px 24px",
             textTransform: "capitalize",
             whiteSpace: "nowrap",
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
             "&:hover": {
               backgroundColor: defaultTheme.palette.smokeLight,
             },
@@ -226,6 +227,7 @@ export const theme = createTheme(defaultTheme, {
           },
           style: {
             color: defaultTheme.palette.ink,
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
             "&:hover": {
               backgroundColor: defaultTheme.palette.smokeLight,
             },
@@ -237,6 +239,7 @@ export const theme = createTheme(defaultTheme, {
           },
           style: {
             color: defaultTheme.palette.inkLight,
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
             "&:hover": {
               backgroundColor: defaultTheme.palette.smokeLight,
             },

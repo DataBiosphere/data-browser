@@ -46,11 +46,11 @@ export const Table = <T extends object>({
     {
       columns,
       data: items,
-      manualPagination: !!pagination,
-      pageCount: total,
       initialState: {
         pageSize: pageSize,
       } as TableState,
+      manualPagination: !!pagination,
+      pageCount: total,
     },
     usePagination
   );

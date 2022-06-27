@@ -3,8 +3,8 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Search } from "./search";
 
 export default {
-  title: "Components/Search",
   component: Search,
+  title: "Components/Search",
 } as ComponentMeta<typeof Search>;
 
 const Template: ComponentStory<typeof Search> = () => <Search />;

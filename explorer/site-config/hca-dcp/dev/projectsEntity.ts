@@ -12,68 +12,68 @@ import { top } from "./top";
  * Entity config object responsible to config anything related to the /explore/projects route.
  */
 export const projectEntity = {
-  label: "Projects",
   apiPath: "index/projects",
-  route: "projects",
-  getId: getProjectId,
-  staticLoad: true,
   detail: {
     mainColumn: mainColumn,
     sideColumn: sideColumn,
     top: top,
   },
+  getId: getProjectId,
+  label: "Projects",
   list: {
     columns: [
       {
-        header: "Project Title",
         componentConfig: {
           component: C.Links,
           transformer: T.projectsToProjectTitleColumn,
         } as ComponentConfig<typeof C.Links>,
+        header: "Project Title",
       },
       {
-        header: "Species",
         componentConfig: {
           component: C.Text,
           transformer: T.projectsToSpeciesColumn,
         },
+        header: "Species",
       },
       {
-        header: "Library Construction Approach",
         componentConfig: {
           component: C.Text,
           transformer: T.projectsToLibConstApproachColumn,
         },
+        header: "Library Construction Approach",
       },
       {
-        header: "Anatomical Entity",
         componentConfig: {
           component: C.Text,
           transformer: T.projectsToAnatomicalEntityColumn,
         },
+        header: "Anatomical Entity",
       },
       {
-        header: "Disease (Donor)",
         componentConfig: {
           component: C.Text,
           transformer: T.projectsToDiseaseDonorColumn,
         },
+        header: "Disease (Donor)",
       },
       {
-        header: "Cell Count Estimate",
         componentConfig: {
-          component: C.Tooltip,
-          props: {
-            title: "Cell Count Estimate",
-          },
           children: [
             {
               component: C.Text,
               transformer: T.projectsToCellCountColumn,
             } as ComponentConfig<typeof C.Text>,
           ],
+          component: C.Tooltip,
+          props: {
+            title: "Cell Count Estimate",
+          },
         } as ComponentConfig<typeof C.Tooltip>,
+        header: "Cell Count Estimate",
       },
     ],
   } as ListConfig<ProjectResponse>,
+  route: "projects",
+  staticLoad: true,
 };

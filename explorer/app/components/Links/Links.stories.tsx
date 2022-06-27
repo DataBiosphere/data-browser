@@ -3,23 +3,27 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Links } from "./Links";
 
 export default {
-  title: "Components/Links",
-  component: Links,
   argTypes: {
+    enumerate: { control: "boolean" },
     links: { control: "array" },
     showCopyButton: { control: "boolean" },
-    enumerate: { control: "boolean" },
   },
+  component: Links,
+  title: "Components/Links",
 } as ComponentMeta<typeof Links>;
 
 const Template: ComponentStory<typeof Links> = (args) => <Links {...args} />;
 
+const FACEBOOK_URL = "https://www.facebook.com";
+const GOOGLE_URL = "https://www.google.com";
+const TWITTER_URL = "https://www.twitter.com";
+
 export const NoNumeratedWithoutCopyButton = Template.bind({});
 NoNumeratedWithoutCopyButton.args = {
   links: [
-    { url: "https://www.google.com", label: "Google" },
-    { url: "https://www.facebook.com", label: "Facebook" },
-    { url: "https://www.twitter.com", label: "Twitter" },
+    { label: "Google", url: GOOGLE_URL },
+    { label: "Facebook", url: FACEBOOK_URL },
+    { label: "Twitter", url: TWITTER_URL },
   ],
 };
 
@@ -27,19 +31,19 @@ export const NumeratedWithoutCopyButton = Template.bind({});
 NumeratedWithoutCopyButton.args = {
   enumerate: true,
   links: [
-    { url: "https://www.google.com", label: "Google" },
-    { url: "https://www.facebook.com", label: "Facebook" },
-    { url: "https://www.twitter.com", label: "Twitter" },
+    { label: "Google", url: GOOGLE_URL },
+    { label: "Facebook", url: FACEBOOK_URL },
+    { label: "Twitter", url: TWITTER_URL },
   ],
 };
 
 export const NumeratedWithCopyButton = Template.bind({});
 NumeratedWithCopyButton.args = {
-  showCopyButton: true,
   enumerate: true,
   links: [
-    { url: "https://www.google.com", label: "Google" },
-    { url: "https://www.facebook.com", label: "Facebook" },
-    { url: "https://www.twitter.com", label: "Twitter" },
+    { label: "Google", url: GOOGLE_URL },
+    { label: "Facebook", url: FACEBOOK_URL },
+    { label: "Twitter", url: TWITTER_URL },
   ],
+  showCopyButton: true,
 };

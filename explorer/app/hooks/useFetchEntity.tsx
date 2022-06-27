@@ -42,7 +42,7 @@ export const useFetchEntity = <T,>(
   }
 
   return {
-    response,
     isLoading: apiIsLoading,
+    response,
   };
 };

@@ -10,8 +10,9 @@ import hcaConfig from "site-config/hca-dcp/dev/config";
 
 const CATALOG_LM2 = "lm2";
 
+const PROJECTS_URL = "/explore/projects";
+
 const config: SiteConfig = {
-  redirectRootToPath: "/explore/projects",
   datasources: {
     defaultDetailParams: {
       catalog: CATALOG_LM2,
@@ -29,7 +30,7 @@ const config: SiteConfig = {
       logo: {
         alt: "LungMAP Data Browser",
         height: 40,
-        link: "/explore/projects",
+        link: PROJECTS_URL,
         src: LungMapLogo,
       },
       navAlignment: ELEMENT_ALIGNMENT.LEFT,
@@ -37,7 +38,7 @@ const config: SiteConfig = {
         links: [
           {
             label: "Explore",
-            url: "/explore/projects",
+            url: PROJECTS_URL,
           },
           {
             label: "Metadata",
@@ -61,6 +62,7 @@ const config: SiteConfig = {
       },
     },
   },
+  redirectRootToPath: PROJECTS_URL,
 };
 
 export default config;

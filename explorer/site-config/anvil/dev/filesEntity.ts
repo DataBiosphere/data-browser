@@ -11,46 +11,46 @@ import { AnvilFileResponse } from "app/models/responses";
  * Entity config object responsible to config anything related to the /explore/files route.
  */
 export const filesEntity: EntityConfig<AnvilFileResponse> = {
-  label: "Files",
   apiPath: "index/files",
-  route: "files",
+  label: "Files",
   list: {
     columns: [
       {
-        header: "Dataset Name",
         componentConfig: {
           component: C.Links,
           transformer: T.filesToDatasetNameColumn,
         } as ComponentConfig<typeof C.Links>,
+        header: "Dataset Name",
       },
       {
-        header: "File Format",
         componentConfig: {
           component: C.Text,
           transformer: T.filesToFileFormatColumn,
         } as ComponentConfig<typeof C.Text>,
+        header: "File Format",
       },
       {
-        header: "File ID",
         componentConfig: {
           component: C.Text,
           transformer: T.filesToFileIdColumn,
         } as ComponentConfig<typeof C.Text>,
+        header: "File ID",
       },
       {
-        header: "File Type",
         componentConfig: {
           component: C.Text,
           transformer: T.filesToFileTypeColumn,
         } as ComponentConfig<typeof C.Text>,
+        header: "File Type",
       },
       {
-        header: "Data Modality",
         componentConfig: {
           component: C.Text,
           transformer: T.filesToDataModalityColumn,
         } as ComponentConfig<typeof C.Text>,
+        header: "Data Modality",
       },
     ],
   } as ListConfig<AnvilFileResponse>,
+  route: "files",
 };
