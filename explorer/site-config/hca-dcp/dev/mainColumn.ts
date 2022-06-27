@@ -1,5 +1,5 @@
 // App dependencies
-import * as C from "../../../app/components";
+import * as C from "app/components";
 import { ComponentConfig } from "app/config/model";
 import { ProjectResponse } from "app/models/responses";
 import * as T from "./projectViewModelBuilder";
@@ -50,32 +50,9 @@ export const mainColumn = [
     ],
   } as ComponentConfig<typeof C.Section, ProjectResponse>,
   {
-    component: C.Section,
-    props: {
-      title: "Citation",
-    },
-    children: [
-      {
-        component: C.Stack,
-        props: {
-          gap: 1,
-        },
-        children: [
-          {
-            component: C.Text,
-            transformer: T.projectsToCitationsLabel,
-          } as ComponentConfig<typeof C.Text>,
-          {
-            component: C.Links,
-            props: {
-              showCopyButton: true,
-            },
-            transformer: T.projectsToCitations,
-          } as ComponentConfig<typeof C.Links>,
-        ],
-      } as ComponentConfig<typeof C.Stack>,
-    ],
-  } as ComponentConfig<typeof C.Section, ProjectResponse>,
+    component: C.Citation,
+    transformer: T.projectsToCitation,
+  } as ComponentConfig<typeof C.Citation, ProjectResponse>,
   {
     component: C.Section,
     props: {

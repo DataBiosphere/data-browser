@@ -1,6 +1,6 @@
 // Core dependencies
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 import { Collapse } from "@mui/material";
 import { CollapseProps } from "@mui/material/Collapse/Collapse";
 import React, { ReactNode, useEffect, useState } from "react";
@@ -39,7 +39,7 @@ export const Section = ({
   const [transitionDuration, setTransitionDuration] =
     useState<CollapseProps["timeout"]>(0);
   const disabled = !mobile || !collapsable;
-  const ExpandIcon = expanded ? RemoveIcon : AddIcon;
+  const ExpandIcon = expanded ? RemoveRoundedIcon : AddRoundedIcon;
   const SectionContent = (
     <Content variant="text-body-400-2lines">{children}</Content>
   );

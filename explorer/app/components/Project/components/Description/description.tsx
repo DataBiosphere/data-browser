@@ -12,7 +12,7 @@ interface Props {
 export const Description = ({ projectDescription }: Props): JSX.Element => {
   return (
     <Section title={"Description"}>
-      <Typography variant="inherit">{projectDescription}</Typography>
+      <Typography>{projectDescription}</Typography>
     </Section>
   );
 };

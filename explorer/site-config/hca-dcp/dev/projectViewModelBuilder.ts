@@ -2,11 +2,12 @@
 import React from "react";
 
 // App dependencies
-import * as C from "../../../app/components";
+import * as C from "app/components";
 import {
+  buildProjectCitationPath,
   getProjectContacts,
   getProjectDescription,
-} from "../../../app/components/Project/common/projectTransformer";
+} from "app/components/Project/common/projectTransformer";
 import { STATUS } from "app/components/StatusBadge/statusBadge";
 import { ProjectResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
@@ -363,26 +364,11 @@ export const projectsToSupplementaryLinksLabel = (): React.ComponentProps<
   };
 };
 
-export const projectsToCitationsLabel = (): React.ComponentProps<
-  typeof C.Text
-> => {
-  return {
-    variant: "text-body-400-2lines",
-    customColor: "ink",
-    children: `To reference this project, please use the following link:`,
-  };
-};
-
-export const projectsToCitations = (
+export const projectsToCitation = (
   project: ProjectResponse
-): React.ComponentProps<typeof C.Links> => {
+): React.ComponentProps<typeof C.Citation> => {
   return {
-    links: [
-      {
-        label: `https://data.humancellatlas.org/explore/projects/${project.projects[0].projectId}`,
-        url: `https://data.humancellatlas.org/explore/projects/${project.projects[0].projectId}`,
-      },
-    ],
+    citationPath: buildProjectCitationPath(project),
   };
 };
 

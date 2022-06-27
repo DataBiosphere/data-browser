@@ -133,6 +133,7 @@ declare module "@mui/material/IconButton" {
   interface IconButtonPropsSizeOverrides {
     xlarge: true;
     xsmall: true;
+    xxsmall: true;
   }
 }
 

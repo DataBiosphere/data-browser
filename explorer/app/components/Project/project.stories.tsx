@@ -3,6 +3,7 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 // App dependencies
+import { ProjectCitation } from "./components/Citation/citation.stories";
 import { ProjectContacts } from "./components/Contacts/contacts.stories";
 import { ProjectDataReleasePolicy } from "./components/DataReleasePolicy/dataReleasePolicy.stories";
 import { ProjectDescription } from "./components/Description/description.stories";
@@ -33,6 +34,9 @@ View.args = {
         }
       />
       <ProjectContacts contacts={ProjectContacts.args?.contacts || []} />
+      <ProjectCitation
+        citationPath={ProjectCitation.args?.citationPath || ""}
+      />
       <ProjectDataReleasePolicy />
     </>
   ),

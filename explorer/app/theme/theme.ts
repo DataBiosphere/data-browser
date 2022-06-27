@@ -267,6 +267,14 @@ export const theme = createTheme(defaultTheme, {
             marginRight: -2,
           },
         },
+        {
+          props: {
+            size: "xxsmall",
+          },
+          style: {
+            padding: 0,
+          },
+        },
       ],
     },
     MuiLink: {
@@ -304,6 +312,25 @@ export const theme = createTheme(defaultTheme, {
             paddingRight: 16,
           },
         },
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        arrow: {
+          color: defaultTheme.palette.ink,
+        },
+        tooltip: {
+          ...defaultTheme.typography["text-body-small-400"],
+          backgroundColor: defaultTheme.palette.ink,
+          boxShadow:
+            "0px 8px 8px -4px rgb(16 24 40 / 0.03), 0px 20px 24px -4px rgb(16 24 40 / 0.08)",
+          padding: "8px 12px",
+        },
+      },
+    },
+    MuiTypography: {
+      defaultProps: {
+        variant: "inherit",
       },
     },
   },

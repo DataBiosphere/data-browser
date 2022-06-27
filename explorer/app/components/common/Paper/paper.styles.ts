@@ -18,12 +18,12 @@ export const FlatPaper = styled(Paper)`
 export const RoundedPaper = styled(Paper)`
   border-radius: 8px;
 
-  & :first-of-type {
+  & > :first-of-type {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
   }
 
-  & :last-of-type {
+  & > :last-of-type {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
   }

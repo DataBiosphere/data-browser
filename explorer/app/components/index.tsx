@@ -3,6 +3,7 @@ export { Citations } from "./Citations/Citations";
 export { FileCounts } from "./FileCounts/FileCounts";
 export { IconList } from "./IconList/IconList";
 export { StaticImage } from "./common/StaticImage/staticImage";
+export { Citation } from "./Project/components/Citation/citation";
 export { Contacts } from "./Project/components/Contacts/contacts";
 export { DataReleasePolicy } from "./Project/components/DataReleasePolicy/dataReleasePolicy";
 export { Description } from "./Project/components/Description/description";

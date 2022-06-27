@@ -1,6 +1,6 @@
 // Core dependencies
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import {
   AppBar,
   Box,
@@ -153,7 +153,7 @@ export const Header = ({
                 color="ink"
                 onClick={() => setDrawerOpen((open) => !open)}
               >
-                {drawerOpen ? <CloseIcon /> : <MenuIcon />}
+                {drawerOpen ? <CloseRoundedIcon /> : <MenuRoundedIcon />}
               </IconButton>
             )}
           </Box>

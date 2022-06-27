@@ -9,7 +9,7 @@ import { Section } from "../Section/section";
 export const DataReleasePolicy = (): JSX.Element => {
   return (
     <Section title="Data Release Policy">
-      <Typography variant="inherit">
+      <Typography>
         For information regarding data sharing and data use, please see our{" "}
         <Link
           href="https://www.humancellatlas.org/data-release-policy/"

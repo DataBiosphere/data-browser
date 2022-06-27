@@ -1,5 +1,5 @@
 // Core dependencies
-import LoginIcon from "@mui/icons-material/Login";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { Button, IconButton } from "@mui/material";
 import React from "react";
 
@@ -18,12 +18,12 @@ export const ProfileComponent = (): JSX.Element => {
   return (
     <>
       {desktop ? (
-        <Button startIcon={<LoginIcon />} variant="nav">
+        <Button startIcon={<LoginRoundedIcon />} variant="nav">
           Sign in
         </Button>
       ) : (
         <IconButton color="ink">
-          <LoginIcon />
+          <LoginRoundedIcon />
         </IconButton>
       )}
     </>
