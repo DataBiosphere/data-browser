@@ -31,10 +31,31 @@ export const filesEntity: EntityConfig<FileResponse> = {
         } as ComponentConfig<typeof C.Text>,
       },
       {
+        header: "File Size",
+        componentConfig: {
+          component: C.Text,
+          transformer: T.filesToFileSizeColumn,
+        } as ComponentConfig<typeof C.Text>,
+      },
+      {
+        header: "Content Description",
+        componentConfig: {
+          component: C.Text,
+          transformer: T.filesToContentDescColumn,
+        } as ComponentConfig<typeof C.Text>,
+      },
+      {
         header: "Project Title",
         componentConfig: {
           component: C.Text,
           transformer: T.filesToProjTitleColumn,
+        } as ComponentConfig<typeof C.Text>,
+      },
+      {
+        header: "Cell Count Estimate",
+        componentConfig: {
+          component: C.Text,
+          transformer: T.filesToCellCountColumn,
         } as ComponentConfig<typeof C.Text>,
       },
     ],

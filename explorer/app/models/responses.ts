@@ -63,11 +63,21 @@ export interface ProjectResponse {
 
 //Samples
 export interface SampleResponse {
+  protocols: {
+    libraryConstructionApproach: string[];
+  }[];
   projects: {
     projectTitle: string[];
+    estimatedCellCount?: number;
+  }[];
+  donorOrganisms: {
+    genusSpecies: string[];
+    disease: string[];
   }[];
   samples: {
     id: string;
+    sampleEntityType: string;
+    organ: string;
   }[];
 }
 
@@ -75,11 +85,14 @@ export interface SampleResponse {
 export interface FileResponse {
   projects: {
     projectTitle: string[];
+    estimatedCellCount?: number;
   }[];
   files: {
     name: string;
     uuid: string;
     format: string;
+    size: number;
+    contentDescription: string[];
   }[];
 }
 

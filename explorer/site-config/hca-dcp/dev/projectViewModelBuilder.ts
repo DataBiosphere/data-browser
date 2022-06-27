@@ -13,6 +13,8 @@ import { ProjectResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
 import { concatStrings } from "app/utils/string";
 
+const formatter = Intl.NumberFormat("en", { notation: "compact" });
+
 const getOrganizations = (project: ProjectResponse): string[] => {
   return Array.from(
     new Set(
@@ -286,8 +288,6 @@ export const projectsToCellCount = (
     return { label: "Cell Count Estimate", value: "None" };
   }
 
-  const formatter = Intl.NumberFormat("en", { notation: "compact" });
-
   return {
     label: "Cell Count Estimate",
     value: `${formatter.format(project.projects[0].estimatedCellCount)}`,
@@ -455,6 +455,53 @@ export const projectsToCellCountColumn = (
   return {
     variant: "text-body-400",
     customColor: "ink",
-    children: project.cellSuspensions[0].totalCells,
+    children: `${formatter.format(project.cellSuspensions[0].totalCells)}`,
+  };
+};
+
+export const projectsToLibConstApproachColumn = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Text> => {
+  if (!project.protocols?.[0].libraryConstructionApproach) {
+    return {
+      children: "",
+    };
+  }
+
+  return {
+    children: concatStrings(project.protocols[0].libraryConstructionApproach),
+    variant: "text-body-400",
+    customColor: "ink",
+  };
+};
+
+export const projectsToAnatomicalEntityColumn = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Text> => {
+  if (!project.samples?.[0]?.organ) {
+    return {
+      children: "",
+    };
+  }
+  return {
+    children: concatStrings(project.samples[0].organ),
+    variant: "text-body-400",
+    customColor: "ink",
+  };
+};
+
+export const projectsToDiseaseDonorColumn = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Text> => {
+  if (!project.donorOrganisms?.[0]) {
+    return {
+      children: "",
+    };
+  }
+
+  return {
+    children: concatStrings(project.donorOrganisms[0].disease),
+    variant: "text-body-400",
+    customColor: "ink",
   };
 };

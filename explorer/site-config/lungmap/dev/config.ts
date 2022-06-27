@@ -1,10 +1,12 @@
 // App dependencies
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { SiteConfig } from "../../../app/config/model";
-import { getProjectId } from "app/transformers/hca";
 
 // Images
 import LungMapLogo from "images/lungmap-logo.png";
+
+// Config
+import hcaConfig from "site-config/hca-dcp/dev/config";
 
 const CATALOG_LM2 = "lm2";
 
@@ -20,25 +22,7 @@ const config: SiteConfig = {
     // url: "https://service.dev.singlecell.gi.ucsc.edu/",
     url: "https://service.azul.data.humancellatlas.org/",
   },
-  entities: [
-    {
-      label: "Projects",
-      apiPath: "index/projects",
-      route: "projects",
-      staticLoad: true,
-      getId: getProjectId,
-    },
-    {
-      label: "Files",
-      apiPath: "index/files",
-      route: "files",
-    },
-    {
-      label: "Samples",
-      apiPath: "index/samples",
-      route: "samples",
-    },
-  ],
+  entities: hcaConfig.entities,
   layout: {
     header: {
       authenticationEnabled: false,

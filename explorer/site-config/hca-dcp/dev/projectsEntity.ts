@@ -39,6 +39,27 @@ export const projectEntity = {
         },
       },
       {
+        header: "Library Construction Approach",
+        componentConfig: {
+          component: C.Text,
+          transformer: T.projectsToLibConstApproachColumn,
+        },
+      },
+      {
+        header: "Anatomical Entity",
+        componentConfig: {
+          component: C.Text,
+          transformer: T.projectsToAnatomicalEntityColumn,
+        },
+      },
+      {
+        header: "Disease (Donor)",
+        componentConfig: {
+          component: C.Text,
+          transformer: T.projectsToDiseaseDonorColumn,
+        },
+      },
+      {
         header: "Cell Count Estimate",
         componentConfig: {
           component: C.Tooltip,
