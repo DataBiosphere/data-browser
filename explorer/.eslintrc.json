@@ -1,12 +1,24 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "sonarjs"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier",
     "plugin:prettier/recommended",
     "plugin:storybook/recommended",
-    "next"
-  ]
+    "next",
+    "plugin:sonarjs/recommended"
+  ],
+  "rules": {
+    "sort-keys": [
+      "error",
+      "asc",
+      {
+        "caseSensitive": true,
+        "minKeys": 2,
+        "natural": false
+      }
+    ]
+  }
 }
