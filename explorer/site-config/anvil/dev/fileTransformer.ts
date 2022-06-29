@@ -6,7 +6,7 @@ import * as C from "../../../app/components";
 export const filesToDatasetNameColumn = (
   file: AnvilFileResponse
 ): React.ComponentProps<typeof C.Text> => {
-  if (!file.files) {
+  if (!file.datasets[0]) {
     return {};
   }
 

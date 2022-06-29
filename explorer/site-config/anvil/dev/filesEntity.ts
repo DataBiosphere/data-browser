@@ -17,9 +17,9 @@ export const filesEntity: EntityConfig<AnvilFileResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Links,
+          component: C.Text,
           transformer: T.filesToDatasetNameColumn,
-        } as ComponentConfig<typeof C.Links>,
+        } as ComponentConfig<typeof C.Text>,
         header: "Dataset Name",
       },
       {
