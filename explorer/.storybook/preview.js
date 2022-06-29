@@ -4,7 +4,7 @@ import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
 // App dependencies
-import { theme } from "../app/theme"
+import { theme } from "../app/theme";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -15,7 +15,7 @@ export const parameters = {
     },
   },
   layout: "fullscreen",
-}
+};
 
 const withThemeProvider = (Story, context) => {
   return (
