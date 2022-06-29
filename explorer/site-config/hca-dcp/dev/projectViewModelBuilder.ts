@@ -5,6 +5,7 @@ import React from "react";
 import * as C from "app/components";
 import {
   buildProjectCitationPath,
+  getProjectContributors,
   getProjectContacts,
   getProjectDescription,
 } from "app/components/Project/common/projectTransformer";
@@ -15,6 +16,22 @@ import { concatStrings } from "app/utils/string";
 
 const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
+export const buildContacts = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Contacts> => {
+  return {
+    contacts: getProjectContacts(project),
+  };
+};
+
+export const buildContributors = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Contributors> => {
+  return {
+    contributors: getProjectContributors(project),
+  };
+};
+
 const getOrganizations = (project: ProjectResponse): string[] => {
   return Array.from(
     new Set(
@@ -23,33 +40,6 @@ const getOrganizations = (project: ProjectResponse): string[] => {
       )
     )
   );
-};
-
-/* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
-export const projectToContacts = (
-  project: ProjectResponse
-): React.ComponentProps<typeof C.Contacts> => {
-  return {
-    contacts: getProjectContacts(project),
-  };
-};
-
-export const projectsToContributors = (
-  project: ProjectResponse
-): React.ComponentProps<typeof C.Citations> => {
-  if (!project) {
-    return { citations: [] };
-  }
-
-  const projectValue = project.projects[0];
-  const organizations = getOrganizations(project);
-
-  return {
-    citations: projectValue.contributors.map((contributor) => ({
-      citation: `${organizations.indexOf(contributor.institution) + 1}`,
-      value: `${contributor.contactName} (${contributor.projectRole})`,
-    })),
-  };
 };
 
 export const projectsToDataCurators = (

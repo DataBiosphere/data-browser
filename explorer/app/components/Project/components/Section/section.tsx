@@ -41,7 +41,9 @@ export const Section = ({
   const disabled = !mobile || !collapsable;
   const ExpandIcon = expanded ? RemoveRoundedIcon : AddRoundedIcon;
   const SectionContent = (
-    <Content variant="text-body-400-2lines">{children}</Content>
+    <Content component="div" variant="text-body-400-2lines">
+      {children}
+    </Content>
   );
 
   const onToggleExpanded = () => {

@@ -35,7 +35,7 @@ export const SectionContent = styled(Typography)`
   ${({ theme }) => theme.breakpoints.up(BREAKPOINT.TABLET)} {
     padding: 0;
   }
-`;
+` as typeof Typography;
 
 export const SectionContentListItem = styled.div`
   align-items: flex-start;

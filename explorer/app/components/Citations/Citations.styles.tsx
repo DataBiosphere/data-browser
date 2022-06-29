@@ -7,3 +7,7 @@ export const Citation = styled.sup`
 `;
 
 export const ItemContainer = styled.div``;
+
+export const Sup = styled.sup`
+  line-height: 0;
+`;

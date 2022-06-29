@@ -18,6 +18,7 @@ module.exports = {
           ...config.resolve.alias,
           app: path.resolve(__dirname, "../app"),
           images: path.resolve(__dirname, "../images"),
+          "site-config": path.resolve(__dirname, "../site-config"),
           "@emotion/core": toPath("node_modules/@emotion/react"),
           "emotion-theming": toPath("node_modules/@emotion/react"),
         },

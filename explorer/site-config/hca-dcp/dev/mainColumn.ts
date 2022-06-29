@@ -11,20 +11,12 @@ export const mainColumn = [
   } as ComponentConfig<typeof C.Description, ProjectResponse>,
   {
     component: C.Contacts,
-    transformer: T.projectToContacts,
+    transformer: T.buildContacts,
   } as ComponentConfig<typeof C.Contacts, ProjectResponse>,
   {
-    children: [
-      {
-        component: C.Citations,
-        transformer: T.projectsToContributors,
-      } as ComponentConfig<typeof C.Citations, ProjectResponse>,
-    ],
-    component: C.Section,
-    props: {
-      title: "Contributors",
-    },
-  } as ComponentConfig<typeof C.Section, ProjectResponse>,
+    component: C.Contributors,
+    transformer: T.buildContributors,
+  } as ComponentConfig<typeof C.Contributors, ProjectResponse>,
   {
     children: [
       {
