@@ -17,13 +17,13 @@ export interface Contact {
 }
 
 interface Props {
-  contacts: Contact[];
+  contacts?: Contact[];
 }
 
 export const Contacts = ({ contacts }: Props): JSX.Element => {
   return (
     <Section collapsable title="Contact">
-      {contacts.length > 0 ? (
+      {contacts ? (
         contacts.map(({ email, institution, name }, c) => (
           <SectionContentListItem key={`${name}${c}`}>
             <Typography variant="text-body-500-2lines">{name}</Typography>

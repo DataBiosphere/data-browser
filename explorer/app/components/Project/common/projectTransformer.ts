@@ -8,32 +8,27 @@ import {
 import { ContributorResponse } from "./entities";
 
 /**
- * Builds project citation path from projectId.
- * @param project - Project response model return from API.
- * @returns string representation of project citation path.
- */
-export function buildProjectCitationPath(project?: ProjectResponse): string {
-  if (!project) {
-    return "";
-  }
-
-  return `explore/projects/${project.projects[0].projectId}`;
-}
-
-/**
  * Maps project contacts from API response.
  * @param project - Project response model return from API.
  * @returns project contacts.
  */
-export function getProjectContacts(project?: ProjectResponse): Contact[] {
+export function getProjectContacts(
+  project?: ProjectResponse
+): Contact[] | undefined {
   if (!project) {
     return [];
   }
-  return project?.projects[0].contributors
+  const contacts = project.projects[0].contributors
     .filter((contributor) => contributor.correspondingContributor)
     .map(({ contactName, email, institution }) => {
       return { email, institution, name: formatName(contactName) };
     });
+
+  if (contacts.length === 0) {
+    return; // Caller is expecting undefined, not an empty array.
+  }
+
+  return contacts;
 }
 
 /**
@@ -81,6 +76,19 @@ export function getProjectDescription(
   project?: ProjectResponse
 ): string | undefined {
   return project?.projects[0].projectDescription;
+}
+
+/**
+ * Builds project path from projectId.
+ * @param project - Project response model return from API.
+ * @returns string representation of project path.
+ */
+export function getProjectPath(project?: ProjectResponse): string | undefined {
+  const projectId = project?.projects[0].projectId;
+  if (!projectId) {
+    return;
+  }
+  return `/${projectId}`;
 }
 
 /**

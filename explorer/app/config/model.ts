@@ -27,6 +27,7 @@ export interface EntityConfig<D = any> {
  * making any necessary transformations.
  *
  */
+
 /* eslint-disable @typescript-eslint/no-explicit-any -- This config model is part of a generic array */
 export interface ComponentConfig<
   T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any> = any,
@@ -37,6 +38,7 @@ export interface ComponentConfig<
   children?: ComponentConfig[];
   transformer?: (model: D) => React.ComponentProps<T>;
 }
+
 /* eslint-enable @typescript-eslint/no-explicit-any -- This config model is part of a generic array */
 
 /**
@@ -89,11 +91,12 @@ export interface ListConfig<T = any> {
  * Interface that will hold the whole configuration for a given site.
  */
 export interface SiteConfig {
-  redirectRootToPath?: string;
+  browserURL?: string;
   datasources: DataSourceConfig;
+  entities: EntityConfig[];
   layout: {
     header: HeaderProps;
   };
+  redirectRootToPath?: string;
   summary?: SummaryConfig;
-  entities: EntityConfig[];
 }

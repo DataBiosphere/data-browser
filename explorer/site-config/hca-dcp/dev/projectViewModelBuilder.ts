@@ -4,10 +4,10 @@ import React from "react";
 // App dependencies
 import * as C from "app/components";
 import {
-  buildProjectCitationPath,
   getProjectContributors,
   getProjectContacts,
   getProjectDescription,
+  getProjectPath,
 } from "app/components/Project/common/projectTransformer";
 import { STATUS } from "app/components/StatusBadge/statusBadge";
 import { ProjectResponse } from "app/models/responses";
@@ -15,6 +15,14 @@ import { ENTRIES } from "app/project-edits";
 import { concatStrings } from "app/utils/string";
 
 const formatter = Intl.NumberFormat("en", { notation: "compact" });
+
+export const buildCitation = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Citation> => {
+  return {
+    projectPath: getProjectPath(project),
+  };
+};
 
 export const buildContacts = (
   project: ProjectResponse
@@ -29,6 +37,14 @@ export const buildContributors = (
 ): React.ComponentProps<typeof C.Contributors> => {
   return {
     contributors: getProjectContributors(project),
+  };
+};
+
+export const buildDescription = (
+  project: ProjectResponse
+): React.ComponentProps<typeof C.Description> => {
+  return {
+    projectDescription: getProjectDescription(project) || "None",
   };
 };
 
@@ -313,14 +329,6 @@ export const projectsToFileCounts = (
   };
 };
 
-export const projectsToProjDescription = (
-  project: ProjectResponse
-): React.ComponentProps<typeof C.Description> => {
-  return {
-    projectDescription: getProjectDescription(project) || "None",
-  };
-};
-
 export const projectsToProjStatus = (
   project: ProjectResponse
 ): React.ComponentProps<typeof C.StatusBadge> => {
@@ -352,14 +360,6 @@ export const projectsToSupplementaryLinksLabel = (): React.ComponentProps<
      tools and visualizations associated with this specific dataset.project, please use the following link:`,
     customColor: "ink",
     variant: "text-body-400-2lines",
-  };
-};
-
-export const projectsToCitation = (
-  project: ProjectResponse
-): React.ComponentProps<typeof C.Citation> => {
-  return {
-    citationPath: buildProjectCitationPath(project),
   };
 };
 
@@ -418,6 +418,7 @@ export const projectsToProjectTitleColumn = (
   };
 };
 
+/* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
 export const projectsToSpeciesColumn = (
   project: ProjectResponse
 ): React.ComponentProps<typeof C.Text> => {
@@ -431,6 +432,8 @@ export const projectsToSpeciesColumn = (
       project.donorOrganisms.flatMap((orgnanism) => orgnanism.genusSpecies)
     ),
     customColor: "ink",
+    // TODO(cc) resolve with ticket Update project details component to match refined mocks #94
+    // eslint-disable-next-line sonarjs/no-duplicate-string
     variant: "text-body-400",
   };
 };

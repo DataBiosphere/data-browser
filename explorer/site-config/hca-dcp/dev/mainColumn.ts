@@ -7,7 +7,7 @@ import * as T from "./projectViewModelBuilder";
 export const mainColumn = [
   {
     component: C.Description,
-    transformer: T.projectsToProjDescription,
+    transformer: T.buildDescription,
   } as ComponentConfig<typeof C.Description, ProjectResponse>,
   {
     component: C.Contacts,
@@ -43,7 +43,7 @@ export const mainColumn = [
   } as ComponentConfig<typeof C.Section, ProjectResponse>,
   {
     component: C.Citation,
-    transformer: T.projectsToCitation,
+    transformer: T.buildCitation,
   } as ComponentConfig<typeof C.Citation, ProjectResponse>,
   {
     children: [

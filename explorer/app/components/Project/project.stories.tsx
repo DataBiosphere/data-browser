@@ -34,11 +34,9 @@ View.args = {
           ProjectDescription.args?.projectDescription || "None"
         }
       />
-      <ProjectContacts contacts={ProjectContacts.args?.contacts || []} />
+      <ProjectContacts {...ProjectContacts.args} />
       <ProjectContributors {...ProjectContributors.args} />
-      <ProjectCitation
-        citationPath={ProjectCitation.args?.citationPath || ""}
-      />
+      <ProjectCitation {...ProjectCitation.args} />
       <ProjectDataReleasePolicy />
     </>
   ),

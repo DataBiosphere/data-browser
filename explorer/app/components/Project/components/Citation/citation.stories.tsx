@@ -7,7 +7,7 @@ import { Citation } from "./citation";
 
 export default {
   argTypes: {
-    citationPath: { control: "text" },
+    projectPath: { control: "text" },
   },
   component: Citation,
   title: "Project/Detail",
@@ -19,5 +19,5 @@ const Template: ComponentStory<typeof Citation> = (args) => (
 
 export const ProjectCitation = Template.bind({});
 ProjectCitation.args = {
-  citationPath: "explore/projects/60ea42e1-af49-42f5-8164-d641fdb696bc",
+  projectPath: "/60ea42e1-af49-42f5-8164-d641fdb696bc",
 };

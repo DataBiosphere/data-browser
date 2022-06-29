@@ -3,19 +3,21 @@ import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { SiteConfig } from "../../../app/config/model";
 
 // Entities config
+import { filesEntity } from "./filesEntity";
 import { projectEntity } from "./projectsEntity";
 import { samplesEntity } from "./samplesEntity";
-import { filesEntity } from "./filesEntity";
 import { summary } from "./summary";
 
 // Images
 import HcaLogo from "images/hca-logo.png";
 
+const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";
 const CATALOG_DCP2 = "dcp2";
 const PAGINATION_PAGE_SIZE = "25";
 const PROJECTS_URL = "/explore/projects";
 
 const config: SiteConfig = {
+  browserURL: BROWSER_URL,
   datasources: {
     defaultDetailParams: {
       catalog: CATALOG_DCP2,
