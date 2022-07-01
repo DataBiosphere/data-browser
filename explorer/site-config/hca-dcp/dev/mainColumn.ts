@@ -34,18 +34,6 @@ export const mainColumn = [
     transformer: T.buildSupplementaryLinks,
   } as ComponentConfig<typeof C.SupplementaryLinks>,
   {
-    children: [
-      {
-        component: C.TextLinks,
-        transformer: T.projectsToAccessions,
-      } as ComponentConfig<typeof C.TextLinks>,
-    ],
-    component: C.Section,
-    props: {
-      title: "Accessions",
-    },
-  } as ComponentConfig<typeof C.Section, ProjectsResponse>,
-  {
     component: C.DataReleasePolicy,
   } as ComponentConfig<typeof C.DataReleasePolicy>,
 ];

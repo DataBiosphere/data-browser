@@ -111,27 +111,6 @@ export const buildDataCurators = (
   };
 };
 
-// TODO: These values are hardcoded for now, but we should be able to get them from the API
-export const projectsToAccessions = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.TextLinks> => {
-  if (!project) {
-    return { values: [] };
-  }
-
-  return {
-    values: [
-      {
-        link: {
-          label: "E-MTAB-8581",
-          url: "https://www.ebi.ac.uk/arrayexpress/access/experiments/E-MTAB-8581",
-        },
-        text: "Array Express Accessions: ",
-      },
-    ],
-  };
-};
-
 export const projectsToProjectLabel = (
   project: ProjectsResponse
 ): React.ComponentProps<typeof C.LabelValue> => {
