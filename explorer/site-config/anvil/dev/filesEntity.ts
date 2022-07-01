@@ -5,12 +5,12 @@ import {
   EntityConfig,
   ListConfig,
 } from "../../../app/config/model";
-import { AnvilFileResponse } from "app/models/responses";
+import { AnvilFilesResponse } from "app/models/responses";
 
 /**
  * Entity config object responsible to config anything related to the /explore/files route.
  */
-export const filesEntity: EntityConfig<AnvilFileResponse> = {
+export const filesEntity: EntityConfig<AnvilFilesResponse> = {
   apiPath: "index/files",
   label: "Files",
   list: {
@@ -51,6 +51,6 @@ export const filesEntity: EntityConfig<AnvilFileResponse> = {
         header: "Data Modality",
       },
     ],
-  } as ListConfig<AnvilFileResponse>,
+  } as ListConfig<AnvilFilesResponse>,
   route: "files",
 };

@@ -1,25 +1,32 @@
 // App dependencies
-import { ProjectResponse } from "app/models/responses";
+import {
+  ContributorResponse,
+  ProjectResponse,
+  ProjectsResponse,
+} from "app/models/responses";
 import { Contact } from "../components/Contacts/contacts";
 import {
   CONTRIBUTOR_ROLE,
   Contributor,
 } from "../components/Contributors/contributors";
-import { ContributorResponse } from "./entities";
 
 /**
  * Maps project contacts from API response.
- * @param project - Project response model return from API.
+ * @param projectsResponse - Response model return from projects API.
  * @returns project contacts.
  */
 export function getProjectContacts(
-  project?: ProjectResponse
+  projectsResponse?: ProjectsResponse
 ): Contact[] | undefined {
-  if (!project) {
-    return [];
+  const projectResponse = getProjectResponse(projectsResponse);
+  if (!projectResponse) {
+    return;
   }
-  const contacts = project.projects[0].contributors
-    .filter((contributor) => contributor.correspondingContributor)
+
+  const contacts = projectResponse.contributors
+    .filter(
+      (contributorResponse) => contributorResponse.correspondingContributor
+    )
     .map(({ contactName, email, institution }) => {
       return { email, institution, name: formatName(contactName) };
     });
@@ -33,20 +40,21 @@ export function getProjectContacts(
 
 /**
  * Maps project contributors from API response.
- * @param project - Project response model return from API.
+ * @param projectsResponse - Response model return from projects API.
  * @returns project contributors with their corresponding [organization] citation number.
  */
 export function getProjectContributors(
-  project?: ProjectResponse
+  projectsResponse?: ProjectsResponse
 ): Contributor[] | undefined {
+  const project = getProjectResponse(projectsResponse);
   if (!project) {
     return;
   }
 
   // Filter for project contributors (contributors without the "data curator" role).
-  const contributors = project.projects[0].contributors;
-  const projectContributors =
-    filterContributorsWithProjectContributors(contributors);
+  const projectContributors = filterContributorsWithProjectContributors(
+    project.contributors
+  );
 
   if (projectContributors.length === 0) {
     return; // Caller is expecting undefined, not an empty array.
@@ -69,26 +77,58 @@ export function getProjectContributors(
 
 /**
  * Maps project description from API response.
- * @param project - Project response model return from API.
+ * @param projectsResponse - Response model return from projects API.
  * @returns string representation of project description.
  */
 export function getProjectDescription(
-  project?: ProjectResponse
+  projectsResponse?: ProjectsResponse
 ): string | undefined {
-  return project?.projects[0].projectDescription;
+  const project = getProjectResponse(projectsResponse);
+  if (!project) {
+    return;
+  }
+  return project.projectDescription;
 }
 
 /**
  * Builds project path from projectId.
- * @param project - Project response model return from API.
+ * @param projectsResponse - Response model return from projects API.
  * @returns string representation of project path.
  */
-export function getProjectPath(project?: ProjectResponse): string | undefined {
-  const projectId = project?.projects[0].projectId;
-  if (!projectId) {
+export function getProjectPath(
+  projectsResponse?: ProjectsResponse
+): string | undefined {
+  const project = getProjectResponse(projectsResponse);
+  const projectPath = project?.projectId;
+  if (!project || !projectPath) {
     return;
   }
-  return `/${projectId}`;
+  return `/${project.projectId}`;
+}
+
+/**
+ * Maps project supplementary links from API response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns list of supplementary links.
+ */
+export function getProjectSupplementaryLinks(
+  projectsResponse?: ProjectsResponse
+): string[] | undefined {
+  const project = getProjectResponse(projectsResponse);
+  if (!project) {
+    return;
+  }
+
+  // Filter valid links - API response can return [null]
+  const supplementaryLinks = project.supplementaryLinks.filter((link) =>
+    isValidUrl(link)
+  );
+
+  if (supplementaryLinks.length === 0) {
+    return; // Caller is expecting undefined, not an empty array.
+  }
+
+  return supplementaryLinks;
 }
 
 /**
@@ -107,7 +147,7 @@ function filterContributorsWithProjectContributors(
 
 /**
  * Formats name from "firstName,middleName,lastName" to "firstName middleName lastName".
- * @param commaDelimitedName
+ * @param commaDelimitedName - Contributor's name tokens delimited by a comma.
  * @returns formatted name "firstName middleName lastName".
  */
 function formatName(commaDelimitedName: string): string {
@@ -116,7 +156,7 @@ function formatName(commaDelimitedName: string): string {
 
 /**
  * Formats string to title case.
- * @param str
+ * @param str - Value to format to title case.
  * @returns formatted string as title case.
  */
 function formatTitleCase(str?: string): string | undefined {
@@ -145,6 +185,19 @@ function getCitationByCollaboratingOrganizations(
 }
 
 /**
+ * Returns the project value from the projects API response.
+ * @param projectsResponse - Response returned from projects API response.
+ */
+function getProjectResponse(
+  projectsResponse?: ProjectsResponse
+): ProjectResponse | undefined {
+  if (!projectsResponse) {
+    return;
+  }
+  return projectsResponse.projects?.[0];
+}
+
+/**
  * Returns true if the contributor role is "data curator".
  * @param projectRole - Project contributor role.
  * @returns true if the contributor role is "data curator".
@@ -154,4 +207,17 @@ function isContributorDataCurator(projectRole: string | undefined): boolean {
     Boolean(projectRole) &&
     projectRole?.toLowerCase() === CONTRIBUTOR_ROLE.DATA_CURATOR
   );
+}
+
+/**
+ * Return true if url specified is valid.
+ * @param testUrl - URL to check if valid.
+ * @returns true when the url is valid.
+ */
+function isValidUrl(testUrl: string): boolean {
+  try {
+    return Boolean(new URL(testUrl));
+  } catch (e) {
+    return false;
+  }
 }

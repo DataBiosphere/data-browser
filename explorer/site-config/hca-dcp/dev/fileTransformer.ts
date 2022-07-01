@@ -1,5 +1,5 @@
 import { concatStrings } from "app/utils/string";
-import { FileResponse } from "app/models/responses";
+import { FilesResponse } from "app/models/responses";
 import * as C from "../../../app/components";
 import { humanFileSize } from "app/utils/fileSize";
 
@@ -7,7 +7,7 @@ const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
 /* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here*/
 export const filesToFileNameColumn = (
-  file: FileResponse
+  file: FilesResponse
 ): React.ComponentProps<typeof C.Links> => {
   if (!file.files?.[0]) {
     return {
@@ -26,7 +26,7 @@ export const filesToFileNameColumn = (
 };
 
 export const filesToFileFormatColumn = (
-  file: FileResponse
+  file: FilesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!file.files?.[0]) {
     return {};
@@ -40,7 +40,7 @@ export const filesToFileFormatColumn = (
 };
 
 export const filesToProjTitleColumn = (
-  file: FileResponse
+  file: FilesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!file.projects?.[0]) {
     return {};
@@ -54,7 +54,7 @@ export const filesToProjTitleColumn = (
 };
 
 export const filesToFileSizeColumn = (
-  file: FileResponse
+  file: FilesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!file.files?.[0]) {
     return {};
@@ -68,7 +68,7 @@ export const filesToFileSizeColumn = (
 };
 
 export const filesToContentDescColumn = (
-  file: FileResponse
+  file: FilesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!file.files?.[0]) {
     return {};
@@ -82,7 +82,7 @@ export const filesToContentDescColumn = (
 };
 
 export const filesToCellCountColumn = (
-  file: FileResponse
+  file: FilesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!file.projects?.[0].estimatedCellCount) {
     return {

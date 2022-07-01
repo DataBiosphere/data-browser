@@ -5,12 +5,12 @@ import {
   EntityConfig,
   ListConfig,
 } from "../../../app/config/model";
-import { SampleResponse } from "app/models/responses";
+import { SamplesResponse } from "app/models/responses";
 
 /**
  * Entity config object responsible to config anything related to the /explore/samples route.
  */
-export const samplesEntity: EntityConfig<SampleResponse> = {
+export const samplesEntity: EntityConfig<SamplesResponse> = {
   apiPath: "index/samples",
   label: "Samples",
   list: {
@@ -97,6 +97,6 @@ export const samplesEntity: EntityConfig<SampleResponse> = {
         },
       },
     ],
-  } as ListConfig<SampleResponse>,
+  } as ListConfig<SamplesResponse>,
   route: "samples",
 };

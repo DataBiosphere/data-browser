@@ -10,6 +10,7 @@ export { DataReleasePolicy } from "./Project/components/DataReleasePolicy/dataRe
 export { Description } from "./Project/components/Description/description";
 export { ProjectHeader } from "./Project/components/ProjectHeader/projectHeader";
 export { Section } from "./Project/components/Section/section";
+export { SupplementaryLinks } from "./Project/components/SupplementaryLinks/supplementaryLinks";
 export { ProjectTitle } from "./ProjectTitle/projectTitle";
 export { Text } from "./Text/Text";
 export { TextLinks } from "./TextLinks/TextLinks";

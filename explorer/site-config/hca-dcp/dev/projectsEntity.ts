@@ -1,7 +1,7 @@
 // App dependencies
 import * as C from "../../../app/components";
 import { ComponentConfig, ListConfig } from "../../../app/config/model";
-import { ProjectResponse } from "app/models/responses";
+import { ProjectsResponse } from "app/models/responses";
 import { getProjectId } from "app/transformers/hca";
 import { mainColumn } from "./mainColumn";
 import * as T from "./projectViewModelBuilder";
@@ -73,7 +73,7 @@ export const projectEntity = {
         header: "Cell Count Estimate",
       },
     ],
-  } as ListConfig<ProjectResponse>,
+  } as ListConfig<ProjectsResponse>,
   route: "projects",
   staticLoad: true,
 };

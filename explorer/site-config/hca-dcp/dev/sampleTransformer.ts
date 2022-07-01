@@ -1,4 +1,4 @@
-import { SampleResponse } from "app/models/responses";
+import { SamplesResponse } from "app/models/responses";
 import { concatStrings } from "app/utils/string";
 import * as C from "../../../app/components";
 
@@ -6,7 +6,7 @@ const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
 /* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
 export const samplesToSampleIDColumn = (
-  sample: SampleResponse
+  sample: SamplesResponse
 ): React.ComponentProps<typeof C.Links> => {
   if (!sample.samples?.[0]) {
     return {
@@ -25,7 +25,7 @@ export const samplesToSampleIDColumn = (
 };
 
 export const samplesToProjTitleColumn = (
-  sample: SampleResponse
+  sample: SamplesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!sample.projects?.[0]) {
     return {};
@@ -39,7 +39,7 @@ export const samplesToProjTitleColumn = (
 };
 
 export const samplesToSpeciesColumn = (
-  sample: SampleResponse
+  sample: SamplesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!sample.donorOrganisms) {
     return {};
@@ -55,7 +55,7 @@ export const samplesToSpeciesColumn = (
 };
 
 export const samplesToSampleTypeColumn = (
-  sample: SampleResponse
+  sample: SamplesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!sample.samples?.[0]) {
     return {};
@@ -69,7 +69,7 @@ export const samplesToSampleTypeColumn = (
 };
 
 export const samplesToLibConsApproachColumn = (
-  sample: SampleResponse
+  sample: SamplesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!sample.protocols?.[0]?.libraryConstructionApproach) {
     return {};
@@ -83,7 +83,7 @@ export const samplesToLibConsApproachColumn = (
 };
 
 export const samplesToAnatomicalEntityColumn = (
-  sample: SampleResponse
+  sample: SamplesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!sample.samples?.[0]?.organ) {
     return {};
@@ -96,7 +96,7 @@ export const samplesToAnatomicalEntityColumn = (
   };
 };
 export const samplesToDiseaseDonorColumn = (
-  sample: SampleResponse
+  sample: SamplesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!sample.donorOrganisms?.[0]) {
     return {};
@@ -109,7 +109,7 @@ export const samplesToDiseaseDonorColumn = (
   };
 };
 export const samplesToCellCountColumn = (
-  sample: SampleResponse
+  sample: SamplesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!sample.projects?.[0].estimatedCellCount) {
     return {

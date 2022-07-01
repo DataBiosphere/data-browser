@@ -1,103 +1,7 @@
 /**
- * Paginated response type. This should be used by other model's reponses
+ * Model of response returned from the AnVIL-specific /index/files API endpoint.
  */
-interface PaginatedResponse {
-  pagination: {
-    count: number;
-    total: number;
-    size: number;
-    next?: string;
-    previous?: string;
-    pages: number;
-    sort?: string;
-    order?: "asc" | "desc";
-  };
-}
-
-// Project
-export interface ProjectResponse {
-  entryId: string;
-  protocols: {
-    workflow?: string[];
-    libraryConstructionApproach?: string[];
-    nucleicAcidSource?: string[];
-    pairedEnd?: boolean[];
-  }[];
-  fileTypeSummaries: {
-    format: string;
-    count: number;
-  }[];
-  donorOrganisms: {
-    genusSpecies: string[];
-    disease: string[];
-    developmentStage: string[];
-    donorCount: number;
-  }[];
-  samples: {
-    sampleEntityType: string[];
-    organ: string[];
-    organPart: string[];
-    disease: string[];
-  }[];
-  cellSuspensions?: {
-    totalCells: number;
-  }[];
-  projects: {
-    projectId: string;
-    projectShortname: string;
-    projectTitle: string;
-    projectDescription: string;
-    contributedAnalyses: object;
-    estimatedCellCount: number;
-    supplementaryLinks: string[];
-    contributors: {
-      correspondingContributor?: boolean;
-      contactName: string;
-      email?: string;
-      institution: string;
-      laboratory?: string;
-      projectRole?: string;
-    }[];
-  }[];
-}
-
-//Samples
-export interface SampleResponse {
-  protocols: {
-    libraryConstructionApproach: string[];
-  }[];
-  projects: {
-    projectTitle: string[];
-    estimatedCellCount?: number;
-  }[];
-  donorOrganisms: {
-    genusSpecies: string[];
-    disease: string[];
-  }[];
-  samples: {
-    id: string;
-    sampleEntityType: string;
-    organ: string;
-  }[];
-}
-
-//Files
-export interface FileResponse {
-  projects: {
-    projectTitle: string[];
-    estimatedCellCount?: number;
-  }[];
-  files: {
-    name: string;
-    uuid: string;
-    format: string;
-    size: number;
-    contentDescription: string[];
-  }[];
-}
-
-// Anvil file
-export interface AnvilFileResponse {
+export interface AnvilFilesResponse {
   activities: {
     activity_type: string[];
     data_modality: string[];
@@ -125,7 +29,132 @@ export interface AnvilFileResponse {
   }[];
 }
 
-// Summary
+/**
+ * Model of contributor value included in the response from index/projects API endpoint.
+ */
+export interface ContributorResponse {
+  contactName: string;
+  correspondingContributor?: boolean;
+  email?: string;
+  institution: string;
+  laboratory?: string;
+  projectRole?: string;
+}
+
+/**
+ * Model of response returned from /index/files API endpoint.
+ */
+export interface FilesResponse {
+  projects: {
+    projectTitle: string[];
+    estimatedCellCount?: number;
+  }[];
+  files: {
+    name: string;
+    uuid: string;
+    format: string;
+    size: number;
+    contentDescription: string[];
+  }[];
+}
+
+/**
+ * Model of index response type, such as projects (index/projects), samples (index/samples) and files (index/files).
+ * TODO(cc) possibly standardize ListX naming convention to IndexX?
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- this type can't be determined beforehand
+export interface ListResponseType<T = any> extends PaginatedResponse {
+  hits: T[];
+}
+
+/**
+ * Base index response interface, implemented by specific index responses.
+ */
+interface PaginatedResponse {
+  pagination: {
+    count: number;
+    total: number;
+    size: number;
+    next?: string;
+    previous?: string;
+    pages: number;
+    sort?: string;
+    order?: "asc" | "desc";
+  };
+}
+
+/**
+ * Model of project value nested in response returned from index/projects API endpoint.
+ */
+export interface ProjectResponse {
+  contributedAnalyses: object;
+  contributors: ContributorResponse[];
+  estimatedCellCount: number;
+  projectDescription: string;
+  projectId: string;
+  projectShortname: string;
+  projectTitle: string;
+  supplementaryLinks: string[];
+}
+
+/**
+ * Model of response returned from /index/projects API endpoint.
+ */
+export interface ProjectsResponse {
+  entryId: string;
+  protocols: {
+    workflow?: string[];
+    libraryConstructionApproach?: string[];
+    nucleicAcidSource?: string[];
+    pairedEnd?: boolean[];
+  }[];
+  fileTypeSummaries: {
+    format: string;
+    count: number;
+  }[];
+  donorOrganisms: {
+    genusSpecies: string[];
+    disease: string[];
+    developmentStage: string[];
+    donorCount: number;
+  }[];
+  samples: {
+    sampleEntityType: string[];
+    organ: string[];
+    organPart: string[];
+    disease: string[];
+  }[];
+  cellSuspensions?: {
+    totalCells: number;
+  }[];
+  projects: ProjectResponse[];
+}
+
+/**
+ * Model of response returned from /index/samples API endpoint.
+ */
+export interface SamplesResponse {
+  protocols: {
+    libraryConstructionApproach: string[];
+  }[];
+  projects: {
+    projectTitle: string[];
+    estimatedCellCount?: number;
+  }[];
+  donorOrganisms: {
+    genusSpecies: string[];
+    disease: string[];
+  }[];
+  samples: {
+    id: string;
+    sampleEntityType: string;
+    organ: string;
+  }[];
+}
+
+/**
+ * Model of response returned from /index/summary API endpoint.
+ */
 export interface SummaryResponse {
   cellCountSummaries: {
     countOfDocsWithOrganType: number;
@@ -154,9 +183,4 @@ export interface SummaryResponse {
   speciesCount: number;
   specimenCount: number;
   totalFileSize: number;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- this type can't be determined beforehand
-export interface ListResponseType<T = any> extends PaginatedResponse {
-  hits: T[];
 }

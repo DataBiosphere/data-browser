@@ -1,10 +1,10 @@
 import { concatStrings } from "app/utils/string";
-import { AnvilFileResponse } from "app/models/responses";
+import { AnvilFilesResponse } from "app/models/responses";
 import * as C from "../../../app/components";
 
 /* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
 export const filesToDatasetNameColumn = (
-  file: AnvilFileResponse
+  file: AnvilFilesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!file.datasets[0]) {
     return {};
@@ -18,7 +18,7 @@ export const filesToDatasetNameColumn = (
 };
 
 export const filesToFileFormatColumn = (
-  file: AnvilFileResponse
+  file: AnvilFilesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!file.files) {
     return {};
@@ -32,7 +32,7 @@ export const filesToFileFormatColumn = (
 };
 
 export const filesToFileIdColumn = (
-  file: AnvilFileResponse
+  file: AnvilFilesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!file.files) {
     return {};
@@ -46,7 +46,7 @@ export const filesToFileIdColumn = (
 };
 
 export const filesToFileTypeColumn = (
-  file: AnvilFileResponse
+  file: AnvilFilesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!file.files) {
     return {};
@@ -60,7 +60,7 @@ export const filesToFileTypeColumn = (
 };
 
 export const filesToDataModalityColumn = (
-  file: AnvilFileResponse
+  file: AnvilFilesResponse
 ): React.ComponentProps<typeof C.Text> => {
   if (!file.files?.[0]) {
     return {};

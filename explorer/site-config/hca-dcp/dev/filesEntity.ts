@@ -5,12 +5,12 @@ import {
   EntityConfig,
   ListConfig,
 } from "../../../app/config/model";
-import { FileResponse } from "app/models/responses";
+import { FilesResponse } from "app/models/responses";
 
 /**
  * Entity config object responsible to config anything related to the /explore/files route.
  */
-export const filesEntity: EntityConfig<FileResponse> = {
+export const filesEntity: EntityConfig<FilesResponse> = {
   apiPath: "index/files",
   label: "Files",
   list: {
@@ -77,6 +77,6 @@ export const filesEntity: EntityConfig<FileResponse> = {
         },
       },
     ],
-  } as ListConfig<FileResponse>,
+  } as ListConfig<FilesResponse>,
   route: "files",
 };

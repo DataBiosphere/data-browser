@@ -9,6 +9,7 @@ import { ProjectContributors } from "./components/Contributors/contributors.stor
 import { ProjectDataReleasePolicy } from "./components/DataReleasePolicy/dataReleasePolicy.stories";
 import { ProjectDescription } from "./components/Description/description.stories";
 import { ProjectHeader } from "./components/ProjectHeader/projectHeader.stories";
+import { ProjectSupplementaryLinks } from "./components/SupplementaryLinks/supplementaryLinks.stories";
 import { Project } from "./project";
 
 export default {
@@ -37,6 +38,7 @@ View.args = {
       <ProjectContacts {...ProjectContacts.args} />
       <ProjectContributors {...ProjectContributors.args} />
       <ProjectCitation {...ProjectCitation.args} />
+      <ProjectSupplementaryLinks {...ProjectSupplementaryLinks.args} />
       <ProjectDataReleasePolicy />
     </>
   ),
