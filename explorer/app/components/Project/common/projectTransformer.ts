@@ -4,11 +4,47 @@ import {
   ProjectResponse,
   ProjectsResponse,
 } from "app/models/responses";
+import { CollaboratingOrganization } from "../components/CollaboratingOrganizations/collaboratingOrganizations";
 import { Contact } from "../components/Contacts/contacts";
 import {
   CONTRIBUTOR_ROLE,
   Contributor,
 } from "../components/Contributors/contributors";
+import { DataCurators } from "../components/DataCurators/dataCurators";
+
+/**
+ * Maps project collaborating organizations from API response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns project contributor's list of organizations with their corresponding citation number.
+ */
+export function getProjectCollaboratingOrganizations(
+  projectsResponse?: ProjectsResponse
+): CollaboratingOrganization[] | undefined {
+  const project = getProjectResponse(projectsResponse);
+  if (!project) {
+    return;
+  }
+
+  // Filter for project contributors (contributors without the "data curator" role).
+  const projectContributors = filterContributorsWithProjectContributors(
+    project.contributors
+  );
+
+  if (projectContributors.length === 0) {
+    return; // Caller is expecting undefined, not an empty array.
+  }
+
+  // Map the key-value pair contributor organizations and citation.
+  const citationByContributorOrganizations =
+    getCitationByCollaboratingOrganizations(projectContributors);
+
+  return [...citationByContributorOrganizations].map(([name, citation]) => {
+    return {
+      citation,
+      name,
+    };
+  });
+}
 
 /**
  * Maps project contacts from API response.
@@ -73,6 +109,32 @@ export function getProjectContributors(
       role: formatTitleCase(projectContributor.projectRole),
     };
   });
+}
+
+/**
+ * Maps project data curators from API response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns formatted list of "data curator" contributors.
+ */
+export function getProjectDataCurators(
+  projectsResponse?: ProjectsResponse
+): DataCurators | undefined {
+  const project = getProjectResponse(projectsResponse);
+  if (!project) {
+    return;
+  }
+
+  // Filter for project contributors with the "data curator" role.
+  const dataCurators = project.contributors
+    .filter((contributor) => isContributorDataCurator(contributor.projectRole))
+    .map((contributor) => contributor.contactName)
+    .map((name) => formatName(name));
+
+  if (dataCurators.length === 0) {
+    return; // Caller is expecting undefined, not an empty array.
+  }
+
+  return dataCurators;
 }
 
 /**

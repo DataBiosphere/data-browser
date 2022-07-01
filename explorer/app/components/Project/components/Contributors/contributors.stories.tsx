@@ -32,5 +32,10 @@ ProjectContributors.args = {
       name: "Marcelo Freire",
       role: "Principal Investigator",
     },
+    {
+      citation: 3,
+      name: "Nathan Lawlor",
+      role: "Computational Scientist",
+    },
   ],
 };

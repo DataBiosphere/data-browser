@@ -4,8 +4,10 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 // App dependencies
 import { ProjectCitation } from "./components/Citation/citation.stories";
+import { ProjectCollaboratingOrganizations } from "./components/CollaboratingOrganizations/collaboratingOrganizations.stories";
 import { ProjectContacts } from "./components/Contacts/contacts.stories";
 import { ProjectContributors } from "./components/Contributors/contributors.stories";
+import { ProjectDataCurators } from "./components/DataCurators/dataCurators.stories";
 import { ProjectDataReleasePolicy } from "./components/DataReleasePolicy/dataReleasePolicy.stories";
 import { ProjectDescription } from "./components/Description/description.stories";
 import { ProjectHeader } from "./components/ProjectHeader/projectHeader.stories";
@@ -37,6 +39,10 @@ View.args = {
       />
       <ProjectContacts {...ProjectContacts.args} />
       <ProjectContributors {...ProjectContributors.args} />
+      <ProjectCollaboratingOrganizations
+        {...ProjectCollaboratingOrganizations.args}
+      />
+      <ProjectDataCurators {...ProjectDataCurators.args} />
       <ProjectCitation {...ProjectCitation.args} />
       <ProjectSupplementaryLinks {...ProjectSupplementaryLinks.args} />
       <ProjectDataReleasePolicy />

@@ -18,29 +18,13 @@ export const mainColumn = [
     transformer: T.buildContributors,
   } as ComponentConfig<typeof C.Contributors, ProjectsResponse>,
   {
-    children: [
-      {
-        component: C.Citations,
-        transformer: T.projectsToOrganizations,
-      } as ComponentConfig<typeof C.Citations, ProjectsResponse>,
-    ],
-    component: C.Section,
-    props: {
-      title: "Collaborating Organizations",
-    },
-  } as ComponentConfig<typeof C.Section, ProjectsResponse>,
+    component: C.CollaboratingOrganizations,
+    transformer: T.buildCollaboratingOrganizations,
+  } as ComponentConfig<typeof C.CollaboratingOrganizations, ProjectsResponse>,
   {
-    children: [
-      {
-        component: C.TextLinks,
-        transformer: T.projectsToDataCurators,
-      } as ComponentConfig<typeof C.TextLinks, ProjectsResponse>,
-    ],
-    component: C.Section,
-    props: {
-      title: "Data Curators",
-    },
-  } as ComponentConfig<typeof C.Section, ProjectsResponse>,
+    component: C.DataCurators,
+    transformer: T.buildDataCurators,
+  } as ComponentConfig<typeof C.DataCurators, ProjectsResponse>,
   {
     component: C.Citation,
     transformer: T.buildCitation,

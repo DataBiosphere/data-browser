@@ -4,8 +4,10 @@ import React from "react";
 // App dependencies
 import * as C from "app/components";
 import {
-  getProjectContributors,
+  getProjectCollaboratingOrganizations,
   getProjectContacts,
+  getProjectContributors,
+  getProjectDataCurators,
   getProjectDescription,
   getProjectPath,
   getProjectSupplementaryLinks,
@@ -17,71 +19,95 @@ import { concatStrings } from "app/utils/string";
 
 const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
+/**
+ * Build props for Citation component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the Citation component.
+ */
 export const buildCitation = (
-  projectResponse: ProjectsResponse
+  projectsResponse: ProjectsResponse
 ): React.ComponentProps<typeof C.Citation> => {
   return {
-    projectPath: getProjectPath(projectResponse),
+    projectPath: getProjectPath(projectsResponse),
   };
 };
 
+/**
+ * Build props for CollaboratingOrganizations component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the CollaboratingOrganizations component.
+ */
+export const buildCollaboratingOrganizations = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.CollaboratingOrganizations> => {
+  return {
+    collaboratingOrganizations:
+      getProjectCollaboratingOrganizations(projectsResponse),
+  };
+};
+
+/**
+ * Build props for Contacts component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the Contacts component.
+ */
 export const buildContacts = (
-  projectResponse: ProjectsResponse
+  projectsResponse: ProjectsResponse
 ): React.ComponentProps<typeof C.Contacts> => {
   return {
-    contacts: getProjectContacts(projectResponse),
+    contacts: getProjectContacts(projectsResponse),
   };
 };
 
+/**
+ * Build props for Contributors component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the Contributors component.
+ */
 export const buildContributors = (
-  projectResponse: ProjectsResponse
+  projectsResponse: ProjectsResponse
 ): React.ComponentProps<typeof C.Contributors> => {
   return {
-    contributors: getProjectContributors(projectResponse),
+    contributors: getProjectContributors(projectsResponse),
   };
 };
 
+/**
+ * Build props for Description component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the Description component.
+ */
 export const buildDescription = (
-  projectResponse: ProjectsResponse
+  projectsResponse: ProjectsResponse
 ): React.ComponentProps<typeof C.Description> => {
   return {
-    projectDescription: getProjectDescription(projectResponse) || "None",
+    projectDescription: getProjectDescription(projectsResponse) || "None",
   };
 };
 
+/**
+ * Build props for SupplementaryLinks component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the SupplementaryLinks component.
+ */
 export const buildSupplementaryLinks = (
-  projectResponse: ProjectsResponse
+  projectsResponse: ProjectsResponse
 ): React.ComponentProps<typeof C.SupplementaryLinks> => {
   return {
-    supplementaryLinks: getProjectSupplementaryLinks(projectResponse),
+    supplementaryLinks: getProjectSupplementaryLinks(projectsResponse),
   };
 };
 
-const getOrganizations = (project: ProjectsResponse): string[] => {
-  return Array.from(
-    new Set(
-      project.projects[0].contributors.map(
-        (contributor) => contributor.institution
-      )
-    )
-  );
-};
-
-export const projectsToDataCurators = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.TextLinks> => {
-  if (!project) {
-    return { values: [] };
-  }
-
-  const curators = project.projects[0].contributors.filter(
-    (contr) => contr.projectRole === "data curator"
-  );
-
+/**
+ * Build props for DataCurators component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the DataCurators component.
+ */
+export const buildDataCurators = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.DataCurators> => {
   return {
-    values: curators.map((curator) => ({
-      text: `${curator.contactName}`,
-    })),
+    dataCurators: getProjectDataCurators(projectsResponse),
   };
 };
 
@@ -103,24 +129,6 @@ export const projectsToAccessions = (
         text: "Array Express Accessions: ",
       },
     ],
-  };
-};
-
-export const projectsToOrganizations = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.Citations> => {
-  if (!project) {
-    return { citations: [] };
-  }
-
-  const organizations = getOrganizations(project);
-
-  return {
-    align: "left",
-    citations: organizations.map((organization, index) => ({
-      citation: `${index + 1}`,
-      value: organization,
-    })),
   };
 };
 
