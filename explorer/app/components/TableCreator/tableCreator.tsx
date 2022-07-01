@@ -1,5 +1,5 @@
 import { ColumnConfig } from "app/config/model";
-import { PaginationConfig } from "app/hooks/useFetchEntities";
+import { PaginationConfig, SortConfig } from "app/hooks/useFetchEntities";
 import React from "react";
 import { CellProps, Column } from "react-table";
 import { ComponentCreator } from "../ComponentCreator/ComponentCreator";
@@ -11,6 +11,7 @@ interface TableCreatorProps<T> {
   pageSize: number;
   total?: number;
   pagination?: PaginationConfig;
+  sort?: SortConfig;
 }
 
 const createCell = <T extends object>(config: ColumnConfig<T>) =>
@@ -29,10 +30,13 @@ export const TableCreator = <T extends object>({
   pageSize,
   total,
   pagination,
+  sort,
 }: TableCreatorProps<T>): JSX.Element => {
   const reactColumns: Column<T>[] = columns.map((columnConfig) => ({
     Cell: createCell(columnConfig),
     Header: columnConfig.header,
+    disableSortBy: !columnConfig.sort,
+    id: columnConfig.sort?.sortKey,
   }));
 
   return (
@@ -42,6 +46,7 @@ export const TableCreator = <T extends object>({
       pageSize={pageSize}
       total={total}
       pagination={pagination}
+      sort={sort}
     />
   );
 };

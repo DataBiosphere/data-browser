@@ -21,6 +21,10 @@ export const samplesEntity: EntityConfig<SampleResponse> = {
           transformer: T.samplesToSampleIDColumn,
         } as ComponentConfig<typeof C.Links>,
         header: "Sample ID",
+        sort: {
+          default: true,
+          sortKey: "sampleId",
+        },
       },
       {
         componentConfig: {
@@ -28,6 +32,9 @@ export const samplesEntity: EntityConfig<SampleResponse> = {
           transformer: T.samplesToProjTitleColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Project Title",
+        sort: {
+          sortKey: "projectTitle",
+        },
       },
       {
         componentConfig: {
@@ -35,6 +42,9 @@ export const samplesEntity: EntityConfig<SampleResponse> = {
           transformer: T.samplesToSpeciesColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Species",
+        sort: {
+          sortKey: "genusSpecies",
+        },
       },
       {
         componentConfig: {
@@ -42,6 +52,9 @@ export const samplesEntity: EntityConfig<SampleResponse> = {
           transformer: T.samplesToSampleTypeColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Sample Type",
+        sort: {
+          sortKey: "sampleEntityType",
+        },
       },
       {
         componentConfig: {
@@ -49,6 +62,9 @@ export const samplesEntity: EntityConfig<SampleResponse> = {
           transformer: T.samplesToLibConsApproachColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Library Construction Approach",
+        sort: {
+          sortKey: "libraryConstructionApproach",
+        },
       },
       {
         componentConfig: {
@@ -56,6 +72,9 @@ export const samplesEntity: EntityConfig<SampleResponse> = {
           transformer: T.samplesToAnatomicalEntityColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Anatomical Entity",
+        sort: {
+          sortKey: "specimenOrgan",
+        },
       },
       {
         componentConfig: {
@@ -63,6 +82,9 @@ export const samplesEntity: EntityConfig<SampleResponse> = {
           transformer: T.samplesToDiseaseDonorColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Disease (Donor)",
+        sort: {
+          sortKey: "donorDisease",
+        },
       },
       {
         componentConfig: {
@@ -70,6 +92,9 @@ export const samplesEntity: EntityConfig<SampleResponse> = {
           transformer: T.samplesToCellCountColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Cell Count Estimate",
+        sort: {
+          sortKey: "cellCount",
+        },
       },
     ],
   } as ListConfig<SampleResponse>,

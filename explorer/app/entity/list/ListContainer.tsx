@@ -16,7 +16,7 @@ export const ListContainer = (props: ListModel) => {
   const entity = useCurrentEntity();
   const { entities, summary } = useConfig();
   const { response: summaryResponse } = useSummary();
-  const { response, isLoading, pagination } = useFetchEntities(props);
+  const { response, isLoading, pagination, sort } = useFetchEntities(props);
   const { asPath, push } = useRouter();
   const columnsConfig = entity?.list?.columns;
   const summaryComponents = summary?.components;
@@ -41,6 +41,7 @@ export const ListContainer = (props: ListModel) => {
         pageSize={response.pagination.size}
         total={response.pagination.pages}
         pagination={pagination}
+        sort={sort}
       />
     );
   };

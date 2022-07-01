@@ -1,14 +1,23 @@
 import React from "react";
-import { Column, TableState, usePagination, useTable } from "react-table";
+import {
+  Column,
+  ColumnInstance,
+  TableState,
+  usePagination,
+  useSortBy,
+  useTable,
+} from "react-table";
 import {
   Table as MuiTable,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  TableSortLabel,
 } from "@mui/material";
 import { Pagination } from "../Pagination/pagination";
-import { PaginationConfig } from "app/hooks/useFetchEntities";
+import { PaginationConfig, SortConfig } from "app/hooks/useFetchEntities";
+import { newColumnKey, newColumnOrder } from "./functions";
 
 interface TableProps<T extends object> {
   items: T[];
@@ -16,6 +25,7 @@ interface TableProps<T extends object> {
   columns: Column<T>[];
   total?: number;
   pagination?: PaginationConfig;
+  sort?: SortConfig;
 }
 
 /**
@@ -29,6 +39,7 @@ export const Table = <T extends object>({
   pageSize,
   total,
   pagination,
+  sort,
 }: TableProps<T>): JSX.Element => {
   const {
     getTableProps,
@@ -46,14 +57,25 @@ export const Table = <T extends object>({
     {
       columns,
       data: items,
+      disableMultiSort: true,
       initialState: {
         pageSize: pageSize,
       } as TableState,
       manualPagination: !!pagination,
+      manualSortBy: true,
       pageCount: total,
     },
+    useSortBy,
     usePagination
   );
+
+  const handleSortClicked = (column: ColumnInstance<T>) => {
+    if (sort) {
+      const newColumn = newColumnKey<T>(sort, column);
+      const newOrder = newColumnOrder(sort, newColumn);
+      sort.sort(newColumn, newOrder);
+    }
+  };
 
   return (
     <>
@@ -61,8 +83,20 @@ export const Table = <T extends object>({
         <TableHead>
           <TableRow>
             {headers.map((column) => (
-              <TableCell {...column.getHeaderProps()} key={column.id}>
-                {column.render("Header")}
+              <TableCell
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+                key={column.id}
+              >
+                <TableSortLabel
+                  active={sort?.sortKey === column.id}
+                  disabled={column.disableSortBy}
+                  direction={
+                    sort?.sortKey === column.id ? sort?.sortOrder : "asc"
+                  }
+                  onClick={() => handleSortClicked(column)}
+                >
+                  {column.render("Header")}
+                </TableSortLabel>
               </TableCell>
             ))}
           </TableRow>
