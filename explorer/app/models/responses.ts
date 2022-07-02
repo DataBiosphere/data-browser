@@ -94,6 +94,7 @@ export interface ProjectResponse {
   projectId: string;
   projectShortname: string;
   projectTitle: string;
+  publications: PublicationResponse[];
   supplementaryLinks: string[];
 }
 
@@ -128,6 +129,16 @@ export interface ProjectsResponse {
     totalCells: number;
   }[];
   projects: ProjectResponse[];
+}
+
+/**
+ * Model of publication value nested in project response returned from index/projects API endpoint.
+ */
+export interface PublicationResponse {
+  doi: string | null;
+  officialHcaPublication: boolean | null;
+  publicationTitle: string;
+  publicationUrl: string;
 }
 
 /**

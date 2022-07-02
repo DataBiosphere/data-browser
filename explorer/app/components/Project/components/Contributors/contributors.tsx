@@ -2,19 +2,10 @@
 import React from "react";
 
 // App dependencies
+import { Contributor } from "../../common/entities";
 import { Sup } from "app/components/Citations/Citations.styles";
 import { Section } from "../Section/section";
 import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
-
-export const enum CONTRIBUTOR_ROLE {
-  DATA_CURATOR = "data curator",
-}
-
-export interface Contributor {
-  citation?: number;
-  name: string;
-  role?: string;
-}
 
 interface Props {
   contributors?: Contributor[];

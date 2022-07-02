@@ -2,13 +2,12 @@
 import React from "react";
 
 // App dependencies
+import { DataCurator } from "../../common/entities";
 import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 import { Section } from "../Section/section";
 
-export type DataCurators = string[];
-
 interface Props {
-  dataCurators?: DataCurators;
+  dataCurators?: DataCurator[];
 }
 
 export const DataCurators = ({ dataCurators }: Props): JSX.Element => {

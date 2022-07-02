@@ -3,14 +3,20 @@ import {
   ContributorResponse,
   ProjectResponse,
   ProjectsResponse,
+  PublicationResponse,
 } from "app/models/responses";
-import { CollaboratingOrganization } from "../components/CollaboratingOrganizations/collaboratingOrganizations";
-import { Contact } from "../components/Contacts/contacts";
+import { CONTRIBUTOR_ROLE } from "./constants";
 import {
-  CONTRIBUTOR_ROLE,
+  CollaboratingOrganization,
+  Contact,
   Contributor,
-} from "../components/Contributors/contributors";
-import { DataCurators } from "../components/DataCurators/dataCurators";
+  DataCurator,
+  Description,
+  ProjectPath,
+  Publication,
+  SupplementaryLink,
+} from "./entities";
+import { ENTRIES } from "../../../project-edits";
 
 /**
  * Maps project collaborating organizations from API response.
@@ -118,7 +124,7 @@ export function getProjectContributors(
  */
 export function getProjectDataCurators(
   projectsResponse?: ProjectsResponse
-): DataCurators | undefined {
+): DataCurator[] | undefined {
   const project = getProjectResponse(projectsResponse);
   if (!project) {
     return;
@@ -144,7 +150,7 @@ export function getProjectDataCurators(
  */
 export function getProjectDescription(
   projectsResponse?: ProjectsResponse
-): string | undefined {
+): Description | undefined {
   const project = getProjectResponse(projectsResponse);
   if (!project) {
     return;
@@ -159,7 +165,7 @@ export function getProjectDescription(
  */
 export function getProjectPath(
   projectsResponse?: ProjectsResponse
-): string | undefined {
+): ProjectPath | undefined {
   const project = getProjectResponse(projectsResponse);
   const projectPath = project?.projectId;
   if (!project || !projectPath) {
@@ -169,13 +175,38 @@ export function getProjectPath(
 }
 
 /**
+ * Maps project publications from API response, or from corresponding updated project (if listed).
+ * @param projectsResponse - Project response model return from API.
+ * @returns project publications.
+ */
+export function getProjectPublications(
+  projectsResponse?: ProjectsResponse
+): Publication[] | undefined {
+  const project = getProjectResponse(projectsResponse);
+  if (!project) {
+    return;
+  }
+  // If publications are listed in the updated project (loaded from the projects edits JSON), use the updated
+  // project's publications. That is, replace the entire publications array returned from the server with the
+  // publications array specified in the project edits JSON.
+  // Otherwise, use the publication data returned from the server.
+  const publications = mapPublications(project.publications, project.projectId);
+
+  if (publications.length === 0) {
+    return; // Caller is expecting undefined, not an empty array.
+  }
+
+  return publications;
+}
+
+/**
  * Maps project supplementary links from API response.
  * @param projectsResponse - Response model return from projects API.
  * @returns list of supplementary links.
  */
 export function getProjectSupplementaryLinks(
   projectsResponse?: ProjectsResponse
-): string[] | undefined {
+): SupplementaryLink[] | undefined {
   const project = getProjectResponse(projectsResponse);
   if (!project) {
     return;
@@ -282,4 +313,34 @@ function isValidUrl(testUrl: string): boolean {
   } catch (e) {
     return false;
   }
+}
+
+/**
+ * Determine the set of publications for the project being mapped. If there are project edits for this project, we
+ * must overwrite publication data as specified in the project edits. For publication edits, we overwrite the entire
+ * set of publications, using only the publications set in the JSON.
+ * @param publicationsResponse - Project publications response model return from API.
+ * @param projectId - Project id.
+ * @returns project publications from project edits or from project publications from API.
+ */
+function mapPublications(
+  publicationsResponse: PublicationResponse[],
+  projectId: string
+): Publication[] {
+  const updatedProject = ENTRIES.find((entry) => entry.entryId === projectId);
+  if (
+    updatedProject &&
+    updatedProject.publications &&
+    updatedProject.publications.length > 0
+  ) {
+    return updatedProject.publications;
+  }
+  return publicationsResponse.map((publicationResponse) => {
+    return {
+      ...publicationResponse,
+      doi: publicationResponse.doi ?? "", // Maps any null value to string.
+      officialHcaPublication:
+        publicationResponse.officialHcaPublication ?? false, // Maps any null value to "false".
+    };
+  });
 }

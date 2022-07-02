@@ -2,16 +2,12 @@
 import React from "react";
 
 // App dependencies
+import { CollaboratingOrganization } from "../../common/entities";
 import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 import { Section } from "../Section/section";
 
 // Styles
 import { Sup } from "../../../Citations/Citations.styles";
-
-export interface CollaboratingOrganization {
-  citation: number;
-  name: string;
-}
 
 interface Props {
   collaboratingOrganizations?: CollaboratingOrganization[];

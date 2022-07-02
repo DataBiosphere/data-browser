@@ -14,6 +14,10 @@ export const mainColumn = [
     transformer: T.buildContacts,
   } as ComponentConfig<typeof C.Contacts, ProjectsResponse>,
   {
+    component: C.Publications,
+    transformer: T.buildPublications,
+  } as ComponentConfig<typeof C.Publications, ProjectsResponse>,
+  {
     component: C.Contributors,
     transformer: T.buildContributors,
   } as ComponentConfig<typeof C.Contributors, ProjectsResponse>,

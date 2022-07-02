@@ -12,6 +12,7 @@ import { ProjectDataReleasePolicy } from "./components/DataReleasePolicy/dataRel
 import { ProjectDescription } from "./components/Description/description.stories";
 import { ProjectHeader } from "./components/ProjectHeader/projectHeader.stories";
 import { ProjectSupplementaryLinks } from "./components/SupplementaryLinks/supplementaryLinks.stories";
+import { ProjectPublications } from "./components/Publications/publications.stories";
 import { Project } from "./project";
 
 export default {
@@ -38,6 +39,7 @@ View.args = {
         }
       />
       <ProjectContacts {...ProjectContacts.args} />
+      <ProjectPublications {...ProjectPublications.args} />
       <ProjectContributors {...ProjectContributors.args} />
       <ProjectCollaboratingOrganizations
         {...ProjectCollaboratingOrganizations.args}

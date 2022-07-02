@@ -10,6 +10,7 @@ import {
   getProjectDataCurators,
   getProjectDescription,
   getProjectPath,
+  getProjectPublications,
   getProjectSupplementaryLinks,
 } from "app/components/Project/common/projectTransformer";
 import { STATUS } from "app/components/StatusBadge/statusBadge";
@@ -73,6 +74,19 @@ export const buildContributors = (
 };
 
 /**
+ * Build props for DataCurators component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the DataCurators component.
+ */
+export const buildDataCurators = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.DataCurators> => {
+  return {
+    dataCurators: getProjectDataCurators(projectsResponse),
+  };
+};
+
+/**
  * Build props for Description component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the Description component.
@@ -99,15 +113,15 @@ export const buildSupplementaryLinks = (
 };
 
 /**
- * Build props for DataCurators component from the given projects response.
+ * Build props for Publications component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the DataCurators component.
+ * @returns model to be used as props for the Publications component.
  */
-export const buildDataCurators = (
+export const buildPublications = (
   projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.DataCurators> => {
+): React.ComponentProps<typeof C.Publications> => {
   return {
-    dataCurators: getProjectDataCurators(projectsResponse),
+    publications: getProjectPublications(projectsResponse),
   };
 };
 

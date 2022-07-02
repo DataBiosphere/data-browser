@@ -3,6 +3,7 @@ import { Typography } from "@mui/material";
 import React, { Fragment } from "react";
 
 // App dependencies
+import { SupplementaryLink } from "../../common/entities";
 import { Stack } from "../../../common/Stack/Stack";
 import { ANCHOR_TARGET, Link } from "../../../Links/components/Link/link";
 import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
@@ -11,12 +12,12 @@ import { Section } from "../Section/section";
 // Styles
 import {
   Marker,
-  SupplementaryLink,
+  SupplementaryLink as EllipsisLink,
   SupplementaryList,
 } from "./supplementaryLinks.styles";
 
 interface Props {
-  supplementaryLinks?: string[];
+  supplementaryLinks?: SupplementaryLink[];
 }
 
 export const SupplementaryLinks = ({
@@ -36,7 +37,7 @@ export const SupplementaryLinks = ({
             {supplementaryLinks.map((link, marker) => (
               <Fragment key={link}>
                 <Marker>{marker + 1}.</Marker>
-                <SupplementaryLink>
+                <EllipsisLink>
                   <Link
                     copyable
                     label={link}
@@ -44,7 +45,7 @@ export const SupplementaryLinks = ({
                     target={ANCHOR_TARGET.BLANK}
                     url={link}
                   />
-                </SupplementaryLink>
+                </EllipsisLink>
               </Fragment>
             ))}
           </SupplementaryList>

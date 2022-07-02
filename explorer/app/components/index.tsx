@@ -11,6 +11,7 @@ export { DataCurators } from "./Project/components/DataCurators/dataCurators";
 export { DataReleasePolicy } from "./Project/components/DataReleasePolicy/dataReleasePolicy";
 export { Description } from "./Project/components/Description/description";
 export { ProjectHeader } from "./Project/components/ProjectHeader/projectHeader";
+export { Publications } from "./Project/components/Publications/publications";
 export { Section } from "./Project/components/Section/section";
 export { SupplementaryLinks } from "./Project/components/SupplementaryLinks/supplementaryLinks";
 export { ProjectTitle } from "./ProjectTitle/projectTitle";
