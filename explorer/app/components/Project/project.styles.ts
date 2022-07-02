@@ -16,6 +16,14 @@ export const Project = styled.div`
   }
 `;
 
+export const ProjectHero = styled.div`
+  display: contents;
+
+  > * {
+    grid-column: 1 / -1;
+  }
+`;
+
 export const ProjectOverview = styled.div`
   align-items: flex-start;
   grid-column: 1 / -1;

@@ -10,7 +10,7 @@ export default {
     status: { control: "select", options: Array.from(Object.keys(STATUS)) },
   },
   component: StatusBadge,
-  title: "Project/Top",
+  title: "Components/Status",
 } as ComponentMeta<typeof StatusBadge>;
 
 const Template: ComponentStory<typeof StatusBadge> = (args) => (

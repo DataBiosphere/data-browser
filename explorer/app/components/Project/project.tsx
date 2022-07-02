@@ -12,6 +12,7 @@ import {
 } from "../../hooks/useBreakpointHelper";
 import {
   Project as ProjectLayout,
+  ProjectHero,
   ProjectOverview as Overview,
   ProjectOverviewMain as Main,
   ProjectOverviewSide as Side,
@@ -34,7 +35,7 @@ export const Project = ({
   const ProjectOverviewSide = tablet ? Side : Fragment;
   return (
     <ProjectLayout>
-      {top}
+      <ProjectHero>{top}</ProjectHero>
       <ProjectOverview>
         <ProjectOverviewMain>{mainColumn}</ProjectOverviewMain>
         <ProjectOverviewSide>{sideColumn}</ProjectOverviewSide>

@@ -12,9 +12,10 @@ import {
   getProjectDetails,
   getProjectPath,
   getProjectPublications,
+  getProjectStatus,
   getProjectSupplementaryLinks,
+  getProjectTitle,
 } from "app/components/Project/common/projectTransformer";
-import { STATUS } from "app/components/StatusBadge/statusBadge";
 import { ProjectsResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
 import { concatStrings } from "app/utils/string";
@@ -114,15 +115,18 @@ export const buildDetails = (
 };
 
 /**
- * Build props for SupplementaryLinks component from the given projects response.
+ * Build props for Hero component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the SupplementaryLinks component.
+ * @returns model to be used as props for the Hero component.
  */
-export const buildSupplementaryLinks = (
+export const buildHero = (
   projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.SupplementaryLinks> => {
+): React.ComponentProps<typeof C.Hero> => {
   return {
-    supplementaryLinks: getProjectSupplementaryLinks(projectsResponse),
+    breadcrumbs: undefined, // TODO breadcrumbs https://github.com/clevercanary/data-browser/issues/68.
+    status: getProjectStatus(projectsResponse), // TODO status https://github.com/clevercanary/data-browser/issues/135
+    tabs: undefined, // TODO tabs https://github.com/clevercanary/data-browser/issues/120
+    title: getProjectTitle(projectsResponse),
   };
 };
 
@@ -139,6 +143,19 @@ export const buildPublications = (
   };
 };
 
+/**
+ * Build props for SupplementaryLinks component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the SupplementaryLinks component.
+ */
+export const buildSupplementaryLinks = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.SupplementaryLinks> => {
+  return {
+    supplementaryLinks: getProjectSupplementaryLinks(projectsResponse),
+  };
+};
+
 export const projectsToFileCounts = (
   project: ProjectsResponse
 ): React.ComponentProps<typeof C.FileCounts> => {
@@ -151,28 +168,6 @@ export const projectsToFileCounts = (
       count: file.count,
       name: file.format,
     })),
-  };
-};
-
-export const projectsToProjStatus = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.StatusBadge> => {
-  if (!project) {
-    return { status: STATUS.NONE };
-  }
-
-  return { status: STATUS.NONE };
-};
-
-export const projectsToProjTitle = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.ProjectTitle> => {
-  if (!project) {
-    return { projectTitle: "" };
-  }
-
-  return {
-    projectTitle: project?.projects[0].projectTitle,
   };
 };
 

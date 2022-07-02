@@ -10,6 +10,7 @@ import {
   ProjectsResponse,
   PublicationResponse,
 } from "app/models/responses";
+import { Status } from "../../common/StatusBadge/statusBadge";
 import { CONTRIBUTOR_ROLE } from "./constants";
 import {
   CollaboratingOrganization,
@@ -18,6 +19,7 @@ import {
   DataCurator,
   Description,
   ProjectPath,
+  ProjectTitle,
   Publication,
   SupplementaryLink,
 } from "./entities";
@@ -223,6 +225,21 @@ export function getProjectPublications(
 }
 
 /**
+ * Maps project status from API response.
+ * TODO status https://github.com/clevercanary/data-browser/issues/135
+ * @param projectsResponse - Response model return from projects API.
+ * @returns project status.
+ */
+export function getProjectStatus(
+  projectsResponse?: ProjectsResponse
+): Status | undefined {
+  const project = getProjectResponse(projectsResponse);
+  if (!project) {
+    return;
+  }
+}
+
+/**
  * Maps project supplementary links from API response.
  * @param projectsResponse - Response model return from projects API.
  * @returns list of supplementary links.
@@ -245,6 +262,21 @@ export function getProjectSupplementaryLinks(
   }
 
   return supplementaryLinks;
+}
+
+/**
+ * Maps project title from API response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns project title.
+ */
+export function getProjectTitle(
+  projectsResponse?: ProjectsResponse
+): ProjectTitle | undefined {
+  const project = getProjectResponse(projectsResponse);
+  if (!project) {
+    return;
+  }
+  return project.projectTitle;
 }
 
 /**

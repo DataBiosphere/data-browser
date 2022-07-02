@@ -2,12 +2,23 @@
 import { Chip } from "@mui/material";
 import React from "react";
 
+/**
+ * Model of status.
+ */
+export type Status = keyof typeof STATUS;
+
+/**
+ * Possible set of project status values.
+ */
 export enum STATUS {
   NEW = "NEW",
   NONE = "NONE",
   UPDATED = "UPDATED",
 }
 
+/**
+ * Status config.
+ */
 const STATUS_CONFIG = {
   [STATUS.NEW]: { color: "info", label: "New" },
   [STATUS.NONE]: { color: "default", label: "None" },
@@ -15,7 +26,7 @@ const STATUS_CONFIG = {
 } as const;
 
 interface Props {
-  status: STATUS;
+  status: Status;
 }
 
 export const StatusBadge = ({ status }: Props): JSX.Element => {
