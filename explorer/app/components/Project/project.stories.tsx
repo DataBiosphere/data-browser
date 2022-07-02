@@ -10,6 +10,7 @@ import { ProjectContributors } from "./components/Contributors/contributors.stor
 import { ProjectDataCurators } from "./components/DataCurators/dataCurators.stories";
 import { ProjectDataReleasePolicy } from "./components/DataReleasePolicy/dataReleasePolicy.stories";
 import { ProjectDescription } from "./components/Description/description.stories";
+import { ProjectDetails } from "./components/Details/details.stories";
 import { ProjectHeader } from "./components/ProjectHeader/projectHeader.stories";
 import { ProjectSupplementaryLinks } from "./components/SupplementaryLinks/supplementaryLinks.stories";
 import { ProjectPublications } from "./components/Publications/publications.stories";
@@ -50,6 +51,10 @@ View.args = {
       <ProjectDataReleasePolicy />
     </>
   ),
-  sideColumn: <div style={{ backgroundColor: "blue", height: 200 }}></div>,
+  sideColumn: (
+    <>
+      <ProjectDetails {...ProjectDetails.args} />
+    </>
+  ),
   top: <ProjectHeader>{ProjectHeader.args?.children}</ProjectHeader>,
 };
