@@ -1,42 +1,49 @@
+// Core dependencies
 import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+
+// App dependencies
+import { ELEMENT_ALIGNMENT } from "../../../../common/entities";
 import { Header } from "./header";
-import HcaLogo from "../../../images/hca-logo.png";
-import AnvilLogo from "../../../images/anvil-logo.png";
-import LungMapLogo from "../../../images/lungmap-logo.png";
-import { ELEMENT_ALIGNMENT } from "../../common/entities";
+
+// Images
+import logoAnvil from "images/logoAnvil.png";
+import logoHca from "images/logoHca.png";
+import logoLungmap from "images/logoLungmap.png";
 
 export default {
   argTypes: {
-    authenticationEnabled: { control: "boolean" },
-    logo: { control: "object" },
-    navAlignment: {
-      control: "select",
-      options: [ELEMENT_ALIGNMENT.LEFT, ELEMENT_ALIGNMENT.CENTER],
+    header: {
+      authenticationEnabled: { control: "boolean" },
+      logo: { control: "object" },
+      navAlignment: {
+        control: "select",
+        options: [ELEMENT_ALIGNMENT.LEFT, ELEMENT_ALIGNMENT.CENTER],
+      },
+      navLinks: { control: "array" },
+      searchEnabled: { control: "boolean" },
+      slogan: { control: "text" },
+      socials: { control: "array" },
     },
-    navLinks: { control: "array" },
-    searchEnabled: { control: "boolean" },
-    slogan: { control: "text" },
-    socialLinks: { control: "array" },
   },
   component: Header,
-  title: "Components/Header",
+  title: "Layout/Header",
 } as ComponentMeta<typeof Header>;
 
 const Template: ComponentStory<typeof Header> = (args) => <Header {...args} />;
 
 export const Anvil = Template.bind({});
 Anvil.args = {
-  authenticationEnabled: false,
-  logo: {
-    alt: "NHGRI Analysis Visualization and Informatics Lab-space",
-    height: 40,
-    link: "/",
-    src: AnvilLogo,
-  },
-  navAlignment: ELEMENT_ALIGNMENT.CENTER,
-  navLinks: {
-    links: [
+  header: {
+    authenticationEnabled: false,
+    logo: {
+      alt: "NHGRI Analysis Visualization and Informatics Lab-space",
+      height: 40,
+      link: "/",
+      src: logoAnvil,
+    },
+    navAlignment: ELEMENT_ALIGNMENT.CENTER,
+    navLinks: [
       {
         label: "Overview",
         url: "https://anvilproject.org/overview",
@@ -70,11 +77,9 @@ Anvil.args = {
         url: "https://anvilproject.org/help",
       },
     ],
-  },
-  searchEnabled: true,
-  slogan: "NHGRI Analysis Visualization and Informatics Lab-space",
-  socialLinks: {
-    links: [
+    searchEnabled: true,
+    slogan: "NHGRI Analysis Visualization and Informatics Lab-space",
+    socials: [
       {
         type: "twitter",
         url: "https://twitter.com/useAnVIL",
@@ -97,16 +102,16 @@ Anvil.args = {
 
 export const HCA = Template.bind({});
 HCA.args = {
-  authenticationEnabled: true,
-  logo: {
-    alt: "Anvil",
-    height: 40,
-    link: "/explore/projects",
-    src: HcaLogo,
-  },
-  navAlignment: ELEMENT_ALIGNMENT.LEFT,
-  navLinks: {
-    links: [
+  header: {
+    authenticationEnabled: true,
+    logo: {
+      alt: "Anvil",
+      height: 40,
+      link: "/explore/projects",
+      src: logoHca,
+    },
+    navAlignment: ELEMENT_ALIGNMENT.LEFT,
+    navLinks: [
       {
         label: "Explore",
         url: "https://data.humancellatlas.org/explore/projects",
@@ -140,11 +145,9 @@ HCA.args = {
         url: "https://data.humancellatlas.org/dcp-updates",
       },
     ],
-  },
-  searchEnabled: true,
-  slogan: undefined,
-  socialLinks: {
-    links: [
+    searchEnabled: true,
+    slogan: undefined,
+    socials: [
       {
         type: "twitter",
         url: "https://twitter.com/humancellatlas",
@@ -162,16 +165,16 @@ HCA.args = {
 };
 export const LungMap = Template.bind({});
 LungMap.args = {
-  authenticationEnabled: false,
-  logo: {
-    alt: "LungMap",
-    height: 40,
-    link: "/",
-    src: LungMapLogo,
-  },
-  navAlignment: ELEMENT_ALIGNMENT.LEFT,
-  navLinks: {
-    links: [
+  header: {
+    authenticationEnabled: false,
+    logo: {
+      alt: "LungMap",
+      height: 40,
+      link: "/",
+      src: logoLungmap,
+    },
+    navAlignment: ELEMENT_ALIGNMENT.LEFT,
+    navLinks: [
       {
         label: "Explore",
         url: "https://data-browser.lungmap.net/explore/projects",
@@ -185,11 +188,9 @@ LungMap.args = {
         url: "https://data-browser.lungmap.net/apis",
       },
     ],
-  },
-  searchEnabled: true,
-  slogan: undefined,
-  socialLinks: {
-    links: [
+    searchEnabled: true,
+    slogan: undefined,
+    socials: [
       {
         type: "twitter",
         url: "https://twitter.com/lungmapnet",

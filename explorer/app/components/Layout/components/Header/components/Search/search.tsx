@@ -1,5 +1,5 @@
 // Core dependencies
-import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+import SearchIcon from "@mui/icons-material/Search";
 import { Button, IconButton } from "@mui/material";
 import React from "react";
 
@@ -8,9 +8,9 @@ import {
   BREAKPOINT,
   BREAKPOINT_FN_NAME,
   useBreakpointHelper,
-} from "../../../../hooks/useBreakpointHelper";
+} from "../../../../../../hooks/useBreakpointHelper";
 
-export const ProfileComponent = (): JSX.Element => {
+export const Search = (): JSX.Element => {
   const desktop = useBreakpointHelper(
     BREAKPOINT_FN_NAME.UP,
     BREAKPOINT.DESKTOP
@@ -18,12 +18,12 @@ export const ProfileComponent = (): JSX.Element => {
   return (
     <>
       {desktop ? (
-        <Button startIcon={<LoginRoundedIcon />} variant="nav">
-          Sign in
+        <Button startIcon={<SearchIcon />} variant="nav">
+          Search
         </Button>
       ) : (
         <IconButton color="ink">
-          <LoginRoundedIcon />
+          <SearchIcon />
         </IconButton>
       )}
     </>

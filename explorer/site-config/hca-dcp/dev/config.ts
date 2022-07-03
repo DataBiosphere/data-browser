@@ -1,5 +1,7 @@
 // App dependencies
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
+import { Social } from "../../../app/components/common/Socials/socials";
+import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/model";
 
 // Entities config
@@ -9,12 +11,34 @@ import { samplesEntity } from "./samplesEntity";
 import { summary } from "./summary";
 
 // Images
-import HcaLogo from "images/hca-logo.png";
+import logoHca from "images/logoHca.png";
+import logoHumanCellAtlas from "images/logoHumanCellAtlas.png";
 
+// Template constants
 const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";
 const CATALOG_DCP2 = "dcp2";
 const PAGINATION_PAGE_SIZE = "25";
 const PROJECTS_URL = "/explore/projects";
+const LOGO: Logo = {
+  alt: "Human Cell Atlas Data Coordination Platform",
+  height: 40,
+  link: BROWSER_URL,
+  src: logoHca,
+};
+const SOCIALS: Social[] = [
+  {
+    type: "twitter",
+    url: "https://twitter.com/humancellatlas",
+  },
+  {
+    type: "github",
+    url: "https://github.com/HumanCellAtlas",
+  },
+  {
+    type: "slack",
+    url: "https://humancellatlas.slack.com/archives/C02TM2SDVM2",
+  },
+];
 
 const config: SiteConfig = {
   browserURL: BROWSER_URL,
@@ -30,69 +54,70 @@ const config: SiteConfig = {
   },
   entities: [projectEntity, filesEntity, samplesEntity],
   layout: {
+    footer: {
+      feedbackForm: false, // TODO feedback form
+      logos: [{ ...LOGO, height: 38, src: logoHumanCellAtlas }],
+      navLinks: [
+        {
+          label: "About",
+          url: `${BROWSER_URL}/about`,
+        },
+        {
+          label: "Help",
+          url: `${BROWSER_URL}/help`,
+        },
+        {
+          label: "Privacy",
+          url: `${BROWSER_URL}/privacy`,
+        },
+        {
+          label: "Contact",
+          url: `${BROWSER_URL}/contact`,
+        },
+      ],
+      socials: SOCIALS,
+    },
     header: {
       authenticationEnabled: false,
-      logo: {
-        alt: "Human Cell Atlas Data Coordination Platform",
-        height: 40,
-        link: PROJECTS_URL,
-        src: HcaLogo,
-      },
+      logo: LOGO,
       navAlignment: ELEMENT_ALIGNMENT.LEFT,
-      navLinks: {
-        links: [
-          {
-            label: "Explore",
-            url: PROJECTS_URL,
-          },
-          {
-            label: "Guides",
-            url: "https://data.humancellatlas.org/guides",
-          },
-          {
-            label: "Metadata",
-            url: "https://data.humancellatlas.org/metadata",
-          },
-          {
-            label: "Pipelines",
-            url: "https://data.humancellatlas.org/pipelines",
-          },
-          {
-            label: "Analysis Tools",
-            url: "https://data.humancellatlas.org/analyze",
-          },
-          {
-            label: "Contribute",
-            url: "https://data.humancellatlas.org/contribute",
-          },
-          {
-            label: "APIs",
-            url: "https://data.humancellatlas.org/apis",
-          },
-          {
-            label: "Updates",
-            url: "https://data.humancellatlas.org/dcp-updates",
-          },
-        ],
-      },
+      navLinks: [
+        {
+          label: "Explore",
+          url: PROJECTS_URL,
+        },
+        {
+          label: "Guides",
+          url: `${BROWSER_URL}/guides`,
+        },
+        {
+          label: "Metadata",
+          url: `${BROWSER_URL}/metadata`,
+        },
+        {
+          label: "Pipelines",
+          url: `${BROWSER_URL}/pipelines`,
+        },
+        {
+          label: "Analysis Tools",
+          url: `${BROWSER_URL}/analyze`,
+        },
+        {
+          label: "Contribute",
+          url: `${BROWSER_URL}/contribute`,
+        },
+        {
+          label: "APIs",
+          url: `${BROWSER_URL}/apis`,
+        },
+        {
+          label: "Updates",
+          url: `${BROWSER_URL}/dcp-updates`,
+        },
+      ],
       searchEnabled: false,
       slogan: undefined,
-      socialLinks: {
-        links: [
-          {
-            type: "twitter",
-            url: "https://twitter.com/humancellatlas",
-          },
-          {
-            type: "github",
-            url: "https://github.com/HumanCellAtlas",
-          },
-          {
-            type: "slack",
-            url: "https://humancellatlas.slack.com/archives/C02TM2SDVM2",
-          },
-        ],
-      },
+      socials: SOCIALS,
     },
   },
   redirectRootToPath: PROJECTS_URL,

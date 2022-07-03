@@ -144,6 +144,7 @@ declare module "@mui/material/IconButton" {
  */
 declare module "@mui/material/Paper" {
   interface PaperPropsVariantOverrides {
+    footer: true;
     panel: true;
   }
 }

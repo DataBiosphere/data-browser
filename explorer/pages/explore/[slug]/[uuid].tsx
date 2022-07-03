@@ -4,7 +4,7 @@ import { ParsedUrlQuery } from "querystring";
 import React from "react";
 
 // App dependencies
-import { Page } from "../../../app/components/Page/page";
+import { Page } from "../../../app/components/Layout/components/Page/page";
 import { config } from "app/config/config";
 import { detail, listAll } from "../../../app/entity/api/service";
 import { getCurrentEntity } from "app/hooks/useCurrentEntity";

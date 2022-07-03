@@ -1,7 +1,12 @@
+// Core dependencies
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
+
+// App dependencies
 import { StaticImage } from "./staticImage";
-import HcaLogo from "../../../../images/hca-logo.png";
+
+// Images
+import logoHca from "images/logoHca.png";
 
 export default {
   argTypes: {
@@ -22,5 +27,5 @@ export const Primary = Template.bind({});
 Primary.args = {
   alt: "NHGRI Analysis Visualization and Informatics Lab-space",
   height: 40,
-  src: HcaLogo,
+  src: logoHca,
 };

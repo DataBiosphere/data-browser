@@ -2,6 +2,7 @@
 import { SiteConfig } from "../../../app/config/model";
 import devConfig from "../dev/config";
 
+// Template constants
 const BROWSER_URL = "https://data.humancellatlas.org";
 
 const config: SiteConfig = {

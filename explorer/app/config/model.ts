@@ -2,7 +2,7 @@
 import { JSXElementConstructor } from "react";
 
 // App dependencies
-import { HeaderProps } from "../components/Header/header";
+import { Footer, Header } from "app/components/Layout/common/entities";
 
 type GetIdFunction<T> = (detail: T) => string;
 
@@ -94,11 +94,12 @@ export interface ListConfig<T = any> {
  * Interface that will hold the whole configuration for a given site.
  */
 export interface SiteConfig {
-  browserURL?: string;
+  browserURL: string;
   datasources: DataSourceConfig;
   entities: EntityConfig[];
   layout: {
-    header: HeaderProps;
+    footer: Footer;
+    header: Header;
   };
   redirectRootToPath?: string;
   summary?: SummaryConfig;

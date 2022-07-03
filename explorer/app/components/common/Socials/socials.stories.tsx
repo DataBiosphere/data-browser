@@ -3,25 +3,25 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 // App dependencies
-import { SocialLinks } from "./socialLinks";
+import { Socials } from "./socials";
 
 export default {
   argTypes: {
-    links: { control: "object" },
+    socials: { control: "object" },
   },
-  component: SocialLinks,
+  component: Socials,
   title: "Components/SocialLinks",
-} as ComponentMeta<typeof SocialLinks>;
+} as ComponentMeta<typeof Socials>;
 
 const GITHUB_URL = "https://github.com";
 
-const Template: ComponentStory<typeof SocialLinks> = (args) => (
-  <SocialLinks {...args} />
+const Template: ComponentStory<typeof Socials> = (args) => (
+  <Socials {...args} />
 );
 
 export const Primary = Template.bind({});
 Primary.args = {
-  links: [
+  socials: [
     {
       type: "twitter",
       url: GITHUB_URL,

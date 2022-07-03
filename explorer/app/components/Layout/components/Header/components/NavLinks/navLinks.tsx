@@ -4,24 +4,17 @@ import Link from "next/link";
 import React from "react";
 
 // App dependencies
-import { ELEMENT_ALIGNMENT } from "../../../../common/entities";
+import { NavLinkItem } from "../../../../common/entities";
+import { ELEMENT_ALIGNMENT } from "../../../../../../common/entities";
 
 export type NavAlignment = Exclude<ELEMENT_ALIGNMENT, ELEMENT_ALIGNMENT.RIGHT>;
 
-export interface NavLinkItem {
-  label: string;
-  url: string;
-}
-
-export interface NavLinksProps {
+interface Props {
   center?: boolean;
   links: NavLinkItem[];
 }
 
-export const NavLinks = ({
-  center = false,
-  links,
-}: NavLinksProps): JSX.Element => {
+export const NavLinks = ({ center = false, links }: Props): JSX.Element => {
   return (
     <Box
       display="flex"

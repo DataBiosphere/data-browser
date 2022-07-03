@@ -12,30 +12,37 @@ import React from "react";
 // App dependencies
 import { IconName } from "../CustomIcon/common/iconSvgPathShapes";
 import { CustomIcon } from "../CustomIcon/customIcon";
+import { ANCHOR_TARGET } from "../../Links/components/Link/link";
 
-interface SocialLinkItem {
+export interface Social {
   type: IconName;
   url: string;
 }
 
-export interface SocialLinksProps {
+interface Props {
   buttonColor?: IconButtonProps["color"];
   buttonSize?: IconButtonProps["size"];
-  links: SocialLinkItem[];
+  socials: Social[];
   sx?: SxProps<Theme>;
 }
 
-export const SocialLinks = ({
+export const Socials = ({
   buttonColor = "default",
   buttonSize = "medium",
-  links,
+  socials,
   sx,
-}: SocialLinksProps): JSX.Element => {
+}: Props): JSX.Element => {
   return (
     <Box display="flex" sx={[...(Array.isArray(sx) ? sx : [sx])]}>
-      {links.map(({ type, url }) => (
+      {socials.map(({ type, url }) => (
         <Link key={type} href={url} passHref>
-          <IconButton color={buttonColor} href="passHref" size={buttonSize}>
+          <IconButton
+            color={buttonColor}
+            href="passHref"
+            rel="noopener"
+            size={buttonSize}
+            target={ANCHOR_TARGET.BLANK}
+          >
             <CustomIcon fontSize="small" iconName={type} />
           </IconButton>
         </Link>

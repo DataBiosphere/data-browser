@@ -287,6 +287,10 @@ export const theme = createTheme(defaultTheme, {
     },
     MuiPaper: {
       styleOverrides: {
+        footer: {
+          backgroundColor: defaultTheme.palette.smokeLight,
+          boxShadow: `inset 0 -1px 0 0 ${defaultTheme.palette.smoke}, inset 0 1px 0 0 ${defaultTheme.palette.smoke}`,
+        },
         panel: {
           backgroundColor: defaultTheme.palette.smoke,
           borderColor: defaultTheme.palette.smoke,
@@ -298,6 +302,9 @@ export const theme = createTheme(defaultTheme, {
         },
       },
       variants: [
+        {
+          props: { variant: "footer" },
+        },
         {
           props: { variant: "panel" },
         },
