@@ -208,23 +208,6 @@ export const projectsToProjectTitleColumn = (
 };
 
 /* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
-export const projectsToSpeciesColumn = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.Text> => {
-  if (!project.donorOrganisms) {
-    return {
-      children: "",
-    };
-  }
-  return {
-    children: concatStrings(
-      project.donorOrganisms.flatMap((orgnanism) => orgnanism.genusSpecies)
-    ),
-    customColor: "ink",
-    variant: "text-body-400",
-  };
-};
-
 export const projectsToCellCountColumn = (
   project: ProjectsResponse
 ): React.ComponentProps<typeof C.Text> => {

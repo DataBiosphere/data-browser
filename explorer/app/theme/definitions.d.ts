@@ -119,6 +119,7 @@ declare module "@mui/material/Button" {
  */
 declare module "@mui/material/Chip" {
   interface ChipPropsVariantOverrides {
+    ntag: true;
     status: true;
   }
 }

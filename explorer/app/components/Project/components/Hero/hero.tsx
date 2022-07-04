@@ -11,9 +11,11 @@ import { Status, StatusBadge } from "../../../common/StatusBadge/statusBadge";
 import { Title } from "../Title/title";
 
 interface Props {
-  breadcrumbs?: any; // TODO breadcrumb type https://github.com/clevercanary/data-browser/issues/68
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- TODO breadcrumb type https://github.com/clevercanary/data-browser/issues/68
+  breadcrumbs?: any;
   status?: Status;
-  tabs?: any; // TODO tab type https://github.com/clevercanary/data-browser/issues/120
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- TODO tab type https://github.com/clevercanary/data-browser/issues/120
+  tabs?: any;
   title?: string;
 }
 

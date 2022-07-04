@@ -184,6 +184,16 @@ export const theme = createTheme(defaultTheme, {
         size: "small",
       },
       styleOverrides: {
+        ntag: {
+          ...defaultTheme.typography["text-body-small-400"],
+          backgroundColor: defaultTheme.palette.smoke,
+          borderColor: defaultTheme.palette.common.white,
+          borderStyle: "solid",
+          borderWidth: 2,
+          boxSizing: "content-box",
+          color: defaultTheme.palette.ink,
+          height: 24,
+        },
         status: {
           ...defaultTheme.typography["text-body-small-500"],
           borderColor: defaultTheme.palette.common.white,
@@ -193,6 +203,9 @@ export const theme = createTheme(defaultTheme, {
         },
       },
       variants: [
+        {
+          props: { variant: "ntag" },
+        },
         {
           props: { variant: "status" },
         },
@@ -328,6 +341,10 @@ export const theme = createTheme(defaultTheme, {
       styleOverrides: {
         arrow: {
           color: defaultTheme.palette.ink,
+          // eslint-disable-next-line sort-keys -- disabling key order for readability
+          "&:before": {
+            borderRadius: 1,
+          },
         },
         tooltip: {
           ...defaultTheme.typography["text-body-small-400"],

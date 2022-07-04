@@ -4,7 +4,9 @@ import { ComponentConfig, ListConfig } from "../../../app/config/model";
 import { ProjectsResponse } from "app/models/responses";
 import { getProjectId } from "app/transformers/hca";
 import { mainColumn } from "./mainColumn";
-import * as T from "./projectViewModelBuilder";
+import * as T from "./projectsViewModelBuilder";
+// TODO refactor all methods to projectsViewModelBuilder with https://github.com/clevercanary/data-browser/issues/128
+import * as B from "./projectViewModelBuilder";
 import { sideColumn } from "./sideColumn";
 import { top } from "./top";
 
@@ -25,35 +27,35 @@ export const projectEntity = {
       {
         componentConfig: {
           component: C.Links,
-          transformer: T.projectsToProjectTitleColumn,
+          transformer: B.projectsToProjectTitleColumn,
         } as ComponentConfig<typeof C.Links>,
         header: "Project Title",
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.projectsToSpeciesColumn,
+          component: C.NTagCell,
+          transformer: T.buildSpecies,
         },
         header: "Species",
       },
       {
         componentConfig: {
           component: C.Text,
-          transformer: T.projectsToLibConstApproachColumn,
+          transformer: B.projectsToLibConstApproachColumn,
         },
         header: "Library Construction Approach",
       },
       {
         componentConfig: {
           component: C.Text,
-          transformer: T.projectsToAnatomicalEntityColumn,
+          transformer: B.projectsToAnatomicalEntityColumn,
         },
         header: "Anatomical Entity",
       },
       {
         componentConfig: {
           component: C.Text,
-          transformer: T.projectsToDiseaseDonorColumn,
+          transformer: B.projectsToDiseaseDonorColumn,
         },
         header: "Disease (Donor)",
       },
@@ -62,7 +64,7 @@ export const projectEntity = {
           children: [
             {
               component: C.Text,
-              transformer: T.projectsToCellCountColumn,
+              transformer: B.projectsToCellCountColumn,
             } as ComponentConfig<typeof C.Text>,
           ],
           component: C.Tooltip,
