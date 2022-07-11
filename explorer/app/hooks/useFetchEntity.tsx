@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useAsync } from "./useAsync";
 import { useCurrentEntity } from "./useCurrentEntity";
 import { isSSR } from "app/utils/ssr";
-import { isDevelopment } from "app/shared/constants";
+import { isDevelopment, PARAMS_INDEX_UUID } from "app/shared/constants";
 
 interface UseEntityDetailResponse<T> {
   isLoading: boolean;
@@ -24,25 +24,21 @@ export const useFetchEntity = <T,>(
 ): UseEntityDetailResponse<T> => {
   const entity = useCurrentEntity();
   const router = useRouter();
-  const uuid = router.query.uuid as string;
+  const uuid = router.query.params?.[PARAMS_INDEX_UUID] as string;
   const { data: response, isLoading: apiIsLoading, run } = useAsync<T>();
 
   useEffect(() => {
-    if (entity && (!entity.staticLoad || isDevelopment()) && !isSSR() && uuid) {
+    if ((!entity.staticLoad || isDevelopment()) && !isSSR() && uuid) {
       run(detail(uuid, entity.apiPath));
     }
   }, [entity, run, uuid]);
-
-  if (!entity) {
-    return { isLoading: false }; //TODO: return a error to make the user know that the entity doest exist
-  }
 
   if (entity.staticLoad) {
     return { isLoading: false, response: value?.data };
   }
 
   return {
-    isLoading: apiIsLoading,
+    isLoading: apiIsLoading || !response,
     response,
   };
 };

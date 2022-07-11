@@ -14,17 +14,6 @@ const Template: ComponentStory<typeof Tabs> = (args) => <Tabs {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  children: <div>Tab content</div>,
   selectedTab: 0,
-  tabs: [
-    {
-      label: "First tab",
-    },
-    {
-      label: "Second tab",
-    },
-    {
-      label: "Third tab",
-    },
-  ],
+  tabs: ["First tab", "Second tab", "Third tab"],
 };

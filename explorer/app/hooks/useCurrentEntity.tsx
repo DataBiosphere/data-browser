@@ -1,6 +1,21 @@
-import { SiteConfig } from "app/config/model";
-import { useRouter } from "next/router";
-import { useConfig } from "./useConfig";
+import React, { useContext } from "react";
+import { EntityConfig, SiteConfig } from "app/config/model";
+
+/**
+ * Empty entity configuration to serve as default for the context
+ */
+const EMPTY_ENTITY: EntityConfig = {
+  apiPath: "",
+  detail: {
+    tabs: [],
+    top: [],
+  },
+  label: "",
+  list: {
+    columns: [],
+  },
+  route: "",
+};
 
 /**
  * Get the current entity based on the given path
@@ -9,20 +24,24 @@ import { useConfig } from "./useConfig";
  */
 export const getCurrentEntity = (path: string, config: SiteConfig) => {
   const value = path.replace("/explore/", "");
-  return config.entities.find((entity) => entity.route === value);
-};
 
-/**
- * @returns the current entity based on the current route
- */
-export const useCurrentEntity = () => {
-  const router = useRouter();
-  const config = useConfig();
-  const paths = router.asPath.split("/").filter((path) => !!path);
+  const entity = config.entities.find((entity) => entity.route === value);
 
-  if (paths.length < 2) {
-    return undefined;
+  if (!entity) {
+    throw Error("No entity found");
   }
 
-  return getCurrentEntity(paths[1], config);
+  return entity;
+};
+
+const CurrentEntityContext = React.createContext<EntityConfig>(EMPTY_ENTITY);
+
+export const CurrentEntityProvider = CurrentEntityContext.Provider;
+
+/**
+ * @returns the current entity based using the context value
+ * provided by the current page
+ */
+export const useCurrentEntity = () => {
+  return useContext(CurrentEntityContext);
 };

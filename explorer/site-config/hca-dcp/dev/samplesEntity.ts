@@ -12,6 +12,10 @@ import { SamplesResponse } from "app/models/responses";
  */
 export const samplesEntity: EntityConfig<SamplesResponse> = {
   apiPath: "index/samples",
+  detail: {
+    tabs: [],
+    top: [],
+  },
   label: "Samples",
   list: {
     columns: [

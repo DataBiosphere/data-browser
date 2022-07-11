@@ -18,12 +18,8 @@ export const ListContainer = (props: ListModel) => {
   const { response: summaryResponse } = useSummary();
   const { response, isLoading, pagination, sort } = useFetchEntities(props);
   const { asPath, push } = useRouter();
-  const columnsConfig = entity?.list?.columns;
+  const columnsConfig = entity.list.columns;
   const summaryComponents = summary?.components;
-
-  if (!columnsConfig || !entity) {
-    return <span>EMPTY CONFIG</span>; //TODO: return the empty config UI component
-  }
 
   const renderContent = () => {
     if (isLoading || !response) {
@@ -52,7 +48,7 @@ export const ListContainer = (props: ListModel) => {
   };
 
   const selectedTab = entities.findIndex(({ route }) => asPath.includes(route));
-  const tabs = entities.map(({ label }) => ({ label }));
+  const tabs = entities.map(({ label }) => label);
 
   return (
     <>
@@ -66,9 +62,8 @@ export const ListContainer = (props: ListModel) => {
         onTabChange={handleTabChanged}
         selectedTab={selectedTab}
         tabs={tabs}
-      >
-        {renderContent()}
-      </Tabs>
+      />
+      {renderContent()}
     </>
   );
 };

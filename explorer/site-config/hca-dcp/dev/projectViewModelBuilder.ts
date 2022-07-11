@@ -19,6 +19,7 @@ import {
 import { ProjectsResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
 import { concatStrings } from "app/utils/string";
+import { projectEntity } from "./projectsEntity";
 
 const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
@@ -125,7 +126,7 @@ export const buildHero = (
   return {
     breadcrumbs: undefined, // TODO breadcrumbs https://github.com/clevercanary/data-browser/issues/68.
     status: getProjectStatus(projectsResponse), // TODO status https://github.com/clevercanary/data-browser/issues/135
-    tabs: undefined, // TODO tabs https://github.com/clevercanary/data-browser/issues/120
+    tabs: projectEntity.detail.tabs.map(({ label }) => label),
     title: getProjectTitle(projectsResponse),
   };
 };

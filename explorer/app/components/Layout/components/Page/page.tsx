@@ -14,18 +14,23 @@ import { Main } from "../Main/main";
 
 // Styles
 import { PageLayout } from "./page.styles";
+import { EntityConfig } from "app/config/model";
+import { CurrentEntityProvider } from "app/hooks/useCurrentEntity";
 
 interface PageProps {
+  entity: EntityConfig;
   children: React.ReactNode | React.ReactNode[];
 }
 
-export const Page = ({ children }: PageProps): JSX.Element => {
+export const Page = ({ children, entity }: PageProps): JSX.Element => {
   const config = useConfig();
   return (
     <PageLayout>
-      <Header header={config.layout.header} />
-      <Main>{children}</Main>
-      <Footer footer={config.layout.footer} />
+      <CurrentEntityProvider value={entity}>
+        <Header header={config.layout.header} />
+        <Main>{children}</Main>
+        <Footer footer={config.layout.footer} />
+      </CurrentEntityProvider>
     </PageLayout>
   );
 };

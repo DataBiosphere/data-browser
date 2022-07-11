@@ -12,6 +12,10 @@ import { FilesResponse } from "app/models/responses";
  */
 export const filesEntity: EntityConfig<FilesResponse> = {
   apiPath: "index/files",
+  detail: {
+    tabs: [],
+    top: [],
+  },
   label: "Files",
   list: {
     columns: [

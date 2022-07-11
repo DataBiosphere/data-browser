@@ -13,9 +13,16 @@ interface PageUrl extends ParsedUrlQuery {
   slug: string;
 }
 
-const ListPage = (props: ListModel): JSX.Element => {
+interface ListPageProps extends ListModel {
+  slug: string;
+}
+
+const ListPage = ({ slug, ...props }: ListPageProps): JSX.Element => {
+  if (!slug) return <></>;
+  const entity = getCurrentEntity(slug, config());
+
   return (
-    <Page>
+    <Page entity={entity}>
       <ListContainer {...props} />
     </Page>
   );
@@ -53,6 +60,7 @@ export const getStaticProps: GetStaticProps<ListModel> = async (
   return {
     props: {
       data: resultList,
+      slug,
     },
   };
 };

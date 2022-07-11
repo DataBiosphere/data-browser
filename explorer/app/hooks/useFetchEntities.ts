@@ -56,7 +56,7 @@ const getDefaultSort = (entity: EntityConfig) => {
 export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
   const entity = useCurrentEntity();
   const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
-  const defaultSort = useMemo(() => entity && getDefaultSort(entity), [entity]);
+  const defaultSort = useMemo(() => getDefaultSort(entity), [entity]);
   const [sortKey, setSortKey] = useState<string | undefined>(defaultSort);
   const [sortOrder, setsortOrder] = useState<SortOrderType | undefined>(
     defaultSort ? "asc" : undefined
@@ -68,7 +68,7 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
   } = useAsync<ListResponseType>();
 
   useEffect(() => {
-    if (entity && (!entity.staticLoad || isDevelopment()) && !isSSR()) {
+    if ((!entity.staticLoad || isDevelopment()) && !isSSR()) {
       run(list(entity.apiPath, { order: sortOrder, sort: sortKey }));
     }
   }, [entity, run, sortKey, sortOrder]);
@@ -99,12 +99,6 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
     setCurrentPage(DEFAULT_CURRENT_PAGE);
   }, []);
 
-  if (!entity) {
-    return {
-      isLoading: false,
-    }; //TODO: return a error to make the user know that the entity doest exist
-  }
-
   if (entity.staticLoad) {
     return {
       isLoading: false,
@@ -113,7 +107,7 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
   }
 
   return {
-    isLoading: apiIsLoading,
+    isLoading: apiIsLoading || !apiData,
     pagination: {
       canNextPage: !!apiData?.pagination.next,
       canPreviousPage: !!apiData?.pagination.previous,

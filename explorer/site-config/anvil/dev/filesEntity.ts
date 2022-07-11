@@ -12,6 +12,10 @@ import { AnvilFilesResponse } from "app/models/responses";
  */
 export const filesEntity: EntityConfig<AnvilFilesResponse> = {
   apiPath: "index/files",
+  detail: {
+    tabs: [],
+    top: [],
+  },
   label: "Files",
   list: {
     columns: [
