@@ -224,6 +224,30 @@ export const projectsToCellCountColumn = (
   };
 };
 
+/**
+ * Build props for the Development stage Text component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the development stage table column.
+ */
+export const buildDevStage = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.Text> => {
+  if (!projectsResponse.donorOrganisms) {
+    return {
+      children: "",
+    };
+  }
+  return {
+    children: concatStrings(
+      projectsResponse.donorOrganisms.flatMap(
+        (orgnanism) => orgnanism.developmentStage
+      )
+    ),
+    customColor: "ink",
+    variant: "text-body-400",
+  };
+};
+
 export const projectsToLibConstApproachColumn = (
   project: ProjectsResponse
 ): React.ComponentProps<typeof C.Text> => {

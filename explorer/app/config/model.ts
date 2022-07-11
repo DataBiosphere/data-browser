@@ -85,7 +85,8 @@ export interface SummaryConfig {
 }
 
 export interface ColumnConfig<
-  T,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
+  T = any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
   C extends keyof JSX.IntrinsicElements | JSXElementConstructor<any> = any
 > {
@@ -96,6 +97,7 @@ export interface ColumnConfig<
     default?: boolean;
   };
   componentConfig: ComponentConfig<C, T>;
+  hiddenColumn?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model can receive any model as type

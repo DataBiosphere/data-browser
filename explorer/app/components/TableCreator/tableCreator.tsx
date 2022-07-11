@@ -1,9 +1,10 @@
+import React, { useMemo } from "react";
 import { ColumnConfig } from "app/config/model";
 import { PaginationConfig, SortConfig } from "app/hooks/useFetchEntities";
-import React from "react";
 import { CellProps, Column } from "react-table";
 import { ComponentCreator } from "../ComponentCreator/ComponentCreator";
 import { Table } from "../Table/table";
+import { useEditColumns } from "app/hooks/useEditColumns";
 
 interface TableCreatorProps<T> {
   columns: ColumnConfig<T>[];
@@ -32,21 +33,28 @@ export const TableCreator = <T extends object>({
   pagination,
   sort,
 }: TableCreatorProps<T>): JSX.Element => {
-  const reactColumns: Column<T>[] = columns.map((columnConfig) => ({
-    Cell: createCell(columnConfig),
-    Header: columnConfig.header,
-    disableSortBy: !columnConfig.sort,
-    id: columnConfig.sort?.sortKey,
-  }));
+  const { editColumns, visibleColumns } = useEditColumns(columns);
+
+  const reactVisibleColumns: Column<T>[] = useMemo(
+    () =>
+      visibleColumns.map((columnConfig) => ({
+        Cell: createCell(columnConfig),
+        Header: columnConfig.header,
+        disableSortBy: !columnConfig.sort,
+        id: columnConfig.sort?.sortKey,
+      })),
+    [visibleColumns]
+  );
 
   return (
     <Table<T>
       items={items}
-      columns={reactColumns}
+      columns={reactVisibleColumns}
       pageSize={pageSize}
       total={total}
       pagination={pagination}
       sort={sort}
+      editColumns={editColumns}
     />
   );
 };

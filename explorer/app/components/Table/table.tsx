@@ -8,6 +8,7 @@ import {
   useTable,
 } from "react-table";
 import {
+  Box,
   Table as MuiTable,
   TableBody,
   TableCell,
@@ -16,8 +17,16 @@ import {
   TableSortLabel,
 } from "@mui/material";
 import { Pagination } from "../Pagination/pagination";
+import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
 import { PaginationConfig, SortConfig } from "app/hooks/useFetchEntities";
 import { newColumnKey, newColumnOrder } from "./functions";
+
+export interface EditColumnConfig {
+  options: CheckboxMenuItem[];
+  selectedColumns: string[];
+  readOnlyColumns: string[];
+  onVisibleColumnsChange: (newColumnId: string) => void;
+}
 
 interface TableProps<T extends object> {
   items: T[];
@@ -26,6 +35,7 @@ interface TableProps<T extends object> {
   total?: number;
   pagination?: PaginationConfig;
   sort?: SortConfig;
+  editColumns?: EditColumnConfig;
 }
 
 /**
@@ -36,6 +46,7 @@ interface TableProps<T extends object> {
 export const Table = <T extends object>({
   items,
   columns,
+  editColumns,
   pageSize,
   total,
   pagination,
@@ -78,7 +89,18 @@ export const Table = <T extends object>({
   };
 
   return (
-    <>
+    <div>
+      {editColumns && (
+        <Box display="flex" justifyContent="flex-end">
+          <CheckboxMenu
+            label="Edit Columns"
+            onItemSelectionChange={editColumns.onVisibleColumnsChange}
+            options={editColumns.options}
+            readOnly={editColumns.readOnlyColumns}
+            selected={editColumns.selectedColumns}
+          />
+        </Box>
+      )}
       <MuiTable {...getTableProps()}>
         <TableHead>
           <TableRow>
@@ -126,6 +148,6 @@ export const Table = <T extends object>({
         canPreviousPage={pagination?.canPreviousPage ?? tableCanPreviousPage}
         totalPage={total ?? pageOptions.length}
       />
-    </>
+    </div>
   );
 };

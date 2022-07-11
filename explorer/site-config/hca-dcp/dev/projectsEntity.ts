@@ -116,6 +116,14 @@ export const projectEntity: EntityConfig = {
         } as ComponentConfig<typeof C.Tooltip>,
         header: "Cell Count Estimate",
       },
+      {
+        componentConfig: {
+          component: C.Text,
+          transformer: B.buildDevStage,
+        } as ComponentConfig<typeof C.Text>,
+        header: "Development Stage",
+        hiddenColumn: true,
+      },
     ],
   } as ListConfig<ProjectsResponse>,
   route: "projects",

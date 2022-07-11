@@ -6,6 +6,7 @@ import {
   ListConfig,
 } from "../../../app/config/model";
 import { SamplesResponse } from "app/models/responses";
+import { buildDevStage } from "./projectViewModelBuilder";
 
 /**
  * Entity config object responsible to config anything related to the /explore/samples route.
@@ -99,6 +100,14 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
         sort: {
           sortKey: "cellCount",
         },
+      },
+      {
+        componentConfig: {
+          component: C.Text,
+          transformer: buildDevStage,
+        } as ComponentConfig<typeof C.Text>,
+        header: "Development Stage",
+        hiddenColumn: true,
       },
     ],
   } as ListConfig<SamplesResponse>,
