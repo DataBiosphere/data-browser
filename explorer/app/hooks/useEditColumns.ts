@@ -7,7 +7,8 @@ import { ColumnConfig } from "app/config/model";
  * @param columns - An array of columns config from the current entity.
  * @returns All necessary handlers and values for the edit columns functionality.
  */
-export const useEditColumns = (columns: ColumnConfig[]): JSX.Element => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- TODO add return type here
+export const useEditColumns = (columns: ColumnConfig[]) => {
   const defaultColumns = useMemo(
     () => columns.filter(({ hiddenColumn }) => !hiddenColumn),
     [columns]
