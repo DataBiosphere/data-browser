@@ -16,7 +16,7 @@ interface TableCreatorProps<T> {
 }
 
 const createCell = <T extends object>(config: ColumnConfig<T>) =>
-  function CellCreator({ row }: CellProps<T>) {
+  function CellCreator({ row }: CellProps<T>): JSX.Element {
     return (
       <ComponentCreator
         components={[config.componentConfig]}

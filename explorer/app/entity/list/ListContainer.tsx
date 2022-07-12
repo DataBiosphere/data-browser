@@ -12,7 +12,7 @@ import { ListModel } from "../../models/viewModels";
 import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
 import { useSummary } from "app/hooks/useSummary";
 
-export const ListContainer = (props: ListModel) => {
+export const ListContainer = (props: ListModel): JSX.Element => {
   const entity = useCurrentEntity();
   const { entities, summary } = useConfig();
   const { response: summaryResponse } = useSummary();
@@ -21,7 +21,7 @@ export const ListContainer = (props: ListModel) => {
   const columnsConfig = entity.list.columns;
   const summaryComponents = summary?.components;
 
-  const renderContent = () => {
+  const renderContent = (): JSX.Element => {
     if (isLoading || !response) {
       return <span>LOADING...</span>; //TODO: return the loading UI component
     }
@@ -42,7 +42,7 @@ export const ListContainer = (props: ListModel) => {
     );
   };
 
-  const handleTabChanged = (newIndex: number) => {
+  const handleTabChanged = (newIndex: number): void => {
     push(entities[newIndex].route);
     pagination?.resetPage();
   };

@@ -1,4 +1,4 @@
-export const concatStrings = (values: string[] | string) => {
+export const concatStrings = (values: string[] | string): string => {
   if (typeof values === "string") {
     return values;
   }

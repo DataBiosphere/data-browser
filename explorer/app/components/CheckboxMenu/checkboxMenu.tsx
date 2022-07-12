@@ -31,10 +31,10 @@ export const CheckboxMenu = ({
 }: CheckboxMenuProps): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (): void => {
     setAnchorEl(null);
   };
 
@@ -59,7 +59,7 @@ export const CheckboxMenu = ({
                 <Checkbox
                   checked={selected.includes(option.id)}
                   disabled={readOnly.includes(option.id)}
-                  onChange={() => onItemSelectionChange(option.id)}
+                  onChange={(): void => onItemSelectionChange(option.id)}
                 />
               }
               label={option.label}

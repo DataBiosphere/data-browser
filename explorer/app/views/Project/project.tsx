@@ -12,7 +12,7 @@ import { useCurrentDetailTab } from "app/hooks/useCurrentDetailTab";
 import { TabControllerProvider } from "app/components/Tabs/context";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
 
-export const Project = (props: DetailModel) => {
+export const Project = (props: DetailModel): JSX.Element => {
   const { response, isLoading } = useFetchEntity(props);
   const { push, query } = useRouter();
   const uuid = query.params?.[PARAMS_INDEX_UUID];
@@ -26,7 +26,7 @@ export const Project = (props: DetailModel) => {
     return <span>LOADING...</span>; //TODO: return the loading UI component
   }
 
-  const handleTabChanged = (index: number) => {
+  const handleTabChanged = (index: number): void => {
     const newTab = entity.detail.tabs[index];
     if (newTab) {
       push(`/explore/${entity.route}/${uuid}/${newTab.route}`);

@@ -335,6 +335,7 @@ function getCitationByCollaboratingOrganizations(
 /**
  * Returns the project value from the projects API response.
  * @param projectsResponse - Response returned from projects API response.
+ * @returns The core project value from the API response.
  */
 function getProjectResponse(
   projectsResponse?: ProjectsResponse

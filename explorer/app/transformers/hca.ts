@@ -5,9 +5,9 @@
 import { ProjectsResponse } from "../models/responses";
 
 /**
- * Function to get the id of the given detail type
- * @param value project detail response
- * @returns project id
+ * Determine the ID of the given detail type.
+ * @param value - Response returned from endpoint.
+ * @returns Project ID for the given projects response.
  */
-export const getProjectId = (value: ProjectsResponse) =>
+export const getProjectId = (value: ProjectsResponse): string =>
   value.projects[0].projectId;

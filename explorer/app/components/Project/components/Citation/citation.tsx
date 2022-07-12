@@ -46,9 +46,10 @@ export const Citation = ({ projectPath }: Props): JSX.Element => {
 
 /**
  * Builds citation label for display as citation link.
- * @param origin - Url origin.
- * @param path - Pathname.
- * @param projectPath - Project pathname.
+ * @param origin - UURLrl origin.
+ * @param path - Citation path.
+ * @param projectPath - Project path.
+ * @returns Element to display as citation text.
  */
 function buildCitationLinkLabel(
   origin: string,
@@ -68,7 +69,7 @@ function buildCitationLinkLabel(
 
 /**
  * Removes leading slash "/" from path.
- * @param pathName
+ * @param pathName - Path possibly containing leading /.
  * @returns pathName without leading slash.
  */
 function removeLeadingSlash(pathName: string): string {

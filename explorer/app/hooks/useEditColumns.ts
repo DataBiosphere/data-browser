@@ -4,10 +4,10 @@ import { ColumnConfig } from "app/config/model";
 /**
  * Hook used to isolate the logic necessary for tables with the edit columns functionality.
  * Where is possible to dynamically determine which columns should be displayed.
- * @param columns an array of columns config from the current entity ;
- * @returns all necessary handlers and objects for the edit columns functionality
+ * @param columns - An array of columns config from the current entity.
+ * @returns All necessary handlers and values for the edit columns functionality.
  */
-export const useEditColumns = (columns: ColumnConfig[]) => {
+export const useEditColumns = (columns: ColumnConfig[]): JSX.Element => {
   const defaultColumns = useMemo(
     () => columns.filter(({ hiddenColumn }) => !hiddenColumn),
     [columns]

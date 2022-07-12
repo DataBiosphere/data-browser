@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "sonarjs"],
+  "plugins": ["@typescript-eslint", "sonarjs", "jsdoc"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -8,7 +8,8 @@
     "plugin:prettier/recommended",
     "plugin:storybook/recommended",
     "next",
-    "plugin:sonarjs/recommended"
+    "plugin:sonarjs/recommended",
+    "plugin:eslint-comments/recommended"
   ],
   "rules": {
     "sort-keys": [
@@ -19,6 +20,27 @@
         "minKeys": 2,
         "natural": false
       }
-    ]
-  }
+    ],
+
+    "eslint-comments/require-description": "error",
+
+    "jsdoc/require-description": "error",
+    "jsdoc/require-param": "error",
+    "jsdoc/require-param-name": "error",
+    "jsdoc/require-param-description": "error",
+    "jsdoc/require-hyphen-before-param-description": "error",
+    "jsdoc/require-returns": "error",
+    "jsdoc/require-returns-description": "error",
+    "jsdoc/check-alignment": "error",
+    "jsdoc/check-param-names": "error"
+  },
+  "overrides": [
+    {
+      "files": "**",
+      "excludedFiles": "*.styles.ts?(x)",
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "error"
+      }
+    }
+  ]
 }

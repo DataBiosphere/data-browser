@@ -7,7 +7,7 @@ import { ConfigProvider } from "app/components/Config/Config";
 import { config } from "app/config/config";
 import type { AppProps } from "next/app";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <Emotion10ThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>

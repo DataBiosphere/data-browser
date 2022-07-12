@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { TabControllerContext } from "./context";
+import { TabContextValue, TabControllerContext } from "./context";
 
 /**
  * Helper hook to access tab controller context
  * @returns tab controller context
  */
-export const useTabController = () => {
+export const useTabController = (): TabContextValue | null => {
   return useContext(TabControllerContext);
 };

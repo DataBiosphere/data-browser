@@ -13,11 +13,10 @@ interface UseEntityDetailResponse<T> {
 }
 
 /**
- * Hook responsible to handle the load and transformation of the values that will be used by detail pages.
- * If the current entity loaded statically, this hook will return the already loaded data. Otherwise, it will make
- * a request for the entity's pathUrl
- * @param value statically loaded data, if any
- * @returns an object with the loaded data and a flag indicating is the data is loading
+ * Hook handling the load and transformation of the values used by detail pages. If the current entity loaded statically,
+ * this hook will return the already loaded data. Otherwise, it will make a request for the entity's pathUrl
+ * @param value - Statically loaded data, if any.
+ * @returns Object with the loaded data and a flag indicating is the data is loading.
  */
 export const useFetchEntity = <T,>(
   value?: DetailModel

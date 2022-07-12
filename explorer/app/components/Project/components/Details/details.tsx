@@ -18,7 +18,8 @@ interface Props {
 
 /**
  * Wrapper element around the key.
- * @param props - Key component children.
+ * @param props - Set of values accepted by this component as props.
+ * @param props.children - Key component children.
  * @returns typography component with color "inkLight".
  */
 function renderKey(props: { children: Key }): JSX.Element {

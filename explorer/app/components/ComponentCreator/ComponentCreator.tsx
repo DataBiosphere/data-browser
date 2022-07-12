@@ -11,7 +11,10 @@ interface ComponentCreatorProps<T> {
  * ComponentCreator uses React API to create components based on the component configs, instead of using JSX.
  * That way we can continue to create UI components without having to worry about if they should be able to transform model data into props.
  * This component is also responsible to call any necessary transformers to generate the component's props based on the model T.
- * @returns A set of react components
+ * @param componentCreatorProps - Custom props required for creating component.
+ * @param componentCreatorProps.components - Component config to render as React elements.
+ * @param componentCreatorProps.response - Response returned from API endpoint, used to populate component props.
+ * @returns A set of React components.
  */
 export const ComponentCreator = <T,>({
   components,

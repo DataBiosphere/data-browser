@@ -18,7 +18,7 @@ export const Tabs = ({
       <Box>
         <MuiTabs
           value={selectedTab}
-          onChange={(_, newIndex) => onTabChange(newIndex)}
+          onChange={(_, newIndex): void => onTabChange(newIndex)}
         >
           {tabs.map((tab, index) => (
             <Tab key={index} label={tab} />

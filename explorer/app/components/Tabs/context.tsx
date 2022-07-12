@@ -1,6 +1,6 @@
 import React from "react";
 
-interface TabContextValue {
+export interface TabContextValue {
   onTabChange: (newTab: number) => void;
   selectedTab: number;
 }

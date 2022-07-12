@@ -2,7 +2,7 @@ import { useConfig } from "app/hooks/useConfig";
 import React from "react";
 import { Redirect } from "../app/components/Redirect/Redirect";
 
-const HomePage = () => {
+const HomePage = (): JSX.Element => {
   const { redirectRootToPath } = useConfig();
 
   if (redirectRootToPath) {

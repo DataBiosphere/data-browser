@@ -13,8 +13,8 @@ import { ListResponseType, SummaryResponse } from "../../models/responses";
 
 /**
  * Request to get a list of entities.
- * @param apiPath Path that will be used to compose the API url
- * @param listParams Params to be used on the request. If none passed, it will default to page's size 25 and the current catalog version
+ * @param apiPath - Path that will be used to compose the API url
+ * @param listParams - Params to be used on the request. If none passed, it will default to page's size 25 and the current catalog version
  * @returns @see ListResponseType
  */
 export const list = async (
@@ -26,9 +26,9 @@ export const list = async (
 };
 
 /**
- * Make a get request to get a a list of entities.
- * @param url absolute URL to be used on the request
- * @returns
+ * Make a get request to get a list of entities.
+ * @param url - Absolute URL to be used on the request
+ * @returns JSON representation of request list.
  */
 export const fetchList = async (url: string): Promise<ListResponseType> => {
   const res = await fetch(url);
@@ -37,8 +37,8 @@ export const fetchList = async (url: string): Promise<ListResponseType> => {
 
 /**
  * Recursively call the endpoint to get a list of entities. This will iterate over the entity list until the next entity comes null
- * @param apiPath Path that will be used to compose the API url
- * @param listParams Params to be used on the request. If none passed, it will default to page's size 25 and the current catalog version
+ * @param apiPath - Path that will be used to compose the API url
+ * @param listParams - Params to be used on the request. If none passed, it will default to page's size 25 and the current catalog version
  * @returns @see ListResponseType
  */
 export const listAll = async (
@@ -60,8 +60,9 @@ export const listAll = async (
 
 /**
  *  Request to get a single project.
- * @param id project's uuid.
- * @param param Catalog's version, if none passed it will default to the current one.
+ * @param id - project's uuid.
+ * @param apiPath - API endpoint URL.
+ * @param param - Catalog's version, if none passed it will default to the current one.
  * @returns @see ProjectResponse
  */
 export const detail = async (
@@ -78,8 +79,8 @@ export const detail = async (
 
 /**
  * Request to a single summary object that doesn't need id
- * @param apiPath
- * @param param
+ * @param apiPath - API endpoint URL.
+ * @param param - Query string params to include in request.
  * @returns @see SummaryResponse
  */
 export const summary = async (

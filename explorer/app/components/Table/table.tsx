@@ -42,6 +42,15 @@ interface TableProps<T extends object> {
  * This table can be Controlled or Uncontrolled based on the set of props passed to it.
  * Controlled table will receive the navigation functions and it will be used for dynamic loads.
  * Uncontrolled table will take advantage of React Table's state and will be used for static loads.
+ * @param tableProps - Set of props required for displaying the table.
+ * @param tableProps.items - Row data to display.
+ * @param tableProps.columns - Set of columns to display.
+ * @param tableProps.editColumns - True if edit column functionality is enabled for table.
+ * @param tableProps.pageSize - Number of rows to display per page.
+ * @param tableProps.total - Total number of rows in the result set.
+ * @param tableProps.pagination - Config for rendering pagination and corresponding events.
+ * @param tableProps.sort - Config for rendering current sort and handling corresponding events.
+ * @returns Configured table element for display.
  */
 export const Table = <T extends object>({
   items,
@@ -80,7 +89,7 @@ export const Table = <T extends object>({
     usePagination
   );
 
-  const handleSortClicked = (column: ColumnInstance<T>) => {
+  const handleSortClicked = (column: ColumnInstance<T>): void => {
     if (sort) {
       const newColumn = newColumnKey<T>(sort, column);
       const newOrder = newColumnOrder(sort, newColumn);
@@ -115,7 +124,7 @@ export const Table = <T extends object>({
                   direction={
                     sort?.sortKey === column.id ? sort?.sortOrder : "asc"
                   }
-                  onClick={() => handleSortClicked(column)}
+                  onClick={(): void => handleSortClicked(column)}
                 >
                   {column.render("Header")}
                 </TableSortLabel>

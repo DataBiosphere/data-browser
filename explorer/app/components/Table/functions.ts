@@ -2,31 +2,34 @@ import { SortConfig } from "app/hooks/useFetchEntities";
 import { ColumnInstance } from "react-table";
 
 /**
- * Function to determine the new column id, if any, based on the sort order
- * @param sort
- * @param column
- * @returns the new column id
+ * Determine the column ID to sort by, if any, based on the currently selected sort by column.
+ * @param sort - Sort config of current sort order applied to the table.
+ * @param column - Column selected to change sort to.
+ * @returns the column ID to sort the table by.
  */
 export const newColumnKey = <T extends object>(
   sort: SortConfig,
   column: ColumnInstance<T>
-) => {
+): string | undefined => {
   return column.id === sort.sortKey && sort.sortOrder === "desc"
     ? undefined
     : column.id;
 };
 
 /**
- * Function to determine the new order to be used to sort the column id @param columnId
- * @param sort
- * @param columnId
- * @returns the new sort order
+ * Determine the sort direction to be used to sort the given column by.
+ * @param sort - Sort config of current sort order applied to the table.
+ * @param columnId - ID of column to sort.
+ * @returns the direction to sort the given column by.
  */
-export const newColumnOrder = (sort: SortConfig, columnId?: string) => {
+export const newColumnOrder = (
+  sort: SortConfig,
+  columnId?: string
+): string | undefined => {
   if (columnId !== sort.sortKey) {
     return "asc";
   } else if (sort.sortOrder === "desc") {
-    return undefined;
+    return;
   } else if (sort.sortOrder === "asc") {
     return "desc";
   }

@@ -35,11 +35,11 @@ interface UseEntityListResponse {
 const DEFAULT_CURRENT_PAGE = 1;
 
 /**
- * Retrieves the column set with default true
- * @param entity current entity config with all columns
- * @returns string with the default sorted key or the first one
+ * Determine the default sort column.
+ * @param entity - Current entity config containing all column definitions.
+ * @returns Column name of default sorted column, or the first column if no default is specified.
  */
-const getDefaultSort = (entity: EntityConfig) => {
+const getDefaultSort = (entity: EntityConfig): string | undefined => {
   return (
     entity.list.columns.find((column) => column.sort?.default)?.sort?.sortKey ??
     entity.list.columns[0].sort?.sortKey
@@ -47,11 +47,10 @@ const getDefaultSort = (entity: EntityConfig) => {
 };
 
 /**
- * Hook responsible to handle the load and transformation of the values that will be used by listing pages.
- * If the current entity loaded statically, this hook will return the already loaded data. Otherwise, it will make
- * a request for the entity's pathUrl
- * @param value statically loaded data, if any
- * @returns an object with the loaded data and a flag indicating is the data is loading
+ * Hook handling the load and transformation of the values used by index pages. If the current entity loaded statically,
+ * this hook will return the already loaded data. Otherwise, it will make a request for the entity's pathUrl.
+ * @param value - Statically loaded data, if any.
+ * @returns An object with the loaded data and a flag indicating is the data is loading.
  */
 export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
   const entity = useCurrentEntity();

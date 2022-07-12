@@ -23,7 +23,7 @@ export const ShowMore = ({
       <Wrapper lineHeight={lineHeight} maxLines={maxLines} open={open}>
         {children}
       </Wrapper>
-      <Button onClick={() => setOpen((s) => !s)} variant="text">
+      <Button onClick={(): void => setOpen((s) => !s)} variant="text">
         {open ? buttonLabelHide : buttonLabelShow}
       </Button>
     </Container>

@@ -46,7 +46,7 @@ export const Section = ({
     </Content>
   );
 
-  const onToggleExpanded = () => {
+  const onToggleExpanded = (): void => {
     setExpanded((expanded) => !expanded);
   };
 

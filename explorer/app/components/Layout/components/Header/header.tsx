@@ -64,7 +64,7 @@ export const Header = ({ header }: Props): JSX.Element => {
         <Content
           desktop={desktop}
           drawerOpen={drawerOpen}
-          onDrawerClose={() => setDrawerOpen(false)}
+          onDrawerClose={(): void => setDrawerOpen(false)}
         >
           {/* Slogan divider */}
           {slogan && desktop && (
@@ -125,7 +125,7 @@ export const Header = ({ header }: Props): JSX.Element => {
               <IconButton
                 aria-label="drawer"
                 color="ink"
-                onClick={() => setDrawerOpen((open) => !open)}
+                onClick={(): void => setDrawerOpen((open) => !open)}
               >
                 {drawerOpen ? <CloseRoundedIcon /> : <MenuRoundedIcon />}
               </IconButton>

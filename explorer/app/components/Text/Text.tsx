@@ -1,5 +1,5 @@
 /**
- * This component was created to make it easier to style mui's @see <Typography> keeping the
+ * This component was created to make it easier to style MUI's @see <Typography> keeping the
  * control over the tag that will be used and the custom colors.
  * https://github.com/mui/material-ui/issues/15695
  */
@@ -12,6 +12,7 @@ interface TextProps extends Omit<TypographyProps, "color"> {
   customColor?: keyof CustomColors;
 }
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type -- move style def to .styles.ts file */
 export const Text = styled(Typography, {
   shouldForwardProp: (prop) => prop !== "customColor",
 })<TextProps>`
@@ -19,3 +20,4 @@ export const Text = styled(Typography, {
   color: ${({ theme, customColor }) =>
     customColor ? theme.palette[customColor] : undefined};
 `;
+/* eslint-enable @typescript-eslint/explicit-function-return-type -- move style def to .styles.ts file */

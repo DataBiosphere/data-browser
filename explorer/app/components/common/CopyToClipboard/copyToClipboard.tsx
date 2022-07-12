@@ -13,7 +13,7 @@ export const CopyToClipboard = ({ copyStr }: Props): JSX.Element => {
 
   /**
    * Copies string to clipboard and sets showTooltip state to true.
-   * @param str
+   * @param str - String to copy to clipboard.
    */
   const onCopyToClipboard = (str: string): void => {
     copy(str);
@@ -38,7 +38,10 @@ export const CopyToClipboard = ({ copyStr }: Props): JSX.Element => {
       placement="top"
       title={"Link Copied"}
     >
-      <IconButton onClick={() => onCopyToClipboard(copyStr)} size="xxsmall">
+      <IconButton
+        onClick={(): void => onCopyToClipboard(copyStr)}
+        size="xxsmall"
+      >
         <ContentCopyRoundedIcon color="primary" fontSize="small" />
       </IconButton>
     </Tooltip>
