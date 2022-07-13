@@ -17,7 +17,7 @@ export interface PaginationConfig {
   currentPage: number;
 }
 
-type SortOrderType = "asc" | "desc";
+export type SortOrderType = "asc" | "desc";
 
 export interface SortConfig {
   sort: (key?: string, sortOrder?: SortOrderType) => void;

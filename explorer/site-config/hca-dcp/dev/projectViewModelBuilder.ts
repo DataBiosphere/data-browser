@@ -19,7 +19,8 @@ import {
 import { ProjectsResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
 import { concatStrings } from "app/utils/string";
-import { projectEntity } from "./projectsEntity";
+import { SiteConfig } from "app/config/model";
+import { PROJECTS_LABEL } from "./constants";
 
 const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
@@ -117,19 +118,23 @@ export const buildDetails = (
 
 /**
  * Build props for Hero component from the given projects response.
- * @param projectsResponse - Response model return from projects API.
+ * @param config - SiteConfig of the current project
+ * param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the Hero component.
  */
-export const buildHero = (
-  projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.Hero> => {
-  return {
-    breadcrumbs: undefined, // TODO breadcrumbs https://github.com/clevercanary/data-browser/issues/68.
-    status: getProjectStatus(projectsResponse), // TODO status https://github.com/clevercanary/data-browser/issues/135
-    tabs: projectEntity.detail.tabs.map(({ label }) => label),
-    title: getProjectTitle(projectsResponse),
+export const buildHero =
+  (config: SiteConfig) =>
+  (projectsResponse: ProjectsResponse): React.ComponentProps<typeof C.Hero> => {
+    const projectEntity = config.entities.find(
+      (entity) => entity.label === PROJECTS_LABEL
+    );
+    return {
+      breadcrumbs: undefined, // TODO breadcrumbs https://github.com/clevercanary/data-browser/issues/68.
+      status: getProjectStatus(projectsResponse), // TODO status https://github.com/clevercanary/data-browser/issues/135
+      tabs: projectEntity?.detail.tabs.map(({ label }) => label),
+      title: getProjectTitle(projectsResponse),
+    };
   };
-};
 
 /**
  * Build props for Publications component from the given projects response.

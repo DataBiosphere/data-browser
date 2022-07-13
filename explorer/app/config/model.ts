@@ -45,6 +45,14 @@ export interface ComponentConfig<
   transformer?: (model: D) => React.ComponentProps<T>;
 }
 
+/**
+ * Type to determine the array of components that will be created on using @see ComponentCreator.
+ * This can be a array of @see ComponentConfig or a function that returns an array of @see ComponentConfig
+ */
+export type ComponentsConfig =
+  | ComponentConfig[]
+  | ((config: SiteConfig) => ComponentConfig[]);
+
 /* eslint-enable @typescript-eslint/no-explicit-any -- This config model is part of a generic array */
 
 /**
@@ -65,15 +73,15 @@ export interface DataSourceConfig {
  */
 export interface DetailConfig {
   tabs: DetailTabConfig[];
-  top: ComponentConfig[];
+  top: ComponentsConfig;
 }
 
 /**
  * Interface to determine the components for each tab on the detail page
  */
 export interface DetailTabConfig extends TabConfig {
-  mainColumn: ComponentConfig[];
-  sideColumn: ComponentConfig[];
+  mainColumn: ComponentsConfig;
+  sideColumn: ComponentsConfig;
 }
 
 /**
@@ -81,7 +89,7 @@ export interface DetailTabConfig extends TabConfig {
  */
 export interface SummaryConfig {
   apiPath: string;
-  components: ComponentConfig[];
+  components: ComponentsConfig;
 }
 
 export interface ColumnConfig<

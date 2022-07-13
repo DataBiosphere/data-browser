@@ -21,6 +21,7 @@ import { sideColumn as matricesSideColumn } from "./matricesSideColumn";
 import { sideColumn as projectFilesSideColumn } from "./projectFilesSideColumn";
 import { sideColumn as exportSideColumn } from "./exportSideColumn";
 import { top } from "./top";
+import { PROJECTS_LABEL } from "./constants";
 
 /**
  * Entity config object responsible to config anything related to the /explore/projects route.
@@ -63,7 +64,7 @@ export const projectEntity: EntityConfig = {
     top: top,
   },
   getId: getProjectId,
-  label: "Projects",
+  label: PROJECTS_LABEL,
   list: {
     columns: [
       {

@@ -1,4 +1,4 @@
-import { SortConfig } from "app/hooks/useFetchEntities";
+import { SortConfig, SortOrderType } from "app/hooks/useFetchEntities";
 import { ColumnInstance } from "react-table";
 
 /**
@@ -25,7 +25,7 @@ export const newColumnKey = <T extends object>(
 export const newColumnOrder = (
   sort: SortConfig,
   columnId?: string
-): string | undefined => {
+): SortOrderType | undefined => {
   if (columnId !== sort.sortKey) {
     return "asc";
   } else if (sort.sortOrder === "desc") {
