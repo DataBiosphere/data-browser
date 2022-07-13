@@ -11,6 +11,7 @@ export default withPlugins([
     },
   ],
   {
+    basePath: "/explore",
     reactStrictMode: true,
     images: {
       disableStaticImages: true,

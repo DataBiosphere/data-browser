@@ -207,7 +207,7 @@ export const projectsToProjectTitleColumn = (
     links: [
       {
         label: project.projects[0].projectTitle,
-        url: `/explore/projects/${project.projects[0].projectId}`,
+        url: `/projects/${project.projects[0].projectId}`,
       },
     ],
   };

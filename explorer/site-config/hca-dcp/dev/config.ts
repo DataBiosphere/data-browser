@@ -18,7 +18,7 @@ import logoHumanCellAtlas from "images/logoHumanCellAtlas.png";
 const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";
 const CATALOG_DCP2 = "dcp2";
 const PAGINATION_PAGE_SIZE = "25";
-const PROJECTS_URL = "/explore/projects";
+const PROJECTS_URL = "/projects";
 const LOGO: Logo = {
   alt: "Human Cell Atlas Data Coordination Platform",
   height: 40,
