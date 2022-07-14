@@ -4,12 +4,12 @@ import { ParsedUrlQuery } from "querystring";
 import React from "react";
 
 // App dependencies
-import { Page } from "../../../app/components/Layout/components/Page/page";
+import { Page } from "../../app/components/Layout/components/Page/page";
 import { config } from "app/config/config";
-import { detail, listAll } from "../../../app/entity/api/service";
+import { detail, listAll } from "../../app/entity/api/service";
 import { getCurrentEntity } from "app/hooks/useCurrentEntity";
-import { DetailModel } from "../../../app/models/viewModels";
-import { Project } from "../../../app/views/Project/project";
+import { DetailModel } from "../../app/models/viewModels";
+import { Project } from "../../app/views/Project/project";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
 
 interface PageUrl extends ParsedUrlQuery {

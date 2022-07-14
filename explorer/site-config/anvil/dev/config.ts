@@ -140,7 +140,7 @@ const config: SiteConfig = {
       socials: SOCIALS,
     },
   },
-  redirectRootToPath: "/explore/files",
+  redirectRootToPath: "/files",
   summary: {
     apiPath: "index/summary",
     components: summary,

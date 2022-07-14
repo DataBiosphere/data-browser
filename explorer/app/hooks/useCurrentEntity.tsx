@@ -28,9 +28,7 @@ export const getCurrentEntity = (
   config: SiteConfig
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
 ): EntityConfig<any> => {
-  const value = path.replace("/explore/", "");
-
-  const entity = config.entities.find((entity) => entity.route === value);
+  const entity = config.entities.find((entity) => entity.route === path);
 
   if (!entity) {
     throw Error("No entity found");

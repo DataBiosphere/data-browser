@@ -29,7 +29,7 @@ export const Project = (props: DetailModel): JSX.Element => {
   const handleTabChanged = (index: number): void => {
     const newTab = entity.detail.tabs[index];
     if (newTab) {
-      push(`/explore/${entity.route}/${uuid}/${newTab.route}`);
+      push(`/${entity.route}/${uuid}/${newTab.route}`);
     }
   };
 
