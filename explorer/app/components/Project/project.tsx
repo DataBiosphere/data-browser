@@ -21,12 +21,14 @@ import {
 interface Props {
   mainColumn: ReactNode;
   sideColumn: ReactNode;
+  Tabs: ReactNode;
   top: ReactNode;
 }
 
 export const Project = ({
   mainColumn,
   sideColumn,
+  Tabs,
   top,
 }: Props): JSX.Element => {
   const tablet = useBreakpointHelper(BREAKPOINT_FN_NAME.UP, BREAKPOINT.TABLET);
@@ -35,7 +37,10 @@ export const Project = ({
   const ProjectOverviewSide = tablet ? Side : Fragment;
   return (
     <ProjectLayout>
-      <ProjectHero>{top}</ProjectHero>
+      <ProjectHero>
+        {top}
+        {Tabs}
+      </ProjectHero>
       <ProjectOverview>
         <ProjectOverviewMain>{mainColumn}</ProjectOverviewMain>
         <ProjectOverviewSide>{sideColumn}</ProjectOverviewSide>

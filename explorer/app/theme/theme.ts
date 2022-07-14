@@ -323,6 +323,55 @@ export const theme = createTheme(defaultTheme, {
         },
       ],
     },
+    MuiTab: {
+      styleOverrides: {
+        labelIcon: {
+          gap: 8,
+          // eslint-disable-next-line sort-keys -- disabling key order for readability
+          "& > img": {
+            maxHeight: 20, // Tab image max height.
+          },
+        },
+        root: {
+          ...defaultTheme.typography["text-body-500"],
+          color: defaultTheme.palette.inkLight,
+          marginBottom: 3,
+          minHeight: "unset",
+          minWidth: "unset",
+          opacity: 1,
+          padding: 12,
+          textTransform: "capitalize",
+          // eslint-disable-next-line sort-keys -- disabling key order for readability
+          "& > .MuiTab-iconWrapper": {
+            marginRight: 0,
+          },
+          "&.Mui-selected": {
+            color: defaultTheme.palette.ink,
+          },
+        },
+      },
+    },
+    MuiTabs: {
+      defaultProps: {
+        textColor: "inherit",
+        variant: "scrollable",
+      },
+      styleOverrides: {
+        flexContainer: {
+          gap: 8,
+        },
+        indicator: {
+          borderTopLeftRadius: 12,
+          borderTopRightRadius: 12,
+          height: 3,
+        },
+        root: {
+          boxShadow: `inset 0 -1px 0 0 ${defaultTheme.palette.smoke}`,
+          minHeight: "unset",
+          position: "relative", // Positions scroll fuzz.
+        },
+      },
+    },
     MuiToolbar: {
       styleOverrides: {
         root: {

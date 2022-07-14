@@ -8,7 +8,7 @@ import { HeroTitle } from "../components/common/Title/title";
 type GetIdFunction<T> = (detail: T) => string;
 
 /**
- * Interface used to defined the tab name and route
+ * Interface used to define the tab label and route.
  */
 interface TabConfig {
   label: string;

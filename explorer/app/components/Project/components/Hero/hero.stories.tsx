@@ -21,7 +21,6 @@ export const ProjectHero = Template.bind({});
 ProjectHero.args = {
   breadcrumbs: undefined, // TODO project breadcrumbs https://github.com/clevercanary/data-browser/issues/68
   status: STATUS.NEW,
-  tabs: undefined, // TODO project tabs https://github.com/clevercanary/data-browser/issues/120
   title:
     "A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure",
 };

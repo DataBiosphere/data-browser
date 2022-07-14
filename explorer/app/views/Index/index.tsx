@@ -1,19 +1,36 @@
 // Core dependencies
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 
 // App dependencies
+import {
+  Tab,
+  Tabs,
+  TabsValue,
+  TabValue,
+} from "app/components/common/Tabs/tabs";
 import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
 import { TableCreator } from "app/components/TableCreator/tableCreator";
-import { Tabs } from "app/components/Tabs/tabs";
 import { useConfig } from "app/hooks/useConfig";
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
 import { useFetchEntities } from "app/hooks/useFetchEntities";
 import { useSummary } from "app/hooks/useSummary";
 import { Index as IndexView } from "../../components/Index/index";
-import { SummaryConfig } from "../../config/model";
+import { EntityConfig, SummaryConfig } from "../../config/model";
 import { SummaryResponse } from "../../models/responses";
 import { ListModel } from "../../models/viewModels";
+
+/**
+ * Returns tabs to be used as a prop for the Tabs component.
+ * @param entities - Entity configs related to the /explore/projects, /explore/files and /explore/samples route.
+ * @returns tabs list.
+ */
+function getTabs(entities: EntityConfig[]): Tab[] {
+  return entities.map(({ label, route }) => ({
+    label,
+    value: route,
+  }));
+}
 
 /**
  * Renders Summaries component when all the following requirements are fulfilled:
@@ -42,11 +59,26 @@ function renderSummary(
 
 export const Index = (props: ListModel): JSX.Element => {
   const entity = useCurrentEntity();
+  const route = entity?.route;
+  const [tabsValue, setTabsValue] = useState<TabsValue>(route);
   const { entities, entityTitle, summary } = useConfig();
   const { response: summaryResponse } = useSummary();
   const { response, isLoading, pagination, sort } = useFetchEntities(props);
-  const { asPath, push } = useRouter();
+  const { push } = useRouter();
   const columnsConfig = entity?.list?.columns;
+  const tabs = getTabs(entities);
+
+  /**
+   * Callback fired when selected tab value changes.
+   * - Sets state tabsValue to selected tab value.
+   * - Executes a pushState and resets pagination.
+   * @param tabValue - Selected tab value.
+   */
+  const onTabChange = (tabValue: TabValue): void => {
+    setTabsValue(tabValue); // Set state tabsValue prior to route change to indicate selection success.
+    push(tabValue);
+    pagination?.resetPage();
+  };
 
   const renderContent = (): JSX.Element => {
     if (isLoading || !response) {
@@ -69,25 +101,11 @@ export const Index = (props: ListModel): JSX.Element => {
     );
   };
 
-  const handleTabChanged = (newIndex: number): void => {
-    push(entities[newIndex].route);
-    pagination?.resetPage();
-  };
-
-  const selectedTab = entities.findIndex(({ route }) => asPath.includes(route));
-  const tabs = entities.map(({ label }) => label);
-
   return (
     <IndexView
       entities={renderContent()}
       Summaries={renderSummary(summary, summaryResponse)}
-      Tabs={
-        <Tabs
-          onTabChange={handleTabChanged}
-          selectedTab={selectedTab}
-          tabs={tabs}
-        />
-      }
+      Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabsValue} />}
       title={entityTitle}
     />
   );

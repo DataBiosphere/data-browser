@@ -118,25 +118,18 @@ export const buildDetails = (
 
 /**
  * Build props for Hero component from the given projects response.
- * @param config - SiteConfig of the current project
- * param projectsResponse - Response model return from projects API.
+ * @param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the Hero component.
  */
-export const buildHero =
-  (config: SiteConfig) =>
-  (
-    projectsResponse: ProjectsResponse
-  ): React.ComponentProps<typeof C.ProjectHero> => {
-    const projectEntity = config.entities.find(
-      (entity) => entity.label === PROJECTS_LABEL
-    );
-    return {
-      breadcrumbs: undefined, // TODO breadcrumbs https://github.com/clevercanary/data-browser/issues/68.
-      status: getProjectStatus(projectsResponse), // TODO status https://github.com/clevercanary/data-browser/issues/135
-      tabs: projectEntity?.detail.tabs.map(({ label }) => label),
-      title: getProjectTitle(projectsResponse),
-    };
+export const buildHero = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ProjectHero> => {
+  return {
+    breadcrumbs: undefined, // TODO breadcrumbs https://github.com/clevercanary/data-browser/issues/68.
+    status: getProjectStatus(projectsResponse), // TODO status https://github.com/clevercanary/data-browser/issues/135
+    title: getProjectTitle(projectsResponse),
   };
+};
 
 /**
  * Build props for Publications component from the given projects response.
