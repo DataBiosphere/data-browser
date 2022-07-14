@@ -1,5 +1,6 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { ColumnConfig } from "app/config/model";
+import { useResetableState } from "./useResetableState";
 
 /**
  * Hook used to isolate the logic necessary for tables with the edit columns functionality.
@@ -13,7 +14,7 @@ export const useEditColumns = (columns: ColumnConfig[]) => {
     () => columns.filter(({ hiddenColumn }) => !hiddenColumn),
     [columns]
   );
-  const [visibleColumns, setVisibleColumns] = useState(defaultColumns);
+  const [visibleColumns, setVisibleColumns] = useResetableState(defaultColumns);
 
   const readOnlyColumns = defaultColumns.map(({ header }) => header);
   const selectedColumns = visibleColumns.map(({ header }) => header);
