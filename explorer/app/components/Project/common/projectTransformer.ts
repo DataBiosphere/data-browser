@@ -11,6 +11,7 @@ import {
   PublicationResponse,
 } from "app/models/responses";
 import { Status } from "../../common/StatusBadge/statusBadge";
+import { HeroTitle } from "../../common/Title/title";
 import { CONTRIBUTOR_ROLE } from "./constants";
 import {
   CollaboratingOrganization,
@@ -19,7 +20,6 @@ import {
   DataCurator,
   Description,
   ProjectPath,
-  ProjectTitle,
   Publication,
   SupplementaryLink,
 } from "./entities";
@@ -271,7 +271,7 @@ export function getProjectSupplementaryLinks(
  */
 export function getProjectTitle(
   projectsResponse?: ProjectsResponse
-): ProjectTitle | undefined {
+): HeroTitle | undefined {
   const project = getProjectResponse(projectsResponse);
   if (!project) {
     return;

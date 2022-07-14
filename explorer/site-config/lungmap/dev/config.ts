@@ -7,6 +7,9 @@ import { SiteConfig } from "../../../app/config/model";
 // Images
 import logoLungmap from "images/logoLungmap.png";
 
+// Summary config
+import { summary } from "./Index/summary";
+
 // Config
 import hcaConfig from "site-config/hca-dcp/dev/config";
 
@@ -40,6 +43,7 @@ const config: SiteConfig = {
     url: "https://service.azul.data.humancellatlas.org/",
   },
   entities: hcaConfig.entities,
+  entityTitle: "Explore Data",
   layout: {
     footer: {
       logos: [LOGO],
@@ -75,6 +79,10 @@ const config: SiteConfig = {
     },
   },
   redirectRootToPath: PROJECTS_URL,
+  summary: {
+    apiPath: "index/summary",
+    components: summary,
+  },
 };
 
 export default config;

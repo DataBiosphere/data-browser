@@ -124,7 +124,9 @@ export const buildDetails = (
  */
 export const buildHero =
   (config: SiteConfig) =>
-  (projectsResponse: ProjectsResponse): React.ComponentProps<typeof C.Hero> => {
+  (
+    projectsResponse: ProjectsResponse
+  ): React.ComponentProps<typeof C.ProjectHero> => {
     const projectEntity = config.entities.find(
       (entity) => entity.label === PROJECTS_LABEL
     );

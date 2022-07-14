@@ -2,11 +2,10 @@
 import { Typography } from "@mui/material";
 import React from "react";
 
-// App dependencies
-import { ProjectTitle } from "../../common/entities";
+export type HeroTitle = string;
 
 interface Props {
-  title: ProjectTitle;
+  title: HeroTitle;
 }
 
 export const Title = ({ title }: Props): JSX.Element => {

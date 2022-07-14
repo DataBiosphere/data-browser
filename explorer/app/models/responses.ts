@@ -42,6 +42,14 @@ export interface ContributorResponse {
 }
 
 /**
+ * Model of fileFormat value included in the response from index/summary API endpoint.
+ */
+export interface FileFormatResponse {
+  count: number;
+  format: string;
+}
+
+/**
  * Model of response returned from /index/files API endpoint.
  */
 export interface FilesResponse {
@@ -174,6 +182,7 @@ export interface SummaryResponse {
   }[];
   donorCount: number;
   fileCount: number;
+  fileFormats?: FileFormatResponse[]; // TODO revisit AnVIL specific.
   fileTypeSummaries: {
     count: number;
     format: string;

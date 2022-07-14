@@ -40,11 +40,6 @@ export type Description = string;
 export type ProjectPath = string;
 
 /**
- * Model of project title to be used as props for the Hero component.
- */
-export type ProjectTitle = string;
-
-/**
  * Model of project publication to be used as props for the Publication component.
  */
 export interface Publication {

@@ -10,7 +10,7 @@ import * as T from "./projectViewModelBuilder";
 
 export const top: ComponentsConfig = (config: SiteConfig) => [
   {
-    component: C.Hero,
+    component: C.ProjectHero,
     transformer: T.buildHero(config),
-  } as ComponentConfig<typeof C.Hero, ProjectsResponse>,
+  } as ComponentConfig<typeof C.ProjectHero, ProjectsResponse>,
 ];

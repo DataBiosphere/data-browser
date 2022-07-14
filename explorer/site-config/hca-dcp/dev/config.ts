@@ -4,11 +4,13 @@ import { Social } from "../../../app/components/common/Socials/socials";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/model";
 
+// Summary config
+import { summary } from "./Index/summary";
+
 // Entities config
 import { filesEntity } from "./filesEntity";
 import { projectEntity } from "./projectsEntity";
 import { samplesEntity } from "./samplesEntity";
-import { summary } from "./summary";
 
 // Images
 import logoHca from "images/logoHca.png";
@@ -53,6 +55,7 @@ const config: SiteConfig = {
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
   entities: [projectEntity, filesEntity, samplesEntity],
+  entityTitle: "Explore Data: DCP 2.0 Data View",
   layout: {
     footer: {
       feedbackForm: false, // TODO feedback form
