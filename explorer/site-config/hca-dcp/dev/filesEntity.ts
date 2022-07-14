@@ -30,6 +30,7 @@ export const filesEntity: EntityConfig<FilesResponse> = {
           default: true,
           sortKey: "fileName",
         },
+        width: { max: "2fr", min: "240px" },
       },
       {
         componentConfig: {
@@ -40,6 +41,7 @@ export const filesEntity: EntityConfig<FilesResponse> = {
         sort: {
           sortKey: "fileFormat",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -50,6 +52,7 @@ export const filesEntity: EntityConfig<FilesResponse> = {
         sort: {
           sortKey: "fileSize",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -60,6 +63,7 @@ export const filesEntity: EntityConfig<FilesResponse> = {
         sort: {
           sortKey: "contentDescription",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -70,6 +74,7 @@ export const filesEntity: EntityConfig<FilesResponse> = {
         sort: {
           sortKey: "projectTitle",
         },
+        width: { max: "2fr", min: "240px" },
       },
       {
         componentConfig: {
@@ -80,6 +85,7 @@ export const filesEntity: EntityConfig<FilesResponse> = {
         sort: {
           sortKey: "cellCount",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -88,6 +94,7 @@ export const filesEntity: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.Text>,
         header: "Development Stage",
         hiddenColumn: true,
+        width: { max: "1fr", min: "148px" },
       },
     ],
   } as ListConfig<FilesResponse>,

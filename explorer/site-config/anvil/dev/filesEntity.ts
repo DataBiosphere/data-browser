@@ -25,6 +25,7 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
           transformer: T.filesToDatasetNameColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Dataset Name",
+        width: { max: "2fr", min: "240px" },
       },
       {
         componentConfig: {
@@ -32,6 +33,7 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
           transformer: T.filesToFileFormatColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "File Format",
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -39,6 +41,7 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
           transformer: T.filesToFileIdColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "File ID",
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -46,6 +49,7 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
           transformer: T.filesToFileTypeColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "File Type",
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -53,6 +57,7 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
           transformer: T.filesToDataModalityColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Data Modality",
+        width: { max: "2fr", min: "240px" },
       },
     ],
   } as ListConfig<AnvilFilesResponse>,

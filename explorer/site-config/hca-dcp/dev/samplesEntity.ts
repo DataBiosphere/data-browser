@@ -30,6 +30,7 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
           default: true,
           sortKey: "sampleId",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -40,6 +41,7 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
         sort: {
           sortKey: "projectTitle",
         },
+        width: { max: "2fr", min: "240px" },
       },
       {
         componentConfig: {
@@ -50,6 +52,7 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
         sort: {
           sortKey: "genusSpecies",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -60,6 +63,7 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
         sort: {
           sortKey: "sampleEntityType",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -70,6 +74,7 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
         sort: {
           sortKey: "libraryConstructionApproach",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -80,6 +85,7 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
         sort: {
           sortKey: "specimenOrgan",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -90,6 +96,7 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
         sort: {
           sortKey: "donorDisease",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -100,6 +107,7 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
         sort: {
           sortKey: "cellCount",
         },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -108,6 +116,7 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
         } as ComponentConfig<typeof C.Text>,
         header: "Development Stage",
         hiddenColumn: true,
+        width: { max: "1fr", min: "148px" },
       },
     ],
   } as ListConfig<SamplesResponse>,

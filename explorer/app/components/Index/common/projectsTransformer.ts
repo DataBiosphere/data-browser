@@ -4,7 +4,6 @@ import { ProjectsResponse } from "../../../models/responses";
 
 /**
  * Maps project species from API response.
- * TODO refine with https://github.com/clevercanary/data-browser/issues/128
  * @param projectsResponse - Response model return from projects API.
  * @returns project species.
  */

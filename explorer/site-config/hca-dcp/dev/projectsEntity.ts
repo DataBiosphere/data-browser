@@ -13,7 +13,6 @@ import { mainColumn as matricesMainColumn } from "./matricesMainColumn";
 import { mainColumn as projectFilesMainColumn } from "./projectFilesMainColumn";
 import { mainColumn as exportMainColumn } from "./exportMainColumn";
 import * as T from "./projectsViewModelBuilder";
-// TODO refactor all methods to projectsViewModelBuilder with https://github.com/clevercanary/data-browser/issues/128
 import * as B from "./projectViewModelBuilder";
 import { sideColumn as overviewSideColumn } from "./overviewSideColumn";
 import { sideColumn as metadataSideColumn } from "./metadataSideColumn";
@@ -73,6 +72,7 @@ export const projectEntity: EntityConfig = {
           transformer: B.projectsToProjectTitleColumn,
         } as ComponentConfig<typeof C.Links>,
         header: "Project Title",
+        width: { max: "2fr", min: "374px" },
       },
       {
         componentConfig: {
@@ -80,6 +80,7 @@ export const projectEntity: EntityConfig = {
           transformer: T.buildSpecies,
         },
         header: "Species",
+        width: { max: "1fr", min: "136px" },
       },
       {
         componentConfig: {
@@ -87,6 +88,7 @@ export const projectEntity: EntityConfig = {
           transformer: B.projectsToLibConstApproachColumn,
         },
         header: "Library Construction Approach",
+        width: { max: "1fr", min: "126px" },
       },
       {
         componentConfig: {
@@ -94,6 +96,7 @@ export const projectEntity: EntityConfig = {
           transformer: B.projectsToAnatomicalEntityColumn,
         },
         header: "Anatomical Entity",
+        width: { max: "1fr", min: "146px" },
       },
       {
         componentConfig: {
@@ -101,6 +104,7 @@ export const projectEntity: EntityConfig = {
           transformer: B.projectsToDiseaseDonorColumn,
         },
         header: "Disease (Donor)",
+        width: { max: "1fr", min: "128px" },
       },
       {
         componentConfig: {
@@ -116,6 +120,7 @@ export const projectEntity: EntityConfig = {
           },
         } as ComponentConfig<typeof C.Tooltip>,
         header: "Cell Count Estimate",
+        width: { max: "1fr", min: "96px" },
       },
       {
         componentConfig: {
@@ -124,6 +129,7 @@ export const projectEntity: EntityConfig = {
         } as ComponentConfig<typeof C.Text>,
         header: "Development Stage",
         hiddenColumn: true,
+        width: { max: "1fr", min: "148px" },
       },
     ],
   } as ListConfig<ProjectsResponse>,

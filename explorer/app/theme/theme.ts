@@ -309,7 +309,7 @@ export const theme = createTheme(defaultTheme, {
           borderColor: defaultTheme.palette.smoke,
           borderStyle: "solid",
           borderWidth: 1,
-          boxShadow: "0px 1px 4px 0px rgba(0, 0, 0, 0.07)",
+          boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.07)",
           display: "grid",
           gap: 1,
         },
@@ -347,6 +347,41 @@ export const theme = createTheme(defaultTheme, {
           },
           "&.Mui-selected": {
             color: defaultTheme.palette.ink,
+          },
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        body: {
+          ...defaultTheme.typography["text-body-400"],
+        },
+        head: {
+          ...defaultTheme.typography["text-body-small-500"],
+        },
+        root: {
+          color: defaultTheme.palette.ink,
+          padding: "18px 20px",
+        },
+      },
+    },
+    MuiTableSortLabel: {
+      styleOverrides: {
+        icon: {
+          fontSize: 20,
+          margin: 0,
+        },
+        root: {
+          "&.Mui-active": {
+            color: "inherit",
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
+            "& .MuiTableSortLabel-icon": {
+              color: "inherit",
+            },
+          },
+          "&:hover": {
+            color: "inherit",
+            opacity: 0.6,
           },
         },
       },
