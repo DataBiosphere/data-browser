@@ -136,7 +136,7 @@ const config: SiteConfig = {
       socials: SOCIALS,
     },
   },
-  redirectRootToPath: "/explore/files",
+  redirectRootToPath: "/files",
 };
 
 export default config;

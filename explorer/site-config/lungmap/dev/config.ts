@@ -13,7 +13,7 @@ import hcaConfig from "site-config/hca-dcp/dev/config";
 // Template constants
 const BROWSER_URL = "https://data-browser.dev.lungmap.net";
 const CATALOG_LM2 = "lm2";
-const PROJECTS_URL = "/explore/projects";
+const PROJECTS_URL = "/projects";
 const LOGO: Logo = {
   alt: "LungMAP Data Browser",
   height: 40,
