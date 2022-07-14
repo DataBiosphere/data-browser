@@ -27,11 +27,8 @@ export function getPluralizedMetadataLabel(
  */
 export function getSummaries(
   summaries: Array<keyof typeof SUMMARY>,
-  summaryResponse?: SummaryResponse
-): Summary[] | undefined {
-  if (!summaryResponse) {
-    return;
-  }
+  summaryResponse: SummaryResponse
+): Summary[] {
   return summaries.map((summary) => {
     const summaryBinderFn = BIND_SUMMARY_RESPONSE[summary];
     const count = summaryBinderFn(summaryResponse);
