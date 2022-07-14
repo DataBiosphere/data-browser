@@ -2,6 +2,7 @@
 import { ThemeProvider as Emotion10ThemeProvider } from "emotion-theming";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import { RouterContext } from "next/dist/shared/lib/router-context";
 
 // App dependencies
 import { theme } from "../app/theme";
@@ -13,6 +14,10 @@ export const parameters = {
       color: /(background|color)$/i,
       date: /Date$/,
     },
+  },
+  nextRouter: {
+    Provider: RouterContext.Provider,
+    basePath: "",
   },
   layout: "fullscreen",
 };
