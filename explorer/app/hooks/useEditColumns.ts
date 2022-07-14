@@ -43,7 +43,7 @@ export const useEditColumns = (columns: ColumnConfig[]) => {
         return state;
       });
     },
-    [columns]
+    [columns, setVisibleColumns]
   );
 
   const editColumns = useMemo(() => {

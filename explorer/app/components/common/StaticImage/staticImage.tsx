@@ -5,14 +5,10 @@
  * These images will be optimized at the build time by next-optimized-images
  */
 // Core dependencies
+import { useRouter } from "next/router";
 import React from "react";
 
 export type ImageSrc = string | undefined;
-
-/**
- * Constant to determine the base path used on next.config.mjs
- */
-export const BASE_PATH = "/explore/";
 
 export interface StaticImageProps {
   alt: string;
@@ -27,8 +23,13 @@ export const StaticImage = ({
   src,
   width,
 }: StaticImageProps): JSX.Element => {
-  return (
-    <img alt={alt} height={height} src={`${BASE_PATH}${src}`} width={width} />
-  );
+  const router = useRouter();
+
+  // If src is a image in base64, don't add the basePath
+  const srcValue = src?.startsWith("data:image/")
+    ? src
+    : `${router.basePath}${src}`;
+
+  return <img alt={alt} height={height} src={srcValue} width={width} />;
 };
 /* eslint-enable @next/next/no-img-element -- allow static images for logos etc. */
