@@ -9,6 +9,7 @@ import { summary } from "./Index/summary";
 
 // Entities config
 import { biosamplesEntity } from "./biosamplesEntity";
+import { datasetsEntity } from "./datasetsEntity";
 import { filesEntity } from "./filesEntity";
 
 // Images
@@ -59,7 +60,7 @@ const config: SiteConfig = {
     },
     url: "https://service.nadove3.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [biosamplesEntity, filesEntity],
+  entities: [biosamplesEntity, datasetsEntity, filesEntity],
   entityTitle: "Anvil Data Explorer",
   layout: {
     footer: {

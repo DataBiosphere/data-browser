@@ -77,6 +77,26 @@ export interface ContributorResponse {
   projectRole?: string;
 }
 
+export interface DatasetDonorResponse {
+  organism_type: string[];
+  phenotypic_sex: string[];
+  reported_ethnicity: string[];
+}
+
+export interface DatasetLibraryResponse {
+  prep_material_name: string[];
+}
+
+export interface DatasetResponse {
+  title: string;
+}
+
+export interface DatasetsResponse {
+  datasets: DatasetResponse[];
+  donors: DatasetDonorResponse[];
+  libraries: DatasetLibraryResponse[];
+}
+
 /**
  * Model of fileFormat value included in the response from index/summary API endpoint.
  */
