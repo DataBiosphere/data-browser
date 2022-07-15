@@ -3,10 +3,13 @@ import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { Social } from "app/components/common/Socials/socials";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/model";
-import { filesEntity } from "./filesEntity";
 
 // Summary config
 import { summary } from "./Index/summary";
+
+// Entities config
+import { biosamplesEntity } from "./biosamplesEntity";
+import { filesEntity } from "./filesEntity";
 
 // Images
 import logoAnvil from "images/logoAnvil.png";
@@ -56,7 +59,7 @@ const config: SiteConfig = {
     },
     url: "https://service.nadove3.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [filesEntity],
+  entities: [biosamplesEntity, filesEntity],
   entityTitle: "Anvil Data Explorer",
   layout: {
     footer: {

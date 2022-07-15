@@ -3,6 +3,7 @@ export { Citations } from "./Citations/Citations";
 export { FileCounts } from "./FileCounts/FileCounts";
 export { IconList } from "./IconList/IconList";
 export { StaticImage } from "./common/StaticImage/staticImage";
+export { Cell } from "./Index/components/Cell/cell";
 export { Summaries } from "./Index/components/Hero/components/Summaries/summaries";
 export { NTagCell } from "./Index/components/NTagCell/nTagCell";
 export { Citation } from "./Project/components/Citation/citation";

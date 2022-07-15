@@ -30,6 +30,42 @@ export interface AnvilFilesResponse {
 }
 
 /**
+ * Model of biosample dataset value included in the response from the AnVIL-specific index/biosamples API endpoint.
+ */
+export interface BiosampleDatasetResponse {
+  dataset_id: string[];
+  title: string[];
+}
+
+/**
+ * Model of biosample donor value included in the response from the AnVIL-specific index/biosamples API endpoint.
+ */
+export interface BiosampleDonorResponse {
+  organism_type: string[];
+  phenotypic_sex: string[];
+  reported_ethnicity: string[];
+}
+
+/**
+ * Model of biosample value included in the response from the AnVIL-specific index/biosamples API endpoint.
+ */
+export interface BiosampleResponse {
+  anatomical_site: string | null;
+  biosample_id: string;
+  biosample_type: string | null;
+}
+
+/**
+ * Model of response returned from the AnVIL-specific /index/biosamples API endpoint.
+ */
+export interface BiosamplesResponse {
+  biosamples: BiosampleResponse[];
+  entryId: string;
+  datasets: BiosampleDatasetResponse[];
+  donors: BiosampleDonorResponse[];
+}
+
+/**
  * Model of contributor value included in the response from index/projects API endpoint.
  */
 export interface ContributorResponse {

@@ -43,6 +43,17 @@ export function calculateSummaryTotalCellCount(
 }
 
 /**
+ * Returns a list of values that are not null.
+ * @param values - List of values.
+ * @returns a list of values that are not null.
+ */
+export function filterDefinedValues(
+  values: string[] | undefined
+): string[] | undefined {
+  return values?.filter((value) => value ?? false);
+}
+
+/**
  * Formats count sizes.
  * @param value - Count size.
  * @returns formatted count size as display string.
