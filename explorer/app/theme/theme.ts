@@ -131,6 +131,11 @@ const defaultTheme = createTheme({
 });
 
 /**
+ * Typography constants
+ */
+const textBody500 = defaultTheme.typography["text-body-500"];
+
+/**
  * App theme
  */
 export const theme = createTheme(defaultTheme, {
@@ -151,13 +156,24 @@ export const theme = createTheme(defaultTheme, {
       defaultProps: {
         disableRipple: true,
       },
+      styleOverrides: {
+        endIcon: {
+          margin: 0,
+        },
+        root: {
+          ...textBody500,
+          gap: 4,
+          padding: "10px 16px",
+          textTransform: "capitalize",
+        },
+      },
       variants: [
         {
           props: {
             variant: "nav",
           },
           style: {
-            ...defaultTheme.typography["text-body-500"],
+            ...textBody500,
             color: defaultTheme.palette.ink,
             minWidth: 0,
             padding: "12px 24px",
@@ -336,7 +352,7 @@ export const theme = createTheme(defaultTheme, {
           },
         },
         root: {
-          ...defaultTheme.typography["text-body-500"],
+          ...textBody500,
           color: defaultTheme.palette.inkLight,
           marginBottom: 3,
           minHeight: "unset",

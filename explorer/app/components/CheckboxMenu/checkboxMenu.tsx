@@ -1,13 +1,10 @@
+// Core dependencies
+import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+import { Checkbox, FormControlLabel, Menu, MenuItem } from "@mui/material";
 import React, { useState } from "react";
 
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Menu,
-  MenuItem,
-} from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+// Styles
+import { ButtonSecondary } from "../common/Button/button.styles";
 
 export interface CheckboxMenuItem {
   id: string;
@@ -31,26 +28,26 @@ export const CheckboxMenu = ({
 }: CheckboxMenuProps): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = (): void => {
     setAnchorEl(null);
   };
 
   return (
-    <div>
-      <Button
-        id="demo-customized-button"
+    <>
+      <ButtonSecondary
         aria-haspopup="true"
-        variant="outlined"
-        disableElevation
+        dropdownIcon
+        EndIcon={ArrowDropDownRoundedIcon}
+        id="menu-button"
         onClick={handleClick}
-        endIcon={<KeyboardArrowDownIcon />}
       >
         {label}
-      </Button>
-
+      </ButtonSecondary>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {options.map((option) => (
           <MenuItem key={option.id} disableRipple>
@@ -67,6 +64,6 @@ export const CheckboxMenu = ({
           </MenuItem>
         ))}
       </Menu>
-    </div>
+    </>
   );
 };
