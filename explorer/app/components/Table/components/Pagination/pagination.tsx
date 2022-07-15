@@ -39,18 +39,14 @@ export const Pagination = ({
       <Stack direction="row" gap={2}>
         <IconButtonSecondary
           disabled={!canPreviousPage}
+          Icon={WestRoundedIcon}
           onClick={onPreviousPage}
-          size="large"
-        >
-          <WestRoundedIcon fontSize="small" />
-        </IconButtonSecondary>
+        />
         <IconButtonSecondary
           disabled={!canNextPage}
+          Icon={EastRoundedIcon}
           onClick={onNextPage}
-          size="large"
-        >
-          <EastRoundedIcon fontSize="small" />
-        </IconButtonSecondary>
+        />
       </Stack>
     </TablePagination>
   );
