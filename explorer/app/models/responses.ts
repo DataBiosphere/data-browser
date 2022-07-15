@@ -11,7 +11,7 @@ export interface AnvilFilesResponse {
     bundleVersion: string;
   }[];
   datasets: {
-    dataset_name: string;
+    title: string;
   }[];
   entryId: string;
   files: {
