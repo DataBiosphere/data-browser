@@ -17,7 +17,7 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
     tabs: [],
     top: [],
   },
-  label: "Bio Samples",
+  label: "BioSamples",
   list: {
     columns: [
       {

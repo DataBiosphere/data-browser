@@ -60,7 +60,7 @@ const config: SiteConfig = {
     },
     url: "https://service.nadove3.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [biosamplesEntity, datasetsEntity, filesEntity],
+  entities: [datasetsEntity, biosamplesEntity, filesEntity],
   entityTitle: "Anvil Data Explorer",
   layout: {
     footer: {
