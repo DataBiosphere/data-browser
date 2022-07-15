@@ -1,5 +1,8 @@
+// Core dependencies
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
+
+// App dependencies
 import { Pagination } from "./pagination";
 
 export default {
@@ -22,5 +25,5 @@ const Template: ComponentStory<typeof Pagination> = (args) => (
 export const Primary = Template.bind({});
 Primary.args = {
   currentPage: 1,
-  totalPage: 10,
+  totalPage: 25,
 };

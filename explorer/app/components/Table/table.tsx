@@ -4,7 +4,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableFooter,
   TableHead,
   TableRow,
   TableSortLabel,
@@ -22,8 +21,9 @@ import {
 // App dependencies
 import { PaginationConfig, SortConfig } from "app/hooks/useFetchEntities";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
+import { Pagination } from "./components/Pagination/pagination";
+import { PaginationSummary } from "./components/PaginationSummary/paginationSummary";
 import { newColumnKey, newColumnOrder } from "./functions";
-import { Pagination } from "../Pagination/pagination";
 
 // Styles
 import { RoundedPaper } from "../common/Paper/paper.styles";
@@ -99,6 +99,8 @@ export const Table = <T extends object>({
     useSortBy,
     usePagination
   );
+  const currentPage = pagination?.currentPage ?? pageIndex + 1;
+  const totalPage = total ?? pageOptions.length;
 
   const handleSortClicked = (column: ColumnInstance<T>): void => {
     if (sort) {
@@ -112,6 +114,11 @@ export const Table = <T extends object>({
     <RoundedPaper>
       {editColumns && (
         <TableToolbar>
+          <PaginationSummary
+            firstResult={(currentPage - 1) * pageSize + 1}
+            lastResult={pageSize * currentPage}
+            totalResult={totalPage * pageSize}
+          />
           <CheckboxMenu
             label="Edit Columns"
             onItemSelectionChange={editColumns.onVisibleColumnsChange}
@@ -164,24 +171,16 @@ export const Table = <T extends object>({
               );
             })}
           </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell>
-                <Pagination
-                  currentPage={pagination?.currentPage ?? pageIndex + 1}
-                  onNextPage={pagination?.nextPage ?? tableNextPage}
-                  onPreviousPage={pagination?.previousPage ?? tablePreviousPage}
-                  canNextPage={pagination?.canNextPage ?? tableCanNextPage}
-                  canPreviousPage={
-                    pagination?.canPreviousPage ?? tableCanPreviousPage
-                  }
-                  totalPage={total ?? pageOptions.length}
-                />
-              </TableCell>
-            </TableRow>
-          </TableFooter>
         </GridTable>
       </TableContainer>
+      <Pagination
+        canNextPage={pagination?.canNextPage ?? tableCanNextPage}
+        canPreviousPage={pagination?.canPreviousPage ?? tableCanPreviousPage}
+        currentPage={currentPage}
+        onNextPage={pagination?.nextPage ?? tableNextPage}
+        onPreviousPage={pagination?.previousPage ?? tablePreviousPage}
+        totalPage={totalPage}
+      />
     </RoundedPaper>
   );
 };

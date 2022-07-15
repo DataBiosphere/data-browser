@@ -229,6 +229,9 @@ export const theme = createTheme(defaultTheme, {
         root: {
           borderRadius: 4,
         },
+        sizeLarge: {
+          padding: 10,
+        },
         sizeSmall: {
           padding: 6,
         },

@@ -20,7 +20,6 @@ export const Table = styled(MTable, {
   }
 
   td,
-  tfoot,
   th {
     background-color: ${({ theme }) => theme.palette.common.white};
   }
@@ -31,17 +30,18 @@ export const Table = styled(MTable, {
     border-bottom: none;
     display: flex; /* required; consumes 100% row height */
     overflow-wrap: break-word;
-  }
 
-  tfoot {
-    grid-column: 1 / -1; /* spans full allocation of grid */
+    > * {
+      min-width: 0; /* required; flexbox child min-width property is "auto" by default making overflow-wrap ineffectual */
+    }
   }
 `;
 
 export const TableToolbar = styled.div`
   align-items: center;
   background-color: ${({ theme }) => theme.palette.common.white};
+  color: ${({ theme }) => theme.palette.ink};
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 20px;
 `;
