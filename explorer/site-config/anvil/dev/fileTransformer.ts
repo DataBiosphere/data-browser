@@ -11,7 +11,7 @@ export const filesToDatasetNameColumn = (
   }
 
   return {
-    children: file.datasets[0].dataset_name,
+    children: file.datasets[0].title,
     customColor: "ink",
     variant: "text-body-400",
   };
