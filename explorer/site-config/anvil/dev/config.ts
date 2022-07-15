@@ -8,6 +8,7 @@ import { SiteConfig } from "../../../app/config/model";
 import { summary } from "./Index/summary";
 
 // Entities config
+import { activitiesEntity } from "./activitiesEntity";
 import { biosamplesEntity } from "./biosamplesEntity";
 import { datasetsEntity } from "./datasetsEntity";
 import { filesEntity } from "./filesEntity";
@@ -60,7 +61,7 @@ const config: SiteConfig = {
     },
     url: "https://service.nadove3.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [datasetsEntity, biosamplesEntity, filesEntity],
+  entities: [datasetsEntity, biosamplesEntity, activitiesEntity, filesEntity],
   entityTitle: "Anvil Data Explorer",
   layout: {
     footer: {

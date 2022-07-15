@@ -10,6 +10,7 @@ import {
 // Template constants
 const {
   DATASET_NAME,
+  DATA_MODALITY,
   LIBRARY_PREPARATION,
   ORGANISM_TYPE,
   PHENOTYPIC_SEX,
@@ -39,6 +40,7 @@ export const BIND_SUMMARY_RESPONSE = {
  */
 export const PLURALIZED_METADATA_LABEL = {
   [DATASET_NAME]: "dataset names",
+  [DATA_MODALITY]: "data modalities",
   [LIBRARY_PREPARATION]: "library preparations",
   [ORGANISM_TYPE]: "organism types",
   [PHENOTYPIC_SEX]: "phenotypic sexes",

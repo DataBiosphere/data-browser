@@ -1,4 +1,33 @@
 /**
+ * Model of biosample dataset value included in the response from the AnVIL-specific index/activities API endpoint.
+ * TODO look for reuse with BiosampleDatasetResponse
+ */
+export interface ActivityDatasetResponse {
+  dataset_id: string[];
+  title: string[];
+}
+
+/**
+ * Model of response returned from the AnVIL-specific /index/biosamples API endpoint.
+ */
+export interface ActivitiesResponse {
+  activities: ActivityResponse[];
+  biosamples: BiosampleResponse[]; // TODO double-check reuse here
+  datasets: ActivityDatasetResponse[];
+  entryId: string;
+}
+
+/**
+ * Model of activity value included in the response from the AnVIL-specific index/activities API endpoint.
+ */
+export interface ActivityResponse {
+  activity_id?: string;
+  activity_type: string;
+  data_modality: string[];
+  document_id: string;
+}
+
+/**
  * Model of response returned from the AnVIL-specific /index/files API endpoint.
  */
 export interface AnvilFilesResponse {
@@ -31,6 +60,7 @@ export interface AnvilFilesResponse {
 
 /**
  * Model of biosample dataset value included in the response from the AnVIL-specific index/biosamples API endpoint.
+ * TODO look for reuse with ActitivyDatasetResponse
  */
 export interface BiosampleDatasetResponse {
   dataset_id: string[];
