@@ -51,9 +51,10 @@ const config: SiteConfig = {
   browserURL: BROWSER_URL,
   datasources: {
     defaultListParams: {
+      size: "25",
       sort: "entryId",
     },
-    url: "https://service.nadove2.dev.singlecell.gi.ucsc.edu/",
+    url: "https://service.nadove3.dev.singlecell.gi.ucsc.edu/",
   },
   entities: [filesEntity],
   entityTitle: "Anvil Data Explorer",
