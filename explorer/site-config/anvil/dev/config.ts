@@ -12,6 +12,7 @@ import { activitiesEntity } from "./activitiesEntity";
 import { biosamplesEntity } from "./biosamplesEntity";
 import { datasetsEntity } from "./datasetsEntity";
 import { filesEntity } from "./filesEntity";
+import { librariesEntityConfig } from "./Index/librariesEntityConfig";
 
 // Images
 import logoAnvil from "images/logoAnvil.png";
@@ -61,7 +62,13 @@ const config: SiteConfig = {
     },
     url: "https://service.nadove3.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [datasetsEntity, biosamplesEntity, activitiesEntity, filesEntity],
+  entities: [
+    datasetsEntity,
+    biosamplesEntity,
+    activitiesEntity,
+    librariesEntityConfig,
+    filesEntity,
+  ],
   entityTitle: "Anvil Data Explorer",
   layout: {
     footer: {

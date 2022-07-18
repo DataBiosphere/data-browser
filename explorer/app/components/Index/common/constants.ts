@@ -9,6 +9,7 @@ import {
 
 // Template constants
 const {
+  BIOSAMPLE_TYPE,
   DATASET_NAME,
   DATA_MODALITY,
   LIBRARY_PREPARATION,
@@ -39,6 +40,7 @@ export const BIND_SUMMARY_RESPONSE = {
  * Value for displaying pluralized metadata labels, for example, "tissues" or "diseases".
  */
 export const PLURALIZED_METADATA_LABEL = {
+  [BIOSAMPLE_TYPE]: "biosample types",
   [DATASET_NAME]: "dataset names",
   [DATA_MODALITY]: "data modalities",
   [LIBRARY_PREPARATION]: "library preparations",

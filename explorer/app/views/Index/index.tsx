@@ -82,7 +82,7 @@ export const Index = (props: ListModel): JSX.Element => {
 
   const renderContent = (): JSX.Element => {
     if (isLoading || !response) {
-      return <span>LOADING...</span>; //TODO: return the loading UI component
+      return <></>; //TODO: return the loading UI component
     }
 
     if (!response.hits) {
