@@ -60,6 +60,15 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
         header: "Library Preparation",
         width: { max: "1fr", min: "200px" },
       },
+      {
+        componentConfig: {
+          component: C.NTagCell,
+          transformer: T.buildDataModality,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: "Data Modality",
+        hiddenColumn: true,
+        width: { max: "1fr", min: "148px" },
+      },
     ],
   } as ListConfig<DatasetsResponse>,
   route: "datasets",

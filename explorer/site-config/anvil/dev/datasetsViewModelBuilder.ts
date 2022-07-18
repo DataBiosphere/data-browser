@@ -9,10 +9,25 @@ import {
   getDatasetName,
   getOrganismType,
   getPhenotypicSex,
+  getDataModality,
 } from "../../../app/components/Index/common/datasetsTransformer";
 import { METADATA_KEY } from "../../../app/components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../app/components/Index/common/indexTransformer";
 import { DatasetsResponse } from "../../../app/models/responses";
+
+/**
+ * Build props for data modality NTagCell component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the data modality NTagCell.
+ */
+export const buildDataModality = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
+    values: getDataModality(datasetsResponse),
+  };
+};
 
 /**
  * Build props for dataset name Cell component from the given datasets response.

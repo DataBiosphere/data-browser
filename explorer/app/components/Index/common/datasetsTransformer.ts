@@ -1,12 +1,31 @@
 // App dependencies
 import { MetadataValue } from "./entities";
 import {
+  ActivityResponse,
   DatasetDonorResponse,
   DatasetLibraryResponse,
   DatasetResponse,
   DatasetsResponse,
 } from "../../../models/responses";
 import { filterDefinedValues } from "./utils";
+
+/**
+ * Maps data modality from API response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns a list of data modalities.
+ */
+export function getDataModality(
+  datasetsResponse?: DatasetsResponse
+): MetadataValue[] {
+  const activityResponse = getActivityResponse(datasetsResponse);
+  const dataModalities = filterDefinedValues(activityResponse?.data_modality);
+
+  if (!dataModalities || dataModalities?.length === 0) {
+    return ["Unspecified"]; // Caller is expecting "Unspecified", not an empty array.
+  }
+
+  return dataModalities;
+}
 
 /**
  * Maps dataset name from API response.
@@ -94,6 +113,20 @@ export function getReportedEthnicity(
   }
 
   return reportedEthnicities;
+}
+
+/**
+ * Returns the activity value from the datasets API response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns The core activity value from the API response.
+ */
+function getActivityResponse(
+  datasetsResponse?: DatasetsResponse
+): ActivityResponse | undefined {
+  if (!datasetsResponse) {
+    return;
+  }
+  return datasetsResponse.activities?.[0];
 }
 
 /**
