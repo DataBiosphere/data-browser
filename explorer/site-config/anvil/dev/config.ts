@@ -65,8 +65,8 @@ const config: SiteConfig = {
   entities: [
     datasetsEntity,
     biosamplesEntity,
-    activitiesEntity,
     librariesEntityConfig,
+    activitiesEntity,
     filesEntity,
   ],
   entityTitle: "Anvil Data Explorer",
@@ -153,7 +153,7 @@ const config: SiteConfig = {
       socials: SOCIALS,
     },
   },
-  redirectRootToPath: "/files",
+  redirectRootToPath: "/datasets",
   summary: {
     apiPath: "index/summary",
     components: summary,

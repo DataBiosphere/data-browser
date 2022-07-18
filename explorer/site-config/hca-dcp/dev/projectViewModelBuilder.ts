@@ -19,8 +19,6 @@ import {
 import { ProjectsResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
 import { concatStrings } from "app/utils/string";
-import { SiteConfig } from "app/config/model";
-import { PROJECTS_LABEL } from "./constants";
 
 const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
