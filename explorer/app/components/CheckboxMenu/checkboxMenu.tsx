@@ -1,65 +1,73 @@
 // Core dependencies
-import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
-import { Checkbox, FormControlLabel, Menu, MenuItem } from "@mui/material";
-import React, { useState } from "react";
+import { Checkbox, FormControlLabel, MenuItem } from "@mui/material";
+import React, { MouseEvent, useState } from "react";
+
+// App dependencies
+import { DropdownButton } from "../common/Button/components/DropdownButton/dropdownButton";
+import { CheckedIcon } from "../common/CustomIcon/components/CheckedIcon/checkedIcon";
+import { UncheckedIcon } from "../common/CustomIcon/components/UncheckedIcon/uncheckedIcon";
 
 // Styles
-import { ButtonSecondary } from "../common/Button/button.styles";
+import { CheckboxMenu as Menu } from "./checkboxMenu.styles";
 
 export interface CheckboxMenuItem {
   id: string;
   label: string;
 }
 
-interface CheckboxMenuProps {
-  options: CheckboxMenuItem[];
-  selected: string[];
+interface Props {
+  label: string;
   readOnly?: string[];
   onItemSelectionChange: (id: string) => void;
-  label: string;
+  options: CheckboxMenuItem[];
+  selected: string[];
 }
 
 export const CheckboxMenu = ({
+  label,
   onItemSelectionChange,
   options,
-  selected,
-  label,
   readOnly = [],
-}: CheckboxMenuProps): JSX.Element => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  selected,
+}: Props): JSX.Element => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
+  const onOpenMenu = (event: MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = (): void => {
+  const onCloseMenu = (): void => {
     setAnchorEl(null);
   };
 
   return (
     <>
-      <ButtonSecondary
-        aria-haspopup="true"
-        dropdownIcon
-        EndIcon={ArrowDropDownRoundedIcon}
-        id="menu-button"
-        onClick={handleClick}
+      <DropdownButton onClick={onOpenMenu}>{label}</DropdownButton>
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        onClose={onCloseMenu}
+        open={open}
+        PaperProps={{ variant: "menu" }}
+        transformOrigin={{
+          horizontal: "right",
+          vertical: "top",
+        }}
       >
-        {label}
-      </ButtonSecondary>
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {options.map((option) => (
-          <MenuItem key={option.id} disableRipple>
+        {options.map(({ id: value, label }) => (
+          <MenuItem disabled={readOnly.includes(value)} key={value}>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={selected.includes(option.id)}
-                  disabled={readOnly.includes(option.id)}
-                  onChange={(): void => onItemSelectionChange(option.id)}
+                  checked={selected.includes(value)}
+                  checkedIcon={<CheckedIcon />}
+                  disabled={readOnly.includes(value)}
+                  icon={<UncheckedIcon />}
+                  onChange={(): void => onItemSelectionChange(value)}
                 />
               }
-              label={option.label}
+              label={label}
             />
           </MenuItem>
         ))}

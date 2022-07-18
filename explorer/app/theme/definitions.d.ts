@@ -115,6 +115,15 @@ declare module "@mui/material/Button" {
 }
 
 /**
+ * Checkbox prop options.
+ */
+declare module "@mui/material/Checkbox" {
+  interface CheckboxPropsSizeOverrides {
+    xsmall: true;
+  }
+}
+
+/**
  * Chip prop options.
  */
 declare module "@mui/material/Chip" {
@@ -146,7 +155,17 @@ declare module "@mui/material/IconButton" {
 declare module "@mui/material/Paper" {
   interface PaperPropsVariantOverrides {
     footer: true;
+    menu: true;
     panel: true;
+  }
+}
+
+/**
+ * SvgIcon prop options.
+ */
+declare module "@mui/material/SvgIcon" {
+  interface SvgIconPropsSizeOverrides {
+    xsmall: true;
   }
 }
 

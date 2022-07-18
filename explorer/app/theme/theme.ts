@@ -195,6 +195,31 @@ export const theme = createTheme(defaultTheme, {
         disableRipple: true,
       },
     },
+    MuiCheckbox: {
+      defaultProps: {
+        size: "xsmall",
+      },
+      styleOverrides: {
+        fontSizeXsmall: {
+          fontSize: "18px",
+        },
+        root: {
+          color: defaultTheme.palette.smokeDark,
+          padding: 0,
+          // eslint-disable-next-line sort-keys -- disabling key order for readability
+          "&.Mui-disabled": {
+            color: defaultTheme.palette.smokeDark,
+          },
+        },
+      },
+      variants: [
+        {
+          props: {
+            size: "xsmall",
+          },
+        },
+      ],
+    },
     MuiChip: {
       defaultProps: {
         size: "small",
@@ -234,6 +259,21 @@ export const theme = createTheme(defaultTheme, {
         },
         img: {
           display: "block",
+        },
+      },
+    },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        label: {
+          "&.Mui-disabled": {
+            color: "inherit",
+          },
+        },
+        labelPlacementEnd: {
+          gap: 8,
+        },
+        root: {
+          margin: 0,
         },
       },
     },
@@ -317,11 +357,27 @@ export const theme = createTheme(defaultTheme, {
         underline: "hover",
       },
     },
+    MuiMenuItem: {
+      defaultProps: { disableRipple: true },
+      styleOverrides: {
+        root: {
+          ...defaultTheme.typography["text-body-400"],
+          color: defaultTheme.palette.ink,
+          minHeight: "unset",
+          padding: "10px 16px",
+        },
+      },
+    },
     MuiPaper: {
       styleOverrides: {
         footer: {
           backgroundColor: defaultTheme.palette.smokeLight,
           boxShadow: `inset 0 -1px 0 0 ${defaultTheme.palette.smoke}, inset 0 1px 0 0 ${defaultTheme.palette.smoke}`,
+        },
+        menu: {
+          borderRadius: 8,
+          boxShadow: `inset 0 0 0 1px ${defaultTheme.palette.smokeDark}, 0 8px 8px -4px rgba(16, 24, 40, 0.03), 0 20px 24px -4px rgba(16, 24, 40, 0.08)`,
+          margin: "8px 0",
         },
         panel: {
           backgroundColor: defaultTheme.palette.smoke,
@@ -338,7 +394,24 @@ export const theme = createTheme(defaultTheme, {
           props: { variant: "footer" },
         },
         {
+          props: { variant: "menu" },
+        },
+        {
           props: { variant: "panel" },
+        },
+      ],
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        fontSizeXsmall: {
+          fontSize: "18px",
+        },
+      },
+      variants: [
+        {
+          props: {
+            size: "xsmall",
+          },
         },
       ],
     },

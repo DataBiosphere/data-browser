@@ -4,39 +4,25 @@
  */
 
 // Core dependencies
-import { ButtonProps, Button as MButton } from "@mui/material";
-import React, { ElementType, ReactNode } from "react";
+import { Button as MButton } from "@mui/material";
+import React from "react";
 
-interface Props extends ButtonProps {
-  children: ReactNode;
-  className?: string;
-  disabled?: boolean;
-  dropdownIcon?: boolean;
-  EndIcon?: ElementType;
-  StartIcon?: ElementType;
-}
+// App dependencies
+import { Button as ButtonProps } from "./common/entities";
+
+type Props = ButtonProps;
 
 export const Button = ({
   children,
-  className,
   disabled = false,
-  dropdownIcon = false,
   EndIcon,
   StartIcon,
   ...props /* Spread props to allow for Button specific props ButtonProps e.g. "onClick". */
 }: Props): JSX.Element => {
   return (
     <MButton
-      className={className}
       disabled={disabled}
-      endIcon={
-        EndIcon ? (
-          <EndIcon
-            fontSize="small"
-            sx={{ marginLeft: dropdownIcon ? "-6px" : undefined }}
-          />
-        ) : undefined
-      }
+      endIcon={EndIcon ? <EndIcon fontSize="small" /> : undefined}
       startIcon={StartIcon ? <StartIcon fontSize="small" /> : undefined}
       {...props}
     >
