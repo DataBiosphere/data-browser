@@ -20,16 +20,17 @@ export const sideColumn = [
     component: C.Details,
     transformer: T.buildDetails,
   } as ComponentConfig<typeof C.Details>,
-  {
-    children: [
-      {
-        component: C.FileCounts,
-        transformer: T.projectsToFileCounts,
-      } as ComponentConfig<typeof C.FileCounts, ProjectsResponse>,
-    ],
-    component: C.Section,
-    props: {
-      title: "File Counts",
-    },
-  } as ComponentConfig<typeof C.Section>,
+  // TODO removing for 7/19 demo
+  // {
+  //   children: [
+  //     {
+  //       component: C.FileCounts,
+  //       transformer: T.projectsToFileCounts,
+  //     } as ComponentConfig<typeof C.FileCounts, ProjectsResponse>,
+  //   ],
+  //   component: C.Section,
+  //   props: {
+  //     title: "File Counts",
+  //   },
+  // } as ComponentConfig<typeof C.Section>,
 ];

@@ -25,7 +25,7 @@ import { PROJECTS_LABEL } from "./constants";
 /**
  * Entity config object responsible to config anything related to the /explore/projects route.
  */
-export const projectEntity: EntityConfig = {
+export const projectsEntity: EntityConfig = {
   apiPath: "index/projects",
   detail: {
     tabs: [

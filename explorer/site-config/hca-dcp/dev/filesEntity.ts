@@ -22,9 +22,9 @@ export const filesEntity: EntityConfig<FilesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Links,
+          component: C.Text,
           transformer: T.filesToFileNameColumn,
-        } as ComponentConfig<typeof C.Links>,
+        } as ComponentConfig<typeof C.Text>,
         header: "File Name",
         sort: {
           default: true,

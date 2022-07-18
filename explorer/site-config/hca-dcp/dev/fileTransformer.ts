@@ -8,20 +8,15 @@ const formatter = Intl.NumberFormat("en", { notation: "compact" });
 /* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here*/
 export const filesToFileNameColumn = (
   file: FilesResponse
-): React.ComponentProps<typeof C.Links> => {
+): React.ComponentProps<typeof C.Text> => {
   if (!file.files?.[0]) {
-    return {
-      links: [],
-    };
+    return {};
   }
 
   return {
-    links: [
-      {
-        label: file.files[0].name,
-        url: `/explore/files/${file.files[0].uuid}`,
-      },
-    ],
+    children: file.files[0].name,
+    customColor: "ink",
+    variant: "text-body-400",
   };
 };
 

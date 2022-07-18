@@ -37,10 +37,10 @@ AnalysisPortals.args = {
     },
     {
       icon: {
-        alt: "Cellxgene",
+        alt: "cellxgene",
         path: CellXGeneIcon,
       },
-      label: "Cellxgene",
+      label: "cellxgene",
     },
     {
       icon: {

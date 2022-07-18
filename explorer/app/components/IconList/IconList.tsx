@@ -7,10 +7,16 @@ interface IconListProps {
 
 export const IconList = ({ icons }: IconListProps): JSX.Element => {
   return (
-    <div>
-      {icons.map((item, index) => (
-        <Item key={index} {...item} />
-      ))}
-    </div>
+    <>
+      {icons.length ? (
+        <div>
+          {icons.map((item, index) => (
+            <Item key={index} {...item} />
+          ))}
+        </div>
+      ) : (
+        "None"
+      )}
+    </>
   );
 };

@@ -9,7 +9,7 @@ import { summary } from "./Index/summary";
 
 // Entities config
 import { filesEntity } from "./filesEntity";
-import { projectEntity } from "./projectsEntity";
+import { projectsEntity } from "./projectsEntity";
 import { samplesEntity } from "./samplesEntity";
 
 // Images
@@ -54,7 +54,7 @@ const config: SiteConfig = {
     },
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [projectEntity, filesEntity, samplesEntity],
+  entities: [projectsEntity, filesEntity, samplesEntity],
   entityTitle: "Explore Data: DCP 2.0 Data View",
   layout: {
     footer: {

@@ -22,9 +22,9 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Links,
+          component: C.Text,
           transformer: T.samplesToSampleIDColumn,
-        } as ComponentConfig<typeof C.Links>,
+        } as ComponentConfig<typeof C.Text>,
         header: "Sample ID",
         sort: {
           default: true,

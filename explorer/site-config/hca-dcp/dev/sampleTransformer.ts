@@ -7,20 +7,15 @@ const formatter = Intl.NumberFormat("en", { notation: "compact" });
 /* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
 export const samplesToSampleIDColumn = (
   sample: SamplesResponse
-): React.ComponentProps<typeof C.Links> => {
+): React.ComponentProps<typeof C.Text> => {
   if (!sample.samples?.[0]) {
-    return {
-      links: [],
-    };
+    return {};
   }
 
   return {
-    links: [
-      {
-        label: sample.samples[0].id,
-        url: `/explore/samples/${sample.samples[0].id}`,
-      },
-    ],
+    children: concatStrings(sample.samples[0].id),
+    customColor: "ink",
+    variant: "text-body-400",
   };
 };
 
