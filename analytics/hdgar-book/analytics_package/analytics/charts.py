@@ -12,7 +12,7 @@ init_tables must be called in the notebook to insert a required stylesheet
 
 
 Functions related to tables and data frames will pass any extra parameters they recieve down to any such functions that they call
-These parameters include the ones used by get_metrics_by_dimensions in the api module, as well as the table formatting parameters outlined below
+These parameters include the ones used by get_metrics_by_dimensions in the api module, as well as the table formatting parameters outlined below, and the the `fontsize` parameter for plotting functions
 
 
 Table formatting/construction parameters, by table types
@@ -355,6 +355,21 @@ def make_month_filter(filter_cols):
 	
 	return filter
 
+def show_plot(df, title, fontsize=16, **other_params):
+	# Notes: Linking Pandas and Matplotlib
+	# https://stackoverflow.com/questions/29568110/how-to-use-ax-with-pandas-and-matplotlib
+
+	fig, ax = plt.subplots(figsize=(16, 9))
+	df.plot(ax=ax, fontsize=fontsize) #Link the df with the axis
+	
+	ax.set_xlabel('Time', fontsize=fontsize)
+	ax.set_ylabel('Count', fontsize=fontsize)
+	
+	ax.legend(fontsize=fontsize)
+	
+	fig.suptitle(title, fontsize=fontsize)
+	plt.show()
+
 def show_plot_over_time(titles, xlabels, metrics, format_table=True, df_filter=None, **other_params):
 	titles, xlabels, metrics = strings_to_lists(titles, xlabels, metrics)
 	
@@ -369,33 +384,13 @@ def show_plot_over_time(titles, xlabels, metrics, format_table=True, df_filter=N
 	# Rename for display
 	df.rename(columns={name: xlabels[i] for i, name in enumerate(metrics)}, inplace=True)
 
-	# Notes: Linking Pandas and Matplotlib
-	# https://stackoverflow.com/questions/29568110/how-to-use-ax-with-pandas-and-matplotlib
-
-	plt.rc("font", size=16)
-	
 	if isinstance(titles[0], str):
-		fig, ax = plt.subplots(figsize=(16, 9))
-		df.plot(ax=ax) #Link the df with the axis
-
-		ax.set_xlabel('Time')
-		ax.set_ylabel('Count')
-
-		fig.suptitle(titles[0])
-		plt.show()
+		show_plot(df, titles[0], **other_params)
 
 	if len(titles) > 1 and isinstance(titles[1], str):
 		# Average per qurter
-
 		dfmean = df.rolling(window=30).mean()
-		fig, ax = plt.subplots(figsize=(16, 9))
-		dfmean.plot(ax=ax) #Link the df with the axis
-
-		ax.set_xlabel('Time')
-		ax.set_ylabel('Count')
-
-		fig.suptitle(titles[1])
-		plt.show()
+		show_plot(dfmean, titles[1], **other_params)
 
 	
 	if format_table:
