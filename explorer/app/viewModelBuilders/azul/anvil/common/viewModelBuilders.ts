@@ -9,6 +9,7 @@ import {
 } from "../../../../apis/azul/anvil/common/entities";
 import {
   getBioSampleTypes,
+  getDatasetBreadcrumbs,
   getDatasetDescription,
   getDatasetDetails,
   getDatasetName,
@@ -23,6 +24,7 @@ import {
 import * as C from "../../../../components";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
+import { URL_DATASETS } from "../../../../../site-config/anvil/dev/config";
 
 /**
  * Build biosample types Cell component from the given libraries response.
@@ -75,8 +77,9 @@ export const buildDatasetDetails = (
 export const buildDatasetHero = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.ProjectHero> => {
+  const firstCrumb = { path: URL_DATASETS, text: "Datasets" };
   return {
-    breadcrumbs: undefined, // TODO breadcrumbs https://github.com/clevercanary/data-browser/issues/68.
+    breadcrumbs: getDatasetBreadcrumbs(firstCrumb, datasetsResponse),
     title: getDatasetName(datasetsResponse),
   };
 };

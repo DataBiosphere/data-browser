@@ -44,7 +44,7 @@ export const Project = (props: DetailModel): JSX.Element => {
   const top = entity.detail.top;
 
   if (isLoading) {
-    return <span>LOADING...</span>; //TODO: return the loading UI component
+    return <span></span>; //TODO: return the loading UI component
   }
 
   /**

@@ -14,6 +14,7 @@ import {
   KeyValues,
   Value,
 } from "../../../../components/common/KeyValuePairs/keyValuePairs";
+import { Breadcrumb } from "../../../../components/common/Breadcrumbs/breadcrumbs";
 
 /**
  * Maps biosample type from an aggregated biosamples value returned from endpoints other than index/biosamples.
@@ -27,6 +28,25 @@ export function getBioSampleTypes(
     librariesResponse?.biosamples ?? [],
     "biosample_type"
   );
+}
+
+/**
+ * Returns dataset related breadcrumbs.
+ * TODO revisit location
+ * @param firstCrumb - First breadcrumb.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns dataset breadcrumbs.
+ */
+export function getDatasetBreadcrumbs(
+  firstCrumb: Breadcrumb,
+  datasetsResponse?: DatasetsResponse // TODO revisit - should this be the detail response?
+): Breadcrumb[] {
+  const datasetName = getDatasetName(datasetsResponse);
+  const breadcrumbs = [firstCrumb];
+  if (datasetName) {
+    breadcrumbs.push({ path: "", text: datasetName });
+  }
+  return breadcrumbs;
 }
 
 /**
