@@ -3,11 +3,15 @@ import React from "react";
 
 // App dependencies
 import {
+  DatasetsResponse,
   DonorsResponse,
   LibrariesResponse,
 } from "../../../../apis/azul/anvil/common/entities";
 import {
   getBioSampleTypes,
+  getDatasetDescription,
+  getDatasetDetails,
+  getDatasetName,
   getDatasetNames,
   getDonorId,
   getLibraryId,
@@ -31,6 +35,49 @@ export const buildBioSampleTypes = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.BIOSAMPLE_TYPE),
     values: getBioSampleTypes(librariesResponse),
+  };
+};
+
+/**
+ * Build props for Description component from the given datasets response.
+ * TODO revisit - separate from entity builder, generalize description component, revisit transformer
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the Description component.
+ */
+export const buildDatasetDescription = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.Description> => {
+  return {
+    projectDescription: getDatasetDescription(datasetsResponse) || "None",
+  };
+};
+
+/**
+ * Build props for Details component from the given datasets response.
+ * TODO revisit - separate from entity builder, generalize modeling/component?, revisit transformer
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the Description component.
+ */
+export const buildDatasetDetails = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.Details> => {
+  return {
+    keyValuePairs: getDatasetDetails(datasetsResponse),
+  };
+};
+
+/**
+ * Build props for Hero component from the given datasets response.
+ * TODO revisit - separate from entity builder, generalize modeling?, revisit transformer
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the Hero component.
+ */
+export const buildDatasetHero = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ProjectHero> => {
+  return {
+    breadcrumbs: undefined, // TODO breadcrumbs https://github.com/clevercanary/data-browser/issues/68.
+    title: getDatasetName(datasetsResponse),
   };
 };
 

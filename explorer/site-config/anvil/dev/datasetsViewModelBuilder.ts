@@ -6,6 +6,7 @@ import * as C from "../../../app/components";
 import {
   getLibraryPreparation,
   getReportedEthnicity,
+  getDatasetId,
   getDatasetName,
   getOrganismType,
   getPhenotypicSex,
@@ -36,9 +37,14 @@ export const buildDataModality = (
  */
 export const buildDatasetName = (
   datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.Links> => {
   return {
-    value: getDatasetName(datasetsResponse),
+    links: [
+      {
+        label: getDatasetName(datasetsResponse) ?? "", // TODO nullish coalescing should not be required. see getDatasetName.
+        url: `/datasets/${getDatasetId(datasetsResponse)}`,
+      },
+    ],
   };
 };
 

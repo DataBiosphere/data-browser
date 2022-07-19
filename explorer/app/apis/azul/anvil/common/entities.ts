@@ -17,6 +17,23 @@ export interface DatasetAggregatedResponse {
 }
 
 /**
+ * Model of core library value returned from the /index/datasets API endpoint.
+ */
+export interface DatasetEntityResponse {
+  dataset_id: string;
+  description: string;
+  title: string;
+}
+
+/**
+ * Model of response returned from the /index/datasets API endpoint.
+ */
+export interface DatasetsResponse {
+  datasets: DatasetEntityResponse[];
+  entryId: string;
+}
+
+/**
  * Model of core donor value returned from the /index/donors API endpoint.
  */
 export interface DonorEntityResponse {

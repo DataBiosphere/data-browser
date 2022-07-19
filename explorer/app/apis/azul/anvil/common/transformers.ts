@@ -1,11 +1,19 @@
 // App dependencies
 import {
+  DatasetEntityResponse,
+  DatasetsResponse,
   DonorEntityResponse,
   DonorsResponse,
   LibrariesResponse,
   LibraryEntityResponse,
 } from "./entities";
 import { processAggregatedValue } from "../../common/utils";
+import { Description } from "../../../../components/Project/common/entities";
+import {
+  Key,
+  KeyValues,
+  Value,
+} from "../../../../components/common/KeyValuePairs/keyValuePairs";
 
 /**
  * Maps biosample type from an aggregated biosamples value returned from endpoints other than index/biosamples.
@@ -19,6 +27,45 @@ export function getBioSampleTypes(
     librariesResponse?.biosamples ?? [],
     "biosample_type"
   );
+}
+
+/**
+ * Maps dataset description from API response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns string representation of dataset description.
+ */
+export function getDatasetDescription(
+  datasetsResponse?: DatasetsResponse
+): Description | undefined {
+  const datasetEntityResponse = getDatasetEntityResponse(datasetsResponse);
+  return datasetEntityResponse?.description ?? "None"; // TODO constant for none
+}
+
+/**
+ * Maps dataset-related information, included formatted display text from API response. TODO revisit
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns data summaries key-value pairs of data summary label and corresponding value.
+ */
+export function getDatasetDetails(
+  datasetsResponse?: DatasetsResponse
+): KeyValues | undefined {
+  const datasetEntityResponse = getDatasetEntityResponse(datasetsResponse);
+  if (!datasetEntityResponse) {
+    return;
+  }
+  const details = new Map<Key, Value>();
+  details.set("Dataset ID", datasetEntityResponse.dataset_id);
+  return details;
+}
+
+/**
+ * Maps dataset name from the core dataset entity returned from the index/datasets endpoint.
+ * @param datasetsResponse - Response model return from index/datasets API endpoint.
+ * @returns Set of aggregated dataset names.
+ */
+export function getDatasetName(datasetsResponse?: DatasetsResponse): string {
+  const datasetEntityResponse = getDatasetEntityResponse(datasetsResponse);
+  return datasetEntityResponse?.title ?? ""; // TODO throw on no title?
 }
 
 /**
@@ -107,19 +154,35 @@ export function getReportedEthnicities(
 }
 
 /**
+ * Returns the singleton donor entity value from the index/datasets API response. TODO generalize getXEntityResponse
+ * @param datasetsResponse - Response model return from datasets API endpoint.
+ * @returns The core dataset value from the API response.
+ */
+function getDatasetEntityResponse(
+  datasetsResponse?: DatasetsResponse
+): DatasetEntityResponse | undefined {
+  if (!datasetsResponse) {
+    return;
+  }
+
+  // Can assume singleton array here as datasets is the core entity returned from the index/datasets response.
+  return datasetsResponse.datasets?.[0];
+}
+
+/**
  * Returns the singleton donor entity value from the index/donors API response.
- * @param donorResponse - Response model return from donors API endpoint.
+ * @param donorsResponse - Response model return from donors API endpoint.
  * @returns The core donor value from the API response.
  */
 function getDonorEntityResponse(
-  donorResponse?: DonorsResponse
+  donorsResponse?: DonorsResponse
 ): DonorEntityResponse | undefined {
-  if (!donorResponse) {
+  if (!donorsResponse) {
     return;
   }
 
   // Can assume singleton array here as donors is the core entity returned from the index/donors response.
-  return donorResponse.donors?.[0];
+  return donorsResponse.donors?.[0];
 }
 
 /**

@@ -7,6 +7,9 @@ import {
 } from "../../../app/config/model";
 import { DatasetsResponse } from "app/models/responses";
 import * as T from "./datasetsViewModelBuilder";
+import { mainColumn } from "./detail/donor/overviewMainColumn"; // TODO revisit naming here and for side
+import { sideColumn } from "./detail/donor/overviewSideColumn";
+import { top } from "./detail/donor/top";
 
 /**
  * Entity config object responsible to config anything related to the /explore/datasets route.
@@ -14,17 +17,24 @@ import * as T from "./datasetsViewModelBuilder";
 export const datasetsEntity: EntityConfig<DatasetsResponse> = {
   apiPath: "index/datasets",
   detail: {
-    tabs: [],
-    top: [],
+    tabs: [
+      {
+        label: "Overview",
+        mainColumn: mainColumn,
+        route: "",
+        sideColumn: sideColumn,
+      },
+    ],
+    top: top,
   },
   label: "Datasets",
   list: {
     columns: [
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.Links,
           transformer: T.buildDatasetName,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.Links>,
         header: "Dataset Name",
         sort: {
           default: true,

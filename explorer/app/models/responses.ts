@@ -125,6 +125,7 @@ export interface DatasetsResponse {
   activities: ActivityResponse[];
   datasets: DatasetResponse[];
   donors: DatasetDonorResponse[];
+  entryId: string;
   libraries: DatasetLibraryResponse[];
 }
 

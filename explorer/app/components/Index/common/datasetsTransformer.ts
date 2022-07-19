@@ -28,6 +28,17 @@ export function getDataModality(
 }
 
 /**
+ * Maps dataset ID from API response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns dataset ID.
+ */
+export function getDatasetId(
+  datasetsResponse?: DatasetsResponse
+): string | undefined {
+  return datasetsResponse?.entryId; // TODO throw if no entryId? revisit on refactor to new pattern
+}
+
+/**
  * Maps dataset name from API response.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns dataset name.
@@ -36,7 +47,7 @@ export function getDatasetName(
   datasetsResponse?: DatasetsResponse
 ): string | undefined {
   const datasetResponse = getDatasetResponse(datasetsResponse);
-  return datasetResponse?.title;
+  return datasetResponse?.title; // TODO throw if no dataset name? required for link. revisit on refactor to new pattern
 }
 
 /**
