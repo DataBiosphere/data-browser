@@ -194,6 +194,11 @@ export const theme = createTheme(defaultTheme, {
       defaultProps: {
         disableRipple: true,
       },
+      styleOverrides: {
+        root: {
+          fontFamily: defaultTheme.typography.fontFamily,
+        },
+      },
     },
     MuiCheckbox: {
       defaultProps: {

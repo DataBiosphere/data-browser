@@ -4,11 +4,10 @@ import { ComponentConfig } from "app/config/model";
 
 export const mainColumn: ComponentConfig[] = [
   {
-    component: C.Text,
+    component: C.TitledText,
     transformer: () => ({
-      children: "Main column. TBD",
-      customColor: "ink",
-      variant: "text-body-400-2lines",
+      text: ["To do."],
+      title: "Metadata Download",
     }),
-  } as ComponentConfig<typeof C.Text>,
+  } as ComponentConfig<typeof C.TitledText>,
 ];

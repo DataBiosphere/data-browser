@@ -18,6 +18,7 @@ export { Hero as ProjectHero } from "./Project/components/Hero/hero";
 export { Publications } from "./Project/components/Publications/publications";
 export { Section } from "./Project/components/Section/section";
 export { SupplementaryLinks } from "./Project/components/SupplementaryLinks/supplementaryLinks";
+export { TitledText } from "./Project/components/TitledText/titledText";
 export { Text } from "./Text/Text";
 export { TextLinks } from "./TextLinks/TextLinks";
 export { ValueBlock } from "./ValueBlock/ValueBlock";
