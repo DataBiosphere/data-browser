@@ -26,6 +26,10 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
           transformer: T.buildLibraryId,
         } as ComponentConfig<typeof C.Cell>,
         header: "Library Id",
+        sort: {
+          default: true,
+          sortKey: "library_id",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -34,6 +38,9 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
           transformer: T.buildPrepMaterialName,
         } as ComponentConfig<typeof C.Cell>,
         header: "Prep Material Name",
+        sort: {
+          sortKey: "prep_material_name",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -42,6 +49,9 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
           transformer: T.buildBioSampleTypes,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "BioSample Type",
+        sort: {
+          sortKey: "biosample_type",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -50,6 +60,9 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
           transformer: T.buildDatasetNames,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Dataset Name",
+        sort: {
+          sortKey: "title",
+        },
         width: { max: "1fr", min: "200px" },
       },
     ],

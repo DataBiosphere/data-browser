@@ -26,6 +26,10 @@ export const activitiesEntity: EntityConfig<ActivitiesResponse> = {
           transformer: T.buildDocumentId,
         } as ComponentConfig<typeof C.Cell>,
         header: "Document Id",
+        sort: {
+          default: true,
+          sortKey: "document_id",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -34,6 +38,9 @@ export const activitiesEntity: EntityConfig<ActivitiesResponse> = {
           transformer: T.buildActivityType,
         } as ComponentConfig<typeof C.Cell>,
         header: "Activity Type",
+        sort: {
+          sortKey: "activity_type",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -42,14 +49,9 @@ export const activitiesEntity: EntityConfig<ActivitiesResponse> = {
           transformer: T.buildDataModality,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Data Modality",
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        componentConfig: {
-          component: C.Cell,
-          transformer: T.buildBiosampleId,
-        } as ComponentConfig<typeof C.Cell>,
-        header: "BioSample Id",
+        sort: {
+          sortKey: "data_modality",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -58,6 +60,9 @@ export const activitiesEntity: EntityConfig<ActivitiesResponse> = {
           transformer: T.buildBiosampleType,
         } as ComponentConfig<typeof C.Cell>,
         header: "BioSample Type",
+        sort: {
+          sortKey: "biosample_type",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -66,6 +71,9 @@ export const activitiesEntity: EntityConfig<ActivitiesResponse> = {
           transformer: T.buildDatasetName,
         } as ComponentConfig<typeof C.Cell>,
         header: "Dataset Name",
+        sort: {
+          sortKey: "title",
+        },
         width: { max: "1fr", min: "200px" },
       },
     ],

@@ -26,6 +26,10 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
           transformer: T.buildBiosampleId,
         } as ComponentConfig<typeof C.Cell>,
         header: "Biosample Id",
+        sort: {
+          default: true,
+          sortKey: "biosample_id",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -34,6 +38,9 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
           transformer: T.buildBiosampleType,
         } as ComponentConfig<typeof C.Cell>,
         header: "Biosample Type",
+        sort: {
+          sortKey: "biosample_type",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -42,6 +49,9 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
           transformer: T.buildOrganismType,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Organism Type",
+        sort: {
+          sortKey: "organism_type",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -50,6 +60,9 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
           transformer: T.buildPhenotypicSex,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Phenotypic Sex",
+        sort: {
+          sortKey: "phenotypic_sex",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -58,6 +71,9 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
           transformer: T.buildAnatomicalSite,
         } as ComponentConfig<typeof C.Cell>,
         header: "Anatomical Site",
+        sort: {
+          sortKey: "anatomical_site",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -66,6 +82,9 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
           transformer: T.buildDatasetName,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Dataset Name",
+        sort: {
+          sortKey: "title",
+        },
         width: { max: "1fr", min: "200px" },
       },
     ],

@@ -26,6 +26,10 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
           transformer: T.buildDatasetName,
         } as ComponentConfig<typeof C.Cell>,
         header: "Dataset Name",
+        sort: {
+          default: true,
+          sortKey: "title",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -34,6 +38,9 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
           transformer: T.buildOrganismType,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Organism Type",
+        sort: {
+          sortKey: "organism_type",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -42,6 +49,9 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
           transformer: T.buildPhenotypicSex,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Phenotypic Sex",
+        sort: {
+          sortKey: "phenotypic_sex",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -50,6 +60,9 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
           transformer: T.buildReportedEthnicity,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Reported Ethnicity",
+        sort: {
+          sortKey: "reported_ethnicity",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -58,6 +71,9 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
           transformer: T.buildLibraryPreparation,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Library Preparation",
+        sort: {
+          sortKey: "prep_material_name",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -67,6 +83,9 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Data Modality",
         hiddenColumn: true,
+        sort: {
+          sortKey: "data_modality",
+        },
         width: { max: "1fr", min: "148px" },
       },
     ],

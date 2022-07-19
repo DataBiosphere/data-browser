@@ -25,6 +25,10 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
           transformer: T.filesToFileIdColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "File ID",
+        sort: {
+          default: true,
+          sortKey: "file_id",
+        },
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -33,6 +37,9 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
           transformer: T.filesToFileFormatColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "File Format",
+        sort: {
+          sortKey: "file_format",
+        },
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -41,6 +48,9 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
           transformer: T.filesToFileTypeColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "File Type",
+        sort: {
+          sortKey: "file_type",
+        },
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -49,6 +59,9 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
           transformer: T.filesToDataModalityColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Data Modality",
+        sort: {
+          sortKey: "data_modality",
+        },
         width: { max: "2fr", min: "240px" },
       },
       {
@@ -57,6 +70,9 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
           transformer: T.filesToDatasetNameColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Dataset Name",
+        sort: {
+          sortKey: "title",
+        },
         width: { max: "2fr", min: "240px" },
       },
     ],

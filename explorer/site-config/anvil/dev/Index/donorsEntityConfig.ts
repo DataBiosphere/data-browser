@@ -26,6 +26,10 @@ export const donorsEntityConfig: EntityConfig<LibrariesResponse> = {
           transformer: T.buildDonorId,
         } as ComponentConfig<typeof C.Cell>,
         header: "Donor Id",
+        sort: {
+          default: true,
+          sortKey: "donor_id",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -34,6 +38,9 @@ export const donorsEntityConfig: EntityConfig<LibrariesResponse> = {
           transformer: T.buildOrganismType,
         } as ComponentConfig<typeof C.Cell>,
         header: "Organism Type",
+        sort: {
+          sortKey: "organism_type",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -42,6 +49,9 @@ export const donorsEntityConfig: EntityConfig<LibrariesResponse> = {
           transformer: T.buildPhenotypicSex,
         } as ComponentConfig<typeof C.Cell>,
         header: "Phenoypic Sex",
+        sort: {
+          sortKey: "phenotypic_sex",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -50,6 +60,9 @@ export const donorsEntityConfig: EntityConfig<LibrariesResponse> = {
           transformer: T.buildReportedEthnicities,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Reported Ethnicity",
+        sort: {
+          sortKey: "reported_ethnicity",
+        },
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -58,6 +71,9 @@ export const donorsEntityConfig: EntityConfig<LibrariesResponse> = {
           transformer: T.buildDatasetNames,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Dataset Name",
+        sort: {
+          sortKey: "title",
+        },
         width: { max: "1fr", min: "200px" },
       },
     ],
