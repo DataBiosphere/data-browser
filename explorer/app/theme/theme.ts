@@ -155,6 +155,7 @@ export const theme = createTheme(defaultTheme, {
     MuiButton: {
       defaultProps: {
         disableRipple: true,
+        disableTouchRipple: true,
       },
       styleOverrides: {
         endIcon: {
@@ -193,6 +194,7 @@ export const theme = createTheme(defaultTheme, {
     MuiButtonBase: {
       defaultProps: {
         disableRipple: true,
+        disableTouchRipple: true,
       },
       styleOverrides: {
         root: {
@@ -467,6 +469,7 @@ export const theme = createTheme(defaultTheme, {
         icon: {
           fontSize: 20,
           margin: 0,
+          transition: "none",
         },
         root: {
           "&.Mui-active": {
