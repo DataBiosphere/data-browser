@@ -25,6 +25,7 @@ import logoUsagov from "images/logoUsagov.png";
 // Template constants
 const BROWSER_URL = "https://staging.anvilproject.org";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
+export const URL_DATASETS = "/datasets";
 const LOGO: Logo = {
   alt: SLOGAN,
   height: 40,
@@ -127,7 +128,7 @@ const config: SiteConfig = {
         },
         {
           label: "Datasets",
-          url: `${BROWSER_URL}/files`,
+          url: URL_DATASETS,
         },
         {
           label: "News",
