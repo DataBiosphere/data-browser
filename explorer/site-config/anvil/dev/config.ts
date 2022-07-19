@@ -10,6 +10,7 @@ import { summary } from "./Index/summary";
 // Entities config
 import { activitiesEntity } from "./activitiesEntity";
 import { biosamplesEntity } from "./biosamplesEntity";
+import { donorsEntityConfig } from "./Index/donorsEntityConfig";
 import { datasetsEntity } from "./datasetsEntity";
 import { filesEntity } from "./filesEntity";
 import { librariesEntityConfig } from "./Index/librariesEntityConfig";
@@ -64,6 +65,7 @@ const config: SiteConfig = {
   },
   entities: [
     datasetsEntity,
+    donorsEntityConfig,
     biosamplesEntity,
     librariesEntityConfig,
     activitiesEntity,
