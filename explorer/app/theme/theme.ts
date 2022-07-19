@@ -134,6 +134,7 @@ const defaultTheme = createTheme({
  * Typography constants
  */
 const textBody500 = defaultTheme.typography["text-body-500"];
+const textBodySmall400 = defaultTheme.typography["text-body-small-400"];
 
 /**
  * App theme
@@ -149,6 +150,25 @@ export const theme = createTheme(defaultTheme, {
       styleOverrides: {
         colorDefault: {
           backgroundColor: defaultTheme.palette.common.white,
+        },
+      },
+    },
+    MuiBreadcrumbs: {
+      styleOverrides: {
+        li: {
+          ...textBodySmall400,
+          "& .MuiLink-root": {
+            color: "inherit",
+          },
+        },
+        ol: {
+          gap: 2,
+        },
+        root: {
+          color: defaultTheme.palette.inkLight,
+        },
+        separator: {
+          margin: 0,
         },
       },
     },
@@ -233,7 +253,7 @@ export const theme = createTheme(defaultTheme, {
       },
       styleOverrides: {
         ntag: {
-          ...defaultTheme.typography["text-body-small-400"],
+          ...textBodySmall400,
           backgroundColor: defaultTheme.palette.smoke,
           borderColor: defaultTheme.palette.common.white,
           borderStyle: "solid",
@@ -413,11 +433,19 @@ export const theme = createTheme(defaultTheme, {
         fontSizeXsmall: {
           fontSize: "18px",
         },
+        fontSizeXxsmall: {
+          fontSize: "16px",
+        },
       },
       variants: [
         {
           props: {
             size: "xsmall",
+          },
+        },
+        {
+          props: {
+            size: "xxsmall",
           },
         },
       ],
@@ -531,7 +559,7 @@ export const theme = createTheme(defaultTheme, {
           },
         },
         tooltip: {
-          ...defaultTheme.typography["text-body-small-400"],
+          ...textBodySmall400,
           backgroundColor: defaultTheme.palette.ink,
           boxShadow:
             "0px 8px 8px -4px rgb(16 24 40 / 0.03), 0px 20px 24px -4px rgb(16 24 40 / 0.08)",

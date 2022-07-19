@@ -6,13 +6,16 @@
 import React from "react";
 
 // App dependencies
-import { Stack } from "app/components/common/Stack/Stack";
+import {
+  Breadcrumb,
+  Breadcrumbs,
+} from "../../../common/Breadcrumbs/breadcrumbs";
 import { Status, StatusBadge } from "../../../common/StatusBadge/statusBadge";
 import { HeroTitle, Title } from "../../../common/Title/title";
+import { Stack } from "app/components/common/Stack/Stack";
 
 interface Props {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- TODO breadcrumb type https://github.com/clevercanary/data-browser/issues/68
-  breadcrumbs?: any;
+  breadcrumbs?: Breadcrumb[];
   status?: Status;
   title?: HeroTitle;
 }
@@ -22,7 +25,7 @@ export const Hero = ({ breadcrumbs, status, title }: Props): JSX.Element => {
     <>
       {(breadcrumbs || title) && (
         <Stack gap={1}>
-          {/* TODO project breadcrumbs https://github.com/clevercanary/data-browser/issues/68 */}
+          {breadcrumbs && <Breadcrumbs breadcrumbs={breadcrumbs} />}
           {title && <Title title={title} />}
         </Stack>
       )}

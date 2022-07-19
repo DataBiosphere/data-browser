@@ -10,6 +10,7 @@ import {
   ProjectsResponse,
   PublicationResponse,
 } from "app/models/responses";
+import { Breadcrumb } from "../../common/Breadcrumbs/breadcrumbs";
 import { Status } from "../../common/StatusBadge/statusBadge";
 import { HeroTitle } from "../../common/Title/title";
 import { CONTRIBUTOR_ROLE } from "./constants";
@@ -24,6 +25,24 @@ import {
   SupplementaryLink,
 } from "./entities";
 import { ENTRIES } from "../../../project-edits";
+
+/**
+ * Returns project related breadcrumbs.
+ * @param firstCrumb - First breadcrumb.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns project breadcrumbs.
+ */
+export function getProjectBreadcrumbs(
+  firstCrumb: Breadcrumb,
+  projectsResponse?: ProjectsResponse
+): Breadcrumb[] {
+  const projectTitle = getProjectTitle(projectsResponse);
+  const breadcrumbs = [firstCrumb];
+  if (projectTitle) {
+    breadcrumbs.push({ path: "", text: projectTitle });
+  }
+  return breadcrumbs;
+}
 
 /**
  * Maps project collaborating organizations from API response.

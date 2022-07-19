@@ -166,6 +166,7 @@ declare module "@mui/material/Paper" {
 declare module "@mui/material/SvgIcon" {
   interface SvgIconPropsSizeOverrides {
     xsmall: true;
+    xxsmall: true;
   }
 }
 

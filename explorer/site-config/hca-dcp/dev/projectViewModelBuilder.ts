@@ -4,6 +4,7 @@ import React from "react";
 // App dependencies
 import * as C from "app/components";
 import {
+  getProjectBreadcrumbs,
   getProjectCollaboratingOrganizations,
   getProjectContacts,
   getProjectContributors,
@@ -19,6 +20,7 @@ import {
 import { ProjectsResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
 import { concatStrings } from "app/utils/string";
+import { PROJECTS_URL } from "./config";
 
 const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
@@ -122,8 +124,9 @@ export const buildDetails = (
 export const buildHero = (
   projectsResponse: ProjectsResponse
 ): React.ComponentProps<typeof C.ProjectHero> => {
+  const firstCrumb = { path: PROJECTS_URL, text: "Explore" };
   return {
-    breadcrumbs: undefined, // TODO breadcrumbs https://github.com/clevercanary/data-browser/issues/68.
+    breadcrumbs: getProjectBreadcrumbs(firstCrumb, projectsResponse),
     status: getProjectStatus(projectsResponse), // TODO status https://github.com/clevercanary/data-browser/issues/135
     title: getProjectTitle(projectsResponse),
   };
