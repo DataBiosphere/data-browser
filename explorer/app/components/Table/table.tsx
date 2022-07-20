@@ -107,6 +107,7 @@ export const Table = <T extends object>({
       const newColumn = newColumnKey<T>(sort, column);
       const newOrder = newColumnOrder(sort, newColumn);
       sort.sort(newColumn, newOrder);
+      pagination?.resetPage();
     }
   };
 
