@@ -23,6 +23,10 @@
             {
                 "name": "CELL_BROWSER",
                 "url": "https://tissue-stability.cells.ucsc.edu"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/4d74781b-8186-4c9a-b659-ff4dc4601d91"
             }
         ],
         "contributors": [
@@ -125,6 +129,10 @@
             {
                 "name": "CELL_BROWSER",
                 "url": "https://kidney-atlas.cells.ucsc.edu"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/120e86b4-1195-48c5-845b-b98054105eec"
             }
         ]
     },
@@ -475,6 +483,24 @@
             {
                 "name": "LUNGMAP_APPS",
                 "url": "https://app.lungmap.net/app/shinycell-rhesuslung"
+            }
+        ]
+    },
+    {
+        "entryId": "2af52a13-65cb-4973-b513-39be38f2df3f",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/9b02383a-9358-4f0f-9795-a891ec523bcc"
+            }
+        ]
+    },
+    {
+        "entryId": "53c53cd4-8127-4e12-bc7f-8fe1610a715c",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/e2a4a67f-6a18-431a-ab9c-6e77dd31cc80"
             }
         ]
     }
