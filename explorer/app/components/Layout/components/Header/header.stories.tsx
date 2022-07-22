@@ -106,7 +106,7 @@ HCA.args = {
     authenticationEnabled: true,
     logo: {
       alt: "Anvil",
-      height: 40,
+      height: 32,
       link: "/explore/projects",
       src: logoHca,
     },
@@ -169,7 +169,7 @@ LungMap.args = {
     authenticationEnabled: false,
     logo: {
       alt: "LungMap",
-      height: 40,
+      height: 32,
       link: "/",
       src: logoLungmap,
     },

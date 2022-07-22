@@ -19,7 +19,7 @@ const CATALOG_LM2 = "lm2";
 const PROJECTS_URL = "/projects";
 const LOGO: Logo = {
   alt: "LungMAP Data Browser",
-  height: 40,
+  height: 32,
   link: PROJECTS_URL,
   src: logoLungmap,
 };

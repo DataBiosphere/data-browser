@@ -23,7 +23,7 @@ const PAGINATION_PAGE_SIZE = "25";
 export const PROJECTS_URL = "/projects";
 const LOGO: Logo = {
   alt: "Human Cell Atlas Data Coordination Platform",
-  height: 40,
+  height: 32,
   link: BROWSER_URL,
   src: logoHca,
 };

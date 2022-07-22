@@ -140,7 +140,7 @@ LungMap.args = {
     logos: [
       {
         alt: "LungMap",
-        height: 40,
+        height: 32,
         link: "/",
         src: logoLungmap,
       },
