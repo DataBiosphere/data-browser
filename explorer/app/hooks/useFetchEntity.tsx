@@ -1,11 +1,10 @@
 import { DetailModel } from "app/models/viewModels";
-import { detail } from "app/entity/api/service";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAsync } from "./useAsync";
-import { useCurrentEntity } from "./useCurrentEntity";
 import { isSSR } from "app/utils/ssr";
 import { isDevelopment, PARAMS_INDEX_UUID } from "app/shared/constants";
+import { useFetcher } from "./useFetcher";
 
 interface UseEntityDetailResponse<T> {
   isLoading: boolean;
@@ -21,18 +20,18 @@ interface UseEntityDetailResponse<T> {
 export const useFetchEntity = <T,>(
   value?: DetailModel
 ): UseEntityDetailResponse<T> => {
-  const entity = useCurrentEntity();
+  const { detail, path, staticLoad } = useFetcher();
   const router = useRouter();
   const uuid = router.query.params?.[PARAMS_INDEX_UUID] as string;
   const { data: response, isLoading: apiIsLoading, run } = useAsync<T>();
 
   useEffect(() => {
-    if ((!entity.staticLoad || isDevelopment()) && !isSSR() && uuid) {
-      run(detail(uuid, entity.apiPath));
+    if ((!staticLoad || isDevelopment()) && !isSSR() && uuid) {
+      run(detail(uuid, path));
     }
-  }, [entity, run, uuid]);
+  }, [detail, path, run, staticLoad, uuid]);
 
-  if (entity.staticLoad) {
+  if (staticLoad) {
     return { isLoading: false, response: value?.data };
   }
 

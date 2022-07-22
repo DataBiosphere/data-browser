@@ -2,11 +2,15 @@ import hcaDcpDev from "../../site-config/hca-dcp/dev/config";
 import hcaDcpProd from "../../site-config/hca-dcp/prod/config";
 import anvilProd from "../../site-config/anvil/prod/config";
 import anvilDev from "../../site-config/anvil/dev/config";
+import anvilCatalogProd from "../../site-config/anvil-catalog/prod/config";
+import anvilCatalogDev from "../../site-config/anvil-catalog/dev/config";
 import lungMapProd from "../../site-config/lungmap/prod/config";
 import lungMapDev from "../../site-config/lungmap/dev/config";
 import { SiteConfig } from "./model";
 
 const CONFIGS: { [k: string]: SiteConfig } = {
+  "anvil-catalog-dev": anvilCatalogDev,
+  "anvil-catalog-prod": anvilCatalogProd,
   "anvil-dev": anvilDev,
   "anvil-prod": anvilProd,
   "hca-dcp-dev": hcaDcpDev,

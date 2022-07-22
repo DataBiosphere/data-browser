@@ -7,10 +7,13 @@ import React from "react";
 import { Page } from "../../app/components/Layout/components/Page/page";
 import { config } from "app/config/config";
 import { EMPTY_PAGE } from "app/entity/api/constants";
-import { listAll } from "app/entity/api/service";
 import { getCurrentEntity } from "app/hooks/useCurrentEntity";
+import { getFetcher } from "app/hooks/useFetcher";
 import { ListModel } from "../../app/models/viewModels";
 import { Index } from "app/views/Index";
+import { parseContentRows, readFile } from "app/utils/tsvParser";
+import { AnvilSourceItem } from "app/models/responses";
+import { database } from "app/utils/database";
 
 interface PageUrl extends ParsedUrlQuery {
   slug: string;
@@ -49,16 +52,30 @@ export const getStaticProps: GetStaticProps<ListModel> = async (
 ) => {
   const { slug } = context.params as PageUrl;
   const entity = getCurrentEntity(slug, config());
+  const fetcher = getFetcher(entity);
 
-  if (!entity) {
-    return {
-      notFound: true,
-    };
+  if (entity.tsv) {
+    const file = await readFile(entity.tsv.path);
+
+    if (!file) {
+      throw new Error(
+        `File ${entity.tsv.path} not found for entity ${entity.label}`
+      );
+    }
+
+    const result = await parseContentRows<AnvilSourceItem>(
+      file,
+      "\t",
+      entity.tsv.sourceFieldKey,
+      entity.tsv.sourceFieldType
+    );
+    database.get().seed(result);
   }
 
-  const resultList = entity.staticLoad
-    ? await listAll(entity.apiPath)
-    : EMPTY_PAGE;
+  const resultList =
+    entity.staticLoad || entity.tsv
+      ? await fetcher.listAll(fetcher.path)
+      : EMPTY_PAGE;
 
   return {
     props: {

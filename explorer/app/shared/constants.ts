@@ -15,6 +15,8 @@ export const DEFAULT_DETAIL_PARAMS =
 export const isDevelopment = (): boolean =>
   process.env.NODE_ENV === "development";
 
+export const PAGINATION_PAGE_SIZE = 25;
+
 /**
  * Values to determine the index for each param.
  * https://host/explore/[slug]/[param-uuid]/[param-tab]

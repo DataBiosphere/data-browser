@@ -1,12 +1,12 @@
 import { isDevelopment } from "app/shared/constants";
 import { ListModel } from "app/models/viewModels";
 import { ListResponseType } from "app/models/responses";
-import { fetchList, list } from "app/entity/api/service";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAsync } from "./useAsync";
 import { useCurrentEntity } from "./useCurrentEntity";
 import { isSSR } from "app/utils/ssr";
 import { EntityConfig } from "app/config/model";
+import { useFetcher } from "./useFetcher";
 
 export interface PaginationConfig {
   nextPage: () => void;
@@ -54,6 +54,7 @@ const getDefaultSort = (entity: EntityConfig): string | undefined => {
  */
 export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
   const entity = useCurrentEntity();
+  const { list, fetchList, path, staticLoad } = useFetcher();
   const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
   const defaultSort = useMemo(() => getDefaultSort(entity), [entity]);
   const [sortKey, setSortKey] = useState<string | undefined>(defaultSort);
@@ -67,10 +68,10 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
   } = useAsync<ListResponseType>();
 
   useEffect(() => {
-    if ((!entity.staticLoad || isDevelopment()) && !isSSR()) {
-      run(list(entity.apiPath, { order: sortOrder, sort: sortKey }));
+    if ((!staticLoad || isDevelopment()) && !isSSR()) {
+      run(list(path, { order: sortOrder, sort: sortKey }));
     }
-  }, [entity, run, sortKey, sortOrder]);
+  }, [list, path, run, sortKey, sortOrder, staticLoad]);
 
   const sort = useCallback(
     (key?: string, order?: SortOrderType) => {
@@ -85,20 +86,20 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
       setCurrentPage((s) => s + 1);
       run(fetchList(apiData?.pagination.next));
     }
-  }, [apiData?.pagination.next, run]);
+  }, [apiData?.pagination.next, fetchList, run]);
 
   const previousPage = useCallback(async () => {
     if (apiData?.pagination.previous) {
       setCurrentPage((s) => s - 1);
       run(fetchList(apiData?.pagination.previous));
     }
-  }, [apiData?.pagination.previous, run]);
+  }, [apiData?.pagination.previous, fetchList, run]);
 
   const resetPage = useCallback(() => {
     setCurrentPage(DEFAULT_CURRENT_PAGE);
   }, []);
 
-  if (entity.staticLoad) {
+  if (staticLoad) {
     return {
       isLoading: false,
       response: value?.data,
