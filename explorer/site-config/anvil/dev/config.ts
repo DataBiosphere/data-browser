@@ -49,10 +49,10 @@ const SOCIALS: Social[] = [
     type: "github",
     url: "https://github.com/anvilproject",
   },
-  // {
-  //   type: "slack",
-  //   url: "https://join.slack.com/t/anvil-community/shared_invite/zt-hsyfam1w-LXlCv~3vNLSfDj~qNd5uBg",
-  // },
+  {
+    type: "slack",
+    url: "https://join.slack.com/t/anvil-community/shared_invite/zt-hsyfam1w-LXlCv~3vNLSfDj~qNd5uBg",
+  },
 ];
 
 const config: SiteConfig = {
