@@ -395,4 +395,6 @@ def show_plot_over_time(titles, xlabels, metrics, format_table=True, df_filter=N
 	
 	if format_table:
 		return format_change_over_time_table(df, **other_params)
+	else:
+		return df
 
