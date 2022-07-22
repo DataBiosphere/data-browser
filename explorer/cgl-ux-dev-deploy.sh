@@ -16,6 +16,7 @@ rm -rf ./build
 mkdir -p build/explore/anvil
 mkdir -p build/explore/hca
 mkdir -p build/explore/lungmap
+mkdir -p build/explore/anvil-catalog
 
 # Build AnVIL
 rm -rf ./out
@@ -27,11 +28,15 @@ rm -rf ./out
 npm run build:hca-dcp
 mv out/* build/explore/hca
 
-
+## Build Lungmap
 rm -rf ./out
 npm run build:lungmap
 mv out/* build/explore/lungmap
 
+# Build AnVIL Catalog
+rm -rf ./out
+npm run build:anvil-catalog
+mv out/* build/explore/anvil-catalog
 
 export BUCKET=s3://ux-dev.explore.singlecell.gi.ucsc.edu/
 export SRCDIR=build/

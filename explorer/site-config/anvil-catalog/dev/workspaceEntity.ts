@@ -16,7 +16,7 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
     tabs: [],
     top: [],
   },
-  label: "Workspace",
+  label: "Workspaces",
   list: {
     columns: [
       {

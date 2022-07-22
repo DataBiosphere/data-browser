@@ -26,9 +26,9 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files
-.env*.local
-.env.deployment
-.env.production
+/.env*.local
+/.env.development
+/.env.production
 
 # vercel
 .vercel
@@ -44,3 +44,4 @@ _templates
 
 # nvm
 .nvmrc
+
