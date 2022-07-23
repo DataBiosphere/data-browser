@@ -7,13 +7,9 @@
 import React from "react";
 
 // App dependencies
-import { useConfig } from "app/hooks/useConfig";
-import { Footer } from "../Footer/footer";
-import { Header } from "../Header/header";
 import { Main } from "../Main/main";
 
 // Styles
-import { PageLayout } from "./page.styles";
 import { EntityConfig } from "app/config/model";
 import { CurrentEntityProvider } from "app/hooks/useCurrentEntity";
 
@@ -23,14 +19,9 @@ interface PageProps {
 }
 
 export const Page = ({ children, entity }: PageProps): JSX.Element => {
-  const config = useConfig();
   return (
-    <PageLayout>
-      <CurrentEntityProvider value={entity}>
-        <Header header={config.layout.header} />
-        <Main>{children}</Main>
-        <Footer footer={config.layout.footer} />
-      </CurrentEntityProvider>
-    </PageLayout>
+    <CurrentEntityProvider value={entity}>
+      <Main>{children}</Main>
+    </CurrentEntityProvider>
   );
 };

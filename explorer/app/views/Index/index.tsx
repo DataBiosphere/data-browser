@@ -76,7 +76,7 @@ export const Index = (props: ListModel): JSX.Element => {
    */
   const onTabChange = (tabValue: TabValue): void => {
     setTabsValue(tabValue); // Set state tabsValue prior to route change to indicate selection success.
-    push(tabValue);
+    push(`/${tabValue}`);
     pagination?.resetPage();
   };
 

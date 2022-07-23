@@ -6,14 +6,23 @@ import { ThemeProvider } from "@mui/material/styles";
 import { ConfigProvider } from "app/components/Config/Config";
 import { config } from "app/config/config";
 import type { AppProps } from "next/app";
+import { Footer } from "app/components/Layout/components/Footer/footer";
+import { Header } from "app/components/Layout/components/Header/header";
+import { AppLayout } from "app/components/Layout/components/AppLayout/appLayout";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+  const currenctConfig = config();
+  const currentLayout = currenctConfig.layout;
   return (
     <Emotion10ThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
-        <ConfigProvider value={config()}>
+        <ConfigProvider value={currenctConfig}>
           <CssBaseline />
-          <Component {...pageProps} />
+          <AppLayout>
+            <Header header={currentLayout.header} />
+            <Component {...pageProps} />
+            <Footer footer={currentLayout.footer} />
+          </AppLayout>
         </ConfigProvider>
       </ThemeProvider>
     </Emotion10ThemeProvider>
