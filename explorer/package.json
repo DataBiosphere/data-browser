@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev:ncpi-catalog": "cp ./site-config/ncpi-catalog/dev/.env .env.development && next dev",
+    "build:ncpi-catalog": "cp ./site-config/ncpi-catalog/prod/.env .env.production && next build && next export",
     "dev:anvil-catalog": "cp ./site-config/anvil-catalog/dev/.env .env.development && next dev",
     "build:anvil-catalog": "cp ./site-config/anvil-catalog/prod/.env .env.production && next build && next export",
     "dev:lungmap": "cp ./site-config/lungmap/dev/.env .env.development && next dev",
