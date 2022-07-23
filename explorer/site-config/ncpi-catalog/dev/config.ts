@@ -39,6 +39,7 @@ const SOCIALS: Social[] = [
 const config: SiteConfig = {
   ...anvilConfig,
   entities: [studiesEntity],
+  entityTitle: "NCPI Dataset Catalog",
   layout: {
     footer: anvilConfig.layout.footer,
     header: {

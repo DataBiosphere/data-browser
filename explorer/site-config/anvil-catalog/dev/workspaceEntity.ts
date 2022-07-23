@@ -22,34 +22,18 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
       {
         componentConfig: {
           component: C.Text,
-          transformer: T.workspaceToStudyNameColumn,
-        } as ComponentConfig<typeof C.Text>,
-        header: "Study name",
-        width: { max: "1fr", min: "120px" },
-      },
-      {
-        componentConfig: {
-          component: C.Text,
           transformer: T.workspaceToConsortiaColumn,
         } as ComponentConfig<typeof C.Text>,
-        header: "Consortia",
+        header: "Consortium",
         width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
           component: C.Text,
-          transformer: T.workspaceToDiseaseColumn,
+          transformer: T.workspaceToStudyNameColumn,
         } as ComponentConfig<typeof C.Text>,
-        header: "Disease",
-        width: { max: "1fr", min: "120px" },
-      },
-      {
-        componentConfig: {
-          component: C.Text,
-          transformer: T.workspaceToDataTypeColumn,
-        } as ComponentConfig<typeof C.Text>,
-        header: "Data type",
-        width: { max: "2fr", min: "240px" },
+        header: "Terra Workspace Name",
+        width: { max: "1fr", min: "360px" },
       },
       {
         componentConfig: {
@@ -58,6 +42,14 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
         } as ComponentConfig<typeof C.Text>,
         header: "Disease (indication)",
         width: { max: "2fr", min: "240px" },
+      },
+      {
+        componentConfig: {
+          component: C.Text,
+          transformer: T.workspaceToDataTypeColumn,
+        } as ComponentConfig<typeof C.Text>,
+        header: "Data type",
+        width: { max: "2fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -73,7 +65,7 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
           transformer: T.workspaceToParticipantsColumn,
         } as ComponentConfig<typeof C.Text>,
         header: "Participants",
-        width: { max: "2fr", min: "240px" },
+        width: { max: "2fr", min: "120px" },
       },
     ],
   } as ListConfig<AnvilSourceItem>,

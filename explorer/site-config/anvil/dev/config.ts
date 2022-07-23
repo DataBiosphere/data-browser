@@ -72,7 +72,7 @@ const config: SiteConfig = {
     activitiesEntity,
     filesEntity,
   ],
-  entityTitle: "Anvil Dataset Catalog",
+  entityTitle: "Anvil Data Explorer",
   layout: {
     footer: {
       logos: [
