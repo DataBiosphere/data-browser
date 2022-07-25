@@ -444,6 +444,15 @@
         ]
     },
     {
+        "entryId": "e9f36305-d857-44a3-93f0-df4e6007dc97",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/8191c283-0816-424b-9b61-c3e1d6258a77"
+            }
+        ]
+    },
+    {
         "entryId": "00f056f2-73ff-43ac-97ff-69ca10e38c89",
         "analysisPortals": [
             {
