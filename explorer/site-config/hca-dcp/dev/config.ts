@@ -5,7 +5,7 @@ import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/model";
 
 // Summary config
-import { summary } from "./Index/summary";
+import { summary } from "./index/summary";
 
 // Entities config
 import { filesEntity } from "./filesEntity";

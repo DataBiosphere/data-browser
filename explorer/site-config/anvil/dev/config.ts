@@ -5,15 +5,15 @@ import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/model";
 
 // Summary config
-import { summary } from "./Index/summary";
+import { summary } from "./index/summary";
 
 // Entities config
 import { activitiesEntity } from "./activitiesEntity";
 import { biosamplesEntity } from "./biosamplesEntity";
-import { donorsEntityConfig } from "./Index/donorsEntityConfig";
+import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { datasetsEntity } from "./datasetsEntity";
 import { filesEntity } from "./filesEntity";
-import { librariesEntityConfig } from "./Index/librariesEntityConfig";
+import { librariesEntityConfig } from "./index/librariesEntityConfig";
 
 // Images
 import logoAnvil from "images/logoAnvil.png";

@@ -7,9 +7,9 @@ import {
 } from "../../../app/config/model";
 import { DatasetsResponse } from "app/models/responses";
 import * as T from "./datasetsViewModelBuilder";
-import { mainColumn } from "./detail/donor/overviewMainColumn"; // TODO revisit naming here and for side
-import { sideColumn } from "./detail/donor/overviewSideColumn";
-import { top } from "./detail/donor/top";
+import { mainColumn } from "./detail/dataset/overviewMainColumn"; // TODO revisit naming here and for side
+import { sideColumn } from "./detail/dataset/overviewSideColumn";
+import { top } from "./detail/dataset/top";
 
 /**
  * Entity config object responsible to config anything related to the /explore/datasets route.
