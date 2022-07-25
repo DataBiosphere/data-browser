@@ -22,3 +22,11 @@ export const IconButtonSecondary = styled(IconButton)`
   }
 }
 `;
+
+// Drawer backdrop close icon button.
+export const CloseDrawerIconButton = styled(IconButton)`
+  color: ${({ theme }) => theme.palette.common.white};
+  left: calc(100% + 4px);
+  position: absolute;
+  top: 4px;
+`;

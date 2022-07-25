@@ -289,6 +289,13 @@ export const theme = createTheme(defaultTheme, {
         },
       },
     },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          overflowY: "visible", // required; allows backdrop button to render outside of drawer container
+        },
+      },
+    },
     MuiFormControlLabel: {
       styleOverrides: {
         label: {
@@ -395,6 +402,14 @@ export const theme = createTheme(defaultTheme, {
         },
       },
     },
+    MuiModal: {
+      styleOverrides: {
+        backdrop: {
+          backgroundColor: defaultTheme.palette.ink,
+          opacity: "0.8 !important",
+        },
+      },
+    },
     MuiPaper: {
       styleOverrides: {
         footer: {
@@ -415,6 +430,11 @@ export const theme = createTheme(defaultTheme, {
           display: "grid",
           gap: 1,
         },
+        sidebar: {
+          backgroundColor: defaultTheme.palette.smokeLight,
+          padding: "24px 0",
+          width: 312,
+        },
       },
       variants: [
         {
@@ -425,6 +445,9 @@ export const theme = createTheme(defaultTheme, {
         },
         {
           props: { variant: "panel" },
+        },
+        {
+          props: { variant: "sidebar" },
         },
       ],
     },

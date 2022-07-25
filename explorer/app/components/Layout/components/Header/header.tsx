@@ -1,14 +1,7 @@
 // Core dependencies
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import {
-  AppBar,
-  Box,
-  Divider,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, IconButton, Toolbar, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 // App dependencies
@@ -25,6 +18,9 @@ import {
   BREAKPOINT_FN_NAME,
   useBreakpointHelper,
 } from "../../../../hooks/useBreakpointHelper";
+
+// Styles
+import { Header as AppBar } from "./header.styles";
 
 // Template variables
 export const HEADER_HEIGHT = 56;
@@ -57,7 +53,7 @@ export const Header = ({ header }: Props): JSX.Element => {
   }, [desktop]);
 
   return (
-    <AppBar sx={{ borderBottom: 1, borderColor: "smoke" }}>
+    <AppBar>
       <Toolbar sx={{ gap: 4, height: HEADER_HEIGHT }} variant="dense">
         {/* Logo */}
         <Logo logo={logo} />
