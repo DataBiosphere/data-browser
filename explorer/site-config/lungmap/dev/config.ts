@@ -8,7 +8,7 @@ import { SiteConfig } from "../../../app/config/model";
 import logoLungmap from "images/logoLungmap.png";
 
 // Summary config
-import { summary } from "./Index/summary";
+import { summary } from "./index/summary";
 
 // Config
 import hcaConfig from "site-config/hca-dcp/dev/config";
