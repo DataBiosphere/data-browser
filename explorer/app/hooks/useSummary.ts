@@ -1,12 +1,12 @@
-import { SummaryResponse } from "./../models/responses";
 import { summary as loadSummary } from "app/entity/api/service";
 import { useEffect } from "react";
 import { useAsync } from "./useAsync";
 import { useConfig } from "./useConfig";
+import { AzulSummaryResponse } from "../apis/azul/common/entities";
 
 interface UseSummaryResponse {
   isLoading: boolean;
-  response?: SummaryResponse;
+  response?: AzulSummaryResponse;
 }
 
 /**
@@ -19,7 +19,7 @@ export const useSummary = (): UseSummaryResponse => {
     data: response,
     isLoading: apiIsLoading,
     run,
-  } = useAsync<SummaryResponse>();
+  } = useAsync<AzulSummaryResponse>();
 
   useEffect(() => {
     if (summary) {

@@ -1,11 +1,11 @@
 // App dependencies
 import { METADATA_KEY, SUMMARY } from "./entities";
-import { SummaryResponse } from "../../../models/responses";
 import {
   calculateSummaryFileFormatsCount,
   calculateSummaryTotalCellCount,
   getSummaryCount,
 } from "./utils";
+import { AzulSummaryResponse } from "../../../apis/azul/common/entities";
 
 // Template constants
 const {
@@ -24,15 +24,15 @@ const { DONORS, ESTIMATED_CELLS, FILES, FILE_FORMATS, SPECIES, SPECIMENS } =
  * Functions binding summary response API to summary count.
  */
 export const BIND_SUMMARY_RESPONSE = {
-  [DONORS]: (r: SummaryResponse): number =>
+  [DONORS]: (r: AzulSummaryResponse): number =>
     getSummaryCount(r, SUMMARY_KEY.DONORS),
   [ESTIMATED_CELLS]: calculateSummaryTotalCellCount,
-  [FILES]: (r: SummaryResponse): number =>
+  [FILES]: (r: AzulSummaryResponse): number =>
     getSummaryCount(r, SUMMARY_KEY.FILES),
   [FILE_FORMATS]: calculateSummaryFileFormatsCount,
-  [SPECIES]: (r: SummaryResponse): number =>
+  [SPECIES]: (r: AzulSummaryResponse): number =>
     getSummaryCount(r, SUMMARY_KEY.SPECIES),
-  [SPECIMENS]: (r: SummaryResponse): number =>
+  [SPECIMENS]: (r: AzulSummaryResponse): number =>
     getSummaryCount(r, SUMMARY_KEY.SPECIMENS),
 };
 

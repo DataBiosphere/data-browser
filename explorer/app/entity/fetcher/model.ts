@@ -1,18 +1,24 @@
 // App
 import { ListParams } from "app/models/params";
-import { ListResponseType, SummaryResponse } from "app/models/responses";
+import {
+  AzulEntitiesResponse,
+  AzulSummaryResponse,
+} from "../../apis/azul/common/entities";
 
 /**
  * Object that has all necessary functions to fetch data to fill listing and detail pages
  * for each entity
  */
 export interface Fetcher {
-  list: (apiPath: string, listParams?: ListParams) => Promise<ListResponseType>;
+  list: (
+    apiPath: string,
+    listParams?: ListParams
+  ) => Promise<AzulEntitiesResponse>;
   listAll: (
     apiPath: string,
     listParams?: ListParams
-  ) => Promise<ListResponseType>;
-  fetchList: (url: string) => Promise<ListResponseType>;
+  ) => Promise<AzulEntitiesResponse>;
+  fetchList: (url: string) => Promise<AzulEntitiesResponse>;
   detail: (
     id: string,
     apiPath: string,
@@ -22,7 +28,7 @@ export interface Fetcher {
   summary: (
     apiPath: string,
     param?: { [key: string]: string }
-  ) => Promise<SummaryResponse>;
+  ) => Promise<AzulSummaryResponse>;
 }
 
 /**

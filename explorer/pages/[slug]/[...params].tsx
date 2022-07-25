@@ -8,16 +8,16 @@ import { Page } from "../../app/components/Layout/components/Page/page";
 import { config } from "app/config/config";
 import { getFetcher } from "app/hooks/useFetcher";
 import { getCurrentEntity } from "app/hooks/useCurrentEntity";
-import { DetailModel } from "../../app/models/viewModels";
 import { Project } from "../../app/views/Project/project";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
+import { AzulEntityStaticResponse } from "../../app/apis/azul/common/entities";
 
 interface PageUrl extends ParsedUrlQuery {
   slug: string;
   params: string[];
 }
 
-interface ProjectPageProps extends DetailModel {
+interface ProjectPageProps extends AzulEntityStaticResponse {
   slug: string;
 }
 
@@ -69,7 +69,7 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<DetailModel> = async ({
+export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   params,
 }: GetStaticPropsContext) => {
   const { slug } = params as PageUrl;

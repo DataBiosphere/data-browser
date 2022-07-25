@@ -17,8 +17,10 @@ import { useFetchEntities } from "app/hooks/useFetchEntities";
 import { useSummary } from "app/hooks/useSummary";
 import { Index as IndexView } from "../../components/Index/index";
 import { EntityConfig, SummaryConfig } from "../../config/model";
-import { SummaryResponse } from "../../models/responses";
-import { ListModel } from "../../models/viewModels";
+import {
+  AzulEntitiesStaticResponse,
+  AzulSummaryResponse,
+} from "../../apis/azul/common/entities";
 
 /**
  * Returns tabs to be used as a prop for the Tabs component.
@@ -43,7 +45,7 @@ function getTabs(entities: EntityConfig[]): Tab[] {
  */
 function renderSummary(
   summaryConfig: SummaryConfig,
-  summaryResponse?: SummaryResponse
+  summaryResponse?: AzulSummaryResponse
 ): JSX.Element | undefined {
   if (!summaryConfig || !summaryResponse) {
     return;
@@ -57,7 +59,7 @@ function renderSummary(
   );
 }
 
-export const Index = (props: ListModel): JSX.Element => {
+export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
   const entity = useCurrentEntity();
   const route = entity?.route;
   const [tabsValue, setTabsValue] = useState<TabsValue>(route);

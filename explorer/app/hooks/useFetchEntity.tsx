@@ -1,8 +1,8 @@
-import { DetailModel } from "app/models/viewModels";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useAsync } from "./useAsync";
+import { AzulEntityStaticResponse } from "../apis/azul/common/entities";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
+import { useAsync } from "./useAsync";
 import { useFetcher } from "./useFetcher";
 
 interface UseEntityDetailResponse<T> {
@@ -17,7 +17,7 @@ interface UseEntityDetailResponse<T> {
  * @returns Object with the loaded data and a flag indicating is the data is loading.
  */
 export const useFetchEntity = <T,>(
-  value?: DetailModel
+  value?: AzulEntityStaticResponse
 ): UseEntityDetailResponse<T> => {
   const { detail, path, staticLoad } = useFetcher();
   const router = useRouter();

@@ -9,7 +9,10 @@ import {
   URL,
 } from "../../shared/constants";
 import { ListParams } from "../../models/params";
-import { ListResponseType, SummaryResponse } from "../../models/responses";
+import {
+  AzulEntitiesResponse,
+  AzulSummaryResponse,
+} from "../../apis/azul/common/entities";
 
 /**
  * Request to get a list of entities.
@@ -20,7 +23,7 @@ import { ListResponseType, SummaryResponse } from "../../models/responses";
 export const list = async (
   apiPath: string,
   listParams?: ListParams
-): Promise<ListResponseType> => {
+): Promise<AzulEntitiesResponse> => {
   const params = { ...DEFAULT_LIST_PARAMS, ...listParams };
   return await fetchList(`${URL}${apiPath}?${convertUrlParams(params)}`);
 };
@@ -30,7 +33,7 @@ export const list = async (
  * @param url - Absolute URL to be used on the request
  * @returns JSON representation of request list.
  */
-export const fetchList = async (url: string): Promise<ListResponseType> => {
+export const fetchList = async (url: string): Promise<AzulEntitiesResponse> => {
   const res = await fetch(url);
   return await res.json();
 };
@@ -44,18 +47,18 @@ export const fetchList = async (url: string): Promise<ListResponseType> => {
 export const listAll = async (
   apiPath: string,
   listParams?: ListParams
-): Promise<ListResponseType> => {
+): Promise<AzulEntitiesResponse> => {
   let hits = [];
   const result = await list(apiPath, listParams);
   hits = result.hits;
   let nextPage = result.pagination.next;
   while (nextPage) {
     const resNextPage = await fetch(nextPage);
-    const nextPageJson: ListResponseType = await resNextPage.json();
+    const nextPageJson: AzulEntitiesResponse = await resNextPage.json();
     nextPage = nextPageJson.pagination.next;
     hits = [...hits, ...nextPageJson.hits];
   }
-  return { ...result, hits } as ListResponseType;
+  return { ...result, hits } as AzulEntitiesResponse;
 };
 
 /**
@@ -86,7 +89,7 @@ export const detail = async (
 export const summary = async (
   apiPath: string,
   param = DEFAULT_DETAIL_PARAMS
-): Promise<SummaryResponse> => {
+): Promise<AzulSummaryResponse> => {
   const res = await fetch(`${URL}${apiPath}?${convertUrlParams({ ...param })}`);
   return await res.json();
 };

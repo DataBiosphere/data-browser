@@ -9,17 +9,17 @@ import { config } from "app/config/config";
 import { EMPTY_PAGE } from "app/entity/api/constants";
 import { getCurrentEntity } from "app/hooks/useCurrentEntity";
 import { getFetcher } from "app/hooks/useFetcher";
-import { ListModel } from "../../app/models/viewModels";
 import { Index } from "app/views/Index";
 import { parseContentRows, readFile } from "app/utils/tsvParser";
 import { AnvilSourceItem } from "app/models/responses";
 import { database } from "app/utils/database";
+import { AzulEntitiesStaticResponse } from "../../app/apis/azul/common/entities";
 
 interface PageUrl extends ParsedUrlQuery {
   slug: string;
 }
 
-interface ListPageProps extends ListModel {
+interface ListPageProps extends AzulEntitiesStaticResponse {
   slug: string;
 }
 
@@ -47,9 +47,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<ListModel> = async (
-  context: GetStaticPropsContext
-) => {
+export const getStaticProps: GetStaticProps<
+  AzulEntitiesStaticResponse
+> = async (context: GetStaticPropsContext) => {
   const { slug } = context.params as PageUrl;
   const entity = getCurrentEntity(slug, config());
   const fetcher = getFetcher(entity);

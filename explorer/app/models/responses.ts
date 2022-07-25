@@ -155,31 +155,6 @@ export interface FilesResponse {
 }
 
 /**
- * Model of index response type, such as projects (index/projects), samples (index/samples) and files (index/files).
- * TODO(cc) possibly standardize ListX naming convention to IndexX?
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- this type can't be determined beforehand
-export interface ListResponseType<T = any> extends PaginatedResponse {
-  hits: T[];
-}
-
-/**
- * Base index response interface, implemented by specific index responses.
- */
-interface PaginatedResponse {
-  pagination: {
-    count: number;
-    total: number;
-    size: number;
-    next?: string;
-    previous?: string;
-    pages: number;
-    sort?: string;
-    order?: "asc" | "desc";
-  };
-}
-
-/**
  * Model of project value nested in response returned from index/projects API endpoint.
  */
 export interface ProjectResponse {
@@ -257,40 +232,6 @@ export interface SamplesResponse {
     sampleEntityType: string;
     organ: string;
   }[];
-}
-
-/**
- * Model of response returned from /index/summary API endpoint.
- */
-export interface SummaryResponse {
-  cellCountSummaries: {
-    countOfDocsWithOrganType: number;
-    organType: string[];
-    totalCellCountByOrgan: number;
-  }[];
-  donorCount: number;
-  fileCount: number;
-  fileFormats?: FileFormatResponse[]; // TODO revisit AnVIL specific.
-  fileTypeSummaries: {
-    count: number;
-    format: string;
-    matrixCellCount: number;
-    totalSize: number;
-  }[];
-  labCount: number;
-  organTypes: string[];
-  projectCount: number;
-  projects: {
-    cellSuspensions?: {
-      totalCells?: number;
-    };
-    projects: {
-      estimatedCellCount: number;
-    };
-  }[];
-  speciesCount: number;
-  specimenCount: number;
-  totalFileSize: number;
 }
 
 /**

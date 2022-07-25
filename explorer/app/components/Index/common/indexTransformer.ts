@@ -5,8 +5,8 @@ import {
   SUMMARY_LABEL,
 } from "./constants";
 import { METADATA_KEY, SUMMARY, Summary } from "./entities";
-import { SummaryResponse } from "../../../models/responses";
 import { formatCountSize } from "./utils";
+import { AzulSummaryResponse } from "../../../apis/azul/common/entities";
 
 /**
  * Returns the pluralized metadata label for the specified metadata.
@@ -27,7 +27,7 @@ export function getPluralizedMetadataLabel(
  */
 export function getSummaries(
   summaries: Array<keyof typeof SUMMARY>,
-  summaryResponse: SummaryResponse
+  summaryResponse: AzulSummaryResponse
 ): Summary[] {
   return summaries.map((summary) => {
     const summaryBinderFn = BIND_SUMMARY_RESPONSE[summary];

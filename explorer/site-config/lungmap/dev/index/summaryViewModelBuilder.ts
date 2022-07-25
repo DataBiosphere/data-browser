@@ -4,7 +4,7 @@ import React from "react";
 // App dependencies
 import * as C from "../../../../app/components";
 import { getSummaries } from "../../../../app/components/Index/common/indexTransformer";
-import { SummaryResponse } from "app/models/responses";
+import { AzulSummaryResponse } from "../../../../app/apis/azul/common/entities";
 import { SUMMARIES } from "./common/constants";
 
 /**
@@ -13,7 +13,7 @@ import { SUMMARIES } from "./common/constants";
  * @returns model to be used as props for the Summaries component.
  */
 export const buildSummaries = (
-  summaryResponse: SummaryResponse
+  summaryResponse: AzulSummaryResponse
 ): React.ComponentProps<typeof C.Summaries> => {
   return {
     summaries: getSummaries(SUMMARIES, summaryResponse),

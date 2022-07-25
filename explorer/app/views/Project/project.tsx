@@ -16,7 +16,7 @@ import {
   TabValue,
 } from "../../components/common/Tabs/tabs";
 import { EntityConfig } from "../../config/model";
-import { DetailModel } from "../../models/viewModels";
+import { AzulEntityStaticResponse } from "../../apis/azul/common/entities";
 
 /**
  * Returns tabs to be used as a prop for the Tabs component.
@@ -30,7 +30,7 @@ function getTabs(entity: EntityConfig): Tab[] {
   }));
 }
 
-export const Project = (props: DetailModel): JSX.Element => {
+export const Project = (props: AzulEntityStaticResponse): JSX.Element => {
   const { currentTab, route: tabRoute } = useCurrentDetailTab();
   const entity = useCurrentEntity();
   const { response, isLoading } = useFetchEntity(props);

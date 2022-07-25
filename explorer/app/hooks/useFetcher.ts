@@ -1,4 +1,4 @@
-import { Fetcher } from "./../entity/fetcher/model";
+import { Fetcher } from "../entity/fetcher/model";
 import { EntityConfig } from "../config/model";
 import { create } from "../entity/fetcher/factory";
 import { useCurrentEntity } from "./useCurrentEntity";

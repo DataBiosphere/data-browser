@@ -1,6 +1,6 @@
 // App dependencies
 import { MetadataValue } from "./entities";
-import { SummaryResponse } from "../../../models/responses";
+import { AzulSummaryResponse } from "../../../apis/azul/common/entities";
 
 /**
  * Calculates the summary file format count using count values returned for each file format in the summary response.
@@ -8,7 +8,7 @@ import { SummaryResponse } from "../../../models/responses";
  * @returns count of file formats.
  */
 export function calculateSummaryFileFormatsCount(
-  summaryResponse: SummaryResponse
+  summaryResponse: AzulSummaryResponse
 ): number {
   return (summaryResponse.fileFormats ?? []).reduce((accum, { count }) => {
     return accum + count;
@@ -21,7 +21,7 @@ export function calculateSummaryFileFormatsCount(
  * @returns count of total cell count.
  */
 export function calculateSummaryTotalCellCount(
-  summaryResponse: SummaryResponse
+  summaryResponse: AzulSummaryResponse
 ): number {
   return (summaryResponse.projects ?? []).reduce(
     (accum, { cellSuspensions, projects }) => {
@@ -88,8 +88,8 @@ export function formatCountSize(value: number): string {
  * @returns count of specified summary property key.
  */
 export function getSummaryCount(
-  summaryResponse: SummaryResponse,
-  summaryKey: keyof SummaryResponse
+  summaryResponse: AzulSummaryResponse,
+  summaryKey: keyof AzulSummaryResponse
 ): number {
   return summaryResponse[summaryKey] as number;
 }

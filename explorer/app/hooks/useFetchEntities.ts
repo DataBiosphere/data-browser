@@ -1,11 +1,13 @@
-import { ListModel } from "app/models/viewModels";
-import { ListResponseType } from "app/models/responses";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAsync } from "./useAsync";
 import { useCurrentEntity } from "./useCurrentEntity";
 import { EntityConfig } from "app/config/model";
 import { useFetcher } from "./useFetcher";
 import { useResetableState } from "./useResetableState";
+import {
+  AzulEntitiesStaticResponse,
+  AzulEntitiesResponse,
+} from "../apis/azul/common/entities";
 
 export interface PaginationConfig {
   nextPage: () => void;
@@ -25,7 +27,7 @@ export interface SortConfig {
 }
 
 interface UseEntityListResponse {
-  response?: ListResponseType;
+  response?: AzulEntitiesResponse;
   isLoading: boolean;
   pagination?: PaginationConfig;
   sort?: SortConfig;
@@ -51,7 +53,9 @@ const getDefaultSort = (entity: EntityConfig): string | undefined => {
  * @param value - Statically loaded data, if any.
  * @returns An object with the loaded data and a flag indicating is the data is loading.
  */
-export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
+export const useFetchEntities = (
+  value?: AzulEntitiesStaticResponse
+): UseEntityListResponse => {
   const entity = useCurrentEntity();
   const { list, fetchList, path, staticLoad } = useFetcher();
   const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
@@ -67,7 +71,7 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
     isLoading: apiIsLoading,
     run,
     isIdle,
-  } = useAsync<ListResponseType>();
+  } = useAsync<AzulEntitiesResponse>();
 
   useEffect(() => {
     if (!staticLoad) {
