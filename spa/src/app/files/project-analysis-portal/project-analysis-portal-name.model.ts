@@ -10,5 +10,7 @@ export enum ProjectAnalysisPortalName {
     "CELLXGENE" = "cellxgene",
     "GENOME_BROWSER" = "UCSC Genome Browser",
     "LUNGMAP_APPS" = "LungMAP Apps",
+    "SHINY" = "Shiny",
     "STEM_CELL_HUB" = "The Stem Cell Hub",
+    "TOPPCELL" = "ToppCell",
 }

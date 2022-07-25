@@ -435,6 +435,15 @@
         ]
     },
     {
+        "entryId": "e9f36305-d857-44a3-93f0-df4e6007dc97",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/8191c283-0816-424b-9b61-c3e1d6258a77"
+            }
+        ]
+    },
+    {
         "entryId": "9c20a245-f2c0-43ae-82c9-2232ec6b594f",
         "analysisPortals": [
             {
@@ -452,7 +461,15 @@
             },
             {
                 "name": "LUNGMAP_APPS",
+                "url": "https://lungmap.net/breath-omics-experiment-page/?experimentTypeId=LMXT0000000016&experimentId=LMEX0000004391&analysisId=LMAN0000000348&view=entitySet"
+            },
+            {
+                "name": "SHINY",
                 "url": "https://app.lungmap.net/app/shinycell-mm-timecourse"
+            },
+            {
+                "name": "TOPPCELL",
+                "url": "https://toppcell.cchmc.org/biosystems/go/index3/shred/czidl/Lungmap/Output%20by%20developmental_time%20by%20Lineage%20by%20Cell%20group%20by%20Cell%20type-2"
             }
         ]
     },
