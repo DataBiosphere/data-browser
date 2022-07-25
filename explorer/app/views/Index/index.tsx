@@ -81,7 +81,7 @@ export const Index = (props: ListModel): JSX.Element => {
   };
 
   const renderContent = (): JSX.Element => {
-    if (isLoading || !response) {
+    if (!response) {
       return <></>; //TODO: return the loading UI component
     }
 
@@ -97,6 +97,7 @@ export const Index = (props: ListModel): JSX.Element => {
         total={response.pagination.pages}
         pagination={pagination}
         sort={sort}
+        loading={isLoading}
       />
     );
   };

@@ -1,12 +1,11 @@
-import { isDevelopment } from "app/shared/constants";
 import { ListModel } from "app/models/viewModels";
 import { ListResponseType } from "app/models/responses";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAsync } from "./useAsync";
 import { useCurrentEntity } from "./useCurrentEntity";
-import { isSSR } from "app/utils/ssr";
 import { EntityConfig } from "app/config/model";
 import { useFetcher } from "./useFetcher";
+import { useResetableState } from "./useResetableState";
 
 export interface PaginationConfig {
   nextPage: () => void;
@@ -57,7 +56,9 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
   const { list, fetchList, path, staticLoad } = useFetcher();
   const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
   const defaultSort = useMemo(() => getDefaultSort(entity), [entity]);
-  const [sortKey, setSortKey] = useState<string | undefined>(defaultSort);
+  const [sortKey, setSortKey] = useResetableState<string | undefined>(
+    defaultSort
+  );
   const [sortOrder, setsortOrder] = useState<SortOrderType | undefined>(
     defaultSort ? "asc" : undefined
   );
@@ -65,10 +66,11 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
     data: apiData,
     isLoading: apiIsLoading,
     run,
+    isIdle,
   } = useAsync<ListResponseType>();
 
   useEffect(() => {
-    if ((!staticLoad || isDevelopment()) && !isSSR()) {
+    if (!staticLoad) {
       run(list(path, { order: sortOrder, sort: sortKey }));
     }
   }, [list, path, run, sortKey, sortOrder, staticLoad]);
@@ -78,20 +80,20 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
       setSortKey(key ?? defaultSort);
       setsortOrder(order);
     },
-    [defaultSort]
+    [defaultSort, setSortKey]
   );
 
   const nextPage = useCallback(async () => {
     if (apiData?.pagination.next) {
       setCurrentPage((s) => s + 1);
-      run(fetchList(apiData?.pagination.next));
+      run(fetchList(apiData.pagination.next));
     }
   }, [apiData?.pagination.next, fetchList, run]);
 
   const previousPage = useCallback(async () => {
     if (apiData?.pagination.previous) {
       setCurrentPage((s) => s - 1);
-      run(fetchList(apiData?.pagination.previous));
+      run(fetchList(apiData.pagination.previous));
     }
   }, [apiData?.pagination.previous, fetchList, run]);
 
@@ -107,7 +109,7 @@ export const useFetchEntities = (value?: ListModel): UseEntityListResponse => {
   }
 
   return {
-    isLoading: apiIsLoading || !apiData,
+    isLoading: apiIsLoading || isIdle,
     pagination: {
       canNextPage: !!apiData?.pagination.next,
       canPreviousPage: !!apiData?.pagination.previous,

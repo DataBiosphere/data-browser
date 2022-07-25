@@ -12,6 +12,7 @@ import { Table } from "../Table/table";
 interface TableCreatorProps<T> {
   columns: ColumnConfig<T>[];
   items: T[];
+  loading?: boolean;
   pageSize: number;
   pagination?: PaginationConfig;
   sort?: SortConfig;
@@ -63,6 +64,7 @@ export const TableCreator = <T extends object>({
   pagination,
   sort,
   total,
+  loading,
 }: TableCreatorProps<T>): JSX.Element => {
   const { editColumns, visibleColumns } = useEditColumns(columns);
   const gridTemplateColumns = getGridTemplateColumnsValue(visibleColumns);
@@ -88,6 +90,7 @@ export const TableCreator = <T extends object>({
       pagination={pagination}
       sort={sort}
       total={total}
+      loading={loading}
     />
   );
 };

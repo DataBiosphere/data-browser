@@ -2,8 +2,7 @@ import { DetailModel } from "app/models/viewModels";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAsync } from "./useAsync";
-import { isSSR } from "app/utils/ssr";
-import { isDevelopment, PARAMS_INDEX_UUID } from "app/shared/constants";
+import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { useFetcher } from "./useFetcher";
 
 interface UseEntityDetailResponse<T> {
@@ -23,10 +22,15 @@ export const useFetchEntity = <T,>(
   const { detail, path, staticLoad } = useFetcher();
   const router = useRouter();
   const uuid = router.query.params?.[PARAMS_INDEX_UUID] as string;
-  const { data: response, isLoading: apiIsLoading, run } = useAsync<T>();
+  const {
+    data: response,
+    isLoading: apiIsLoading,
+    isIdle,
+    run,
+  } = useAsync<T>();
 
   useEffect(() => {
-    if ((!staticLoad || isDevelopment()) && !isSSR() && uuid) {
+    if (!staticLoad && uuid) {
       run(detail(uuid, path));
     }
   }, [detail, path, run, staticLoad, uuid]);
@@ -36,7 +40,7 @@ export const useFetchEntity = <T,>(
   }
 
   return {
-    isLoading: apiIsLoading || !response,
+    isLoading: apiIsLoading || isIdle,
     response,
   };
 };
