@@ -9,10 +9,12 @@ import { ConfigProvider } from "app/components/Config/Config";
 import { Footer } from "app/components/Layout/components/Footer/footer";
 import { Header } from "app/components/Layout/components/Header/header";
 import { config } from "app/config/config";
-import type { AppProps } from "next/app";
 
 // Styles
 import { AppLayout } from "app/components/Layout/components/AppLayout/appLayout.styles";
+import { Main } from "app/components/Layout/components/Main/main.styles";
+
+import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const currenctConfig = config();
@@ -24,7 +26,9 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           <CssBaseline />
           <AppLayout>
             <Header header={currentLayout.header} />
-            <Component {...pageProps} />
+            <Main>
+              <Component {...pageProps} />
+            </Main>
             <Footer footer={currentLayout.footer} />
           </AppLayout>
         </ConfigProvider>
