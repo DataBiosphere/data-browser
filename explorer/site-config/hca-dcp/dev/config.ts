@@ -54,7 +54,7 @@ const config: SiteConfig = {
     },
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [projectsEntity, filesEntity, samplesEntity],
+  entities: [projectsEntity, samplesEntity, filesEntity],
   entityTitle: "Explore Data: DCP 2.0 Data View",
   layout: {
     footer: {

@@ -7,19 +7,19 @@ import {
 } from "../../../app/config/model";
 import { ProjectsResponse } from "app/models/responses";
 import { getProjectId } from "app/transformers/hca";
-import { mainColumn as overviewMainColumn } from "./overviewMainColumn";
-import { mainColumn as metadataMainColumn } from "./metadataMainColumn";
-import { mainColumn as matricesMainColumn } from "./matricesMainColumn";
-import { mainColumn as projectFilesMainColumn } from "./projectFilesMainColumn";
-import { mainColumn as exportMainColumn } from "./exportMainColumn";
+import { mainColumn as overviewMainColumn } from "./detail/project/overviewMainColumn";
+import { mainColumn as metadataMainColumn } from "./detail/project/metadataMainColumn";
+import { mainColumn as matricesMainColumn } from "./detail/project/matricesMainColumn";
+import { mainColumn as projectFilesMainColumn } from "./detail/project/projectFilesMainColumn";
+import { mainColumn as exportMainColumn } from "./detail/project/exportMainColumn";
 import * as T from "./projectsViewModelBuilder";
 import * as B from "./projectViewModelBuilder";
-import { sideColumn as overviewSideColumn } from "./overviewSideColumn";
-import { sideColumn as metadataSideColumn } from "./metadataSideColumn";
-import { sideColumn as matricesSideColumn } from "./matricesSideColumn";
-import { sideColumn as projectFilesSideColumn } from "./projectFilesSideColumn";
-import { sideColumn as exportSideColumn } from "./exportSideColumn";
-import { top } from "./top";
+import { sideColumn as overviewSideColumn } from "./detail/project/overviewSideColumn";
+import { sideColumn as metadataSideColumn } from "./detail/project/metadataSideColumn";
+import { sideColumn as matricesSideColumn } from "./detail/project/matricesSideColumn";
+import { sideColumn as projectFilesSideColumn } from "./detail/project/projectFilesSideColumn";
+import { sideColumn as exportSideColumn } from "./detail/project/exportSideColumn";
+import { top } from "./detail/project/top";
 import { PROJECTS_LABEL } from "./constants";
 
 /**

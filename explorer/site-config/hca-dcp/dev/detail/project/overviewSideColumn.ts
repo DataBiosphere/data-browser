@@ -1,7 +1,7 @@
 import { ComponentConfig } from "app/config/model";
-import * as C from "../../../app/components";
+import * as C from "../../../../../app/components";
 import { ProjectsResponse } from "app/models/responses";
-import * as T from "./projectViewModelBuilder";
+import * as T from "../../projectViewModelBuilder";
 
 export const sideColumn = [
   {
