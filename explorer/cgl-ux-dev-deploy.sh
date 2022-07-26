@@ -11,6 +11,9 @@ rm -rf ./out
 echo \"Deleting ./build/\"
 rm -rf ./build
 
+n 16.15.1
+npm ci
+
 #./insert-gtm-snippet.sh
 
 mkdir -p build/explore/anvil
