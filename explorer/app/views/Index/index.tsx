@@ -60,15 +60,23 @@ function renderSummary(
 }
 
 export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
+  // Determine the current entity (e.g. projects, files, samples) and config.
   const entity = useCurrentEntity();
-  const route = entity?.route;
-  const [tabsValue, setTabsValue] = useState<TabsValue>(route);
   const { entities, entityTitle, summary } = useConfig();
+
+  const route = entity?.route;
+  const { push } = useRouter();
+
+  // Init tabs state.
+  const [tabsValue, setTabsValue] = useState<TabsValue>(route);
+  const tabs = getTabs(entities);
+
+  // Fetch summary and entities.
   const { response: summaryResponse } = useSummary();
   const { isLoading, pagination, response, sort } = useFetchEntities(props);
-  const { push } = useRouter();
+
+  // Grab the column config for the current entity.
   const columnsConfig = entity?.list?.columns;
-  const tabs = getTabs(entities);
 
   /**
    * Callback fired when selected tab value changes.
@@ -82,6 +90,10 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
     pagination?.resetPage();
   };
 
+  /**
+   * Render either a loading view, empty result set notification or the table itself.
+   * @returns Element to render.
+   */
   const renderContent = (): JSX.Element => {
     if (!response) {
       return <></>; //TODO: return the loading UI component

@@ -34,6 +34,9 @@ const IndexPage = ({ slug, ...props }: ListPageProps): JSX.Element => {
   );
 };
 
+/**
+ * Build the list of paths to be built statically.
+ */
 export const getStaticPaths: GetStaticPaths = async () => {
   const entities = config().entities;
   const paths = entities.map((entity) => ({
@@ -47,6 +50,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+/**
+ * Build the set of props for pre-rendering of page.
+ * @param context - Object containing values related to the current context.
+ */
 export const getStaticProps: GetStaticProps<
   AzulEntitiesStaticResponse
 > = async (context: GetStaticPropsContext) => {

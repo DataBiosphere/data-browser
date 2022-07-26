@@ -20,6 +20,7 @@ export const list = async (): Promise<AzulEntitiesResponse> => {
       size: PAGINATION_PAGE_SIZE,
       total: items.length,
     },
+    termFacets: {},
   });
 };
 

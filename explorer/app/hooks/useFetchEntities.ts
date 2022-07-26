@@ -57,15 +57,23 @@ export const useFetchEntities = (
   value?: AzulEntitiesStaticResponse
 ): UseEntityListResponse => {
   const entity = useCurrentEntity();
+
+  // Determine type of fetch to be executed, either endpoint or TSV.
   const { fetchList, list, path, staticLoad } = useFetcher();
+
+  // Init pagination-related state.
   const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
+
+  // Init sort.
   const defaultSort = useMemo(() => getDefaultSort(entity), [entity]);
   const [sortKey, setSortKey] = useResetableState<string | undefined>(
     defaultSort
   );
-  const [sortOrder, setsortOrder] = useState<SortOrderType | undefined>(
+  const [sortOrder, setSortOrder] = useState<SortOrderType | undefined>(
     defaultSort ? "asc" : undefined
   );
+
+  // Init fetch of entities.
   const {
     data: apiData,
     isIdle,
@@ -73,20 +81,23 @@ export const useFetchEntities = (
     run,
   } = useAsync<AzulEntitiesResponse>();
 
+  // Execute fetch of entities.
   useEffect(() => {
     if (!staticLoad) {
       run(list(path, { order: sortOrder, sort: sortKey }));
     }
   }, [list, path, run, sortKey, sortOrder, staticLoad]);
 
+  // Handle change of sort.
   const sort = useCallback(
     (key?: string, order?: SortOrderType) => {
       setSortKey(key ?? defaultSort);
-      setsortOrder(order);
+      setSortOrder(order);
     },
     [defaultSort, setSortKey]
   );
 
+  // Create callback for next page action.
   const nextPage = useCallback(async () => {
     if (apiData?.pagination.next) {
       setCurrentPage((s) => s + 1);
@@ -94,6 +105,7 @@ export const useFetchEntities = (
     }
   }, [apiData?.pagination.next, fetchList, run]);
 
+  // Create callback for previous page action.
   const previousPage = useCallback(async () => {
     if (apiData?.pagination.previous) {
       setCurrentPage((s) => s - 1);
@@ -105,6 +117,8 @@ export const useFetchEntities = (
     setCurrentPage(DEFAULT_CURRENT_PAGE);
   }, []);
 
+  // Exit if we're dealing with a statically-loaded entity; data has already been fetched during build; indicate
+  // load is complete and return static data.
   if (staticLoad) {
     return {
       isLoading: false,
@@ -112,6 +126,7 @@ export const useFetchEntities = (
     };
   }
 
+  // Otherwise return the fetching, pagination and sort state.
   return {
     isLoading: apiIsLoading || isIdle,
     pagination: {
