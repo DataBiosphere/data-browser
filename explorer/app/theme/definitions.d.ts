@@ -128,6 +128,7 @@ declare module "@mui/material/Checkbox" {
  */
 declare module "@mui/material/Chip" {
   interface ChipPropsVariantOverrides {
+    filterTag: true;
     ntag: true;
     status: true;
   }

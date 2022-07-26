@@ -135,6 +135,7 @@ const defaultTheme = createTheme({
  */
 const textBody500 = defaultTheme.typography["text-body-500"];
 const textBodySmall400 = defaultTheme.typography["text-body-small-400"];
+const textBodySmall500 = defaultTheme.typography["text-body-small-500"];
 
 /**
  * App theme
@@ -252,6 +253,22 @@ export const theme = createTheme(defaultTheme, {
         size: "small",
       },
       styleOverrides: {
+        deleteIcon: {
+          color: "inherit",
+          margin: "0 -2px 0 0",
+        },
+        filterTag: {
+          ...textBodySmall500,
+          cursor: "pointer", // "pointer" cursor required to restore "clickable" ui
+          gap: 2,
+          height: 24,
+          justifySelf: "flex-start",
+          padding: "0 8px",
+          // eslint-disable-next-line sort-keys -- disabling key order for readability
+          "& .MuiChip-label": {
+            padding: 0,
+          },
+        },
         ntag: {
           ...textBodySmall400,
           backgroundColor: defaultTheme.palette.smoke,
@@ -263,7 +280,7 @@ export const theme = createTheme(defaultTheme, {
           height: 24,
         },
         status: {
-          ...defaultTheme.typography["text-body-small-500"],
+          ...textBodySmall500,
           borderColor: defaultTheme.palette.common.white,
           borderStyle: "solid",
           borderWidth: 2,
@@ -271,6 +288,9 @@ export const theme = createTheme(defaultTheme, {
         },
       },
       variants: [
+        {
+          props: { variant: "filterTag" },
+        },
         {
           props: { variant: "ntag" },
         },
@@ -507,7 +527,7 @@ export const theme = createTheme(defaultTheme, {
           ...defaultTheme.typography["text-body-400"],
         },
         head: {
-          ...defaultTheme.typography["text-body-small-500"],
+          ...textBodySmall500,
         },
         root: {
           color: defaultTheme.palette.ink,
