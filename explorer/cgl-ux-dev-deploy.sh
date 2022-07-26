@@ -22,28 +22,28 @@ mkdir -p build/explore/ncpi-catalog
 # Build AnVIL
 rm -rf ./out
 npm run build:anvil
-mv out/* build/explore/anvil
+mv out/explore/* build/explore/anvil
 
 # Build HCA
 rm -rf ./out
 npm run build:hca-dcp
-mv out/* build/explore/hca
+mv out/explore/* build/explore/hca
 
-## Build Lungmap
+## Build Lungmapå
 rm -rf ./out
 npm run build:lungmap
-mv out/* build/explore/lungmap
+mv out/explore/* build/explore/lungmap
 
 # Build AnVIL Catalog
 rm -rf ./out
 npm run build:anvil-catalog
-mv out/* build/explore/anvil-catalog
+mv out/explore/* build/explore/anvil-catalog
 
 
 # Build AnVIL Catalog
 rm -rf ./out
 npm run build:ncpi-catalog
-mv out/* build/explore/ncpi-catalog
+mv out/explore/* build/explore/ncpi-catalog
 
 
 export BUCKET=s3://ux-dev.explore.singlecell.gi.ucsc.edu/
