@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { Container, Wrapper } from "./ShowMore.styles";
 
 interface ShowMoreProps {
+  buttonLabelHide?: string;
+  buttonLabelShow?: string;
+  children: React.ReactNode | React.ReactNode[];
   lineHeight?: number;
   maxLines: number;
-  buttonLabelShow?: string;
-  buttonLabelHide?: string;
-  children: React.ReactNode | React.ReactNode[];
 }
 
 export const ShowMore = ({

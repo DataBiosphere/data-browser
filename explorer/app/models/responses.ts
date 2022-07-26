@@ -53,16 +53,16 @@ export interface FileFormatResponse {
  * Model of response returned from /index/files API endpoint.
  */
 export interface FilesResponse {
-  projects: {
-    projectTitle: string[];
-    estimatedCellCount?: number;
-  }[];
   files: {
-    name: string;
-    uuid: string;
-    format: string;
-    size: number;
     contentDescription: string[];
+    format: string;
+    name: string;
+    size: number;
+    uuid: string;
+  }[];
+  projects: {
+    estimatedCellCount?: number;
+    projectTitle: string[];
   }[];
 }
 
@@ -85,33 +85,33 @@ export interface ProjectResponse {
  * Model of response returned from /index/projects API endpoint.
  */
 export interface ProjectsResponse {
-  entryId: string;
-  protocols: {
-    workflow?: string[];
-    libraryConstructionApproach?: string[];
-    nucleicAcidSource?: string[];
-    pairedEnd?: boolean[];
-  }[];
-  fileTypeSummaries: {
-    format: string;
-    count: number;
-  }[];
-  donorOrganisms: {
-    genusSpecies: string[];
-    disease: string[];
-    developmentStage: string[];
-    donorCount: number;
-  }[];
-  samples: {
-    sampleEntityType: string[];
-    organ: string[];
-    organPart: string[];
-    disease: string[];
-  }[];
   cellSuspensions?: {
     totalCells: number;
   }[];
+  donorOrganisms: {
+    developmentStage: string[];
+    disease: string[];
+    donorCount: number;
+    genusSpecies: string[];
+  }[];
+  entryId: string;
+  fileTypeSummaries: {
+    count: number;
+    format: string;
+  }[];
   projects: ProjectResponse[];
+  protocols: {
+    libraryConstructionApproach?: string[];
+    nucleicAcidSource?: string[];
+    pairedEnd?: boolean[];
+    workflow?: string[];
+  }[];
+  samples: {
+    disease: string[];
+    organ: string[];
+    organPart: string[];
+    sampleEntityType: string[];
+  }[];
 }
 
 /**
@@ -128,21 +128,21 @@ export interface PublicationResponse {
  * Model of response returned from /index/samples API endpoint.
  */
 export interface SamplesResponse {
+  donorOrganisms: {
+    disease: string[];
+    genusSpecies: string[];
+  }[];
+  projects: {
+    estimatedCellCount?: number;
+    projectTitle: string[];
+  }[];
   protocols: {
     libraryConstructionApproach: string[];
   }[];
-  projects: {
-    projectTitle: string[];
-    estimatedCellCount?: number;
-  }[];
-  donorOrganisms: {
-    genusSpecies: string[];
-    disease: string[];
-  }[];
   samples: {
     id: string;
-    sampleEntityType: string;
     organ: string;
+    sampleEntityType: string;
   }[];
 }
 
@@ -150,16 +150,12 @@ export interface SamplesResponse {
  * Model to represent anvil's TSV file
  */
 export interface AnvilSourceItem {
-  name: string;
-  status: string;
   bucketName: string;
   bucketSize: number;
   COL: string;
   consentLongName: string;
   consentTitle: string;
   consortium: string;
-  "library:datatype": string;
-  "library:dataUseRestriction": string;
   discoveryCount: number;
   diseaseText?: string;
   DS: string;
@@ -167,9 +163,13 @@ export interface AnvilSourceItem {
   GRU: string;
   GSO: string;
   HMB: string;
-  "library:indication": string;
   IRB: string;
+  "library:datatype": string;
+  "library:dataUseRestriction": string;
+  "library:indication": string;
+  "library:studyDesign": string;
   MDS: string;
+  name: string;
   NPU: string;
   NRES: string;
   participantCount: number;
@@ -177,7 +177,7 @@ export interface AnvilSourceItem {
   PUB: string;
   requestorPays: boolean;
   sampleCount: number;
-  "library:studyDesign": string;
+  status: string;
   subjectCount: number;
 }
 

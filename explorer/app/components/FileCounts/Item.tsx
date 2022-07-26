@@ -3,8 +3,8 @@ import { Text } from "../Text/Text";
 import { ItemContainer } from "./FileCounts.styles";
 
 export interface ItemProps {
-  name: string;
   count: string | number;
+  name: string;
 }
 
 export const Item = ({ count, name }: ItemProps): JSX.Element => {

@@ -3,9 +3,9 @@ import React from "react";
 import { Item } from "./Item";
 
 interface LinksProps {
-  links: { url: string; label: string }[];
-  showCopyButton?: boolean;
   enumerate?: boolean;
+  links: { label: string; url: string }[];
+  showCopyButton?: boolean;
 }
 
 export const Links = ({

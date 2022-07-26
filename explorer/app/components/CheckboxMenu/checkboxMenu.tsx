@@ -17,9 +17,9 @@ export interface CheckboxMenuItem {
 
 interface Props {
   label: string;
-  readOnly?: string[];
   onItemSelectionChange: (id: string) => void;
   options: CheckboxMenuItem[];
+  readOnly?: string[];
   selected: string[];
 }
 

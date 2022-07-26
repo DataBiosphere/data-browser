@@ -4,11 +4,11 @@ import { Text } from "../Text/Text";
 import { IconContainer, ItemContainer } from "./IconList.styles";
 
 export interface ItemProps {
-  label?: string;
   icon: {
-    path: ImageSrc;
     alt: string;
+    path: ImageSrc;
   };
+  label?: string;
 }
 
 export const Item = ({ label, icon }: ItemProps): JSX.Element => {

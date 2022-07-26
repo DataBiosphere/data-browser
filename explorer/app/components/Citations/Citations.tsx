@@ -2,8 +2,8 @@ import React from "react";
 import { Item, ItemProps } from "./Item";
 
 interface CitationsProps {
-  citations: ItemProps[];
   align?: "right" | "left";
+  citations: ItemProps[];
 }
 
 export const Citations = ({

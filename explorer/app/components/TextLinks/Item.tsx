@@ -4,8 +4,8 @@ import Link from "next/link";
 import { ItemContainer } from "./TextLinks.styles";
 
 export interface ItemProps {
+  link?: { label: string; url: string };
   text: string;
-  link?: { url: string; label: string };
 }
 
 export const Item = ({ text, link }: ItemProps): JSX.Element => {

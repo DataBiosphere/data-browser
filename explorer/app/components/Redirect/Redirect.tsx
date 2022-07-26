@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 interface RedirectProps {
-  replace?: boolean;
   destination: string;
+  replace?: boolean;
 }
 
 export const Redirect = ({

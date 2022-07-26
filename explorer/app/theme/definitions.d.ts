@@ -35,6 +35,7 @@ declare module "@mui/material/styles/createPalette" {
  * Breakpoint and typography definitions.
  */
 declare module "@mui/material/styles" {
+  /* eslint-disable typescript-sort-keys/interface -- disabling for readability */
   interface BreakpointOverrides {
     xs: false;
     sm: false;
@@ -45,6 +46,7 @@ declare module "@mui/material/styles" {
     [BREAKPOINT.DESKTOP]: true;
     [BREAKPOINT.TABLET]: true;
   }
+  /* eslint-enable typescript-sort-keys/interface -- disabling for readability */
 
   /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
   interface TypographyVariants {

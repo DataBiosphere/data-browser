@@ -9,12 +9,12 @@ import { Stack as Stacker, StackProps } from "@mui/material";
 import React, { ReactNode } from "react";
 
 interface Props {
+  alignItems?: StackProps["alignItems"];
   children: ReactNode | ReactNode[];
   direction?: StackProps["direction"];
   divider?: StackProps["divider"];
-  justifyContent?: StackProps["justifyContent"];
-  alignItems?: StackProps["alignItems"];
   gap?: number;
+  justifyContent?: StackProps["justifyContent"];
   spacing?: number;
 }
 

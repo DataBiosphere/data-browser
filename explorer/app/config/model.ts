@@ -22,15 +22,15 @@ interface TabConfig {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
 export interface EntityConfig<D = any> extends TabConfig {
   apiPath?: string;
+  detail: DetailConfig;
+  getId?: GetIdFunction<D>;
+  list: ListConfig;
+  staticLoad?: boolean;
   tsv?: {
     path: string;
     sourceFieldKey: { [key: string]: string };
     sourceFieldType: { [key: string]: string };
   };
-  getId?: GetIdFunction<D>;
-  staticLoad?: boolean;
-  detail: DetailConfig;
-  list: ListConfig;
 }
 
 /**
@@ -45,9 +45,9 @@ export interface ComponentConfig<
   T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any> = any,
   D = any
 > {
+  children?: ComponentConfig[];
   component: React.FC<React.ComponentProps<T>>;
   props?: React.ComponentProps<T>;
-  children?: ComponentConfig[];
   transformer?: (model: D) => React.ComponentProps<T>;
 }
 
@@ -65,10 +65,10 @@ export type ComponentsConfig =
  * Interface to determine the API URL and version
  */
 export interface DataSourceConfig {
-  defaultListParams?: {
+  defaultDetailParams?: {
     [key: string]: string;
   };
-  defaultDetailParams?: {
+  defaultListParams?: {
     [key: string]: string;
   };
   url: string;
@@ -104,14 +104,14 @@ export interface ColumnConfig<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
   C extends keyof JSX.IntrinsicElements | JSXElementConstructor<any> = any
 > {
-  header: string;
-  tooltip?: string;
-  sort?: {
-    sortKey: string;
-    default?: boolean;
-  };
   componentConfig: ComponentConfig<C, T>;
+  header: string;
   hiddenColumn?: boolean;
+  sort?: {
+    default?: boolean;
+    sortKey: string;
+  };
+  tooltip?: string;
   width: GridTrackSize;
 }
 

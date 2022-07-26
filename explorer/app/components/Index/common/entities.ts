@@ -23,8 +23,8 @@ export type MetadataValue = string;
 export enum SUMMARY {
   DONORS = "DONORS",
   ESTIMATED_CELLS = "ESTIMATED_CELLS",
-  FILES = "FILES",
   FILE_FORMATS = "FILE_FORMATS",
+  FILES = "FILES",
   SPECIES = "SPECIES",
   SPECIMENS = "SPECIMENS",
 }

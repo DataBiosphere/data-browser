@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "sonarjs", "jsdoc"],
+  "plugins": ["@typescript-eslint", "sonarjs", "jsdoc", "typescript-sort-keys"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -20,6 +20,17 @@
         "minKeys": 2,
         "natural": false
       }
+    ],
+
+    "typescript-sort-keys/interface": [
+      "error",
+      "asc",
+      { "caseSensitive": false }
+    ],
+    "typescript-sort-keys/string-enum": [
+      "error",
+      "asc",
+      { "caseSensitive": false }
     ],
 
     "eslint-comments/require-description": "error",

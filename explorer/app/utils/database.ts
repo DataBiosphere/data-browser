@@ -4,9 +4,9 @@ type GetByFunction<T> = (value: T) => boolean;
  * Database interface which contains all database functions available to the app
  */
 interface Database<T> {
+  all: () => T[];
   find: (getById: GetByFunction<T>) => T | undefined;
   seed: (newItems: T[]) => void;
-  all: () => T[];
 }
 
 /**

@@ -10,6 +10,13 @@ import {
  * for each entity
  */
 export interface Fetcher {
+  detail: (
+    id: string,
+    apiPath: string,
+    param?: { [key: string]: string }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This type can't be known before hand
+  ) => Promise<any>;
+  fetchList: (url: string) => Promise<AzulEntitiesResponse>;
   list: (
     apiPath: string,
     listParams?: ListParams
@@ -18,13 +25,6 @@ export interface Fetcher {
     apiPath: string,
     listParams?: ListParams
   ) => Promise<AzulEntitiesResponse>;
-  fetchList: (url: string) => Promise<AzulEntitiesResponse>;
-  detail: (
-    id: string,
-    apiPath: string,
-    param?: { [key: string]: string }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This type can't be known before hand
-  ) => Promise<any>;
   summary: (
     apiPath: string,
     param?: { [key: string]: string }

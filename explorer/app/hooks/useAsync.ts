@@ -26,9 +26,9 @@ const useSafeDispatch = <T>(dispatch: (args: T) => void) => {
 type Error = { message: string };
 
 interface State<T> {
-  status: "idle" | "pending" | "rejected" | "resolved";
   data?: T;
   error?: Error;
+  status: "idle" | "pending" | "rejected" | "resolved";
 }
 
 /**

@@ -3,9 +3,9 @@ import { Citation, ItemContainer } from "./Citations.styles";
 import { Text } from "../Text/Text";
 
 export interface ItemProps {
-  value: string;
-  citation?: string;
   align?: "right" | "left";
+  citation?: string;
+  value: string;
 }
 
 export const Item = ({ value, citation, align }: ItemProps): JSX.Element => {

@@ -6,9 +6,9 @@ import copy from "copy-to-clipboard";
 import { Text } from "../Text/Text";
 
 interface ItemProps {
-  link: { url: string; label: string };
-  showCopyButton?: boolean;
+  link: { label: string; url: string };
   number?: number;
+  showCopyButton?: boolean;
 }
 
 export const Item = ({

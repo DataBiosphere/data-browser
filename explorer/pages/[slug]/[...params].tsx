@@ -13,8 +13,8 @@ import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { AzulEntityStaticResponse } from "../../app/apis/azul/common/entities";
 
 interface PageUrl extends ParsedUrlQuery {
-  slug: string;
   params: string[];
+  slug: string;
 }
 
 interface ProjectPageProps extends AzulEntityStaticResponse {

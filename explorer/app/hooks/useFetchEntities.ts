@@ -10,12 +10,12 @@ import {
 } from "../apis/azul/common/entities";
 
 export interface PaginationConfig {
-  nextPage: () => void;
-  previousPage: () => void;
-  resetPage: () => void;
   canNextPage: boolean;
   canPreviousPage: boolean;
   currentPage: number;
+  nextPage: () => void;
+  previousPage: () => void;
+  resetPage: () => void;
 }
 
 export type SortOrderType = "asc" | "desc";
@@ -27,9 +27,9 @@ export interface SortConfig {
 }
 
 interface UseEntityListResponse {
-  response?: AzulEntitiesResponse;
   isLoading: boolean;
   pagination?: PaginationConfig;
+  response?: AzulEntitiesResponse;
   sort?: SortConfig;
 }
 

@@ -38,13 +38,13 @@ export interface AzulEntityStaticResponse<T = any> {
 interface AzulPaginationResponse {
   pagination: {
     count: number;
-    total: number;
-    size: number;
     next?: string;
-    previous?: string;
-    pages: number;
-    sort?: string;
     order?: "asc" | "desc";
+    pages: number;
+    previous?: string;
+    size: number;
+    sort?: string;
+    total: number;
   };
 }
 
