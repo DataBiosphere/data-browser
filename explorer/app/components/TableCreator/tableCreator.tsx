@@ -60,11 +60,11 @@ const createCell = <T extends object>(config: ColumnConfig<T>) =>
 export const TableCreator = <T extends object>({
   columns,
   items,
+  loading,
   pageSize,
   pagination,
   sort,
   total,
-  loading,
 }: TableCreatorProps<T>): JSX.Element => {
   const { editColumns, visibleColumns } = useEditColumns(columns);
   const gridTemplateColumns = getGridTemplateColumnsValue(visibleColumns);

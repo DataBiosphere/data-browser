@@ -70,11 +70,11 @@ export const Table = <T extends object>({
   editColumns,
   gridTemplateColumns,
   items,
+  loading,
   pageSize,
   pagination,
   sort,
   total,
-  loading,
 }: TableProps<T>): JSX.Element => {
   const {
     canNextPage: tableCanNextPage,

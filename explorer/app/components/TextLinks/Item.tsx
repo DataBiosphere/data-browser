@@ -8,7 +8,7 @@ export interface ItemProps {
   text: string;
 }
 
-export const Item = ({ text, link }: ItemProps): JSX.Element => {
+export const Item = ({ link, text }: ItemProps): JSX.Element => {
   return (
     <ItemContainer>
       <Text variant="text-body-400-2lines" customColor="ink">

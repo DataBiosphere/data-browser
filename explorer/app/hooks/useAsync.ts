@@ -39,7 +39,7 @@ interface State<T> {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- TODO revisit return type here
 export const useAsync = <T>(state: State<T> = { status: "idle" }) => {
   const initialStateRef = useRef<State<T>>(state);
-  const [{ status, data, error }, setState] = useReducer(
+  const [{ data, error, status }, setState] = useReducer(
     (s: State<T>, a: State<T>) => ({ ...s, ...a }),
     initialStateRef.current
   );

@@ -24,8 +24,8 @@ export const useFetchEntity = <T,>(
   const uuid = router.query.params?.[PARAMS_INDEX_UUID] as string;
   const {
     data: response,
-    isLoading: apiIsLoading,
     isIdle,
+    isLoading: apiIsLoading,
     run,
   } = useAsync<T>();
 

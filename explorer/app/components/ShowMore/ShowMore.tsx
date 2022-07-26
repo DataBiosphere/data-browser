@@ -11,11 +11,11 @@ interface ShowMoreProps {
 }
 
 export const ShowMore = ({
-  children,
-  maxLines,
-  lineHeight = 23,
-  buttonLabelShow = "Read More",
   buttonLabelHide = "Hide",
+  buttonLabelShow = "Read More",
+  children,
+  lineHeight = 23,
+  maxLines,
 }: ShowMoreProps): JSX.Element => {
   const [open, setOpen] = useState(false);
   return (

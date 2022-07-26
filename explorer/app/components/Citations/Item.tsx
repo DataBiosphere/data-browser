@@ -8,7 +8,7 @@ export interface ItemProps {
   value: string;
 }
 
-export const Item = ({ value, citation, align }: ItemProps): JSX.Element => {
+export const Item = ({ align, citation, value }: ItemProps): JSX.Element => {
   return (
     <ItemContainer>
       {citation && align === "left" && <Citation>{citation}</Citation>}

@@ -65,7 +65,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
   const [tabsValue, setTabsValue] = useState<TabsValue>(route);
   const { entities, entityTitle, summary } = useConfig();
   const { response: summaryResponse } = useSummary();
-  const { response, isLoading, pagination, sort } = useFetchEntities(props);
+  const { isLoading, pagination, response, sort } = useFetchEntities(props);
   const { push } = useRouter();
   const columnsConfig = entity?.list?.columns;
   const tabs = getTabs(entities);

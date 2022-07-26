@@ -61,6 +61,7 @@
     "eslint-plugin-jsdoc": "^39.3.3",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-sonarjs": "^0.13.0",
+    "eslint-plugin-sort-destructure-keys": "^1.4.0",
     "eslint-plugin-storybook": "^0.5.11",
     "eslint-plugin-typescript-sort-keys": "^2.1.0",
     "husky": "^8.0.0",

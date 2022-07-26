@@ -11,7 +11,7 @@ export interface ItemProps {
   label?: string;
 }
 
-export const Item = ({ label, icon }: ItemProps): JSX.Element => {
+export const Item = ({ icon, label }: ItemProps): JSX.Element => {
   return (
     <ItemContainer>
       <IconContainer>

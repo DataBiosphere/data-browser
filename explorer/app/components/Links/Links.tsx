@@ -9,8 +9,8 @@ interface LinksProps {
 }
 
 export const Links = ({
-  links,
   enumerate,
+  links,
   showCopyButton,
 }: LinksProps): JSX.Element => {
   return (

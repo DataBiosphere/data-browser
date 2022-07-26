@@ -1,6 +1,12 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "sonarjs", "jsdoc", "typescript-sort-keys"],
+  "plugins": [
+    "@typescript-eslint",
+    "sonarjs",
+    "jsdoc",
+    "sort-destructure-keys",
+    "typescript-sort-keys"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -21,20 +27,27 @@
         "natural": false
       }
     ],
-
+    "sort-destructure-keys/sort-destructure-keys": [
+      "error",
+      {
+        "caseSensitive": false
+      }
+    ],
     "typescript-sort-keys/interface": [
       "error",
       "asc",
-      { "caseSensitive": false }
+      {
+        "caseSensitive": false
+      }
     ],
     "typescript-sort-keys/string-enum": [
       "error",
       "asc",
-      { "caseSensitive": false }
+      {
+        "caseSensitive": false
+      }
     ],
-
     "eslint-comments/require-description": "error",
-
     "jsdoc/require-description": "error",
     "jsdoc/require-param": "error",
     "jsdoc/require-param-name": "error",

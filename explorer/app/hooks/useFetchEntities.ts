@@ -57,7 +57,7 @@ export const useFetchEntities = (
   value?: AzulEntitiesStaticResponse
 ): UseEntityListResponse => {
   const entity = useCurrentEntity();
-  const { list, fetchList, path, staticLoad } = useFetcher();
+  const { fetchList, list, path, staticLoad } = useFetcher();
   const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
   const defaultSort = useMemo(() => getDefaultSort(entity), [entity]);
   const [sortKey, setSortKey] = useResetableState<string | undefined>(
@@ -68,9 +68,9 @@ export const useFetchEntities = (
   );
   const {
     data: apiData,
+    isIdle,
     isLoading: apiIsLoading,
     run,
-    isIdle,
   } = useAsync<AzulEntitiesResponse>();
 
   useEffect(() => {

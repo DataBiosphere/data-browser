@@ -7,8 +7,8 @@ interface CitationsProps {
 }
 
 export const Citations = ({
-  citations,
   align = "right",
+  citations,
 }: CitationsProps): JSX.Element => {
   return (
     <div>

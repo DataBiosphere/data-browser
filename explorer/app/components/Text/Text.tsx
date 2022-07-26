@@ -17,7 +17,7 @@ export const Text = styled(Typography, {
   shouldForwardProp: (prop) => prop !== "customColor",
 })<TextProps>`
   text-decoration: none;
-  color: ${({ theme, customColor }) =>
+  color: ${({ customColor, theme }) =>
     customColor ? theme.palette[customColor] : undefined};
 `;
 /* eslint-enable @typescript-eslint/explicit-function-return-type -- move style def to .styles.ts file */
