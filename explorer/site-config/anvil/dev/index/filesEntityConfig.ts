@@ -21,9 +21,9 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Text,
+          component: C.Cell,
           transformer: T.buildFileId,
-        } as ComponentConfig<typeof C.Text>,
+        } as ComponentConfig<typeof C.Cell>,
         header: "File ID",
         sort: {
           default: true,
@@ -33,9 +33,9 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Text,
+          component: C.Cell,
           transformer: T.buildFileFormat,
-        } as ComponentConfig<typeof C.Text>,
+        } as ComponentConfig<typeof C.Cell>,
         header: "File Format",
         sort: {
           sortKey: "file_format",
@@ -44,9 +44,9 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Text,
+          component: C.Cell,
           transformer: T.buildFileType,
-        } as ComponentConfig<typeof C.Text>,
+        } as ComponentConfig<typeof C.Cell>,
         header: "File Type",
         sort: {
           sortKey: "file_type",

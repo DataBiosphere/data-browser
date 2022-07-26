@@ -1,4 +1,13 @@
 /**
+ * Type that is a union of all keys of T that have a type of string or null.
+ */
+import { LABEL } from "./entities";
+
+type KeyOfTypeStringOrNull<T> = {
+  [K in keyof T]: T[K] extends StringOrNull ? K : never;
+}[keyof T];
+
+/**
  * Type that is a union of all keys of T that have a type of string or null array.
  */
 type KeyOfTypeStringOrNullArray<T> = {
@@ -6,17 +15,23 @@ type KeyOfTypeStringOrNullArray<T> = {
 }[keyof T];
 
 /**
+ * Type of possible values returned in a core value from Azul.
+ */
+type StringOrNull = string | null;
+
+/**
  * Type of possible values returned in an aggregated value from Azul.
  */
 type StringOrNullArray = (string | null)[];
 
 /**
- * Aggregate and process the values of the given key across the given response values.
+ * Aggregate and process the values of the given key across the given response values. The value with the given key
+ * can either be an array value on a "core" entity or an aggregated "inner" entity.
  * @param responseValues - Array of values returned from the backend.
  * @param key - The object key (of an array value containing string or null values) in each response value to aggregate.
  * @returns All non-null values in the response values with the given key.
  */
-export function processAggregatedValue<
+export function processAggregatedOrArrayValue<
   T,
   K extends KeyOfTypeStringOrNullArray<T>
 >(responseValues: T[], key: K): string[] {
@@ -25,6 +40,31 @@ export function processAggregatedValue<
 
   // Remove null values and convert empty arrays to ["Unspecified"] if necessary.
   return processNullElements(values);
+}
+
+/**
+ * Process the string or null value for the given response value.
+ * @param responseValues - Singleton array containing values returned from the backend.
+ * @param key - The object key (of an array value containing string or null values) in each response value to aggregate.
+ * @param label - Value to display if value for given key is null. Defaults to "Unspecified".
+ * @returns Value in the response with the given key, converted to string if null.
+ */
+export function processEntityValue<T, K extends KeyOfTypeStringOrNull<T>>(
+  responseValues: T[],
+  key: K,
+  label = LABEL.UNSPECIFIED
+): string {
+  // Response values should be a singleton array; check for at least one value here.
+  if (responseValues.length === 0) {
+    return LABEL.ERROR;
+  }
+
+  // Grab value from the singleton array for the given key.
+  const responseValue = responseValues[0];
+  const value = responseValue[key] as unknown as StringOrNull; // TODO revisit type assertion here
+
+  // Sanitize.
+  return value ?? label;
 }
 
 /**
@@ -62,7 +102,7 @@ function processNullElements(values: StringOrNullArray): string[] {
 
   // Handle undefined or empty lists: caller is expecting "Unspecified", not an empty array.
   if (!filteredValues || filteredValues?.length === 0) {
-    return ["Unspecified"]; // TODO constant for Unspecified
+    return [LABEL.UNSPECIFIED];
   }
 
   return filteredValues;

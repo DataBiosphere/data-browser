@@ -1,19 +1,16 @@
 // App dependencies
 import {
-  ActivityEntity,
   ActivityEntityResponse,
-  BioSampleEntity,
   BioSampleEntityResponse,
-  DatasetEntity,
   DatasetEntityResponse,
-  DonorEntity,
   DonorEntityResponse,
-  FileEntity,
   FileEntityResponse,
-  LibraryEntity,
   LibraryEntityResponse,
 } from "./entities";
-import { processAggregatedValue } from "../../common/utils";
+import {
+  processAggregatedOrArrayValue,
+  processEntityValue,
+} from "../../common/utils";
 import { Description } from "../../../../components/Project/common/entities";
 import {
   Key,
@@ -29,45 +26,42 @@ import {
 } from "./aggregatedEntities";
 import { MetadataValue } from "../../../../components/Index/common/entities";
 import { DatasetsResponse } from "./responses";
+import { LABEL } from "../../common/entities";
 
 /**
- * Maps activity type from index/activites API response.
+ * Maps activity type from the core activity entity returned from the index/activites API response.
  * @param response - Response model return from index/activities API.
  * @returns Activity type.
  */
-export function getActivityType(response?: ActivityEntityResponse): string {
-  const activityEntityResponse = getActivityEntityResponse(response);
-  return activityEntityResponse?.activity_type ?? "";
+export function getActivityType(response: ActivityEntityResponse): string {
+  return processEntityValue(response.activities, "activity_type");
 }
 
 /**
- * Maps anatomical site from index/biosamples API response.
+ * Maps anatomical site from the core biosample entity returned from the index/biosamples API response.
  * @param response - Response model return from index/biosamples API.
  * @returns Activity type.
  */
-export function getAnatomicalSite(response?: BioSampleEntityResponse): string {
-  const bioSampleEntityResponse = getBioSampleEntityResponse(response);
-  return bioSampleEntityResponse?.anatomical_site ?? "";
+export function getAnatomicalSite(response: BioSampleEntityResponse): string {
+  return processEntityValue(response.biosamples, "anatomical_site");
 }
 
 /**
- * Maps biosample ID from index/biosamples API response.
+ * Maps biosample ID from the core biosample entity returned from the index/biosamples API response.
  * @param response - Response model return from biosamples API.
  * @returns Biosample ID.
  */
-export function getBioSampleId(response?: BioSampleEntityResponse): string {
-  const bioSampleEntityResponse = getBioSampleEntityResponse(response);
-  return bioSampleEntityResponse?.biosample_id ?? "";
+export function getBioSampleId(response: BioSampleEntityResponse): string {
+  return processEntityValue(response.biosamples, "biosample_id");
 }
 
 /**
- * Maps biosample type from index/biosamples API response.
+ * Maps biosample type from the core biosample entity returned from the index/biosamples API response.
  * @param response - Response model return from biosamples API.
  * @returns Biosample type.
  */
-export function getBioSampleType(response?: BioSampleEntityResponse): string {
-  const biosampleResponse = getBioSampleEntityResponse(response);
-  return biosampleResponse?.biosample_type ?? "";
+export function getBioSampleType(response: BioSampleEntityResponse): string {
+  return processEntityValue(response.biosamples, "biosample_type");
 }
 
 /**
@@ -75,10 +69,10 @@ export function getBioSampleType(response?: BioSampleEntityResponse): string {
  * @param response - Response model return from Azul that includes aggregated biosamples.
  * @returns Set of aggregated biosample types.
  */
-export function getBioSampleTypes(
+export function getAggregatedBioSampleTypes(
   response: AggregatedBioSampleResponse
 ): string[] {
-  return processAggregatedValue(response.biosamples ?? [], "biosample_type");
+  return processAggregatedOrArrayValue(response.biosamples, "biosample_type");
 }
 
 /**
@@ -90,7 +84,7 @@ export function getBioSampleTypes(
  */
 export function getDatasetBreadcrumbs(
   firstCrumb: Breadcrumb,
-  response?: DatasetEntityResponse
+  response: DatasetEntityResponse
 ): Breadcrumb[] {
   const datasetName = getDatasetName(response);
   const breadcrumbs = [firstCrumb];
@@ -106,26 +100,26 @@ export function getDatasetBreadcrumbs(
  * @returns string representation of dataset description.
  */
 export function getDatasetDescription(
-  response?: DatasetEntityResponse
+  response: DatasetEntityResponse
 ): Description {
-  const datasetEntityResponse = getDatasetEntityResponse(response);
-  return datasetEntityResponse?.description ?? "None"; // TODO constant for none
+  return processEntityValue(response.datasets, "description", LABEL.NONE);
 }
 
 /**
- * Maps dataset-related information, included formatted display text from API response. // TODO revisit
+ * Maps dataset-related information, included formatted display text from API response.
  * @param response - Response model return from datasets or dataset API endpoints.
  * @returns data summaries key-value pairs of data summary label and corresponding value.
  */
 export function getDatasetDetails(
-  response?: DatasetEntityResponse
+  response: DatasetEntityResponse
 ): KeyValues | undefined {
-  const datasetEntityResponse = getDatasetEntityResponse(response);
-  if (!datasetEntityResponse) {
-    return;
-  }
+  const datasetId = processEntityValue(
+    response.datasets,
+    "dataset_id",
+    LABEL.NONE
+  );
   const details = new Map<Key, Value>();
-  details.set("Dataset ID", datasetEntityResponse.dataset_id);
+  details.set("Dataset ID", datasetId);
   return details;
 }
 
@@ -134,10 +128,10 @@ export function getDatasetDetails(
  * @param response - Response model return from index/activities API.
  * @returns a list of data modalities.
  */
-export function getActivityDataModality(
-  response?: ActivityEntityResponse
+export function getActivityDataModalities(
+  response: ActivityEntityResponse
 ): MetadataValue[] {
-  return processAggregatedValue(response?.activities ?? [], "data_modality");
+  return processAggregatedOrArrayValue(response.activities, "data_modality");
 }
 
 /**
@@ -145,8 +139,8 @@ export function getActivityDataModality(
  * @param response - Response model return from datasets or dataset API endpoints.
  * @returns Dataset ID.
  */
-export function getDatasetEntryId(response?: DatasetsResponse): string {
-  return response?.entryId ?? ""; // TODO throw on no ID?
+export function getDatasetEntryId(response: DatasetsResponse): string {
+  return response.entryId ?? ""; // TODO throw on no ID?
 }
 
 /**
@@ -154,9 +148,8 @@ export function getDatasetEntryId(response?: DatasetsResponse): string {
  * @param response - Response model return from datasets or dataset API endpoints.
  * @returns Dataset name.
  */
-export function getDatasetName(response?: DatasetEntityResponse): string {
-  const datasetEntityResponse = getDatasetEntityResponse(response);
-  return datasetEntityResponse?.title ?? ""; // TODO throw on no title?
+export function getDatasetName(response: DatasetEntityResponse): string {
+  return processEntityValue(response.datasets, "title", LABEL.NONE);
 }
 
 /**
@@ -164,29 +157,28 @@ export function getDatasetName(response?: DatasetEntityResponse): string {
  * @param response - Response model return from Azul that includes aggregated datasets.
  * @returns Set of aggregated dataset names.
  */
-export function getDatasetNames(response: AggregatedDatasetResponse): string[] {
-  return processAggregatedValue(response.datasets ?? [], "title");
+export function getAggregatedDatasetNames(
+  response: AggregatedDatasetResponse
+): string[] {
+  return processAggregatedOrArrayValue(response.datasets, "title");
 }
 
 /**
- * Maps donor ID from the core library value returned from the /index/donors API response.
+ * Maps donor ID from the core donor value returned from the /index/donors API response.
  * @param response - Response model return from index/donors API endpoint.
  * @returns Donor ID.
  */
-export function getDonorId(response?: DonorEntityResponse): string {
-  // TODO revisit optional param (here and in transformer, for each entity)
-  const donorEntityResponse = getDonorEntityResponse(response);
-  return donorEntityResponse?.donor_id ?? "";
+export function getDonorId(response: DonorEntityResponse): string {
+  return processEntityValue(response.donors, "donor_id");
 }
 
 /**
- * Maps document ID from /index/activities API response.
+ * Maps document ID the core activity entity returned from /index/activities API response.
  * @param response - Response model return from index/activities API.
  * @returns Document ID.
  */
-export function getDocumentId(response?: ActivityEntityResponse): string {
-  const activityEntityResponse = getActivityEntityResponse(response);
-  return activityEntityResponse?.document_id ?? "";
+export function getDocumentId(response: ActivityEntityResponse): string {
+  return processEntityValue(response.activities, "document_id");
 }
 
 /**
@@ -194,8 +186,8 @@ export function getDocumentId(response?: ActivityEntityResponse): string {
  * @param response - Response model return from index/files API endpoint.
  * @returns File data modality.
  */
-export function getFileDataModality(response?: FileEntityResponse): string[] {
-  return processAggregatedValue(response?.files ?? [], "data_modality");
+export function getFileDataModalities(response: FileEntityResponse): string[] {
+  return processAggregatedOrArrayValue(response.files, "data_modality");
 }
 
 /**
@@ -203,9 +195,8 @@ export function getFileDataModality(response?: FileEntityResponse): string[] {
  * @param response - Response model return from index/files API endpoint.
  * @returns File ID.
  */
-export function getFileId(response?: FileEntityResponse): string {
-  const fileEntityResponse = getFileEntityResponse(response);
-  return fileEntityResponse?.file_id ?? "";
+export function getFileId(response: FileEntityResponse): string {
+  return processEntityValue(response.files, "file_id");
 }
 
 /**
@@ -213,9 +204,8 @@ export function getFileId(response?: FileEntityResponse): string {
  * @param response - Response model return from index/files API endpoint.
  * @returns File format.
  */
-export function getFileFormat(response?: FileEntityResponse): string {
-  const fileEntityResponse = getFileEntityResponse(response);
-  return fileEntityResponse?.file_format ?? "";
+export function getFileFormat(response: FileEntityResponse): string {
+  return processEntityValue(response.files, "file_format");
 }
 
 /**
@@ -223,9 +213,8 @@ export function getFileFormat(response?: FileEntityResponse): string {
  * @param response - Response model return from index/files API endpoint.
  * @returns File type.
  */
-export function getFileType(response?: FileEntityResponse): string {
-  const fileEntityResponse = getFileEntityResponse(response);
-  return fileEntityResponse?.file_type ?? "";
+export function getFileType(response: FileEntityResponse): string {
+  return processEntityValue(response.files, "file_type");
 }
 
 /**
@@ -233,19 +222,17 @@ export function getFileType(response?: FileEntityResponse): string {
  * @param response - Response model return from index/libraries API endpoint.
  * @returns Library ID.
  */
-export function getLibraryId(response?: LibraryEntityResponse): string {
-  const libraryEntityResponse = getLibraryEntityResponse(response);
-  return libraryEntityResponse?.library_id ?? "";
+export function getLibraryId(response: LibraryEntityResponse): string {
+  return processEntityValue(response.libraries, "library_id");
 }
 
 /**
- * Maps organism type from the core library value returned from the /index/donors API response.
+ * Maps organism type from the core donor value returned from the /index/donors API response.
  * @param response - Response model return from index/donors API endpoint.
  * @returns Organism type.
  */
-export function getOrganismType(response?: DonorEntityResponse): string {
-  const donorEntityResponse = getDonorEntityResponse(response);
-  return donorEntityResponse?.organism_type ?? "";
+export function getOrganismType(response: DonorEntityResponse): string {
+  return processEntityValue(response.donors, "organism_type");
 }
 
 /**
@@ -253,8 +240,10 @@ export function getOrganismType(response?: DonorEntityResponse): string {
  * @param response - Response model return from Azul that includes aggregated donors.
  * @returns Organism types.
  */
-export function getOrganismTypes(response?: AggregatedDonorResponse): string[] {
-  return processAggregatedValue(response?.donors ?? [], "organism_type");
+export function getAggregatedOrganismTypes(
+  response: AggregatedDonorResponse
+): string[] {
+  return processAggregatedOrArrayValue(response.donors, "organism_type");
 }
 
 /**
@@ -262,33 +251,31 @@ export function getOrganismTypes(response?: AggregatedDonorResponse): string[] {
  * @param response - Response model return from index/libraries API endpoint.
  * @returns Prep material name.
  */
-export function getPrepMaterialName(response?: LibraryEntityResponse): string {
-  const libraryEntityResponse = getLibraryEntityResponse(response);
-  return libraryEntityResponse?.prep_material_name ?? "";
+export function getPrepMaterialName(response: LibraryEntityResponse): string {
+  return processEntityValue(response.libraries, "prep_material_name");
 }
 
 /**
- * Maps prep material names from aggregated librart values returned from endpoints other than index/libraries.
+ * Maps prep material names from aggregated library values returned from endpoints other than index/libraries.
  * @param response - Response model return from Azul that includes aggregated libraries.
  * @returns Prep material names.
  */
-export function getPrepMaterialNames(
-  response?: AggregatedLibraryResponse
+export function getAggregatedPrepMaterialNames(
+  response: AggregatedLibraryResponse
 ): string[] {
-  return processAggregatedValue(
-    response?.libraries ?? [],
+  return processAggregatedOrArrayValue(
+    response.libraries,
     "prep_material_name"
   );
 }
 
 /**
- * Maps phenotypic sex from the core library value returned from the /index/donors API response.
+ * Maps phenotypic sex from the core donor value returned from the /index/donors API response.
  * @param response - Response model return from index/donors API endpoint.
  * @returns Phenotypic sex.
  */
-export function getPhenotypicSex(response?: DonorEntityResponse): string {
-  const donorEntityResponse = getDonorEntityResponse(response);
-  return donorEntityResponse?.phenotypic_sex ?? "";
+export function getPhenotypicSex(response: DonorEntityResponse): string {
+  return processEntityValue(response.donors, "phenotypic_sex");
 }
 
 /**
@@ -296,10 +283,10 @@ export function getPhenotypicSex(response?: DonorEntityResponse): string {
  * @param response - Response model return from Azul that includes aggregated donors.
  * @returns Phenotypic sexes.
  */
-export function getPhenotypicSexes(
-  response?: AggregatedDonorResponse
+export function getAggregatedPhenotypicSexes(
+  response: AggregatedDonorResponse
 ): string[] {
-  return processAggregatedValue(response?.donors ?? [], "phenotypic_sex");
+  return processAggregatedOrArrayValue(response.donors, "phenotypic_sex");
 }
 
 /**
@@ -307,8 +294,10 @@ export function getPhenotypicSexes(
  * @param response - Response model return from index/donors API endpoint.
  * @returns Set of aggregated dataset names.
  */
-export function getReportedEthnicity(response?: DonorEntityResponse): string[] {
-  return processAggregatedValue(response?.donors ?? [], "reported_ethnicity");
+export function getReportedEthnicities(
+  response: DonorEntityResponse
+): string[] {
+  return processAggregatedOrArrayValue(response.donors, "reported_ethnicity");
 }
 
 /**
@@ -316,104 +305,8 @@ export function getReportedEthnicity(response?: DonorEntityResponse): string[] {
  * @param response - Response model return from Azul that includes aggregated donors.
  * @returns Set of aggregated dataset names.
  */
-export function getReportedEthnicities(
-  response?: AggregatedDonorResponse
+export function getAggregatedReportedEthnicities(
+  response: AggregatedDonorResponse
 ): string[] {
-  return processAggregatedValue(response?.donors ?? [], "reported_ethnicity");
-}
-
-/**
- * Returns the singleton activity entity value from the index/activities API response.
- * @param response - Response model return from activity API endpoint.
- * @returns The core activity value from the API response.
- */
-function getActivityEntityResponse(
-  response?: ActivityEntityResponse
-): ActivityEntity | undefined {
-  if (!response) {
-    return;
-  }
-
-  // Can assume singleton array here as biosamples is the core entity returned from the index/biosamples response.
-  return response.activities?.[0];
-}
-
-/**
- * Returns the singleton biosample entity value from the index/biosamples API response.
- * @param response - Response model return from index/biosamples API endpoint.
- * @returns The core biosample value from the API response.
- */
-function getBioSampleEntityResponse(
-  response?: BioSampleEntityResponse
-): BioSampleEntity | undefined {
-  if (!response) {
-    return;
-  }
-
-  // Can assume singleton array here as biosamples is the core entity returned from the index/biosamples response.
-  return response.biosamples?.[0];
-}
-
-/**
- * Returns the singleton donor entity value from the index/datasets or index/datsets/uuid API response. TODO generalize getXEntityResponse
- * @param response - Response model return from datasets or dataset API endpoints.
- * @returns The core dataset value from the API response.
- */
-function getDatasetEntityResponse(
-  response?: DatasetEntityResponse
-): DatasetEntity | undefined {
-  if (!response) {
-    return;
-  }
-
-  // Can assume singleton array here as datasets is the core entity returned from the index/datasets response.
-  return response.datasets?.[0];
-}
-
-/**
- * Returns the singleton donor entity value from the index/donors API response.
- * @param response - Response model return from donors API endpoint.
- * @returns The core donor value from the API response.
- */
-function getDonorEntityResponse(
-  response?: DonorEntityResponse
-): DonorEntity | undefined {
-  if (!response) {
-    return;
-  }
-
-  // Can assume singleton array here as donors is the core entity returned from the index/donors response.
-  return response.donors?.[0];
-}
-
-/**
- * Returns the singleton file entity value from the index/files API response.
- * @param response - Response model return from files API endpoint.
- * @returns The core file value from the API response.
- */
-function getFileEntityResponse(
-  response?: FileEntityResponse
-): FileEntity | undefined {
-  if (!response) {
-    return;
-  }
-
-  // Can assume singleton array here as files is the core entity returned from the index/files response.
-  return response.files?.[0];
-}
-
-/**
- * Returns the singleton library entity value from the index/libraries API response.
- * @param response - Response model return from libraries API endpoint.
- * @returns The core library value from the API response.
- */
-function getLibraryEntityResponse(
-  response?: LibraryEntityResponse
-): LibraryEntity | undefined {
-  if (!response) {
-    return;
-  }
-
-  // Can assume singleton array here as libraries is the core entity returned from the index/libraries response.
-  return response.libraries?.[0];
+  return processAggregatedOrArrayValue(response.donors, "reported_ethnicity");
 }

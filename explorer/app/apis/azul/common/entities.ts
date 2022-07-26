@@ -81,3 +81,12 @@ export interface AzulSummaryResponse {
   specimenCount: number;
   totalFileSize: number;
 }
+
+/**
+ * Set of labels that values returned from Azul can be santitized to.
+ */
+export enum LABEL {
+  "ERROR" = "Error",
+  "NONE" = "None",
+  "UNSPECIFIED" = "Unspecified",
+}

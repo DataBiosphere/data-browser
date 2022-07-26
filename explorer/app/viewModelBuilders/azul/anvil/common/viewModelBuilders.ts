@@ -7,14 +7,14 @@ import {
   getAnatomicalSite,
   getBioSampleId,
   getBioSampleType,
-  getBioSampleTypes,
-  getActivityDataModality,
+  getAggregatedBioSampleTypes,
+  getActivityDataModalities,
   getDatasetBreadcrumbs,
   getDatasetDescription,
   getDatasetDetails,
   getDatasetEntryId,
   getDatasetName,
-  getDatasetNames,
+  getAggregatedDatasetNames,
   getDocumentId,
   getDonorId,
   getFileFormat,
@@ -22,14 +22,14 @@ import {
   getFileType,
   getLibraryId,
   getOrganismType,
-  getOrganismTypes,
+  getAggregatedOrganismTypes,
   getPhenotypicSex,
-  getPhenotypicSexes,
+  getAggregatedPhenotypicSexes,
   getPrepMaterialName,
-  getPrepMaterialNames,
+  getAggregatedPrepMaterialNames,
+  getAggregatedReportedEthnicities,
   getReportedEthnicities,
-  getReportedEthnicity,
-  getFileDataModality,
+  getFileDataModalities,
 } from "../../../../apis/azul/anvil/common/transformers";
 import * as C from "../../../../components";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
@@ -113,7 +113,7 @@ export const buildBioSampleTypes = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.BIOSAMPLE_TYPE),
-    values: getBioSampleTypes(response),
+    values: getAggregatedBioSampleTypes(response),
   };
 };
 
@@ -171,7 +171,7 @@ export const buildDataModality = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
-    values: getActivityDataModality(response),
+    values: getActivityDataModalities(response),
   };
 };
 
@@ -186,7 +186,7 @@ export const buildDatasetName = (
   return {
     links: [
       {
-        label: getDatasetName(response) ?? "", // TODO nullish coalescing should not be required. see getDatasetName.
+        label: getDatasetName(response),
         url: `/datasets/${getDatasetEntryId(response)}`,
       },
     ],
@@ -203,7 +203,7 @@ export const buildDatasetNames = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATASET_NAME),
-    values: getDatasetNames(response),
+    values: getAggregatedDatasetNames(response),
   };
 };
 
@@ -243,7 +243,7 @@ export const buildFileDataModality = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
-    values: getFileDataModality(response),
+    values: getFileDataModalities(response),
   };
 };
 
@@ -322,7 +322,7 @@ export const buildOrganismTypes = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.ORGANISM_TYPE),
-    values: getOrganismTypes(response),
+    values: getAggregatedOrganismTypes(response),
   };
 };
 
@@ -349,7 +349,7 @@ export const buildPhenotypicSexes = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.PHENOTYPIC_SEX),
-    values: getPhenotypicSexes(response),
+    values: getAggregatedPhenotypicSexes(response),
   };
 };
 
@@ -376,7 +376,7 @@ export const buildPrepMaterialNames = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.LIBRARY_PREPARATION),
-    values: getPrepMaterialNames(response),
+    values: getAggregatedPrepMaterialNames(response),
   };
 };
 
@@ -391,7 +391,7 @@ export const buildReportedEthnicity = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.REPORTED_ETHNICITY),
-    values: getReportedEthnicity(response),
+    values: getReportedEthnicities(response),
   };
 };
 
@@ -405,6 +405,6 @@ export const buildReportedEthnicities = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.REPORTED_ETHNICITY),
-    values: getReportedEthnicities(response),
+    values: getAggregatedReportedEthnicities(response),
   };
 };
