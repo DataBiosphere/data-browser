@@ -9,7 +9,7 @@ import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewMode
 import { LibrariesResponse } from "../../../../app/apis/azul/anvil/common/responses";
 
 /**
- * Entity config object responsible to config anything related to the /explore/libraries route.
+ * Entity config object responsible for config related to the /explore/libraries route.
  */
 export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
   apiPath: "index/libraries",

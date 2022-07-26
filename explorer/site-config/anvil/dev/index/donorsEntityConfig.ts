@@ -9,7 +9,7 @@ import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewMode
 import { DonorsResponse } from "../../../../app/apis/azul/anvil/common/responses";
 
 /**
- * Entity config object responsible to config anything related to the /explore/donors route.
+ * Entity config object responsible for config related to the /explore/donors route.
  */
 export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
   apiPath: "index/donors",

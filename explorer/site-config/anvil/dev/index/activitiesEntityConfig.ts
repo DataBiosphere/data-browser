@@ -9,7 +9,7 @@ import { ActivitiesResponse } from "../../../../app/apis/azul/anvil/common/respo
 import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 /**
- * Entity config object responsible to config anything related to the /explore/activities route.
+ * Entity config object responsible for config related to the /explore/activities route.
  */
 export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
   apiPath: "index/activities",

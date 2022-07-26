@@ -1,35 +1,4 @@
 /**
- * Model of response returned from the AnVIL-specific /index/files API endpoint.
- */
-export interface AnvilFilesResponse {
-  activities: {
-    activity_type: string[];
-    data_modality: string[];
-  }[];
-  bundles: {
-    bundleUuid: string;
-    bundleVersion: string;
-  }[];
-  datasets: {
-    title: string;
-  }[];
-  entryId: string;
-  files: {
-    accessible: boolean;
-    data_modality: string[];
-    date_created: string;
-    document_id: string;
-    file_format: string;
-    file_id: string;
-    file_type: string;
-  }[];
-  sources: {
-    sourceId: string;
-    sourceSpec: string;
-  }[];
-}
-
-/**
  * Model of contributor value included in the response from index/projects API endpoint.
  */
 export interface ContributorResponse {

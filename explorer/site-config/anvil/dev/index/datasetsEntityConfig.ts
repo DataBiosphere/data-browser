@@ -12,7 +12,7 @@ import { DatasetsResponse } from "../../../../app/apis/azul/anvil/common/respons
 import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 /**
- * Entity config object responsible to config anything related to the /explore/datasets route.
+ * Entity config object responsible for config related to the /explore/datasets route.
  */
 export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
   apiPath: "index/datasets",

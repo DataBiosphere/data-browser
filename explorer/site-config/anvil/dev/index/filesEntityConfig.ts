@@ -1,16 +1,16 @@
-import * as T from "./fileTransformer";
-import * as C from "../../../app/components";
+import * as C from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
-} from "../../../app/config/model";
-import { AnvilFilesResponse } from "app/models/responses";
+} from "../../../../app/config/model";
+import { FilesResponse } from "../../../../app/apis/azul/anvil/common/responses";
+import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 /**
- * Entity config object responsible to config anything related to the /explore/files route.
+ * Entity config object responsible for config related to the /explore/files route.
  */
-export const filesEntity: EntityConfig<AnvilFilesResponse> = {
+export const filesEntityConfig: EntityConfig<FilesResponse> = {
   apiPath: "index/files",
   detail: {
     tabs: [],
@@ -22,7 +22,7 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
       {
         componentConfig: {
           component: C.Text,
-          transformer: T.filesToFileIdColumn,
+          transformer: T.buildFileId,
         } as ComponentConfig<typeof C.Text>,
         header: "File ID",
         sort: {
@@ -34,7 +34,7 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
       {
         componentConfig: {
           component: C.Text,
-          transformer: T.filesToFileFormatColumn,
+          transformer: T.buildFileFormat,
         } as ComponentConfig<typeof C.Text>,
         header: "File Format",
         sort: {
@@ -45,7 +45,7 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
       {
         componentConfig: {
           component: C.Text,
-          transformer: T.filesToFileTypeColumn,
+          transformer: T.buildFileType,
         } as ComponentConfig<typeof C.Text>,
         header: "File Type",
         sort: {
@@ -55,9 +55,9 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.filesToDataModalityColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: C.NTagCell,
+          transformer: T.buildFileDataModality,
+        } as ComponentConfig<typeof C.NTagCell>,
         header: "Data Modality",
         sort: {
           sortKey: "data_modality",
@@ -66,9 +66,9 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.filesToDatasetNameColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: C.NTagCell,
+          transformer: T.buildDatasetNames,
+        } as ComponentConfig<typeof C.NTagCell>,
         header: "Dataset Name",
         sort: {
           sortKey: "title",
@@ -76,6 +76,6 @@ export const filesEntity: EntityConfig<AnvilFilesResponse> = {
         width: { max: "2fr", min: "240px" },
       },
     ],
-  } as ListConfig<AnvilFilesResponse>,
+  } as ListConfig<FilesResponse>,
   route: "files",
 };

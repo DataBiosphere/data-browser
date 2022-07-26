@@ -8,6 +8,8 @@ import {
   DatasetEntityResponse,
   DonorEntity,
   DonorEntityResponse,
+  FileEntity,
+  FileEntityResponse,
   LibraryEntity,
   LibraryEntityResponse,
 } from "./entities";
@@ -132,7 +134,7 @@ export function getDatasetDetails(
  * @param response - Response model return from index/activities API.
  * @returns a list of data modalities.
  */
-export function getDataModality(
+export function getActivityDataModality(
   response?: ActivityEntityResponse
 ): MetadataValue[] {
   return processAggregatedValue(response?.activities ?? [], "data_modality");
@@ -185,6 +187,45 @@ export function getDonorId(response?: DonorEntityResponse): string {
 export function getDocumentId(response?: ActivityEntityResponse): string {
   const activityEntityResponse = getActivityEntityResponse(response);
   return activityEntityResponse?.document_id ?? "";
+}
+
+/**
+ * Maps file data modality from the core file value returned from the /index/files API response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns File data modality.
+ */
+export function getFileDataModality(response?: FileEntityResponse): string[] {
+  return processAggregatedValue(response?.files ?? [], "data_modality");
+}
+
+/**
+ * Maps file ID from the core file value returned from the /index/files API response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns File ID.
+ */
+export function getFileId(response?: FileEntityResponse): string {
+  const fileEntityResponse = getFileEntityResponse(response);
+  return fileEntityResponse?.file_id ?? "";
+}
+
+/**
+ * Maps file format from the core file value returned from the /index/files API response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns File format.
+ */
+export function getFileFormat(response?: FileEntityResponse): string {
+  const fileEntityResponse = getFileEntityResponse(response);
+  return fileEntityResponse?.file_format ?? "";
+}
+
+/**
+ * Maps file type from the core file value returned from the /index/files API response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns File type.
+ */
+export function getFileType(response?: FileEntityResponse): string {
+  const fileEntityResponse = getFileEntityResponse(response);
+  return fileEntityResponse?.file_type ?? "";
 }
 
 /**
@@ -343,6 +384,22 @@ function getDonorEntityResponse(
 
   // Can assume singleton array here as donors is the core entity returned from the index/donors response.
   return response.donors?.[0];
+}
+
+/**
+ * Returns the singleton file entity value from the index/files API response.
+ * @param response - Response model return from files API endpoint.
+ * @returns The core file value from the API response.
+ */
+function getFileEntityResponse(
+  response?: FileEntityResponse
+): FileEntity | undefined {
+  if (!response) {
+    return;
+  }
+
+  // Can assume singleton array here as files is the core entity returned from the index/files response.
+  return response.files?.[0];
 }
 
 /**

@@ -8,7 +8,7 @@ import {
   getBioSampleId,
   getBioSampleType,
   getBioSampleTypes,
-  getDataModality,
+  getActivityDataModality,
   getDatasetBreadcrumbs,
   getDatasetDescription,
   getDatasetDetails,
@@ -17,6 +17,9 @@ import {
   getDatasetNames,
   getDocumentId,
   getDonorId,
+  getFileFormat,
+  getFileId,
+  getFileType,
   getLibraryId,
   getOrganismType,
   getOrganismTypes,
@@ -26,6 +29,7 @@ import {
   getPrepMaterialNames,
   getReportedEthnicities,
   getReportedEthnicity,
+  getFileDataModality,
 } from "../../../../apis/azul/anvil/common/transformers";
 import * as C from "../../../../components";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
@@ -36,6 +40,7 @@ import {
   BioSampleEntityResponse,
   DatasetEntityResponse,
   DonorEntityResponse,
+  FileEntityResponse,
   LibraryEntityResponse,
 } from "../../../../apis/azul/anvil/common/entities";
 import {
@@ -166,7 +171,7 @@ export const buildDataModality = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
-    values: getDataModality(response),
+    values: getActivityDataModality(response),
   };
 };
 
@@ -225,6 +230,59 @@ export const buildDocumentId = (
 ): React.ComponentProps<typeof C.Cell> => {
   return {
     value: getDocumentId(response),
+  };
+};
+
+/**
+ * Build props for file data modality Cell component from the given files response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns model to be used as props for the file data modality cell.
+ */
+export const buildFileDataModality = (
+  response: FileEntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
+    values: getFileDataModality(response),
+  };
+};
+
+/**
+ * Build props for file ID Cell component from the given files response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns model to be used as props for the file ID cell.
+ */
+export const buildFileId = (
+  response: FileEntityResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: getFileId(response),
+  };
+};
+
+/**
+ * Build props for file format Cell component from the given files response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns model to be used as props for the file format cell.
+ */
+export const buildFileFormat = (
+  response: FileEntityResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: getFileFormat(response),
+  };
+};
+
+/**
+ * Build props for file type Cell component from the given files response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns model to be used as props for the file type cell.
+ */
+export const buildFileType = (
+  response: FileEntityResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: getFileType(response),
   };
 };
 

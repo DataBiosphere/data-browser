@@ -12,7 +12,7 @@ import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
 import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
-import { filesEntity } from "./filesEntity";
+import { filesEntityConfig } from "./index/filesEntityConfig";
 import { librariesEntityConfig } from "./index/librariesEntityConfig";
 
 // Images
@@ -70,7 +70,7 @@ const config: SiteConfig = {
     biosamplesEntityConfig,
     librariesEntityConfig,
     activitiesEntityConfig,
-    filesEntity,
+    filesEntityConfig,
   ],
   entityTitle: "Anvil Data Explorer",
   layout: {
