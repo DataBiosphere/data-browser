@@ -1,5 +1,4 @@
 // App dependencies
-import { LibrariesResponse } from "../../../../app/apis/azul/anvil/common/entities";
 import * as C from "../../../../app/components";
 import {
   ComponentConfig,
@@ -7,11 +6,12 @@ import {
   ListConfig,
 } from "../../../../app/config/model";
 import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import { DonorsResponse } from "../../../../app/apis/azul/anvil/common/responses";
 
 /**
  * Entity config object responsible to config anything related to the /explore/donors route.
  */
-export const donorsEntityConfig: EntityConfig<LibrariesResponse> = {
+export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
   apiPath: "index/donors",
   detail: {
     tabs: [],
@@ -57,7 +57,7 @@ export const donorsEntityConfig: EntityConfig<LibrariesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          transformer: T.buildReportedEthnicities,
+          transformer: T.buildReportedEthnicity,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Reported Ethnicity",
         sort: {
@@ -77,6 +77,6 @@ export const donorsEntityConfig: EntityConfig<LibrariesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
     ],
-  } as ListConfig<LibrariesResponse>,
+  } as ListConfig<DonorsResponse>,
   route: "donors",
 };

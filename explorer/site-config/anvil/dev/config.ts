@@ -8,10 +8,10 @@ import { SiteConfig } from "../../../app/config/model";
 import { summary } from "./index/summary";
 
 // Entities config
-import { activitiesEntity } from "./activitiesEntity";
-import { biosamplesEntity } from "./biosamplesEntity";
+import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
+import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
-import { datasetsEntity } from "./datasetsEntity";
+import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { filesEntity } from "./filesEntity";
 import { librariesEntityConfig } from "./index/librariesEntityConfig";
 
@@ -65,11 +65,11 @@ const config: SiteConfig = {
     url: "https://service.nadove2.dev.singlecell.gi.ucsc.edu/",
   },
   entities: [
-    datasetsEntity,
+    datasetsEntityConfig,
     donorsEntityConfig,
-    biosamplesEntity,
+    biosamplesEntityConfig,
     librariesEntityConfig,
-    activitiesEntity,
+    activitiesEntityConfig,
     filesEntity,
   ],
   entityTitle: "Anvil Data Explorer",

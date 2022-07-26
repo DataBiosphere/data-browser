@@ -1,42 +1,56 @@
 /**
- * Model of aggregated ("inner") biosample value returned from API endpoints other than /index/biosamples (for example,
- * /index/libraries).
+ * Model of core activity value returned from the /index/activities API endpoint.
  */
-export interface BioSampleAggregatedResponse {
-  anatomical_site: (string | null)[];
-  biosample_type: (string | null)[];
+export interface ActivityEntity {
+  activity_id?: string;
+  activity_type: string;
+  data_modality: string[];
+  document_id: string;
 }
 
 /**
- * Model of aggregated ("inner") dataset value returned from API endpoints other than /index/datasets (for example,
- * /index/libraries).
+ * Model of singleton array containing core activity value returned from the /index/activities API endpoint.
  */
-export interface DatasetAggregatedResponse {
-  dataset_id: string[];
-  title: string[];
+export interface ActivityEntityResponse {
+  activities: ActivityEntity[];
 }
 
 /**
- * Model of core library value returned from the /index/datasets API endpoint.
+ * Model of core biosample value returned from the /index/biosamples API endpoint.
  */
-export interface DatasetEntityResponse {
+export interface BioSampleEntity {
+  anatomical_site: string | null;
+  biosample_id: string;
+  biosample_type: string | null;
+}
+
+/**
+ * Model of singleton array containing core biosample value returned from the /index/biosamples API endpoint.
+ */
+export interface BioSampleEntityResponse {
+  biosamples: BioSampleEntity[];
+}
+
+/**
+ * Model of core dataset value returned from the /index/datasets API endpoint.
+ */
+export interface DatasetEntity {
   dataset_id: string;
   description: string;
   title: string;
 }
 
 /**
- * Model of response returned from the /index/datasets API endpoint.
+ * Model of singleton array containing core dataset value returned from the /index/datasets API endpoint.
  */
-export interface DatasetsResponse {
-  datasets: DatasetEntityResponse[];
-  entryId: string;
+export interface DatasetEntityResponse {
+  datasets: DatasetEntity[];
 }
 
 /**
  * Model of core donor value returned from the /index/donors API endpoint.
  */
-export interface DonorEntityResponse {
+export interface DonorEntity {
   donor_id: string;
   organism_type: string;
   phenotypic_sex: string;
@@ -44,36 +58,43 @@ export interface DonorEntityResponse {
 }
 
 /**
- * Model of response returned from the /index/donors API endpoint.
+ * Model of singleton array containing core donor value returned from the /index/donors API endpoint.
  */
-export interface DonorsResponse {
-  datasets: DatasetAggregatedResponse[];
-  donors: DonorEntityResponse[]; // Singleton array
-  entryId: string;
+export interface DonorEntityResponse {
+  donors: DonorEntity[];
 }
 
 /**
- * Model of response returned from the /index/libraries API endpoint.
+ * Model of core file value returned from the /index/files API endpoint.
  */
-export interface LibrariesResponse {
-  biosamples: BioSampleAggregatedResponse[];
-  datasets: DatasetAggregatedResponse[];
-  entryId: string;
-  libraries: LibraryEntityResponse[]; // Singleton array
+export interface FileEntity {
+  accessible: boolean;
+  data_modality: string[];
+  date_created: string;
+  document_id: string;
+  file_format: string;
+  file_id: string;
+  file_type: string;
 }
 
 /**
- * Model of aggregated ("inner") library value returned from API endpoints other than /index/libraries (for example,
- * /index/files).
+ * Model of singleton array containing core file value returned from the /index/files API endpoint.
  */
-export interface LibraryAggregatedResponse {
-  prep_material_name: string[];
+export interface FileEntityResponse {
+  files: FileEntity[];
 }
 
 /**
  * Model of core library value returned from the /index/libraries API endpoint.
  */
-export interface LibraryEntityResponse {
+export interface LibraryEntity {
   library_id: string;
   prep_material_name: string;
+}
+
+/**
+ * Model of singleton array containing core library value returned from the /index/libraries API endpoint.
+ */
+export interface LibraryEntityResponse {
+  libraries: LibraryEntity[];
 }

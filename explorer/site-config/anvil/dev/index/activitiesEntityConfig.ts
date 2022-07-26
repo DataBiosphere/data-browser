@@ -1,17 +1,17 @@
 // App dependencies
-import * as T from "./activitiesViewModelBuilder";
-import * as C from "../../../app/components";
+import * as C from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
-} from "../../../app/config/model";
-import { ActivitiesResponse } from "app/models/responses";
+} from "../../../../app/config/model";
+import { ActivitiesResponse } from "../../../../app/apis/azul/anvil/common/responses";
+import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 /**
  * Entity config object responsible to config anything related to the /explore/activities route.
  */
-export const activitiesEntity: EntityConfig<ActivitiesResponse> = {
+export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
   apiPath: "index/activities",
   detail: {
     tabs: [],
@@ -57,7 +57,7 @@ export const activitiesEntity: EntityConfig<ActivitiesResponse> = {
       {
         componentConfig: {
           component: C.Cell,
-          transformer: T.buildBiosampleType,
+          transformer: T.buildBioSampleTypes,
         } as ComponentConfig<typeof C.Cell>,
         header: "BioSample Type",
         sort: {
@@ -68,7 +68,7 @@ export const activitiesEntity: EntityConfig<ActivitiesResponse> = {
       {
         componentConfig: {
           component: C.Cell,
-          transformer: T.buildDatasetName,
+          transformer: T.buildDatasetNames,
         } as ComponentConfig<typeof C.Cell>,
         header: "Dataset Name",
         sort: {

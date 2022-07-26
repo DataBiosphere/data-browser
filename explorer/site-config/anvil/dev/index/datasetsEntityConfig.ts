@@ -1,20 +1,20 @@
 // App dependencies
-import * as C from "../../../app/components";
+import * as C from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
-} from "../../../app/config/model";
-import { DatasetsResponse } from "app/models/responses";
-import * as T from "./datasetsViewModelBuilder";
-import { mainColumn } from "./detail/dataset/overviewMainColumn"; // TODO revisit naming here and for side
-import { sideColumn } from "./detail/dataset/overviewSideColumn";
-import { top } from "./detail/dataset/top";
+} from "../../../../app/config/model";
+import { mainColumn } from "../detail/dataset/overviewMainColumn";
+import { sideColumn } from "../detail/dataset/overviewSideColumn";
+import { top } from "../detail/dataset/top";
+import { DatasetsResponse } from "../../../../app/apis/azul/anvil/common/responses";
+import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 /**
  * Entity config object responsible to config anything related to the /explore/datasets route.
  */
-export const datasetsEntity: EntityConfig<DatasetsResponse> = {
+export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
   apiPath: "index/datasets",
   detail: {
     tabs: [
@@ -45,7 +45,7 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          transformer: T.buildOrganismType,
+          transformer: T.buildOrganismTypes,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Organism Type",
         sort: {
@@ -56,7 +56,7 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          transformer: T.buildPhenotypicSex,
+          transformer: T.buildPhenotypicSexes,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Phenotypic Sex",
         sort: {
@@ -67,7 +67,7 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          transformer: T.buildReportedEthnicity,
+          transformer: T.buildReportedEthnicities,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Reported Ethnicity",
         sort: {
@@ -78,7 +78,7 @@ export const datasetsEntity: EntityConfig<DatasetsResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          transformer: T.buildLibraryPreparation,
+          transformer: T.buildPrepMaterialNames,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Library Preparation",
         sort: {

@@ -1,6 +1,13 @@
 import { FileFormatResponse } from "../../../models/responses";
 
 /**
+ * Base model of an entry in the "hits" value returned from an Azul entities response.
+ */
+export interface AzulHit {
+  entryId: string;
+}
+
+/**
  * Model of index response type, such as projects (index/projects), samples (index/samples) and files (index/files).
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- this type can't be determined beforehand

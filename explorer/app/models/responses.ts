@@ -1,33 +1,4 @@
 /**
- * Model of biosample dataset value included in the response from the AnVIL-specific index/activities API endpoint.
- * TODO look for reuse with BiosampleDatasetResponse
- */
-export interface ActivityDatasetResponse {
-  dataset_id: string[];
-  title: string[];
-}
-
-/**
- * Model of response returned from the AnVIL-specific /index/biosamples API endpoint.
- */
-export interface ActivitiesResponse {
-  activities: ActivityResponse[];
-  biosamples: BiosampleResponse[]; // TODO double-check reuse here
-  datasets: ActivityDatasetResponse[];
-  entryId: string;
-}
-
-/**
- * Model of activity value included in the response from the AnVIL-specific index/activities API endpoint.
- */
-export interface ActivityResponse {
-  activity_id?: string;
-  activity_type: string;
-  data_modality: string[];
-  document_id: string;
-}
-
-/**
  * Model of response returned from the AnVIL-specific /index/files API endpoint.
  */
 export interface AnvilFilesResponse {
@@ -59,43 +30,6 @@ export interface AnvilFilesResponse {
 }
 
 /**
- * Model of biosample dataset value included in the response from the AnVIL-specific index/biosamples API endpoint.
- * TODO look for reuse with ActitivyDatasetResponse
- */
-export interface BiosampleDatasetResponse {
-  dataset_id: string[];
-  title: string[];
-}
-
-/**
- * Model of biosample donor value included in the response from the AnVIL-specific index/biosamples API endpoint.
- */
-export interface BiosampleDonorResponse {
-  organism_type: string[];
-  phenotypic_sex: string[];
-  reported_ethnicity: string[];
-}
-
-/**
- * Model of biosample value included in the response from the AnVIL-specific index/biosamples API endpoint.
- */
-export interface BiosampleResponse {
-  anatomical_site: string | null;
-  biosample_id: string;
-  biosample_type: string | null;
-}
-
-/**
- * Model of response returned from the AnVIL-specific /index/biosamples API endpoint.
- */
-export interface BiosamplesResponse {
-  biosamples: BiosampleResponse[];
-  entryId: string;
-  datasets: BiosampleDatasetResponse[];
-  donors: BiosampleDonorResponse[];
-}
-
-/**
  * Model of contributor value included in the response from index/projects API endpoint.
  */
 export interface ContributorResponse {
@@ -105,28 +39,6 @@ export interface ContributorResponse {
   institution: string;
   laboratory?: string;
   projectRole?: string;
-}
-
-export interface DatasetDonorResponse {
-  organism_type: string[];
-  phenotypic_sex: string[];
-  reported_ethnicity: string[];
-}
-
-export interface DatasetLibraryResponse {
-  prep_material_name: string[];
-}
-
-export interface DatasetResponse {
-  title: string;
-}
-
-export interface DatasetsResponse {
-  activities: ActivityResponse[];
-  datasets: DatasetResponse[];
-  donors: DatasetDonorResponse[];
-  entryId: string;
-  libraries: DatasetLibraryResponse[];
 }
 
 /**

@@ -9,7 +9,7 @@ import {
   TemporarySidebarClosed,
   TemporarySidebarOpen,
 } from "../Sidebar/sidebar.stories";
-import { datasetsEntity } from "../../../../../site-config/anvil/dev/datasetsEntity";
+import { datasetsEntityConfig } from "../../../../../site-config/anvil/dev/index/datasetsEntityConfig";
 
 export default {
   argTypes: {
@@ -32,7 +32,7 @@ BasicDesktopPage.args = {
       <div />
     </>
   ),
-  entity: datasetsEntity,
+  entity: datasetsEntityConfig,
 };
 
 export const BasicTabletPage = Template.bind({});
@@ -45,7 +45,7 @@ BasicTabletPage.args = {
       <div />
     </>
   ),
-  entity: datasetsEntity,
+  entity: datasetsEntityConfig,
 };
 
 export const BasicTabletPageSidebarOpen = Template.bind({});
@@ -58,5 +58,5 @@ BasicTabletPageSidebarOpen.args = {
       <div />
     </>
   ),
-  entity: datasetsEntity,
+  entity: datasetsEntityConfig,
 };

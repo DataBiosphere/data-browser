@@ -1,17 +1,17 @@
 // App dependencies
-import * as C from "../../../app/components";
+import * as C from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
-} from "../../../app/config/model";
-import { BiosamplesResponse } from "app/models/responses";
-import * as T from "./biosamplesViewModelBuilder";
+} from "../../../../app/config/model";
+import { BioSamplesResponse } from "../../../../app/apis/azul/anvil/common/responses";
+import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 /**
  * Entity config object responsible to config anything related to the /explore/biosamples route.
  */
-export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
+export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
   apiPath: "index/biosamples",
   detail: {
     tabs: [],
@@ -23,7 +23,7 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
       {
         componentConfig: {
           component: C.Cell,
-          transformer: T.buildBiosampleId,
+          transformer: T.buildBioSampleId,
         } as ComponentConfig<typeof C.Cell>,
         header: "Biosample Id",
         sort: {
@@ -35,7 +35,7 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
       {
         componentConfig: {
           component: C.Cell,
-          transformer: T.buildBiosampleType,
+          transformer: T.buildBioSampleType,
         } as ComponentConfig<typeof C.Cell>,
         header: "Biosample Type",
         sort: {
@@ -46,7 +46,7 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          transformer: T.buildOrganismType,
+          transformer: T.buildOrganismTypes,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Organism Type",
         sort: {
@@ -57,7 +57,7 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          transformer: T.buildPhenotypicSex,
+          transformer: T.buildPhenotypicSexes,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Phenotypic Sex",
         sort: {
@@ -79,7 +79,7 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          transformer: T.buildDatasetName,
+          transformer: T.buildDatasetNames,
         } as ComponentConfig<typeof C.NTagCell>,
         header: "Dataset Name",
         sort: {
@@ -88,6 +88,6 @@ export const biosamplesEntity: EntityConfig<BiosamplesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
     ],
-  } as ListConfig<BiosamplesResponse>,
+  } as ListConfig<BioSamplesResponse>,
   route: "biosamples",
 };
