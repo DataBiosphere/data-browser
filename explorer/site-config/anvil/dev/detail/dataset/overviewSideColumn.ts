@@ -1,5 +1,5 @@
 import * as C from "../../../../../app/components";
-import { ComponentConfig } from "../../../../../app/config/model";
+import { ComponentConfig } from "../../../../../app/config/common/entities";
 import * as T from "../../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 export const sideColumn = [

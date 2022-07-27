@@ -1,6 +1,6 @@
 // Core dependencies
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 
 // App dependencies
 import {
@@ -16,11 +16,13 @@ import { useCurrentEntity } from "app/hooks/useCurrentEntity";
 import { useFetchEntities } from "app/hooks/useFetchEntities";
 import { useSummary } from "app/hooks/useSummary";
 import { Index as IndexView } from "../../components/Index/index";
-import { EntityConfig, SummaryConfig } from "../../config/model";
 import {
   AzulEntitiesStaticResponse,
   AzulSummaryResponse,
 } from "../../apis/azul/common/entities";
+import { useCategoryFilter } from "../../hooks/useCategoryFilter";
+import { Sidebar } from "../../components/Layout/components/Sidebar/sidebar";
+import { EntityConfig, SummaryConfig } from "../../config/common/entities";
 
 /**
  * Returns tabs to be used as a prop for the Tabs component.
@@ -73,7 +75,16 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
 
   // Fetch summary and entities.
   const { response: summaryResponse } = useSummary();
-  const { isLoading, pagination, response, sort } = useFetchEntities(props);
+  const {
+    categories: allCategories,
+    loading,
+    pagination,
+    response,
+    sort,
+  } = useFetchEntities(props);
+
+  // Init filter functionality.
+  const { categories } = useCategoryFilter(allCategories);
 
   // Grab the column config for the current entity.
   const columnsConfig = entity?.list?.columns;
@@ -111,17 +122,34 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
         total={response.pagination.pages}
         pagination={pagination}
         sort={sort}
-        loading={isLoading}
+        loading={loading}
       />
     );
   };
-
   return (
-    <IndexView
-      entities={renderContent()}
-      Summaries={renderSummary(summary, summaryResponse)}
-      Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabsValue} />}
-      title={entityTitle}
-    />
+    <>
+      {categories && !!categories.length && (
+        <Sidebar>
+          {categories.map((category, index) => (
+            <Fragment key={index}>
+              <div>
+                <b>{category.label}</b>
+              </div>
+              {category.values.map((categoryValue, j) => (
+                <div key={j}>
+                  {categoryValue.label} {categoryValue.count}
+                </div>
+              ))}
+            </Fragment>
+          ))}
+        </Sidebar>
+      )}
+      <IndexView
+        entities={renderContent()}
+        Summaries={renderSummary(summary, summaryResponse)}
+        Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabsValue} />}
+        title={entityTitle}
+      />
+    </>
   );
 };

@@ -8,7 +8,7 @@ import lungMapProd from "../../site-config/lungmap/prod/config";
 import lungMapDev from "../../site-config/lungmap/dev/config";
 import ncpiMapProd from "../../site-config/ncpi-catalog/prod/config";
 import ncpiMapDev from "../../site-config/ncpi-catalog/dev/config";
-import { SiteConfig } from "./model";
+import { SiteConfig } from "./common/entities";
 
 const CONFIGS: { [k: string]: SiteConfig } = {
   "anvil-catalog-dev": anvilCatalogDev,

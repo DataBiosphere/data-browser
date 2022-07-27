@@ -1,4 +1,4 @@
-import { ComponentConfig } from "app/config/model";
+import { ComponentConfig } from "app/config/common/entities";
 import * as C from "../../../../../app/components";
 import { ProjectsResponse } from "app/models/responses";
 import * as T from "../../projectViewModelBuilder";

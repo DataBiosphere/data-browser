@@ -131,7 +131,7 @@ export const Table = <T extends object>({
   return (
     <div>
       {/* TODO: Render the Loading component when loading is true */}
-      {loading && <span>Loading...</span>}{" "}
+      {loading && <></>}{" "}
       <RoundedPaper>
         {editColumns && (
           <TableToolbar>

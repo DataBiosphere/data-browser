@@ -4,7 +4,7 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
-} from "../../../../app/config/model";
+} from "../../../../app/config/common/entities";
 import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";

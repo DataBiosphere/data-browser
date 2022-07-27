@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { ColumnConfig } from "app/config/model";
+import { ColumnConfig } from "app/config/common/entities";
 import { useResetableState } from "./useResetableState";
 
 /**

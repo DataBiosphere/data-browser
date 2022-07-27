@@ -105,7 +105,7 @@ export interface AzulSummaryResponse {
 /**
  * Model of term returned from Azul entity endpoint (e.g. index/files).
  */
-interface AzulTerm {
+export interface AzulTerm {
   count: number;
   term: string;
 }
@@ -120,7 +120,7 @@ enum AZUL_TERM_TYPE {
 /**
  * Model of term facet returned from Azul entity endpoint (e.g. index/files).
  */
-interface AzulTermFacet {
+export interface AzulTermFacet {
   terms: AzulTerm[];
   total: number;
   type: AZUL_TERM_TYPE;
@@ -129,7 +129,7 @@ interface AzulTermFacet {
 /**
  * Model of term facets returned from Azul entity endpoint (e.g. index/files).
  */
-interface AzulTermFacets {
+export interface AzulTermFacets {
   [k: string]: AzulTermFacet;
 }
 

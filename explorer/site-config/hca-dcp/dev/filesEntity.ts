@@ -5,7 +5,7 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
-} from "../../../app/config/model";
+} from "../../../app/config/common/entities";
 import { FilesResponse } from "app/models/responses";
 
 /**

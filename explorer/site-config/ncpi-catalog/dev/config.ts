@@ -1,5 +1,4 @@
 // App dependencies
-import { SiteConfig } from "../../../app/config/model";
 import anvilConfig from "../../anvil/dev/config";
 import { Social } from "app/components/common/Socials/socials";
 import { Logo } from "../../../app/components/Layout/common/entities";
@@ -10,6 +9,7 @@ import { studiesEntity } from "./studieEntity";
 
 // Images
 import logoNcpi from "images/logoNcpi.svg";
+import { SiteConfig } from "../../../app/config/common/entities";
 
 // Template constants
 const BROWSER_URL = "https://anvilproject.org";

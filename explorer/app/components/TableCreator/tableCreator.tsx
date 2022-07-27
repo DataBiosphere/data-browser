@@ -3,7 +3,11 @@ import React, { useMemo } from "react";
 import { CellProps, Column } from "react-table";
 
 // App dependencies
-import { ColumnConfig, GridTrackMinMax, GridTrackSize } from "app/config/model";
+import {
+  ColumnConfig,
+  GridTrackMinMax,
+  GridTrackSize,
+} from "app/config/common/entities";
 import { useEditColumns } from "app/hooks/useEditColumns";
 import { PaginationConfig, SortConfig } from "app/hooks/useFetchEntities";
 import { ComponentCreator } from "../ComponentCreator/ComponentCreator";

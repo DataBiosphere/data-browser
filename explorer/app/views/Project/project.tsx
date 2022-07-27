@@ -15,7 +15,7 @@ import {
   TabsValue,
   TabValue,
 } from "../../components/common/Tabs/tabs";
-import { EntityConfig } from "../../config/model";
+import { EntityConfig } from "../../config/common/entities";
 import { AzulEntityStaticResponse } from "../../apis/azul/common/entities";
 
 /**

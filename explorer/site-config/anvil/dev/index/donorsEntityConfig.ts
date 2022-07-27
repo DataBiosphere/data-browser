@@ -4,7 +4,7 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
-} from "../../../../app/config/model";
+} from "../../../../app/config/common/entities";
 import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 import { DonorsResponse } from "../../../../app/apis/azul/anvil/common/responses";
 

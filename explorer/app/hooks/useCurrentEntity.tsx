@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { EntityConfig, SiteConfig } from "app/config/model";
+import { EntityConfig, SiteConfig } from "../config/common/entities";
 
 /**
  * Empty entity configuration to serve as default for the context

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 // App dependencies
 import { PARAMS_INDEX_TAB } from "app/shared/constants";
-import { DetailTabConfig } from "../config/model";
+import { DetailTabConfig } from "../config/common/entities";
 import { useCurrentEntity } from "./useCurrentEntity";
 
 /**

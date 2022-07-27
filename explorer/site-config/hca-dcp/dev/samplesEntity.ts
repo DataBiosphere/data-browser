@@ -4,7 +4,7 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
-} from "../../../app/config/model";
+} from "../../../app/config/common/entities";
 import { SamplesResponse } from "app/models/responses";
 import { buildDevStage } from "./projectViewModelBuilder";
 

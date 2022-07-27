@@ -1,6 +1,6 @@
 // App dependencies
 import * as C from "../../../../../app/components";
-import { ComponentConfig, ComponentsConfig } from "app/config/model";
+import { ComponentConfig, ComponentsConfig } from "app/config/common/entities";
 import { ProjectsResponse } from "app/models/responses";
 import * as T from "../../projectViewModelBuilder";
 

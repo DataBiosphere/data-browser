@@ -1,5 +1,5 @@
-import { SiteConfig } from "../../../app/config/model";
 import devConfig from "../dev/config";
+import { SiteConfig } from "../../../app/config/common/entities";
 
 const config: SiteConfig = { ...devConfig };
 

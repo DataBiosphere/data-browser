@@ -1,6 +1,6 @@
 // App dependencies
-import { SiteConfig } from "../../../app/config/model";
 import devConfig from "../dev/config";
+import { SiteConfig } from "../../../app/config/common/entities";
 
 // Template constants
 const BROWSER_URL = "https://data-browser.lungmap.net";

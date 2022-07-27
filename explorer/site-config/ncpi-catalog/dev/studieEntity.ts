@@ -4,7 +4,7 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
-} from "../../../app/config/model";
+} from "../../../app/config/common/entities";
 import { NPCICatalogSourceItem } from "./../../../app/models/responses";
 import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "../tsv-config";
 

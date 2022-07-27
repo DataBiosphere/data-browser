@@ -3,9 +3,17 @@ import { JSXElementConstructor } from "react";
 
 // App dependencies
 import { Footer, Header } from "app/components/Layout/common/entities";
-import { HeroTitle } from "../components/common/Title/title";
+import { HeroTitle } from "../../components/common/Title/title";
 
 type GetIdFunction<T> = (detail: T) => string;
+
+/**
+ * Model of category configured in site config.
+ */
+export interface CategoryConfig {
+  key: string;
+  label: string;
+}
 
 /**
  * Interface used to define the tab label and route.
@@ -148,6 +156,7 @@ export interface ListConfig<T = any> {
  */
 export interface SiteConfig {
   browserURL: string;
+  categoryConfigs?: CategoryConfig[];
   datasources: DataSourceConfig;
   entities: EntityConfig[];
   entityTitle: HeroTitle;
