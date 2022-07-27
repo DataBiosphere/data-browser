@@ -1,7 +1,7 @@
 // App
-import { ListParams } from "app/models/params";
 import {
   AzulEntitiesResponse,
+  AzulListParams,
   AzulSummaryResponse,
 } from "../../apis/azul/common/entities";
 
@@ -19,11 +19,11 @@ export interface Fetcher {
   fetchList: (url: string) => Promise<AzulEntitiesResponse>;
   list: (
     apiPath: string,
-    listParams?: ListParams
+    listParams?: AzulListParams
   ) => Promise<AzulEntitiesResponse>;
   listAll: (
     apiPath: string,
-    listParams?: ListParams
+    listParams?: AzulListParams
   ) => Promise<AzulEntitiesResponse>;
   summary: (
     apiPath: string,

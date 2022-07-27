@@ -29,6 +29,7 @@ export interface SelectCategory {
 export interface SelectCategoryValue {
   count: number;
   key: CategoryKey;
+  label: string; // Allows for displaying null values as "Unspecified"
   selected: boolean;
 }
 

@@ -7,6 +7,7 @@ import {
   LibrariesResponse,
 } from "../anvil/common/responses";
 import { FileEntityResponse } from "../anvil/common/entities";
+import { CategoryKey, CategoryValueKey } from "../../../common/entities";
 
 /**
  * Base model of an entry in the "hits" value returned from an Azul entities response.
@@ -52,6 +53,23 @@ export interface AzulEntitiesStaticResponse {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- this data type can't be determined beforehand
 export interface AzulEntityStaticResponse<T = any> {
   data?: T;
+}
+
+/**
+ * Set of filter operators accepted by Azul.
+ */
+export enum AZUL_FILTER_OPERATOR {
+  "IS" = "is",
+}
+
+/**
+ * Set of valid params accepted by Azul's index (list) endpoints.
+ */
+export interface AzulListParams {
+  filters?: string;
+  order?: string;
+  size?: string;
+  sort?: string;
 }
 
 /**
@@ -132,6 +150,24 @@ export interface AzulTermFacet {
 export interface AzulTermFacets {
   [k: string]: AzulTermFacet;
 }
+
+/**
+ * Possible types of selected category values.
+ */
+export type SelectedFilterValue = CategoryValueKey[];
+
+/**
+ * Model of selected category values in a category.
+ */
+export interface SelectedFilter {
+  categoryKey: CategoryKey;
+  value: SelectedFilterValue;
+}
+
+/**
+ * Set of selected category values.
+ */
+export type Filters = SelectedFilter[];
 
 /**
  * Set of labels that values returned from Azul can be santitized to.

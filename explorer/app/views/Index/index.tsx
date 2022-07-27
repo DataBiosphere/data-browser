@@ -75,16 +75,14 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
 
   // Fetch summary and entities.
   const { response: summaryResponse } = useSummary();
-  const {
-    categories: allCategories,
-    loading,
-    pagination,
-    response,
-    sort,
-  } = useFetchEntities(props);
+  const { categories, loading, pagination, response, setFilter, sort } =
+    useFetchEntities(props, []);
 
   // Init filter functionality.
-  const { categories } = useCategoryFilter(allCategories);
+  const { categories: categoryViews, onFilter } = useCategoryFilter(
+    categories,
+    setFilter
+  );
 
   // Grab the column config for the current entity.
   const columnsConfig = entity?.list?.columns;
@@ -126,18 +124,30 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
       />
     );
   };
+
   return (
     <>
-      {categories && !!categories.length && (
+      {categoryViews && !!categoryViews.length && (
         <Sidebar>
-          {categories.map((category, index) => (
+          {categoryViews.map((categoryView, index) => (
             <Fragment key={index}>
               <div>
-                <b>{category.label}</b>
+                <b>{categoryView.label}</b>
               </div>
-              {category.values.map((categoryValue, j) => (
-                <div key={j}>
-                  {categoryValue.label} {categoryValue.count}
+              {categoryView.values.map((categoryValueView, j) => (
+                <div
+                  key={j}
+                  onClick={(): void =>
+                    onFilter(
+                      categoryView.key,
+                      categoryValueView.key,
+                      !categoryValueView.selected
+                    )
+                  }
+                >
+                  {categoryValueView.selected ? <>&#9889;</> : null}{" "}
+                  {categoryValueView.label} {categoryValueView.count}
+                  {categoryValueView.selected ? <>&#9889;</> : null}
                 </div>
               ))}
             </Fragment>

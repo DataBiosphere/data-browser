@@ -7,9 +7,19 @@ import { useResetableState } from "./useResetableState";
 import {
   AzulEntitiesStaticResponse,
   AzulEntitiesResponse,
+  Filters,
+  AzulListParams,
 } from "../apis/azul/common/entities";
 import { SelectCategory } from "../common/entities";
-import { transformTermFacets } from "../apis/azul/common/filterTransformer";
+import {
+  transformFilters,
+  transformTermFacets,
+} from "../apis/azul/common/filterTransformer";
+
+/**
+ * Type of function called to update filter query string params and trigger re-fetch of entities.
+ */
+export type SetFilterFn = (nextFilters: Filters) => void;
 
 /**
  * Generic pagination model used by both static and dynamic lists.
@@ -45,6 +55,7 @@ interface EntitiesResponse {
   loading: boolean;
   pagination?: PaginationConfig;
   response?: AzulEntitiesResponse;
+  setFilter: SetFilterFn;
   sort?: SortConfig;
 }
 
@@ -66,18 +77,28 @@ const getDefaultSort = (entity: EntityConfig): string | undefined => {
  * Hook handling the load and transformation of the values used by index pages. If the current entity loaded statically,
  * this hook will return the already loaded data. Otherwise, it will make a request for the entity's pathUrl.
  * @param staticResponse - Statically loaded data, if any.
- * @returns An object with the loaded data and a flag indicating is the data is loading.
+ * @param initialFilter - Initial set of select categories.
+ * @returns Model of the entities list including pagination, sort, filter and loading indicator.
  */
 export const useFetchEntities = (
-  staticResponse?: AzulEntitiesStaticResponse
+  staticResponse: AzulEntitiesStaticResponse | null,
+  initialFilter: Filters
+  // eslint-disable-next-line sonarjs/cognitive-complexity -- TODO revisit with #267.
 ): EntitiesResponse => {
+  // Init pagination-related state.
+  const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
+
+  // Init query param-related state. TODO(mim) move to own hook to reduce complexity here, rename setFilterFn
+  const [filter, setFilter] = useState<Filters>(initialFilter);
+  const setFilterFn = useCallback((nextFilter: Filters) => {
+    setFilter(nextFilter);
+  }, []);
+
+  // Grab the current entity.
   const entity = useCurrentEntity();
 
   // Determine type of fetch to be executed, either API endpoint or TSV.
   const { fetchList, list, path, staticLoad } = useFetcher();
-
-  // Init pagination-related state.
-  const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);
 
   // Init sort.
   const defaultSort = useMemo(() => getDefaultSort(entity), [entity]);
@@ -94,9 +115,19 @@ export const useFetchEntities = (
   // Execute fetch of entities.
   useEffect(() => {
     if (!staticLoad) {
-      run(list(path, { order: sortOrder, sort: sortKey }));
+      // Build basic list params
+      const listParams: AzulListParams = { order: sortOrder, sort: sortKey };
+
+      // Build filter query params, if any
+      const filtersParam = transformFilters(filter);
+      if (filtersParam) {
+        listParams.filters = filtersParam;
+      }
+
+      // Execute the fetch.
+      run(list(path, listParams));
     }
-  }, [list, path, run, sortKey, sortOrder, staticLoad]);
+  }, [filter, list, path, run, sortKey, sortOrder, staticLoad]);
 
   // Handle change of sort.
   const sort = useCallback(
@@ -142,6 +173,7 @@ export const useFetchEntities = (
       categories: [],
       loading: false,
       response: staticResponse?.data,
+      setFilter: setFilterFn,
     };
   }
 
@@ -158,6 +190,7 @@ export const useFetchEntities = (
       resetPage,
     },
     response: data,
+    setFilter: setFilterFn,
     sort: {
       sort,
       sortKey,

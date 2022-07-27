@@ -8,9 +8,9 @@ import {
   DEFAULT_DETAIL_PARAMS,
   URL,
 } from "../../shared/constants";
-import { ListParams } from "../../models/params";
 import {
   AzulEntitiesResponse,
+  AzulListParams,
   AzulSummaryResponse,
 } from "../../apis/azul/common/entities";
 
@@ -22,7 +22,7 @@ import {
  */
 export const list = async (
   apiPath: string,
-  listParams?: ListParams
+  listParams?: AzulListParams
 ): Promise<AzulEntitiesResponse> => {
   const params = { ...DEFAULT_LIST_PARAMS, ...listParams };
   return await fetchList(`${URL}${apiPath}?${convertUrlParams(params)}`);
@@ -46,7 +46,7 @@ export const fetchList = async (url: string): Promise<AzulEntitiesResponse> => {
  */
 export const listAll = async (
   apiPath: string,
-  listParams?: ListParams
+  listParams?: AzulListParams
 ): Promise<AzulEntitiesResponse> => {
   let hits = [];
   const result = await list(apiPath, listParams);
