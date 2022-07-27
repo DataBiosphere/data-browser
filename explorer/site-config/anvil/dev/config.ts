@@ -59,8 +59,32 @@ const config: SiteConfig = {
   browserURL: BROWSER_URL,
   categoryConfigs: [
     {
+      key: "biosample_type",
+      label: "BioSample Type",
+    },
+    {
+      key: "data_modality",
+      label: "Data Modality",
+    },
+    {
+      key: "file_format",
+      label: "File Format",
+    },
+    {
+      key: "file_type",
+      label: "File Type",
+    },
+    {
       key: "organism_type",
       label: "Organism Type",
+    },
+    {
+      key: "phenotypic_sex",
+      label: "Phenotypic Sex",
+    },
+    {
+      key: "prep_material_name",
+      label: "Library Preparation",
     },
     {
       key: "reported_ethnicity",

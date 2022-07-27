@@ -1,7 +1,12 @@
-import { SelectCategory, SelectCategoryView } from "../common/entities";
+import {
+  SelectCategory,
+  SelectCategoryValueView,
+  SelectCategoryView,
+} from "../common/entities";
 import { useConfig } from "./useConfig";
 import { useEffect, useState } from "react";
 import { CategoryConfig } from "../config/common/entities";
+import { COLLATOR_CASE_INSENSITIVE } from "../common/constants";
 
 /**
  * Shape of return value from this useCategoryFilter hook.
@@ -59,7 +64,7 @@ function buildCategoryViews(filterState?: FilterState): SelectCategoryView[] {
   }
 
   // Build view models for each category.
-  return filterState.map((category) => {
+  const views = filterState.map((category) => {
     // Build view models for each category value in this category.
     const values = category.values.map((categoryValue) => {
       return {
@@ -69,6 +74,7 @@ function buildCategoryViews(filterState?: FilterState): SelectCategoryView[] {
         selected: false,
       };
     });
+    values.sort(sortCategoryValueViews);
 
     return {
       isDisabled: false,
@@ -77,6 +83,9 @@ function buildCategoryViews(filterState?: FilterState): SelectCategoryView[] {
       values,
     };
   });
+
+  views.sort(sortCategoryViews);
+  return views;
 }
 
 /**
@@ -111,4 +120,30 @@ function isCategoryAcceptListed(
   return categoryConfigs.some(
     (categoryConfig) => categoryConfig.key === category.key
   );
+}
+
+/**
+ * Sort category value views by key, ascending.
+ * @param cvv0 - First category value view to compare.
+ * @param cvv1 - Second category value view to compare.
+ * @returns Number indicating sort precedence of cv0 vs cv1.
+ */
+function sortCategoryValueViews(
+  cvv0: SelectCategoryValueView,
+  cvv1: SelectCategoryValueView
+): number {
+  return COLLATOR_CASE_INSENSITIVE.compare(cvv0.label, cvv1.label);
+}
+
+/**
+ * Sort category views by display label, ascending.
+ * @param c0 - First category view to compare.
+ * @param c1 - Second category view to compare.
+ * @returns Number indicating sort precedence of c0 vs c1.
+ */
+function sortCategoryViews(
+  c0: SelectCategoryView,
+  c1: SelectCategoryView
+): number {
+  return COLLATOR_CASE_INSENSITIVE.compare(c0.label, c1.label);
 }
