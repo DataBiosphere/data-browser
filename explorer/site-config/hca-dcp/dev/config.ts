@@ -44,6 +44,88 @@ const SOCIALS: Social[] = [
 
 const config: SiteConfig = {
   browserURL: BROWSER_URL,
+  categoryConfigs: [
+    {
+      key: "anatomicalEntity",
+      label: "Anatomical Entity",
+    },
+    {
+      key: "biologicalSex",
+      label: "Biological Sex",
+    },
+    {
+      key: "contactName",
+      label: "Contact Name",
+    },
+    {
+      key: "developmentStage",
+      label: "Development Stage",
+    },
+    {
+      key: "genusSpecies",
+      label: "Genus Species",
+    },
+    {
+      key: "donorDisease",
+      label: "Donor Disease",
+    },
+    {
+      key: "instrumentManufacturerModel",
+      label: "Instrument Manufacturer Model",
+    },
+    {
+      key: "institution",
+      label: "Institution",
+    },
+    {
+      key: "laboratory",
+      label: "Laboratory",
+    },
+    {
+      key: "modelOrgan",
+      label: "Model Organ",
+    },
+    {
+      key: "nucleicAcidSource",
+      label: "Nucleic Acid Source",
+    },
+    {
+      key: "organPart",
+      label: "Organ Part",
+    },
+    {
+      key: "pairedEnd",
+      label: "Paired End",
+    },
+    {
+      key: "preservationMethod",
+      label: "Preservation Method",
+    },
+    {
+      key: "publicationTitle",
+      label: "Publication Title",
+    },
+    {
+      key: "libraryConstructionApproach",
+      label: "Library Construction Method",
+    },
+    {
+      key: "specimenDisease",
+      label: "Specimen Disease",
+    },
+    {
+      key: "selectedCellType",
+      label: "Selected Cell Type",
+    },
+    {
+      key: "sampleType",
+      label: "Sample Type",
+    },
+    {
+      key: "workflow",
+      label: "Analysis Protocol",
+    },
+  ],
   datasources: {
     defaultDetailParams: {
       catalog: CATALOG_DCP2,
