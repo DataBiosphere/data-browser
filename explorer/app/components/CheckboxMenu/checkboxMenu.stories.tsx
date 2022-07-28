@@ -10,6 +10,9 @@ export default {
     selected: { control: "array" },
   },
   component: CheckboxMenu,
+  parameters: {
+    layout: "centered",
+  },
   title: "Components/CheckboxMenu",
 } as ComponentMeta<typeof CheckboxMenu>;
 

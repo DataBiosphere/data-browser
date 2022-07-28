@@ -131,6 +131,16 @@ const defaultTheme = createTheme({
 });
 
 /**
+ * Color constants
+ */
+const ink = defaultTheme.palette.ink;
+
+/**
+ * Color alpha constants
+ */
+const alpha80 = "cc";
+
+/**
  * Typography constants
  */
 const textBody500 = defaultTheme.typography["text-body-500"];
@@ -151,6 +161,16 @@ export const theme = createTheme(defaultTheme, {
       styleOverrides: {
         colorDefault: {
           backgroundColor: defaultTheme.palette.common.white,
+        },
+      },
+    },
+    MuiBackdrop: {
+      styleOverrides: {
+        invisible: {
+          backgroundColor: "transparent",
+        },
+        root: {
+          backgroundColor: `${ink}${alpha80}`,
         },
       },
     },
@@ -419,14 +439,6 @@ export const theme = createTheme(defaultTheme, {
           color: defaultTheme.palette.ink,
           minHeight: "unset",
           padding: "10px 16px",
-        },
-      },
-    },
-    MuiModal: {
-      styleOverrides: {
-        backdrop: {
-          backgroundColor: defaultTheme.palette.ink,
-          opacity: "0.8 !important",
         },
       },
     },
