@@ -1,5 +1,5 @@
 // Core dependencies
-import { createTheme } from "@mui/material/styles";
+import { createTheme, Shadows } from "@mui/material/styles";
 
 // App dependencies
 import { BREAKPOINT } from "../hooks/useBreakpointHelper";
@@ -16,6 +16,15 @@ export interface CustomColors {
   smokeLight: string;
   smokeLightest: string;
 }
+
+/**
+ * Custom shadows
+ */
+const customShadows = [
+  "none",
+  "0 1px 4px 0 #00000012",
+  "0 8px 8px -4px #10182808, 0 20px 24px -4px #10182814",
+];
 
 /**
  * Default theme
@@ -131,18 +140,45 @@ const defaultTheme = createTheme({
 });
 
 /**
+ * Default theme overrides
+ */
+defaultTheme.shadows = [...defaultTheme.shadows].map(
+  (shadow, s) => customShadows[s] || shadow
+) as Shadows;
+
+/**
  * Color constants
  */
 const ink = defaultTheme.palette.ink;
+const inkLight = defaultTheme.palette.inkLight;
+const smoke = defaultTheme.palette.smoke;
+const smokeDark = defaultTheme.palette.smokeDark;
+const smokeLight = defaultTheme.palette.smokeLight;
+const white = defaultTheme.palette.common.white;
 
 /**
  * Color alpha constants
  */
 const alpha80 = "cc";
 
+/*
+ * Elevation constants
+ */
+const elevation01 = defaultTheme.shadows[1];
+const elevation02 = defaultTheme.shadows[2];
+
+/**
+ * Stroke constants
+ */
+const strokeBottom = "inset 0 -1px 0 0";
+const strokeBottomSmoke = `${strokeBottom} ${smoke}`;
+const strokeTop = "inset 0 1px 0 0";
+const strokeTopSmoke = `${strokeTop} ${smoke}`;
+
 /**
  * Typography constants
  */
+const textBody400 = defaultTheme.typography["text-body-400"];
 const textBody500 = defaultTheme.typography["text-body-500"];
 const textBodySmall400 = defaultTheme.typography["text-body-small-400"];
 const textBodySmall500 = defaultTheme.typography["text-body-small-500"];
@@ -160,7 +196,7 @@ export const theme = createTheme(defaultTheme, {
       },
       styleOverrides: {
         colorDefault: {
-          backgroundColor: defaultTheme.palette.common.white,
+          backgroundColor: white,
         },
       },
     },
@@ -186,7 +222,7 @@ export const theme = createTheme(defaultTheme, {
           gap: 2,
         },
         root: {
-          color: defaultTheme.palette.inkLight,
+          color: inkLight,
         },
         separator: {
           margin: 0,
@@ -216,14 +252,14 @@ export const theme = createTheme(defaultTheme, {
           },
           style: {
             ...textBody500,
-            color: defaultTheme.palette.ink,
+            color: ink,
             minWidth: 0,
             padding: "12px 24px",
             textTransform: "capitalize",
             whiteSpace: "nowrap",
             // eslint-disable-next-line sort-keys -- disabling key order for readability
             "&:hover": {
-              backgroundColor: defaultTheme.palette.smokeLight,
+              backgroundColor: smokeLight,
             },
             [defaultTheme.breakpoints.up(BREAKPOINT.DESKTOP)]: {
               padding: "6px 12px",
@@ -252,11 +288,11 @@ export const theme = createTheme(defaultTheme, {
           fontSize: "18px",
         },
         root: {
-          color: defaultTheme.palette.smokeDark,
+          color: smokeDark,
           padding: 0,
           // eslint-disable-next-line sort-keys -- disabling key order for readability
           "&.Mui-disabled": {
-            color: defaultTheme.palette.smokeDark,
+            color: smokeDark,
           },
         },
       },
@@ -291,17 +327,17 @@ export const theme = createTheme(defaultTheme, {
         },
         ntag: {
           ...textBodySmall400,
-          backgroundColor: defaultTheme.palette.smoke,
-          borderColor: defaultTheme.palette.common.white,
+          backgroundColor: smoke,
+          borderColor: white,
           borderStyle: "solid",
           borderWidth: 2,
           boxSizing: "content-box",
-          color: defaultTheme.palette.ink,
+          color: ink,
           height: 24,
         },
         status: {
           ...textBodySmall500,
-          borderColor: defaultTheme.palette.common.white,
+          borderColor: white,
           borderStyle: "solid",
           borderWidth: 2,
           height: 24,
@@ -372,10 +408,10 @@ export const theme = createTheme(defaultTheme, {
             color: "ink",
           },
           style: {
-            color: defaultTheme.palette.ink,
+            color: ink,
             // eslint-disable-next-line sort-keys -- disabling key order for readability
             "&:hover": {
-              backgroundColor: defaultTheme.palette.smokeLight,
+              backgroundColor: smokeLight,
             },
           },
         },
@@ -384,10 +420,10 @@ export const theme = createTheme(defaultTheme, {
             color: "inkLight",
           },
           style: {
-            color: defaultTheme.palette.inkLight,
+            color: inkLight,
             // eslint-disable-next-line sort-keys -- disabling key order for readability
             "&:hover": {
-              backgroundColor: defaultTheme.palette.smokeLight,
+              backgroundColor: smokeLight,
             },
           },
         },
@@ -435,8 +471,8 @@ export const theme = createTheme(defaultTheme, {
       defaultProps: { disableRipple: true },
       styleOverrides: {
         root: {
-          ...defaultTheme.typography["text-body-400"],
-          color: defaultTheme.palette.ink,
+          ...textBody400,
+          color: ink,
           minHeight: "unset",
           padding: "10px 16px",
         },
@@ -445,25 +481,27 @@ export const theme = createTheme(defaultTheme, {
     MuiPaper: {
       styleOverrides: {
         footer: {
-          backgroundColor: defaultTheme.palette.smokeLight,
-          boxShadow: `inset 0 -1px 0 0 ${defaultTheme.palette.smoke}, inset 0 1px 0 0 ${defaultTheme.palette.smoke}`,
+          backgroundColor: smokeLight,
+          boxShadow: `${strokeTopSmoke}, ${strokeBottomSmoke}`,
         },
         menu: {
+          borderColor: smokeDark,
           borderRadius: 8,
-          boxShadow: `inset 0 0 0 1px ${defaultTheme.palette.smokeDark}, 0 8px 8px -4px rgba(16, 24, 40, 0.03), 0 20px 24px -4px rgba(16, 24, 40, 0.08)`,
-          margin: "8px 0",
-        },
-        panel: {
-          backgroundColor: defaultTheme.palette.smoke,
-          borderColor: defaultTheme.palette.smoke,
           borderStyle: "solid",
           borderWidth: 1,
-          boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.07)",
+          boxShadow: elevation02,
+        },
+        panel: {
+          backgroundColor: smoke,
+          borderColor: smoke,
+          borderStyle: "solid",
+          borderWidth: 1,
+          boxShadow: elevation01,
           display: "grid",
           gap: 1,
         },
         sidebar: {
-          backgroundColor: defaultTheme.palette.smokeLight,
+          backgroundColor: smokeLight,
           padding: "24px 0",
           width: 312,
         },
@@ -516,7 +554,7 @@ export const theme = createTheme(defaultTheme, {
         },
         root: {
           ...textBody500,
-          color: defaultTheme.palette.inkLight,
+          color: inkLight,
           marginBottom: 3,
           minHeight: "unset",
           minWidth: "unset",
@@ -528,7 +566,7 @@ export const theme = createTheme(defaultTheme, {
             marginRight: 0,
           },
           "&.Mui-selected": {
-            color: defaultTheme.palette.ink,
+            color: ink,
           },
         },
       },
@@ -536,13 +574,13 @@ export const theme = createTheme(defaultTheme, {
     MuiTableCell: {
       styleOverrides: {
         body: {
-          ...defaultTheme.typography["text-body-400"],
+          ...textBody400,
         },
         head: {
           ...textBodySmall500,
         },
         root: {
-          color: defaultTheme.palette.ink,
+          color: ink,
           padding: "18px 20px",
         },
       },
@@ -584,7 +622,7 @@ export const theme = createTheme(defaultTheme, {
           height: 3,
         },
         root: {
-          boxShadow: `inset 0 -1px 0 0 ${defaultTheme.palette.smoke}`,
+          boxShadow: strokeBottomSmoke,
           minHeight: "unset",
           position: "relative", // Positions scroll fuzz.
         },
@@ -607,7 +645,7 @@ export const theme = createTheme(defaultTheme, {
     MuiTooltip: {
       styleOverrides: {
         arrow: {
-          color: defaultTheme.palette.ink,
+          color: ink,
           // eslint-disable-next-line sort-keys -- disabling key order for readability
           "&:before": {
             borderRadius: 1,
@@ -615,9 +653,8 @@ export const theme = createTheme(defaultTheme, {
         },
         tooltip: {
           ...textBodySmall400,
-          backgroundColor: defaultTheme.palette.ink,
-          boxShadow:
-            "0px 8px 8px -4px rgb(16 24 40 / 0.03), 0px 20px 24px -4px rgb(16 24 40 / 0.08)",
+          backgroundColor: ink,
+          boxShadow: elevation02,
           padding: "8px 12px",
         },
       },

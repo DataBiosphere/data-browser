@@ -53,7 +53,7 @@ export const Header = ({ header }: Props): JSX.Element => {
   }, [desktop]);
 
   return (
-    <AppBar>
+    <AppBar elevation={1}>
       <Toolbar sx={{ gap: 4, height: HEADER_HEIGHT }} variant="dense">
         {/* Logo */}
         <Logo logo={logo} />
