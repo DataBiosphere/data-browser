@@ -32,6 +32,7 @@ const SOCIALS: Social[] = [
 
 const config: SiteConfig = {
   browserURL: BROWSER_URL,
+  categoryConfigs: hcaConfig.categoryConfigs,
   datasources: {
     defaultDetailParams: {
       catalog: CATALOG_LM2,
