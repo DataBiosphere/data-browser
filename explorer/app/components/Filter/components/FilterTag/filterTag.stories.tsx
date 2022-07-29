@@ -14,7 +14,7 @@ export default {
   parameters: {
     layout: "centered",
   },
-  title: "Components/FilterTag",
+  title: "Filter/FilterTag",
 } as ComponentMeta<typeof FilterTag>;
 
 const Template: ComponentStory<typeof FilterTag> = (args) => (
