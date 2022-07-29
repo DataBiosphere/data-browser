@@ -39,6 +39,7 @@ export interface EditColumnConfig {
 
 interface TableProps<T extends object> {
   columns: Column<T>[];
+  disablePagination?: boolean;
   editColumns?: EditColumnConfig;
   gridTemplateColumns: string;
   items: T[];
@@ -63,10 +64,12 @@ interface TableProps<T extends object> {
  * @param tableProps.pagination - Config for rendering pagination and corresponding events.
  * @param tableProps.sort - Config for rendering current sort and handling corresponding events.
  * @param tableProps.gridTemplateColumns - Defines grid table track sizing.
+ * @param tableProps.disablePagination - Determine if the table shouldn't be paginated
  * @returns Configured table element for display.
  */
 export const Table = <T extends object>({
   columns,
+  disablePagination,
   editColumns,
   gridTemplateColumns,
   items,
@@ -94,7 +97,7 @@ export const Table = <T extends object>({
       data: items,
       disableMultiSort: true,
       initialState: {
-        pageSize: pageSize,
+        pageSize: disablePagination ? Number.MAX_SAFE_INTEGER : pageSize,
       } as TableState,
       manualPagination: !!pagination,
       manualSortBy: true,
@@ -194,14 +197,18 @@ export const Table = <T extends object>({
             </TableBody>
           </GridTable>
         </TableContainer>
-        <Pagination
-          canNextPage={pagination?.canNextPage ?? tableCanNextPage}
-          canPreviousPage={pagination?.canPreviousPage ?? tableCanPreviousPage}
-          currentPage={currentPage}
-          onNextPage={handleTableNextPage}
-          onPreviousPage={handleTablePreviousPage}
-          totalPage={totalPage}
-        />
+        {!disablePagination && (
+          <Pagination
+            canNextPage={pagination?.canNextPage ?? tableCanNextPage}
+            canPreviousPage={
+              pagination?.canPreviousPage ?? tableCanPreviousPage
+            }
+            currentPage={currentPage}
+            onNextPage={handleTableNextPage}
+            onPreviousPage={handleTablePreviousPage}
+            totalPage={totalPage}
+          />
+        )}
       </RoundedPaper>
     </div>
   );

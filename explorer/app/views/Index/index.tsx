@@ -62,6 +62,9 @@ function renderSummary(
 }
 
 export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
+  // Determine the current site config
+  const config = useConfig();
+
   // Determine the current entity (e.g. projects, files, samples) and config.
   const entity = useCurrentEntity();
   const { entities, entityTitle, summary } = useConfig();
@@ -121,6 +124,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
         pagination={pagination}
         sort={sort}
         loading={loading}
+        disablePagination={config.disablePagination}
       />
     );
   };

@@ -158,6 +158,7 @@ export interface SiteConfig {
   browserURL: string;
   categoryConfigs?: CategoryConfig[];
   datasources: DataSourceConfig;
+  disablePagination?: boolean;
   entities: EntityConfig[];
   entityTitle: HeroTitle;
   layout: {

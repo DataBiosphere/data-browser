@@ -15,6 +15,7 @@ import { Table } from "../Table/table";
 
 interface TableCreatorProps<T> {
   columns: ColumnConfig<T>[];
+  disablePagination?: boolean;
   items: T[];
   loading?: boolean;
   pageSize: number;
@@ -63,6 +64,7 @@ const createCell = <T extends object>(config: ColumnConfig<T>) =>
 
 export const TableCreator = <T extends object>({
   columns,
+  disablePagination,
   items,
   loading,
   pageSize,
@@ -87,6 +89,7 @@ export const TableCreator = <T extends object>({
   return (
     <Table<T>
       columns={reactVisibleColumns}
+      disablePagination={disablePagination}
       editColumns={editColumns}
       gridTemplateColumns={gridTemplateColumns}
       items={items}
