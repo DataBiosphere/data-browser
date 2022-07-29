@@ -10,6 +10,15 @@ export enum ELEMENT_ALIGNMENT {
 export type CategoryKey = string;
 
 /**
+ * View model of category tag.
+ */
+export interface CategoryTag {
+  label: string;
+  onRemove: () => void;
+  superseded: boolean;
+}
+
+/**
  * Category values to be used as keys. For example, "Homo sapiens" or "10X 3' v2 sequencing".
  */
 export type CategoryValueKey = string;
@@ -44,7 +53,7 @@ export interface SelectCategoryValueView {
 }
 
 /**
- * View model fo category, for multiselect categories.
+ * View model of category, for multiselect categories.
  */
 export interface SelectCategoryView {
   isDisabled?: boolean;
