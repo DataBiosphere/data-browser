@@ -21,6 +21,7 @@ mkdir -p build/explore/hca
 mkdir -p build/explore/lungmap
 mkdir -p build/explore/anvil-catalog
 mkdir -p build/explore/ncpi-catalog
+mkdir -p build/explore/ncpi-catalog-dug
 
 # Build AnVIL
 rm -rf ./out
@@ -32,7 +33,7 @@ rm -rf ./out
 npm run build:hca-dcp
 mv out/explore/* build/explore/hca
 
-## Build Lungmapå
+## Build Lungmap
 rm -rf ./out
 npm run build:lungmap
 mv out/explore/* build/explore/lungmap
@@ -43,10 +44,15 @@ npm run build:anvil-catalog
 mv out/explore/* build/explore/anvil-catalog
 
 
-# Build AnVIL Catalog
+# Build NCPI Catalog
 rm -rf ./out
 npm run build:ncpi-catalog
 mv out/explore/* build/explore/ncpi-catalog
+
+# Build NCPI Dug Catalog
+rm -rf ./out
+npm run build:ncpi-catalog-dug
+mv out/explore/* build/explore/ncpi-catalog-dug
 
 
 export BUCKET=s3://ux-dev.explore.singlecell.gi.ucsc.edu/
