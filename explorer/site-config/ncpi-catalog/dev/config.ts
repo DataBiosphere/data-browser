@@ -5,7 +5,7 @@ import { Logo } from "../../../app/components/Layout/common/entities";
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 
 // Entities config
-import { studiesEntity } from "./studieEntity";
+import { studiesEntity } from "./studiesEntity";
 
 // Images
 import logoNcpi from "images/logoNcpi.svg";
@@ -36,8 +36,11 @@ const SOCIALS: Social[] = [
   },
 ];
 
+// Remove the summary from the AnVIL config.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- using rest syntax to remove summary from config.
+const { summaryConfig, ...basicConfig } = anvilConfig;
 const config: SiteConfig = {
-  ...anvilConfig,
+  ...basicConfig,
   disablePagination: true,
   entities: [studiesEntity],
   entityTitle: "NCPI Dataset Catalog",
@@ -83,10 +86,6 @@ const config: SiteConfig = {
     },
   },
   redirectRootToPath: "/studies",
-  summary: {
-    apiPath: "",
-    components: [],
-  },
 };
 
 export default config;

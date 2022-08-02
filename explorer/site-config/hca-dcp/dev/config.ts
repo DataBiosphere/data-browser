@@ -126,7 +126,7 @@ const config: SiteConfig = {
       label: "Analysis Protocol",
     },
   ],
-  datasources: {
+  dataSources: {
     defaultDetailParams: {
       catalog: CATALOG_DCP2,
     },
@@ -206,7 +206,7 @@ const config: SiteConfig = {
     },
   },
   redirectRootToPath: PROJECTS_URL,
-  summary: {
+  summaryConfig: {
     apiPath: "index/summary",
     components: summary,
   },

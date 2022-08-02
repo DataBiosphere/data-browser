@@ -8,7 +8,7 @@ const BROWSER_URL = "https://data.humancellatlas.org";
 const config: SiteConfig = {
   ...devConfig,
   browserURL: BROWSER_URL,
-  datasources: {
+  dataSources: {
     defaultDetailParams: {
       catalog: "dcp18",
     },

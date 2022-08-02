@@ -1,31 +1,30 @@
-type GetByFunction<T> = (value: T) => boolean;
+type GetByIdFunction<T> = (value: T) => boolean;
 
 /**
- * Database interface which contains all database functions available to the app
+ * Database interface containing database functions available to the app.
  */
 interface Database<T> {
   all: () => T[];
-  find: (getById: GetByFunction<T>) => T | undefined;
+  find: (getById: GetByIdFunction<T>) => T | undefined;
   seed: (newItems: T[]) => void;
 }
 
 /**
- * Database singleston
+ * Database singleton.
  */
 interface DatabaseReturn<T> {
   get: () => Database<T>;
 }
 
 /**
- * Closure to hide database implementation details and make all data available
- * only through database functions
+ * Closure to hide database implementation details and make all data available only through database functions.
  */
 export const database = (<T>(): DatabaseReturn<T> => {
   const ITEMS: T[] = [];
 
   const dbInstance: Database<T> = {
     all: () => ITEMS,
-    find: (getById: GetByFunction<T>): T | undefined => {
+    find: (getById: GetByIdFunction<T>): T | undefined => {
       return ITEMS.find((value: T) => getById(value));
     },
     seed: (newItems: T[]): void => {

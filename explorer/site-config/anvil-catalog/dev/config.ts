@@ -8,7 +8,7 @@ const config: SiteConfig = {
   entities: [workspaceEntity],
   entityTitle: "Anvil Dataset Catalog",
   redirectRootToPath: "/workspaces",
-  summary: {
+  summaryConfig: {
     apiPath: "",
     components: [],
   },

@@ -46,7 +46,7 @@ function getTabs(entities: EntityConfig[]): Tab[] {
  * @returns rendered Summaries component.
  */
 function renderSummary(
-  summaryConfig: SummaryConfig,
+  summaryConfig?: SummaryConfig,
   summaryResponse?: AzulSummaryResponse
 ): JSX.Element | undefined {
   if (!summaryConfig || !summaryResponse) {
@@ -67,7 +67,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
 
   // Determine the current entity (e.g. projects, files, samples) and config.
   const entity = useCurrentEntity();
-  const { entities, entityTitle, summary } = useConfig();
+  const { entities, entityTitle, summaryConfig } = useConfig();
 
   const route = entity?.route;
   const { push } = useRouter();
@@ -160,7 +160,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
       )}
       <IndexView
         entities={renderContent()}
-        Summaries={renderSummary(summary, summaryResponse)}
+        Summaries={renderSummary(summaryConfig, summaryResponse)}
         Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabsValue} />}
         title={entityTitle}
       />

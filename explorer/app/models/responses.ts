@@ -168,18 +168,3 @@ export interface AnvilCatalogSourceItem {
   "Study Design": string;
   "Terra Workspace Name": string;
 }
-
-/**
- * Model to represent NCPI's catalog TSV file
- */
-export interface NPCICatalogSourceItem {
-  "Consent Code": string;
-  "Data Type": string;
-  "dbGap Id": string;
-  "Focus / Disease": string;
-  Participants: number;
-  Platform: string;
-  Study: string;
-  "Study Accession": string;
-  "Study Design": string;
-}

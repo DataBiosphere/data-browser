@@ -3,10 +3,10 @@ import { config } from "../config/config";
 /**
  * Site specific environment variables
  */
-export const URL: string = config().datasources.url;
-export const DEFAULT_LIST_PARAMS = config().datasources.defaultListParams ?? {};
+export const URL: string = config().dataSources.url;
+export const DEFAULT_LIST_PARAMS = config().dataSources.defaultListParams ?? {};
 export const DEFAULT_DETAIL_PARAMS =
-  config().datasources.defaultDetailParams ?? {};
+  config().dataSources.defaultDetailParams ?? {};
 
 /**
  * Determine if current deployment environment is development.

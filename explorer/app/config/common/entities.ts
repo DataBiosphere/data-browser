@@ -157,7 +157,7 @@ export interface ListConfig<T = any> {
 export interface SiteConfig {
   browserURL: string;
   categoryConfigs?: CategoryConfig[];
-  datasources: DataSourceConfig;
+  dataSources: DataSourceConfig;
   disablePagination?: boolean;
   entities: EntityConfig[];
   entityTitle: HeroTitle;
@@ -166,5 +166,5 @@ export interface SiteConfig {
     header: Header;
   };
   redirectRootToPath?: string;
-  summary: SummaryConfig;
+  summaryConfig?: SummaryConfig;
 }

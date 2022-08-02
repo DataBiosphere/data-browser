@@ -91,7 +91,7 @@ const config: SiteConfig = {
       label: "Reported Ethnicity",
     },
   ],
-  datasources: {
+  dataSources: {
     defaultListParams: {
       size: "25",
       sort: "entryId",
@@ -191,7 +191,7 @@ const config: SiteConfig = {
     },
   },
   redirectRootToPath: "/datasets",
-  summary: {
+  summaryConfig: {
     apiPath: "index/summary",
     components: summary,
   },

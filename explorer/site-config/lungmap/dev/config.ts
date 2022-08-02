@@ -33,7 +33,7 @@ const SOCIALS: Social[] = [
 const config: SiteConfig = {
   browserURL: BROWSER_URL,
   categoryConfigs: hcaConfig.categoryConfigs,
-  datasources: {
+  dataSources: {
     defaultDetailParams: {
       catalog: CATALOG_LM2,
     },
@@ -80,7 +80,7 @@ const config: SiteConfig = {
     },
   },
   redirectRootToPath: PROJECTS_URL,
-  summary: {
+  summaryConfig: {
     apiPath: "index/summary",
     components: summary,
   },

@@ -11,7 +11,6 @@ import { getCurrentEntity } from "app/hooks/useCurrentEntity";
 import { getFetcher } from "app/hooks/useFetcher";
 import { Index } from "app/views/Index";
 import { parseContentRows, readFile } from "app/utils/tsvParser";
-import { AnvilSourceItem } from "app/models/responses";
 import { database } from "app/utils/database";
 import { AzulEntitiesStaticResponse } from "../../app/apis/azul/common/entities";
 
@@ -59,8 +58,11 @@ export const getStaticProps: GetStaticProps<
 > = async (context: GetStaticPropsContext) => {
   const { slug } = context.params as PageUrl;
   const entity = getCurrentEntity(slug, config());
+
+  // Determine the type of fetch, either from an API endpoint or a TSV.
   const fetcher = getFetcher(entity);
 
+  // Build database from configured TSV, if any.
   if (entity.tsv) {
     const file = await readFile(entity.tsv.path);
 
@@ -70,7 +72,7 @@ export const getStaticProps: GetStaticProps<
       );
     }
 
-    const result = await parseContentRows<AnvilSourceItem>(
+    const result = await parseContentRows(
       file,
       "\t",
       entity.tsv.sourceFieldKey,
@@ -79,6 +81,7 @@ export const getStaticProps: GetStaticProps<
     database.get().seed(result);
   }
 
+  // Fetch the result set from either a configured API endpoint or from a local database seeded from a configured TSV.
   const resultList =
     entity.staticLoad || entity.tsv
       ? await fetcher.listAll(fetcher.path)

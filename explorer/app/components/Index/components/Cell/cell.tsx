@@ -2,11 +2,11 @@
 import React from "react";
 
 interface Props {
-  value?: string | string[];
+  value?: number | string | string[];
 }
 
 export const Cell = ({ value = "Unspecified" }: Props): JSX.Element => {
-  if (typeof value === "string") {
+  if (typeof value === "string" || typeof value === "number") {
     return <div>{value}</div>;
   }
   return (
