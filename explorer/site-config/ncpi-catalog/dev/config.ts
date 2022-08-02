@@ -5,7 +5,7 @@ import { Logo } from "../../../app/components/Layout/common/entities";
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 
 // Entities config
-import { studiesEntity } from "./studiesEntity";
+import { studiesEntityConfig } from "./index/studiesEntityConfig";
 
 // Images
 import logoNcpi from "images/logoNcpi.svg";
@@ -42,7 +42,7 @@ const { summaryConfig, ...basicConfig } = anvilConfig;
 const config: SiteConfig = {
   ...basicConfig,
   disablePagination: true,
-  entities: [studiesEntity],
+  entities: [studiesEntityConfig],
   entityTitle: "NCPI Dataset Catalog",
   layout: {
     footer: anvilConfig.layout.footer,
