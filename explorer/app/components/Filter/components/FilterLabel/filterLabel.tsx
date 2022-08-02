@@ -11,7 +11,12 @@ interface Props {
   label: string;
 }
 
-export const FilterLabel = ({ count, disabled, label }: Props): JSX.Element => {
+export const FilterLabel = ({
+  count,
+  disabled,
+  label,
+  ...props /* Spread props to allow for Button specific props ButtonProps e.g. "onClick". */
+}: Props): JSX.Element => {
   const filterLabel = count ? `${label} (${count})` : label;
   return (
     <Label
@@ -19,6 +24,7 @@ export const FilterLabel = ({ count, disabled, label }: Props): JSX.Element => {
       disabled={disabled}
       endIcon={<ArrowDropDownRoundedIcon fontSize="small" />}
       fullWidth
+      {...props}
     >
       {filterLabel}
     </Label>
