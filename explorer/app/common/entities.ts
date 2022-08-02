@@ -61,3 +61,29 @@ export interface SelectCategoryView {
   label: string;
   values: SelectCategoryValueView[];
 }
+
+/**
+ * Generic pagination model used by both static and dynamic lists.
+ */
+export interface Pagination {
+  canNextPage: boolean;
+  canPreviousPage: boolean;
+  currentPage: number;
+  nextPage: () => void;
+  previousPage: () => void;
+  resetPage: () => void;
+}
+
+/**
+ * Generic sort model used by both static and dynamic lists.
+ */
+export interface Sort {
+  sort: (key?: string, sortOrder?: SortOrderType) => void;
+  sortKey?: string;
+  sortOrder?: SortOrderType;
+}
+
+/**
+ * Possible sort direction values.
+ */
+export type SortOrderType = "asc" | "desc";

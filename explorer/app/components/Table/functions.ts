@@ -1,5 +1,5 @@
-import { SortConfig, SortOrderType } from "app/hooks/useFetchEntities";
 import { ColumnInstance } from "react-table";
+import { Sort, SortOrderType } from "../../common/entities";
 
 /**
  * Determine the column ID to sort by, if any, based on the currently selected sort by column.
@@ -8,7 +8,7 @@ import { ColumnInstance } from "react-table";
  * @returns the column ID to sort the table by.
  */
 export const newColumnKey = <T extends object>(
-  sort: SortConfig,
+  sort: Sort,
   column: ColumnInstance<T>
 ): string | undefined => {
   return column.id === sort.sortKey && sort.sortOrder === "desc"
@@ -23,7 +23,7 @@ export const newColumnKey = <T extends object>(
  * @returns the direction to sort the given column by.
  */
 export const newColumnOrder = (
-  sort: SortConfig,
+  sort: Sort,
   columnId?: string
 ): SortOrderType | undefined => {
   if (columnId !== sort.sortKey) {

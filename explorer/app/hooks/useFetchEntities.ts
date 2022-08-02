@@ -10,7 +10,12 @@ import {
   Filters,
   AzulListParams,
 } from "../apis/azul/common/entities";
-import { SelectCategory } from "../common/entities";
+import {
+  Pagination,
+  SelectCategory,
+  Sort,
+  SortOrderType,
+} from "../common/entities";
 import {
   transformFilters,
   transformTermFacets,
@@ -22,41 +27,15 @@ import {
 export type SetFilterFn = (nextFilters: Filters) => void;
 
 /**
- * Generic pagination model used by both static and dynamic lists.
- */
-export interface PaginationConfig {
-  canNextPage: boolean;
-  canPreviousPage: boolean;
-  currentPage: number;
-  nextPage: () => void;
-  previousPage: () => void;
-  resetPage: () => void;
-}
-
-/**
- * Possible sort direction values.
- */
-export type SortOrderType = "asc" | "desc";
-
-/**
- * Generic sort model used by both static and dynamic lists.
- */
-export interface SortConfig {
-  sort: (key?: string, sortOrder?: SortOrderType) => void;
-  sortKey?: string;
-  sortOrder?: SortOrderType;
-}
-
-/**
  * Model of loading state, pagination, sort, filter and data related to the fetch.
  */
 interface EntitiesResponse {
   categories: SelectCategory[];
   loading: boolean;
-  pagination?: PaginationConfig;
+  pagination?: Pagination;
   response?: AzulEntitiesResponse;
   setFilter: SetFilterFn;
-  sort?: SortConfig;
+  sort?: Sort;
 }
 
 const DEFAULT_CURRENT_PAGE = 1;

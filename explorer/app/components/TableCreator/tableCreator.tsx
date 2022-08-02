@@ -9,9 +9,9 @@ import {
   GridTrackSize,
 } from "app/config/common/entities";
 import { useEditColumns } from "app/hooks/useEditColumns";
-import { PaginationConfig, SortConfig } from "app/hooks/useFetchEntities";
 import { ComponentCreator } from "../ComponentCreator/ComponentCreator";
 import { Table } from "../Table/table";
+import { Pagination, Sort } from "../../common/entities";
 
 interface TableCreatorProps<T> {
   columns: ColumnConfig<T>[];
@@ -19,8 +19,8 @@ interface TableCreatorProps<T> {
   items: T[];
   loading?: boolean;
   pageSize: number;
-  pagination?: PaginationConfig;
-  sort?: SortConfig;
+  pagination?: Pagination;
+  sort?: Sort;
   total?: number;
 }
 

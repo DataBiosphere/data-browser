@@ -19,9 +19,8 @@ import {
 } from "react-table";
 
 // App dependencies
-import { PaginationConfig, SortConfig } from "app/hooks/useFetchEntities";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
-import { Pagination } from "./components/Pagination/pagination";
+import { Pagination as DXPagination } from "./components/Pagination/pagination";
 import { PaginationSummary } from "./components/PaginationSummary/paginationSummary";
 import { newColumnKey, newColumnOrder } from "./functions";
 
@@ -29,6 +28,7 @@ import { newColumnKey, newColumnOrder } from "./functions";
 import { RoundedPaper } from "../common/Paper/paper.styles";
 import { Table as GridTable, TableToolbar } from "./table.styles";
 import { useScroll } from "app/hooks/useScroll";
+import { Pagination, Sort } from "../../common/entities";
 
 export interface EditColumnConfig {
   onVisibleColumnsChange: (newColumnId: string) => void;
@@ -45,8 +45,8 @@ interface TableProps<T extends object> {
   items: T[];
   loading?: boolean;
   pageSize: number;
-  pagination?: PaginationConfig;
-  sort?: SortConfig;
+  pagination?: Pagination;
+  sort?: Sort;
   total?: number;
 }
 
@@ -198,7 +198,7 @@ export const Table = <T extends object>({
           </GridTable>
         </TableContainer>
         {!disablePagination && (
-          <Pagination
+          <DXPagination
             canNextPage={pagination?.canNextPage ?? tableCanNextPage}
             canPreviousPage={
               pagination?.canPreviousPage ?? tableCanPreviousPage
