@@ -5,6 +5,6 @@ import * as T from "../../../../../app/viewModelBuilders/azul/anvil/common/viewM
 export const sideColumn = [
   {
     component: C.Details,
-    transformer: T.buildDatasetDetails,
+    viewBuilder: T.buildDatasetDetails,
   } as ComponentConfig<typeof C.Details>,
 ];

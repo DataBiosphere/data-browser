@@ -8,7 +8,7 @@ export const sideColumn = [
     children: [
       {
         component: C.IconList,
-        transformer: T.projectsToAnalysisPortals,
+        viewBuilder: T.projectsToAnalysisPortals,
       } as ComponentConfig<typeof C.IconList, ProjectsResponse>,
     ],
     component: C.Section,
@@ -18,7 +18,7 @@ export const sideColumn = [
   } as ComponentConfig<typeof C.Section>,
   {
     component: C.Details,
-    transformer: T.buildDetails,
+    viewBuilder: T.buildDetails,
   } as ComponentConfig<typeof C.Details>,
   // TODO removing for 7/19 demo
   // {

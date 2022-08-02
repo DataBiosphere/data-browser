@@ -1,12 +1,12 @@
 // App dependencies
-import * as C from "../../../../app/components";
+import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
 import { ActivitiesResponse } from "../../../../app/apis/azul/anvil/common/responses";
-import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 /**
  * Entity config object responsible for config related to the /explore/activities route.
@@ -22,9 +22,9 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Cell,
-          transformer: T.buildDocumentId,
-        } as ComponentConfig<typeof C.Cell>,
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildDocumentId,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Document Id",
         sort: {
           default: true,
@@ -34,9 +34,9 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Cell,
-          transformer: T.buildActivityType,
-        } as ComponentConfig<typeof C.Cell>,
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildActivityType,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Activity Type",
         sort: {
           sortKey: "activity_type",
@@ -45,9 +45,9 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildDataModality,
-        } as ComponentConfig<typeof C.NTagCell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDataModality,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Data Modality",
         sort: {
           sortKey: "data_modality",
@@ -56,9 +56,9 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Cell,
-          transformer: T.buildBioSampleTypes,
-        } as ComponentConfig<typeof C.Cell>,
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildBioSampleTypes,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "BioSample Type",
         sort: {
           sortKey: "biosample_type",
@@ -67,9 +67,9 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Cell,
-          transformer: T.buildDatasetNames,
-        } as ComponentConfig<typeof C.Cell>,
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildDatasetNames,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Dataset Name",
         sort: {
           sortKey: "title",

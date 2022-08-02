@@ -126,7 +126,7 @@ const config: SiteConfig = {
       label: "Analysis Protocol",
     },
   ],
-  dataSources: {
+  dataSource: {
     defaultDetailParams: {
       catalog: CATALOG_DCP2,
     },

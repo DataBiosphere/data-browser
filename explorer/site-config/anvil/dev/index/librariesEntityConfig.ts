@@ -1,11 +1,11 @@
 // App dependencies
-import * as C from "../../../../app/components";
+import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
-import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 import { LibrariesResponse } from "../../../../app/apis/azul/anvil/common/responses";
 
 /**
@@ -22,9 +22,9 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Cell,
-          transformer: T.buildLibraryId,
-        } as ComponentConfig<typeof C.Cell>,
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildLibraryId,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Library Id",
         sort: {
           default: true,
@@ -34,9 +34,9 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Cell,
-          transformer: T.buildPrepMaterialName,
-        } as ComponentConfig<typeof C.Cell>,
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildPrepMaterialName,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Prep Material Name",
         sort: {
           sortKey: "prep_material_name",
@@ -45,9 +45,9 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildBioSampleTypes,
-        } as ComponentConfig<typeof C.NTagCell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildBioSampleTypes,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "BioSample Type",
         sort: {
           sortKey: "biosample_type",
@@ -56,9 +56,9 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildDatasetNames,
-        } as ComponentConfig<typeof C.NTagCell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDatasetNames,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Dataset Name",
         sort: {
           sortKey: "title",

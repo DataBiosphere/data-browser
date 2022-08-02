@@ -5,7 +5,7 @@ import { ComponentConfig } from "app/config/common/entities";
 export const sideColumn: ComponentConfig[] = [
   {
     component: C.TitledText,
-    transformer: () => ({
+    viewBuilder: () => ({
       text: [
         "Downloaded data is governed by the HCA Data Release Policy and licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). For more information please see our Data Use Agreement.",
       ],

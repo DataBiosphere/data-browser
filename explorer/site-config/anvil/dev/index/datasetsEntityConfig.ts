@@ -1,5 +1,5 @@
 // App dependencies
-import * as C from "../../../../app/components";
+import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
@@ -9,7 +9,7 @@ import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
 import { DatasetsResponse } from "../../../../app/apis/azul/anvil/common/responses";
-import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 /**
  * Entity config object responsible for config related to the /explore/datasets route.
@@ -32,9 +32,9 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Links,
-          transformer: T.buildDatasetName,
-        } as ComponentConfig<typeof C.Links>,
+          component: Components.Links,
+          viewBuilder: ViewBuilder.buildDatasetName,
+        } as ComponentConfig<typeof Components.Links>,
         header: "Dataset Name",
         sort: {
           default: true,
@@ -44,9 +44,9 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildOrganismTypes,
-        } as ComponentConfig<typeof C.NTagCell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildOrganismTypes,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Organism Type",
         sort: {
           sortKey: "organism_type",
@@ -55,9 +55,9 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildPhenotypicSexes,
-        } as ComponentConfig<typeof C.NTagCell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildPhenotypicSexes,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Phenotypic Sex",
         sort: {
           sortKey: "phenotypic_sex",
@@ -66,9 +66,9 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildReportedEthnicities,
-        } as ComponentConfig<typeof C.NTagCell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildReportedEthnicities,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Reported Ethnicity",
         sort: {
           sortKey: "reported_ethnicity",
@@ -77,9 +77,9 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildPrepMaterialNames,
-        } as ComponentConfig<typeof C.NTagCell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildPrepMaterialNames,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Library Preparation",
         sort: {
           sortKey: "prep_material_name",
@@ -88,9 +88,9 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildDataModality,
-        } as ComponentConfig<typeof C.NTagCell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDataModality,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Data Modality",
         hiddenColumn: true,
         sort: {

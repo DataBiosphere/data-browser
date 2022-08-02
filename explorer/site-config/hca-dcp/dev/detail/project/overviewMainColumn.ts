@@ -7,35 +7,35 @@ import * as T from "../../projectViewModelBuilder";
 export const mainColumn = [
   {
     component: C.Description,
-    transformer: T.buildDescription,
+    viewBuilder: T.buildDescription,
   } as ComponentConfig<typeof C.Description, ProjectsResponse>,
   {
     component: C.Contacts,
-    transformer: T.buildContacts,
+    viewBuilder: T.buildContacts,
   } as ComponentConfig<typeof C.Contacts, ProjectsResponse>,
   {
     component: C.Publications,
-    transformer: T.buildPublications,
+    viewBuilder: T.buildPublications,
   } as ComponentConfig<typeof C.Publications, ProjectsResponse>,
   {
     component: C.Contributors,
-    transformer: T.buildContributors,
+    viewBuilder: T.buildContributors,
   } as ComponentConfig<typeof C.Contributors, ProjectsResponse>,
   {
     component: C.CollaboratingOrganizations,
-    transformer: T.buildCollaboratingOrganizations,
+    viewBuilder: T.buildCollaboratingOrganizations,
   } as ComponentConfig<typeof C.CollaboratingOrganizations, ProjectsResponse>,
   {
     component: C.DataCurators,
-    transformer: T.buildDataCurators,
+    viewBuilder: T.buildDataCurators,
   } as ComponentConfig<typeof C.DataCurators, ProjectsResponse>,
   {
     component: C.Citation,
-    transformer: T.buildCitation,
+    viewBuilder: T.buildCitation,
   } as ComponentConfig<typeof C.Citation, ProjectsResponse>,
   {
     component: C.SupplementaryLinks,
-    transformer: T.buildSupplementaryLinks,
+    viewBuilder: T.buildSupplementaryLinks,
   } as ComponentConfig<typeof C.SupplementaryLinks>,
   {
     component: C.DataReleasePolicy,

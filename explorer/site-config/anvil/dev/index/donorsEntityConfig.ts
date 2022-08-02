@@ -1,11 +1,11 @@
 // App dependencies
-import * as C from "../../../../app/components";
+import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
-import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 import { DonorsResponse } from "../../../../app/apis/azul/anvil/common/responses";
 
 /**
@@ -22,9 +22,9 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Cell,
-          transformer: T.buildDonorId,
-        } as ComponentConfig<typeof C.Cell>,
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildDonorId,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Donor Id",
         sort: {
           default: true,
@@ -34,9 +34,9 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
       },
       {
         componentConfig: {
-          component: C.Cell,
-          transformer: T.buildOrganismType,
-        } as ComponentConfig<typeof C.Cell>,
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildOrganismType,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Organism Type",
         sort: {
           sortKey: "organism_type",
@@ -45,9 +45,9 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
       },
       {
         componentConfig: {
-          component: C.Cell,
-          transformer: T.buildPhenotypicSex,
-        } as ComponentConfig<typeof C.Cell>,
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildPhenotypicSex,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Phenoypic Sex",
         sort: {
           sortKey: "phenotypic_sex",
@@ -56,9 +56,9 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildReportedEthnicity,
-        } as ComponentConfig<typeof C.NTagCell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildReportedEthnicity,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Reported Ethnicity",
         sort: {
           sortKey: "reported_ethnicity",
@@ -67,9 +67,9 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildDatasetNames,
-        } as ComponentConfig<typeof C.NTagCell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDatasetNames,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Dataset Name",
         sort: {
           sortKey: "title",

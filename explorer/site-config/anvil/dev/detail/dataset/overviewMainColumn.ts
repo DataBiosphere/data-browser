@@ -7,6 +7,6 @@ import { DatasetsResponse } from "../../../../../app/apis/azul/anvil/common/resp
 export const mainColumn = [
   {
     component: C.Description,
-    transformer: T.buildDatasetDescription,
+    viewBuilder: T.buildDatasetDescription,
   } as ComponentConfig<typeof C.Description, DatasetsResponse>,
 ];

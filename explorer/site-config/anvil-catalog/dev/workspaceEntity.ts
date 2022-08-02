@@ -1,5 +1,5 @@
-import * as T from "./workspaceTransformer";
-import * as C from "../../../app/components";
+import * as ViewBuilder from "./workspaceTransformer";
+import * as Components from "../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
@@ -21,49 +21,49 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
     columns: [
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.workspaceToConsortiaColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.workspaceToConsortiaColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Consortium",
         width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.workspaceToStudyNameColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.workspaceToStudyNameColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Terra Workspace Name",
         width: { max: "1fr", min: "360px" },
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.workspaceToIndicationColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.workspaceToIndicationColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Disease (indication)",
         width: { max: "2fr", min: "240px" },
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.workspaceToDataTypeColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.workspaceToDataTypeColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Data type",
         width: { max: "2fr", min: "120px" },
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.workspaceToStudyDesignColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.workspaceToStudyDesignColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Study Design",
         width: { max: "2fr", min: "240px" },
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.workspaceToParticipantsColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.workspaceToParticipantsColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Participants",
         width: { max: "2fr", min: "120px" },
       },

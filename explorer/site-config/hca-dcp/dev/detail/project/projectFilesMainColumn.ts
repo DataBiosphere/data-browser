@@ -5,7 +5,7 @@ import { ComponentConfig } from "app/config/common/entities";
 export const mainColumn: ComponentConfig[] = [
   {
     component: C.TitledText,
-    transformer: () => ({
+    viewBuilder: () => ({
       text: ["To do."],
       title: "Project Files via curl",
     }),

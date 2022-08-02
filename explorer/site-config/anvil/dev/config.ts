@@ -91,7 +91,7 @@ const config: SiteConfig = {
       label: "Reported Ethnicity",
     },
   ],
-  dataSources: {
+  dataSource: {
     defaultListParams: {
       size: "25",
       sort: "entryId",

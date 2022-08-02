@@ -35,7 +35,7 @@ export const ComponentCreator = <T,>({
             response={response}
           />
         ) : null;
-        const props = c.transformer ? c.transformer(response) : {};
+        const props = c.viewBuilder ? c.viewBuilder(response) : {};
         return React.createElement(
           c.component,
           { ...c.props, ...props, key: uuid4() },

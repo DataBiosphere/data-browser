@@ -1,5 +1,5 @@
 // App dependencies
-import * as C from "../../../app/components";
+import * as Components from "../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
@@ -12,7 +12,7 @@ import { mainColumn as metadataMainColumn } from "./detail/project/metadataMainC
 import { mainColumn as matricesMainColumn } from "./detail/project/matricesMainColumn";
 import { mainColumn as projectFilesMainColumn } from "./detail/project/projectFilesMainColumn";
 import { mainColumn as exportMainColumn } from "./detail/project/exportMainColumn";
-import * as T from "./projectsViewModelBuilder";
+import * as ViewBuilder from "./projectsViewModelBuilder";
 import * as B from "./projectViewModelBuilder";
 import { sideColumn as overviewSideColumn } from "./detail/project/overviewSideColumn";
 import { sideColumn as metadataSideColumn } from "./detail/project/metadataSideColumn";
@@ -68,40 +68,40 @@ export const projectsEntity: EntityConfig = {
     columns: [
       {
         componentConfig: {
-          component: C.Links,
-          transformer: B.projectsToProjectTitleColumn,
-        } as ComponentConfig<typeof C.Links>,
+          component: Components.Links,
+          viewBuilder: B.projectsToProjectTitleColumn,
+        } as ComponentConfig<typeof Components.Links>,
         header: "Project Title",
         width: { max: "2fr", min: "374px" },
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          transformer: T.buildSpecies,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildSpecies,
         },
         header: "Species",
         width: { max: "1fr", min: "136px" },
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: B.projectsToLibConstApproachColumn,
+          component: Components.Text,
+          viewBuilder: B.projectsToLibConstApproachColumn,
         },
         header: "Library Construction Approach",
         width: { max: "1fr", min: "126px" },
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: B.projectsToAnatomicalEntityColumn,
+          component: Components.Text,
+          viewBuilder: B.projectsToAnatomicalEntityColumn,
         },
         header: "Anatomical Entity",
         width: { max: "1fr", min: "146px" },
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: B.projectsToDiseaseDonorColumn,
+          component: Components.Text,
+          viewBuilder: B.projectsToDiseaseDonorColumn,
         },
         header: "Disease (Donor)",
         width: { max: "1fr", min: "128px" },
@@ -110,23 +110,23 @@ export const projectsEntity: EntityConfig = {
         componentConfig: {
           children: [
             {
-              component: C.Text,
-              transformer: B.projectsToCellCountColumn,
-            } as ComponentConfig<typeof C.Text>,
+              component: Components.Text,
+              viewBuilder: B.projectsToCellCountColumn,
+            } as ComponentConfig<typeof Components.Text>,
           ],
-          component: C.Tooltip,
+          component: Components.Tooltip,
           props: {
             title: "Cell Count Estimate",
           },
-        } as ComponentConfig<typeof C.Tooltip>,
+        } as ComponentConfig<typeof Components.Tooltip>,
         header: "Cell Count Estimate",
         width: { max: "1fr", min: "96px" },
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: B.buildDevStage,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: B.buildDevStage,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Development Stage",
         hiddenColumn: true,
         width: { max: "1fr", min: "148px" },

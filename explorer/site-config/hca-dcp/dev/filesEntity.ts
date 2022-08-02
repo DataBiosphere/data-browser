@@ -1,6 +1,6 @@
-import * as T from "./fileTransformer";
+import * as ViewBuilder from "./fileTransformer";
 import { buildDevStage } from "./projectViewModelBuilder";
-import * as C from "../../../app/components";
+import * as Components from "../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
@@ -22,9 +22,9 @@ export const filesEntity: EntityConfig<FilesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.filesToFileNameColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.filesToFileNameColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "File Name",
         sort: {
           default: true,
@@ -34,9 +34,9 @@ export const filesEntity: EntityConfig<FilesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.filesToFileFormatColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.filesToFileFormatColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "File Format",
         sort: {
           sortKey: "fileFormat",
@@ -45,9 +45,9 @@ export const filesEntity: EntityConfig<FilesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.filesToFileSizeColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.filesToFileSizeColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "File Size",
         sort: {
           sortKey: "fileSize",
@@ -56,9 +56,9 @@ export const filesEntity: EntityConfig<FilesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.filesToContentDescColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.filesToContentDescColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Content Description",
         sort: {
           sortKey: "contentDescription",
@@ -67,9 +67,9 @@ export const filesEntity: EntityConfig<FilesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.filesToProjTitleColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.filesToProjTitleColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Project Title",
         sort: {
           sortKey: "projectTitle",
@@ -78,9 +78,9 @@ export const filesEntity: EntityConfig<FilesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: T.filesToCellCountColumn,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: ViewBuilder.filesToCellCountColumn,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Cell Count Estimate",
         sort: {
           sortKey: "cellCount",
@@ -89,9 +89,9 @@ export const filesEntity: EntityConfig<FilesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Text,
-          transformer: buildDevStage,
-        } as ComponentConfig<typeof C.Text>,
+          component: Components.Text,
+          viewBuilder: buildDevStage,
+        } as ComponentConfig<typeof Components.Text>,
         header: "Development Stage",
         hiddenColumn: true,
         width: { max: "1fr", min: "148px" },

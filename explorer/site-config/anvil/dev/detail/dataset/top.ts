@@ -7,6 +7,6 @@ import { DatasetsResponse } from "../../../../../app/apis/azul/anvil/common/resp
 export const top: ComponentsConfig = [
   {
     component: C.ProjectHero,
-    transformer: T.buildDatasetHero,
+    viewBuilder: T.buildDatasetHero,
   } as ComponentConfig<typeof C.ProjectHero, DatasetsResponse>,
 ];
