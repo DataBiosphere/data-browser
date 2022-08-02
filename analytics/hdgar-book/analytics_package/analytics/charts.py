@@ -382,7 +382,7 @@ def show_plot_over_time(titles, xlabels, metrics, format_table=True, df_filter=N
 		df = df_filter(df)
 
 	# Rename for display
-	df.rename(columns={name: xlabels[i] for i, name in enumerate(metrics)}, inplace=True)
+	df.rename(columns={name: xlabels[i] for i, name in enumerate(df.columns)}, inplace=True)
 
 	if isinstance(titles[0], str):
 		show_plot(df, titles[0], **other_params)
