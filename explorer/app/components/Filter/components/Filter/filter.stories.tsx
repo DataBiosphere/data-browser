@@ -4,7 +4,11 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 // App dependencies
 import { Filter } from "./filter";
-import { GenderLabel } from "../FilterLabel/filterLabel.stories";
+import { DefaultFilterLabel } from "../FilterLabel/filterLabel.stories";
+import {
+  DefaultFilterMenu,
+  FilterSelectCategoryViewDonorDisease,
+} from "../FilterMenu/filterMenu.stories";
 
 export default {
   argTypes: {
@@ -28,12 +32,63 @@ export default {
 
 const Template: ComponentStory<typeof Filter> = (args) => <Filter {...args} />;
 
-export const GenderFilter = Template.bind({});
-GenderFilter.args = {
+const onFilter = (): void => {
+  // onFilter function
+};
+
+export const DefaultFilter = Template.bind({});
+DefaultFilter.args = {
   Target: (props): JSX.Element => {
     return (
-      <GenderLabel count={3} disabled={false} label={"Gender"} {...props} />
+      <DefaultFilterLabel
+        count={DefaultFilterLabel.args?.count}
+        disabled={DefaultFilterLabel.args?.disabled || false}
+        label={DefaultFilterLabel.args?.label || "Label"}
+        {...props}
+      />
     );
   },
-  content: <div style={{ padding: 8, width: 312 }}>Basic Filter Menu</div>, // TODO use FilterMenu storybook #283 https://github.com/clevercanary/data-browser/issues/283
+  content: (
+    <DefaultFilterMenu
+      categoryKey={DefaultFilterMenu.args?.categoryKey || "defaultKey"}
+      onFilter={DefaultFilterMenu.args?.onFilter || onFilter}
+      values={
+        DefaultFilterMenu.args?.values || [
+          {
+            count: 1,
+            key: "item1",
+            label: "Item 1",
+            selected: true,
+          },
+        ]
+      }
+    />
+  ),
+};
+
+export const FilterDonorDisease = Template.bind({});
+FilterDonorDisease.args = {
+  Target: (props): JSX.Element => {
+    return (
+      <DefaultFilterLabel disabled={false} label={"Donor Disease"} {...props} />
+    );
+  },
+  content: (
+    <FilterSelectCategoryViewDonorDisease
+      categoryKey={
+        FilterSelectCategoryViewDonorDisease.args?.categoryKey || "donorDisease"
+      }
+      onFilter={FilterSelectCategoryViewDonorDisease.args?.onFilter || onFilter}
+      values={
+        FilterSelectCategoryViewDonorDisease.args?.values || [
+          {
+            count: 1,
+            key: "item1",
+            label: "Item 1",
+            selected: true,
+          },
+        ]
+      }
+    />
+  ),
 };

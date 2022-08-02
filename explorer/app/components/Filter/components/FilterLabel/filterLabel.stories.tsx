@@ -29,8 +29,15 @@ const Template: ComponentStory<typeof FilterLabel> = (args) => (
   <FilterLabel {...args} />
 );
 
-export const GenderLabel = Template.bind({});
-GenderLabel.args = {
+export const DefaultFilterLabel = Template.bind({});
+DefaultFilterLabel.args = {
+  count: 123,
+  disabled: false,
+  label: "Label",
+};
+
+export const FilterLabelGender = Template.bind({});
+FilterLabelGender.args = {
   count: 3,
   disabled: false,
   label: "Gender",
