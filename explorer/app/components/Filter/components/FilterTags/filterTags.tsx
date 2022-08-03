@@ -9,11 +9,11 @@ import { FilterTag as Tag } from "../FilterTag/filterTag";
 import { FilterTags as Tags } from "./filterTags.styles";
 
 interface Props {
-  tags: CategoryTag[];
+  tags?: CategoryTag[];
 }
 
-export const FilterTags = ({ tags }: Props): JSX.Element => {
-  return (
+export const FilterTags = ({ tags }: Props): JSX.Element | null => {
+  return tags && tags.length ? (
     <Tags>
       {tags.map(({ label, onRemove, superseded }, t) => (
         <Tag
@@ -24,5 +24,5 @@ export const FilterTags = ({ tags }: Props): JSX.Element => {
         />
       ))}
     </Tags>
-  );
+  ) : null;
 };

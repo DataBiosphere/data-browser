@@ -12,7 +12,7 @@ export default {
   component: FilterTags,
   decorators: [
     (Story): JSX.Element => (
-      <div style={{ width: 312 }}>
+      <div style={{ padding: "8px 12px 8px 16px", width: 264 }}>
         <Story />
       </div>
     ),
