@@ -34,7 +34,7 @@ function buildSelectCategoryTags(
     .map(({ key: categoryValueKey, label, selected }) => {
       return {
         label: label,
-        onRemove: () => onFilter(categoryKey, categoryValueKey, selected),
+        onRemove: () => onFilter(categoryKey, categoryValueKey, !selected),
         superseded: false,
       };
     });

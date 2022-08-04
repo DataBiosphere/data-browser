@@ -39,7 +39,7 @@ export const FilterMenu = ({
         {values.map(({ count, key, label, selected }) => (
           <ListItemButton
             key={key}
-            onClick={(): void => onFilter(categoryKey, key, selected)}
+            onClick={(): void => onFilter(categoryKey, key, !selected)}
             selected={selected}
           >
             <Checkbox

@@ -1,4 +1,5 @@
 // Core dependencies
+import { PopoverPosition } from "@mui/material";
 import React, { ElementType, MouseEvent, ReactNode, useState } from "react";
 
 // Styles
@@ -11,37 +12,41 @@ interface Props {
 }
 
 export const Filter = ({ content, tags, Target }: Props): JSX.Element => {
-  const [filterTargetEl, setFilterTargetEl] =
-    useState<HTMLButtonElement | null>(null);
+  const [openPopover, setOpenPopover] = useState<boolean>(false);
+  const [popoverPosition, setPopoverPosition] = useState<PopoverPosition>({
+    left: 0,
+    top: 0,
+  });
 
   /**
    * Closes filter popover.
-   * Sets filterTargetEl state to null.
    */
   const onCloseFilter = (): void => {
-    setFilterTargetEl(null);
+    setOpenPopover(false);
   };
 
   /**
-   * Opens filter popover.
-   * Sets filterTargetEl state to the current target for the specified event.
+   * Opens filter popover and sets popover position.
    * @param event - Mouse event interaction with filter target.
    */
   const onOpenFilter = (event: MouseEvent<HTMLButtonElement>): void => {
-    setFilterTargetEl(event.currentTarget);
+    // Grab the filter target size and position and calculate the popover position.
+    const targetDOMRect = event.currentTarget.getBoundingClientRect();
+    const popoverLeftPos = targetDOMRect.x;
+    const popoverTopPos = targetDOMRect.y + targetDOMRect.height;
+    // Set popover position and open state.
+    setPopoverPosition({ left: popoverLeftPos, top: popoverTopPos });
+    setOpenPopover(true);
   };
 
   return (
     <>
       <Target onClick={onOpenFilter} />
       <FilterPopover
-        anchorEl={filterTargetEl}
-        anchorOrigin={{
-          horizontal: "left",
-          vertical: "bottom",
-        }}
+        anchorPosition={{ ...popoverPosition }}
+        anchorReference="anchorPosition"
         onClose={onCloseFilter}
-        open={Boolean(filterTargetEl)}
+        open={openPopover}
         PaperProps={{ variant: "menu" }}
       >
         {content}
