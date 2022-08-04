@@ -3,6 +3,7 @@
  */
 
 // Core dependencies
+import Link from "next/link";
 import React, { ReactNode } from "react";
 
 // App dependencies
@@ -26,7 +27,9 @@ export const Hero = ({ Summaries, title }: Props): JSX.Element => {
             {/* TODO +n link widget, and accompanying Dot separator */}
             {Summaries}
           </SummaryWidget>
-          {/* TODO button widget */}
+          <Link href="/export" passHref>
+            <button>Explore</button>
+          </Link>
         </Widgets>
       )}
     </HeroLayout>
