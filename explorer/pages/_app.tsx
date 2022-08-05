@@ -9,6 +9,7 @@ import { ConfigProvider } from "app/components/Config/Config";
 import { Footer } from "app/components/Layout/components/Footer/footer";
 import { Header } from "app/components/Layout/components/Header/header";
 import { config } from "app/config/config";
+import { Head } from "app/components/Head/head";
 
 // Styles
 import { AppLayout } from "app/components/Layout/components/AppLayout/appLayout.styles";
@@ -23,6 +24,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     <Emotion10ThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <ConfigProvider value={currenctConfig}>
+          <Head />
           <CssBaseline />
           <AppLayout>
             <Header header={currentLayout.header} />

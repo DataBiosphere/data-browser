@@ -45,3 +45,6 @@ _templates
 # nvm
 .nvmrc
 
+# favicons
+/public/favicons/*
+
