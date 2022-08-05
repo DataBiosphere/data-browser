@@ -132,9 +132,7 @@ def plot_downloads():
 	
 	return plot_total, plot_a, plot_b
 
-def plot_ethnicity():
-	catalog = "dcp17"
-
+def plot_ethnicity(catalog):
 	def get_sources_expr():
 		sources = requests.get("https://service.azul.data.humancellatlas.org/repository/sources?catalog=" + catalog).json()["sources"]
 		return "(" + " UNION ALL ".join(["SELECT * FROM `" + get_table_name(source["sourceSpec"]) + "`" for source in sources]) + ")"
