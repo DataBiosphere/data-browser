@@ -1,3 +1,4 @@
+import { ButtonPrimary } from "app/components/common/Button/button.styles";
 import styled from "@emotion/styled";
 
 interface Props {
@@ -28,4 +29,10 @@ export const SummaryWidget = styled.div<Props>`
   grid-auto-flow: column;
   height: inherit;
   padding: 0 16px;
+`;
+
+export const ExportButton = styled(ButtonPrimary)`
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  margin-left: -1px;
 `;

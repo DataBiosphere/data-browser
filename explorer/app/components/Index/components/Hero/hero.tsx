@@ -10,7 +10,12 @@ import React, { ReactNode } from "react";
 import { HeroTitle, Title } from "../../../common/Title/title";
 
 // Styles
-import { HeroLayout, SummaryWidget, Widgets } from "./hero.styles";
+import {
+  ExportButton,
+  HeroLayout,
+  SummaryWidget,
+  Widgets,
+} from "./hero.styles";
 
 interface Props {
   Summaries?: ReactNode;
@@ -23,12 +28,12 @@ export const Hero = ({ Summaries, title }: Props): JSX.Element => {
       <Title title={title} />
       {Summaries && (
         <Widgets>
-          <SummaryWidget buttonWidget={false}>
+          <SummaryWidget buttonWidget={true}>
             {/* TODO +n link widget, and accompanying Dot separator */}
             {Summaries}
           </SummaryWidget>
           <Link href="/export" passHref>
-            <button>Explore</button>
+            <ExportButton href="passHref">Export</ExportButton>
           </Link>
         </Widgets>
       )}
