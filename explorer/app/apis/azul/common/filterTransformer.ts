@@ -5,7 +5,6 @@ import {
   Filters,
   LABEL,
 } from "./entities";
-import { FilterValue } from "react-table";
 
 /**
  * Transform generic filter (selected categories and category values) into an Azul-specific filter query param.
@@ -15,7 +14,8 @@ import { FilterValue } from "react-table";
 export function transformFilters(filters: Filters): string | undefined {
   // Build up model of filter params from filters.
   const initialFilterParams: {
-    [k: string]: { [key in AZUL_FILTER_OPERATOR]?: FilterValue };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- We can't determine the filter value
+    [k: string]: { [key in AZUL_FILTER_OPERATOR]?: any };
   } = {};
   const filterParams = filters.reduce((accum, filter) => {
     const { categoryKey, value } = filter;

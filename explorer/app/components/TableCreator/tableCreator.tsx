@@ -1,6 +1,6 @@
 // Core dependencies
 import React, { useMemo } from "react";
-import { CellProps, Column } from "react-table";
+import { ColumnDef, CellContext } from "@tanstack/react-table";
 
 // App dependencies
 import {
@@ -53,7 +53,8 @@ function isGridTrackMinMax(width: GridTrackSize): width is GridTrackMinMax {
 }
 
 const createCell = <T extends object>(config: ColumnConfig<T>) =>
-  function CellCreator({ row }: CellProps<T>): JSX.Element {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- We can't determine the cell type
+  function CellCreator({ row }: CellContext<T, any>): JSX.Element {
     return (
       <ComponentCreator
         components={[config.componentConfig]}
@@ -75,12 +76,12 @@ export const TableCreator = <T extends object>({
   const { editColumns, visibleColumns } = useEditColumns(columns);
   const gridTemplateColumns = getGridTemplateColumnsValue(visibleColumns);
 
-  const reactVisibleColumns: Column<T>[] = useMemo(
+  const reactVisibleColumns: ColumnDef<T>[] = useMemo(
     () =>
       visibleColumns.map((columnConfig) => ({
-        Cell: createCell(columnConfig),
-        Header: columnConfig.header,
-        disableSortBy: !columnConfig.sort,
+        cell: createCell(columnConfig),
+        enableSorting: !!columnConfig.sort,
+        header: columnConfig.header,
         id: columnConfig.sort?.sortKey,
       })),
     [visibleColumns]

@@ -1,19 +1,18 @@
-import { ColumnInstance } from "react-table";
 import { Sort, SortOrderType } from "../../common/entities";
 
 /**
  * Determine the column ID to sort by, if any, based on the currently selected sort by column.
  * @param sort - Sort config of current sort order applied to the table.
- * @param column - Column selected to change sort to.
+ * @param columnId - ID of the selected column to change sort to.
  * @returns the column ID to sort the table by.
  */
-export const newColumnKey = <T extends object>(
+export const newColumnKey = (
   sort: Sort,
-  column: ColumnInstance<T>
+  columnId: string
 ): string | undefined => {
-  return column.id === sort.sortKey && sort.sortOrder === "desc"
+  return columnId === sort.sortKey && sort.sortOrder === "desc"
     ? undefined
-    : column.id;
+    : columnId;
 };
 
 /**
