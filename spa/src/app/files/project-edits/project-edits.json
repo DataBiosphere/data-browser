@@ -509,7 +509,15 @@
             },
             {
                 "name": "LUNGMAP_APPS",
+                "url": "https://lungmap.net/breath-omics-experiment-page/?experimentTypeId=LMXT0000000016&experimentId=LMEX0000004391&analysisId=LMAN0000000348&view=entitySet"
+            },
+            {
+                "name": "SHINY",
                 "url": "https://app.lungmap.net/app/shinycell-mm-timecourse"
+            },
+            {
+                "name": "TOPPCELL",
+                "url": "https://toppcell.cchmc.org/biosystems/go/index3/shred/czidl/Lungmap/Output%20by%20developmental_time%20by%20Lineage%20by%20Cell%20group%20by%20Cell%20type-2"
             }
         ]
     },
@@ -522,7 +530,53 @@
             },
             {
                 "name": "LUNGMAP_APPS",
+                "url": "https://lungmap.net/breath-omics-experiment-page/?experimentTypeId=LMXT0000000016&experimentId=LMEX0000004394&analysisId=LMAN0000000351&view=entitySet"
+            },
+            {
+                "name": "SHINY",
                 "url": "https://app.lungmap.net/app/shinycell-rhesuslung"
+            },
+            {
+                "name": "TOPPCELL",
+                "url": "https://toppcell.cchmc.org/biosystems/go/index3/shred/Lungmap_PretermPrimateLungAtlas/Output%20by%20treatmentGroup%20by%20Lineage%20by%20cell_type_level1%20by%20cell_type_level2-4"
+            }
+        ]
+    },
+    {
+        "entryId": "1bdcecde-16be-4208-88f4-78cd2133d11d",
+        "analysisPortals": [
+            {
+                "name": "LGEA",
+                "url": "https://research.cchmc.org/pbge/lunggens/SCLAB.html"
+            },
+            {
+                "name": "LUNGMAP_APPS",
+                "url": "https://lungmap.net/breath-omics-experiment-page/?experimentTypeId=LMXT0000000016&experimentId=LMEX0000001222&analysisId=LMAN0000000218&view=entitySet"
+            }
+        ]
+    },
+    {
+        "entryId": "20037472-ea1d-4ddb-9cd3-56a11a6f0f76",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/e/3de0ad6d-4378-4f62-b37b-ec0b75a50d94.cxg/"
+            },
+            {
+                "name": "LGEA",
+                "url": "https://research.cchmc.org/pbge/lunggens/LM2/scrna_cellquery.html"
+            },
+            {
+                "name": "LUNGMAP_APPS",
+                "url": "https://lungmap.net/breath-omics-experiment-page/?experimentTypeId=LMXT0000000016&experimentId=LMEX0000004388&analysisId=LMAN0000000344&view=entitySet"
+            },
+            {
+                "name": "SHINY",
+                "url": "http://devapp.lungmap.net/app/shinycell-lungmap-single-cell-multiomic"
+            },
+            {
+                "name": "TOPPCELL",
+                "url": "https://toppcell.cchmc.org/biosystems/go/index3/shred/single_cell_projects/Lung_development_from_XinSun/Output%20by%20Lineage%20by%20Cell%20type%20by%20age%20group%20by%20donor-2"
             }
         ]
     },
