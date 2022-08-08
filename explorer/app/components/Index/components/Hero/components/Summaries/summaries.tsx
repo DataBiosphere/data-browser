@@ -19,9 +19,7 @@ export const Summaries = ({ summaries }: Props): JSX.Element => {
           <Fragment key={`${label}${c}`}>
             {c !== 0 && <Dot />}
             <Stack direction="row" gap={1}>
-              <Typography color="ink" variant="text-body-small-500">
-                {count}
-              </Typography>
+              <Typography variant="text-body-small-500">{count}</Typography>
               <Typography color="inkLight" variant="text-body-small-400">
                 {label}
               </Typography>

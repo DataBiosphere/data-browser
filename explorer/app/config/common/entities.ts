@@ -1,4 +1,5 @@
 // Core dependencies
+import { ThemeOptions } from "@mui/material";
 import { JSXElementConstructor } from "react";
 
 // App dependencies
@@ -167,4 +168,5 @@ export interface SiteConfig {
   };
   redirectRootToPath?: string;
   summaryConfig?: SummaryConfig;
+  theme?: ThemeOptions;
 }

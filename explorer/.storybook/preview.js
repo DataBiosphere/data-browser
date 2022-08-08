@@ -5,7 +5,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 
 // App dependencies
-import { theme } from "../app/theme";
+import { useConfig } from "../app/hooks/useConfig";
+import { getAppTheme } from "../app/theme/theme";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -23,6 +24,8 @@ export const parameters = {
 };
 
 const withThemeProvider = (Story, context) => {
+  const currentConfig = useConfig();
+  const theme = getAppTheme(currentConfig.theme);
   return (
     <Emotion10ThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>

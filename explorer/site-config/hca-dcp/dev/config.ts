@@ -2,6 +2,8 @@
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { Social } from "../../../app/components/common/Socials/socials";
 import { Logo } from "../../../app/components/Layout/common/entities";
+import { SiteConfig } from "../../../app/config/common/entities";
+import { breakpointTablet } from "../../../app/theme/theme";
 
 // Summary config
 import { summary } from "./index/summary";
@@ -14,11 +16,11 @@ import { samplesEntity } from "./samplesEntity";
 // Images
 import logoHca from "images/logoHca.png";
 import logoHumanCellAtlas from "images/logoHumanCellAtlas.png";
-import { SiteConfig } from "../../../app/config/common/entities";
 
 // Template constants
 const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";
 const CATALOG_DCP2 = "dcp2";
+const FONT_FAMILY_DIN = "'din-2014', sans-serif";
 const PAGINATION_PAGE_SIZE = "25";
 export const PROJECTS_URL = "/projects";
 const LOGO: Logo = {
@@ -209,6 +211,56 @@ const config: SiteConfig = {
   summaryConfig: {
     apiPath: "index/summary",
     components: summary,
+  },
+  theme: {
+    typography: {
+      "text-body-large-500": {
+        fontFamily: FONT_FAMILY_DIN,
+        fontSize: 18,
+        fontWeight: 600,
+      },
+      "text-heading": {
+        fontFamily: FONT_FAMILY_DIN,
+        fontSize: 22,
+        fontWeight: 600,
+        letterSpacing: "normal",
+        [`@media (min-width: ${breakpointTablet}px)`]: {
+          fontSize: 26,
+          letterSpacing: "normal",
+        },
+      },
+      "text-heading-large": {
+        fontFamily: FONT_FAMILY_DIN,
+        fontSize: 26,
+        fontWeight: 600,
+        letterSpacing: "normal",
+        lineHeight: "34px",
+        [`@media (min-width: ${breakpointTablet}px)`]: {
+          fontSize: 32,
+          letterSpacing: "normal",
+        },
+      },
+      "text-heading-small": {
+        fontFamily: FONT_FAMILY_DIN,
+        fontSize: 20,
+        fontWeight: 600,
+        letterSpacing: "normal",
+        [`@media (min-width: ${breakpointTablet}px)`]: {
+          fontSize: 22,
+          letterSpacing: "normal",
+        },
+      },
+      "text-heading-xlarge": {
+        fontFamily: FONT_FAMILY_DIN,
+        fontSize: 32,
+        fontWeight: 600,
+        letterSpacing: "normal",
+        [`@media (min-width: ${breakpointTablet}px)`]: {
+          fontSize: 42,
+          letterSpacing: "-0.4px",
+        },
+      },
+    },
   },
 };
 

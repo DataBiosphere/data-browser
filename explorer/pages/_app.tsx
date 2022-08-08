@@ -1,15 +1,15 @@
 // Core dependencies
-import { theme } from "app/theme";
 import { ThemeProvider as Emotion10ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
 // App dependencies
 import { ConfigProvider } from "app/components/Config/Config";
+import { Head } from "app/components/Head/head";
 import { Footer } from "app/components/Layout/components/Footer/footer";
 import { Header } from "app/components/Layout/components/Header/header";
 import { config } from "app/config/config";
-import { Head } from "app/components/Head/head";
+import { getAppTheme } from "app/theme/theme";
 
 // Styles
 import { AppLayout } from "app/components/Layout/components/AppLayout/appLayout.styles";
@@ -18,12 +18,13 @@ import { Main } from "app/components/Layout/components/Main/main.styles";
 import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  const currenctConfig = config();
-  const currentLayout = currenctConfig.layout;
+  const currentConfig = config();
+  const currentLayout = currentConfig.layout;
+  const theme = getAppTheme(currentConfig.theme);
   return (
     <Emotion10ThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
-        <ConfigProvider value={currenctConfig}>
+        <ConfigProvider value={currentConfig}>
           <Head />
           <CssBaseline />
           <AppLayout>

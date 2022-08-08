@@ -40,7 +40,6 @@ export const Table = styled(MTable, {
 export const TableToolbar = styled.div`
   align-items: center;
   background-color: ${({ theme }) => theme.palette.common.white};
-  color: ${({ theme }) => theme.palette.ink};
   display: flex;
   justify-content: space-between;
   padding: 20px;

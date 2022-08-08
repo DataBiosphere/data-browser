@@ -12,9 +12,7 @@ interface Props {
 export const SidebarLabel = ({ label }: Props): JSX.Element => {
   return (
     <Label>
-      <Typography color="ink" variant="text-body-large-500">
-        {label}
-      </Typography>
+      <Typography variant="text-body-large-500">{label}</Typography>
     </Label>
   );
 };

@@ -73,7 +73,6 @@ export const Header = ({ header }: Props): JSX.Element => {
           {slogan && (
             <Typography
               component="div"
-              color="ink"
               sx={
                 desktop
                   ? { fontSize: 12, lineHeight: "18px", maxWidth: 180 }

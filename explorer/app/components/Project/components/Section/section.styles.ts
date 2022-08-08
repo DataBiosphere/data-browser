@@ -51,7 +51,6 @@ export const Content = styled(Typography)`
 
 export const SectionContent = styled(Typography)`
   align-items: flex-start;
-  color: ${({ theme }) => theme.palette.ink};
   display: flex;
   flex-direction: column;
   gap: 16px;
