@@ -5,7 +5,10 @@ import React, { ReactNode } from "react";
 import { SectionTitle } from "../Section/components/SectionTitle/sectionTitle";
 
 // Styles
-import { Section, SectionSummary } from "../Section/section.styles";
+import {
+  CollapsableSection as Section,
+  SectionSummary,
+} from "../Section/section.styles";
 import { SectionContent } from "./titledText.styles";
 
 export type Content = ReactNode | ReactNode[] | string[];

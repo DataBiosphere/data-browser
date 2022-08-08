@@ -15,7 +15,7 @@ import {
 
 // Styles
 import {
-  Section as SectionContainer,
+  CollapsableSection as SectionContainer,
   SectionContent as Content,
   SectionSummary,
 } from "./section.styles";
