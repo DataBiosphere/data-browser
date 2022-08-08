@@ -19,23 +19,6 @@ export interface FileFormatResponse {
 }
 
 /**
- * Model of response returned from /index/files API endpoint.
- */
-export interface FilesResponse {
-  files: {
-    contentDescription: string[];
-    format: string;
-    name: string;
-    size: number;
-    uuid: string;
-  }[];
-  projects: {
-    estimatedCellCount?: number;
-    projectTitle: string[];
-  }[];
-}
-
-/**
  * Model of project value nested in response returned from index/projects API endpoint.
  */
 export interface ProjectResponse {

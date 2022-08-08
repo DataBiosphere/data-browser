@@ -7,7 +7,7 @@ import { Logo } from "../../../app/components/Layout/common/entities";
 import { summary } from "./index/summary";
 
 // Entities config
-import { filesEntity } from "./filesEntity";
+import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntity } from "./projectsEntity";
 import { samplesEntity } from "./samplesEntity";
 
@@ -136,7 +136,7 @@ const config: SiteConfig = {
     },
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [projectsEntity, samplesEntity, filesEntity],
+  entities: [projectsEntity, samplesEntity, filesEntityConfig],
   entityTitle: "Explore Data: DCP 2.0 Data View",
   layout: {
     footer: {
