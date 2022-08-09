@@ -4,7 +4,7 @@
 
 import { PAGINATION_PAGE_SIZE } from "app/shared/constants";
 import { database } from "app/utils/database";
-import { AnvilSourceItem } from "../../models/responses";
+import { AnvilSourceItem } from "../../apis/anvil/common/entities";
 import {
   AzulEntitiesResponse,
   AzulSummaryResponse,
