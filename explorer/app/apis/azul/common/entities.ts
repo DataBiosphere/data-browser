@@ -177,3 +177,15 @@ export enum LABEL {
   "NONE" = "None",
   "UNSPECIFIED" = "Unspecified",
 }
+
+/**
+ * Model of the response to get a download link, using a get-retry approach
+ */
+export interface FileLocationResponse {
+  Location: string;
+  "Retry-After"?: number;
+  Status: number;
+}
+
+export const FILE_LOCATION_SUCCESSFULLY = 302;
+export const FILE_LOCATION_PENDING = 301;
