@@ -5,7 +5,7 @@ import React from "react";
 import { Page } from "../../app/components/Layout/components/Page/page";
 import { config } from "../../app/config/config";
 import { getCurrentEntity } from "../../app/hooks/useCurrentEntity";
-import { Project } from "../../app/views/Project/project";
+import { BackPage } from "../../app/views/BackPage/backPage";
 
 /**
  * WIP dataset detail page. TODO revisit - is this configurable?
@@ -24,7 +24,7 @@ const DatasetPage = (props: any): JSX.Element => {
   const entity = getCurrentEntity("datasets", config());
   return (
     <Page entity={entity}>
-      <Project {...props} />
+      <BackPage {...props} />
     </Page>
   );
 };

@@ -1,8 +1,8 @@
-import { RoundedPaper } from "../common/Paper/paper.styles";
+import { RoundedPaper } from "../../../common/Paper/paper.styles";
 import styled from "@emotion/styled";
-import { BREAKPOINT } from "../../hooks/useBreakpointHelper";
+import { BREAKPOINT } from "../../../../hooks/useBreakpointHelper";
 
-export const Project = styled.div`
+export const BackPageView = styled.div`
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(2, 1fr);
@@ -16,7 +16,7 @@ export const Project = styled.div`
   }
 `;
 
-export const ProjectHero = styled.div`
+export const BackPageHero = styled.div`
   display: contents;
 
   > * {
@@ -24,7 +24,7 @@ export const ProjectHero = styled.div`
   }
 `;
 
-export const ProjectOverview = styled.div`
+export const BackPageOverview = styled.div`
   align-items: flex-start;
   grid-column: 1 / -1;
   grid-template-columns: 1fr;
@@ -39,13 +39,13 @@ export const ProjectOverview = styled.div`
   }
 `;
 
-export const ProjectOverviewMain = styled(RoundedPaper)`
+export const BackPageOverviewMain = styled(RoundedPaper)`
   ${({ theme }) => theme.breakpoints.up(BREAKPOINT.TABLET)} {
     grid-column: 1 / 9;
   }
 `;
 
-export const ProjectOverviewSide = styled(RoundedPaper)`
+export const BackPageOverviewSide = styled(RoundedPaper)`
   ${({ theme }) => theme.breakpoints.up(BREAKPOINT.TABLET)} {
     grid-column: 9 / -1;
   }

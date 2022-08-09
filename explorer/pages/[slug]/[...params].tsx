@@ -8,9 +8,9 @@ import { Page } from "../../app/components/Layout/components/Page/page";
 import { config } from "app/config/config";
 import { getFetcher } from "app/hooks/useFetcher";
 import { getCurrentEntity } from "app/hooks/useCurrentEntity";
-import { Project } from "../../app/views/Project/project";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { AzulEntityStaticResponse } from "../../app/apis/azul/common/entities";
+import { BackPage } from "../../app/views/BackPage/backPage";
 
 interface PageUrl extends ParsedUrlQuery {
   params: string[];
@@ -28,7 +28,7 @@ const ProjectPage = ({ slug, ...props }: ProjectPageProps): JSX.Element => {
 
   return (
     <Page entity={entity}>
-      <Project {...props} />
+      <BackPage {...props} />
     </Page>
   );
 };

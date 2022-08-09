@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 // App dependencies
 import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
-import { Project as ProjectView } from "app/components/Project/project";
+import { BackPageView } from "app/components/Layout/components/BackPage/backPageView";
 import { useCurrentDetailTab } from "app/hooks/useCurrentDetailTab";
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
 import { useFetchEntity } from "app/hooks/useFetchEntity";
@@ -30,7 +30,7 @@ function getTabs(entity: EntityConfig): Tab[] {
   }));
 }
 
-export const Project = (props: AzulEntityStaticResponse): JSX.Element => {
+export const BackPage = (props: AzulEntityStaticResponse): JSX.Element => {
   const { currentTab, route: tabRoute } = useCurrentDetailTab();
   const entity = useCurrentEntity();
   const { isLoading, response } = useFetchEntity(props);
@@ -59,7 +59,7 @@ export const Project = (props: AzulEntityStaticResponse): JSX.Element => {
   };
 
   return (
-    <ProjectView
+    <BackPageView
       mainColumn={
         <ComponentCreator components={mainColumn} response={response} />
       }

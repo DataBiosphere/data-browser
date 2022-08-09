@@ -11,7 +11,6 @@ import {
   processAggregatedOrArrayValue,
   processEntityValue,
 } from "../../common/utils";
-import { Description } from "../../../../components/Project/common/entities";
 import {
   Key,
   KeyValues,
@@ -25,6 +24,7 @@ import {
   AggregatedLibraryResponse,
 } from "./aggregatedEntities";
 import { MetadataValue } from "../../../../components/Index/common/entities";
+import { Description } from "../../../../components/Project/common/entities";
 import { DatasetsResponse } from "./responses";
 import { LABEL } from "../../common/entities";
 

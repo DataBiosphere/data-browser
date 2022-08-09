@@ -6,13 +6,13 @@
 import React from "react";
 
 // App dependencies
+import { Stack } from "app/components/common/Stack/Stack";
 import {
   Breadcrumb,
   Breadcrumbs,
 } from "../../../common/Breadcrumbs/breadcrumbs";
 import { Status, StatusBadge } from "../../../common/StatusBadge/statusBadge";
 import { HeroTitle, Title } from "../../../common/Title/title";
-import { Stack } from "app/components/common/Stack/Stack";
 
 interface Props {
   breadcrumbs?: Breadcrumb[];
