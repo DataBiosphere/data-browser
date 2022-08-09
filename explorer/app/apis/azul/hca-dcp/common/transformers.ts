@@ -8,6 +8,9 @@ export const filesToFileName = (file: FilesResponse): string =>
 export const filesToFileFormat = (file: FilesResponse): string =>
   file.files[0].format ?? "";
 
+export const filesToFileUrl = (file: FilesResponse): string =>
+  file.files[0].url ?? "";
+
 export const filesToProjTitle = (file: FilesResponse): string =>
   concatStrings(file.projects[0].projectTitle) ?? "";
 

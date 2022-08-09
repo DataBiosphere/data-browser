@@ -28,3 +28,4 @@ export { Links } from "./Links/Links";
 export { Stack } from "./common/Stack/Stack";
 export { Tooltip } from "./Tooltip/tooltip";
 export { ValueInline } from "./ValueInline/valueInline";
+export { AzulFileDownload } from "./AzulFileDownload/azulFileDownload";

@@ -13,6 +13,7 @@ import {
   buildFileName,
   buildFileSize,
   buildProjTitle,
+  buildFileDownload,
 } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 
 /**
@@ -27,6 +28,14 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
   label: "Files",
   list: {
     columns: [
+      {
+        componentConfig: {
+          component: Components.AzulFileDownload,
+          viewBuilder: buildFileDownload,
+        } as ComponentConfig<typeof Components.AzulFileDownload>,
+        header: " ",
+        width: { max: "1fr", min: "50px" },
+      },
       {
         componentConfig: {
           component: Components.Cell,

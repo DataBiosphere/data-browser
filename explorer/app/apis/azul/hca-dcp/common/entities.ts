@@ -7,6 +7,7 @@ export interface FilesResponse {
     format: string;
     name: string;
     size: number;
+    url: string;
     uuid: string;
   }[];
   projects: {

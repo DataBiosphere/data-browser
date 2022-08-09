@@ -7,6 +7,7 @@ import {
   filesToFileFormat,
   filesToFileName,
   filesToFileSize,
+  filesToFileUrl,
   filesToProjTitle,
 } from "../../../../apis/azul/hca-dcp/common/transformers";
 
@@ -15,6 +16,14 @@ export const buildFileName = (
 ): React.ComponentProps<typeof C.Cell> => {
   return {
     value: filesToFileName(file),
+  };
+};
+
+export const buildFileDownload = (
+  file: FilesResponse
+): React.ComponentProps<typeof C.AzulFileDownload> => {
+  return {
+    url: filesToFileUrl(file),
   };
 };
 
