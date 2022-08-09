@@ -10,7 +10,7 @@ interface Props {
 
 export const Title = ({ title }: Props): JSX.Element => {
   return (
-    <Typography component="h1" variant="text-heading-large">
+    <Typography color="ink.main" component="h1" variant="text-heading-large">
       {title}
     </Typography>
   );

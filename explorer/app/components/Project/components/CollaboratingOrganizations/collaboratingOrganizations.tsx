@@ -7,7 +7,7 @@ import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/s
 import { Section } from "../Section/section";
 
 // Styles
-import { Sup } from "../../../Citations/Citations.styles";
+import { Sup } from "../Sup/Sup.styles";
 
 interface Props {
   collaboratingOrganizations?: CollaboratingOrganization[];

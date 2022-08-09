@@ -20,7 +20,7 @@ export const Summaries = ({ summaries }: Props): JSX.Element => {
             {c !== 0 && <Dot />}
             <Stack direction="row" gap={1}>
               <Typography variant="text-body-small-500">{count}</Typography>
-              <Typography color="inkLight" variant="text-body-small-400">
+              <Typography color="ink.light" variant="text-body-small-400">
                 {label}
               </Typography>
             </Stack>

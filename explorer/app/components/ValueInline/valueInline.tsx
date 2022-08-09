@@ -17,7 +17,7 @@ export const ValueInline = ({
       <Text variant="text-body-small-500" customColor="ink">
         {value}
       </Text>
-      <Text variant="text-body-small-400" customColor="inkLight">
+      <Text variant="text-body-small-400" customColor="ink" colorOption="light">
         {label}
       </Text>
     </Box>

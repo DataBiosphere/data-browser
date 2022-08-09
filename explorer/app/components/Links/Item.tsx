@@ -1,9 +1,14 @@
-import { Box, ClickAwayListener, IconButton, Tooltip } from "@mui/material";
+import {
+  Box,
+  ClickAwayListener,
+  IconButton,
+  Link as MLink,
+  Tooltip,
+} from "@mui/material";
 import ContentCopy from "@mui/icons-material/ContentCopy";
 import Link from "next/link";
 import React, { useState } from "react";
 import copy from "copy-to-clipboard";
-import { Text } from "../Text/Text";
 
 interface ItemProps {
   link: { label: string; url: string };
@@ -32,14 +37,9 @@ export const Item = ({
   return (
     <Box display="flex">
       <Link href={link.url} passHref>
-        <Text
-          variant="text-body-400-2lines"
-          component="a"
-          customColor="primaryAnvil"
-          sx={{ wordBreak: "break-word" }} // TODO(cc) to be resolved with #89 (Update citation component to match refined mocks)
-        >
+        <MLink variant="text-body-400-2lines">
           {`${numberValue} ${link.label}`}
-        </Text>
+        </MLink>
       </Link>
       {showCopyButton && (
         <ClickAwayListener onClickAway={handleCloseTooltip}>

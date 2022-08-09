@@ -14,15 +14,11 @@ export const breakpointDesktop = 1440; // Desktop.
 
 /**
  * Custom colors
+ * TODO remove when Text component is decommissioned.
  */
 export interface CustomColors {
   ink: string;
-  inkLight: string;
-  primaryAnvil: string;
   smoke: string;
-  smokeDark: string;
-  smokeLight: string;
-  smokeLightest: string;
 }
 
 /**
@@ -44,6 +40,7 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
    * Custom config theme
    */
   const customTypography = customTheme?.typography || {};
+  const customPalette = customTheme?.palette || {};
 
   /**
    * Default theme
@@ -58,23 +55,40 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
         },
       },
       palette: {
+        alert: {
+          light: "#FED3D1",
+          lightest: "#FFF4F4",
+          main: "#B42318",
+        },
         background: {
           default: "#F6F6F7", // smokeLight
         },
         info: {
           contrastText: "#00729C",
-          main: "#97D6EA",
+          light: "#97D6EA",
+          lightest: "#F2FAFC",
+          main: "#00729C",
         },
-        ink: "#212B36",
-        inkLight: "#637381",
-        primaryAnvil: "#035C94",
-        smoke: "#E1E3E5",
-        smokeDark: "#C4CDD5",
-        smokeLight: "#F6F6F7",
-        smokeLightest: "#FAFBFB",
+        ink: {
+          light: "#637381",
+          main: "#212B36",
+        },
+        smoke: {
+          dark: "#C4CDD5",
+          light: "#F6F6F7",
+          lightest: "#FAFBFB",
+          main: "#E1E3E5",
+        },
+        success: {
+          light: "#AEE9D1",
+          lightest: "#F1F8F5",
+          main: "#287555",
+        },
         warning: {
           contrastText: "#B54708",
-          main: "#FFD79D",
+          light: "#FFD79D",
+          lightest: "#FFFAEB",
+          main: "#B54708",
         },
       },
       spacing: 4,
@@ -176,7 +190,7 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
         },
       },
     },
-    { typography: customTypography }
+    { palette: customPalette, typography: customTypography }
   );
 
   /**
@@ -188,11 +202,13 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
   /**
    * Color constants
    */
-  const ink = defaultTheme.palette.ink;
-  const inkLight = defaultTheme.palette.inkLight;
-  const smoke = defaultTheme.palette.smoke;
-  const smokeDark = defaultTheme.palette.smokeDark;
-  const smokeLight = defaultTheme.palette.smokeLight;
+  const infoLight = defaultTheme.palette.info.light;
+  const ink = defaultTheme.palette.ink.main;
+  const inkLight = defaultTheme.palette.ink.light;
+  const smoke = defaultTheme.palette.smoke.main;
+  const smokeDark = defaultTheme.palette.smoke.dark;
+  const smokeLight = defaultTheme.palette.smoke.light;
+  const warningLight = defaultTheme.palette.warning.light;
   const white = defaultTheme.palette.common.white;
 
   /**
@@ -356,6 +372,16 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
           size: "small",
         },
         styleOverrides: {
+          colorDefault: {
+            backgroundColor: smoke,
+            color: ink,
+          },
+          colorInfo: {
+            backgroundColor: infoLight,
+          },
+          colorWarning: {
+            backgroundColor: warningLight,
+          },
           deleteIcon: {
             color: "inherit",
             margin: "0 -2px 0 0",

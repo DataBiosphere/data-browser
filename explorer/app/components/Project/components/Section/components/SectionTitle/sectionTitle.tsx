@@ -11,7 +11,7 @@ export const SectionTitle = ({ className, title }: Props): JSX.Element => {
   return (
     <Typography
       className={className}
-      color="ink"
+      color="ink.main"
       component="h3"
       variant="text-body-large-500"
     >

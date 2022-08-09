@@ -21,17 +21,17 @@ export const ButtonPrimary = styled(Button)`
 // Secondary button.
 export const ButtonSecondary = styled(Button)`
   background-color: ${({ theme }) => theme.palette.common.white};
-  box-shadow: inset 0 0 0 1px ${({ theme }) => theme.palette.smokeDark},
+  box-shadow: inset 0 0 0 1px ${({ theme }) => theme.palette.smoke.dark},
     0 1px 0 0 rgba(0, 0, 0, 0.08);
-  color: ${({ theme }) => theme.palette.ink};
+  color: ${({ theme }) => theme.palette.ink.main};
 
   &:active,
   &:hover {
-    background-color: ${({ theme }) => theme.palette.smokeLightest};
+    background-color: ${({ theme }) => theme.palette.smoke.lightest};
   }
 
   &:active {
-    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.palette.smokeDark};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.palette.smoke.dark};
   }
 
   &:disabled {

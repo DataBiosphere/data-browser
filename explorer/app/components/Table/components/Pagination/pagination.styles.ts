@@ -4,6 +4,7 @@ import { BREAKPOINT } from "../../../../hooks/useBreakpointHelper";
 export const Pagination = styled.div`
   align-items: center;
   background-color: ${({ theme }) => theme.palette.common.white};
+  color: ${({ theme }) => theme.palette.ink.main};
   display: flex;
   gap: 16px;
   justify-content: space-between;

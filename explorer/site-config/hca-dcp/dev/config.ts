@@ -213,6 +213,12 @@ const config: SiteConfig = {
     components: summary,
   },
   theme: {
+    palette: {
+      primary: {
+        dark: "#005EA9",
+        main: "#1C7CC7",
+      },
+    },
     typography: {
       "text-body-large-500": {
         fontFamily: FONT_FAMILY_DIN,

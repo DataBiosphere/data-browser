@@ -1,5 +1,4 @@
 export { ShowMore } from "./ShowMore/ShowMore";
-export { Citations } from "./Citations/Citations";
 export { ExportMethod } from "./Export/components/ExportMethod/exportMethod";
 export { FileCounts } from "./FileCounts/FileCounts";
 export { IconList } from "./IconList/IconList";

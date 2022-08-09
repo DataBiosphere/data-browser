@@ -1,33 +1,33 @@
 // Core dependencies
 import { Theme as MuiTheme } from "@mui/material/styles";
+import { PaletteColorOptions } from "@mui/material/styles/createPalette";
 import { TypographyStyleOptions } from "@mui/material/styles/createTypography";
 
 // App dependencies
 import { BREAKPOINT } from "../hooks/useBreakpointHelper";
-import { CustomColors } from "./theme";
 
 /**
  * Palette definitions.
  */
 declare module "@mui/material/styles/createPalette" {
   interface Palette {
-    ink: CustomColors["ink"];
-    inkLight: CustomColors["inkLight"];
-    primaryAnvil: CustomColors["primaryAnvil"];
-    smoke: CustomColors["smoke"];
-    smokeDark: CustomColors["smokeDark"];
-    smokeLight: CustomColors["smokeLight"];
-    smokeLightest: CustomColors["smokeLightest"];
+    alert: PaletteColor;
+    ink: PaletteColor;
+    smoke: PaletteColor;
+  }
+
+  interface PaletteColor {
+    lightest?: string;
   }
 
   interface PaletteOptions {
-    ink?: CustomColors["ink"];
-    inkLight?: CustomColors["inkLight"];
-    primaryAnvil?: CustomColors["primaryAnvil"];
-    smoke?: CustomColors["smoke"];
-    smokeDark?: CustomColors["smokeDark"];
-    smokeLight?: CustomColors["smokeLight"];
-    smokeLightest?: CustomColors["smokeLightest"];
+    alert?: PaletteColorOptions;
+    ink?: PaletteColorOptions;
+    smoke?: PaletteColorOptions;
+  }
+
+  interface SimplePaletteColorOptions {
+    lightest?: string;
   }
 }
 
@@ -142,7 +142,6 @@ declare module "@mui/material/Chip" {
 declare module "@mui/material/IconButton" {
   interface IconButtonPropsColorOverrides {
     ink: true;
-    inkLight: true;
   }
 
   interface IconButtonPropsSizeOverrides {

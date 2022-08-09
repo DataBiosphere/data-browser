@@ -3,9 +3,11 @@ import React from "react";
 
 // App dependencies
 import { Contributor } from "../../common/entities";
-import { Sup } from "app/components/Citations/Citations.styles";
 import { Section } from "../Section/section";
 import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
+
+// Styles
+import { Sup } from "../Sup/Sup.styles";
 
 interface Props {
   contributors?: Contributor[];

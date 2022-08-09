@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import React from "react";
 import { Text } from "../Text/Text";
 import Link from "next/link";
@@ -16,13 +17,13 @@ export const Item = ({ link, text }: ItemProps): JSX.Element => {
       </Text>
       {link && (
         <Link href={link.url} passHref>
-          <Text
+          <Typography
             variant="text-body-400-2lines"
             component="a"
-            customColor="primaryAnvil"
+            color="primary"
           >
             {link.label}
-          </Text>
+          </Typography>
         </Link>
       )}
     </ItemContainer>

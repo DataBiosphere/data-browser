@@ -10,7 +10,11 @@ interface LabelValueProps {
 export const LabelValue = ({ label, value }: LabelValueProps): JSX.Element => {
   return (
     <Box display="grid">
-      <Text variant="text-body-400-2lines" customColor="inkLight">
+      <Text
+        variant="text-body-400-2lines"
+        customColor="ink"
+        colorOption="light"
+      >
         {label}
       </Text>
       <Text

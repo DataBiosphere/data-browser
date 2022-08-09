@@ -1,18 +1,15 @@
 // Core dependencies
-import {
-  Box,
-  IconButton,
-  IconButtonProps,
-  SxProps,
-  Theme,
-} from "@mui/material";
+import { Box, IconButtonProps, SxProps, Theme } from "@mui/material";
 import Link from "next/link";
-import React from "react";
+import React, { ElementType } from "react";
 
 // App dependencies
 import { IconName } from "../CustomIcon/common/iconSvgPathShapes";
 import { CustomIcon } from "../CustomIcon/customIcon";
 import { ANCHOR_TARGET } from "../../Links/components/Link/link";
+
+// Styles
+import { IconButtonSocials } from "../IconButton/iconButton.styles";
 
 export interface Social {
   type: IconName;
@@ -20,15 +17,15 @@ export interface Social {
 }
 
 interface Props {
-  buttonColor?: IconButtonProps["color"];
   buttonSize?: IconButtonProps["size"];
+  IconButtonElType?: ElementType;
   socials: Social[];
   sx?: SxProps<Theme>;
 }
 
 export const Socials = ({
-  buttonColor = "default",
   buttonSize = "medium",
+  IconButtonElType = IconButtonSocials,
   socials,
   sx,
 }: Props): JSX.Element => {
@@ -36,15 +33,14 @@ export const Socials = ({
     <Box display="flex" sx={[...(Array.isArray(sx) ? sx : [sx])]}>
       {socials.map(({ type, url }) => (
         <Link key={type} href={url} passHref>
-          <IconButton
-            color={buttonColor}
+          <IconButtonElType
             href="passHref"
             rel="noopener"
             size={buttonSize}
             target={ANCHOR_TARGET.BLANK}
           >
             <CustomIcon fontSize="small" iconName={type} />
-          </IconButton>
+          </IconButtonElType>
         </Link>
       ))}
     </Box>

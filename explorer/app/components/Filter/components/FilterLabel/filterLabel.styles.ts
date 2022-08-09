@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 
 export const FilterLabel = styled(Button)`
-  color: ${({ theme }) => theme.palette.ink};
+  color: ${({ theme }) => theme.palette.ink.main};
   gap: 0;
   justify-content: space-between;
   padding: 6px 0;
@@ -12,7 +12,7 @@ export const FilterLabel = styled(Button)`
   }
 
   &.Mui-disabled {
-    color: ${({ theme }) => theme.palette.ink};
+    color: ${({ theme }) => theme.palette.ink.main};
     opacity: 0.3;
   }
 `;

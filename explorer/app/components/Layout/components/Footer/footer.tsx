@@ -9,6 +9,9 @@ import { Footer as FooterProps } from "../../common/entities";
 import { Stack } from "../../../common/Stack/Stack";
 import { Logo } from "../Header/components/Logo/logo";
 
+// Styles
+import { IconButtonSocialsFooter } from "../../../common/IconButton/iconButton.styles";
+
 interface Props {
   footer: FooterProps;
 }
@@ -31,7 +34,7 @@ export const Footer = ({ footer }: Props): JSX.Element => {
             <NLink key={label} href={url} passHref>
               <Link
                 alignItems="center"
-                color="ink"
+                color="ink.main"
                 display="flex"
                 variant="text-body-small-400"
               >
@@ -40,7 +43,12 @@ export const Footer = ({ footer }: Props): JSX.Element => {
             </NLink>
           ))}
           {feedbackForm && <>{/* TODO feedback form */}</>}
-          <Socials buttonSize="small" socials={socials} sx={{ gap: 2 }} />
+          <Socials
+            buttonSize="small"
+            IconButtonElType={IconButtonSocialsFooter}
+            socials={socials}
+            sx={{ gap: 2 }}
+          />
         </Stack>
       </Toolbar>
     </AppBar>

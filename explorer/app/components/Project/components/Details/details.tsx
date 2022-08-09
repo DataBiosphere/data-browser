@@ -20,10 +20,10 @@ interface Props {
  * Wrapper element around the key.
  * @param props - Set of values accepted by this component as props.
  * @param props.children - Key component children.
- * @returns typography component with color "inkLight".
+ * @returns typography component with color "ink.light".
  */
 function renderKey(props: { children: Key }): JSX.Element {
-  return <Typography color="inkLight">{props.children}</Typography>;
+  return <Typography color="ink.light">{props.children}</Typography>;
 }
 
 export const Details = ({ keyValuePairs }: Props): JSX.Element => {

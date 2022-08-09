@@ -66,7 +66,7 @@ export const Header = ({ header }: Props): JSX.Element => {
           {slogan && desktop && (
             <Divider
               orientation="vertical"
-              sx={{ borderColor: "smoke", maxHeight: 32 }}
+              sx={{ borderColor: "smoke.main", maxHeight: 32 }}
             />
           )}
           {/* Slogan */}
@@ -90,7 +90,6 @@ export const Header = ({ header }: Props): JSX.Element => {
           />
           {/* Socials */}
           <Socials
-            buttonColor="inkLight"
             buttonSize={desktop ? "small" : "xlarge"}
             socials={socials}
             sx={{

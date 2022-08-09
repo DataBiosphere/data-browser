@@ -13,7 +13,7 @@ export const Item = ({ label, value }: ItemProps): JSX.Element => {
       <Text variant="text-heading-small" customColor="ink">
         {value}
       </Text>
-      <Text variant="text-body-400" customColor="inkLight">
+      <Text variant="text-body-400" customColor="ink" colorOption="light">
         {label}
       </Text>
     </ItemContainer>

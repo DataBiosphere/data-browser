@@ -195,6 +195,14 @@ const config: SiteConfig = {
     apiPath: "index/summary",
     components: summary,
   },
+  theme: {
+    palette: {
+      primary: {
+        dark: "#003E76",
+        main: "#035C94",
+      },
+    },
+  },
 };
 
 export default config;
