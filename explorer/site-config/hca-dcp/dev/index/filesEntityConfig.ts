@@ -5,7 +5,7 @@ import {
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
-import { FilesResponse } from "../../../../app/apis/azul/hca-dcp/common/entities";
+import { FilesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import {
   buildCellCount,
   buildContentDesc,

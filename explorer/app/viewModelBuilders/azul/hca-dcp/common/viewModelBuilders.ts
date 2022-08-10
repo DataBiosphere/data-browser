@@ -1,4 +1,3 @@
-import { FilesResponse } from "../../../../apis/azul/hca-dcp/common/entities";
 import * as C from "../../../../components";
 
 import {
@@ -10,6 +9,7 @@ import {
   filesToFileUrl,
   filesToProjTitle,
 } from "../../../../apis/azul/hca-dcp/common/transformers";
+import { FilesResponse } from "../../../../apis/azul/hca-dcp/common/responses";
 
 export const buildFileName = (
   file: FilesResponse
