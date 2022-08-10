@@ -194,6 +194,14 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
   );
 
   /**
+   * Default theme overrides
+   */
+  defaultTheme.palette.text.primary = defaultTheme.palette.ink.main;
+  defaultTheme.shadows = [...defaultTheme.shadows].map(
+    (shadow, s) => customShadows[s] || shadow
+  ) as Shadows;
+
+  /**
    * Breakpoint constants
    */
   const breakpointUpDesktop = defaultTheme.breakpoints.up(BREAKPOINT.DESKTOP);
@@ -237,14 +245,6 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
   const textBody500 = defaultTheme.typography["text-body-500"];
   const textBodySmall400 = defaultTheme.typography["text-body-small-400"];
   const textBodySmall500 = defaultTheme.typography["text-body-small-500"];
-
-  /**
-   * Default theme overrides
-   */
-  defaultTheme.palette.text.primary = ink;
-  defaultTheme.shadows = [...defaultTheme.shadows].map(
-    (shadow, s) => customShadows[s] || shadow
-  ) as Shadows;
 
   /**
    * App theme
