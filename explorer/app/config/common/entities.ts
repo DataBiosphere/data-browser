@@ -31,7 +31,7 @@ interface TabConfig {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
 export interface EntityConfig<D = any> extends TabConfig {
   apiPath?: string;
-  detail: DetailConfig;
+  detail: BackPageConfig;
   getId?: GetIdFunction<D>;
   list: ListConfig;
   staticLoad?: boolean;
@@ -84,17 +84,17 @@ export interface DataSourceConfig {
 }
 
 /**
- * Interface to define the set of components that will be used for the detail page.
+ * Interface to define the set of components that will be used for the back page.
  */
-export interface DetailConfig {
-  tabs: DetailTabConfig[];
+export interface BackPageConfig {
+  tabs: BackPageTabConfig[];
   top: ComponentsConfig;
 }
 
 /**
- * Interface to determine the components for each tab on the detail page
+ * Interface to determine the components for each tab on the back page
  */
-export interface DetailTabConfig extends TabConfig {
+export interface BackPageTabConfig extends TabConfig {
   mainColumn: ComponentsConfig;
   sideColumn: ComponentsConfig;
 }

@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 
 // App dependencies
 import { PARAMS_INDEX_TAB } from "app/shared/constants";
-import { DetailTabConfig } from "../config/common/entities";
+import { BackPageTabConfig } from "../config/common/entities";
 import { useCurrentEntity } from "./useCurrentEntity";
 
 /**
  * Model of current selected tab and the tab's corresponding route in the set of tabs.
  */
 export interface CurrentDetailTab {
-  currentTab: DetailTabConfig;
+  currentTab: BackPageTabConfig;
   route: string;
 }
 
