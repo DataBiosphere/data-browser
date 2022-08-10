@@ -12,6 +12,10 @@ export const ButtonPrimary = styled(Button)`
     background-color: ${({ theme }) => theme.palette.primary.dark};
   }
 
+  &:active {
+    box-shadow: none;
+  }
+
   &.Mui-disabled {
     color: ${({ theme }) => theme.palette.common.white};
     opacity: 0.5;
