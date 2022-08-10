@@ -625,6 +625,9 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
           fontSizeXsmall: {
             fontSize: "18px",
           },
+          fontSizeXxlarge: {
+            fontSize: "40px",
+          },
           fontSizeXxsmall: {
             fontSize: "16px",
           },
@@ -633,6 +636,11 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
           {
             props: {
               size: "xsmall",
+            },
+          },
+          {
+            props: {
+              size: "xxlarge",
             },
           },
           {

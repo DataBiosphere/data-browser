@@ -36,7 +36,7 @@ export const SectionSummary = styled(ButtonBase)`
 `;
 
 export const SectionTitle = styled(Title)`
-  margin: 0 0 8px !important;
+  margin: 0 0 8px;
 `;
 
 export const Content = styled(Typography)`
@@ -69,4 +69,10 @@ export const SectionContentListItem = styled.div`
 
 export const SectionCallout = styled.div`
   margin-top: 16px;
+`;
+
+export const SectionActions = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 8px;
 `;

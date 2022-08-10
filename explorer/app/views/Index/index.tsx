@@ -4,6 +4,7 @@ import React, { Fragment, useState } from "react";
 
 // App dependencies
 import {
+  AzulEntitiesResponse,
   AzulEntitiesStaticResponse,
   AzulSummaryResponse,
 } from "../../apis/azul/common/entities";
@@ -14,6 +15,7 @@ import {
   TabValue,
 } from "app/components/common/Tabs/tabs";
 import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
+import { NoResults } from "app/components/NoResults/noResults";
 import { TableCreator } from "app/components/TableCreator/tableCreator";
 import { useConfig } from "app/hooks/useConfig";
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
@@ -25,6 +27,12 @@ import { SidebarLabel } from "../../components/Layout/components/Sidebar/compone
 import { Sidebar } from "../../components/Layout/components/Sidebar/sidebar";
 import { EntityConfig, SummaryConfig } from "../../config/common/entities";
 import { useCategoryFilter } from "../../hooks/useCategoryFilter";
+
+// Styles
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+} from "../../components/common/Button/button.styles";
 
 /**
  * Returns tabs to be used as a prop for the Tabs component.
@@ -106,23 +114,44 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
 
   /**
    * Render either a loading view, empty result set notification or the table itself.
+   * @param entitiesResponse - Index responses from Azul, such as projects (index/projects), samples (index/samples) and files (index/files).
    * @returns Element to render.
    */
-  const renderContent = (): JSX.Element => {
-    if (!response) {
+  const renderContent = (
+    entitiesResponse?: AzulEntitiesResponse
+  ): JSX.Element => {
+    if (!entitiesResponse) {
       return <></>; //TODO: return the loading UI component
     }
 
-    if (!response.hits) {
-      return <span>EMPTY LIST</span>; //TODO: return the empty list UI component
+    if (entitiesResponse.hits.length === 0) {
+      return (
+        <NoResults
+          // actions={
+          //   <>
+          //     <ButtonPrimary
+          //       onClick={(): void => console.log("Remove last filter")} // TODO create "remove last filter" function
+          //     >
+          //       Remove last filter
+          //     </ButtonPrimary>
+          //     <ButtonSecondary
+          //       onClick={(): void => console.log("Clear all filters")} // TODO create "clear all filters" function
+          //     >
+          //       Clear all filters
+          //     </ButtonSecondary>
+          //   </>
+          // }
+          title={"No Results found"}
+        />
+      );
     }
 
     return (
       <TableCreator
         columns={columnsConfig}
-        items={response.hits}
-        pageSize={response.pagination.size}
-        total={response.pagination.pages}
+        items={entitiesResponse.hits}
+        pageSize={entitiesResponse.pagination.size}
+        total={entitiesResponse.pagination.pages}
         pagination={pagination}
         sort={sort}
         loading={loading}
@@ -139,7 +168,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
         </Sidebar>
       )}
       <IndexView
-        entities={renderContent()}
+        entities={renderContent(response)}
         Summaries={renderSummary(summaryConfig, summaryResponse)}
         Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabsValue} />}
         title={entityTitle}

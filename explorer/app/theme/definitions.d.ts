@@ -46,6 +46,7 @@ declare module "@mui/material/styles" {
     [BREAKPOINT.DESKTOP]: true;
     [BREAKPOINT.TABLET]: true;
   }
+
   /* eslint-enable typescript-sort-keys/interface -- disabling for readability */
 
   /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
@@ -169,6 +170,7 @@ declare module "@mui/material/Paper" {
 declare module "@mui/material/SvgIcon" {
   interface SvgIconPropsSizeOverrides {
     xsmall: true;
+    xxlarge: true;
     xxsmall: true;
   }
 }

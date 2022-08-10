@@ -11,6 +11,7 @@ import React, { ReactNode } from "react";
 interface Props {
   alignItems?: StackProps["alignItems"];
   children: ReactNode | ReactNode[];
+  className?: string;
   direction?: StackProps["direction"];
   divider?: StackProps["divider"];
   gap?: number;
@@ -20,6 +21,7 @@ interface Props {
 
 export const Stack = ({
   children,
+  className,
   direction = "column",
   divider = undefined,
   justifyContent,
@@ -29,6 +31,7 @@ export const Stack = ({
 }: Props): JSX.Element => {
   return (
     <Stacker
+      className={className}
       direction={direction}
       divider={divider}
       justifyContent={justifyContent}
