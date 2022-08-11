@@ -5,7 +5,6 @@ import {
   ListConfig,
 } from "../../../../app/config/common/entities";
 import { buildDevStage } from "../projectViewModelBuilder";
-import { SamplesResponse } from "../../../../app/apis/azul/hca-dcp/common/entities";
 import {
   samplesBuildAnatomicalEntity,
   samplesBuildCellCount,
@@ -16,6 +15,7 @@ import {
   samplesBuildSampleType,
   samplesBuildSpecies,
 } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { SamplesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 
 /**
  * Entity config object responsible to config anything related to the /explore/samples route.

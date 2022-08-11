@@ -3,6 +3,23 @@ export interface AggregatedProject {
   projectTitle: string[];
 }
 
-export interface AggregatedProjectResponse {
+export interface AggregatedProjectsResponse {
   projects: AggregatedProject[];
+}
+
+export interface AggregatedDonorOrganisms {
+  disease: string[];
+  genusSpecies: string[];
+}
+
+export interface AggregatedDonorOrganismsResponse {
+  donorOrganisms: AggregatedDonorOrganisms[];
+}
+
+export interface AggregatedProtocols {
+  libraryConstructionApproach: string[];
+}
+
+export interface AggregatedProtocolsResponse {
+  protocols: AggregatedProtocols[];
 }

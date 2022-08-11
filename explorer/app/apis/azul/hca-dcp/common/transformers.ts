@@ -1,7 +1,6 @@
 import { concatStrings } from "../../../../utils/string";
 import { humanFileSize } from "../../../../utils/fileSize";
-import { FilesResponse } from "./responses";
-import { SamplesResponse } from "./entities";
+import { FilesResponse, SamplesResponse } from "./responses";
 
 //FilesResponse
 
