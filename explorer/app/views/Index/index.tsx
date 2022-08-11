@@ -28,12 +28,6 @@ import { Sidebar } from "../../components/Layout/components/Sidebar/sidebar";
 import { EntityConfig, SummaryConfig } from "../../config/common/entities";
 import { useCategoryFilter } from "../../hooks/useCategoryFilter";
 
-// Styles
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "../../components/common/Button/button.styles";
-
 /**
  * Returns tabs to be used as a prop for the Tabs component.
  * @param entities - Entity configs related to the /explore/projects, /explore/files and /explore/samples route.

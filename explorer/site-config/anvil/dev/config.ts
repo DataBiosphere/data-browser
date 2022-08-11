@@ -14,6 +14,9 @@ import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { librariesEntityConfig } from "./index/librariesEntityConfig";
 
+// Export config
+import { exportConfig } from "./export/export";
+
 // Images
 import logoAnvil from "images/logoAnvil.png";
 import logoHhs from "images/logoHhs.svg";
@@ -107,6 +110,7 @@ const config: SiteConfig = {
     filesEntityConfig,
   ],
   entityTitle: "Anvil Data Explorer",
+  export: exportConfig,
   layout: {
     footer: {
       logos: [

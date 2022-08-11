@@ -162,6 +162,7 @@ export interface SiteConfig {
   disablePagination?: boolean;
   entities: EntityConfig[];
   entityTitle: HeroTitle;
+  export?: BackPageConfig;
   layout: {
     footer: Footer;
     header: Header;

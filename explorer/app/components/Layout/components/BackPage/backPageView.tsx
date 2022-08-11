@@ -21,7 +21,7 @@ import { FlatPaper } from "../../../common/Paper/paper.styles";
 interface Props {
   mainColumn: ReactNode;
   sideColumn: ReactNode;
-  Tabs: ReactNode;
+  Tabs?: ReactNode;
   top: ReactNode;
 }
 
