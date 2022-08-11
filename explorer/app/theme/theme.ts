@@ -437,6 +437,13 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
           },
         },
       },
+      MuiDivider: {
+        styleOverrides: {
+          root: {
+            borderColor: smoke,
+          },
+        },
+      },
       MuiDrawer: {
         styleOverrides: {
           paper: {

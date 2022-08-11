@@ -64,10 +64,7 @@ export const Header = ({ header }: Props): JSX.Element => {
         >
           {/* Slogan divider */}
           {slogan && desktop && (
-            <Divider
-              orientation="vertical"
-              sx={{ borderColor: "smoke.main", maxHeight: 32 }}
-            />
+            <Divider orientation="vertical" sx={{ maxHeight: 32 }} />
           )}
           {/* Slogan */}
           {slogan && (

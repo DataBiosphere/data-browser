@@ -1,3 +1,4 @@
+// TODO review paper align-self styles with ticket https://github.com/clevercanary/data-browser/issues/417
 import styled from "@emotion/styled";
 import { Paper } from "./paper";
 
