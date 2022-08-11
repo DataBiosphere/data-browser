@@ -14,7 +14,12 @@ export const exportConfig: BackPageConfig = {
         } as ComponentConfig<typeof C.ExportMethod>,
       ],
       route: "/export",
-      sideColumn: [],
+      sideColumn: [
+        {
+          component: C.TitledText,
+          viewBuilder: T.buildDataReleasePolicy,
+        } as ComponentConfig<typeof C.TitledText>,
+      ],
     },
   ],
   top: [

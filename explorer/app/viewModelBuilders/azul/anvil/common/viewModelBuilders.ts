@@ -176,6 +176,20 @@ export const buildDataModality = (
 };
 
 /**
+ * Build props for TitledText component for the display of the data release policy.
+ * @returns model to be used as props for the TitledText component.
+ */
+export const buildDataReleasePolicy = (): React.ComponentProps<
+  typeof C.TitledText
+> => {
+  return {
+    text: [
+      "Downloaded data is governed by the AnVIL Data Release Policy and licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). For more information please see our Data Use Agreement.",
+    ],
+  };
+};
+
+/**
  * Build dataset name Cell component from the given index/datasets response.
  * @param response - Response model return from index/datasets API.
  * @returns model to be used as props for the dataset name cell.
