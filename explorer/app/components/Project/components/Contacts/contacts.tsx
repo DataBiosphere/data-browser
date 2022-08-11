@@ -1,14 +1,9 @@
-// Core dependencies
 import { Link as EmailLink, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-
-// App dependencies
 import { Contact } from "../../common/entities";
 import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 import { Section } from "../Section/section";
-
-// Styles
 import { SectionContentListItem } from "../Section/section.styles";
 
 interface Props {

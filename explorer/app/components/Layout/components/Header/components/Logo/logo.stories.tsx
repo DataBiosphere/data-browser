@@ -1,14 +1,9 @@
-// Core dependencies
-import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-
-// App dependencies
-import { Logo } from "./logo";
-
-// Images
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import logoAnvil from "images/logoAnvil.png";
 import logoHca from "images/logoHca.png";
 import logoLungmap from "images/logoLungmap.png";
+import React from "react";
+import { Logo } from "./logo";
 
 export default {
   argTypes: {

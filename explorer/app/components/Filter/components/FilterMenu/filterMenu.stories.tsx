@@ -1,8 +1,5 @@
-// Core dependencies
-import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-
-// App dependencies
+import React from "react";
 import { FilterMenu } from "./filterMenu";
 
 export default {

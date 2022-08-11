@@ -1,13 +1,3 @@
-// Core dependencies
-import { useRouter } from "next/router";
-import React, { Fragment, useState } from "react";
-
-// App dependencies
-import {
-  AzulEntitiesResponse,
-  AzulEntitiesStaticResponse,
-  AzulSummaryResponse,
-} from "../../apis/azul/common/entities";
 import {
   Tab,
   Tabs,
@@ -21,6 +11,13 @@ import { useConfig } from "app/hooks/useConfig";
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
 import { useFetchEntities } from "app/hooks/useFetchEntities";
 import { useSummary } from "app/hooks/useSummary";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import {
+  AzulEntitiesResponse,
+  AzulEntitiesStaticResponse,
+  AzulSummaryResponse,
+} from "../../apis/azul/common/entities";
 import { Filters } from "../../components/Filter/components/Filters/filters";
 import { Index as IndexView } from "../../components/Index/index";
 import { SidebarLabel } from "../../components/Layout/components/Sidebar/components/SidebarLabel/sidebarLabel";

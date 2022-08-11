@@ -3,7 +3,6 @@
  * https://mui.com/material-ui/react-use-media-query/#using-muis-breakpoint-helpers
  */
 
-// Core dependencies
 import { Breakpoint, Theme, useMediaQuery } from "@mui/material";
 
 export const enum BREAKPOINT {

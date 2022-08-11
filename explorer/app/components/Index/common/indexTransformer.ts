@@ -1,4 +1,4 @@
-// App dependencies
+import { AzulSummaryResponse } from "../../../apis/azul/common/entities";
 import {
   BIND_SUMMARY_RESPONSE,
   PLURALIZED_METADATA_LABEL,
@@ -6,7 +6,6 @@ import {
 } from "./constants";
 import { METADATA_KEY, SUMMARY, Summary } from "./entities";
 import { formatCountSize } from "./utils";
-import { AzulSummaryResponse } from "../../../apis/azul/common/entities";
 
 /**
  * Returns the pluralized metadata label for the specified metadata.

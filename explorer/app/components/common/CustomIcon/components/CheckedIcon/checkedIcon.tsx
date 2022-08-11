@@ -2,7 +2,6 @@
  * Custom checked icon.
  */
 
-// Core dependencies
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import React from "react";
 

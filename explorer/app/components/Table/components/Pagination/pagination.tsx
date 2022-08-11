@@ -1,14 +1,9 @@
-// Core dependencies
 import EastRoundedIcon from "@mui/icons-material/EastRounded";
 import WestRoundedIcon from "@mui/icons-material/WestRounded";
 import { Typography } from "@mui/material";
 import React from "react";
-
-// App dependencies
-import { Stack } from "../../../common/Stack/Stack";
-
-// Styles
 import { IconButtonSecondary } from "../../../common/IconButton/iconButton.styles";
+import { Stack } from "../../../common/Stack/Stack";
 import { Pagination as TablePagination } from "./pagination.styles";
 
 interface Props {

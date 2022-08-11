@@ -1,11 +1,9 @@
+import logoNcpi from "images/logoNcpiDug.svg";
+import { studiesEntityConfig } from "site-config/ncpi-catalog/dev/index/studiesEntityConfig";
 import { SiteConfig } from "../../../app/config/common/entities";
 import ncpiDevConfig from "../../ncpi-catalog/dev/config";
-import { studiesEntityConfig } from "site-config/ncpi-catalog/dev/index/studiesEntityConfig";
+import { DUG_API_PARAMS, DUG_API_URL } from "./constants";
 import { relatedStudiesEntityConfig } from "./index/relatedStudiesEntityConfig";
-import { DUG_API_URL, DUG_API_PARAMS } from "./constants";
-
-// Images
-import logoNcpi from "images/logoNcpiDug.svg";
 
 const config: SiteConfig = {
   ...ncpiDevConfig,

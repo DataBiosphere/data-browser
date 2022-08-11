@@ -1,4 +1,4 @@
-// App dependencies
+import { LibrariesResponse } from "../../../../app/apis/azul/anvil/common/responses";
 import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
@@ -6,7 +6,6 @@ import {
   ListConfig,
 } from "../../../../app/config/common/entities";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
-import { LibrariesResponse } from "../../../../app/apis/azul/anvil/common/responses";
 
 /**
  * Entity config object responsible for config related to the /explore/libraries route.

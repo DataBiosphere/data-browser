@@ -1,8 +1,5 @@
-// Core dependencies
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-
-// App dependencies
 import { Publications } from "./publications";
 
 export default {

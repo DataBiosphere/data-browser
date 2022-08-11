@@ -3,10 +3,7 @@
  * Optional wrapper components for the key values, key value tuple, key and value for complete ui flexibility.
  */
 
-// Core dependencies
 import React, { ElementType } from "react";
-
-// App dependencies
 import { Stack } from "../Stack/Stack";
 
 export type Key = string;

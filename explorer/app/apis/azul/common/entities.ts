@@ -1,4 +1,6 @@
+import { CategoryKey, CategoryValueKey } from "../../../common/entities";
 import { FileFormatResponse } from "../../../models/responses";
+import { FileEntityResponse } from "../anvil/common/entities";
 import {
   ActivitiesResponse,
   BioSamplesResponse,
@@ -6,8 +8,6 @@ import {
   DonorsResponse,
   LibrariesResponse,
 } from "../anvil/common/responses";
-import { FileEntityResponse } from "../anvil/common/entities";
-import { CategoryKey, CategoryValueKey } from "../../../common/entities";
 
 /**
  * Base model of an entry in the "hits" value returned from an Azul entities response.

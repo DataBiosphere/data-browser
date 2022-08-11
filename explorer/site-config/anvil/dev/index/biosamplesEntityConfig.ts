@@ -1,11 +1,10 @@
-// App dependencies
+import { BioSamplesResponse } from "../../../../app/apis/azul/anvil/common/responses";
 import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
-import { BioSamplesResponse } from "../../../../app/apis/azul/anvil/common/responses";
 import * as ViewBuilders from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 /**

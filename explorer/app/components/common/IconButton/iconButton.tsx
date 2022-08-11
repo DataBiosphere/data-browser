@@ -3,7 +3,6 @@
  * Use IconButtonSecondary styles to render secondary icon button.
  */
 
-// Core dependencies
 import { IconButton as MIconButton, IconButtonProps } from "@mui/material";
 import React, { ElementType } from "react";
 

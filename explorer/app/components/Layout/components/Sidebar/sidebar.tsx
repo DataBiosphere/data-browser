@@ -1,16 +1,11 @@
-// Core dependencies
 import { CloseRounded } from "@mui/icons-material";
 import { Drawer, PaperProps } from "@mui/material";
 import React, { ReactNode, useEffect } from "react";
-
-// App dependencies
 import {
   BREAKPOINT,
   BREAKPOINT_FN_NAME,
   useBreakpointHelper,
 } from "../../../../hooks/useBreakpointHelper";
-
-// Styles
 import { CloseDrawerIconButton } from "../../../common/IconButton/iconButton.styles";
 import { Sidebar as PermanentSidebar } from "./sidebar.styles";
 

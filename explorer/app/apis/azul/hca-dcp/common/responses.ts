@@ -1,10 +1,10 @@
 import { AzulHit } from "../../common/entities";
-import { FilesEntityResponse, SamplesEntityResponse } from "./entities";
 import {
   AggregatedDonorOrganismsResponse,
   AggregatedProjectsResponse,
   AggregatedProtocolsResponse,
 } from "./aggregatedEntities";
+import { FilesEntityResponse, SamplesEntityResponse } from "./entities";
 
 /**
  * Model of response returned from /index/files API endpoint.

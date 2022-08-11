@@ -1,10 +1,5 @@
-// Core dependencies
 import React, { ReactNode } from "react";
-
-// App dependencies
 import { SectionTitle } from "../Section/components/SectionTitle/sectionTitle";
-
-// Styles
 import {
   CollapsableSection as Section,
   SectionSummary,

@@ -1,8 +1,5 @@
-// Core dependencies
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-
-// App dependencies
 import { KeyValues } from "../../../common/KeyValuePairs/keyValuePairs";
 import { Details } from "./details";
 

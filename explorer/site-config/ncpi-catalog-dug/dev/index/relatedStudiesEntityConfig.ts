@@ -1,13 +1,12 @@
-import * as ViewBuilder from "../../../../app/viewModelBuilders/ncpi-catalog/common/viewModelBuilders";
+import { studiesEntityConfig } from "site-config/ncpi-catalog/dev/index/studiesEntityConfig";
+import { DugVariableResponse } from "../../../../app/apis/ncpi-catalog-dug/common/entities";
 import * as C from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
-
-import { DugVariableResponse } from "../../../../app/apis/ncpi-catalog-dug/common/entities";
-import { studiesEntityConfig } from "site-config/ncpi-catalog/dev/index/studiesEntityConfig";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/ncpi-catalog/common/viewModelBuilders";
 import { DUG_API_PATH } from "../constants";
 
 /**

@@ -1,7 +1,7 @@
+import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { AzulEntityStaticResponse } from "../apis/azul/common/entities";
-import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { useAsync } from "./useAsync";
 import { useFetcher } from "./useFetcher";
 

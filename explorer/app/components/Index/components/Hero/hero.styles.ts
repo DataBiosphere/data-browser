@@ -1,5 +1,5 @@
-import { ButtonPrimary } from "app/components/common/Button/button.styles";
 import styled from "@emotion/styled";
+import { ButtonPrimary } from "app/components/common/Button/button.styles";
 
 interface Props {
   buttonWidget: boolean;

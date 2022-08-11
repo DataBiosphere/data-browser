@@ -1,8 +1,5 @@
-// Core dependencies
 import { Typography } from "@mui/material";
 import React from "react";
-
-// App dependencies
 import { Description as ProjectDescription } from "../../common/entities";
 import { Section } from "../Section/section";
 

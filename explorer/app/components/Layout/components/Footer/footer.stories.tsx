@@ -1,17 +1,12 @@
-// Core dependencies
-import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-
-// App dependencies
-import { Footer } from "./footer";
-
-// Images
 import logoHhs from "images/logoHhs.svg";
 import logoHumanCellAtlas from "images/logoHumanCellAtlas.png";
 import logoLungmap from "images/logoLungmap.png";
 import logoNhgri from "images/logoNhgri.svg";
 import logoNih from "images/logoNih.svg";
 import logoUsagov from "images/logoUsagov.png";
+import React from "react";
+import { Footer } from "./footer";
 
 export default {
   argTypes: {

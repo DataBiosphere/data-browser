@@ -1,6 +1,5 @@
-// App dependencies
-import devConfig from "../dev/config";
 import { SiteConfig } from "../../../app/config/common/entities";
+import devConfig from "../dev/config";
 
 // Template constants
 const BROWSER_URL = "https://anvilproject.org/";

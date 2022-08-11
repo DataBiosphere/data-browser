@@ -1,15 +1,12 @@
-// Core dependencies
-import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-
-// App dependencies
-import { Page } from "./page";
+import React from "react";
+import { datasetsEntityConfig } from "../../../../../site-config/anvil/dev/index/datasetsEntityConfig";
 import {
   PermanentSidebar,
   TemporaryClosedSidebar,
   TemporaryOpenSidebar,
 } from "../Sidebar/sidebar.stories";
-import { datasetsEntityConfig } from "../../../../../site-config/anvil/dev/index/datasetsEntityConfig";
+import { Page } from "./page";
 
 export default {
   argTypes: {

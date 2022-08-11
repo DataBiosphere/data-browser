@@ -2,17 +2,17 @@
  * Handles Project's API requests
  */
 
-import { convertUrlParams } from "../../utils/url";
-import {
-  DEFAULT_LIST_PARAMS,
-  DEFAULT_DETAIL_PARAMS,
-  URL,
-} from "../../shared/constants";
 import {
   AzulEntitiesResponse,
   AzulListParams,
   AzulSummaryResponse,
 } from "../../apis/azul/common/entities";
+import {
+  DEFAULT_DETAIL_PARAMS,
+  DEFAULT_LIST_PARAMS,
+  URL,
+} from "../../shared/constants";
+import { convertUrlParams } from "../../utils/url";
 
 /**
  * Request to get a list of entities.

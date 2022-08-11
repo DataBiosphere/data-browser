@@ -2,7 +2,6 @@
  * An extension of the basic Mui Paper component with custom variants e.g. "panel".
  */
 
-// Core dependencies
 import { Paper as Panel, PaperProps } from "@mui/material";
 import React, { ReactNode } from "react";
 

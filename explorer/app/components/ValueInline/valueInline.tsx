@@ -1,6 +1,5 @@
 import { Box } from "@mui/material";
 import React from "react";
-
 import { Text } from "../Text/Text";
 
 interface ValueInlineProps {

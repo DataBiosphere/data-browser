@@ -1,25 +1,25 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useAsync } from "./useAsync";
-import { useCurrentEntity } from "./useCurrentEntity";
 import { EntityConfig } from "app/config/common/entities";
-import { useFetcher } from "./useFetcher";
-import { useResetableState } from "./useResetableState";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  AzulEntitiesStaticResponse,
   AzulEntitiesResponse,
-  Filters,
+  AzulEntitiesStaticResponse,
   AzulListParams,
+  Filters,
 } from "../apis/azul/common/entities";
+import {
+  transformFilters,
+  transformTermFacets,
+} from "../apis/azul/common/filterTransformer";
 import {
   Pagination,
   SelectCategory,
   Sort,
   SortOrderType,
 } from "../common/entities";
-import {
-  transformFilters,
-  transformTermFacets,
-} from "../apis/azul/common/filterTransformer";
+import { useAsync } from "./useAsync";
+import { useCurrentEntity } from "./useCurrentEntity";
+import { useFetcher } from "./useFetcher";
+import { useResetableState } from "./useResetableState";
 
 /**
  * Type of function called to update filter query string params and trigger re-fetch of entities.

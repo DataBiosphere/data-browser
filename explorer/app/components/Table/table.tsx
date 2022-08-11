@@ -1,4 +1,3 @@
-// Core dependencies
 import SouthRoundedIcon from "@mui/icons-material/SouthRounded";
 import {
   TableBody,
@@ -8,26 +7,22 @@ import {
   TableRow,
   TableSortLabel,
 } from "@mui/material";
-import React from "react";
 import {
-  useReactTable,
   ColumnDef,
-  getCoreRowModel,
   flexRender,
+  getCoreRowModel,
   getPaginationRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
-
-// App dependencies
+import { useScroll } from "app/hooks/useScroll";
+import React from "react";
+import { Pagination, Sort, SortOrderType } from "../../common/entities";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
+import { RoundedPaper } from "../common/Paper/paper.styles";
 import { Pagination as DXPagination } from "./components/Pagination/pagination";
 import { PaginationSummary } from "./components/PaginationSummary/paginationSummary";
 import { newColumnKey, newColumnOrder } from "./functions";
-
-// Styles
-import { RoundedPaper } from "../common/Paper/paper.styles";
 import { Table as GridTable, TableToolbar } from "./table.styles";
-import { useScroll } from "app/hooks/useScroll";
-import { Pagination, Sort, SortOrderType } from "../../common/entities";
 
 export interface EditColumnConfig {
   onVisibleColumnsChange: (newColumnId: string) => void;

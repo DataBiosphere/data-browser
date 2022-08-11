@@ -1,40 +1,11 @@
-// Core dependencies
 import React from "react";
-
-// App dependencies
-import {
-  getActivityType,
-  getAnatomicalSite,
-  getBioSampleId,
-  getBioSampleType,
-  getAggregatedBioSampleTypes,
-  getActivityDataModalities,
-  getDatasetBreadcrumbs,
-  getDatasetDescription,
-  getDatasetDetails,
-  getDatasetEntryId,
-  getDatasetName,
-  getAggregatedDatasetNames,
-  getDocumentId,
-  getDonorId,
-  getFileFormat,
-  getFileId,
-  getFileType,
-  getLibraryId,
-  getOrganismType,
-  getAggregatedOrganismTypes,
-  getPhenotypicSex,
-  getAggregatedPhenotypicSexes,
-  getPrepMaterialName,
-  getAggregatedPrepMaterialNames,
-  getAggregatedReportedEthnicities,
-  getReportedEthnicities,
-  getFileDataModalities,
-} from "../../../../apis/azul/anvil/common/transformers";
-import * as C from "../../../../components";
-import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
-import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { URL_DATASETS } from "../../../../../site-config/anvil/dev/config";
+import {
+  AggregatedBioSampleResponse,
+  AggregatedDatasetResponse,
+  AggregatedDonorResponse,
+  AggregatedLibraryResponse,
+} from "../../../../apis/azul/anvil/common/aggregatedEntities";
 import {
   ActivityEntityResponse,
   BioSampleEntityResponse,
@@ -43,13 +14,39 @@ import {
   FileEntityResponse,
   LibraryEntityResponse,
 } from "../../../../apis/azul/anvil/common/entities";
-import {
-  AggregatedBioSampleResponse,
-  AggregatedDatasetResponse,
-  AggregatedDonorResponse,
-  AggregatedLibraryResponse,
-} from "../../../../apis/azul/anvil/common/aggregatedEntities";
 import { DatasetsResponse } from "../../../../apis/azul/anvil/common/responses";
+import {
+  getActivityDataModalities,
+  getActivityType,
+  getAggregatedBioSampleTypes,
+  getAggregatedDatasetNames,
+  getAggregatedOrganismTypes,
+  getAggregatedPhenotypicSexes,
+  getAggregatedPrepMaterialNames,
+  getAggregatedReportedEthnicities,
+  getAnatomicalSite,
+  getBioSampleId,
+  getBioSampleType,
+  getDatasetBreadcrumbs,
+  getDatasetDescription,
+  getDatasetDetails,
+  getDatasetEntryId,
+  getDatasetName,
+  getDocumentId,
+  getDonorId,
+  getFileDataModalities,
+  getFileFormat,
+  getFileId,
+  getFileType,
+  getLibraryId,
+  getOrganismType,
+  getPhenotypicSex,
+  getPrepMaterialName,
+  getReportedEthnicities,
+} from "../../../../apis/azul/anvil/common/transformers";
+import * as C from "../../../../components";
+import { METADATA_KEY } from "../../../../components/Index/common/entities";
+import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 
 /**
  * Build props for activity type Cell component from the given activities response.

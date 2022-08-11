@@ -1,4 +1,3 @@
-// Core dependencies
 import {
   Checkbox,
   List,
@@ -6,18 +5,14 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import React from "react";
-
-// App dependencies
 import { CheckedIcon } from "app/components/common/CustomIcon/components/CheckedIcon/checkedIcon";
 import { UncheckedIcon } from "app/components/common/CustomIcon/components/UncheckedIcon/uncheckedIcon";
+import React from "react";
 import {
   CategoryKey,
   SelectCategoryValueView,
 } from "../../../../common/entities";
 import { OnFilterFn } from "../../../../hooks/useCategoryFilter";
-
-// Styles
 import { FilterView } from "./filterMenu.styles";
 
 interface Props {

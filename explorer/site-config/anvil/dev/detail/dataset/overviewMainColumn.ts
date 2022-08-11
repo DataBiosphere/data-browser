@@ -1,8 +1,7 @@
-// App dependencies
 import * as C from "app/components";
 import { ComponentConfig } from "app/config/common/entities";
-import * as T from "../../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 import { DatasetsResponse } from "../../../../../app/apis/azul/anvil/common/responses";
+import * as T from "../../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 export const mainColumn = [
   {

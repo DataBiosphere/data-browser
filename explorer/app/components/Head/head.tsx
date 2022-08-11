@@ -1,8 +1,7 @@
-// Core dependencies
-import React from "react";
-import NextHead from "next/head";
 import { useConfig } from "app/hooks/useConfig";
+import NextHead from "next/head";
 import { useRouter } from "next/router";
+import React from "react";
 
 const FAV_ICONS = {
   "16x16": "/favicons/favicon-16x16.png",

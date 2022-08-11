@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { IconButton } from "./iconButton";
 import { IconButton as MIconButton } from "@mui/material";
+import { IconButton } from "./iconButton";
 
 // Primary icon button.
 export const IconButtonPrimary = styled(IconButton)`

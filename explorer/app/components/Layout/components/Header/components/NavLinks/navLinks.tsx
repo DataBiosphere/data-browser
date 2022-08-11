@@ -1,11 +1,8 @@
-// Core dependencies
 import { Box, Button } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-
-// App dependencies
-import { NavLinkItem } from "../../../../common/entities";
 import { ELEMENT_ALIGNMENT } from "../../../../../../common/entities";
+import { NavLinkItem } from "../../../../common/entities";
 
 export type NavAlignment = Exclude<ELEMENT_ALIGNMENT, ELEMENT_ALIGNMENT.RIGHT>;
 

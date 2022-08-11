@@ -1,6 +1,6 @@
-import { Fetcher, FetcherType } from "./model";
-import * as tsvService from "../tsv/service";
 import * as apiService from "../api/service";
+import * as tsvService from "../tsv/service";
+import { Fetcher, FetcherType } from "./model";
 
 const TSV_FETCHER: Fetcher = {
   detail: tsvService.detail,

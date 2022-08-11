@@ -1,4 +1,3 @@
-// App dependencies
 import { SUMMARY } from "app/components/Index/common/entities";
 
 // Template constants

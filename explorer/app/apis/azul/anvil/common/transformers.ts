@@ -1,4 +1,22 @@
-// App dependencies
+import { Breadcrumb } from "../../../../components/common/Breadcrumbs/breadcrumbs";
+import {
+  Key,
+  KeyValues,
+  Value,
+} from "../../../../components/common/KeyValuePairs/keyValuePairs";
+import { MetadataValue } from "../../../../components/Index/common/entities";
+import { Description } from "../../../../components/Project/common/entities";
+import { LABEL } from "../../common/entities";
+import {
+  processAggregatedOrArrayValue,
+  processEntityValue,
+} from "../../common/utils";
+import {
+  AggregatedBioSampleResponse,
+  AggregatedDatasetResponse,
+  AggregatedDonorResponse,
+  AggregatedLibraryResponse,
+} from "./aggregatedEntities";
 import {
   ActivityEntityResponse,
   BioSampleEntityResponse,
@@ -7,26 +25,7 @@ import {
   FileEntityResponse,
   LibraryEntityResponse,
 } from "./entities";
-import {
-  processAggregatedOrArrayValue,
-  processEntityValue,
-} from "../../common/utils";
-import {
-  Key,
-  KeyValues,
-  Value,
-} from "../../../../components/common/KeyValuePairs/keyValuePairs";
-import { Breadcrumb } from "../../../../components/common/Breadcrumbs/breadcrumbs";
-import {
-  AggregatedBioSampleResponse,
-  AggregatedDatasetResponse,
-  AggregatedDonorResponse,
-  AggregatedLibraryResponse,
-} from "./aggregatedEntities";
-import { MetadataValue } from "../../../../components/Index/common/entities";
-import { Description } from "../../../../components/Project/common/entities";
 import { DatasetsResponse } from "./responses";
-import { LABEL } from "../../common/entities";
 
 /**
  * Maps activity type from the core activity entity returned from the index/activites API response.

@@ -1,20 +1,20 @@
-import { buildDevStage } from "../projectViewModelBuilder";
+import { FilesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
-import { FilesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import {
   filesBuildCellCount,
   filesBuildContentDesc,
+  filesBuildFileDownload,
   filesBuildFileFormat,
   filesBuildFileName,
   filesBuildFileSize,
   filesBuildProjTitle,
-  filesBuildFileDownload,
 } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { buildDevStage } from "../projectViewModelBuilder";
 
 /**
  * Entity config object responsible to config anything related to the /explore/files route.

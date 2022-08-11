@@ -1,9 +1,6 @@
-// Core dependencies
 import { Link as MLink, LinkProps } from "@mui/material";
 import NLink from "next/link";
 import React, { ReactNode } from "react";
-
-// App dependencies
 import { CopyToClipboard } from "../../../common/CopyToClipboard/copyToClipboard";
 
 export enum ANCHOR_TARGET {

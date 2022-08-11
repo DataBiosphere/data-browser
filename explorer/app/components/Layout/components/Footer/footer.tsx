@@ -1,16 +1,11 @@
-// Core dependencies
 import { AppBar, Link, Toolbar } from "@mui/material";
+import { Socials } from "app/components/common/Socials/socials";
 import NLink from "next/link";
 import React from "react";
-
-// App dependencies
-import { Socials } from "app/components/common/Socials/socials";
-import { Footer as FooterProps } from "../../common/entities";
-import { Stack } from "../../../common/Stack/Stack";
-import { Logo } from "../Header/components/Logo/logo";
-
-// Styles
 import { IconButtonSocialsFooter } from "../../../common/IconButton/iconButton.styles";
+import { Stack } from "../../../common/Stack/Stack";
+import { Footer as FooterProps } from "../../common/entities";
+import { Logo } from "../Header/components/Logo/logo";
 
 interface Props {
   footer: FooterProps;

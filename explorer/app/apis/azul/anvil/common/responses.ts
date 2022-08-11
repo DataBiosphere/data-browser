@@ -1,11 +1,3 @@
-import {
-  ActivityEntityResponse,
-  BioSampleEntityResponse,
-  DatasetEntityResponse,
-  DonorEntityResponse,
-  FileEntityResponse,
-  LibraryEntityResponse,
-} from "./entities";
 import { AzulHit } from "../../common/entities";
 import {
   AggregatedActivityResponse,
@@ -15,6 +7,14 @@ import {
   AggregatedFileResponse,
   AggregatedLibraryResponse,
 } from "./aggregatedEntities";
+import {
+  ActivityEntityResponse,
+  BioSampleEntityResponse,
+  DatasetEntityResponse,
+  DonorEntityResponse,
+  FileEntityResponse,
+  LibraryEntityResponse,
+} from "./entities";
 
 /**
  * Model of response returned from the /index/activities API endpoint.

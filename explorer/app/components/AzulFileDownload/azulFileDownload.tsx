@@ -1,14 +1,9 @@
-// Core dependencies
 import { Box } from "@mui/material";
-import React, { useEffect, useRef } from "react";
-
-// App dependencies
-import { API_FILE_LOCATION_FETCH } from "../../apis/azul/anvil/common/constants";
 import { useRequestFileLocation } from "app/hooks/useRequestFileLocation";
+import React, { useEffect, useRef } from "react";
+import { API_FILE_LOCATION_FETCH } from "../../apis/azul/anvil/common/constants";
 import { DownloadIcon } from "../common/CustomIcon/components/DownloadIcon/downloadIcon";
 import { LoadingIcon } from "../common/CustomIcon/components/LoadingIcon/loadingIcon";
-
-// Styles
 import { IconButtonPrimary } from "../common/IconButton/iconButton.styles";
 
 interface AzulFileDownloadProps {

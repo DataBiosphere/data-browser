@@ -1,7 +1,7 @@
 /**
  * Hook to make API async calls and handles the API result state.
  */
-import React, { useCallback, useReducer, useRef, useEffect } from "react";
+import React, { useCallback, useEffect, useReducer, useRef } from "react";
 
 /**
  * Hook to safely call an async function, by checking if the component is mounted before the call

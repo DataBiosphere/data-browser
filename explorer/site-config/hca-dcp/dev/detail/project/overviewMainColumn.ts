@@ -1,4 +1,3 @@
-// App dependencies
 import * as C from "app/components";
 import { ComponentConfig } from "app/config/common/entities";
 import { ProjectsResponse } from "app/models/responses";

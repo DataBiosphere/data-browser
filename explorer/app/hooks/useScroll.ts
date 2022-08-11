@@ -1,4 +1,3 @@
-// Core dependencies
 import { useCallback } from "react";
 
 type ScrollType = "top" | "bottom";

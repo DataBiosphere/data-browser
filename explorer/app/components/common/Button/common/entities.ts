@@ -1,4 +1,3 @@
-// Core dependencies
 import { ButtonProps } from "@mui/material";
 import { ElementType } from "react";
 

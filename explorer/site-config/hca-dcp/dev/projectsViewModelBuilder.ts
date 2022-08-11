@@ -1,7 +1,4 @@
-// Core dependencies
 import React from "react";
-
-// App dependencies
 import * as C from "../../../app/components";
 import { METADATA_KEY } from "../../../app/components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../app/components/Index/common/indexTransformer";

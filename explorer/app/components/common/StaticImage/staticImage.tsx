@@ -4,7 +4,6 @@
  * a relative path from /images.
  * These images will be optimized at the build time by next-optimized-images
  */
-// Core dependencies
 import { useRouter } from "next/router";
 import React from "react";
 

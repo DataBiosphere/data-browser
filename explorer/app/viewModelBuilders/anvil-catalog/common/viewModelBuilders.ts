@@ -1,14 +1,14 @@
 import {
-  getStudyName,
   getConsortia,
-  getDisease,
   getDataType,
+  getDisease,
   getIndication,
   getParticipantCount,
   getStudyDesign,
+  getStudyName,
 } from "../../../apis/anvil-catalog/common/transformers";
-import * as C from "../../../components";
 import { AnvilSourceItem } from "../../../apis/anvil/common/entities";
+import * as C from "../../../components";
 
 /**
  * Build props for study name cell component from the given study in the Anvil catalog.

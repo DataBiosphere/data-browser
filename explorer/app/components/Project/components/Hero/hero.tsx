@@ -2,11 +2,8 @@
  * Project detail page hero component comprising breadcrumbs, project title, project status and tabs.
  */
 
-// Core dependencies
-import React from "react";
-
-// App dependencies
 import { Stack } from "app/components/common/Stack/Stack";
+import React from "react";
 import {
   Breadcrumb,
   Breadcrumbs,

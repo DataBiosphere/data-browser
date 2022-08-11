@@ -1,15 +1,10 @@
-// Core dependencies
 import { Typography } from "@mui/material";
+import { SectionActions } from "app/components/Project/components/Section/section.styles";
 import React, { ReactNode } from "react";
-
-// App dependencies
 import { SearchOffIcon } from "../common/CustomIcon/components/SearchOffIcon/searchOffIcon";
+import { RoundedPaper } from "../common/Paper/paper.styles";
 import { PRIORITY, StatusIcon } from "../common/StatusIcon/statusIcon";
 import { SectionTitle } from "../Project/components/Section/components/SectionTitle/sectionTitle";
-
-// Styles
-import { SectionActions } from "app/components/Project/components/Section/section.styles";
-import { RoundedPaper } from "../common/Paper/paper.styles";
 import { Section, SectionContent } from "./noResults.styles";
 
 interface Props {

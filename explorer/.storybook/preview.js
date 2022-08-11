@@ -1,10 +1,7 @@
-// Core dependencies
-import { ThemeProvider as Emotion10ThemeProvider } from "emotion-theming";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider as Emotion10ThemeProvider } from "emotion-theming";
 import { RouterContext } from "next/dist/shared/lib/router-context";
-
-// App dependencies
 import { useConfig } from "../app/hooks/useConfig";
 import { getAppTheme } from "../app/theme/theme";
 

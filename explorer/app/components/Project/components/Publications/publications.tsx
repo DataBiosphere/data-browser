@@ -1,10 +1,7 @@
-// Core dependencies
 import { Typography } from "@mui/material";
 import React from "react";
-
-// App dependencies
-import { Publication } from "../../common/entities";
 import { ANCHOR_TARGET, Link } from "../../../Links/components/Link/link";
+import { Publication } from "../../common/entities";
 import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 import { Section } from "../Section/section";
 

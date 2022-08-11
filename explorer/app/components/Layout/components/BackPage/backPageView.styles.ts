@@ -1,6 +1,6 @@
-import { RoundedPaper } from "../../../common/Paper/paper.styles";
 import styled from "@emotion/styled";
 import { BREAKPOINT } from "../../../../hooks/useBreakpointHelper";
+import { RoundedPaper } from "../../../common/Paper/paper.styles";
 
 export const BackPageView = styled.div`
   display: grid;

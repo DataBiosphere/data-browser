@@ -1,8 +1,5 @@
-// Core dependencies
 import { Theme, ThemeOptions } from "@mui/material";
 import { createTheme, Shadows } from "@mui/material/styles";
-
-// App dependencies
 import { BREAKPOINT } from "../hooks/useBreakpointHelper";
 
 /**

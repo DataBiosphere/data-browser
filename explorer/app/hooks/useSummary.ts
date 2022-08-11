@@ -1,7 +1,7 @@
 import { useEffect } from "react";
+import { AzulSummaryResponse } from "../apis/azul/common/entities";
 import { useAsync } from "./useAsync";
 import { useConfig } from "./useConfig";
-import { AzulSummaryResponse } from "../apis/azul/common/entities";
 import { useFetcher } from "./useFetcher";
 
 interface UseSummaryResponse {

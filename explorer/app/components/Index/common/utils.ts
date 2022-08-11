@@ -1,6 +1,5 @@
-// App dependencies
-import { MetadataValue } from "./entities";
 import { AzulSummaryResponse } from "../../../apis/azul/common/entities";
+import { MetadataValue } from "./entities";
 
 /**
  * Calculates the summary file format count using count values returned for each file format in the summary response.

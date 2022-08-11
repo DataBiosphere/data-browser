@@ -1,8 +1,5 @@
-// Core dependencies
 import { Chip, ChipProps, Typography } from "@mui/material";
 import React, { forwardRef } from "react";
-
-// App dependencies
 import { MetadataValue } from "../../common/entities";
 import { stringifyMetadataValues } from "../../common/utils";
 import { NTag } from "../NTag/nTag";

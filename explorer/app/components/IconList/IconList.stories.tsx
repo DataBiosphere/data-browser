@@ -1,10 +1,10 @@
-import React from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { IconList } from "./IconList";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import CellXGeneIcon from "images/icons/cellxgene.svg";
 import StemIcon from "images/icons/stem.svg";
 import UCSCCellIcon from "images/icons/ucsc-cell.svg";
 import UCSCGenomeIcon from "images/icons/ucsc-genome.svg";
+import React from "react";
+import { IconList } from "./IconList";
 
 export default {
   argTypes: {

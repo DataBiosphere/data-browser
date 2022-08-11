@@ -1,7 +1,6 @@
-// App dependencies
 import * as C from "app/components";
-import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 import { BackPageConfig, ComponentConfig } from "app/config/common/entities";
+import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 export const exportConfig: BackPageConfig = {
   tabs: [

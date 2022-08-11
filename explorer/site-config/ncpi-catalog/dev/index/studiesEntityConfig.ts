@@ -1,12 +1,12 @@
-import * as ViewBuilder from "../../../../app/viewModelBuilders/ncpi-catalog/common/viewModelBuilders";
+import { NPCICatalogSourceItem } from "../../../../app/apis/ncpi-catalog/common/entities";
 import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/ncpi-catalog/common/viewModelBuilders";
 import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "../../tsv-config";
-import { NPCICatalogSourceItem } from "../../../../app/apis/ncpi-catalog/common/entities";
 
 /**
  * Entity config object responsible for config related to the /explore/studies route.

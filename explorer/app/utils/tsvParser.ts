@@ -5,7 +5,6 @@
  * Service for AnVIL dashboard file system methods.
  */
 
-// Core dependencies
 import { CastingContext, parse as parseCsv } from "csv-parse/sync";
 import fs from "fs";
 import path from "path";

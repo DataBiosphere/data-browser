@@ -1,7 +1,7 @@
 import { SelectCategory, SelectCategoryValue } from "../../../common/entities";
 import {
-  AZUL_FILTER_OPERATOR,
   AzulTermFacets,
+  AZUL_FILTER_OPERATOR,
   Filters,
   LABEL,
 } from "./entities";

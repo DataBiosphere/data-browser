@@ -1,7 +1,4 @@
-// Core dependencies
 import React from "react";
-
-// App dependencies
 import { DataCurator } from "../../common/entities";
 import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 import { Section } from "../Section/section";

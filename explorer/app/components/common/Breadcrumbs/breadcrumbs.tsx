@@ -1,4 +1,3 @@
-// Core dependencies
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import {
   Breadcrumbs as MBreadcrumbs,

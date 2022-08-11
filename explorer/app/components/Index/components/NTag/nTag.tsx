@@ -1,4 +1,3 @@
-// Core dependencies
 import { Tooltip } from "@mui/material";
 import { ReactElement } from "react";
 

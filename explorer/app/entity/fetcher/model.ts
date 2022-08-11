@@ -1,4 +1,3 @@
-// App
 import {
   AzulEntitiesResponse,
   AzulListParams,

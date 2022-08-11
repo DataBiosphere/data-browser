@@ -1,3 +1,6 @@
+import { useCallback, useState } from "react";
+import { Filters, SelectedFilter } from "../apis/azul/common/entities";
+import { COLLATOR_CASE_INSENSITIVE } from "../common/constants";
 import {
   CategoryKey,
   CategoryValueKey,
@@ -6,12 +9,9 @@ import {
   SelectCategoryValueView,
   SelectCategoryView,
 } from "../common/entities";
-import { useConfig } from "./useConfig";
-import { useCallback, useState } from "react";
 import { CategoryConfig } from "../config/common/entities";
-import { COLLATOR_CASE_INSENSITIVE } from "../common/constants";
+import { useConfig } from "./useConfig";
 import { SetFilterFn } from "./useFetchEntities";
-import { Filters, SelectedFilter } from "../apis/azul/common/entities";
 
 /**
  * Shape of return value from this useCategoryFilter hook.

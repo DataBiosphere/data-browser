@@ -1,11 +1,6 @@
-// Core dependencies
 import React, { ReactNode } from "react";
-
-// App dependencies
 import { HeroTitle } from "../common/Title/title";
 import { Hero } from "./components/Hero/hero";
-
-// Styles
 import { Index as IndexLayout } from "./index.styles";
 
 interface Props {

@@ -1,11 +1,6 @@
-// Core dependencies
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import React from "react";
-
-// App dependencies
 import { Button as ButtonProps } from "../../common/entities";
-
-// Styles
 import { DropdownButton as Button } from "./dropdownButton.styles";
 
 type Props = Exclude<ButtonProps, "StartIcon">;

@@ -1,9 +1,6 @@
-// Core dependencies
 import { Theme as MuiTheme } from "@mui/material/styles";
 import { PaletteColorOptions } from "@mui/material/styles/createPalette";
 import { TypographyStyleOptions } from "@mui/material/styles/createTypography";
-
-// App dependencies
 import { BREAKPOINT } from "../hooks/useBreakpointHelper";
 
 /**

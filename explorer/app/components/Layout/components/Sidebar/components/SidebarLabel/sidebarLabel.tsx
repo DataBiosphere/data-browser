@@ -1,8 +1,5 @@
-// Core dependencies
 import { Typography } from "@mui/material";
 import React from "react";
-
-// Styles
 import { SidebarLabel as Label } from "./sidebarLabel.styles";
 
 interface Props {

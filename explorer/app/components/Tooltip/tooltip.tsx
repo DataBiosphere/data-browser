@@ -1,8 +1,8 @@
-import React from "react";
 import {
   Tooltip as MuiTooltip,
   TooltipProps as MuiTooltipProps,
 } from "@mui/material";
+import React from "react";
 
 /**
  * This component is just using MUIs tooltip and wrapping the children components into a div.

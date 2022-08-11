@@ -1,15 +1,15 @@
+import anvilCatalogDev from "../../site-config/anvil-catalog/dev/config";
+import anvilCatalogProd from "../../site-config/anvil-catalog/prod/config";
+import anvilDev from "../../site-config/anvil/dev/config";
+import anvilProd from "../../site-config/anvil/prod/config";
 import hcaDcpDev from "../../site-config/hca-dcp/dev/config";
 import hcaDcpProd from "../../site-config/hca-dcp/prod/config";
-import anvilProd from "../../site-config/anvil/prod/config";
-import anvilDev from "../../site-config/anvil/dev/config";
-import anvilCatalogProd from "../../site-config/anvil-catalog/prod/config";
-import anvilCatalogDev from "../../site-config/anvil-catalog/dev/config";
-import lungMapProd from "../../site-config/lungmap/prod/config";
 import lungMapDev from "../../site-config/lungmap/dev/config";
-import ncpiMapProd from "../../site-config/ncpi-catalog/prod/config";
-import ncpiMapDev from "../../site-config/ncpi-catalog/dev/config";
-import ncpiDugMapProd from "../../site-config/ncpi-catalog-dug/prod/config";
+import lungMapProd from "../../site-config/lungmap/prod/config";
 import ncpiDugMapDev from "../../site-config/ncpi-catalog-dug/dev/config";
+import ncpiDugMapProd from "../../site-config/ncpi-catalog-dug/prod/config";
+import ncpiMapDev from "../../site-config/ncpi-catalog/dev/config";
+import ncpiMapProd from "../../site-config/ncpi-catalog/prod/config";
 import { SiteConfig } from "./common/entities";
 
 const CONFIGS: { [k: string]: SiteConfig } = {

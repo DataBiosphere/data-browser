@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 import { Text } from "../Text/Text";
-import Link from "next/link";
 import { ItemContainer } from "./TextLinks.styles";
 
 export interface ItemProps {

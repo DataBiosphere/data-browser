@@ -1,7 +1,4 @@
-// Core dependencies
 import React from "react";
-
-// App dependencies
 import {
   FilesResponse,
   SamplesResponse,

@@ -4,7 +4,6 @@
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/gap.
  */
 
-// Core dependencies
 import { Stack as Stacker, StackProps } from "@mui/material";
 import React, { ReactNode } from "react";
 

@@ -1,8 +1,3 @@
-// Core dependencies
-import Link from "next/link";
-import React from "react";
-
-// Styles
 import { RoundedPaper } from "app/components/common/Paper/paper.styles";
 import {
   Content as SectionContent,
@@ -10,6 +5,8 @@ import {
   SectionCallout,
   SectionTitle,
 } from "app/components/Project/components/Section/section.styles";
+import Link from "next/link";
+import React from "react";
 import { ExportButton } from "./exportMethod.styles";
 
 interface Props {

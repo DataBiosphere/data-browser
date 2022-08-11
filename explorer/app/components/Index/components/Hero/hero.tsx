@@ -2,14 +2,9 @@
  * Index page hero component comprising title, summary counts, and export button.
  */
 
-// Core dependencies
 import Link from "next/link";
 import React, { ReactNode } from "react";
-
-// App dependencies
 import { HeroTitle, Title } from "../../../common/Title/title";
-
-// Styles
 import {
   ExportButton,
   HeroLayout,

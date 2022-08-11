@@ -1,7 +1,4 @@
-// Core dependencies
 import React, { ElementType } from "react";
-
-// Styles
 import { StatusCircle } from "./statusIcon.styles";
 
 /**

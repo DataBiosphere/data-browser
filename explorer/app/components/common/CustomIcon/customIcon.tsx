@@ -1,8 +1,5 @@
-// Core dependencies
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import React from "react";
-
-// App dependencies
 import { IconName, IconSvgPathShapes } from "./common/iconSvgPathShapes";
 
 interface Props extends SvgIconProps {
