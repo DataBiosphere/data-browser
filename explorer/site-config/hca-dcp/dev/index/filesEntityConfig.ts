@@ -7,13 +7,13 @@ import {
 } from "../../../../app/config/common/entities";
 import { FilesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import {
-  buildCellCount,
-  buildContentDesc,
-  buildFileFormat,
-  buildFileName,
-  buildFileSize,
-  buildProjTitle,
-  buildFileDownload,
+  filesBuildCellCount,
+  filesBuildContentDesc,
+  filesBuildFileFormat,
+  filesBuildFileName,
+  filesBuildFileSize,
+  filesBuildProjTitle,
+  filesBuildFileDownload,
 } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 
 /**
@@ -31,7 +31,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.AzulFileDownload,
-          viewBuilder: buildFileDownload,
+          viewBuilder: filesBuildFileDownload,
         } as ComponentConfig<typeof Components.AzulFileDownload>,
         header: " ",
         width: "auto",
@@ -39,7 +39,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: buildFileName,
+          viewBuilder: filesBuildFileName,
         } as ComponentConfig<typeof Components.Cell>,
         header: "File Name",
         sort: {
@@ -51,7 +51,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: buildFileFormat,
+          viewBuilder: filesBuildFileFormat,
         } as ComponentConfig<typeof Components.Cell>,
         header: "File Format",
         sort: {
@@ -62,7 +62,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: buildFileSize,
+          viewBuilder: filesBuildFileSize,
         } as ComponentConfig<typeof Components.Cell>,
         header: "File Size",
         sort: {
@@ -73,7 +73,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: buildContentDesc,
+          viewBuilder: filesBuildContentDesc,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Content Description",
         sort: {
@@ -84,7 +84,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: buildProjTitle,
+          viewBuilder: filesBuildProjTitle,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Project Title",
         sort: {
@@ -95,7 +95,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: buildCellCount,
+          viewBuilder: filesBuildCellCount,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Cell Count Estimate",
         sort: {

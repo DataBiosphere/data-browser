@@ -11,7 +11,7 @@ import { summary } from "./index/summary";
 // Entities config
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntity } from "./projectsEntity";
-import { samplesEntity } from "./samplesEntity";
+import { samplesEntityConfig } from "./index/samplesEntityConfig";
 
 // Images
 import logoHca from "images/logoHca.png";
@@ -138,7 +138,7 @@ const config: SiteConfig = {
     },
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [projectsEntity, samplesEntity, filesEntityConfig],
+  entities: [projectsEntity, samplesEntityConfig, filesEntityConfig],
   entityTitle: "Explore Data: DCP 2.0 Data View",
   layout: {
     footer: {

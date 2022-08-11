@@ -1,17 +1,26 @@
-import * as ViewBuilder from "./sampleTransformer";
-import * as Components from "../../../app/components";
+import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
-} from "../../../app/config/common/entities";
-import { SamplesResponse } from "app/models/responses";
-import { buildDevStage } from "./projectViewModelBuilder";
+} from "../../../../app/config/common/entities";
+import { buildDevStage } from "../projectViewModelBuilder";
+import { SamplesResponse } from "../../../../app/apis/azul/hca-dcp/common/entities";
+import {
+  samplesBuildAnatomicalEntity,
+  samplesBuildCellCount,
+  samplesBuildDiseaseDonor,
+  samplesBuildLibConsApproach,
+  samplesBuildProjTitle,
+  samplesBuildSampleId,
+  samplesBuildSampleType,
+  samplesBuildSpecies,
+} from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 
 /**
  * Entity config object responsible to config anything related to the /explore/samples route.
  */
-export const samplesEntity: EntityConfig<SamplesResponse> = {
+export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
   apiPath: "index/samples",
   detail: {
     tabs: [],
@@ -22,9 +31,9 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: Components.Text,
-          viewBuilder: ViewBuilder.samplesToSampleIDColumn,
-        } as ComponentConfig<typeof Components.Text>,
+          component: Components.Cell,
+          viewBuilder: samplesBuildSampleId,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Sample ID",
         sort: {
           default: true,
@@ -34,9 +43,9 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Text,
-          viewBuilder: ViewBuilder.samplesToProjTitleColumn,
-        } as ComponentConfig<typeof Components.Text>,
+          component: Components.Cell,
+          viewBuilder: samplesBuildProjTitle,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Project Title",
         sort: {
           sortKey: "projectTitle",
@@ -45,9 +54,9 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Text,
-          viewBuilder: ViewBuilder.samplesToSpeciesColumn,
-        } as ComponentConfig<typeof Components.Text>,
+          component: Components.Cell,
+          viewBuilder: samplesBuildSpecies,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Species",
         sort: {
           sortKey: "genusSpecies",
@@ -56,9 +65,9 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Text,
-          viewBuilder: ViewBuilder.samplesToSampleTypeColumn,
-        } as ComponentConfig<typeof Components.Text>,
+          component: Components.Cell,
+          viewBuilder: samplesBuildSampleType,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Sample Type",
         sort: {
           sortKey: "sampleEntityType",
@@ -67,9 +76,9 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Text,
-          viewBuilder: ViewBuilder.samplesToLibConsApproachColumn,
-        } as ComponentConfig<typeof Components.Text>,
+          component: Components.Cell,
+          viewBuilder: samplesBuildLibConsApproach,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Library Construction Approach",
         sort: {
           sortKey: "libraryConstructionApproach",
@@ -78,9 +87,9 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Text,
-          viewBuilder: ViewBuilder.samplesToAnatomicalEntityColumn,
-        } as ComponentConfig<typeof Components.Text>,
+          component: Components.Cell,
+          viewBuilder: samplesBuildAnatomicalEntity,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Anatomical Entity",
         sort: {
           sortKey: "specimenOrgan",
@@ -89,9 +98,9 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Text,
-          viewBuilder: ViewBuilder.samplesToDiseaseDonorColumn,
-        } as ComponentConfig<typeof Components.Text>,
+          component: Components.Cell,
+          viewBuilder: samplesBuildDiseaseDonor,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Disease (Donor)",
         sort: {
           sortKey: "donorDisease",
@@ -100,9 +109,9 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Text,
-          viewBuilder: ViewBuilder.samplesToCellCountColumn,
-        } as ComponentConfig<typeof Components.Text>,
+          component: Components.Cell,
+          viewBuilder: samplesBuildCellCount,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Cell Count Estimate",
         sort: {
           sortKey: "cellCount",
@@ -111,9 +120,9 @@ export const samplesEntity: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Text,
+          component: Components.Cell,
           viewBuilder: buildDevStage,
-        } as ComponentConfig<typeof Components.Text>,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Development Stage",
         hiddenColumn: true,
         width: { max: "1fr", min: "148px" },

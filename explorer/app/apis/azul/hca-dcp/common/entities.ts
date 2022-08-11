@@ -13,3 +13,25 @@ export interface FilesEntity {
 export interface FilesEntityResponse {
   files: FilesEntity[];
 }
+
+/**
+ * Model of response returned from /index/samples API endpoint.
+ */
+export interface SamplesResponse {
+  donorOrganisms: {
+    disease: string[];
+    genusSpecies: string[];
+  }[];
+  projects: {
+    estimatedCellCount?: number;
+    projectTitle: string[];
+  }[];
+  protocols: {
+    libraryConstructionApproach: string[];
+  }[];
+  samples: {
+    id: string;
+    organ: string;
+    sampleEntityType: string;
+  }[];
+}

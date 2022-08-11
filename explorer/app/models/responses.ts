@@ -75,25 +75,3 @@ export interface PublicationResponse {
   publicationTitle: string;
   publicationUrl: string;
 }
-
-/**
- * Model of response returned from /index/samples API endpoint.
- */
-export interface SamplesResponse {
-  donorOrganisms: {
-    disease: string[];
-    genusSpecies: string[];
-  }[];
-  projects: {
-    estimatedCellCount?: number;
-    projectTitle: string[];
-  }[];
-  protocols: {
-    libraryConstructionApproach: string[];
-  }[];
-  samples: {
-    id: string;
-    organ: string;
-    sampleEntityType: string;
-  }[];
-}
