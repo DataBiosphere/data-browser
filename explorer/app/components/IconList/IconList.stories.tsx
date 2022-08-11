@@ -11,15 +11,15 @@ export default {
     icons: { control: "array" },
   },
   component: IconList,
-  title: "Components/IconList",
+  title: "Components/SectionContent/Content/KeyValuePairs",
 } as ComponentMeta<typeof IconList>;
 
 const Template: ComponentStory<typeof IconList> = (args) => (
   <IconList {...args} />
 );
 
-export const AnalysisPortals = Template.bind({});
-AnalysisPortals.args = {
+export const IconListKeyValuePairs = Template.bind({});
+IconListKeyValuePairs.args = {
   icons: [
     {
       icon: {

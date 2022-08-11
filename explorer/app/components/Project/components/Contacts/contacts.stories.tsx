@@ -10,7 +10,7 @@ export default {
     contacts: { control: "array" },
   },
   component: Contacts,
-  title: "Project/Detail",
+  title: "Components/SectionContent/Content/Project",
 } as ComponentMeta<typeof Contacts>;
 
 const Template: ComponentStory<typeof Contacts> = (args) => (

@@ -5,15 +5,15 @@ import { FileCounts } from "./FileCounts";
 export default {
   component: FileCounts,
   files: { control: "array" },
-  title: "Components/FileCounts",
+  title: "Components/SectionContent/Content/KeyValuePairs",
 } as ComponentMeta<typeof FileCounts>;
 
 const Template: ComponentStory<typeof FileCounts> = (args) => (
   <FileCounts {...args} />
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const FileCountsKeyValuePairs = Template.bind({});
+FileCountsKeyValuePairs.args = {
   files: [
     {
       count: 1,

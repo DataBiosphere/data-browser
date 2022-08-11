@@ -18,7 +18,10 @@ export default {
     title: { table: { disable: true } },
   },
   component: Index,
-  title: "Index/View",
+  parameters: {
+    layout: "fullscreen",
+  },
+  title: "Views/Index",
 } as ComponentMeta<typeof Index>;
 
 const Template: ComponentStory<typeof Index> = (args) => <Index {...args} />;

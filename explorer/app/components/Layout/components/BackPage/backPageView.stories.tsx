@@ -23,6 +23,9 @@ export default {
     top: { table: { disable: true } },
   },
   component: BackPageView,
+  parameters: {
+    layout: "fullscreen",
+  },
   title: "Views/BackPage",
 } as ComponentMeta<typeof BackPageView>;
 
@@ -30,8 +33,8 @@ const Template: ComponentStory<typeof BackPageView> = (args) => (
   <BackPageView {...args} />
 );
 
-export const Project = Template.bind({});
-Project.args = {
+export const HCAProject = Template.bind({});
+HCAProject.args = {
   mainColumn: (
     <>
       <ProjectDescription

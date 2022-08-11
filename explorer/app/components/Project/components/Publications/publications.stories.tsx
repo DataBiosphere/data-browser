@@ -7,7 +7,7 @@ import { Publications } from "./publications";
 
 export default {
   component: Publications,
-  title: "Project/Detail",
+  title: "Components/SectionContent/Content/Project",
 } as ComponentMeta<typeof Publications>;
 
 const Template: ComponentStory<typeof Publications> = (args) => (

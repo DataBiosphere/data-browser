@@ -11,10 +11,7 @@ export default {
     superseded: { control: "boolean" },
   },
   component: FilterTag,
-  parameters: {
-    layout: "centered",
-  },
-  title: "Filter/FilterTag",
+  title: "Components/Filter/FilterTag",
 } as ComponentMeta<typeof FilterTag>;
 
 const Template: ComponentStory<typeof FilterTag> = (args) => (

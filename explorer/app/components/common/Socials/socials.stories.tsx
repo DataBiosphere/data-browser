@@ -10,7 +10,7 @@ export default {
     socials: { control: "object" },
   },
   component: Socials,
-  title: "Components/SocialLinks",
+  title: "Components/Navigation/SocialLinks",
 } as ComponentMeta<typeof Socials>;
 
 const GITHUB_URL = "https://github.com";

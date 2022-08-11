@@ -11,7 +11,7 @@ export default {
     maxLines: { control: "number" },
   },
   component: ShowMore,
-  title: "Components/ShowMore",
+  title: "Components/Deprecated/ShowMore",
 } as ComponentMeta<typeof ShowMore>;
 
 const Template: ComponentStory<typeof ShowMore> = (args) => (

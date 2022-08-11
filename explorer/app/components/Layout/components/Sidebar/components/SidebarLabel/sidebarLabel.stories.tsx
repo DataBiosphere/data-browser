@@ -10,14 +10,14 @@ export default {
     label: { control: "text" },
   },
   component: SidebarLabel,
-  title: "Layout/Sidebar",
+  title: "Components/Label",
 } as ComponentMeta<typeof SidebarLabel>;
 
 const Template: ComponentStory<typeof SidebarLabel> = (args) => (
   <SidebarLabel {...args} />
 );
 
-export const Label = Template.bind({});
-Label.args = {
+export const SidebarFilterLabel = Template.bind({});
+SidebarFilterLabel.args = {
   label: "Filter",
 };

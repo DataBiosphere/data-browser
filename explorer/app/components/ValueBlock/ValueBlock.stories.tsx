@@ -7,15 +7,15 @@ export default {
     items: { control: "array" },
   },
   component: ValueBlock,
-  title: "Components/ValueBlock",
+  title: "Components/SectionContent/Content/KeyValuePairs",
 } as ComponentMeta<typeof ValueBlock>;
 
 const Template: ComponentStory<typeof ValueBlock> = (args) => (
   <ValueBlock {...args} />
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const ValueBlockKeyValuePairs = Template.bind({});
+ValueBlockKeyValuePairs.args = {
   items: [
     {
       label: "Cohorts",

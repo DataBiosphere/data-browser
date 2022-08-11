@@ -22,10 +22,7 @@ export default {
       </div>
     ),
   ],
-  parameters: {
-    layout: "centered",
-  },
-  title: "Filter/FilterMenu",
+  title: "Components/Filter/FilterMenu",
 } as ComponentMeta<typeof FilterMenu>;
 
 const Template: ComponentStory<typeof FilterMenu> = (args) => (
@@ -93,8 +90,8 @@ DefaultFilterMenu.args = {
   ],
 };
 
-export const FilterSelectCategoryViewGender = Template.bind({});
-FilterSelectCategoryViewGender.args = {
+export const GenderFilterMenu = Template.bind({});
+GenderFilterMenu.args = {
   categoryKey: "gender",
   menuWidth: 312,
   values: [
@@ -119,8 +116,8 @@ FilterSelectCategoryViewGender.args = {
   ],
 };
 
-export const FilterSelectCategoryViewDonorDisease = Template.bind({});
-FilterSelectCategoryViewDonorDisease.args = {
+export const DonorDiseaseFilterMenu = Template.bind({});
+DonorDiseaseFilterMenu.args = {
   categoryKey: "donorDisease",
   menuWidth: 312,
   values: [

@@ -3,7 +3,7 @@ import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 // App dependencies
-import { Label as SidebarLabel } from "./components/SidebarLabel/sidebarLabel.stories";
+import { SidebarFilterLabel as SidebarLabel } from "./components/SidebarLabel/sidebarLabel.stories";
 import { Sidebar } from "./sidebar";
 
 export default {
@@ -26,7 +26,10 @@ export default {
       </div>
     ),
   ],
-  title: "Layout/Sidebar",
+  parameters: {
+    layout: "fullscreen",
+  },
+  title: "Components/Layout/Sidebar",
 } as ComponentMeta<typeof Sidebar>;
 
 const Template: ComponentStory<typeof Sidebar> = (args) => (
@@ -39,15 +42,15 @@ PermanentSidebar.args = {
   children: <div />,
 };
 
-export const TemporarySidebarClosed = Template.bind({});
-TemporarySidebarClosed.args = {
+export const TemporaryClosedSidebar = Template.bind({});
+TemporaryClosedSidebar.args = {
   Label: <SidebarLabel label={"Filter"} />,
   children: <div />,
   drawerOpen: false,
 };
 
-export const TemporarySidebarOpen = Template.bind({});
-TemporarySidebarOpen.args = {
+export const TemporaryOpenSidebar = Template.bind({});
+TemporaryOpenSidebar.args = {
   Label: <SidebarLabel label={"Filter"} />,
   children: <div />,
   drawerOpen: true,

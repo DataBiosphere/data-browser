@@ -12,7 +12,10 @@ export default {
     title: { control: "text" },
   },
   component: Hero,
-  title: "Project/Top",
+  parameters: {
+    layout: "fullscreen",
+  },
+  title: "Components/Hero",
 } as ComponentMeta<typeof Hero>;
 
 const Template: ComponentStory<typeof Hero> = (args) => <Hero {...args} />;

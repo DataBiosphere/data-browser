@@ -27,13 +27,16 @@ export default {
     },
   },
   component: Header,
-  title: "Layout/Header",
+  parameters: {
+    layout: "fullscreen",
+  },
+  title: "Components/Layout/Header",
 } as ComponentMeta<typeof Header>;
 
 const Template: ComponentStory<typeof Header> = (args) => <Header {...args} />;
 
-export const Anvil = Template.bind({});
-Anvil.args = {
+export const AnvilHeader = Template.bind({});
+AnvilHeader.args = {
   header: {
     authenticationEnabled: false,
     logo: {
@@ -100,8 +103,8 @@ Anvil.args = {
   },
 };
 
-export const HCA = Template.bind({});
-HCA.args = {
+export const HCAHeader = Template.bind({});
+HCAHeader.args = {
   header: {
     authenticationEnabled: true,
     logo: {
@@ -163,8 +166,9 @@ HCA.args = {
     ],
   },
 };
-export const LungMap = Template.bind({});
-LungMap.args = {
+
+export const LungMapHeader = Template.bind({});
+LungMapHeader.args = {
   header: {
     authenticationEnabled: false,
     logo: {

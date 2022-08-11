@@ -21,13 +21,13 @@ export default {
     },
   },
   component: Logo,
-  title: "Components/Logo",
+  title: "Components/Common/Image/Logo",
 } as ComponentMeta<typeof Logo>;
 
 const Template: ComponentStory<typeof Logo> = (args) => <Logo {...args} />;
 
-export const Anvil = Template.bind({});
-Anvil.args = {
+export const AnvilLogo = Template.bind({});
+AnvilLogo.args = {
   logo: {
     alt: "NHGRI Analysis Visualization and Informatics Lab-space",
     height: 40,
@@ -36,8 +36,8 @@ Anvil.args = {
   },
 };
 
-export const HCA = Template.bind({});
-HCA.args = {
+export const HCALogo = Template.bind({});
+HCALogo.args = {
   logo: {
     alt: "HCA",
     height: 40,
@@ -46,8 +46,8 @@ HCA.args = {
   },
 };
 
-export const LungMap = Template.bind({});
-LungMap.args = {
+export const LungMapLogo = Template.bind({});
+LungMapLogo.args = {
   logo: {
     alt: "LungMap",
     height: 40,

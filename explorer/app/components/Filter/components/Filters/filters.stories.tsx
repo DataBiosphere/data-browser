@@ -6,7 +6,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Filters } from "./filters";
 import {
   DefaultFilterMenu,
-  FilterSelectCategoryViewDonorDisease,
+  DonorDiseaseFilterMenu,
 } from "../FilterMenu/filterMenu.stories";
 
 export default {
@@ -22,10 +22,7 @@ export default {
       </div>
     ),
   ],
-  parameters: {
-    layout: "centered",
-  },
-  title: "Filter/Filters",
+  title: "Components/Filter/Filters",
 } as ComponentMeta<typeof Filters>;
 
 const Template: ComponentStory<typeof Filters> = (args) => (
@@ -82,8 +79,8 @@ DefaultFilters.args = {
   onFilter: onFilter,
 };
 
-export const FiltersSelectCategories = Template.bind({});
-FiltersSelectCategories.args = {
+export const SelectCategoriesFilters = Template.bind({});
+SelectCategoriesFilters.args = {
   categories: [
     {
       isDisabled: false,
@@ -108,8 +105,7 @@ FiltersSelectCategories.args = {
       isDisabled: false,
       key: "donorDisease",
       label: "Donor Disease",
-      values:
-        FilterSelectCategoryViewDonorDisease.args?.values || defaultValues,
+      values: DonorDiseaseFilterMenu.args?.values || defaultValues,
     },
     {
       isDisabled: true,

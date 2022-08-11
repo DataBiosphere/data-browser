@@ -6,8 +6,8 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Page } from "./page";
 import {
   PermanentSidebar,
-  TemporarySidebarClosed,
-  TemporarySidebarOpen,
+  TemporaryClosedSidebar,
+  TemporaryOpenSidebar,
 } from "../Sidebar/sidebar.stories";
 import { datasetsEntityConfig } from "../../../../../site-config/anvil/dev/index/datasetsEntityConfig";
 
@@ -17,15 +17,30 @@ export default {
     entity: { control: { disable: true } },
   },
   component: Page,
-  title: "Layout/Page",
+  decorators: [
+    (Story): JSX.Element => (
+      <div
+        style={{
+          display: "flex",
+          minHeight: "100vh",
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: {
+    layout: "fullscreen",
+  },
+  title: "Components/Layout/Page",
 } as ComponentMeta<typeof Page>;
 
 const Template: ComponentStory<typeof Page> = (args) => (
   <Page {...args}>{args.children}</Page>
 );
 
-export const BasicDesktopPage = Template.bind({});
-BasicDesktopPage.args = {
+export const DesktopPage = Template.bind({});
+DesktopPage.args = {
   children: (
     <>
       <PermanentSidebar {...PermanentSidebar.args}>{""}</PermanentSidebar>
@@ -35,26 +50,26 @@ BasicDesktopPage.args = {
   entity: datasetsEntityConfig,
 };
 
-export const BasicTabletPage = Template.bind({});
-BasicTabletPage.args = {
+export const TabletPage = Template.bind({});
+TabletPage.args = {
   children: (
     <>
-      <TemporarySidebarClosed {...TemporarySidebarClosed.args}>
+      <TemporaryClosedSidebar {...TemporaryClosedSidebar.args}>
         {""}
-      </TemporarySidebarClosed>
+      </TemporaryClosedSidebar>
       <div />
     </>
   ),
   entity: datasetsEntityConfig,
 };
 
-export const BasicTabletPageSidebarOpen = Template.bind({});
-BasicTabletPageSidebarOpen.args = {
+export const TabletWithSidebarOpenPage = Template.bind({});
+TabletWithSidebarOpenPage.args = {
   children: (
     <>
-      <TemporarySidebarOpen {...TemporarySidebarOpen.args}>
+      <TemporaryOpenSidebar {...TemporaryOpenSidebar.args}>
         {""}
-      </TemporarySidebarOpen>
+      </TemporaryOpenSidebar>
       <div />
     </>
   ),

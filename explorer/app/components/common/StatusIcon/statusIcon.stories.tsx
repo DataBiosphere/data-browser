@@ -12,18 +12,15 @@ export default {
     priority: { control: "select", options: Array.from(Object.keys(PRIORITY)) },
   },
   component: StatusIcon,
-  parameters: {
-    layout: "centered",
-  },
-  title: "Components/Common/StatusIcon",
+  title: "Components/Common/Alert/StatusIcon",
 } as ComponentMeta<typeof StatusIcon>;
 
 const Template: ComponentStory<typeof StatusIcon> = (args) => (
   <StatusIcon {...args} />
 );
 
-export const NoResults = Template.bind({});
-NoResults.args = {
+export const SearchOff = Template.bind({});
+SearchOff.args = {
   StatusIcon: SearchOffIcon,
   priority: PRIORITY.LOW,
 };

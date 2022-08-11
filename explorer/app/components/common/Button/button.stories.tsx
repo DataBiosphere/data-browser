@@ -27,12 +27,12 @@ const SecondaryTemplate: ComponentStory<typeof Button> = (args) => (
   <ButtonSecondary {...args} />
 );
 
-export const DefaultSecondaryButton = SecondaryTemplate.bind({});
-DefaultSecondaryButton.args = {
+export const SecondaryButton = SecondaryTemplate.bind({});
+SecondaryButton.args = {
   children: "Secondary Button",
 };
 
-export const DefaultPrimaryButton = PrimaryTemplate.bind({});
-DefaultPrimaryButton.args = {
+export const PrimaryButton = PrimaryTemplate.bind({});
+PrimaryButton.args = {
   children: "Primary Button",
 };

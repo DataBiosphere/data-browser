@@ -20,7 +20,7 @@ export const parameters = {
     Provider: RouterContext.Provider,
     basePath: "",
   },
-  layout: "fullscreen",
+  layout: "centered",
 };
 
 const withThemeProvider = (Story, context) => {

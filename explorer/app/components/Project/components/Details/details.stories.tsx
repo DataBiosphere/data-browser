@@ -19,7 +19,7 @@ export default {
     keyValuePairs: { control: "object" },
   },
   component: Details,
-  title: "Project/Detail",
+  title: "Components/SectionContent/Content/Project",
 } as ComponentMeta<typeof Details>;
 
 const Template: ComponentStory<typeof Details> = (args) => (

@@ -19,10 +19,7 @@ export default {
       </div>
     ),
   ],
-  parameters: {
-    layout: "centered",
-  },
-  title: "Filter/FilterLabel",
+  title: "Components/Filter/FilterLabel",
 } as ComponentMeta<typeof FilterLabel>;
 
 const Template: ComponentStory<typeof FilterLabel> = (args) => (
@@ -36,8 +33,8 @@ DefaultFilterLabel.args = {
   label: "Label",
 };
 
-export const FilterLabelGender = Template.bind({});
-FilterLabelGender.args = {
+export const GenderFilterLabel = Template.bind({});
+GenderFilterLabel.args = {
   count: 3,
   disabled: false,
   label: "Gender",

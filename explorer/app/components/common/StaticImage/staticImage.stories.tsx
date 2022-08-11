@@ -16,15 +16,15 @@ export default {
     width: { control: "number" },
   },
   component: StaticImage,
-  title: "Components/StaticImage",
+  title: "Components/Common/Image/StaticImage",
 } as ComponentMeta<typeof StaticImage>;
 
 const Template: ComponentStory<typeof StaticImage> = (args) => (
   <StaticImage {...args} />
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const HCALogo = Template.bind({});
+HCALogo.args = {
   alt: "NHGRI Analysis Visualization and Informatics Lab-space",
   height: 40,
   src: logoHca,

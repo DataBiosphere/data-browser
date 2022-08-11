@@ -7,7 +7,7 @@ import { Description } from "./description";
 
 export default {
   component: Description,
-  title: "Project/Detail",
+  title: "Components/SectionContent/Content/Project",
 } as ComponentMeta<typeof Description>;
 
 const Template: ComponentStory<typeof Description> = (args) => (

@@ -10,7 +10,7 @@ export default {
     collaboratingOrganizations: { control: "array" },
   },
   component: CollaboratingOrganizations,
-  title: "Project/Detail",
+  title: "Components/SectionContent/Content/Project",
 } as ComponentMeta<typeof CollaboratingOrganizations>;
 
 const Template: ComponentStory<typeof CollaboratingOrganizations> = (args) => (

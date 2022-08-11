@@ -4,7 +4,7 @@ import { Text } from "./Text";
 
 export default {
   component: Text,
-  title: "Components/Text",
+  title: "Components/Deprecated/Text",
 } as ComponentMeta<typeof Text>;
 
 const Template: ComponentStory<typeof Text> = (args) => <Text {...args} />;

@@ -7,10 +7,10 @@ import { Search } from "./search";
 
 export default {
   component: Search,
-  title: "Components/Search",
+  title: "Components/Common/Button",
 } as ComponentMeta<typeof Search>;
 
 const Template: ComponentStory<typeof Search> = () => <Search />;
 
-export const Primary = Template.bind({});
-Primary.args = {};
+export const SearchButton = Template.bind({});
+SearchButton.args = {};

@@ -7,7 +7,7 @@ import { DataReleasePolicy } from "./dataReleasePolicy";
 
 export default {
   component: DataReleasePolicy,
-  title: "Project/Detail",
+  title: "Components/SectionContent/Content/Project",
 } as ComponentMeta<typeof DataReleasePolicy>;
 
 const Template: ComponentStory<typeof DataReleasePolicy> = () => (

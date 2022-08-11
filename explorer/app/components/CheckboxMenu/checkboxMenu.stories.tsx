@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { CheckboxMenu } from "./checkboxMenu";
+import { CheckboxMenu as Menu } from "./checkboxMenu";
 
 export default {
   argTypes: {
@@ -9,19 +9,14 @@ export default {
     options: { control: "array" },
     selected: { control: "array" },
   },
-  component: CheckboxMenu,
-  parameters: {
-    layout: "centered",
-  },
-  title: "Components/CheckboxMenu",
-} as ComponentMeta<typeof CheckboxMenu>;
+  component: Menu,
+  title: "Components/Common/Menu/CheckboxMenu",
+} as ComponentMeta<typeof Menu>;
 
-const Template: ComponentStory<typeof CheckboxMenu> = (args) => (
-  <CheckboxMenu {...args} />
-);
+const Template: ComponentStory<typeof Menu> = (args) => <Menu {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const CheckboxMenu = Template.bind({});
+CheckboxMenu.args = {
   label: "Options",
   options: [
     { id: "item_1", label: "Item 1" },
@@ -30,8 +25,8 @@ Primary.args = {
   selected: [],
 };
 
-export const WithSelectedItems = Template.bind({});
-WithSelectedItems.args = {
+export const CheckboxMenuWithSelectedItems = Template.bind({});
+CheckboxMenuWithSelectedItems.args = {
   label: "Options",
   options: [
     { id: "item_1", label: "Item 1" },
@@ -40,8 +35,8 @@ WithSelectedItems.args = {
   selected: ["item_1"],
 };
 
-export const WithReadOnlyItems = Template.bind({});
-WithReadOnlyItems.args = {
+export const CheckboxMenuWithReadOnlyItems = Template.bind({});
+CheckboxMenuWithReadOnlyItems.args = {
   label: "Options",
   options: [
     { id: "item_1", label: "Item 1" },

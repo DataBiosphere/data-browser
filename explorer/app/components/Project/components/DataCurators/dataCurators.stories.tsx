@@ -10,7 +10,7 @@ export default {
     dataCurators: { control: "array" },
   },
   component: DataCurators,
-  title: "Project/Detail",
+  title: "Components/SectionContent/Content/Project",
 } as ComponentMeta<typeof DataCurators>;
 
 const Template: ComponentStory<typeof DataCurators> = (args) => (

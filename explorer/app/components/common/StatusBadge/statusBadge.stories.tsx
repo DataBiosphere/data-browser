@@ -3,21 +3,19 @@ import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 // App dependencies
-import { STATUS, StatusBadge } from "./statusBadge";
+import { STATUS, StatusBadge as Badge } from "./statusBadge";
 
 export default {
   argTypes: {
     status: { control: "select", options: Array.from(Object.keys(STATUS)) },
   },
-  component: StatusBadge,
-  title: "Components/Status",
-} as ComponentMeta<typeof StatusBadge>;
+  component: Badge,
+  title: "Components/Common/Alert",
+} as ComponentMeta<typeof Badge>;
 
-const Template: ComponentStory<typeof StatusBadge> = (args) => (
-  <StatusBadge {...args} />
-);
+const Template: ComponentStory<typeof Badge> = (args) => <Badge {...args} />;
 
-export const ProjectStatus = Template.bind({});
-ProjectStatus.args = {
+export const StatusBadge = Template.bind({});
+StatusBadge.args = {
   status: STATUS.NEW,
 };

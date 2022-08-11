@@ -7,7 +7,7 @@ import { Filter } from "./filter";
 import { DefaultFilterLabel } from "../FilterLabel/filterLabel.stories";
 import {
   DefaultFilterMenu,
-  FilterSelectCategoryViewDonorDisease,
+  DonorDiseaseFilterMenu,
 } from "../FilterMenu/filterMenu.stories";
 
 export default {
@@ -24,10 +24,7 @@ export default {
       </div>
     ),
   ],
-  parameters: {
-    layout: "centered",
-  },
-  title: "Filter/Filter",
+  title: "Components/Filter/Filter",
 } as ComponentMeta<typeof Filter>;
 
 const Template: ComponentStory<typeof Filter> = (args) => <Filter {...args} />;
@@ -66,21 +63,19 @@ DefaultFilter.args = {
   ),
 };
 
-export const FilterDonorDisease = Template.bind({});
-FilterDonorDisease.args = {
+export const DonorDiseaseFilter = Template.bind({});
+DonorDiseaseFilter.args = {
   Target: (props): JSX.Element => {
     return (
       <DefaultFilterLabel disabled={false} label={"Donor Disease"} {...props} />
     );
   },
   content: (
-    <FilterSelectCategoryViewDonorDisease
-      categoryKey={
-        FilterSelectCategoryViewDonorDisease.args?.categoryKey || "donorDisease"
-      }
-      onFilter={FilterSelectCategoryViewDonorDisease.args?.onFilter || onFilter}
+    <DonorDiseaseFilterMenu
+      categoryKey={DonorDiseaseFilterMenu.args?.categoryKey || "donorDisease"}
+      onFilter={DonorDiseaseFilterMenu.args?.onFilter || onFilter}
       values={
-        FilterSelectCategoryViewDonorDisease.args?.values || [
+        DonorDiseaseFilterMenu.args?.values || [
           {
             count: 1,
             key: "item1",

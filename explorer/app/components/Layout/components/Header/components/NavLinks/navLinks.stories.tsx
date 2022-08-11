@@ -7,7 +7,7 @@ export default {
     links: { control: "object" },
   },
   component: NavLinks,
-  title: "Components/NavLinks",
+  title: "Components/Navigation/NavLinks",
 } as ComponentMeta<typeof NavLinks>;
 
 const Template: ComponentStory<typeof NavLinks> = (args) => (

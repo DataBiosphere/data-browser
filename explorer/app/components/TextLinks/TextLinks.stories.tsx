@@ -7,7 +7,7 @@ export default {
     values: { control: "array" },
   },
   component: TextLinks,
-  title: "Components/TextLinks",
+  title: "Components/SectionContent/Content/KeyValuePairs",
 } as ComponentMeta<typeof TextLinks>;
 
 const GOOGLE_URL = "https://google.com";
@@ -16,8 +16,8 @@ const Template: ComponentStory<typeof TextLinks> = (args) => (
   <TextLinks {...args} />
 );
 
-export const Accessions = Template.bind({});
-Accessions.args = {
+export const TextLinksKeyValuePairs = Template.bind({});
+TextLinksKeyValuePairs.args = {
   values: [
     {
       link: {
@@ -39,19 +39,6 @@ Accessions.args = {
         url: GOOGLE_URL,
       },
       text: "INSDC Study Accessions: ",
-    },
-  ],
-};
-
-export const DataReleasePolicy = Template.bind({});
-DataReleasePolicy.args = {
-  values: [
-    {
-      link: {
-        label: "HCA Data Release Policy",
-        url: GOOGLE_URL,
-      },
-      text: "For information regarding data sharing and data use, please see our ",
     },
   ],
 };

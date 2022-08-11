@@ -16,7 +16,10 @@ export default {
     title: { table: { disable: true } },
   },
   component: Hero,
-  title: "Index/Hero",
+  parameters: {
+    layout: "fullscreen",
+  },
+  title: "Components/Hero/Index",
 } as ComponentMeta<typeof Hero>;
 
 const Template: ComponentStory<typeof Hero> = (args) => <Hero {...args} />;

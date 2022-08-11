@@ -11,10 +11,7 @@ export default {
     values: { control: "array" },
   },
   component: NTagCell,
-  parameters: {
-    layout: "centered",
-  },
-  title: "Components/NTagCell",
+  title: "Components/Table/Cell/NTagCell",
 } as ComponentMeta<typeof NTagCell>;
 
 const Template: ComponentStory<typeof NTagCell> = (args) => (

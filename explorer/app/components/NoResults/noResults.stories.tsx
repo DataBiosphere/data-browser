@@ -4,8 +4,8 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 // App dependencies
 import {
-  DefaultPrimaryButton,
-  DefaultSecondaryButton,
+  PrimaryButton,
+  SecondaryButton,
 } from "../common/Button/button.stories";
 import { NoResults } from "./noResults";
 
@@ -16,7 +16,7 @@ export default {
     title: { control: "text" },
   },
   component: NoResults,
-  title: "Components/Common/NoResults",
+  title: "Components/Communication/NoResults",
 } as ComponentMeta<typeof NoResults>;
 
 const Template: ComponentStory<typeof NoResults> = (args) => (
@@ -27,8 +27,8 @@ export const Default = Template.bind({});
 Default.args = {
   actions: (
     <>
-      <DefaultPrimaryButton>Remove last filter</DefaultPrimaryButton>
-      <DefaultSecondaryButton>Clear all filters</DefaultSecondaryButton>
+      <PrimaryButton>Remove last filter</PrimaryButton>
+      <SecondaryButton>Clear all filters</SecondaryButton>
     </>
   ),
   description:

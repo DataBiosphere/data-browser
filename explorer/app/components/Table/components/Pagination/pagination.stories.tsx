@@ -15,15 +15,15 @@ export default {
     totalPage: { control: "number" },
   },
   component: Pagination,
-  title: "Components/Pagination",
+  title: "Components/Table",
 } as ComponentMeta<typeof Pagination>;
 
 const Template: ComponentStory<typeof Pagination> = (args) => (
   <Pagination {...args} />
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const TablePagination = Template.bind({});
+TablePagination.args = {
   currentPage: 1,
   totalPage: 25,
 };

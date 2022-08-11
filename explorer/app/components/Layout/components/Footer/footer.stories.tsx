@@ -23,13 +23,16 @@ export default {
     },
   },
   component: Footer,
-  title: "Layout/Footer",
+  parameters: {
+    layout: "fullscreen",
+  },
+  title: "Components/Layout/Footer",
 } as ComponentMeta<typeof Footer>;
 
 const Template: ComponentStory<typeof Footer> = (args) => <Footer {...args} />;
 
-export const Anvil = Template.bind({});
-Anvil.args = {
+export const AnvilFooter = Template.bind({});
+AnvilFooter.args = {
   footer: {
     logos: [
       {
@@ -88,8 +91,8 @@ Anvil.args = {
   },
 };
 
-export const HCA = Template.bind({});
-HCA.args = {
+export const HCAFooter = Template.bind({});
+HCAFooter.args = {
   footer: {
     feedbackForm: false, // TODO feedback form
     logos: [
@@ -134,8 +137,9 @@ HCA.args = {
     ],
   },
 };
-export const LungMap = Template.bind({});
-LungMap.args = {
+
+export const LungMapFooter = Template.bind({});
+LungMapFooter.args = {
   footer: {
     logos: [
       {
