@@ -13,6 +13,9 @@ import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntity } from "./projectsEntity";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
 
+// Export config
+import { exportConfig } from "./export/export";
+
 // Images
 import logoHca from "images/logoHca.png";
 import logoHumanCellAtlas from "images/logoHumanCellAtlas.png";
@@ -140,6 +143,7 @@ const config: SiteConfig = {
   },
   entities: [projectsEntity, samplesEntityConfig, filesEntityConfig],
   entityTitle: "Explore Data: DCP 2.0 Data View",
+  export: exportConfig,
   layout: {
     footer: {
       feedbackForm: false, // TODO feedback form

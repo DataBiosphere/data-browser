@@ -1,8 +1,40 @@
+// Core dependencies
+import React from "react";
+
+// App dependencies
+import { FilesResponse } from "../../../../apis/azul/hca-dcp/common/responses";
+import * as Transformers from "../../../../apis/azul/hca-dcp/common/transformers";
+import { SamplesResponse } from "../../../../apis/azul/hca-dcp/common/entities";
 import * as C from "../../../../components";
 
-import * as Transformers from "../../../../apis/azul/hca-dcp/common/transformers";
-import { FilesResponse } from "../../../../apis/azul/hca-dcp/common/responses";
-import { SamplesResponse } from "../../../../apis/azul/hca-dcp/common/entities";
+/**
+ * Build props for TitledText component for the display of the data release policy section.
+ * @returns model to be used as props for the TitledText component.
+ */
+export const buildDataReleasePolicy = (): React.ComponentProps<
+  typeof C.TitledText
+> => {
+  return {
+    text: [
+      "Downloaded data is governed by the HCA Data Release Policy and licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). For more information please see our Data Use Agreement.",
+    ],
+  };
+};
+
+/**
+ * Build props for ExportMethod component for display of the export to terra metadata section.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportToTerraMetadata = (): React.ComponentProps<
+  typeof C.ExportMethod
+> => ({
+  buttonLabel: "Analyze in Terra",
+  description:
+    "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+  disabled: false,
+  route: "/export",
+  title: "Export Study Data and Metadata to Terra Workspace",
+});
 
 // Files view builders
 
