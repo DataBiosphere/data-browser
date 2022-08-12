@@ -27,7 +27,7 @@ export const exportConfig: BackPageConfig = {
       props: {
         breadcrumbs: [
           { path: "/datasets", text: "Datasets" },
-          { path: "export", text: "Export" },
+          { path: "/export", text: "Export" },
         ],
         title: "Choose Export Method",
       },

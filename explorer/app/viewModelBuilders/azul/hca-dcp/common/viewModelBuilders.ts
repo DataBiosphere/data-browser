@@ -31,7 +31,7 @@ export const buildExportToTerraMetadata = (): React.ComponentProps<
   description:
     "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
   disabled: false,
-  route: "/export",
+  route: "/export/export-to-terra",
   title: "Export Study Data and Metadata to Terra Workspace",
 });
 
