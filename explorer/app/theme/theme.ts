@@ -774,6 +774,11 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
         defaultProps: {
           variant: "inherit",
         },
+        styleOverrides: {
+          gutterBottom: {
+            marginBottom: 8,
+          },
+        },
       },
     },
   });
