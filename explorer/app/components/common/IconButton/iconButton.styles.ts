@@ -51,6 +51,18 @@ export const IconButtonSecondary = styled(IconButton)`
 }
 `;
 
+// Mock icon button.
+export const MockIconButtonPrimary = styled.span`
+  background-color: ${({ theme }) => theme.palette.primary.main};
+  border-radius: 4px;
+  box-shadow: 0 1px 0 0 ${({ theme }) => theme.palette.primary.dark};
+  color: ${({ theme }) => theme.palette.common.white};
+  display: flex;
+  flex: none;
+  height: 32px;
+  padding: 6px 8px;
+`;
+
 // Drawer backdrop close icon button.
 export const CloseDrawerIconButton = styled(IconButton)`
   color: ${({ theme }) => theme.palette.common.white};
