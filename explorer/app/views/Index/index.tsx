@@ -10,9 +10,10 @@ import { TableCreator } from "app/components/TableCreator/tableCreator";
 import { useConfig } from "app/hooks/useConfig";
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
 import { useFetchEntities } from "app/hooks/useFetchEntities";
+import { useResetableState } from "app/hooks/useResetableState";
 import { useSummary } from "app/hooks/useSummary";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import {
   AzulEntitiesResponse,
   AzulEntitiesStaticResponse,
@@ -74,7 +75,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
   const { push } = useRouter();
 
   // Init tabs state.
-  const [tabsValue, setTabsValue] = useState<TabsValue>(route);
+  const [tabsValue, setTabsValue] = useResetableState<TabsValue>(route);
   const tabs = getTabs(entities);
 
   // Fetch summary and entities.
