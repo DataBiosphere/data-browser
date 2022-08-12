@@ -7,7 +7,7 @@ import { LoadingIcon } from "../common/CustomIcon/components/LoadingIcon/loading
 import { IconButtonPrimary } from "../common/IconButton/iconButton.styles";
 
 interface AzulFileDownloadProps {
-  url: string; // Original "file fetch URL" as returned from Azul endpoint.
+  url?: string; // Original "file fetch URL" as returned from Azul endpoint.
 }
 
 export const AzulFileDownload = ({
@@ -44,7 +44,7 @@ export const AzulFileDownload = ({
   return (
     <>
       <IconButtonPrimary
-        disabled={isDownloading}
+        disabled={!url || isDownloading}
         Icon={isLoading ? LoadingIcon : DownloadIcon}
         onClick={onFileLocationRequested}
         size="medium"
@@ -57,9 +57,13 @@ export const AzulFileDownload = ({
 /**
  * Prepend "/fetch" to the path of the specified file URL, if not already included. See #1596.
  * @param fileUrl - Original file URL as returned from Azul.
- * @returns Complete and correct URL to use when requesting file location from Azul.
+ * @returns Complete and correct URL to use when requesting file location from Azul or undefined if no fileUrl is passed.
  */
-function buildFetchFileUrl(fileUrl: string): string {
+function buildFetchFileUrl(fileUrl?: string): string | undefined {
+  if (!fileUrl) {
+    return undefined;
+  }
+
   const url = new URL(fileUrl);
   const path = url.pathname;
   if (!path.includes(API_FILE_LOCATION_FETCH)) {

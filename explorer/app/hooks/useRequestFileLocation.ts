@@ -74,7 +74,7 @@ const scheduleFileLocation = (
  * @returns data object with the file location
  */
 export const useRequestFileLocation = (
-  url: string
+  url?: string
 ): UseRequestFileLocationResult => {
   const {
     data,
@@ -84,11 +84,13 @@ export const useRequestFileLocation = (
   } = useAsync<FileLocation>();
 
   const run = useCallback(() => {
-    runAsync(
-      new Promise<FileLocation>((resolve, reject) => {
-        scheduleFileLocation(url, resolve, reject);
-      })
-    );
+    if (url) {
+      runAsync(
+        new Promise<FileLocation>((resolve, reject) => {
+          scheduleFileLocation(url, resolve, reject);
+        })
+      );
+    }
   }, [runAsync, url]);
 
   return { data, isLoading, isSuccess, run };

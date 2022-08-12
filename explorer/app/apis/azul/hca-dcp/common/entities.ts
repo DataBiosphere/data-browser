@@ -3,7 +3,7 @@ export interface FilesEntity {
   format: string;
   name: string;
   size: number;
-  url: string;
+  url?: string;
   uuid: string;
 }
 
