@@ -45,7 +45,11 @@ rows_type
 """
 
 
+authenticate_api = ga.authenticate
+
 authenticate_ga = ga.authenticate
+
+authenticate_yt = lambda secret_name: ga.authenticate(secret_name, ga.yt_service_params)
 
 def init_tables():
 	display(HTML("""

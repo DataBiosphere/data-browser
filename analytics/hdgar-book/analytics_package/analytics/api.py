@@ -4,9 +4,13 @@ import os
 import pandas as pd
 
 
-service = None
+ga_service_params = ('analytics', 'v3', lambda service, params: service.data().ga().get(**params).execute())
+yt_service_params = ('youtubeAnalytics', 'v2', lambda service, params: service.reports().query(**params).execute())
 
-def authenticate(secret_name):
+default_query_function = None
+
+def authenticate(secret_name, service_params=ga_service_params):
+	# service_params contains service name, version, and query function (which takes a service object and a params dict)
 	
 	ANALYTICS_REPORTING_CLIENT_SECRET_PATH=os.getenv(secret_name)
 
@@ -14,29 +18,30 @@ def authenticate(secret_name):
 		scopes=['https://www.googleapis.com/auth/analytics.readonly'])
 
 	credentials = flow.run_local_server()
-
+	
 	# Build the service object.
-	global service
-	service = build('analytics', 'v3', credentials=credentials)
+	service = build(service_params[0], service_params[1], credentials=credentials)
 	
+	source_query_function = service_params[2]
 	
-def get_accounts():
+	query_function = lambda params: source_query_function(service, params)
 	
-	if service == None:
-		authenticate()
-		
-	accounts = service.management().accounts().list().execute
-		
+	global default_query_function
+	if default_query_function is None:
+		default_query_function = query_function
+	
+	return query_function
 
-def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_date, filters=None, segment=None, **other_params):
+
+def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_date, filters=None, segment=None, property_prefix='ga:', query_function=None, **other_params):
+	
+	if query_function is None:
+		query_function = default_query_function
 	
 	if isinstance(metrics, list):
 		metrics = ",".join(metrics)
 	if isinstance(dimensions, list):
 		dimensions = ",".join(dimensions)
-	
-	if service == None:
-		authenticate()
 	
 	# Dimensions and Metrics... 
 	# Dimensions are atrributes, Metrics are quantitative measurements. e.g. city is a Dimension
@@ -47,7 +52,7 @@ def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_dat
 	# Other notable ones: filters, segment
 	
 	params = {
-		'ids': 'ga:' + property,
+		'ids': property_prefix + property,
 		'dimensions':dimensions,
 		'metrics':metrics,
 		'start_date': start_date,
@@ -62,7 +67,7 @@ def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_dat
 	has_more = True
 
 	while has_more:
-		result = service.data().ga().get(**params).execute()
+		result = query_function(params)
 		results.append(result)
 		has_more = result.get('nextLink')
 		params['start_index']+= params['max_results'] 
