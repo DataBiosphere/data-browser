@@ -7,44 +7,54 @@ import pandas as pd
 ga_service_params = (
 	['https://www.googleapis.com/auth/analytics.readonly'],
 	'analytics', 'v3',
+	{},
 	lambda service, params: service.data().ga().get(**params).execute()
 )
 yt_service_params = (
 	['https://www.googleapis.com/auth/yt-analytics.readonly'],
 	'youtubeAnalytics', 'v2',
+	{
+		'start_date': 'startDate',
+		'end_date': 'endDate',
+		'start_index': 'startIndex',
+		'max_results': 'maxResults'
+	},
 	lambda service, params: service.reports().query(**params).execute()
 )
 
-default_query_function = None
+default_service_system = None
 
 def authenticate(secret_name, service_params=ga_service_params):
-	# service_params contains scopes, service name, version, and query function (which takes a service object and a params dict)
+	scopes, service_name, service_version, param_subs, source_query_func = service_params
 	
 	ANALYTICS_REPORTING_CLIENT_SECRET_PATH=os.getenv(secret_name)
 
 	flow = InstalledAppFlow.from_client_secrets_file(ANALYTICS_REPORTING_CLIENT_SECRET_PATH,
-		scopes=service_params[0])
+		scopes=scopes)
 
 	credentials = flow.run_local_server()
 	
 	# Build the service object.
-	service = build(service_params[1], service_params[2], credentials=credentials)
+	service = build(service_name, service_version, credentials=credentials)
 	
-	source_query_function = service_params[3]
+	service_system = (
+		lambda params: source_query_func(service, params),
+		param_subs
+	)
 	
-	query_function = lambda params: source_query_function(service, params)
+	global default_service_system
+	if default_service_system is None:
+		default_service_system = service_system
 	
-	global default_query_function
-	if default_query_function is None:
-		default_query_function = query_function
-	
-	return query_function
+	return service_system
 
 
-def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_date, filters=None, segment=None, property_prefix='ga:', query_function=None, **other_params):
+def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_date, filters=None, segment=None, property_prefix='ga:', service_system=None, **other_params):
 	
-	if query_function is None:
-		query_function = default_query_function
+	if service_system is None:
+		service_system = default_service_system
+	
+	query_func, param_subs = service_system
 	
 	if isinstance(metrics, list):
 		metrics = ",".join(metrics)
@@ -59,26 +69,30 @@ def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_dat
 	# Required other params: ids, start_date, end_date
 	# Other notable ones: filters, segment
 	
+	start_index_key = param_subs.get('start_index', 'start_index')
+	max_results_key = param_subs.get('max_results', 'max_results')
+	
 	params = {
-		'ids': property_prefix + property,
-		'dimensions':dimensions,
-		'metrics':metrics,
-		'start_date': start_date,
-		'end_date': end_date,
-		'filters': filters,
-		'segment': segment,
-		'start_index':1,
-		'max_results':1000
+		param_subs.get('ids', 'ids'): property_prefix + property,
+		param_subs.get('dimensions', 'dimensions'): dimensions,
+		param_subs.get('metrics', 'metrics'): metrics,
+		param_subs.get('start_date', 'start_date'): start_date,
+		param_subs.get('end_date', 'end_date'): end_date,
+		param_subs.get('filters', 'filters'): filters,
+		param_subs.get('segment', 'segment'): segment,
+		start_index_key: 1,
+		max_results_key: 1000
 	}
 
 	results = []
 	has_more = True
 
 	while has_more:
-		result = query_function(params)
-		results.append(result)
-		has_more = result.get('nextLink')
-		params['start_index']+= params['max_results'] 
+		result = query_func(params)
+		has_more = ('rows' in result) and (len(result['rows']) > 0)
+		if has_more or len(results) == 0:
+			results.append(result)
+			params[start_index_key] += params[max_results_key] 
 	
 	df =  results_to_df(results)
 
