@@ -38,6 +38,7 @@ const config: SiteConfig = {
   },
   entities: hcaConfig.entities,
   entityTitle: "Explore Data",
+  export: hcaConfig.export,
   layout: {
     footer: {
       logos: [LOGO],
