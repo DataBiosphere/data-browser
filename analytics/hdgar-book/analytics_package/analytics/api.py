@@ -17,7 +17,8 @@ yt_service_params = (
 		'start_date': 'startDate',
 		'end_date': 'endDate',
 		'start_index': 'startIndex',
-		'max_results': 'maxResults'
+		'max_results': 'maxResults',
+		'segment': None
 	},
 	lambda service, params: service.reports().query(**params).execute()
 )
@@ -69,21 +70,21 @@ def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_dat
 	# Required other params: ids, start_date, end_date
 	# Other notable ones: filters, segment
 	
+	params = build_params({
+		'ids': property_prefix + property,
+		'dimensions': dimensions,
+		'metrics': metrics,
+		'start_date': start_date,
+		'end_date': end_date,
+		'filters': filters,
+		'segment': segment,
+		'start_index': 1,
+		'max_results': 1000
+	}, param_subs)
+
 	start_index_key = param_subs.get('start_index', 'start_index')
 	max_results_key = param_subs.get('max_results', 'max_results')
 	
-	params = {
-		param_subs.get('ids', 'ids'): property_prefix + property,
-		param_subs.get('dimensions', 'dimensions'): dimensions,
-		param_subs.get('metrics', 'metrics'): metrics,
-		param_subs.get('start_date', 'start_date'): start_date,
-		param_subs.get('end_date', 'end_date'): end_date,
-		param_subs.get('filters', 'filters'): filters,
-		param_subs.get('segment', 'segment'): segment,
-		start_index_key: 1,
-		max_results_key: 1000
-	}
-
 	results = []
 	has_more = True
 
@@ -98,6 +99,18 @@ def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_dat
 
 	return df
 	
+
+def build_params(source, subs):
+	result = {}
+	
+	for key, value in source.items():
+		if key in subs:
+			if not subs[key] is None:
+				result[subs[key]] = value
+		else:
+			result[key] = value
+	
+	return result
 
 
 def results_to_df(results):
