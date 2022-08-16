@@ -4,25 +4,33 @@ import os
 import pandas as pd
 
 
-ga_service_params = ('analytics', 'v3', lambda service, params: service.data().ga().get(**params).execute())
-yt_service_params = ('youtubeAnalytics', 'v2', lambda service, params: service.reports().query(**params).execute())
+ga_service_params = (
+	['https://www.googleapis.com/auth/analytics.readonly'],
+	'analytics', 'v3',
+	lambda service, params: service.data().ga().get(**params).execute()
+)
+yt_service_params = (
+	['https://www.googleapis.com/auth/yt-analytics.readonly'],
+	'youtubeAnalytics', 'v2',
+	lambda service, params: service.reports().query(**params).execute()
+)
 
 default_query_function = None
 
 def authenticate(secret_name, service_params=ga_service_params):
-	# service_params contains service name, version, and query function (which takes a service object and a params dict)
+	# service_params contains scopes, service name, version, and query function (which takes a service object and a params dict)
 	
 	ANALYTICS_REPORTING_CLIENT_SECRET_PATH=os.getenv(secret_name)
 
 	flow = InstalledAppFlow.from_client_secrets_file(ANALYTICS_REPORTING_CLIENT_SECRET_PATH,
-		scopes=['https://www.googleapis.com/auth/analytics.readonly'])
+		scopes=service_params[0])
 
 	credentials = flow.run_local_server()
 	
 	# Build the service object.
-	service = build(service_params[0], service_params[1], credentials=credentials)
+	service = build(service_params[1], service_params[2], credentials=credentials)
 	
-	source_query_function = service_params[2]
+	source_query_function = service_params[3]
 	
 	query_function = lambda params: source_query_function(service, params)
 	
