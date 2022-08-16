@@ -19,6 +19,7 @@ import React from "react";
 import { Pagination, Sort, SortOrderType } from "../../common/entities";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
 import { RoundedPaper } from "../common/Paper/paper.styles";
+import { RoundedLoading } from "../Loading/loading.styles";
 import { Pagination as DXPagination } from "./components/Pagination/pagination";
 import { PaginationSummary } from "./components/PaginationSummary/paginationSummary";
 import { newColumnKey, newColumnOrder } from "./functions";
@@ -136,8 +137,7 @@ export const Table = <T extends object>({
 
   return (
     <div>
-      {/* TODO: Render the Loading component when loading is true */}
-      {loading && <></>}{" "}
+      <RoundedLoading loading={loading || false} />
       <RoundedPaper>
         {editColumns && (
           <TableToolbar>

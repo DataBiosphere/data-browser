@@ -3,7 +3,7 @@
  */
 
 import { Paper as Panel, PaperProps } from "@mui/material";
-import React, { ReactNode } from "react";
+import React, { forwardRef, ReactNode } from "react";
 
 interface Props {
   children: ReactNode | ReactNode[];
@@ -11,14 +11,13 @@ interface Props {
   variant?: PaperProps["variant"];
 }
 
-export const Paper = ({
-  children,
-  className,
-  variant = "panel",
-}: Props): JSX.Element => {
+export const Paper = forwardRef<HTMLDivElement, Props>(function Paper(
+  { children, className, variant = "panel" }: Props,
+  ref
+): JSX.Element {
   return (
-    <Panel className={className} variant={variant}>
+    <Panel className={className} ref={ref} variant={variant}>
       {children}
     </Panel>
   );
-};
+});

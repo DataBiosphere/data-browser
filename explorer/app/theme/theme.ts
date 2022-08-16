@@ -626,6 +626,9 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
       },
       MuiSvgIcon: {
         styleOverrides: {
+          fontSizeLarge: {
+            fontSize: "32px",
+          },
           fontSizeXsmall: {
             fontSize: "18px",
           },

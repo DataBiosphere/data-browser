@@ -5,7 +5,7 @@
 import { SvgIcon, SvgIconProps } from "@mui/material";
 import React from "react";
 
-interface Props {
+interface Props extends SvgIconProps {
   fontSize?: SvgIconProps["fontSize"];
   viewBox?: string;
 }
