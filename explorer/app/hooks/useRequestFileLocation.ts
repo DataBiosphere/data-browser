@@ -14,6 +14,7 @@ export interface FileLocation {
 
 interface UseRequestFileLocationResult {
   data: FileLocation | undefined;
+  isIdle: boolean;
   isLoading: boolean;
   isSuccess: boolean;
   run: () => void;
@@ -78,6 +79,7 @@ export const useRequestFileLocation = (
 ): UseRequestFileLocationResult => {
   const {
     data,
+    isIdle,
     isLoading,
     isSuccess,
     run: runAsync,
@@ -93,5 +95,5 @@ export const useRequestFileLocation = (
     }
   }, [runAsync, url]);
 
-  return { data, isLoading, isSuccess, run };
+  return { data, isIdle, isLoading, isSuccess, run };
 };

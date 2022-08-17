@@ -1,4 +1,4 @@
-import { ExportToTerra } from "app/components/ExportToTerra/exportToTerra";
+import { ExportToTerra } from "app/components/Export/components/ExportToTerra/exportToTerra";
 import { useConfig } from "app/hooks/useConfig";
 import React from "react";
 
