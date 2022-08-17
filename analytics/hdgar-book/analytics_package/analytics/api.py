@@ -50,7 +50,7 @@ def authenticate(secret_name, service_params=ga_service_params):
 	return service_system
 
 
-def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_date, filters=None, segment=None, property_prefix='ga:', service_system=None, **other_params):
+def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_date, filters=None, segment=None, property_prefix='ga:', service_system=None, max_results=1000, sort_results=None, **other_params):
 	
 	if service_system is None:
 		service_system = default_service_system
@@ -79,7 +79,8 @@ def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_dat
 		'filters': filters,
 		'segment': segment,
 		'start_index': 1,
-		'max_results': 1000
+		'max_results': max_results,
+		'sort': sort_results
 	}, param_subs)
 
 	start_index_key = param_subs.get('start_index', 'start_index')
