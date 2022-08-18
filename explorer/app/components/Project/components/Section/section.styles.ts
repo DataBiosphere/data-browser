@@ -5,7 +5,6 @@ import { BREAKPOINT } from "../../../../hooks/useBreakpointHelper";
 import { SectionTitle as Title } from "./components/SectionTitle/sectionTitle";
 
 export const Section = styled.div`
-  background-color: ${({ theme }) => theme.palette.common.white};
   padding: 20px 16px;
 
   ${({ theme }) => theme.breakpoints.up(BREAKPOINT.TABLET)} {

@@ -18,7 +18,7 @@ import { useScroll } from "app/hooks/useScroll";
 import React from "react";
 import { Pagination, Sort, SortOrderType } from "../../common/entities";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
-import { RoundedPaper } from "../common/Paper/paper.styles";
+import { GridPaper, RoundedPaper } from "../common/Paper/paper.styles";
 import { RoundedLoading } from "../Loading/loading.styles";
 import { Pagination as DXPagination } from "./components/Pagination/pagination";
 import { PaginationSummary } from "./components/PaginationSummary/paginationSummary";
@@ -139,83 +139,85 @@ export const Table = <T extends object>({
     <div>
       <RoundedLoading loading={loading || false} />
       <RoundedPaper>
-        {editColumns && (
-          <TableToolbar>
-            <PaginationSummary
-              firstResult={(currentPage - 1) * pageSize + 1}
-              lastResult={pageSize * currentPage}
-              totalResult={totalPage * pageSize}
-            />
-            <CheckboxMenu
-              label="Edit Columns"
-              onItemSelectionChange={editColumns.onVisibleColumnsChange}
-              options={editColumns.options}
-              readOnly={editColumns.readOnlyColumns}
-              selected={editColumns.selectedColumns}
-            />
-          </TableToolbar>
-        )}
-        <TableContainer>
-          <GridTable gridTemplateColumns={gridTemplateColumns}>
-            {getHeaderGroups().map((headerGroup) => (
-              <TableHead key={headerGroup.id}>
-                <TableRow>
-                  {headerGroup.headers.map((header) => (
-                    <TableCell key={header.id}>
-                      <TableSortLabel
-                        active={!!header.column.getIsSorted()}
-                        direction={
-                          !header.column.getIsSorted()
-                            ? "asc"
-                            : (header.column.getIsSorted() as SortOrderType)
-                        }
-                        disabled={!header.column.columnDef.enableSorting}
-                        IconComponent={SouthRoundedIcon}
-                        onClick={(): void =>
-                          handleSortClicked(header.column.columnDef)
-                        }
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </TableSortLabel>
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-            ))}
-
-            <TableBody>
-              {getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+        <GridPaper>
+          {editColumns && (
+            <TableToolbar>
+              <PaginationSummary
+                firstResult={(currentPage - 1) * pageSize + 1}
+                lastResult={pageSize * currentPage}
+                totalResult={totalPage * pageSize}
+              />
+              <CheckboxMenu
+                label="Edit Columns"
+                onItemSelectionChange={editColumns.onVisibleColumnsChange}
+                options={editColumns.options}
+                readOnly={editColumns.readOnlyColumns}
+                selected={editColumns.selectedColumns}
+              />
+            </TableToolbar>
+          )}
+          <TableContainer>
+            <GridTable gridTemplateColumns={gridTemplateColumns}>
+              {getHeaderGroups().map((headerGroup) => (
+                <TableHead key={headerGroup.id}>
+                  <TableRow>
+                    {headerGroup.headers.map((header) => (
+                      <TableCell key={header.id}>
+                        <TableSortLabel
+                          active={!!header.column.getIsSorted()}
+                          direction={
+                            !header.column.getIsSorted()
+                              ? "asc"
+                              : (header.column.getIsSorted() as SortOrderType)
+                          }
+                          disabled={!header.column.columnDef.enableSorting}
+                          IconComponent={SouthRoundedIcon}
+                          onClick={(): void =>
+                            handleSortClicked(header.column.columnDef)
+                          }
+                        >
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </TableSortLabel>
                       </TableCell>
-                    );
-                  })}
-                </TableRow>
+                    ))}
+                  </TableRow>
+                </TableHead>
               ))}
-            </TableBody>
-          </GridTable>
-        </TableContainer>
-        {!disablePagination && (
-          <DXPagination
-            canNextPage={pagination?.canNextPage ?? !!tableCanNextPage}
-            canPreviousPage={
-              pagination?.canPreviousPage ?? !!tableCanPreviousPage
-            }
-            currentPage={currentPage}
-            onNextPage={handleTableNextPage}
-            onPreviousPage={handleTablePreviousPage}
-            totalPage={totalPage}
-          />
-        )}
+
+              <TableBody>
+                {getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </GridTable>
+          </TableContainer>
+          {!disablePagination && (
+            <DXPagination
+              canNextPage={pagination?.canNextPage ?? !!tableCanNextPage}
+              canPreviousPage={
+                pagination?.canPreviousPage ?? !!tableCanPreviousPage
+              }
+              currentPage={currentPage}
+              onNextPage={handleTableNextPage}
+              onPreviousPage={handleTablePreviousPage}
+              totalPage={totalPage}
+            />
+          )}
+        </GridPaper>
       </RoundedPaper>
     </div>
   );

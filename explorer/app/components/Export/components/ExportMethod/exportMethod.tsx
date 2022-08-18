@@ -1,4 +1,4 @@
-import { RoundedPaper } from "app/components/common/Paper/paper.styles";
+import { FluidPaper } from "app/components/common/Paper/paper.styles";
 import {
   Content as SectionContent,
   Section,
@@ -25,7 +25,7 @@ export const ExportMethod = ({
   title,
 }: Props): JSX.Element => {
   return (
-    <RoundedPaper>
+    <FluidPaper>
       <Section>
         <SectionTitle title={title} />
         <SectionContent component="div" variant="text-body-400-2lines">
@@ -37,6 +37,6 @@ export const ExportMethod = ({
           </Link>
         </SectionCallout>
       </Section>
-    </RoundedPaper>
+    </FluidPaper>
   );
 };

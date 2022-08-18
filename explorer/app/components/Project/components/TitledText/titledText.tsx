@@ -1,9 +1,7 @@
+import { FluidPaper } from "app/components/common/Paper/paper.styles";
 import React, { ReactNode } from "react";
 import { SectionTitle } from "../Section/components/SectionTitle/sectionTitle";
-import {
-  CollapsableSection as Section,
-  SectionSummary,
-} from "../Section/section.styles";
+import { Section } from "../Section/section.styles";
 import { SectionContent } from "./titledText.styles";
 
 export type Content = ReactNode | ReactNode[] | string[];
@@ -56,17 +54,14 @@ function isContentStringArray(contents: Content): contents is string[] {
 }
 
 export const TitledText = ({ text, title }: Props): JSX.Element => {
-  const Summary = SectionSummary.withComponent("div");
   return (
-    <Section>
-      {title ? (
-        <Summary>
-          <SectionTitle title={title} />
-        </Summary>
-      ) : null}
-      <SectionContent component="div" variant="text-body-400-2lines">
-        {getSectionContent(text)}
-      </SectionContent>
-    </Section>
+    <FluidPaper>
+      <Section>
+        {title && <SectionTitle title={title} />}
+        <SectionContent component="div" variant="text-body-400-2lines">
+          {getSectionContent(text)}
+        </SectionContent>
+      </Section>
+    </FluidPaper>
   );
 };

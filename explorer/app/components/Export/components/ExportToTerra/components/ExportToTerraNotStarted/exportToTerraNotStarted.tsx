@@ -1,5 +1,5 @@
 import { ButtonPrimary } from "app/components/common/Button/button.styles";
-import { RoundedPaper } from "app/components/common/Paper/paper.styles";
+import { FluidPaper } from "app/components/common/Paper/paper.styles";
 import {
   Content as SectionText,
   Section,
@@ -20,7 +20,7 @@ interface Props {
 
 export const ExportToTerraNotStarted = ({ run }: Props): JSX.Element => {
   return (
-    <RoundedPaper>
+    <FluidPaper>
       <Section>
         <SectionContent gap={2}>
           <SectionTitle title="Export To Terra" />
@@ -32,6 +32,6 @@ export const ExportToTerraNotStarted = ({ run }: Props): JSX.Element => {
           <ButtonPrimary onClick={run}>Request link</ButtonPrimary>
         </SectionActions>
       </Section>
-    </RoundedPaper>
+    </FluidPaper>
   );
 };

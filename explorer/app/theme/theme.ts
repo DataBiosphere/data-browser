@@ -595,13 +595,10 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
             boxShadow: elevation02,
           },
           panel: {
-            backgroundColor: smoke,
             borderColor: smoke,
             borderStyle: "solid",
             borderWidth: 1,
             boxShadow: elevation01,
-            display: "grid",
-            gap: 1,
           },
           sidebar: {
             backgroundColor: smokeLight,

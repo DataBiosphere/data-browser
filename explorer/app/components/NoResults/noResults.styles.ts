@@ -4,7 +4,6 @@ import { Stack } from "../common/Stack/Stack";
 
 export const Section = styled.div`
   align-items: center;
-  background-color: ${({ theme }) => theme.palette.common.white};
   display: flex;
   flex-direction: column;
   gap: 16px;

@@ -1,5 +1,5 @@
 import { ButtonPrimary } from "app/components/common/Button/button.styles";
-import { RoundedPaper } from "app/components/common/Paper/paper.styles";
+import { FluidPaper } from "app/components/common/Paper/paper.styles";
 import { SectionTitle } from "app/components/Project/components/Section/components/SectionTitle/sectionTitle";
 import {
   Content as SectionText,
@@ -19,7 +19,7 @@ interface Props {
 
 export const ExportToTerraReady = ({ terraUrl }: Props): JSX.Element => {
   return (
-    <RoundedPaper>
+    <FluidPaper>
       <Section>
         <SectionContent gap={2}>
           <SectionTitle title="Your Terra Workspace Link is Ready" />
@@ -39,6 +39,6 @@ export const ExportToTerraReady = ({ terraUrl }: Props): JSX.Element => {
           </Link>
         </SectionActions>
       </Section>
-    </RoundedPaper>
+    </FluidPaper>
   );
 };
