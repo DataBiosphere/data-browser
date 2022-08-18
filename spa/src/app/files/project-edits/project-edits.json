@@ -17,20 +17,12 @@
             }
         ]
     },
-    { //TODO: fix conflict
+    {
         "entryId": "c4077b3c-5c98-4d26-a614-246d12c2e5d7",
         "analysisPortals": [
             {
                 "name": "CELL_BROWSER",
                 "url": "https://tissue-stability.cells.ucsc.edu"
-            },
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/collections/4d74781b-8186-4c9a-b659-ff4dc4601d91"
-            },
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/d/ischaemic_sensitivity_of_human_tissue_by_single_cell_RNA_seq_spleen-19.cxg/"
             }
         ],
         "contributors": [
@@ -133,18 +125,10 @@
     },
     {
         "entryId": "abe1a013-af7a-45ed-8c26-f3793c24a1f4",
-        "analysisPortals": [ //TODO: Resolve conflict here
+        "analysisPortals": [
             {
                 "name": "CELL_BROWSER",
                 "url": "https://kidney-atlas.cells.ucsc.edu"
-            },
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/collections/120e86b4-1195-48c5-845b-b98054105eec"
-            },
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/d/spatio_temporal_immune_zonation_of_the_human_kidney-21.cxg/"
             },
             {
                 "name": "GENOME_BROWSER",
@@ -579,15 +563,6 @@
             {
                 "name": "CELL_BROWSER",
                 "url": "https://cbl-dev.cells.ucsc.edu"
-            }
-        ]
-    },
-    {
-        "entryId": "c0518445-3b3b-49c6-b8fc-c41daa4eacba",
-        "analysisPortals": [
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/d/cellular_census_of_human_lungs_alveoli_and_parenchyma-15.cxg/"
             }
         ]
     },
