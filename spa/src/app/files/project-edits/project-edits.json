@@ -17,7 +17,7 @@
             }
         ]
     },
-    {
+    { //TODO: fix conflict
         "entryId": "c4077b3c-5c98-4d26-a614-246d12c2e5d7",
         "analysisPortals": [
             {
@@ -27,6 +27,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/4d74781b-8186-4c9a-b659-ff4dc4601d91"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/d/ischaemic_sensitivity_of_human_tissue_by_single_cell_RNA_seq_spleen-19.cxg/"
             }
         ],
         "contributors": [
@@ -72,6 +76,10 @@
             {
                 "name": "CELL_BROWSER",
                 "url": "https://human-liver.cells.ucsc.edu"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://www.covid19cellatlas.org/macparland18/"
             }
         ],
         "contributors": [
@@ -125,7 +133,7 @@
     },
     {
         "entryId": "abe1a013-af7a-45ed-8c26-f3793c24a1f4",
-        "analysisPortals": [
+        "analysisPortals": [ //TODO: Resolve conflict here
             {
                 "name": "CELL_BROWSER",
                 "url": "https://kidney-atlas.cells.ucsc.edu"
@@ -133,6 +141,14 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/120e86b4-1195-48c5-845b-b98054105eec"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/d/spatio_temporal_immune_zonation_of_the_human_kidney-21.cxg/"
+            },
+            {
+                "name": "GENOME_BROWSER",
+                "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?db=hg38&g=kidneyStewart&position=default"
             }
         ]
     },
@@ -151,6 +167,10 @@
             {
                 "name": "CELL_BROWSER",
                 "url": "https://adult-retina.cells.ucsc.edu"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://www.covid19cellatlas.org/lukowski19/"
             }
         ]
     },
@@ -182,6 +202,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/b52eb423-5d0d-4645-b217-e1c6d38b2e72"
+            },
+            {
+                "name": "GENOME_BROWSER",
+                "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?db=hg38&g=heartCellAtlas&position=default"
             }
         ]
     },
@@ -257,6 +281,10 @@
             {
                 "name": "CELL_BROWSER",
                 "url": "https://covid19-influenza-response.cells.ucsc.edu"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/4f889ffc-d4bc-4748-905b-8eb9db47a2ed"
             }
         ]
     },
@@ -266,6 +294,10 @@
             {
                 "name": "CELL_BROWSER",
                 "url": "https://fetal-thymus.cells.ucsc.edu"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/de13e3e2-23b6-40ed-a413-e9e12d7d3910/private"
             }
         ]
     },
@@ -412,6 +444,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://www.covid19cellatlas.org/voigt19/"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://retinal-pigment-epi.cells.ucsc.edu"
             }
         ]
     },
@@ -421,6 +457,14 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/d/fetal_maternal_interface_10x-22.cxg/"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://placenta-decidua.cells.ucsc.edu"
+            },
+            {
+                "name": "GENOME_BROWSER",
+                "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?db=hg38&g=placentaVentoTormo&position=default"
             }
         ]
     },
@@ -430,6 +474,14 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/c114c20f-1ef4-49a5-9c2e-d965787fb90c"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://fetal-gene-atlas.cells.ucsc.edu"
+            },
+            {
+                "name": "GENOME_BROWSER",
+                "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?hgsid=1280204515_ghYsRY4Rvd6xWbNT4JaYmq8NbAb3&db=hg38&c=chr12&g=fetalGeneAtlas"
             }
         ]
     },
@@ -448,6 +500,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/af893e86-8e9f-41f1-a474-ef05359b1fb7"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://retina-atac.cells.ucsc.edu/"
             }
         ]
     },
@@ -501,6 +557,82 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/e2a4a67f-6a18-431a-ab9c-6e77dd31cc80"
+            }
+        ]
+    },
+    {
+        "entryId": "2af52a13-65cb-4973-b513-39be38f2df3f",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/9b02383a-9358-4f0f-9795-a891ec523bcc"
+            }
+        ]
+    },
+    {
+        "entryId": "85a9263b-0887-48ed-ab1a-ddfa773727b6",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://www.covid19cellatlas.org/aldinger20"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://cbl-dev.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "c0518445-3b3b-49c6-b8fc-c41daa4eacba",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/d/cellular_census_of_human_lungs_alveoli_and_parenchyma-15.cxg/"
+            }
+        ]
+    },
+    {
+        "entryId": "daf9d982-7ce6-43f6-ab51-272577290606",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://www.nupulmonary.org/resources/?ds=fig1"
+            }
+        ]
+    },
+    {
+        "entryId": "1538d572-bcb7-426b-8d2c-84f3a7f87bb0",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/03f821b4-87be-4ff4-b65a-b5fc00061da7"
+            }
+        ]
+    },
+    {
+        "entryId": "8a666b76-daaf-4b1f-9414-e4807a1d1e8b",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/44531dd9-1388-4416-a117-af0a99de2294"
+            }
+        ]
+    },
+    {
+        "entryId": "9fc0064b-84ce-40a5-a768-e6eb3d364ee0",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/436154da-bcf1-4130-9c8b-120ff9a888f2"
+            }
+        ]
+    },
+    {
+        "entryId": "dbd836cf-bfc2-41f0-9834-41cc6c0b235a",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/83ed3be8-4cb9-43e6-9aaa-3fbbf5d1bd3a"
             }
         ]
     }
