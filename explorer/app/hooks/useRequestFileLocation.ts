@@ -66,7 +66,7 @@ const scheduleFileLocation = (
         reject(result);
       }
     });
-  }, retryAfter);
+  }, retryAfter * 1000);
 };
 
 /**
