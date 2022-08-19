@@ -11,13 +11,18 @@ import {
 } from "../common/entities";
 import { CategoryConfig } from "../config/common/entities";
 import { useConfig } from "./useConfig";
-import { SetFilterFn } from "./useFetchEntities";
+
+/**
+ * State backing filter functionality and calculations. Converted to view model for display.
+ */
+type FilterState = Filters;
 
 /**
  * Shape of return value from this useCategoryFilter hook.
  */
 export interface FilterInstance {
   categories: SelectCategoryView[];
+  filter: FilterState;
   onFilter: OnFilterFn;
 }
 
@@ -31,22 +36,17 @@ export type OnFilterFn = (
 ) => void;
 
 /**
- * State backing filter functionality and calculations. Converted to view model for display.
- */
-type FilterState = Filters;
-
-/**
  * Server-side faceted filter functionality.
  * @param categories - Full set of categories.
- * @param setFilter - Function to call to trigger re-fetch of entities on change of selected filter values.
+ * @param initialFilter - Initial set of select categories.
  * @returns Object container filter accessor (view model of filter state).
  */
 export const useCategoryFilter = (
   categories: SelectCategory[],
-  setFilter: SetFilterFn
+  initialFilter: Filters
 ): FilterInstance => {
   // Complete set of categories and category values to be included for display and filtering.
-  const [filterState, setFilterState] = useState<FilterState>([]);
+  const [filterState, setFilterState] = useState<FilterState>(initialFilter);
 
   // Grab the site config.
   const { categoryConfigs = [] } = useConfig();
@@ -65,13 +65,13 @@ export const useCategoryFilter = (
         selected
       );
       setFilterState(nextFilterState);
-      setFilter(nextFilterState);
     },
-    [filterState, setFilter]
+    [filterState]
   );
 
   return {
     categories: buildCategoryViews(categories, categoryConfigs, filterState),
+    filter: filterState,
     onFilter,
   };
 };

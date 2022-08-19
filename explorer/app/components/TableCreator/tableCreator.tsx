@@ -15,6 +15,8 @@ interface TableCreatorProps<T> {
   disablePagination?: boolean;
   items: T[];
   loading?: boolean;
+  pageCount?: number;
+  pages: number;
   pageSize: number;
   pagination?: Pagination;
   sort?: Sort;
@@ -65,6 +67,8 @@ export const TableCreator = <T extends object>({
   disablePagination,
   items,
   loading,
+  pageCount,
+  pages,
   pageSize,
   pagination,
   sort,
@@ -91,10 +95,12 @@ export const TableCreator = <T extends object>({
       editColumns={editColumns}
       gridTemplateColumns={gridTemplateColumns}
       items={items}
+      pages={pages}
       pageSize={pageSize}
       pagination={pagination}
       sort={sort}
       total={total}
+      count={pageCount}
       loading={loading}
     />
   );
