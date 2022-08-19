@@ -3,7 +3,7 @@ import {
   FILE_LOCATION_PENDING,
   FILE_LOCATION_SUCCESSFULLY,
 } from "app/apis/azul/common/entities";
-import { useCallback } from "react";
+import { MutableRefObject, useCallback, useEffect, useRef } from "react";
 import { useAsync } from "./useAsync";
 
 export interface FileLocation {
@@ -43,21 +43,31 @@ export const getFileLocation = async (url: string): Promise<FileLocation> => {
  * @param url - url for the get request
  * @param resolve - function to resolve the running promise
  * @param reject - function to reject the running promise
+ * @param active - Mutable object used to check if the page is still mounted and the requests should keep executing
  * @param retryAfter - timeout value
  */
 const scheduleFileLocation = (
   url: string,
   resolve: ResolveFn,
   reject: RejectFn,
+  active: MutableRefObject<boolean>,
   retryAfter = 0
 ): void => {
   setTimeout(() => {
     getFileLocation(url).then((result: FileLocation) => {
       if (result.status === FILE_LOCATION_PENDING) {
+        if (!active.current) {
+          reject({
+            location: "",
+            status: 499, //Client Closed Request
+          });
+          return;
+        }
         scheduleFileLocation(
           result.location,
           resolve,
           reject,
+          active,
           result.retryAfter
         );
       } else if (result.status === FILE_LOCATION_SUCCESSFULLY) {
@@ -84,12 +94,20 @@ export const useRequestFileLocation = (
     isSuccess,
     run: runAsync,
   } = useAsync<FileLocation>();
+  const active = useRef(true);
+
+  useEffect(
+    () => () => {
+      active.current = false;
+    },
+    []
+  );
 
   const run = useCallback(() => {
     if (url) {
       runAsync(
         new Promise<FileLocation>((resolve, reject) => {
-          scheduleFileLocation(url, resolve, reject);
+          scheduleFileLocation(url, resolve, reject, active);
         })
       );
     }
