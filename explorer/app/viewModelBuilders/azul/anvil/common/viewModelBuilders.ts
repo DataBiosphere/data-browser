@@ -441,7 +441,7 @@ export const buildExportToTerraMetadata = (): React.ComponentProps<
   title: "Export Study Data and Metadata to Terra Workspace",
 });
 
-export const buildExportToCaviticaMetadata = (): React.ComponentProps<
+export const buildExportToCavaticaMetadata = (): React.ComponentProps<
   typeof C.ExportMethod
 > => ({
   buttonLabel: "Analyze in CAVATICA",

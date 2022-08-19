@@ -21,6 +21,20 @@ export const buildDataReleasePolicy = (): React.ComponentProps<
 };
 
 /**
+ * Build props for ExportMethod component for display of the export to curl command metadata section.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportToCurlCommand = (): React.ComponentProps<
+  typeof C.ExportMethod
+> => ({
+  buttonLabel: "Request curl Command",
+  description: "Obtain a curl command for downloading the selected data.",
+  disabled: false,
+  route: "/export",
+  title: "Download Study Data and Metadata (Curl Command)",
+});
+
+/**
  * Build props for ExportMethod component for display of the export to terra metadata section.
  * @returns model to be used as props for the ExportMethod component.
  */
@@ -33,6 +47,20 @@ export const buildExportToTerraMetadata = (): React.ComponentProps<
   disabled: false,
   route: "/export/export-to-terra",
   title: "Export Study Data and Metadata to Terra Workspace",
+});
+
+/**
+ * Build props for ExportMethod component for display of the export to cavatica metadata section.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportToCavaticaMetadata = (): React.ComponentProps<
+  typeof C.ExportMethod
+> => ({
+  buttonLabel: "Analyze in CAVATICA",
+  description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+  disabled: false,
+  route: "/export",
+  title: "Export to CAVATICA",
 });
 
 // Files view builders

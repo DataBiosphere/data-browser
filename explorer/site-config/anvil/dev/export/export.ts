@@ -17,7 +17,7 @@ export const exportConfig: BackPageConfig = {
         } as ComponentConfig<typeof C.ExportMethod>,
         {
           component: C.ExportMethod,
-          viewBuilder: T.buildExportToCaviticaMetadata,
+          viewBuilder: T.buildExportToCavaticaMetadata,
         } as ComponentConfig<typeof C.ExportMethod>,
       ],
       route: "/export",
