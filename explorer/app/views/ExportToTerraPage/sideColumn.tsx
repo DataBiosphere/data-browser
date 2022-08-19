@@ -1,7 +1,11 @@
-// TODO review use of data release policy stories component
-import { ProjectDataReleasePolicy } from "app/components/Project/components/DataReleasePolicy/dataReleasePolicy.stories";
+import { FluidPaper } from "app/components/common/Paper/paper.styles";
 import React from "react";
+import { DataReleasePolicy } from "../../components";
 
 export const SideColumn = (): JSX.Element => {
-  return <ProjectDataReleasePolicy />;
+  return (
+    <FluidPaper>
+      <DataReleasePolicy />
+    </FluidPaper>
+  );
 };

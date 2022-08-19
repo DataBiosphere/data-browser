@@ -11,6 +11,7 @@ export const DataReleasePolicy = (): JSX.Element => {
         <Link href="https://anvilproject.org/faq/data-security/" passHref>
           <PolicyLink target="_blank">Data Access Policy</PolicyLink>
         </Link>
+        .
       </Typography>
     </Section>
   );
