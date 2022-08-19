@@ -420,6 +420,16 @@ export const buildReportedEthnicities = (
   };
 };
 
+export const buildExportToCurlCommand = (): React.ComponentProps<
+  typeof C.ExportMethod
+> => ({
+  buttonLabel: "Request curl Command",
+  description: "Obtain a curl command for downloading the selected data.",
+  disabled: false,
+  route: "/export",
+  title: "Download Study Data and Metadata (Curl Command)",
+});
+
 export const buildExportToTerraMetadata = (): React.ComponentProps<
   typeof C.ExportMethod
 > => ({
@@ -429,4 +439,14 @@ export const buildExportToTerraMetadata = (): React.ComponentProps<
   disabled: false,
   route: "/export/export-to-terra",
   title: "Export Study Data and Metadata to Terra Workspace",
+});
+
+export const buildExportToCaviticaMetadata = (): React.ComponentProps<
+  typeof C.ExportMethod
+> => ({
+  buttonLabel: "Analyze in CAVATICA",
+  description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+  disabled: false,
+  route: "/export",
+  title: "Export to CAVATICA",
 });
