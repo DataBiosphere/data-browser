@@ -203,6 +203,7 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
    */
   const breakpointUpDesktop = defaultTheme.breakpoints.up(BREAKPOINT.DESKTOP);
   const breakpointUpMobile = defaultTheme.breakpoints.up(BREAKPOINT.MOBILE);
+  const breakpointUpTablet = defaultTheme.breakpoints.up(BREAKPOINT.TABLET);
 
   /**
    * Color constants
@@ -735,6 +736,13 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
             boxShadow: strokeBottomSmoke,
             minHeight: "unset",
             position: "relative", // Positions scroll fuzz.
+          },
+          scroller: {
+            margin: "0 16px",
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
+            [breakpointUpTablet]: {
+              margin: 0,
+            },
           },
         },
       },

@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import { BackPageView } from "../Layout/components/BackPage/backPageView";
 
 interface Props {
+  isDetailOverview?: boolean;
   mainColumn: ReactNode;
   sideColumn: ReactNode;
   Tabs?: ReactNode;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export const Detail = ({
+  isDetailOverview,
   mainColumn,
   sideColumn,
   Tabs,
@@ -16,6 +18,7 @@ export const Detail = ({
 }: Props): JSX.Element => {
   return (
     <BackPageView
+      isDetailOverview={isDetailOverview}
       mainColumn={mainColumn}
       sideColumn={sideColumn}
       Tabs={Tabs}

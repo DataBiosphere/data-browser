@@ -16,6 +16,7 @@ import { top } from "../detail/dataset/top";
 export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
   apiPath: "index/datasets",
   detail: {
+    detailOverviews: ["Overview"],
     tabs: [
       {
         label: "Overview",

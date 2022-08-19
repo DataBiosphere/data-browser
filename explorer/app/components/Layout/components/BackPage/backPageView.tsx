@@ -1,19 +1,18 @@
-import React, { Fragment, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import {
-  BREAKPOINT,
-  BREAKPOINT_FN_NAME,
-  useBreakpointHelper,
-} from "../../../../hooks/useBreakpointHelper";
-import { FlatPaper } from "../../../common/Paper/paper.styles";
-import {
+  BackPageContent,
+  BackPageContentMainColumn,
+  BackPageContentSideColumn,
   BackPageHero,
-  BackPageOverview as Overview,
-  BackPageOverviewMain as Main,
-  BackPageOverviewSide as Side,
+  BackPageTabs,
   BackPageView as BackPageLayout,
+  DetailPageOverviewContent,
+  DetailPageOverviewContentMainColumn,
+  DetailPageOverviewContentSideColumn,
 } from "./backPageView.styles";
 
 interface Props {
+  isDetailOverview?: boolean;
   mainColumn: ReactNode;
   sideColumn: ReactNode;
   Tabs?: ReactNode;
@@ -21,27 +20,29 @@ interface Props {
 }
 
 export const BackPageView = ({
+  isDetailOverview = false,
   mainColumn,
   sideColumn,
   Tabs,
   top,
 }: Props): JSX.Element => {
-  const tablet = useBreakpointHelper(BREAKPOINT_FN_NAME.UP, BREAKPOINT.TABLET);
-  const BackPageOverview = tablet
-    ? Overview
-    : Overview.withComponent(FlatPaper);
-  const BackPageOverviewMain = tablet ? Main : Fragment;
-  const BackPageOverviewSide = tablet ? Side : Fragment;
+  const Content = isDetailOverview
+    ? DetailPageOverviewContent
+    : BackPageContent;
+  const MainColumn = isDetailOverview
+    ? DetailPageOverviewContentMainColumn
+    : BackPageContentMainColumn;
+  const SideColumn = isDetailOverview
+    ? DetailPageOverviewContentSideColumn
+    : BackPageContentSideColumn;
   return (
     <BackPageLayout>
-      <BackPageHero>
-        {top}
-        {Tabs}
-      </BackPageHero>
-      <BackPageOverview>
-        <BackPageOverviewMain>{mainColumn}</BackPageOverviewMain>
-        <BackPageOverviewSide>{sideColumn}</BackPageOverviewSide>
-      </BackPageOverview>
+      <BackPageHero>{top}</BackPageHero>
+      {Tabs && <BackPageTabs>{Tabs}</BackPageTabs>}
+      <Content>
+        <MainColumn>{mainColumn}</MainColumn>
+        <SideColumn>{sideColumn}</SideColumn>
+      </Content>
     </BackPageLayout>
   );
 };

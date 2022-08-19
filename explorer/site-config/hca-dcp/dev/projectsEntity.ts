@@ -27,6 +27,7 @@ import * as B from "./projectViewModelBuilder";
 export const projectsEntity: EntityConfig = {
   apiPath: "index/projects",
   detail: {
+    detailOverviews: ["Overview"],
     tabs: [
       {
         label: "Overview",

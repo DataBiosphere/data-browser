@@ -35,6 +35,9 @@ export const Detail = (props: AzulEntityStaticResponse): JSX.Element => {
   const { push, query } = useRouter();
   const entityRoute = entity.route;
   const uuid = query.params?.[PARAMS_INDEX_UUID];
+  const isDetailOverview = entity.detail.detailOverviews?.includes(
+    currentTab.label
+  );
   const mainColumn = currentTab.mainColumn;
   const sideColumn = currentTab.sideColumn;
   const tabs = getTabs(entity);
@@ -57,6 +60,7 @@ export const Detail = (props: AzulEntityStaticResponse): JSX.Element => {
 
   return (
     <DetailView
+      isDetailOverview={isDetailOverview}
       mainColumn={
         <ComponentCreator components={mainColumn} response={response} />
       }

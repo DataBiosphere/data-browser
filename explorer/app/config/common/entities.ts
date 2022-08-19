@@ -84,6 +84,7 @@ export interface DataSourceConfig {
  * Interface to define the set of components that will be used for the back page.
  */
 export interface BackPageConfig {
+  detailOverviews?: TabConfig["label"][];
   tabs: BackPageTabConfig[];
   top: ComponentsConfig;
 }
