@@ -1,14 +1,19 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
-import { RoundedLoading } from "./loading.styles";
+import { PAPER_PANEL_STYLE } from "../common/Paper/paper";
+import { Loading } from "./loading";
 
 export default {
   argTypes: {
     className: { control: { disabled: true } },
     loading: { control: "boolean" },
+    panelStyle: {
+      control: "select",
+      options: Array.from(Object.keys(PAPER_PANEL_STYLE)),
+    },
     text: { control: "text" },
   },
-  component: RoundedLoading,
+  component: Loading,
   decorators: [
     (Story): JSX.Element => (
       <div
@@ -24,10 +29,10 @@ export default {
     ),
   ],
   title: "Components/Communication/Loading",
-} as ComponentMeta<typeof RoundedLoading>;
+} as ComponentMeta<typeof Loading>;
 
-const Template: ComponentStory<typeof RoundedLoading> = (args) => (
-  <RoundedLoading {...args} />
+const Template: ComponentStory<typeof Loading> = (args) => (
+  <Loading {...args} />
 );
 
 export const DownloadLoading = Template.bind({});

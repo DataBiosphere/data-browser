@@ -1,8 +1,17 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Paper } from "../common/Paper/paper";
-import { Loading } from "./loading";
+import { BREAKPOINT } from "../../hooks/useBreakpointHelper";
+import {
+  Paper,
+  PaperPanelStyle,
+  PAPER_PANEL_STYLE,
+} from "../common/Paper/paper";
 
-export const LoadingBackground = styled(Paper)`
+interface Props {
+  panelStyle: PaperPanelStyle;
+}
+
+export const LoadingBackground = styled(Paper)<Props>`
   background-color: rgba(255, 255, 255, 0.8);
   display: grid;
   gap: 16px;
@@ -13,10 +22,45 @@ export const LoadingBackground = styled(Paper)`
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 1400;
-`;
+  z-index: 10;
 
-// RoundedPaper styles.
-export const RoundedLoading = styled(Loading)`
-  border-radius: 8px;
+  // Style "Flat" paper.
+  ${({ panelStyle }) =>
+    panelStyle === PAPER_PANEL_STYLE.FLAT &&
+    css`
+      border-left: none;
+      border-radius: 0;
+      border-right: none;
+      box-shadow: none;
+    `};
+
+  // Style "Fluid" paper.
+  ${({ panelStyle, theme }) =>
+    panelStyle === PAPER_PANEL_STYLE.FLUID &&
+    css`
+      border-radius: 8px;
+
+      ${theme.breakpoints.down(BREAKPOINT.TABLET)} {
+        border-left: none;
+        border-radius: 0;
+        border-right: none;
+        box-shadow: none;
+      }
+    `};
+
+  // No style - borderless with no elevation.
+  ${({ panelStyle }) =>
+    panelStyle === PAPER_PANEL_STYLE.NONE &&
+    css`
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    `};
+
+  // Style "Rounded" paper.
+  ${({ panelStyle }) =>
+    panelStyle === PAPER_PANEL_STYLE.ROUNDED &&
+    css`
+      border-radius: 8px;
+    `};
 `;

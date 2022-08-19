@@ -1,5 +1,6 @@
+import { Loading } from "app/components/Loading/loading";
 import { useRequestFileLocation } from "../../../../hooks/useRequestFileLocation";
-import { RoundedLoading } from "../../../Loading/loading.styles";
+import { PAPER_PANEL_STYLE } from "../../../common/Paper/paper";
 import { ExportToTerraNotStarted } from "./components/ExportToTerraNotStarted/exportToTerraNotStarted";
 import { ExportToTerraReady } from "./components/ExportToTerraReady/exportToTerraReady";
 
@@ -20,7 +21,11 @@ export const ExportToTerra = ({
       {/* Export is idle or loading */}
       {(isIdle || isLoading) && (
         <div>
-          <RoundedLoading loading={isLoading} />
+          <Loading
+            loading={isLoading}
+            panelStyle={PAPER_PANEL_STYLE.FLUID}
+            text="Your link will be ready shortly..."
+          />
           <ExportToTerraNotStarted run={run} />
         </div>
       )}

@@ -6,18 +6,19 @@
 import { Typography } from "@mui/material";
 import React, { useEffect, useRef } from "react";
 import { LoadingIcon } from "../common/CustomIcon/components/LoadingIcon/loadingIcon";
+import { PaperPanelStyle, PAPER_PANEL_STYLE } from "../common/Paper/paper";
 import { LoadingBackground } from "./loading.styles";
 
 interface Props {
-  className?: string;
   loading: boolean;
+  panelStyle?: PaperPanelStyle; // Enables loading to mirror parent container styles.
   text?: string;
 }
 
 export const Loading = ({
-  className,
   loading,
-  text = "Your link will be ready shortly...",
+  panelStyle = PAPER_PANEL_STYLE.ROUNDED,
+  text,
 }: Props): JSX.Element | null => {
   const loadingRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLElement | null>(null);
@@ -42,9 +43,9 @@ export const Loading = ({
   }, [loading]);
 
   return loading ? (
-    <LoadingBackground className={className} ref={loadingRef}>
+    <LoadingBackground panelStyle={panelStyle} ref={loadingRef}>
       <LoadingIcon color="primary" fontSize="large" />
-      <Typography variant="text-body-400">{text}</Typography>
+      {text && <Typography variant="text-body-400">{text}</Typography>}
     </LoadingBackground>
   ) : null;
 };
