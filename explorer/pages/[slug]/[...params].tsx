@@ -7,7 +7,7 @@ import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { AzulEntityStaticResponse } from "../../app/apis/azul/common/entities";
 import { Page } from "../../app/components/Layout/components/Page/page";
-import { BackPage } from "../../app/views/BackPage/backPage";
+import { Detail } from "../../app/views/Detail/detail";
 
 interface PageUrl extends ParsedUrlQuery {
   params: string[];
@@ -25,7 +25,7 @@ const ProjectPage = ({ slug, ...props }: ProjectPageProps): JSX.Element => {
 
   return (
     <Page entity={entity}>
-      <BackPage {...props} />
+      <Detail {...props} />
     </Page>
   );
 };

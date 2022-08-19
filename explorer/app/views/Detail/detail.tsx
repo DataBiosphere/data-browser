@@ -1,5 +1,5 @@
 import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
-import { BackPageView } from "app/components/Layout/components/BackPage/backPageView";
+import { Detail as DetailView } from "app/components/Detail/detail";
 import { useCurrentDetailTab } from "app/hooks/useCurrentDetailTab";
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
 import { useFetchEntity } from "app/hooks/useFetchEntity";
@@ -27,7 +27,7 @@ function getTabs(entity: EntityConfig): Tab[] {
   }));
 }
 
-export const BackPage = (props: AzulEntityStaticResponse): JSX.Element => {
+export const Detail = (props: AzulEntityStaticResponse): JSX.Element => {
   const { currentTab, route: tabRoute } = useCurrentDetailTab();
   const entity = useCurrentEntity();
   const { isLoading, response } = useFetchEntity(props);
@@ -56,7 +56,7 @@ export const BackPage = (props: AzulEntityStaticResponse): JSX.Element => {
   };
 
   return (
-    <BackPageView
+    <DetailView
       mainColumn={
         <ComponentCreator components={mainColumn} response={response} />
       }
