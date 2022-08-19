@@ -181,7 +181,7 @@ export const buildDataReleasePolicy = (): React.ComponentProps<
 > => {
   return {
     text: [
-      "Downloaded data is governed by the AnVIL Data Release Policy and licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). For more information please see our Data Use Agreement.",
+      "Downloaded data is governed by the AnVIL Data Release Policy.  For more information please see our Data Use Agreement.",
     ],
   };
 };

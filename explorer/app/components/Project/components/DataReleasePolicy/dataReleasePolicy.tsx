@@ -5,14 +5,11 @@ import { Section } from "../Section/section";
 
 export const DataReleasePolicy = (): JSX.Element => {
   return (
-    <Section title="Data Release Policy">
+    <Section title="Data Access Policy">
       <Typography>
         For information regarding data sharing and data use, please see our{" "}
-        <Link
-          href="https://www.humancellatlas.org/data-release-policy/"
-          passHref
-        >
-          <PolicyLink target="_blank">HCA Data Release Policy</PolicyLink>
+        <Link href="https://anvilproject.org/faq/data-security/" passHref>
+          <PolicyLink target="_blank">Data Access Policy</PolicyLink>
         </Link>
       </Typography>
     </Section>
