@@ -5,7 +5,7 @@ import * as T from "../../projectViewModelBuilder";
 
 export const top: ComponentsConfig = [
   {
-    component: C.ProjectHero,
+    component: C.BackPageHero,
     viewBuilder: T.buildHero,
-  } as ComponentConfig<typeof C.ProjectHero, ProjectsResponse>,
+  } as ComponentConfig<typeof C.BackPageHero, ProjectsResponse>,
 ];

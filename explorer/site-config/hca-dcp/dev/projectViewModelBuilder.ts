@@ -116,11 +116,11 @@ export const buildDetails = (
 /**
  * Build props for Hero component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export const buildHero = (
   projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.ProjectHero> => {
+): React.ComponentProps<typeof C.BackPageHero> => {
   const firstCrumb = { path: PROJECTS_URL, text: "Explore" };
   return {
     breadcrumbs: getProjectBreadcrumbs(firstCrumb, projectsResponse),

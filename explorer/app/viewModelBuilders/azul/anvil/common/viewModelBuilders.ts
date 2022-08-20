@@ -146,11 +146,11 @@ export const buildDatasetDetails = (
  * Build props for Hero component from the given datasets response.
  * TODO revisit - separate from entity builder, generalize modeling?, revisit transformer
  * @param response - Response model return from datasets API.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export const buildDatasetHero = (
   response: DatasetEntityResponse
-): React.ComponentProps<typeof C.ProjectHero> => {
+): React.ComponentProps<typeof C.BackPageHero> => {
   const firstCrumb = { path: URL_DATASETS, text: "Datasets" };
   return {
     breadcrumbs: getDatasetBreadcrumbs(firstCrumb, response),

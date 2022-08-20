@@ -31,7 +31,7 @@ export const exportConfig: BackPageConfig = {
   ],
   top: [
     {
-      component: C.ProjectHero,
+      component: C.BackPageHero,
       props: {
         breadcrumbs: [
           { path: "/datasets", text: "Datasets" },
@@ -39,6 +39,6 @@ export const exportConfig: BackPageConfig = {
         ],
         title: "Choose Export Method",
       },
-    } as ComponentConfig<typeof C.ProjectHero>,
+    } as ComponentConfig<typeof C.BackPageHero>,
   ],
 };

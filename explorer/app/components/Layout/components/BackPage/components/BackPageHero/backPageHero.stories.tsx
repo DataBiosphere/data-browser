@@ -1,21 +1,23 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
-import { STATUS } from "../../../common/StatusBadge/statusBadge";
-import { Hero } from "./hero";
+import { STATUS } from "../../../../../common/StatusBadge/statusBadge";
+import { BackPageHero } from "./backPageHero";
 
 export default {
   argTypes: {
     status: { control: "select", options: Array.from(Object.keys(STATUS)) },
     title: { control: "text" },
   },
-  component: Hero,
+  component: BackPageHero,
   parameters: {
     layout: "fullscreen",
   },
   title: "Components/Hero",
-} as ComponentMeta<typeof Hero>;
+} as ComponentMeta<typeof BackPageHero>;
 
-const Template: ComponentStory<typeof Hero> = (args) => <Hero {...args} />;
+const Template: ComponentStory<typeof BackPageHero> = (args) => (
+  <BackPageHero {...args} />
+);
 
 export const ProjectHero = Template.bind({});
 ProjectHero.args = {

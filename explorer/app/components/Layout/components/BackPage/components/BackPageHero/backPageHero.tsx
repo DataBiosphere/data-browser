@@ -1,5 +1,5 @@
 /**
- * Project detail page hero component comprising breadcrumbs, project title, project status and tabs.
+ * Back page hero component comprising breadcrumbs, title, status and tabs.
  */
 
 import { Stack } from "app/components/common/Stack/Stack";
@@ -7,9 +7,12 @@ import React from "react";
 import {
   Breadcrumb,
   Breadcrumbs,
-} from "../../../common/Breadcrumbs/breadcrumbs";
-import { Status, StatusBadge } from "../../../common/StatusBadge/statusBadge";
-import { HeroTitle, Title } from "../../../common/Title/title";
+} from "../../../../../common/Breadcrumbs/breadcrumbs";
+import {
+  Status,
+  StatusBadge,
+} from "../../../../../common/StatusBadge/statusBadge";
+import { HeroTitle, Title } from "../../../../../common/Title/title";
 
 interface Props {
   breadcrumbs?: Breadcrumb[];
@@ -17,7 +20,11 @@ interface Props {
   title?: HeroTitle;
 }
 
-export const Hero = ({ breadcrumbs, status, title }: Props): JSX.Element => {
+export const BackPageHero = ({
+  breadcrumbs,
+  status,
+  title,
+}: Props): JSX.Element => {
   return (
     <>
       {(breadcrumbs || title) && (

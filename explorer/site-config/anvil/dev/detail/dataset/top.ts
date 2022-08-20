@@ -5,7 +5,7 @@ import * as T from "../../../../../app/viewModelBuilders/azul/anvil/common/viewM
 
 export const top: ComponentsConfig = [
   {
-    component: C.ProjectHero,
+    component: C.BackPageHero,
     viewBuilder: T.buildDatasetHero,
-  } as ComponentConfig<typeof C.ProjectHero, DatasetsResponse>,
+  } as ComponentConfig<typeof C.BackPageHero, DatasetsResponse>,
 ];

@@ -8,13 +8,14 @@ import { ProjectDataCurators } from "../../../Project/components/DataCurators/da
 import { ProjectDataReleasePolicy } from "../../../Project/components/DataReleasePolicy/dataReleasePolicy.stories";
 import { ProjectDescription } from "../../../Project/components/Description/description.stories";
 import { ProjectDetails } from "../../../Project/components/Details/details.stories";
-import { ProjectHero } from "../../../Project/components/Hero/hero.stories";
 import { ProjectPublications } from "../../../Project/components/Publications/publications.stories";
 import { ProjectSupplementaryLinks } from "../../../Project/components/SupplementaryLinks/supplementaryLinks.stories";
 import { BackPageView } from "./backPageView";
+import { ProjectHero } from "./components/BackPageHero/backPageHero.stories";
 
 export default {
   argTypes: {
+    isDetailOverview: { control: "boolean" },
     mainColumn: { table: { disable: true } },
     sideColumn: { table: { disable: true } },
     top: { table: { disable: true } },
@@ -32,6 +33,7 @@ const Template: ComponentStory<typeof BackPageView> = (args) => (
 
 export const HCAProject = Template.bind({});
 HCAProject.args = {
+  isDetailOverview: true,
   mainColumn: (
     <>
       <ProjectDescription
