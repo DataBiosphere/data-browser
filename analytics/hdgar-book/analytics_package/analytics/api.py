@@ -38,7 +38,7 @@ def authenticate(secret_name, service_params=ga_service_params):
 	# Build the service object.
 	service = build(service_name, service_version, credentials=credentials)
 	
-	service_system = (service, query_func, param_subs)
+	service_system = (service, query_func, param_subs, credentials)
 	
 	global default_service_system
 	if default_service_system is None:
@@ -52,7 +52,7 @@ def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_dat
 	if service_system is None:
 		service_system = default_service_system
 	
-	service, query_func, param_subs = service_system
+	service, query_func, param_subs = service_system[:3]
 	
 	if isinstance(metrics, list):
 		metrics = ",".join(metrics)
