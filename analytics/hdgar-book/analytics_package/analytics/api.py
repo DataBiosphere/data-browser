@@ -26,7 +26,7 @@ yt_service_params = (
 default_service_system = None
 
 def authenticate(secret_name, service_params=ga_service_params):
-	scopes, service_name, service_version, param_subs, source_query_func = service_params
+	scopes, service_name, service_version, param_subs, query_func = service_params
 	
 	ANALYTICS_REPORTING_CLIENT_SECRET_PATH=os.getenv(secret_name)
 
@@ -38,10 +38,7 @@ def authenticate(secret_name, service_params=ga_service_params):
 	# Build the service object.
 	service = build(service_name, service_version, credentials=credentials)
 	
-	service_system = (
-		lambda params: source_query_func(service, params),
-		param_subs
-	)
+	service_system = (service, query_func, param_subs)
 	
 	global default_service_system
 	if default_service_system is None:
@@ -55,7 +52,7 @@ def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_dat
 	if service_system is None:
 		service_system = default_service_system
 	
-	query_func, param_subs = service_system
+	service, query_func, param_subs = service_system
 	
 	if isinstance(metrics, list):
 		metrics = ",".join(metrics)
@@ -90,7 +87,7 @@ def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_dat
 	has_more = True
 
 	while has_more:
-		result = query_func(params)
+		result = query_func(service, params)
 		has_more = ('rows' in result) and (len(result['rows']) > 0)
 		if has_more or len(results) == 0:
 			results.append(result)
