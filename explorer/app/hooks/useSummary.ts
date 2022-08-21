@@ -1,5 +1,8 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { AZUL_PARAM } from "../apis/azul/common/constants";
 import { AzulSummaryResponse } from "../apis/azul/common/entities";
+import { transformFilters } from "../apis/azul/common/filterTransformer";
+import { FilterStateContext } from "../common/context/filterState";
 import { useAsync } from "./useAsync";
 import { useConfig } from "./useConfig";
 import { useFetcher } from "./useFetcher";
@@ -17,6 +20,9 @@ export const useSummary = (): UseSummaryResponse => {
   // Grab the summary config for this site.
   const { summaryConfig: summaryConfig } = useConfig();
 
+  // Grab the filter context; use this to keep selected filter state up-to-date.
+  const { filterState } = useContext(FilterStateContext);
+
   // Initialize the fetch.
   const {
     data: response,
@@ -30,9 +36,16 @@ export const useSummary = (): UseSummaryResponse => {
   // Fetch the summary if there's a summary config for this site. s
   useEffect(() => {
     if (summaryConfig) {
-      run(summary(summaryConfig.apiPath));
+      // Build filter query params, if any
+      let summaryParams;
+      const filtersParam = transformFilters(filterState);
+      if (filtersParam) {
+        summaryParams = { [AZUL_PARAM.FILTERS]: filtersParam };
+      }
+
+      run(summary(summaryConfig.apiPath, summaryParams));
     }
-  }, [run, summary, summaryConfig]);
+  }, [filterState, run, summary, summaryConfig]);
 
   // Return if there's no summary config for this site.
   if (!summaryConfig) {

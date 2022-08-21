@@ -65,7 +65,7 @@ export const useFetchEntities = (
     return transformTermFacets(data.termFacets);
   }, [data, staticLoad]);
 
-  // Grab the query context; use this to keep selected filter state up-to-date.
+  // Grab the filter context; use this to keep selected filter state up-to-date.
   const { filterState, setFilterState } = useContext(FilterStateContext);
 
   // Init filter functionality.
@@ -87,7 +87,7 @@ export const useFetchEntities = (
       const listParams: AzulListParams = { order: sortOrder, sort: sortKey };
 
       // Build filter query params, if any
-      const filtersParam = transformFilters(filter);
+      const filtersParam = transformFilters(filterState);
       if (filtersParam) {
         listParams.filters = filtersParam;
       }
@@ -95,7 +95,7 @@ export const useFetchEntities = (
       // Execute the fetch.
       run(list(path, listParams));
     }
-  }, [filter, list, path, run, sortKey, sortOrder, staticLoad]);
+  }, [filterState, list, path, run, sortKey, sortOrder, staticLoad]);
 
   const handleFilterChange = useCallback(
     (

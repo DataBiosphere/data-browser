@@ -10,9 +10,9 @@ import { transformFilters } from "../../apis/azul/common/filterTransformer";
 import { FilterStateContext } from "../../common/context/filterState";
 
 export const MainColumn = (): JSX.Element => {
-  // Grab the query context; use this to keep selected filter state up-to-date.
+  // Grab the filter context; use this to keep selected filter state up-to-date.
   const { filterState } = useContext(FilterStateContext);
-  console.log(filterState);
+
   // Grab configuration and check expected values are set. TODO(cc) add discriminating unions to config so checks aren't necessary.
   const config = useConfig();
   const { dataSource, exportToTerraUrl } = config;

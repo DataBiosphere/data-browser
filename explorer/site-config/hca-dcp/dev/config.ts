@@ -135,7 +135,7 @@ const config: SiteConfig = {
   entities: [projectsEntity, samplesEntityConfig, filesEntityConfig],
   entityTitle: "Explore Data: DCP 2.0 Data View",
   export: exportConfig,
-  exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
+  exportToTerraUrl: "https://app.terra.bio/",
   layout: {
     footer: {
       feedbackForm: false, // TODO feedback form
