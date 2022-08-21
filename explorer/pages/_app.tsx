@@ -10,6 +10,7 @@ import { Main } from "app/components/Layout/components/Main/main.styles";
 import { config } from "app/config/config";
 import { getAppTheme } from "app/theme/theme";
 import type { AppProps } from "next/app";
+import { FilterStateProvider } from "../app/common/context/filterState";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const currentConfig = config();
@@ -23,9 +24,11 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           <CssBaseline />
           <AppLayout>
             <Header header={currentLayout.header} />
-            <Main>
-              <Component {...pageProps} />
-            </Main>
+            <FilterStateProvider>
+              <Main>
+                <Component {...pageProps} />
+              </Main>
+            </FilterStateProvider>
             <Footer footer={currentLayout.footer} />
           </AppLayout>
         </ConfigProvider>

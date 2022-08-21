@@ -15,7 +15,7 @@ import { useConfig } from "./useConfig";
 /**
  * State backing filter functionality and calculations. Converted to view model for display.
  */
-type FilterState = Filters;
+export type FilterState = Filters;
 
 /**
  * Shape of return value from this useCategoryFilter hook.

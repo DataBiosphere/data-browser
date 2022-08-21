@@ -4,6 +4,7 @@ import logoHhs from "images/logoHhs.svg";
 import logoNhgri from "images/logoNhgri.svg";
 import logoNih from "images/logoNih.svg";
 import logoUsagov from "images/logoUsagov.png";
+import { CATALOG_DEFAULT } from "../../../app/apis/anvil/common/constants";
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
@@ -86,7 +87,11 @@ const config: SiteConfig = {
     },
   ],
   dataSource: {
+    defaultDetailParams: {
+      catalog: CATALOG_DEFAULT,
+    },
     defaultListParams: {
+      catalog: CATALOG_DEFAULT,
       size: "25",
       sort: "entryId",
     },
@@ -102,7 +107,7 @@ const config: SiteConfig = {
   ],
   entityTitle: "Anvil Data Explorer",
   export: exportConfig,
-  exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
+  exportToTerraUrl: "https://app.terra.bio/",
   layout: {
     footer: {
       logos: [

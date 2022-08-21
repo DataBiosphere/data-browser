@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import {
   AzulEntitiesResponse,
   AzulEntitiesStaticResponse,
@@ -9,6 +9,7 @@ import {
   transformFilters,
   transformTermFacets,
 } from "../apis/azul/common/filterTransformer";
+import { FilterStateContext } from "../common/context/filterState";
 import {
   CategoryKey,
   CategoryValueKey,
@@ -43,12 +44,10 @@ interface EntitiesResponse {
  * Hook handling the load and transformation of the values used by index pages. If the current entity loaded statically,
  * this hook will return the already loaded data. Otherwise, it will make a request for the entity's pathUrl.
  * @param staticResponse - Statically loaded data, if any.
- * @param initialFilter - Initial set of select categories.
  * @returns Model of the entities list including pagination, sort, filter and loading indicator.
  */
 export const useFetchEntities = (
-  staticResponse: AzulEntitiesStaticResponse | null,
-  initialFilter: Filters
+  staticResponse: AzulEntitiesStaticResponse | null
 ): EntitiesResponse => {
   // Determine type of fetch to be executed, either API endpoint or TSV.
   const { list, path, staticLoad } = useFetcher();
@@ -66,12 +65,20 @@ export const useFetchEntities = (
     return transformTermFacets(data.termFacets);
   }, [data, staticLoad]);
 
+  // Grab the query context; use this to keep selected filter state up-to-date.
+  const { filterState, setFilterState } = useContext(FilterStateContext);
+
   // Init filter functionality.
   const {
     categories: categoryViews,
     filter,
     onFilter,
-  } = useCategoryFilter(categories, initialFilter);
+  } = useCategoryFilter(categories, filterState);
+
+  // Update filter state with current selected values.
+  useEffect(() => {
+    setFilterState(filter);
+  }, [filter, setFilterState]);
 
   // Execute fetch of entities.
   useEffect(() => {

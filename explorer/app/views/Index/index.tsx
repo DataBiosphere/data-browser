@@ -80,7 +80,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
   // Fetch summary and entities.
   const { response: summaryResponse } = useSummary();
   const { categories, loading, onFilter, pagination, response, sort } =
-    useFetchEntities(props, []);
+    useFetchEntities(props);
 
   // Grab the column config for the current entity.
   const columnsConfig = entity?.list?.columns;

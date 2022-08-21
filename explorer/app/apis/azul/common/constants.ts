@@ -3,6 +3,7 @@
  */
 export enum AZUL_PARAM {
   "CATALOG" = "catalog",
+  "FILTERS" = "filters",
 }
 
 /**
