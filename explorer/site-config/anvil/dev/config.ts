@@ -102,6 +102,7 @@ const config: SiteConfig = {
   ],
   entityTitle: "Anvil Data Explorer",
   export: exportConfig,
+  exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
   layout: {
     footer: {
       logos: [

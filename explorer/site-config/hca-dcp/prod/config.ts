@@ -17,6 +17,7 @@ const config: SiteConfig = {
     },
     url: "https://service.azul.data.humancellatlas.org/",
   },
+  exportToTerraUrl: "https://app.terra.bio/",
 };
 
 export default config;

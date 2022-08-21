@@ -7,6 +7,7 @@ const BROWSER_URL = "https://anvilproject.org/";
 const config: SiteConfig = {
   ...devConfig,
   browserURL: BROWSER_URL,
+  exportToTerraUrl: "https://app.terra.bio/",
 };
 
 export default config;

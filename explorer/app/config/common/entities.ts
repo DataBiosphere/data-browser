@@ -161,6 +161,7 @@ export interface SiteConfig {
   entities: EntityConfig[];
   entityTitle: HeroTitle;
   export?: BackPageConfig;
+  exportToTerraUrl?: string; // TODO(cc) revist location; possibly nest inside "export"?
   layout: {
     footer: Footer;
     header: Header;

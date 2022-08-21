@@ -39,6 +39,7 @@ const config: SiteConfig = {
   entities: hcaConfig.entities,
   entityTitle: "Explore Data",
   export: hcaConfig.export,
+  exportToTerraUrl: hcaConfig.exportToTerraUrl,
   layout: {
     footer: {
       logos: [LOGO],
