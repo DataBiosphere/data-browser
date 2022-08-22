@@ -17,6 +17,7 @@ npm ci
 #./insert-gtm-snippet.sh
 
 mkdir -p build/explore/anvil
+mkdir -p build/explore/anvil-cmg
 mkdir -p build/explore/hca
 mkdir -p build/explore/lungmap
 mkdir -p build/explore/anvil-catalog
@@ -27,6 +28,11 @@ mkdir -p build/explore/ncpi-catalog-dug
 rm -rf ./out
 npm run build:anvil
 mv out/explore/* build/explore/anvil
+
+# Build AnVIL
+rm -rf ./out
+npm run build:anvil-cmg
+mv out/explore/* build/explore/anvil-cmg
 
 # Build HCA
 rm -rf ./out
@@ -42,7 +48,6 @@ mv out/explore/* build/explore/lungmap
 rm -rf ./out
 npm run build:anvil-catalog
 mv out/explore/* build/explore/anvil-catalog
-
 
 # Build NCPI Catalog
 rm -rf ./out
