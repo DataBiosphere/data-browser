@@ -13,6 +13,8 @@
     "build:lungmap": "./scripts/build.sh lungmap && next build && next export -o out/explore",
     "dev:anvil": "./scripts/dev.sh anvil && next dev",
     "build:anvil": "./scripts/build.sh anvil && next build && next export -o out/explore",
+    "dev:anvil-cmg": "./scripts/dev.sh anvil-cmg && next dev",
+    "build:anvil-cmg": "./scripts/build.sh anvil-cmg && next build && next export -o out/explore",
     "dev:hca-dcp": "./scripts/dev.sh hca-dcp && next dev",
     "build:hca-dcp": "./scripts/build.sh hca-dcp && next build && next export -o out/explore",
     "start": "npx serve out",

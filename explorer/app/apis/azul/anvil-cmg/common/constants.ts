@@ -6,4 +6,4 @@ export const API_FILE_LOCATION_FETCH = "fetch";
 /**
  * Default AnVIL catalog.
  */
-export const CATALOG_DEFAULT = "anvil-encode";
+export const CATALOG_DEFAULT = "anvil-cmg";

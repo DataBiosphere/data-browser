@@ -4,7 +4,7 @@ import logoHhs from "images/logoHhs.svg";
 import logoNhgri from "images/logoNhgri.svg";
 import logoNih from "images/logoNih.svg";
 import logoUsagov from "images/logoUsagov.png";
-import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil/common/constants";
+import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
@@ -95,7 +95,7 @@ const config: SiteConfig = {
       size: "25",
       sort: "entryId",
     },
-    url: "https://service.nadove2.dev.singlecell.gi.ucsc.edu/",
+    url: "https://service.nadove4.anvil.gi.ucsc.edu/",
   },
   entities: [
     datasetsEntityConfig,

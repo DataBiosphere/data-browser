@@ -170,9 +170,10 @@ export interface SelectedFilter {
 export type Filters = SelectedFilter[];
 
 /**
- * Set of labels that values returned from Azul can be santitized to.
+ * Set of labels that values returned from Azul can be sanitized to.
  */
 export enum LABEL {
+  "EMPTY" = "", // TODO(cc) revisit - temp only? required for file download.
   "ERROR" = "Error",
   "NONE" = "None",
   "UNSPECIFIED" = "Unspecified",

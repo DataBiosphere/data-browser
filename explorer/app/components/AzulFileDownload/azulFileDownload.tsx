@@ -67,7 +67,7 @@ export const AzulFileDownload = ({
  */
 function buildFetchFileUrl(fileUrl?: string): string | undefined {
   if (!fileUrl) {
-    return undefined;
+    return;
   }
 
   const url = new URL(fileUrl);
