@@ -30,7 +30,7 @@ export const Filter = ({ content, tags, Target }: Props): JSX.Element => {
     // Grab the filter target size and position and calculate the popover position.
     const targetDOMRect = event.currentTarget.getBoundingClientRect();
     const popoverLeftPos = targetDOMRect.x;
-    const popoverTopPos = targetDOMRect.y + targetDOMRect.height;
+    const popoverTopPos = targetDOMRect.y + targetDOMRect.height - 1;
     // Set popover position and open state.
     setPopoverPosition({ left: popoverLeftPos, top: popoverTopPos });
     setOpenPopover(true);

@@ -1,6 +1,9 @@
 import styled from "@emotion/styled";
-import { Button as MButton } from "@mui/material";
+import { Button as MButton, ButtonBase } from "@mui/material";
 import { Button } from "./button";
+
+// Template constants
+const textBody500 = "text-body-500";
 
 // Primary button.
 export const ButtonPrimary = styled(Button)`
@@ -42,5 +45,17 @@ export const ButtonSecondary = styled(Button)`
   &:disabled {
     color: inherit;
     opacity: 0.5;
+  }
+`;
+
+// Primary text button
+export const TextButtonPrimary = styled(ButtonBase)`
+  color: ${({ theme }) => theme.palette.primary.main};
+  font-size: 14px;
+  font-weight: ${({ theme }) => theme.typography[textBody500].fontWeight};
+  line-height: ${({ theme }) => theme.typography[textBody500].lineHeight};
+
+  :hover {
+    text-decoration: underline;
   }
 `;

@@ -220,7 +220,14 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
   /**
    * Color alpha constants
    */
+  const alpha04 = "0a";
   const alpha80 = "cc";
+
+  /**
+   * Blacks
+   */
+  const black = "#000000";
+  const black04 = `${black}${alpha04}`;
 
   /*
    * Elevation constants
@@ -539,6 +546,17 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
           },
         ],
       },
+      MuiInputBase: {
+        styleOverrides: {
+          adornedStart: {
+            gap: 8,
+          },
+          root: {
+            ...textBody400,
+            height: 40,
+          },
+        },
+      },
       MuiLink: {
         defaultProps: {
           underline: "hover",
@@ -579,6 +597,46 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
             ...textBody400,
             minHeight: "unset",
             padding: "10px 16px",
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          input: {
+            color: inkLight,
+            height: 20,
+            padding: "10px 14px 10px 0",
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
+            "&:focus": {
+              color: ink,
+            },
+          },
+          notchedOutline: {
+            borderColor: smokeDark,
+          },
+          root: {
+            backgroundColor: white,
+            boxShadow: `inset 0 2px 0 0 ${black04}`,
+            paddingLeft: 12,
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
+            "& .MuiSvgIcon-root": {
+              color: inkLight, // Adornment e.g. "SearchIcon".
+            },
+            "&:hover": {
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: smokeDark,
+              },
+            },
+            // eslint-disable-next-line sort-keys -- disabling key order for specificity
+            "&.Mui-focused": {
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: ink,
+                borderWidth: 1,
+              },
+              "& .MuiSvgIcon-root": {
+                color: ink, // Adornment e.g. "SearchIcon".
+              },
+            },
           },
         },
       },
