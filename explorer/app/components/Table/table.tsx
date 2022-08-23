@@ -19,7 +19,6 @@ import React from "react";
 import { Pagination, Sort, SortOrderType } from "../../common/entities";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
 import { GridPaper, RoundedPaper } from "../common/Paper/paper.styles";
-import { Loading } from "../Loading/loading";
 import { Pagination as DXPagination } from "./components/Pagination/pagination";
 import { PaginationSummary } from "./components/PaginationSummary/paginationSummary";
 import { newColumnKey, newColumnOrder } from "./functions";
@@ -44,6 +43,7 @@ interface TableProps<T extends object> {
   pageSize: number;
   pagination?: Pagination;
   sort?: Sort;
+  staticallyLoaded?: boolean;
   total?: number;
 }
 
@@ -53,7 +53,6 @@ interface TableProps<T extends object> {
  * Uncontrolled table will take advantage of React Table's state and will be used for static loads.
  * @param tableProps - Set of props required for displaying the table.
  * @param tableProps.items - Row data to display.
- * @param tableProps.loading - Display table's loading state.
  * @param tableProps.columns - Set of columns to display.
  * @param tableProps.editColumns - True if edit column functionality is enabled for table.
  * @param tableProps.pageSize - Number of rows to display per page.
@@ -66,14 +65,13 @@ interface TableProps<T extends object> {
  * @param tableProps.disablePagination - Determine if the table shouldn't be paginated
  * @returns Configured table element for display.
  */
-export const Table = <T extends object>({
+export const TableComponent = <T extends object>({
   columns,
   count,
   disablePagination,
   editColumns,
   gridTemplateColumns,
   items,
-  loading,
   pages,
   pageSize,
   pagination,
@@ -146,7 +144,6 @@ export const Table = <T extends object>({
 
   return (
     <div>
-      <Loading loading={loading || false} />
       <RoundedPaper>
         <GridPaper>
           {editColumns && (
@@ -231,3 +228,38 @@ export const Table = <T extends object>({
     </div>
   );
 };
+
+/**
+ * comparison function used to determine if the component should skip the next render
+ * @param prevProps - current props used by the component
+ * @param nextProps - next props that the component will receive
+ * @returns boolean value
+ */
+const shouldSkipRender = <T extends object>(
+  prevProps: TableProps<T>,
+  nextProps: TableProps<T>
+): boolean => {
+  /**
+   * If the table's items aren't statically loaded, skip the next render when the component
+   * is loading
+   */
+  if (!nextProps.staticallyLoaded) {
+    return !!nextProps.loading;
+  }
+
+  /**
+   * If the table's items are statically loaded, check if both columns config and items
+   * have changed. If not, skip the next render
+   */
+  return (
+    (prevProps.columns !== nextProps.columns &&
+      prevProps.items === nextProps.items) ||
+    (prevProps.columns === nextProps.columns &&
+      prevProps.items !== nextProps.items)
+  );
+};
+
+export const Table = React.memo(
+  TableComponent,
+  shouldSkipRender
+) as typeof TableComponent;

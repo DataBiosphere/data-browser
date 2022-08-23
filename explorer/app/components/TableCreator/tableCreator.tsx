@@ -8,6 +8,7 @@ import { useEditColumns } from "app/hooks/useEditColumns";
 import React, { useMemo } from "react";
 import { Pagination, Sort } from "../../common/entities";
 import { ComponentCreator } from "../ComponentCreator/ComponentCreator";
+import { Loading } from "../Loading/loading";
 import { Table } from "../Table/table";
 
 interface TableCreatorProps<T> {
@@ -20,6 +21,7 @@ interface TableCreatorProps<T> {
   pageSize: number;
   pagination?: Pagination;
   sort?: Sort;
+  staticallyLoaded?: boolean;
   total?: number;
 }
 
@@ -72,6 +74,7 @@ export const TableCreator = <T extends object>({
   pageSize,
   pagination,
   sort,
+  staticallyLoaded,
   total,
 }: TableCreatorProps<T>): JSX.Element => {
   const { editColumns, visibleColumns } = useEditColumns(columns);
@@ -89,19 +92,23 @@ export const TableCreator = <T extends object>({
   );
 
   return (
-    <Table<T>
-      columns={reactVisibleColumns}
-      disablePagination={disablePagination}
-      editColumns={editColumns}
-      gridTemplateColumns={gridTemplateColumns}
-      items={items}
-      pages={pages}
-      pageSize={pageSize}
-      pagination={pagination}
-      sort={sort}
-      total={total}
-      count={pageCount}
-      loading={loading}
-    />
+    <div>
+      <Loading loading={loading || false} />
+      <Table<T>
+        columns={reactVisibleColumns}
+        disablePagination={disablePagination}
+        editColumns={editColumns}
+        gridTemplateColumns={gridTemplateColumns}
+        items={items}
+        pages={pages}
+        pageSize={pageSize}
+        pagination={pagination}
+        sort={sort}
+        total={total}
+        count={pageCount}
+        loading={loading}
+        staticallyLoaded={staticallyLoaded}
+      />
+    </div>
   );
 };
