@@ -3,8 +3,18 @@
  */
 import { LABEL } from "./entities";
 
+/**
+ * Type that is a union of all keys of T that have a type of string or null.
+ */
 type KeyOfTypeStringOrNull<T> = {
   [K in keyof T]: T[K] extends StringOrNull ? K : never;
+}[keyof T];
+
+/**
+ * Type that is a union of all keys of T that have a type of number or null.
+ */
+type KeyOfTypeNumberOrNull<T> = {
+  [K in keyof T]: T[K] extends NumberOrNull ? K : never;
 }[keyof T];
 
 /**
@@ -15,7 +25,12 @@ type KeyOfTypeStringOrNullArray<T> = {
 }[keyof T];
 
 /**
- * Type of possible values returned in a core value from Azul.
+ * Type of possible number values returned in a core value from Azul.
+ */
+type NumberOrNull = number | null;
+
+/**
+ * Type of possible string values returned in a core value from Azul.
  */
 type StringOrNull = string | null;
 
@@ -65,6 +80,31 @@ export function processEntityValue<T, K extends KeyOfTypeStringOrNull<T>>(
 
   // Sanitize.
   return value ?? label;
+}
+
+/**
+ * Process the number or null value for the given response value.
+ * @param responseValues - Singleton array containing values returned from the backend.
+ * @param key - The object key (of an array value containing null or null values) in each response value to aggregate.
+ * @param defaultValue - Value to display if value for given key is null. Defaults to 0.
+ * @returns Value in the response with the given key, converted to 0 if null.
+ */
+export function processNumberEntityValue<T, K extends KeyOfTypeNumberOrNull<T>>(
+  responseValues: T[],
+  key: K,
+  defaultValue = 0
+): number {
+  // Response values should be a singleton array; check for at least one value here.
+  if (responseValues.length === 0) {
+    return 0;
+  }
+
+  // Grab value from the singleton array for the given key.
+  const responseValue = responseValues[0];
+  const value = responseValue[key] as unknown as NumberOrNull; // TODO revisit type assertion here
+
+  // Sanitize.
+  return value ?? defaultValue;
 }
 
 /**

@@ -53,6 +53,17 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.Cell,
+          viewBuilder: ViewBuilder.buildFileSize,
+        } as ComponentConfig<typeof Components.Cell>,
+        header: "File Size",
+        sort: {
+          sortKey: "size",
+        },
+        width: { max: "1fr", min: "120px" },
+      },
+      {
+        componentConfig: {
+          component: Components.Cell,
           viewBuilder: ViewBuilder.buildFileType,
         } as ComponentConfig<typeof Components.Cell>,
         header: "File Type",

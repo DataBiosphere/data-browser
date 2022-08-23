@@ -6,10 +6,12 @@ import {
 } from "../../../../components/common/KeyValuePairs/keyValuePairs";
 import { MetadataValue } from "../../../../components/Index/common/entities";
 import { Description } from "../../../../components/Project/common/entities";
+import { humanFileSize } from "../../../../utils/fileSize";
 import { LABEL } from "../../common/entities";
 import {
   processAggregatedOrArrayValue,
   processEntityValue,
+  processNumberEntityValue,
 } from "../../common/utils";
 import {
   AggregatedBioSampleResponse,
@@ -209,6 +211,16 @@ export function getFileId(response: FileEntityResponse): string {
  */
 export function getFileFormat(response: FileEntityResponse): string {
   return processEntityValue(response.files, "file_format");
+}
+
+/**
+ * Maps file size from the core file value returned from the /index/files API response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns Formatted file size.
+ */
+export function getFileSize(response: FileEntityResponse): string {
+  const fileSize = processNumberEntityValue(response.files, "size");
+  return humanFileSize(fileSize);
 }
 
 /**
