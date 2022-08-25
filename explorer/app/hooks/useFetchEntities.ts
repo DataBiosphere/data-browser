@@ -59,7 +59,7 @@ export const useFetchEntities = (
 
   // Generalize the filters returned from Azul.
   const categories = useMemo(() => {
-    if (staticLoad || !data) {
+    if (staticLoad || !data || !data.termFacets) {
       return [];
     }
     return transformTermFacets(data.termFacets);

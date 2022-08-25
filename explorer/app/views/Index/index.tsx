@@ -109,7 +109,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
       return <></>; //TODO: return the loading UI component
     }
 
-    if (entitiesResponse.hits.length === 0) {
+    if (!entitiesResponse.hits || entitiesResponse.hits.length === 0) {
       return (
         <NoResults
           // actions={
