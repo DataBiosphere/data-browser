@@ -11,18 +11,22 @@ interface Props {
   panelStyle: PaperPanelStyle;
 }
 
-export const LoadingBackground = styled(Paper)<Props>`
-  background-color: rgba(255, 255, 255, 0.8);
+export const LoadingPositioner = styled.div`
   display: grid;
-  gap: 16px;
   height: 100%;
-  justify-items: center;
   left: 0;
-  place-content: center center;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: 10;
+`;
+
+export const LoadingPaper = styled(Paper)<Props>`
+  background-color: rgba(255, 255, 255, 0.8);
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  place-content: center center;
 
   // Style "Flat" paper.
   ${({ panelStyle }) =>
