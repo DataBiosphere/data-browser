@@ -329,10 +329,6 @@
             {
                 "name": "CELL_BROWSER",
                 "url": "https://human-fovea-periphery.cells.ucsc.edu"
-            },
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/collections/7edef704-f63a-462c-8636-4bc86a9472bd"
             }
         ]
     },
