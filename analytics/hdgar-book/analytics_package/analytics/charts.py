@@ -28,6 +28,7 @@ collapse_index (supplanted in format_change_over_time_table, show_plot_over_time
 hide_index (supplanted in show_difference_table - determined by data shape)
 hide_columns (supplanted in show_difference_table - determined by data shape)
 split_vertical
+pre_render_processor
 
 Percent change tables:
 include_plus
@@ -131,6 +132,9 @@ def percent_change(valfrom, valto):
 def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_index=False, hide_index=False, hide_columns=False, split_vertical=None, pre_render_processor=None, **other_params):
 	if not isinstance(column_defs, dict):
 		column_defs = {None: column_defs}
+	
+	if not pre_render_processor is None:
+		df, column_defs = pre_render_processor(df, column_defs)
 	
 	header_text = 'grid-template-columns: '
 	
