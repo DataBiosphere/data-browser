@@ -308,7 +308,12 @@ def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix=
 			df.drop(columns=dimensions[num_keep_dimensions:], inplace=True);
 		df.set_index(dimensions[:num_keep_dimensions], inplace=True)
 	for metric in metrics:
-		df[metric] = df[metric].astype(str).astype(int)
+		str_column = df[metric].astype(str)
+		try:
+			num_column = str_column.astype(int)
+		except ValueError:
+			num_column = str_column.astype(float)
+		df[metric] = num_column
 	
 	if percentage_metrics:
 		for metric in percentage_metrics:
