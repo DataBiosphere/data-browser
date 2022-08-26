@@ -23,6 +23,10 @@
             {
                 "name": "CELL_BROWSER",
                 "url": "https://tissue-stability.cells.ucsc.edu"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/4d74781b-8186-4c9a-b659-ff4dc4601d91"
             }
         ],
         "contributors": [
@@ -133,6 +137,10 @@
             {
                 "name": "GENOME_BROWSER",
                 "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?db=hg38&g=kidneyStewart&position=default"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/120e86b4-1195-48c5-845b-b98054105eec"
             }
         ]
     },
@@ -662,6 +670,23 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/83ed3be8-4cb9-43e6-9aaa-3fbbf5d1bd3a"
+            }
+        ]
+    },
+    {
+        "entryId": "c0518445-3b3b-49c6-b8fc-c41daa4eacba",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/d/cellular_census_of_human_lungs_alveoli_and_parenchyma-15.cxg/"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/d/cellular_census_of_human_lungs_bronchi-17.cxg/"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/d/cellular_census_of_human_lungs_nasal-16.cxg/"
             }
         ]
     }
