@@ -383,10 +383,10 @@ def show_plot(df, title, fontsize=16, **other_params):
 	fig.suptitle(title, fontsize=fontsize)
 	plt.show()
 
-def show_plot_over_time(titles, xlabels, metrics, format_table=True, df_filter=None, **other_params):
+def show_plot_over_time(titles, xlabels, metrics, dimensions="ga:date", format_table=True, df_filter=None, **other_params):
 	titles, xlabels, metrics = strings_to_lists(titles, xlabels, metrics)
 	
-	df = get_data_df(metrics, "ga:date", **other_params)
+	df = get_data_df(metrics, dimensions, **other_params)
 	
 	# Convert date to datetime object
 	df.index = pd.to_datetime(df.index)
