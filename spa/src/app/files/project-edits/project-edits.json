@@ -685,5 +685,22 @@
                 "url": "https://cellxgene.cziscience.com/d/cellular_census_of_human_lungs_nasal-16.cxg/"
             }
         ]
+    },
+    {
+        "entryId": "10201832-7c73-4033-9b65-3ef13d81656a",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://tabula-sapiens.cells.ucsc.edu/"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/e5f58829-1a66-40b5-a624-9046778e74f5"
+            },
+            {
+                "name": "GENOME_BROWSER",
+                "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?hgsid=1437536541_FfasmBrAlAiA7oFphu1csVv0KHgc&db=hg38&c=chrX&g=tabulaSapiens"
+            }
+        ]
     }
 ]
