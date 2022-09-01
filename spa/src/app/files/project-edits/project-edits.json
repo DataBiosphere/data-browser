@@ -513,7 +513,7 @@
             },
             {
                 "name": "LUNGMAP_APPS",
-                "url": "https://lungmap.net/breath-omics-experiment-page/?experimentTypeId=LMXT0000000016&experimentId=LMEX0000004391&analysisId=LMAN0000000348&view=entitySet"
+                "url": "https://lungmap.net/breath-omics-experiment-page/?experiment_id=LMEX0000004391"
             },
             {
                 "name": "SHINY",
@@ -534,7 +534,7 @@
             },
             {
                 "name": "LUNGMAP_APPS",
-                "url": "https://lungmap.net/breath-omics-experiment-page/?experimentTypeId=LMXT0000000016&experimentId=LMEX0000004394&analysisId=LMAN0000000351&view=entitySet"
+                "url": "https://lungmap.net/breath-omics-experiment-page/?experiment_id=LMEX0000004394"
             },
             {
                 "name": "SHINY",
@@ -555,7 +555,7 @@
             },
             {
                 "name": "LUNGMAP_APPS",
-                "url": "https://lungmap.net/breath-omics-experiment-page/?experimentTypeId=LMXT0000000016&experimentId=LMEX0000001222&analysisId=LMAN0000000218&view=entitySet"
+                "url": "https://lungmap.net/breath-omics-experiment-page/?experiment_id=LMEX0000001222"
             }
         ]
     },
@@ -572,7 +572,7 @@
             },
             {
                 "name": "LUNGMAP_APPS",
-                "url": "https://lungmap.net/breath-omics-experiment-page/?experimentTypeId=LMXT0000000016&experimentId=LMEX0000004388&analysisId=LMAN0000000344&view=entitySet"
+                "url": "https://lungmap.net/breath-omics-experiment-page/?experiment_id=LMEX0000004388"
             },
             {
                 "name": "SHINY",
