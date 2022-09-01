@@ -702,5 +702,53 @@
                 "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?hgsid=1437536541_FfasmBrAlAiA7oFphu1csVv0KHgc&db=hg38&c=chrX&g=tabulaSapiens"
             }
         ]
+    },
+    {
+        "entryId": "e526d91d-cf3a-44cb-80c5-fd7676b55a1d",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://airway-cf.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "51f02950-ee25-4f4b-8d07-59aa99bb3498",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/c353707f-09a4-4f12-92a0-cb741e57e5f0"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://aging-human-skin.cells.ucsc.edu"
+            },
+            {
+                "name": "GENOME_BROWSER",
+                "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?db=hg38&g=skinSoleBoldo&position=default"
+            }
+        ]
+    },
+    {
+        "entryId": "c715cd2f-dc7c-44a6-9cd5-b6a6d9f075ae",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://colorectal-cancer.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "b963bd4b-4bc1-4404-8425-69d74bc636b8",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://www.covid19cellatlas.org/haniffa21/"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://covid19-pbmc.cells.ucsc.edu"
+            }
+        ]
     }
 ]
