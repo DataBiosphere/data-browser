@@ -23,7 +23,8 @@
     "prepare": "cd .. && husky install explorer/.husky",
     "storybook": "start-storybook -s images,.next  -p 6006",
     "build-storybook": "build-storybook",
-    "test": "jest --watch"
+    "test": "jest --watch ./__tests__/*",
+    "test:e2e": "playwright test ./e2e/*"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -47,6 +48,7 @@
   "devDependencies": {
     "@babel/core": "^7.17.10",
     "@next/eslint-plugin-next": "^12.1.6",
+    "@playwright/test": "^1.25.1",
     "@storybook/addon-actions": "^6.4.22",
     "@storybook/addon-essentials": "^6.4.22",
     "@storybook/addon-interactions": "^6.4.22",
