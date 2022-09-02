@@ -50,7 +50,7 @@ export const useFetchEntities = (
   staticResponse: AzulEntitiesStaticResponse | null
 ): EntitiesResponse => {
   // Determine type of fetch to be executed, either API endpoint or TSV.
-  const { list, path, staticLoad } = useFetcher();
+  const { list, options, path, staticLoad } = useFetcher();
 
   // Init fetch of entities.
   const { data, isIdle, isLoading, run } = useAsync<AzulEntitiesResponse>();
@@ -93,9 +93,9 @@ export const useFetchEntities = (
       }
 
       // Execute the fetch.
-      run(list(path, listParams));
+      run(list(path, listParams, options));
     }
-  }, [filterState, list, path, run, sortKey, sortOrder, staticLoad]);
+  }, [filterState, list, options, path, run, sortKey, sortOrder, staticLoad]);
 
   const handleFilterChange = useCallback(
     (

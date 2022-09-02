@@ -31,6 +31,7 @@ export interface EntityConfig<D = any> extends TabConfig {
   detail: BackPageConfig;
   getId?: GetIdFunction<D>;
   list: ListConfig;
+  options?: Options;
   staticLoad?: boolean;
   tsv?: {
     path: string;
@@ -169,4 +170,10 @@ export interface SiteConfig {
   redirectRootToPath?: string;
   summaryConfig?: SummaryConfig;
   theme?: ThemeOptions;
+}
+
+export type ApiOption = "GET" | "POST";
+
+export interface Options {
+  method: ApiOption;
 }
