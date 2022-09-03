@@ -23,8 +23,8 @@
     "prepare": "cd .. && husky install explorer/.husky",
     "storybook": "start-storybook -s images,.next  -p 6006",
     "build-storybook": "build-storybook",
-    "test": "jest --watch ./__tests__/*",
-    "test:e2e": "playwright test ./e2e/*"
+    "test": "jest --watch",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
