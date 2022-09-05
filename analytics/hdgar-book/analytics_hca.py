@@ -25,7 +25,7 @@ def format_export_url_info(type, secondary_type, filter):
 		if facet["facetName"] == "projectId":
 			result += "\nProject: " + ", ".join(['<a href="https://data.humancellatlas.org/explore/projects/' + id + '">' + get_project_name(id) + '</a>' for id in facet["terms"]])
 		else:
-			result += escape_html("\n" + facet["facetName"] + ": " + ", ".join(facet["terms"]))
+			result += escape_html("\n" + facet["facetName"] + ": " + ", ".join([term if isinstance(term, str) else json.dumps(term) for term in facet["terms"]]))
 	return (result, True)
 
 def adjust_table_index_key(val):
