@@ -219,12 +219,12 @@ const config: SiteConfig = {
       "text-body-large-500": {
         fontFamily: FONT_FAMILY_DIN,
         fontSize: 18,
-        fontWeight: 600,
+        fontWeight: 400,
       },
       "text-heading": {
         fontFamily: FONT_FAMILY_DIN,
         fontSize: 22,
-        fontWeight: 600,
+        fontWeight: 400,
         letterSpacing: "normal",
         [`@media (min-width: ${breakpointTablet}px)`]: {
           fontSize: 26,
@@ -234,7 +234,7 @@ const config: SiteConfig = {
       "text-heading-large": {
         fontFamily: FONT_FAMILY_DIN,
         fontSize: 26,
-        fontWeight: 600,
+        fontWeight: 400,
         letterSpacing: "normal",
         lineHeight: "34px",
         [`@media (min-width: ${breakpointTablet}px)`]: {
@@ -245,7 +245,7 @@ const config: SiteConfig = {
       "text-heading-small": {
         fontFamily: FONT_FAMILY_DIN,
         fontSize: 20,
-        fontWeight: 600,
+        fontWeight: 400,
         letterSpacing: "normal",
         [`@media (min-width: ${breakpointTablet}px)`]: {
           fontSize: 22,
@@ -255,7 +255,7 @@ const config: SiteConfig = {
       "text-heading-xlarge": {
         fontFamily: FONT_FAMILY_DIN,
         fontSize: 32,
-        fontWeight: 600,
+        fontWeight: 400,
         letterSpacing: "normal",
         [`@media (min-width: ${breakpointTablet}px)`]: {
           fontSize: 42,
