@@ -47,9 +47,27 @@ $hca-primary: var(--color-primary);
 $hca-primary-hover: #0363ae;
 $hca-white: #ffffff;
 
+/**
+ * Colors
+ */
+$ink-light: #637381;
+$ink-main: #212B36;
+$primary-dark: #005EA9;
+$smoke-dark: #C4CDD5;
+$smoke-light: #F6F6F7;
+$smoke-main: #E1E3E5;
+
+/**
+ * Blacks
+ */
 $black-3: rgba(0, 0, 0, 0.03);
 $black-6: rgba(0, 0, 0, 0.06);
 $black-38: rgba(0, 0, 0, 0.38);
+
+/**
+ * Elevation
+ */
+$elevation-0: 0 1px 4px 0 #00000012;
 
 /**
  * Material Design media break points

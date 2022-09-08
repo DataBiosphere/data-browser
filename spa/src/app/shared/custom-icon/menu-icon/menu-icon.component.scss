@@ -1,0 +1,17 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for displaying custom icon button.
+ */
+
+:host {
+    display: contents;
+}
+
+:host-context(hamburger) {
+    svg {
+        height: 24px;
+        width: 24px;
+    }
+}

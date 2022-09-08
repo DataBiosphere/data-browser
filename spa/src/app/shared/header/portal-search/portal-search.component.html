@@ -1,0 +1,19 @@
+<form [formGroup]="portalSearchGroup" class="portal-search"
+      (ngSubmit)="onSearchPortal(portalSearch.value)">
+    <search-icon></search-icon>
+    <div class="search-input">
+        <input #search
+               autocomplete="off"
+               class="text-body-500"
+               [formControl]="portalSearch"
+               matInput
+               placeholder="Type in keywords..."
+               spellCheck="false"
+               type="text">
+        <button class="clear" (click)="onClearPortalSearch()" type="button">
+            <close-icon></close-icon>
+        </button>
+    </div>
+    <button class="apply text-body-500" type="submit">Search</button>
+</form>
+<div class="search-overlay" (click)="onClosePortalSearch()"></div>

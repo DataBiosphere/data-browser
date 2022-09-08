@@ -1,0 +1,34 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Styles for displaying social icon button.
+ */
+
+@import "../../../site/theme/hca.vars";
+
+.icon-button {
+    align-items: center;
+    background-color: $hca-white;
+    border: none;
+    border-radius: 4px;
+    color: $ink-light;
+    display: flex;
+    justify-content: center;
+    padding: 14px;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+    &:hover {
+        background-color: $smoke-light;
+    }
+}
+
+/**
+ * Medium Window +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1440px) {
+    .icon-button {
+        padding: 6px;
+    }
+}

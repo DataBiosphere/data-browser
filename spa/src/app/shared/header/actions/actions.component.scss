@@ -1,0 +1,27 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Header toolbar actions styles.
+ */
+
+@import "../../../site/theme/hca.vars";
+
+:host {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+/**
+ * Medium Window +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1440px) {
+    :host {
+        flex: none;
+        gap: 8px;
+    }
+}

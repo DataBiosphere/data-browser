@@ -34,19 +34,7 @@
         }
     }
 
-    /** Set minimum height on header - required for Safari bug where header height is not calculated correctly */
     header {
-        display: block;
-        min-height: 60px; // 60px toolbar
-
-        // Specific position for mobile devices in portrait mode.
-        @media (max-width: $md-sm-min) and (orientation: portrait) {
-            min-height: 60px; // 60px toolbar
-        }
-
-        // Specific position for mobile devices in landscape mode.
-        @media (max-width: $md-md-min) and (orientation: landscape) {
-            min-height: 60px; // 60px toolbar
-        }
+        border-bottom: 1px solid $smoke-main;
     }
 }

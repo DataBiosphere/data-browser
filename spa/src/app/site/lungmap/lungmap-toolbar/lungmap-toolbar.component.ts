@@ -7,9 +7,10 @@
 
 // Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { BreakpointObserver } from "@angular/cdk/layout";
 import { NavigationEnd, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, takeUntil } from "rxjs/operators";
 
 // App dependencies
@@ -17,6 +18,7 @@ import { ConfigService } from "../../../config/config.service";
 import { SelectEntityAction } from "../../../files/_ngrx/entity/select-entity.action";
 import { EntityName } from "../../../files/shared/entity-name.model";
 import { CloseHamburgerAction } from "../../../hamburger/_ngrx/close-hamburger.action";
+import { selectHamburgerOpen } from "../../../hamburger/_ngrx/hamburger.selectors";
 import { LungMAPToolbarComponentState } from "./lungmap-toolbar.component.state";
 import { selectModalOpen } from "../../../modal/_ngrx/modal.selectors";
 import { AppState } from "../../../_ngrx/app.state";
@@ -33,9 +35,11 @@ export class LungMAPToolbarComponent
     implements HeaderComponent, OnDestroy, OnInit
 {
     // Template variables
-    public dropDownMenuOpen = false;
+    public desktop: boolean;
     public portalUrl: string;
+    public searchOpen = false;
     public state$ = new BehaviorSubject<LungMAPToolbarComponentState>({
+        menuOpen: false,
         modalOpen: false,
     });
 
@@ -46,6 +50,7 @@ export class LungMAPToolbarComponent
     /**
      * @param {Store<AppState>} store
      * @param {ConfigService} configService
+     * @param {BreakpointObserver} observer
      * @param {RoutingService} routingService
      * @param {UrlService} urlService
      * @param {Router} router
@@ -53,6 +58,7 @@ export class LungMAPToolbarComponent
     constructor(
         private store: Store<AppState>,
         private configService: ConfigService,
+        private observer: BreakpointObserver,
         private routingService: RoutingService,
         private urlService: UrlService,
         private router: Router
@@ -75,12 +81,13 @@ export class LungMAPToolbarComponent
     }
 
     /**
-     * Event registering the opening or closing of the toolbar nav drop down menu.
+     * Returns true if the toolbar navigation is displayable.
      *
-     * @param event
+     * @param {boolean} menuOpen
+     * @returns {boolean}
      */
-    public onDropDownMenuOpened(event) {
-        this.dropDownMenuOpen = event;
+    public isToolbarNavOpen(menuOpen: boolean): boolean {
+        return this.desktop || menuOpen;
     }
 
     /**
@@ -97,13 +104,30 @@ export class LungMAPToolbarComponent
     }
 
     /**
-     * Toggles open / closed the toolbar nav drop down menu.
-     *
-     * @param {MouseEvent} event
+     * Closes portal search.
      */
-    public toggleDropDownMenu(event: MouseEvent) {
-        event.stopPropagation();
-        this.dropDownMenuOpen = !this.dropDownMenuOpen;
+    public onSearchClose() {
+        this.searchOpen = false;
+    }
+
+    /**
+     * Opens portal search.
+     */
+    public onSearchOpen() {
+        this.searchOpen = true;
+    }
+
+    /**
+     * Listens for the desktop breakpoint.
+     */
+    private initBreakpointObserver() {
+        this.observer.observe("(min-width: 1440px)").subscribe((result) => {
+            this.desktop = result.matches;
+            // Closes menu when desktop breakpoint matches.
+            if (this.desktop) {
+                this.store.dispatch(new CloseHamburgerAction());
+            }
+        });
     }
 
     /**
@@ -135,10 +159,23 @@ export class LungMAPToolbarComponent
         // Sets up the current url
         this.initCurrentUrl();
 
-        this.store
-            .pipe(select(selectModalOpen), takeUntil(this.ngDestroy$))
-            .subscribe((modalOpen) => {
-                this.state$.next({ modalOpen });
+        // Sets up breakpoint observer
+        this.initBreakpointObserver();
+
+        const menuOpen$ = this.store.pipe(
+            select(selectHamburgerOpen),
+            takeUntil(this.ngDestroy$)
+        );
+
+        const modalOpen$ = this.store.pipe(
+            select(selectModalOpen),
+            takeUntil(this.ngDestroy$)
+        );
+
+        combineLatest([menuOpen$, modalOpen$])
+            .pipe(takeUntil(this.ngDestroy$))
+            .subscribe(([menuOpen, modalOpen]) => {
+                this.state$.next({ menuOpen, modalOpen });
             });
     }
 }

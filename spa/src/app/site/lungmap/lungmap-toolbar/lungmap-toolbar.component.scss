@@ -11,160 +11,51 @@
  * Custom HCA-specific overrides of MD toolbar.
  */
 
-:host {
-    display: block;
-}
-
-:host-context(.hamburger-open) {
-    mat-toolbar mat-toolbar-row.nav-bar {
-        display: flex; /* Show nav bar */
-    }
-}
-
-@mixin toolbar-link() {
-    color: $hca-black;
-    cursor: pointer; /* Required for "Explore" link. */
-    text-decoration: none;
-    text-transform: capitalize;
-
-    &.active,
-    &:hover {
-        color: $hca-secondary;
-    }
-
-    /* Title */
-    .fontsize-xs {
-        display: block;
-        font-size: 13px;
-        font-weight: 600;
-        line-height: 20px;
-        margin: 0 0 4px;
-    }
-
-    /* Sub title - hide */
-    .fontsize-xxs {
-        display: block;
-        letter-spacing: 1.2px;
-        line-height: 18px;
-        margin: 0;
-        text-transform: none;
-        white-space: pre-wrap;
-    }
-}
-
 mat-toolbar {
-    background-color: $hca-primary;
-    min-height: 60px !important; /* HCA specific */
-    position: relative; /* Positions overlay, nav-toolbar */
-
-    mat-toolbar-row {
-        padding: 0 16px; /* Gutter 16px */
-
-        /* First toolbar row - hero bar */
-        &.hero-bar {
-            height: 60px; /* HCA specific */
-            justify-content: space-between; /* Toolbar tools */
-
-            /* Wrapper around logo */
-            > a {
-                line-height: 0;
-            }
-        }
-
-        &.nav-bar {
-            display: none; /* Default, hide nav bar */
-        }
-    }
+    align-items: center;
+    background-color: $hca-white;
+    box-shadow: $elevation-0;
+    color: $ink-main;
+    gap: 0 16px;
+    height: 56px;
+    padding: 0 12px;
+    position: relative; /* Positions search. */
 
     /* Logo */
-    img {
-        height: 30px;
-    }
+    .logo {
+        line-height: 0;
 
-    /* Hamburger */
-    hamburger {
-        color: $hca-white;
-
-        .fontsize-s {
-            margin-bottom: 0;
-        }
-    }
-
-    /* Nav item */
-    toolbar-nav-item {
-        .link {
-            @include toolbar-link;
-            display: block;
-            margin: 0 24px;
-        }
-    }
-}
-
-/**
- * Large Tablet +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
- */
-@media screen and (min-width: 840px) {
-    @mixin toolbar-link() {
-        color: $hca-white;
-        opacity: 0.8;
-
-        &.active,
-        &:hover {
-            color: $hca-white;
-            opacity: 1;
-        }
-
-        /* Title */
-        .fontsize-xs {
-            font-size: 14px;
-            line-height: 44px;
-            margin: 0;
-        }
-
-        /* Sub title - hide */
-        .fontsize-xxs {
-            display: none;
-        }
-    }
-
-    mat-toolbar {
-        /* Second toolbar row - nav bar */
-        mat-toolbar-row.nav-bar {
-            display: flex; /* Always show nav bar */
-            height: 44px;
-            justify-content: center;
-        }
-
-        /* Link wrapper */
-        toolbar-nav-item {
-            .link {
-                @include toolbar-link();
-                margin: 0;
-            }
-        }
-    }
-}
-
-/**
- * Medium +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
- */
-@media screen and (min-width: 1024px) {
-    mat-toolbar {
         img {
-            height: 40px;
+            height: 32px;
+        }
+    }
+
+    /* Nav link */
+    nav-link a {
+        color: $ink-main;
+        font-weight: 500;
+    }
+
+    /** Modal - metadata, matrices download */
+    &.modal-open {
+        box-shadow: none;
+        position: fixed;
+        top: 0;
+        z-index: 1001;
+
+        toolbar-nav,
+        toolbar-actions {
+            display: none; /* Hide toolbar tools and nav bar */
         }
     }
 }
 
 /**
- * Large
+ * Medium Window +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
-@media (min-width: 1200px) {
+@media screen and (min-width: 1440px) {
     mat-toolbar {
-        mat-toolbar-row {
-            padding: 0 30px; /* Gutter 30px */
-        }
+        padding: 0 16px;
     }
 }
