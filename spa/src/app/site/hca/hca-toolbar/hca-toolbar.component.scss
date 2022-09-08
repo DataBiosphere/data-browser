@@ -37,6 +37,22 @@ mat-toolbar {
         font-weight: 500;
     }
 
+    /* Catalog update */
+    nav-link a.catalog-update-chip {
+        display: flex;
+        gap: 0 4px;
+
+        &:after {
+            align-self: center;
+            background-color: $hca-orange;
+            border-radius: 50%;
+            content: "";
+            display: block;
+            height: 8px;
+            width: 8px;
+        }
+    }
+
     /* Modal - metadata, matrices download */
     &.modal-open {
         box-shadow: none;
