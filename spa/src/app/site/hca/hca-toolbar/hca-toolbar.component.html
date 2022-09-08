@@ -49,27 +49,13 @@
     <toolbar-actions>
         <search-button (click)="onSearchOpen()"></search-button>
         <ng-container *ngIf="isAuthEnabled()">
-            <div [ngSwitch]="state.authenticated">
-                <div class="auth-authenticated" *ngSwitchCase="true">
-                    <button class="auth-menu-button" [matMenuTriggerFor]="menuAuth"
-                            aria-label="Authentication menu">
-                        <ng-container [ngSwitch]="isProfileImageSpecified(state.user)">
-                            <img class="auth-image auth-image-hover" *ngSwitchCase="true"
-                                 [src]="getProfileImageUrl(state.user)">
-                            <div class="auth-image-placeholder auth-image-hover"
-                                 *ngSwitchDefault>{{getNameStartsWith(state.user)}}</div>
-                        </ng-container>
-                    </button>
-                    <mat-menu #menuAuth="matMenu">
-                        <div class="auth-menu-item-profile">
-                            You are signed in as: <strong class="auth-username">{{getFullName(state.user)}}</strong>
-                        </div>
-                        <mat-divider></mat-divider>
-                        <button mat-menu-item (click)="onLogoutClicked()">Logout</button>
-                    </mat-menu>
-                </div>
+            <ng-container [ngSwitch]="state.authenticated">
+                <button class="auth-authenticated" (click)="onLogoutClicked()" *ngSwitchCase="true">
+                    <img class="auth-image" *ngIf="isProfileImageSpecified(state.user)"
+                         [src]="getProfileImageUrl(state.user)"/>
+                </button>
                 <profile-button *ngSwitchDefault (click)="onLoginClicked()"></profile-button>
-            </div>
+            </ng-container>
         </ng-container>
         <hamburger [ngSwitch]="state.menuOpen">
             <close-icon *ngSwitchCase="true"></close-icon>
@@ -78,3 +64,4 @@
     </toolbar-actions>
 </mat-toolbar>
 <portal-search *ngIf="searchOpen" [searchOpen]="searchOpen" (searchClosed)="onSearchClose()"></portal-search>
+<!--*ngSwitchDefault-->
