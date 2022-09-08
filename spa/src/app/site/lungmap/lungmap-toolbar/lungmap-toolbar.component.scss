@@ -16,6 +16,7 @@ mat-toolbar {
     background-color: $hca-white;
     box-shadow: $elevation-0;
     color: $ink-main;
+    display: flex;
     gap: 0 16px;
     height: 56px;
     padding: 0 12px;
