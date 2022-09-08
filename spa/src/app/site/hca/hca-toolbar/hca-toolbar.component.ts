@@ -7,6 +7,7 @@
 
 // Core dependencies
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { BreakpointObserver } from "@angular/cdk/layout";
 import { NavigationEnd, Router } from "@angular/router";
 import GoogleUser = gapi.auth2.GoogleUser;
 import { select, Store } from "@ngrx/store";
@@ -25,6 +26,7 @@ import { SelectEntityAction } from "../../../files/_ngrx/entity/select-entity.ac
 import { EntityName } from "../../../files/shared/entity-name.model";
 import { UrlService } from "../../../files/url/url.service";
 import { CloseHamburgerAction } from "../../../hamburger/_ngrx/close-hamburger.action";
+import { selectHamburgerOpen } from "../../../hamburger/_ngrx/hamburger.selectors";
 import { HCAToolbarComponentState } from "./hca-toolbar.component.state";
 import { selectModalOpen } from "../../../modal/_ngrx/modal.selectors";
 import { AppState } from "../../../_ngrx/app.state";
@@ -39,11 +41,13 @@ import { selectCatalogUpdatedSinceLastVisit } from "../../../files/_ngrx/catalog
 })
 export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
     // Template variables
-    public dropDownMenuOpen = false;
+    public desktop: boolean;
     public portalUrl: string;
+    public searchOpen = false;
     public state$ = new BehaviorSubject<HCAToolbarComponentState>({
         authenticated: false,
         catalogUpdatedSinceLastVisit: false,
+        menuOpen: false,
         modalOpen: false,
     });
 
@@ -54,6 +58,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
     /**
      * @param {Store<AppState>} store
      * @param {ConfigService} configService
+     * @param {BreakpointObserver} observer
      * @param {RoutingService} routingService
      * @param {UrlService} urlService
      * @param {Router} router
@@ -61,6 +66,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
     constructor(
         private store: Store<AppState>,
         private configService: ConfigService,
+        private observer: BreakpointObserver,
         private routingService: RoutingService,
         private urlService: UrlService,
         private router: Router
@@ -129,12 +135,13 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
     }
 
     /**
-     * Event registering the opening or closing of the toolbar nav drop down menu.
+     * Returns true if the toolbar navigation is displayable.
      *
-     * @param event
+     * @param {boolean} menuOpen
+     * @returns {boolean}
      */
-    public onDropDownMenuOpened(event) {
-        this.dropDownMenuOpen = event;
+    public isToolbarNavOpen(menuOpen: boolean): boolean {
+        return this.desktop || menuOpen;
     }
 
     /**
@@ -165,13 +172,30 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
     }
 
     /**
-     * Toggles open / closed the toolbar nav drop down menu.
-     *
-     * @param {MouseEvent} event
+     * Closes portal search.
      */
-    public toggleDropDownMenu(event: MouseEvent) {
-        event.stopPropagation();
-        this.dropDownMenuOpen = !this.dropDownMenuOpen;
+    public onSearchClose() {
+        this.searchOpen = false;
+    }
+
+    /**
+     * Opens portal search.
+     */
+    public onSearchOpen() {
+        this.searchOpen = true;
+    }
+
+    /**
+     * Listens for the desktop breakpoint.
+     */
+    private initBreakpointObserver() {
+        this.observer.observe("(min-width: 1440px)").subscribe((result) => {
+            this.desktop = result.matches;
+            // Closes menu when desktop breakpoint matches.
+            if (this.desktop) {
+                this.store.dispatch(new CloseHamburgerAction());
+            }
+        });
     }
 
     /**
@@ -203,6 +227,14 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
         // Sets up the current url
         this.initCurrentUrl();
 
+        // Sets up breakpoint observer
+        this.initBreakpointObserver();
+
+        const menuOpen$ = this.store.pipe(
+            select(selectHamburgerOpen),
+            takeUntil(this.ngDestroy$)
+        );
+
         const modalOpen$ = this.store.pipe(
             select(selectModalOpen),
             takeUntil(this.ngDestroy$)
@@ -226,6 +258,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
         combineLatest([
             authenticated$,
             catalogUpdatedSinceLastVisit$,
+            menuOpen$,
             modalOpen$,
             user$,
         ])
@@ -234,12 +267,14 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
                 ([
                     authenticated,
                     catalogUpdatedSinceLastVisit,
+                    menuOpen,
                     modalOpen,
                     user,
                 ]) => {
                     this.state$.next({
                         authenticated,
                         catalogUpdatedSinceLastVisit,
+                        menuOpen,
                         modalOpen,
                         user,
                     });

@@ -6,5 +6,6 @@
  */
 
 export interface LungMAPToolbarComponentState {
+    menuOpen: boolean;
     modalOpen: boolean;
 }

@@ -1,41 +1,35 @@
 <mat-toolbar *ngIf="state$ | async as state" [ngClass]="{'modal-open': state.modalOpen}">
-    <mat-toolbar-row class="hero-bar">
-        <a href="https://lungmap.net/" *ngIf="!state.modalOpen">
-            <img src="assets/lungmap/images/logos/logo-lungmap.png"/>
-        </a>
-        <a [routerLink]="['/projects']" queryParamsHandling="preserve" *ngIf="state.modalOpen">
-            <img src="assets/lungmap/images/logos/logo-lungmap.png"/>
-        </a>
-        <toolbar-tools>
-            <toolbar-portal-search></toolbar-portal-search>
-            <toolbar-socials>
-                <toolbar-social [imgSrc]="'assets/images/socials/logo-twitter-white.png'" [name]="'Twitter'"
-                                [url]="'https://twitter.com/lungmapnet'"></toolbar-social>
-            </toolbar-socials>
-            <hamburger><span class="fontsize-s semi-bold">Menu</span></hamburger>
-        </toolbar-tools>
-    </mat-toolbar-row>
-    <mat-toolbar-row class="nav-bar">
-        <toolbar-nav>
-            <toolbar-nav-item>
-                <a class="link" [ngClass]="{'active': isExploreActiveUrl()}" [routerLink]="['/projects']"
-                   queryParamsHandling="preserve" (click)="onExploreLinkClicked()">
-                    <span class="fontsize-xs">Explore</span>
-                    <span class="fontsize-xxs">Search for data in the HCA</span>
-                </a>
-            </toolbar-nav-item>
-            <toolbar-nav-item>
-                <a class="link" href="{{portalUrl}}/metadata">
-                    <span class="fontsize-xs">Metadata</span>
-                    <span class="fontsize-xxs">Fields used to describe datasets in the Human Cell Atlas</span>
-                </a>
-            </toolbar-nav-item>
-            <toolbar-nav-item>
-                <a class="link" href="{{portalUrl}}/apis">
-                    <span class="fontsize-xs">APIs</span>
-                    <span class="fontsize-xxs">APIs</span>
-                </a>
-            </toolbar-nav-item>
-        </toolbar-nav>
-    </mat-toolbar-row>
+    <a class="logo" href="https://lungmap.net/" *ngIf="!state.modalOpen">
+        <img src="assets/lungmap/images/logos/logo-lungmap.png"/>
+    </a>
+    <a class="logo" [routerLink]="['/projects']" queryParamsHandling="preserve" *ngIf="state.modalOpen">
+        <img src="assets/lungmap/images/logos/logo-lungmap.png"/>
+    </a>
+    <toolbar-nav *ngIf="isToolbarNavOpen(state.menuOpen)">
+        <nav-links>
+            <nav-link class="text-body-500">
+                <a [routerLink]="['/projects']" queryParamsHandling="preserve"
+                   (click)="onExploreLinkClicked()">Explore</a>
+            </nav-link>
+            <nav-link class="text-body-500">
+                <a href="{{portalUrl}}/metadata">Metadata</a>
+            </nav-link>
+            <nav-link class="text-body-500">
+                <a href="{{portalUrl}}/apis">APIs</a>
+            </nav-link>
+        </nav-links>
+        <socials>
+            <social-icon-button [url]="'https://twitter.com/lungmapnet'">
+                <twitter-icon></twitter-icon>
+            </social-icon-button>
+        </socials>
+    </toolbar-nav>
+    <toolbar-actions>
+        <search-button (click)="onSearchOpen()"></search-button>
+        <hamburger [ngSwitch]="state.menuOpen">
+            <close-icon *ngSwitchCase="true"></close-icon>
+            <menu-icon *ngSwitchDefault></menu-icon>
+        </hamburger>
+    </toolbar-actions>
 </mat-toolbar>
+<portal-search *ngIf="searchOpen" [searchOpen]="searchOpen" (searchClosed)="onSearchClose()"></portal-search>

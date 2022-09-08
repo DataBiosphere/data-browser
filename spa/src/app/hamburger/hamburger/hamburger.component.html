@@ -1,8 +1,3 @@
-<ng-container *ngIf="state$ | async as state">
-    <div class="hamburger-toggle"
-         [class]="{'hamburger-toggle-open': state.open}"
-         (click)="onHamburgerToggleClicked()">
-        <ng-content></ng-content>
-        <div class="hamburger-toggle-overlay"></div>
-    </div>
-</ng-container>
+<button class="icon-button" *ngIf="state$ | async as state" (click)="onHamburgerToggleClicked()">
+    <ng-content></ng-content>
+</button>

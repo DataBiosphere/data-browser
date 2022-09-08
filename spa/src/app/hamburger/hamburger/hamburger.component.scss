@@ -7,49 +7,27 @@
 
 @import "../../site/theme/hca.vars";
 
-/* Open/close button */
-.hamburger-toggle {
+.icon-button {
     align-items: center;
-    cursor: pointer;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    color: #212B36;
     display: flex;
-    flex-direction: row;
-}
+    justify-content: center;
+    padding: 8px;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 
-/* Open/close button - caret */
-.hamburger-toggle::before {
-    content: "\E313";
-    font-family: "Material Icons";
-    font-size: 18px;
-    font-weight: 400;
-    margin: 0 4px;
-}
-
-/* Overlay */
-.hamburger-toggle-overlay {
-    display: none;
-}
-
-/* Overlay - hamburger open */
-:host-context(.hamburger-open) {
-    .hamburger-toggle-overlay {
-        background-color: rgba($hca-white, 0.9);
-        bottom: 0;
-        content: "";
-        display: block;
-        left: 0;
-        position: fixed;
-        right: 0;
-        top: 60px;
-        z-index: 100; /* Positioned above all sticky components etc, below toolbar-nav-item */
+    &:hover {
+        background-color: $smoke-light;
     }
 }
 
 /**
- * Large Tablet +
+ * Medium Window +
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
-@media screen and (min-width: 840px) {
-    // Hide hamburger and overlay
+@media screen and (min-width: 1440px) {
     :host {
         display: none;
     }

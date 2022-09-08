@@ -1,0 +1,24 @@
+/*
+ * Human Cell Atlas
+ * https://www.humancellatlas.org/
+ *
+ * Header socials styles.
+ */
+
+:host {
+    align-items: center;
+    display: flex;
+    gap: 0 16px;
+    padding: 8px 16px;
+}
+
+/**
+ * Medium Window +
+ * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ */
+@media screen and (min-width: 1440px) {
+    :host {
+        gap: 0 8px;
+        padding: 0;
+    }
+}

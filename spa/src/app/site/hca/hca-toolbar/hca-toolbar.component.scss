@@ -11,286 +11,51 @@
  * Custom HCA-specific overrides of MD toolbar.
  */
 
-:host {
-    display: block;
-}
-
-:host-context(.hamburger-open) {
-    mat-toolbar mat-toolbar-row.nav-bar {
-        display: flex; /* Show nav bar */
-    }
-}
-
-@mixin toolbar-link() {
-    color: $hca-black;
-    cursor: pointer; /* Required for "Explore" link. */
-    text-decoration: none;
-    text-transform: capitalize;
-
-    &.active,
-    &:hover {
-        color: $hca-black;
-    }
-
-    /* Title */
-    .fontsize-xs {
-        display: block;
-        font-size: 13px;
-        font-weight: 600;
-        line-height: 20px;
-        margin: 0 0 4px;
-    }
-
-    /* Sub title - hide */
-    .fontsize-xxs {
-        display: block;
-        letter-spacing: 1.2px;
-        line-height: 18px;
-        margin: 0;
-        text-transform: none;
-        white-space: pre-wrap;
-    }
-}
-
 mat-toolbar {
-    background-color: $hca-off-white;
-    min-height: 60px; /* HCA specific */
-    position: relative; /* Positions overlay, nav-toolbar */
-
-    mat-toolbar-row {
-        padding: 0 16px; /* Gutter 16px */
-
-        /* First toolbar row - hero bar */
-        &.hero-bar {
-            height: 60px; /* HCA specific */
-            justify-content: space-between; /* Toolbar tools */
-
-            /* Wrapper around logo */
-            > a {
-                line-height: 0;
-            }
-        }
-
-        &.nav-bar {
-            display: none; /* Default, hide nav bar */
-        }
-    }
+    align-items: center;
+    background-color: $hca-white;
+    box-shadow: $elevation-0;
+    color: $ink-main;
+    gap: 0 16px;
+    height: 56px;
+    padding: 0 12px;
+    position: relative; /* Positions search. */
 
     /* Logo */
-    img {
-        height: 30px;
+    .logo {
+        line-height: 0;
+
+        img {
+            height: 32px;
+        }
     }
 
-    /** Logo in modal */
+    /* Nav link */
+    nav-link a {
+        color: $ink-main;
+        font-weight: 500;
+    }
+
+    /** Modal - metadata, matrices download */
     &.modal-open {
-        background-color: $hca-white;
+        box-shadow: none;
         position: fixed;
         top: 0;
         z-index: 1001;
 
-        toolbar-tools,
-        .nav-bar {
+        toolbar-nav,
+        toolbar-actions {
             display: none; /* Hide toolbar tools and nav bar */
         }
     }
-
-    /* Hamburger */
-    hamburger .fontsize-s {
-        margin-bottom: 0;
-    }
-
-    /* Auth image hidden on mobile, use nav item instead */
-    .auth {
-        display: none;
-    }
-
-    .auth-link {
-        @include toolbar-link;
-    }
-
-    /* Nav item */
-    toolbar-nav-item {
-        .link {
-            @include toolbar-link;
-            display: block;
-            margin: 0 24px;
-        }
-    }
-}
-
-/**
- * Large Tablet +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
- */
-@media screen and (min-width: 840px) {
-    @mixin toolbar-link() {
-        color: $hca-gray-dark;
-
-        /* Title */
-        .fontsize-xs {
-            font-size: 14px;
-            line-height: 44px;
-            margin: 0;
-        }
-
-        /* Sub title - hide */
-        .fontsize-xxs {
-            display: none;
-        }
-    }
-
-    mat-toolbar {
-        /* Second toolbar row - nav bar */
-        mat-toolbar-row.nav-bar {
-            display: flex; /* Always show nav bar */
-            height: 44px;
-            justify-content: center;
-        }
-
-        /* Link wrapper */
-        toolbar-nav-item {
-            .link {
-                @include toolbar-link();
-                margin: 0;
-            }
-        }
-
-        /* Hide auth link on tablet + */
-        .nav-item-auth {
-            display: none;
-        }
-
-        /* Display auth image on tablet + */
-        .auth {
-            display: flex; /* Full height */
-        }
-
-        .auth-link {
-            @include toolbar-link();
-
-            .fontsize-xs {
-                font-weight: 600; /* Missing from tablet link definition, specified only in mobile */
-                line-height: 38px; /* Matches height of search bar */
-            }
-        }
-
-        .auth-authenticated {
-            align-items: center;
-            display: flex;
-        }
-
-        .auth-menu-button {
-            background-color: unset;
-            border: 0;
-        }
-
-        .auth-image-placeholder {
-            align-items: center;
-            background-color: $hca-secondary;
-            display: flex;
-            color: $hca-white;
-            font-size: 20px;
-            font-weight: 500;
-            height: 40px;
-            justify-content: center;
-            width: 40px;
-        }
-
-        .auth-image-hover {
-            border: 3px solid transparent;
-            border-radius: 50%;
-            transition: border 500ms cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .auth-image-hover:hover {
-            border-color: $hca-secondary-hover;
-        }
-    }
-
-    /* Projected menu content */
-    .auth-menu-item-profile {
-        line-height: 20px;
-        padding: 8px 16px;
-        display: flex;
-        flex-direction: column;
-        font-size: 14px;
-        width: 200px;
-    }
-
-    /* Stack elements */
-    .auth-menu-item-profile > * {
-        display: block;
-    }
-
-    /* Truncate long usernames */
-    .auth-username {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .catalog-update-chip {
-        position: relative;
-    }
-
-    .catalog-update-chip:after {
-        background-color: $hca-orange;
-        border-radius: 50%;
-        content: "";
-        height: 8px;
-        position: absolute;
-        right: -8px;
-        transition: background-color 500ms cubic-bezier(0.25, 0.8, 0.25, 1);
-        top: 12px;
-        width: 8px;
-    }
-
-    .catalog-update-chip:hover::after {
-        background-color: $hca-orange-hover;
-    }
 }
 
 /**
  * Medium Window +
  * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
  */
-@media screen and (min-width: 1280px) {
-    /** Logo in modal */
-    mat-toolbar.modal-open {
-        background-color: transparent;
-    }
-}
-
-/**
- * Medium +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
- */
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1440px) {
     mat-toolbar {
-        img {
-            height: 40px;
-        }
-    }
-}
-
-/**
- * Large +
- */
-@media (min-width: 1200px) {
-    mat-toolbar {
-        mat-toolbar-row {
-            padding: 0 30px; /* Gutter 30px */
-        }
-    }
-}
-
-/**
- * Medium Window +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
- */
-@media screen and (min-width: 1280px) {
-    /** Logo in modal */
-    mat-toolbar.modal-open {
-        background-color: transparent;
+        padding: 0 16px;
     }
 }
