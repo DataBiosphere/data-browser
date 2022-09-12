@@ -7,13 +7,13 @@ import {
   BREAKPOINT,
   BREAKPOINT_FN_NAME,
   useBreakpointHelper,
-} from "../../../../hooks/useBreakpointHelper";
-import { SectionTitle } from "./components/SectionTitle/sectionTitle";
+} from "../../../../../../hooks/useBreakpointHelper";
+import { SectionTitle } from "../SectionTitle/sectionTitle";
 import {
-  CollapsableSection as SectionContainer,
-  SectionContent as Content,
+  CollapsableSection as Section,
   SectionSummary,
-} from "./section.styles";
+  SectionText,
+} from "./collapsableSection.styles";
 
 interface Props {
   children: ReactNode;
@@ -21,7 +21,7 @@ interface Props {
   title: string;
 }
 
-export const Section = ({
+export const CollapsableSection = ({
   children,
   collapsable = false,
   title,
@@ -36,9 +36,9 @@ export const Section = ({
   const disabled = !mobile || !collapsable;
   const ExpandIcon = expanded ? RemoveRoundedIcon : AddRoundedIcon;
   const SectionContent = (
-    <Content component="div" variant="text-body-400-2lines">
+    <SectionText component="div" variant="text-body-400-2lines">
       {children}
-    </Content>
+    </SectionText>
   );
 
   const onToggleExpanded = (): void => {
@@ -67,7 +67,7 @@ export const Section = ({
   }, [mobile]);
 
   return (
-    <SectionContainer>
+    <Section>
       <SectionSummary disabled={disabled} onClick={onToggleExpanded}>
         <SectionTitle title={title} />
         {!disabled && <ExpandIcon fontSize="small" />}
@@ -79,6 +79,6 @@ export const Section = ({
       ) : (
         SectionContent
       )}
-    </SectionContainer>
+    </Section>
   );
 };

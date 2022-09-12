@@ -1,7 +1,7 @@
 import React from "react";
+import { CollapsableSection } from "../../../Detail/components/Section/components/CollapsableSection/collapsableSection";
+import { SectionDetailsEmpty } from "../../../Detail/components/Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 import { DataCurator } from "../../common/entities";
-import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
-import { Section } from "../Section/section";
 
 interface Props {
   dataCurators?: DataCurator[];
@@ -9,7 +9,7 @@ interface Props {
 
 export const DataCurators = ({ dataCurators }: Props): JSX.Element => {
   return (
-    <Section collapsable title="Data Curators">
+    <CollapsableSection collapsable title="Data Curators">
       {dataCurators ? (
         <div>
           {dataCurators.map((name, n) => (
@@ -19,6 +19,6 @@ export const DataCurators = ({ dataCurators }: Props): JSX.Element => {
       ) : (
         <SectionDetailsEmpty />
       )}
-    </Section>
+    </CollapsableSection>
   );
 };

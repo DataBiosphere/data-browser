@@ -1,9 +1,9 @@
 import { Typography } from "@mui/material";
 import React from "react";
+import { CollapsableSection } from "../../../Detail/components/Section/components/CollapsableSection/collapsableSection";
+import { SectionDetailsEmpty } from "../../../Detail/components/Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 import { ANCHOR_TARGET, Link } from "../../../Links/components/Link/link";
 import { Publication } from "../../common/entities";
-import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
-import { Section } from "../Section/section";
 
 interface Props {
   publications?: Publication[];
@@ -11,7 +11,7 @@ interface Props {
 
 export const Publications = ({ publications }: Props): JSX.Element => {
   return (
-    <Section collapsable title="Publications">
+    <CollapsableSection collapsable title="Publications">
       {publications ? (
         <div>
           {publications.map(
@@ -35,6 +35,6 @@ export const Publications = ({ publications }: Props): JSX.Element => {
       ) : (
         <SectionDetailsEmpty />
       )}
-    </Section>
+    </CollapsableSection>
   );
 };

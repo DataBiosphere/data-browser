@@ -1,16 +1,15 @@
-// TODO NoResults section and section content styles to be refactored with https://github.com/clevercanary/data-browser/issues/400
 import styled from "@emotion/styled";
-import { Stack } from "../common/Stack/Stack";
+import {
+  Section,
+  SectionContent,
+} from "../Detail/components/Section/section.styles";
 
-export const Section = styled.div`
+export const NoResultsSection = styled(Section)`
   align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 40px;
+  padding: 40px !important; /* Overrides section padding. */
 `;
 
-export const SectionContent = styled(Stack)`
+export const NoResultsSectionContent = styled(SectionContent)`
   max-width: 456px;
   text-align: center;
 `;

@@ -11,11 +11,11 @@ export const sideColumn = [
         viewBuilder: T.projectsToAnalysisPortals,
       } as ComponentConfig<typeof C.IconList, ProjectsResponse>,
     ],
-    component: C.Section,
+    component: C.CollapsableSection,
     props: {
       title: "Analysis Portals",
     },
-  } as ComponentConfig<typeof C.Section>,
+  } as ComponentConfig<typeof C.CollapsableSection>,
   {
     component: C.Details,
     viewBuilder: T.buildDetails,

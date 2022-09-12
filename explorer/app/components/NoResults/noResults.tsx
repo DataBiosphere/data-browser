@@ -1,11 +1,11 @@
 import { Typography } from "@mui/material";
-import { SectionActions } from "app/components/Project/components/Section/section.styles";
+import { SectionActions } from "app/components/Detail/components/Section/section.styles";
 import React, { ReactNode } from "react";
 import { SearchOffIcon } from "../common/CustomIcon/components/SearchOffIcon/searchOffIcon";
 import { RoundedPaper } from "../common/Paper/paper.styles";
 import { PRIORITY, StatusIcon } from "../common/StatusIcon/statusIcon";
-import { SectionTitle } from "../Project/components/Section/components/SectionTitle/sectionTitle";
-import { Section, SectionContent } from "./noResults.styles";
+import { SectionTitle } from "../Detail/components/Section/components/SectionTitle/sectionTitle";
+import { NoResultsSection, NoResultsSectionContent } from "./noResults.styles";
 
 interface Props {
   actions?: ReactNode;
@@ -20,18 +20,18 @@ export const NoResults = ({
 }: Props): JSX.Element => {
   return (
     <RoundedPaper>
-      <Section>
+      <NoResultsSection>
         <StatusIcon priority={PRIORITY.LOW} StatusIcon={SearchOffIcon} />
-        <SectionContent alignItems="center" gap={2}>
+        <NoResultsSectionContent>
           <SectionTitle title={title} />
           {description && (
             <Typography color="ink.light" variant="text-body-400-2lines">
               {description}
             </Typography>
           )}
-        </SectionContent>
+        </NoResultsSectionContent>
         {actions && <SectionActions>{actions}</SectionActions>}
-      </Section>
+      </NoResultsSection>
     </RoundedPaper>
   );
 };

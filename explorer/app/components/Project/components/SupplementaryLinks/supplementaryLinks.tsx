@@ -1,10 +1,10 @@
 import { Typography } from "@mui/material";
 import React, { Fragment } from "react";
 import { Stack } from "../../../common/Stack/Stack";
+import { CollapsableSection } from "../../../Detail/components/Section/components/CollapsableSection/collapsableSection";
+import { SectionDetailsEmpty } from "../../../Detail/components/Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 import { ANCHOR_TARGET, Link } from "../../../Links/components/Link/link";
 import { SupplementaryLink } from "../../common/entities";
-import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
-import { Section } from "../Section/section";
 import {
   Marker,
   SupplementaryLink as EllipsisLink,
@@ -19,7 +19,7 @@ export const SupplementaryLinks = ({
   supplementaryLinks,
 }: Props): JSX.Element => {
   return (
-    <Section collapsable title="Supplementary Links">
+    <CollapsableSection collapsable title="Supplementary Links">
       {supplementaryLinks ? (
         <Stack gap={2}>
           <Typography>
@@ -48,6 +48,6 @@ export const SupplementaryLinks = ({
       ) : (
         <SectionDetailsEmpty />
       )}
-    </Section>
+    </CollapsableSection>
   );
 };

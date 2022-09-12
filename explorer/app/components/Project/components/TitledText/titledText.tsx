@@ -1,8 +1,11 @@
 import { FluidPaper } from "app/components/common/Paper/paper.styles";
 import React, { ReactNode } from "react";
-import { SectionTitle } from "../Section/components/SectionTitle/sectionTitle";
-import { Section } from "../Section/section.styles";
-import { SectionContent } from "./titledText.styles";
+import { SectionTitle } from "../../../Detail/components/Section/components/SectionTitle/sectionTitle";
+import {
+  Section,
+  SectionContent,
+  SectionText,
+} from "../../../Detail/components/Section/section.styles";
 
 export type Content = ReactNode | ReactNode[] | string[];
 
@@ -57,9 +60,11 @@ export const TitledText = ({ text, title }: Props): JSX.Element => {
   return (
     <FluidPaper>
       <Section>
-        {title && <SectionTitle title={title} />}
-        <SectionContent component="div" variant="text-body-400-2lines">
-          {getSectionContent(text)}
+        <SectionContent>
+          {title && <SectionTitle title={title} />}
+          <SectionText component="div" variant="text-body-400-2lines">
+            {getSectionContent(text)}
+          </SectionText>
         </SectionContent>
       </Section>
     </FluidPaper>

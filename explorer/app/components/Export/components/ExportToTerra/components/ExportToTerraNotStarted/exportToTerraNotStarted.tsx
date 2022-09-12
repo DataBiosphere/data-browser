@@ -1,16 +1,13 @@
 import { ButtonPrimary } from "app/components/common/Button/button.styles";
 import { FluidPaper } from "app/components/common/Paper/paper.styles";
 import {
-  Content as SectionText,
   Section,
-} from "app/components/Project/components/Section/section.styles";
-import React from "react";
-import { SectionTitle } from "../../../../../Project/components/Section/components/SectionTitle/sectionTitle";
-import { BatchNormalizationWarning } from "../../../BatchNormalizationWarning/batchNormalizationWarning";
-import {
-  Actions as SectionActions,
+  SectionActions,
   SectionContent,
-} from "./exportToTerraNotStarted.styles";
+} from "app/components/Detail/components/Section/section.styles";
+import React from "react";
+import { SectionTitle } from "../../../../../Detail/components/Section/components/SectionTitle/sectionTitle";
+import { BatchNormalizationWarning } from "../../../BatchNormalizationWarning/batchNormalizationWarning";
 
 export type RunFn = () => void;
 
@@ -22,11 +19,9 @@ export const ExportToTerraNotStarted = ({ run }: Props): JSX.Element => {
   return (
     <FluidPaper>
       <Section>
-        <SectionContent gap={2}>
+        <SectionContent>
           <SectionTitle title="Export To Terra" />
-          <SectionText component="div" variant="text-body-400-2lines">
-            <BatchNormalizationWarning />
-          </SectionText>
+          <BatchNormalizationWarning />
         </SectionContent>
         <SectionActions>
           <ButtonPrimary onClick={run}>Request link</ButtonPrimary>

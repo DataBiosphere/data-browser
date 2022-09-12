@@ -1,11 +1,11 @@
 import { Link as PolicyLink, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-import { Section } from "../Section/section";
+import { CollapsableSection } from "../../../Detail/components/Section/components/CollapsableSection/collapsableSection";
 
 export const DataReleasePolicy = (): JSX.Element => {
   return (
-    <Section title="Data Access Policy">
+    <CollapsableSection title="Data Access Policy">
       <Typography>
         For information regarding data sharing and data use, please see our{" "}
         <Link href="https://anvilproject.org/faq/data-security/" passHref>
@@ -13,6 +13,6 @@ export const DataReleasePolicy = (): JSX.Element => {
         </Link>
         .
       </Typography>
-    </Section>
+    </CollapsableSection>
   );
 };

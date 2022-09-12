@@ -1,12 +1,13 @@
+import { Typography } from "@mui/material";
 import { FluidPaper } from "app/components/common/Paper/paper.styles";
 import {
-  Content as SectionContent,
   Section,
-  SectionCallout,
-  SectionTitle,
-} from "app/components/Project/components/Section/section.styles";
+  SectionActions,
+  SectionContent,
+} from "app/components/Detail/components/Section/section.styles";
 import Link from "next/link";
 import React from "react";
+import { SectionTitle } from "../../../Detail/components/Section/components/SectionTitle/sectionTitle";
 import { ExportButton } from "./exportMethod.styles";
 
 interface Props {
@@ -27,15 +28,15 @@ export const ExportMethod = ({
   return (
     <FluidPaper>
       <Section>
-        <SectionTitle title={title} />
-        <SectionContent component="div" variant="text-body-400-2lines">
-          {description}
+        <SectionContent>
+          <SectionTitle title={title} />
+          <Typography variant="text-body-400-2lines">{description}</Typography>
         </SectionContent>
-        <SectionCallout>
+        <SectionActions>
           <Link href={route} passHref>
             <ExportButton disabled={disabled}>{buttonLabel}</ExportButton>
           </Link>
-        </SectionCallout>
+        </SectionActions>
       </Section>
     </FluidPaper>
   );

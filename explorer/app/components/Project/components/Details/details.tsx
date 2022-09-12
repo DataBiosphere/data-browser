@@ -6,8 +6,8 @@ import {
   KeyValues,
 } from "../../../common/KeyValuePairs/keyValuePairs";
 import { Stack } from "../../../common/Stack/Stack";
-import { SectionDetailsEmpty } from "../Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
-import { Section } from "../Section/section";
+import { CollapsableSection } from "../../../Detail/components/Section/components/CollapsableSection/collapsableSection";
+import { SectionDetailsEmpty } from "../../../Detail/components/Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 
 interface Props {
   keyValuePairs?: KeyValues;
@@ -25,7 +25,7 @@ function renderKey(props: { children: Key }): JSX.Element {
 
 export const Details = ({ keyValuePairs }: Props): JSX.Element => {
   return (
-    <Section collapsable title="Project Details">
+    <CollapsableSection collapsable title="Project Details">
       {keyValuePairs ? (
         <KeyValuePairs
           KeyElType={renderKey}
@@ -36,6 +36,6 @@ export const Details = ({ keyValuePairs }: Props): JSX.Element => {
       ) : (
         <SectionDetailsEmpty />
       )}
-    </Section>
+    </CollapsableSection>
   );
 };

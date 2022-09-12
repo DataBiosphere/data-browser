@@ -1,14 +1,15 @@
 import styled from "@emotion/styled";
+import { Section } from "../Detail/components/Section/section.styles";
 
 export const Error = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   margin: 0 auto;
   max-width: 608px;
-  padding: 40px 0;
+  padding: 20px 0;
   width: 100%;
+`;
+
+export const ErrorSection = styled(Section)`
+  align-items: center;
 `;
 
 export const SectionContent = styled.div`
