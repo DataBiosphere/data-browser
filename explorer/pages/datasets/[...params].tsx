@@ -12,6 +12,7 @@ import { Detail } from "../../app/views/Detail/detail";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- WIP for demo. TODO revisit.
 const DatasetPage = (props: any): JSX.Element => {
   // TODO revisit and remove
+  console.log("Dataset page render..");
   const tempGuard = config().entities.find(
     (entity) => entity.route === "datasets"
   );

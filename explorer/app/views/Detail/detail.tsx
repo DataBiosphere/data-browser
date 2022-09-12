@@ -26,7 +26,7 @@ function getTabs(entity: EntityConfig): Tab[] {
     value: route,
   }));
 }
-
+// TODO(Dave) Rename to EntityDetail?
 export const Detail = (props: AzulEntityStaticResponse): JSX.Element => {
   const { currentTab, route: tabRoute } = useCurrentDetailTab();
   const entity = useCurrentEntity();

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { AzulEntityStaticResponse } from "../apis/azul/common/entities";
 import { useAsync } from "./useAsync";
-import { useFetcher } from "./useFetcher";
+import { useEntityService } from "./useEntityService";
 
 interface UseEntityDetailResponse<T> {
   isLoading: boolean;
@@ -19,7 +19,8 @@ interface UseEntityDetailResponse<T> {
 export const useFetchEntity = <T,>(
   value?: AzulEntityStaticResponse
 ): UseEntityDetailResponse<T> => {
-  const { detail, options, path, staticLoad } = useFetcher();
+  const { fetchEntityDetail, path, staticLoad } = useEntityService();
+
   const router = useRouter();
   const uuid = router.query.params?.[PARAMS_INDEX_UUID] as string;
   const {
@@ -31,9 +32,9 @@ export const useFetchEntity = <T,>(
 
   useEffect(() => {
     if (!staticLoad && uuid) {
-      run(detail(uuid, path, options));
+      run(fetchEntityDetail(uuid, path));
     }
-  }, [detail, path, run, staticLoad, uuid, options]);
+  }, [fetchEntityDetail, path, run, staticLoad, uuid]);
 
   if (staticLoad) {
     return { isLoading: false, response: value?.data };

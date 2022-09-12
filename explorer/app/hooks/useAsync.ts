@@ -4,34 +4,6 @@
 import React, { useCallback, useEffect, useReducer, useRef } from "react";
 
 /**
- * Hook to safely call an async function, by checking if the component is mounted before the call
- * @param dispatch - Function to be called in case the component is mounted.
- * @returns A memoized function that will call the @dispatch param or nothing.
- */
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- TODO revisit return type here
-const useSafeDispatch = <T>(dispatch: (args: T) => void) => {
-  const mounted = React.useRef(false);
-  useEffect(() => {
-    mounted.current = true;
-    return (): void => {
-      mounted.current = false;
-    };
-  }, []);
-  return useCallback(
-    (args: T) => (mounted.current ? dispatch(args) : void 0),
-    [dispatch]
-  );
-};
-
-type Error = { message: string };
-
-interface State<T> {
-  data?: T;
-  error?: Error;
-  status: "idle" | "pending" | "rejected" | "resolved";
-}
-
-/**
  * Hook to safely call async functions and managing the result's state.
  * @param state - API request's initial state. Default to idle
  * @returns set of functions to be used to as request handlers
@@ -93,3 +65,31 @@ export const useAsync = <T>(state: State<T> = { status: "idle" }) => {
     status,
   };
 };
+
+/**
+ * Hook to safely call an async function, by checking if the component is mounted before the call
+ * @param dispatch - Function to be called in case the component is mounted.
+ * @returns A memoized function that will call the @dispatch param or nothing.
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- TODO revisit return type here
+const useSafeDispatch = <T>(dispatch: (args: T) => void) => {
+  const mounted = React.useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    return (): void => {
+      mounted.current = false;
+    };
+  }, []);
+  return useCallback(
+    (args: T) => (mounted.current ? dispatch(args) : void 0),
+    [dispatch]
+  );
+};
+
+type Error = { message: string };
+
+interface State<T> {
+  data?: T;
+  error?: Error;
+  status: "idle" | "pending" | "rejected" | "resolved";
+}

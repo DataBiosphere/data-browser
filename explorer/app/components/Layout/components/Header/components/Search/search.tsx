@@ -1,4 +1,3 @@
-import SearchIcon from "@mui/icons-material/Search";
 import { Button, IconButton } from "@mui/material";
 import React from "react";
 import {
@@ -6,6 +5,7 @@ import {
   BREAKPOINT_FN_NAME,
   useBreakpointHelper,
 } from "../../../../../../hooks/useBreakpointHelper";
+import { SearchIcon } from "../../../../../common/CustomIcon/components/SearchIcon/searchIcon";
 
 export const Search = (): JSX.Element => {
   const desktop = useBreakpointHelper(
@@ -20,7 +20,7 @@ export const Search = (): JSX.Element => {
         </Button>
       ) : (
         <IconButton color="ink">
-          <SearchIcon />
+          <SearchIcon fontSize="medium" />
         </IconButton>
       )}
     </>

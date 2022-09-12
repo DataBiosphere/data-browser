@@ -10,6 +10,7 @@ import { Main } from "app/components/Layout/components/Main/main.styles";
 import { config } from "app/config/config";
 import { getAppTheme } from "app/theme/theme";
 import type { AppProps } from "next/app";
+import { AuthProvider } from "../app/common/context/authState";
 import { FilterStateProvider } from "../app/common/context/filterState";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
@@ -22,15 +23,17 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         <ConfigProvider value={currentConfig}>
           <Head />
           <CssBaseline />
-          <AppLayout>
-            <Header header={currentLayout.header} />
-            <FilterStateProvider>
-              <Main>
-                <Component {...pageProps} />
-              </Main>
-            </FilterStateProvider>
-            <Footer footer={currentLayout.footer} />
-          </AppLayout>
+          <AuthProvider authConfig={currentConfig.authConfig}>
+            <AppLayout>
+              <Header header={currentLayout.header} />
+              <FilterStateProvider>
+                <Main>
+                  <Component {...pageProps} />
+                </Main>
+              </FilterStateProvider>
+              <Footer footer={currentLayout.footer} />
+            </AppLayout>
+          </AuthProvider>
         </ConfigProvider>
       </ThemeProvider>
     </Emotion10ThemeProvider>

@@ -1,19 +1,17 @@
-import { EntityConfig, Options } from "../config/common/entities";
-import { create } from "../entity/fetcher/factory";
-import { Fetcher } from "../entity/fetcher/model";
+import { EntityConfig } from "../config/common/entities";
+import { createEntityService } from "../entity/service/factory";
+import { EntityService } from "../entity/service/model";
 import { useCurrentEntity } from "./useCurrentEntity";
 
-interface FetcherResponse extends Fetcher {
-  options?: Options;
+interface FetcherResponse extends EntityService {
   path: string;
   staticLoad: boolean;
 }
 
-export const getFetcher = (entity: EntityConfig): FetcherResponse => {
+export const getEntityService = (entity: EntityConfig): FetcherResponse => {
   if (entity.apiPath) {
     return {
-      ...create("API"),
-      options: entity.options,
+      ...createEntityService("API"),
       path: entity.apiPath,
       staticLoad: !!entity.staticLoad,
     };
@@ -21,7 +19,7 @@ export const getFetcher = (entity: EntityConfig): FetcherResponse => {
 
   if (entity.tsv) {
     return {
-      ...create("TSV"),
+      ...createEntityService("TSV"),
       path: entity.tsv.path,
       staticLoad: true,
     };
@@ -37,7 +35,7 @@ export const getFetcher = (entity: EntityConfig): FetcherResponse => {
  * From API or from a tsv file.
  * @returns @see FetcherResponse
  */
-export const useFetcher = (): FetcherResponse => {
+export const useEntityService = (): FetcherResponse => {
   const entity = useCurrentEntity();
-  return getFetcher(entity);
+  return getEntityService(entity);
 };

@@ -9,6 +9,7 @@ import {
   transformFilters,
   transformTermFacets,
 } from "../apis/azul/common/filterTransformer";
+import { AuthContext } from "../common/context/authState";
 import { FilterStateContext } from "../common/context/filterState";
 import {
   CategoryKey,
@@ -19,7 +20,7 @@ import {
 } from "../common/entities";
 import { useAsync } from "./useAsync";
 import { OnFilterFn, useCategoryFilter } from "./useCategoryFilter";
-import { useFetcher } from "./useFetcher";
+import { useEntityService } from "./useEntityService";
 import { usePagination } from "./usePagination";
 import { useSort } from "./useSort";
 
@@ -46,11 +47,15 @@ interface EntitiesResponse {
  * @param staticResponse - Statically loaded data, if any.
  * @returns Model of the entities list including pagination, sort, filter and loading indicator.
  */
-export const useFetchEntities = (
+export const useEntityList = (
   staticResponse: AzulEntitiesStaticResponse | null
 ): EntitiesResponse => {
+  const { filterState, setFilterState } = useContext(FilterStateContext);
+  const { token } = useContext(AuthContext);
+
   // Determine type of fetch to be executed, either API endpoint or TSV.
-  const { list, options, path, staticLoad } = useFetcher();
+
+  const { fetchEntitiesFromQuery, path, staticLoad } = useEntityService();
 
   // Init fetch of entities.
   const { data, isIdle, isLoading, run } = useAsync<AzulEntitiesResponse>();
@@ -65,9 +70,6 @@ export const useFetchEntities = (
     return transformTermFacets(data.termFacets);
   }, [data, staticLoad]);
 
-  // Grab the filter context; use this to keep selected filter state up-to-date.
-  const { filterState, setFilterState } = useContext(FilterStateContext);
-
   // Init filter functionality.
   const {
     categories: categoryViews,
@@ -75,12 +77,18 @@ export const useFetchEntities = (
     onFilter,
   } = useCategoryFilter(categories, filterState);
 
-  // Update filter state with current selected values.
+  /**
+   * Hook for updating the global FilterStateContext with current selected values.
+   * @param filter -
+   * @param setFilerState - used to set the FilterStateContext
+   */
   useEffect(() => {
     setFilterState(filter);
   }, [filter, setFilterState]);
 
-  // Execute fetch of entities.
+  /**
+   * Hook for fetching entites matching the current query and authentication state.
+   */
   useEffect(() => {
     if (!staticLoad) {
       // Build basic list params
@@ -91,11 +99,19 @@ export const useFetchEntities = (
       if (filtersParam) {
         listParams.filters = filtersParam;
       }
-
       // Execute the fetch.
-      run(list(path, listParams, options));
+      run(fetchEntitiesFromQuery(path, listParams, token));
     }
-  }, [filterState, list, options, path, run, sortKey, sortOrder, staticLoad]);
+  }, [
+    fetchEntitiesFromQuery,
+    filterState,
+    path,
+    run,
+    sortKey,
+    sortOrder,
+    staticLoad,
+    token,
+  ]);
 
   const handleFilterChange = useCallback(
     (

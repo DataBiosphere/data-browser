@@ -9,7 +9,7 @@ import { NoResults } from "app/components/NoResults/noResults";
 import { TableCreator } from "app/components/TableCreator/tableCreator";
 import { useConfig } from "app/hooks/useConfig";
 import { useCurrentEntity } from "app/hooks/useCurrentEntity";
-import { useFetchEntities } from "app/hooks/useFetchEntities";
+import { useEntityList } from "app/hooks/useEntityList";
 import { useResetableState } from "app/hooks/useResetableState";
 import { useSummary } from "app/hooks/useSummary";
 import { useRouter } from "next/router";
@@ -25,52 +25,15 @@ import { SidebarLabel } from "../../components/Layout/components/Sidebar/compone
 import { Sidebar } from "../../components/Layout/components/Sidebar/sidebar";
 import { EntityConfig, SummaryConfig } from "../../config/common/entities";
 
-/**
- * Returns tabs to be used as a prop for the Tabs component.
- * @param entities - Entity configs related to the /explore/projects, /explore/files and /explore/samples route.
- * @returns tabs list.
- */
-function getTabs(entities: EntityConfig[]): Tab[] {
-  return entities.map(({ label, route }) => ({
-    label,
-    value: route,
-  }));
-}
-
-/**
- * Renders Summaries component when all the following requirements are fulfilled:
- * - defined summary config,
- * - valid summary response, and
- * - defined summaries transformed from the given summary response.
- * @param summaryConfig - Summary config.
- * @param summaryResponse - Response model return from summary API.
- * @returns rendered Summaries component.
- */
-function renderSummary(
-  summaryConfig?: SummaryConfig,
-  summaryResponse?: AzulSummaryResponse
-): JSX.Element | undefined {
-  if (!summaryConfig || !summaryResponse) {
-    return;
-  }
-  /* Render the Summaries component. */
-  return (
-    <ComponentCreator
-      components={summaryConfig.components}
-      response={summaryResponse}
-    />
-  );
-}
-
+// TODO(Dave) Rename to EntityList
+// TODO(Dave) Rename entityTitle to entityListTitle
+// TODO(Dave) create an interface for props and maybe not drill the static load through here
 export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
-  // Determine the current site config
-  const config = useConfig();
-
-  // Determine the current entity (e.g. projects, files, samples) and config.
   const entity = useCurrentEntity();
-  const { entities, entityTitle, summaryConfig } = useConfig();
+  const { disablePagination, entities, entityTitle, summaryConfig } =
+    useConfig();
 
-  const route = entity?.route;
+  const route = entity.route;
   const { push } = useRouter();
 
   // Init tabs state.
@@ -80,10 +43,10 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
   // Fetch summary and entities.
   const { response: summaryResponse } = useSummary();
   const { categories, loading, onFilter, pagination, response, sort } =
-    useFetchEntities(props);
+    useEntityList(props);
 
   // Grab the column config for the current entity.
-  const columnsConfig = entity?.list?.columns;
+  const columnsConfig = entity.list.columns;
 
   /**
    * Callback fired when selected tab value changes.
@@ -143,7 +106,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
         pages={entitiesResponse.pagination.pages}
         loading={loading}
         staticallyLoaded={entity.staticLoad}
-        disablePagination={config.disablePagination}
+        disablePagination={disablePagination}
       />
     );
   };
@@ -164,3 +127,40 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
     </>
   );
 };
+
+/**
+ * Returns tabs to be used as a prop for the Tabs component.
+ * @param entities - Entity configs related to the /explore/projects, /explore/files and /explore/samples route.
+ * @returns tabs list.
+ */
+function getTabs(entities: EntityConfig[]): Tab[] {
+  return entities.map(({ label, route }) => ({
+    label,
+    value: route,
+  }));
+}
+
+/**
+ * Renders Summaries component when all the following requirements are fulfilled:
+ * - defined summary config,
+ * - valid summary response, and
+ * - defined summaries transformed from the given summary response.
+ * @param summaryConfig - Summary config.
+ * @param summaryResponse - Response model return from summary API.
+ * @returns rendered Summaries component.
+ */
+function renderSummary(
+  summaryConfig?: SummaryConfig,
+  summaryResponse?: AzulSummaryResponse
+): JSX.Element | undefined {
+  if (!summaryConfig || !summaryResponse) {
+    return;
+  }
+  /* Render the Summaries component. */
+  return (
+    <ComponentCreator
+      components={summaryConfig.components}
+      response={summaryResponse}
+    />
+  );
+}

@@ -36,10 +36,11 @@ export type OnFilterFn = (
 ) => void;
 
 /**
- * Server-side faceted filter functionality.
- * @param categories - Full set of categories.
- * @param initialFilter - Initial set of select categories.
- * @returns Object container filter accessor (view model of filter state).
+ * Hook for server-side filtering of entity lists.
+ * @param categories - Full set of filter categories.
+ * @param initialFilter - Initial set of selected categories.
+ * @returns FilterInstance - a view model of the filter state.
+ * Depends on filterState
  */
 export const useCategoryFilter = (
   categories: SelectCategory[],
@@ -48,10 +49,17 @@ export const useCategoryFilter = (
   // Complete set of categories and category values to be included for display and filtering.
   const [filterState, setFilterState] = useState<FilterState>(initialFilter);
 
-  // Grab the site config.
+  // Grab the list of categories for the current site.
   const { categoryConfigs = [] } = useConfig();
 
-  // Update set of selected filters on select of category value.
+  /**
+   * Callback function to call when the selected filters change.
+   * @param categoryKey - The category being filtered.
+   * @param selectedValue - The value to set or clear.
+   * @param selected - indicate if the selected value is being set or cleared.
+   * @returns the callback.
+   * Depends on: filterState
+   */
   const onFilter = useCallback<OnFilterFn>(
     (
       categoryKey: CategoryKey,

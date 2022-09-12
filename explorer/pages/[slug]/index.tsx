@@ -1,7 +1,7 @@
 import { config } from "app/config/config";
 import { EMPTY_PAGE } from "app/entity/api/constants";
 import { getCurrentEntity } from "app/hooks/useCurrentEntity";
-import { getFetcher } from "app/hooks/useFetcher";
+import { getEntityService } from "app/hooks/useEntityService";
 import { database } from "app/utils/database";
 import { parseContentRows, readFile } from "app/utils/tsvParser";
 import { Index } from "app/views/Index";
@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps<
   const entity = getCurrentEntity(slug, config());
 
   // Determine the type of fetch, either from an API endpoint or a TSV.
-  const fetcher = getFetcher(entity);
+  const fetcher = getEntityService(entity);
 
   // Build database from configured TSV, if any.
   if (entity.tsv) {
@@ -81,7 +81,7 @@ export const getStaticProps: GetStaticProps<
   // Fetch the result set from either a configured API endpoint or from a local database seeded from a configured TSV.
   const resultList =
     entity.staticLoad || entity.tsv
-      ? await fetcher.listAll(fetcher.path)
+      ? await fetcher.fetchAllEntities(fetcher.path)
       : EMPTY_PAGE;
 
   return {

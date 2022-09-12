@@ -11,7 +11,7 @@ import {
  * @param filters - Set of selected filter values.
  * @returns Azul-specific filter query string param.
  */
-export function transformFilters(filters: Filters): string | undefined {
+export function transformFilters(filters: Filters): string {
   // Build up model of filter params from filters.
   const initialFilterParams: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- we can't determine the filter value.
@@ -38,7 +38,7 @@ export function transformFilters(filters: Filters): string | undefined {
 
   // Return if there are currently no filters
   if (!Object.keys(filterParams).length) {
-    return;
+    JSON.stringify({}); // TODO Test!
   }
 
   // Convert filter to query string param

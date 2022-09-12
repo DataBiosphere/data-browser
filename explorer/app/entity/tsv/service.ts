@@ -10,32 +10,33 @@ import {
   AzulSummaryResponse,
 } from "../../apis/azul/common/entities";
 
-export const list = async (): Promise<AzulEntitiesResponse> => {
-  const items = database.get().all();
-  return Promise.resolve({
-    hits: items,
-    pagination: {
-      count: 0,
-      pages: Math.ceil(items.length / PAGINATION_PAGE_SIZE),
-      size: PAGINATION_PAGE_SIZE,
-      total: items.length,
-    },
-    termFacets: {},
-  });
+export const fetchEntitiesFromQuery =
+  async (): Promise<AzulEntitiesResponse> => {
+    const items = database.get().all();
+    return Promise.resolve({
+      hits: items,
+      pagination: {
+        count: 0,
+        pages: Math.ceil(items.length / PAGINATION_PAGE_SIZE),
+        size: PAGINATION_PAGE_SIZE,
+        total: items.length,
+      },
+      termFacets: {},
+    });
+  };
+
+export const fetchEntitiesFromURL = async (): Promise<AzulEntitiesResponse> => {
+  return fetchEntitiesFromQuery();
 };
 
-export const fetchList = async (): Promise<AzulEntitiesResponse> => {
-  return list();
+export const fetchAllEntities = async (): Promise<AzulEntitiesResponse> => {
+  return fetchEntitiesFromQuery();
 };
 
-export const listAll = async (): Promise<AzulEntitiesResponse> => {
-  return list();
-};
-
-export const detail = async (): Promise<AnvilSourceItem> => {
+export const fetchEntityDetail = async (): Promise<AnvilSourceItem> => {
   throw new Error("Not implemented function"); //This function isn't necessary yet
 };
 
-export const summary = async (): Promise<AzulSummaryResponse> => {
+export const fetchSummary = async (): Promise<AzulSummaryResponse> => {
   throw new Error("Not implemented function"); //This function isn't necessary yet
 };

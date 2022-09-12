@@ -309,8 +309,12 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
           root: {
             ...textBody500,
             gap: 4,
+            letterSpacing: "normal",
             padding: "10px 16px",
             textTransform: "capitalize",
+          },
+          startIcon: {
+            marginRight: 0,
           },
         },
         variants: [
@@ -343,6 +347,7 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
         },
         styleOverrides: {
           root: {
+            flex: "none",
             fontFamily: defaultTheme.typography.fontFamily,
           },
         },
@@ -554,6 +559,7 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
           root: {
             ...textBody400,
             height: 40,
+            letterSpacing: "normal",
           },
         },
       },
@@ -684,6 +690,12 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
         styleOverrides: {
           fontSizeLarge: {
             fontSize: "32px",
+          },
+          fontSizeMedium: {
+            fontSize: "24px",
+          },
+          fontSizeSmall: {
+            fontSize: "20px",
           },
           fontSizeXsmall: {
             fontSize: "18px",

@@ -1,6 +1,6 @@
 import { config } from "app/config/config";
 import { getCurrentEntity } from "app/hooks/useCurrentEntity";
-import { getFetcher } from "app/hooks/useFetcher";
+import { getEntityService } from "app/hooks/useEntityService";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
@@ -37,8 +37,8 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
     entities.map(async (entity) => {
       const resultParams: { params: PageUrl }[] = [];
       if (entity.staticLoad && entity.getId) {
-        const { listAll, path } = getFetcher(entity);
-        const data = await listAll(path);
+        const { fetchAllEntities, path } = getEntityService(entity);
+        const data = await fetchAllEntities(path);
         const tabs = entity.detail?.tabs.map((tab) => tab.route) ?? [];
 
         data.hits.forEach((hit) => {
@@ -80,8 +80,8 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
 
   const props: ProjectPageProps = { slug };
   if (entity.staticLoad) {
-    const { detail, path } = getFetcher(entity);
-    const data = await detail(
+    const { fetchEntityDetail, path } = getEntityService(entity);
+    const data = await fetchEntityDetail(
       (params as PageUrl).params[PARAMS_INDEX_UUID],
       path
     );
