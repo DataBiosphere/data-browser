@@ -38,27 +38,34 @@ export const FluidPaper = styled(RoundedPaper)`
   }
 `;
 
-/* eslint-disable valid-jsdoc -- disable require param */
+// See https://github.com/emotion-js/emotion/issues/1105.
+// See https://github.com/emotion-js/emotion/releases/tag/%40emotion%2Fcache%4011.10.2.
+const ignoreSsrWarning =
+  "/* emotion-disable-server-rendering-unsafe-selector-warning-please-do-not-use-this-the-warning-exists-for-a-reason */";
+
 /**
  * Grid paper - typically used as a parent (grid) container.
  * The background color with the grid cap property create the grid "lines" between each grid item.
  */
-/* eslint-enable valid-jsdoc -- disable require param */
-export const GridPaper = styled.div`
-  background-color: ${({ theme }) => theme.palette.smoke.main};
-  border-radius: inherit; // Inherit parent container border radius.
-  display: grid;
-  gap: 1px;
-
-  // First child inherits top left and right border radius.
-  > *:first-child {
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
-  }
-
+export const GridPaper = styled.div(({ theme }) => ({
+  backgroundColor: `${theme.palette.smoke.main}`,
+  borderRadius: "inherit", // Inherit parent container border radius.
+  display: "grid",
+  gap: "1px",
+  // First child - not <style/> - inherits top left and right border radius.
+  [`> *:first-child:not(style)${ignoreSsrWarning}`]: {
+    borderTopLeftRadius: "inherit",
+    borderTopRightRadius: "inherit",
+  },
+  // First child - after <style/> - inherits top left and right border radius.
+  [`> style:first-child + *${ignoreSsrWarning}`]: {
+    borderTopLeftRadius: "inherit",
+    borderTopRightRadius: "inherit",
+  },
   // Last child inherits bottom left and right border radius.
-  > *:last-child {
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
-  }
-`;
+  // eslint-disable-next-line sort-keys -- disabling key order for readability
+  "> *:last-child": {
+    borderBottomLeftRadius: "inherit",
+    borderBottomRightRadius: "inherit",
+  },
+}));
