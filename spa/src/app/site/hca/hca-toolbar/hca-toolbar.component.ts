@@ -53,6 +53,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
 
     // Locals
     private currentUrl: string;
+    private headerBreakpoint = "(min-width: 1280px)";
     private ngDestroy$ = new Subject();
 
     /**
@@ -189,7 +190,7 @@ export class HCAToolbarComponent implements HeaderComponent, OnDestroy, OnInit {
      * Listens for the desktop breakpoint.
      */
     private initBreakpointObserver() {
-        this.observer.observe("(min-width: 1440px)").subscribe((result) => {
+        this.observer.observe(this.headerBreakpoint).subscribe((result) => {
             this.desktop = result.matches;
             // Closes menu when desktop breakpoint matches.
             if (this.desktop) {

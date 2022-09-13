@@ -52,10 +52,9 @@ mat-toolbar {
 }
 
 /**
- * Medium Window +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ * Custom - desktop.
  */
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: $desktop) {
     mat-toolbar {
         padding: 0 16px;
     }
