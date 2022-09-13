@@ -20,10 +20,9 @@
 }
 
 /**
- * Medium Window +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ * Custom - desktop.
  */
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: $desktop) {
     :host {
         padding: 6px 12px;
     }

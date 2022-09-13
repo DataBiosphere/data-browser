@@ -19,14 +19,13 @@
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 20;
+    z-index: 40;
 }
 
 /**
- * Medium Window +
- * https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+ * Custom - desktop.
  */
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: $desktop) {
     :host {
         display: contents;
     }
