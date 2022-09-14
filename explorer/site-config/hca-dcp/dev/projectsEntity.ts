@@ -28,6 +28,7 @@ export const projectsEntity: EntityConfig = {
   apiPath: "index/projects",
   detail: {
     detailOverviews: ["Overview"],
+    staticLoad: true,
     tabs: [
       {
         label: "Overview",
@@ -134,5 +135,4 @@ export const projectsEntity: EntityConfig = {
     ],
   } as ListConfig<ProjectsResponse>,
   route: "projects",
-  staticLoad: true,
 };

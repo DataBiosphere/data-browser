@@ -1,8 +1,5 @@
 import { config } from "app/config/config";
-import { EMPTY_PAGE } from "app/entity/api/constants";
 import { getCurrentEntity } from "app/hooks/useCurrentEntity";
-import { getEntityService } from "app/hooks/useEntityService";
-import { database } from "app/utils/database";
 import { parseContentRows, readFile } from "app/utils/tsvParser";
 import { Index } from "app/views/Index";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
@@ -10,18 +7,34 @@ import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { AzulEntitiesStaticResponse } from "../../app/apis/azul/common/entities";
 import { Page } from "../../app/components/Layout/components/Page/page";
+import { EMPTY_PAGE } from "../../app/entity/api/constants";
+import { getEntityService } from "../../app/hooks/useEntityService";
+import { database } from "../../app/utils/database";
 
 interface PageUrl extends ParsedUrlQuery {
-  slug: string;
+  entityListType: string;
 }
 
 interface ListPageProps extends AzulEntitiesStaticResponse {
-  slug: string;
+  entityListType: string;
 }
 
-const IndexPage = ({ slug, ...props }: ListPageProps): JSX.Element => {
-  if (!slug) return <></>;
-  const entity = getCurrentEntity(slug, config());
+/**
+ * Entity list component
+ * @param listPageProps - props type for this component.
+ * @param listPageProps.entityListType - as specified on the URL
+ * @param listPageProps.props - dont know! //TODO what's in here?
+ * @constructor
+ */
+const IndexPage = ({
+  entityListType,
+  ...props
+}: ListPageProps): JSX.Element => {
+  if (!entityListType) {
+    return <></>;
+  }
+
+  const entity = getCurrentEntity(entityListType, config());
 
   return (
     <Page entity={entity}>
@@ -37,7 +50,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const entities = config().entities;
   const paths = entities.map((entity) => ({
     params: {
-      slug: entity.route,
+      entityListType: entity.route,
     },
   }));
   return {
@@ -53,8 +66,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<
   AzulEntitiesStaticResponse
 > = async (context: GetStaticPropsContext) => {
-  const { slug } = context.params as PageUrl;
-  const entity = getCurrentEntity(slug, config());
+  const { entityListType } = context.params as PageUrl;
+  const entity = getCurrentEntity(entityListType, config());
 
   // Determine the type of fetch, either from an API endpoint or a TSV.
   const fetcher = getEntityService(entity);
@@ -87,7 +100,7 @@ export const getStaticProps: GetStaticProps<
   return {
     props: {
       data: resultList,
-      slug,
+      entityListType: entityListType,
     },
   };
 };

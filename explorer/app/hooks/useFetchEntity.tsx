@@ -19,7 +19,7 @@ interface UseEntityDetailResponse<T> {
 export const useFetchEntity = <T,>(
   value?: AzulEntityStaticResponse
 ): UseEntityDetailResponse<T> => {
-  const { fetchEntityDetail, path, staticLoad } = useEntityService();
+  const { detailStaticLoad, fetchEntityDetail, path } = useEntityService();
 
   const router = useRouter();
   const uuid = router.query.params?.[PARAMS_INDEX_UUID] as string;
@@ -31,12 +31,12 @@ export const useFetchEntity = <T,>(
   } = useAsync<T>();
 
   useEffect(() => {
-    if (!staticLoad && uuid) {
+    if (!detailStaticLoad && uuid) {
       run(fetchEntityDetail(uuid, path));
     }
-  }, [fetchEntityDetail, path, run, staticLoad, uuid]);
+  }, [fetchEntityDetail, path, run, detailStaticLoad, uuid]);
 
-  if (staticLoad) {
+  if (detailStaticLoad) {
     return { isLoading: false, response: value?.data };
   }
 

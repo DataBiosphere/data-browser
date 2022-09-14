@@ -10,18 +10,28 @@ import { Page } from "../../app/components/Layout/components/Page/page";
 import { Detail } from "../../app/views/Detail/detail";
 
 interface PageUrl extends ParsedUrlQuery {
+  entityListType: string;
   params: string[];
-  slug: string;
 }
 
 interface ProjectPageProps extends AzulEntityStaticResponse {
-  slug: string;
+  entityListType: string;
 }
 
-const ProjectPage = ({ slug, ...props }: ProjectPageProps): JSX.Element => {
-  if (!slug) return <></>;
+/**
+ * Entity detail component
+ * @param projectPageProps - d
+ * @param projectPageProps.entityListType - d
+ * @param projectPageProps.props - d
+ * @constructor
+ */
+const ProjectPage = ({
+  entityListType,
+  ...props
+}: ProjectPageProps): JSX.Element => {
+  if (!entityListType) return <></>;
 
-  const entity = getCurrentEntity(slug, config());
+  const entity = getCurrentEntity(entityListType, config());
 
   return (
     <Page entity={entity}>
@@ -30,23 +40,29 @@ const ProjectPage = ({ slug, ...props }: ProjectPageProps): JSX.Element => {
   );
 };
 
+/**
+ * getStaticPaths - return the list of paths to prerender for each entity type and its tabs.
+ */
 export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   const entities = config().entities;
 
   const paths = await Promise.all(
-    entities.map(async (entity) => {
+    entities.map(async (entityConfig) => {
       const resultParams: { params: PageUrl }[] = [];
-      if (entity.staticLoad && entity.getId) {
-        const { fetchAllEntities, path } = getEntityService(entity);
+      if (entityConfig.detail.staticLoad && entityConfig.getId) {
+        const { fetchAllEntities, path } = getEntityService(entityConfig);
         const data = await fetchAllEntities(path);
-        const tabs = entity.detail?.tabs.map((tab) => tab.route) ?? [];
+        const tabs = entityConfig.detail?.tabs.map((tab) => tab.route) ?? [];
 
+        // process all hits
         data.hits.forEach((hit) => {
+          // process all tabs on each hit
+          // TODO maybe we dont't want to pre-render the tabs.
           tabs.forEach((tab) => {
             resultParams.push({
               params: {
-                params: [entity.getId?.(hit) ?? "", tab],
-                slug: entity.route,
+                entityListType: entityConfig.route,
+                params: [entityConfig.getId?.(hit) ?? "", tab],
               },
             });
           });
@@ -58,10 +74,10 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
 
   const result = paths
     .reduce((prev, curr) => [...prev, ...curr], [])
-    .filter(({ params }) => !!params);
+    .filter(({ params }) => !!params); // TODO why is this filter needed?
 
   return {
-    fallback: true,
+    fallback: false, // others e.g. true, blocking are not supported with next export
     paths: result,
   };
 };
@@ -69,8 +85,8 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
 export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   params,
 }: GetStaticPropsContext) => {
-  const { slug } = params as PageUrl;
-  const entity = getCurrentEntity(slug, config());
+  const { entityListType } = params as PageUrl;
+  const entity = getCurrentEntity(entityListType, config());
 
   if (!entity) {
     return {
@@ -78,8 +94,8 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
     };
   }
 
-  const props: ProjectPageProps = { slug };
-  if (entity.staticLoad) {
+  const props: ProjectPageProps = { entityListType: entityListType };
+  if (entity.detail.staticLoad) {
     const { fetchEntityDetail, path } = getEntityService(entity);
     const data = await fetchEntityDetail(
       (params as PageUrl).params[PARAMS_INDEX_UUID],

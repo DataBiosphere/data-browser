@@ -774,6 +774,8 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
             transition: "none",
           },
           root: {
+            flex: 1,
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
             "&.Mui-active": {
               color: "inherit",
               // eslint-disable-next-line sort-keys -- disabling key order for readability

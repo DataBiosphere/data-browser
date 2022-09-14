@@ -55,7 +55,7 @@ export const useEntityList = (
 
   // Determine type of fetch to be executed, either API endpoint or TSV.
 
-  const { fetchEntitiesFromQuery, path, staticLoad } = useEntityService();
+  const { fetchEntitiesFromQuery, listStaticLoad, path } = useEntityService();
 
   // Init fetch of entities.
   const { data, isIdle, isLoading, run } = useAsync<AzulEntitiesResponse>();
@@ -64,11 +64,11 @@ export const useEntityList = (
 
   // Generalize the filters returned from Azul.
   const categories = useMemo(() => {
-    if (staticLoad || !data || !data.termFacets) {
+    if (listStaticLoad || !data || !data.termFacets) {
       return [];
     }
     return transformTermFacets(data.termFacets);
-  }, [data, staticLoad]);
+  }, [data, listStaticLoad]);
 
   // Init filter functionality.
   const {
@@ -90,7 +90,7 @@ export const useEntityList = (
    * Hook for fetching entites matching the current query and authentication state.
    */
   useEffect(() => {
-    if (!staticLoad) {
+    if (!listStaticLoad) {
       // Build basic list params
       const listParams: AzulListParams = { order: sortOrder, sort: sortKey };
 
@@ -109,7 +109,7 @@ export const useEntityList = (
     run,
     sortKey,
     sortOrder,
-    staticLoad,
+    listStaticLoad,
     token,
   ]);
 
@@ -127,7 +127,7 @@ export const useEntityList = (
 
   // Exit if we're dealing with a statically-loaded entity; data has already been fetched during build; indicate
   // load is complete and return static data.
-  if (staticLoad) {
+  if (listStaticLoad) {
     return {
       categories: [],
       loading: false,

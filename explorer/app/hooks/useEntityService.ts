@@ -4,24 +4,27 @@ import { EntityService } from "../entity/service/model";
 import { useCurrentEntity } from "./useCurrentEntity";
 
 interface FetcherResponse extends EntityService {
+  detailStaticLoad: boolean;
+  listStaticLoad: boolean;
   path: string;
-  staticLoad: boolean;
 }
 
 export const getEntityService = (entity: EntityConfig): FetcherResponse => {
   if (entity.apiPath) {
     return {
       ...createEntityService("API"),
+      detailStaticLoad: !!entity.detail.staticLoad,
+      listStaticLoad: !!entity.staticLoad,
       path: entity.apiPath,
-      staticLoad: !!entity.staticLoad,
     };
   }
 
   if (entity.tsv) {
     return {
       ...createEntityService("TSV"),
+      detailStaticLoad: true,
+      listStaticLoad: true,
       path: entity.tsv.path,
-      staticLoad: true,
     };
   }
 

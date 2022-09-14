@@ -86,6 +86,7 @@ export interface DataSourceConfig {
  */
 export interface BackPageConfig {
   detailOverviews?: TabConfig["label"][];
+  staticLoad?: boolean;
   tabs: BackPageTabConfig[];
   top: ComponentsConfig;
 }
