@@ -23,7 +23,7 @@ const EMPTY_ENTITY: EntityConfig = {
  * @param config - The site config for the current environment.
  * @returns The current entity or undefined
  */
-export const getCurrentEntity = (
+export const getCurrentEntityConfig = (
   path: string,
   config: SiteConfig
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
@@ -46,6 +46,6 @@ export const CurrentEntityProvider = CurrentEntityContext.Provider;
  * @returns The current entity based using the context value provided by the current page.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
-export const useCurrentEntity = (): EntityConfig<any> => {
+export const useCurrentEntityConfig = (): EntityConfig<any> => {
   return useContext(CurrentEntityContext);
 };

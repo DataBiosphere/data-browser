@@ -25,7 +25,7 @@ export default {
   parameters: {
     layout: "fullscreen",
   },
-  title: "Views/Detail",
+  title: "Views/EntityDetailView",
 } as ComponentMeta<typeof Detail>;
 
 const Template: ComponentStory<typeof Detail> = (args) => <Detail {...args} />;

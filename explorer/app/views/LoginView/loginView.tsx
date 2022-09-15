@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../common/context/authState";
 
-export const LoginPage = (): JSX.Element => {
+export const LoginView = (): JSX.Element => {
   const { authorizeUser } = useContext(AuthContext);
 
   return (

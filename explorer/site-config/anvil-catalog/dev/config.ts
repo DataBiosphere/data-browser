@@ -6,7 +6,7 @@ const config: SiteConfig = {
   ...anvilDevConfig,
   disablePagination: true,
   entities: [workspaceEntity],
-  entityTitle: "Anvil Dataset Catalog",
+  explorerTitle: "AnVIL Dataset Catalog",
   redirectRootToPath: "/workspaces",
   summaryConfig: undefined,
 };

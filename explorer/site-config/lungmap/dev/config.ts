@@ -37,7 +37,7 @@ const config: SiteConfig = {
     url: "https://service.azul.data.humancellatlas.org/",
   },
   entities: hcaConfig.entities,
-  entityTitle: "Explore Data",
+  explorerTitle: "Explore Data",
   export: hcaConfig.export,
   exportToTerraUrl: hcaConfig.exportToTerraUrl,
   layout: {

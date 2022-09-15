@@ -1,7 +1,7 @@
 import { PARAMS_INDEX_TAB } from "app/shared/constants";
 import { useRouter } from "next/router";
 import { BackPageTabConfig } from "../config/common/entities";
-import { useCurrentEntity } from "./useCurrentEntity";
+import { useCurrentEntityConfig } from "./useCurrentEntityConfig";
 
 /**
  * Model of current selected tab and the tab's corresponding route in the set of tabs.
@@ -17,7 +17,7 @@ export interface CurrentDetailTab {
  */
 export const useCurrentDetailTab = (): CurrentDetailTab => {
   const router = useRouter();
-  const currentEntity = useCurrentEntity();
+  const currentEntity = useCurrentEntityConfig();
   const tabRoute = router.query.params?.[PARAMS_INDEX_TAB] ?? "";
 
   const currentTab =

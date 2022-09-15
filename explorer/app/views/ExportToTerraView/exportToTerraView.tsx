@@ -6,7 +6,7 @@ import React from "react";
 import { MainColumn } from "./mainColumn";
 import { SideColumn } from "./sideColumn";
 
-export const ExportToTerraPage = (
+export const ExportToTerraView = (
   props: AzulEntityStaticResponse
 ): JSX.Element => {
   const exportConfig = useExportConfig();

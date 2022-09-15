@@ -16,7 +16,7 @@ export default {
   parameters: {
     layout: "fullscreen",
   },
-  title: "Components/Hero/Index",
+  title: "Components/Hero/ExploreView",
 } as ComponentMeta<typeof Hero>;
 
 const Template: ComponentStory<typeof Hero> = (args) => <Hero {...args} />;

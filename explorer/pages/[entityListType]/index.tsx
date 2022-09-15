@@ -1,7 +1,7 @@
-import { config } from "app/config/config";
-import { getCurrentEntity } from "app/hooks/useCurrentEntity";
+import { config, getEntityConfig } from "app/config/config";
+import { getCurrentEntityConfig } from "app/hooks/useCurrentEntityConfig";
 import { parseContentRows, readFile } from "app/utils/tsvParser";
-import { Index } from "app/views/Index";
+import { ExploreView } from "app/views/ExploreView/exploreView";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
@@ -34,11 +34,11 @@ const IndexPage = ({
     return <></>;
   }
 
-  const entity = getCurrentEntity(entityListType, config());
+  const entityConfig = getEntityConfig(entityListType);
 
   return (
-    <Page entity={entity}>
-      <Index {...props} />
+    <Page entity={entityConfig}>
+      <ExploreView {...props} />
     </Page>
   );
 };
@@ -67,7 +67,7 @@ export const getStaticProps: GetStaticProps<
   AzulEntitiesStaticResponse
 > = async (context: GetStaticPropsContext) => {
   const { entityListType } = context.params as PageUrl;
-  const entity = getCurrentEntity(entityListType, config());
+  const entity = getCurrentEntityConfig(entityListType, config());
 
   // Determine the type of fetch, either from an API endpoint or a TSV.
   const fetcher = getEntityService(entity);

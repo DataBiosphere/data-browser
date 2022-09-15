@@ -1,7 +1,7 @@
 import { EntityConfig } from "../config/common/entities";
 import { createEntityService } from "../entity/service/factory";
 import { EntityService } from "../entity/service/model";
-import { useCurrentEntity } from "./useCurrentEntity";
+import { useCurrentEntityConfig } from "./useCurrentEntityConfig";
 
 interface FetcherResponse extends EntityService {
   detailStaticLoad: boolean;
@@ -39,6 +39,6 @@ export const getEntityService = (entity: EntityConfig): FetcherResponse => {
  * @returns @see FetcherResponse
  */
 export const useEntityService = (): FetcherResponse => {
-  const entity = useCurrentEntity();
+  const entity = useCurrentEntityConfig();
   return getEntityService(entity);
 };

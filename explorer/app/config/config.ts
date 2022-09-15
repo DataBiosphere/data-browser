@@ -12,7 +12,8 @@ import ncpiDugMapDev from "../../site-config/ncpi-catalog-dug/dev/config";
 import ncpiDugMapProd from "../../site-config/ncpi-catalog-dug/prod/config";
 import ncpiMapDev from "../../site-config/ncpi-catalog/dev/config";
 import ncpiMapProd from "../../site-config/ncpi-catalog/prod/config";
-import { SiteConfig } from "./common/entities";
+import { Tab } from "../components/common/Tabs/tabs";
+import { EntityConfig, SiteConfig } from "./common/entities";
 
 const CONFIGS: { [k: string]: SiteConfig } = {
   "anvil-catalog-dev": anvilCatalogDev,
@@ -53,4 +54,35 @@ export const config = (): SiteConfig => {
   }
 
   return appConfig;
+};
+
+/**
+ * Returns the config for the given entity
+ * @param path - the path used to identify the entity
+ * @returns - the entity config associated with the given route path.
+ */
+export const getEntityConfig = (
+  path: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
+): EntityConfig<any> => {
+  const entityConfig = config().entities.find(
+    (entity) => entity.route === path
+  );
+
+  if (!entityConfig) {
+    throw Error("No entity found");
+  }
+
+  return entityConfig;
+};
+
+/**
+ * Retrieve the tabs for the entity configs
+ * @returns tabs list for the current config
+ */
+export const getTabs = (): Tab[] => {
+  return config().entities.map(({ label, route }) => ({
+    label,
+    value: route,
+  }));
 };

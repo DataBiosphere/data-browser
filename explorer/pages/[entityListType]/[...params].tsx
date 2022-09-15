@@ -1,5 +1,4 @@
-import { config } from "app/config/config";
-import { getCurrentEntity } from "app/hooks/useCurrentEntity";
+import { config, getEntityConfig } from "app/config/config";
 import { getEntityService } from "app/hooks/useEntityService";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
@@ -7,14 +6,14 @@ import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { AzulEntityStaticResponse } from "../../app/apis/azul/common/entities";
 import { Page } from "../../app/components/Layout/components/Page/page";
-import { Detail } from "../../app/views/Detail/detail";
+import { EntityDetailView } from "../../app/views/EntityDetailView/entityDetailView";
 
 interface PageUrl extends ParsedUrlQuery {
   entityListType: string;
   params: string[];
 }
 
-interface ProjectPageProps extends AzulEntityStaticResponse {
+interface EntityDetailPageProps extends AzulEntityStaticResponse {
   entityListType: string;
 }
 
@@ -25,17 +24,17 @@ interface ProjectPageProps extends AzulEntityStaticResponse {
  * @param projectPageProps.props - d
  * @constructor
  */
-const ProjectPage = ({
+const EntityDetailPage = ({
   entityListType,
   ...props
-}: ProjectPageProps): JSX.Element => {
+}: EntityDetailPageProps): JSX.Element => {
   if (!entityListType) return <></>;
 
-  const entity = getCurrentEntity(entityListType, config());
+  const entityConfig = getEntityConfig(entityListType);
 
   return (
-    <Page entity={entity}>
-      <Detail {...props} />
+    <Page entity={entityConfig}>
+      <EntityDetailView {...props} />
     </Page>
   );
 };
@@ -86,7 +85,7 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   params,
 }: GetStaticPropsContext) => {
   const { entityListType } = params as PageUrl;
-  const entity = getCurrentEntity(entityListType, config());
+  const entity = getEntityConfig(entityListType);
 
   if (!entity) {
     return {
@@ -94,7 +93,7 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
     };
   }
 
-  const props: ProjectPageProps = { entityListType: entityListType };
+  const props: EntityDetailPageProps = { entityListType: entityListType };
   if (entity.detail.staticLoad) {
     const { fetchEntityDetail, path } = getEntityService(entity);
     const data = await fetchEntityDetail(
@@ -108,4 +107,4 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   };
 };
 
-export default ProjectPage;
+export default EntityDetailPage;

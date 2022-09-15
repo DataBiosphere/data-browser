@@ -1,5 +1,5 @@
 import React from "react";
-import { ExportPage as ExportPageView } from "../../app/views/ExportPage/exportPage";
+import { ExportView as ExportPageView } from "../../app/views/ExportView/exportView";
 
 /**
  * Export page.

@@ -1,7 +1,7 @@
 import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
 import { Detail as DetailView } from "app/components/Detail/detail";
 import { useCurrentDetailTab } from "app/hooks/useCurrentDetailTab";
-import { useCurrentEntity } from "app/hooks/useCurrentEntity";
+import { useCurrentEntityConfig } from "app/hooks/useCurrentEntityConfig";
 import { useFetchEntity } from "app/hooks/useFetchEntity";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { useRouter } from "next/router";
@@ -26,10 +26,12 @@ function getTabs(entity: EntityConfig): Tab[] {
     value: route,
   }));
 }
-// TODO(Dave) Rename to EntityDetail?
-export const Detail = (props: AzulEntityStaticResponse): JSX.Element => {
+
+export const EntityDetailView = (
+  props: AzulEntityStaticResponse
+): JSX.Element => {
   const { currentTab, route: tabRoute } = useCurrentDetailTab();
-  const entity = useCurrentEntity();
+  const entity = useCurrentEntityConfig();
   const { isLoading, response } = useFetchEntity(props);
   const [tabsValue, setTabsValue] = useState<TabsValue>(tabRoute);
   const { push, query } = useRouter();

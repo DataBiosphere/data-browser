@@ -1,5 +1,5 @@
 import { EntityConfig } from "app/config/common/entities";
-import { CurrentEntityProvider } from "app/hooks/useCurrentEntity";
+import { CurrentEntityProvider } from "app/hooks/useCurrentEntityConfig";
 import React from "react";
 
 interface PageProps {

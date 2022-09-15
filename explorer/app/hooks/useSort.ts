@@ -1,7 +1,7 @@
 import { Sort, SortOrderType } from "app/common/entities";
 import { EntityConfig } from "app/config/common/entities";
 import { useCallback, useMemo, useState } from "react";
-import { useCurrentEntity } from "./useCurrentEntity";
+import { useCurrentEntityConfig } from "./useCurrentEntityConfig";
 import { useResetableState } from "./useResetableState";
 
 /**
@@ -18,10 +18,13 @@ const getDefaultSort = (entity: EntityConfig): string | undefined => {
 
 export const useSort = (): Sort => {
   // Grab the current entity.
-  const entity = useCurrentEntity();
+  const entityConfig = useCurrentEntityConfig();
 
   // Init sort.
-  const defaultSort = useMemo(() => getDefaultSort(entity), [entity]);
+  const defaultSort = useMemo(
+    () => getDefaultSort(entityConfig),
+    [entityConfig]
+  );
   const [sortKey, setSortKey] = useResetableState<string | undefined>(
     defaultSort
   );

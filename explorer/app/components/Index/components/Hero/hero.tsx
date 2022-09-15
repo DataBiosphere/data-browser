@@ -1,5 +1,5 @@
 /**
- * Index page hero component comprising title, summary counts, and export button.
+ * ExploreView page hero component comprising title, summary counts, and export button.
  */
 
 import Link from "next/link";

@@ -85,7 +85,7 @@ export const fetchAllEntities = async (
 
 /**
  *  Request to get a single project.
- * @param id - project's uuid.
+ * @param id - entity's uuid.
  * @param apiPath - API endpoint URL.
  * @param param - Catalog's version, if none passed it will default to the current one.
  * @returns @see ProjectResponse

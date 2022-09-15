@@ -21,8 +21,8 @@ export const PAGINATION_PAGE_SIZE = 25;
 /**
  * Values to determine the index for each param.
  * https://host/explore/[slug]/[param-uuid]/[param-tab]
- * - Index 0 returns the current UUID
- * - Index 1 returns the current tab
+ * - ExploreView 0 returns the current UUID
+ * - ExploreView 1 returns the current tab
  */
 export const PARAMS_INDEX_UUID = 0;
 export const PARAMS_INDEX_TAB = 1;

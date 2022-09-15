@@ -53,7 +53,7 @@ export const BackPageContent = styled.div`
   }
 `;
 
-// Detail back page "overview" content (main and side column wrapper).
+// EntityDetailView back page "overview" content (main and side column wrapper).
 // Typically used by back page "project" or "datasets" tab.
 // Used with DetailPageOverviewContentMainColumn and DetailPageOverviewContentSideColumn, the "sections"
 // appear to be contained within a combination of "fluid" and "gridded" paper elements.
@@ -100,7 +100,7 @@ export const BackPageContentSideColumn = styled(BackPageContentColumn)`
   }
 `;
 
-// Detail back page "overview" main column.
+// EntityDetailView back page "overview" main column.
 // Typically used by back page "project" or "datasets" tab.
 export const DetailPageOverviewContentMainColumn = styled(Sections)`
   display: contents;
@@ -120,7 +120,7 @@ export const DetailPageOverviewContentMainColumn = styled(Sections)`
   }
 `;
 
-// Detail back page "overview" side column.
+// EntityDetailView back page "overview" side column.
 // Typically used by back page "project" or "datasets" tab.
 export const DetailPageOverviewContentSideColumn = styled(Sections)`
   display: contents;

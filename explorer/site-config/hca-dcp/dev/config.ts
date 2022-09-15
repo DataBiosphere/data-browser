@@ -133,7 +133,7 @@ const config: SiteConfig = {
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
   entities: [projectsEntity, samplesEntityConfig, filesEntityConfig],
-  entityTitle: "Explore Data: DCP 2.0 Data View",
+  explorerTitle: "Explore Data: DCP 2.0 Data View",
   export: exportConfig,
   exportToTerraUrl: "https://app.terra.bio/",
   layout: {

@@ -169,7 +169,7 @@ export interface SiteConfig {
   dataSource: DataSourceConfig;
   disablePagination?: boolean;
   entities: EntityConfig[];
-  entityTitle: HeroTitle;
+  explorerTitle: HeroTitle;
   export?: BackPageConfig;
   exportToTerraUrl?: string; // TODO(cc) revist location; possibly nest inside "export"?
   layout: {

@@ -18,7 +18,7 @@ export default {
   parameters: {
     layout: "fullscreen",
   },
-  title: "Views/Index",
+  title: "Views/ExploreView",
 } as ComponentMeta<typeof Index>;
 
 const Template: ComponentStory<typeof Index> = (args) => <Index {...args} />;

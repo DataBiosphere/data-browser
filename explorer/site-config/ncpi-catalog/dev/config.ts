@@ -38,7 +38,7 @@ const config: SiteConfig = {
   ...basicConfig,
   disablePagination: true,
   entities: [studiesEntityConfig],
-  entityTitle: "NCPI Dataset Catalog",
+  explorerTitle: "NCPI Dataset Catalog",
   layout: {
     footer: anvilConfig.layout.footer,
     header: {

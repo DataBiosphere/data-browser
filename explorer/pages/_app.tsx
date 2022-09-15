@@ -15,28 +15,31 @@ import { AuthProvider } from "../app/common/context/authState";
 import { FilterStateProvider } from "../app/common/context/filterState";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  // Extract entity list type form URL query params and pass down to components
+  // Set up the site configuration, layout and theme.
+  const siteConfig = config();
+  const layout = siteConfig.layout;
+  const theme = getAppTheme(siteConfig.theme);
+
+  // Determine the entity type.
   const router = useRouter();
   const { entityListType } = router.query;
   pageProps.entityListType = entityListType;
-  const currentConfig = config();
-  const currentLayout = currentConfig.layout;
-  const theme = getAppTheme(currentConfig.theme);
+
   return (
     <Emotion10ThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
-        <ConfigProvider value={currentConfig}>
+        <ConfigProvider value={siteConfig}>
           <Head />
           <CssBaseline />
-          <AuthProvider authConfig={currentConfig.authConfig}>
+          <AuthProvider>
             <AppLayout>
-              <Header header={currentLayout.header} />
+              <Header header={layout.header} />
               <FilterStateProvider>
                 <Main>
                   <Component {...pageProps} />
                 </Main>
               </FilterStateProvider>
-              <Footer footer={currentLayout.footer} />
+              <Footer footer={layout.footer} />
             </AppLayout>
           </AuthProvider>
         </ConfigProvider>

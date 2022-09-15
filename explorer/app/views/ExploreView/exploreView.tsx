@@ -1,17 +1,10 @@
-import {
-  Tab,
-  Tabs,
-  TabsValue,
-  TabValue,
-} from "app/components/common/Tabs/tabs";
+import { Tabs, TabsValue, TabValue } from "app/components/common/Tabs/tabs";
 import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
 import { NoResults } from "app/components/NoResults/noResults";
 import { TableCreator } from "app/components/TableCreator/tableCreator";
-import { useConfig } from "app/hooks/useConfig";
-import { useCurrentEntity } from "app/hooks/useCurrentEntity";
+import { useCurrentEntityConfig } from "app/hooks/useCurrentEntityConfig";
 import { useEntityList } from "app/hooks/useEntityList";
 import { useResetableState } from "app/hooks/useResetableState";
-import { useSummary } from "app/hooks/useSummary";
 import { useRouter } from "next/router";
 import React from "react";
 import {
@@ -23,30 +16,30 @@ import { Filters } from "../../components/Filter/components/Filters/filters";
 import { Index as IndexView } from "../../components/Index/index";
 import { SidebarLabel } from "../../components/Layout/components/Sidebar/components/SidebarLabel/sidebarLabel";
 import { Sidebar } from "../../components/Layout/components/Sidebar/sidebar";
-import { EntityConfig, SummaryConfig } from "../../config/common/entities";
+import { SummaryConfig } from "../../config/common/entities";
+import { config, getTabs } from "../../config/config";
+import { useSummary } from "../../hooks/useSummary";
 
-// TODO(Dave) Rename to EntityList
-// TODO(Dave) Rename entityTitle to entityListTitle
 // TODO(Dave) create an interface for props and maybe not drill the static load through here
-export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
-  const entity = useCurrentEntity();
-  const { disablePagination, entities, entityTitle, summaryConfig } =
-    useConfig();
+export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
+  const { disablePagination, explorerTitle, summaryConfig } = config();
+  const currentEntityConfig = useCurrentEntityConfig();
 
-  const route = entity.route;
+  const route = currentEntityConfig.route;
+
   const { push } = useRouter();
 
   // Init tabs state.
   const [tabsValue, setTabsValue] = useResetableState<TabsValue>(route);
-  const tabs = getTabs(entities);
+  const tabs = getTabs();
 
   // Fetch summary and entities.
   const { response: summaryResponse } = useSummary();
   const { categories, loading, onFilter, pagination, response, sort } =
     useEntityList(props);
 
-  // Grab the column config for the current entity.
-  const columnsConfig = entity.list.columns;
+  // Get the column config for the current entity.
+  const columnsConfig = currentEntityConfig.list.columns;
 
   /**
    * Callback fired when selected tab value changes.
@@ -62,7 +55,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
 
   /**
    * Render either a loading view, empty result set notification or the table itself.
-   * @param entitiesResponse - Index responses from Azul, such as projects (index/projects), samples (index/samples) and files (index/files).
+   * @param entitiesResponse - ExploreView responses from Azul, such as projects (index/projects), samples (index/samples) and files (index/files).
    * @returns Element to render.
    */
   const renderContent = (
@@ -105,7 +98,7 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
         sort={sort}
         pages={entitiesResponse.pagination.pages}
         loading={loading}
-        staticallyLoaded={entity.staticLoad}
+        staticallyLoaded={currentEntityConfig.staticLoad}
         disablePagination={disablePagination}
       />
     );
@@ -122,23 +115,11 @@ export const Index = (props: AzulEntitiesStaticResponse): JSX.Element => {
         entities={renderContent(response)}
         Summaries={renderSummary(summaryConfig, summaryResponse)}
         Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabsValue} />}
-        title={entityTitle}
+        title={explorerTitle}
       />
     </>
   );
 };
-
-/**
- * Returns tabs to be used as a prop for the Tabs component.
- * @param entities - Entity configs related to the /explore/projects, /explore/files and /explore/samples route.
- * @returns tabs list.
- */
-function getTabs(entities: EntityConfig[]): Tab[] {
-  return entities.map(({ label, route }) => ({
-    label,
-    value: route,
-  }));
-}
 
 /**
  * Renders Summaries component when all the following requirements are fulfilled:

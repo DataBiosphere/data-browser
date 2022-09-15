@@ -1,5 +1,5 @@
 import React from "react";
-import { LoginPage as LoginPageView } from "../../app/views/Login/loginPage";
+import { LoginView as LoginPageView } from "../../app/views/LoginView/loginView";
 
 /**
  * Export page.

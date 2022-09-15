@@ -114,7 +114,7 @@ const config: SiteConfig = {
     activitiesEntityConfig,
     filesEntityConfig,
   ],
-  entityTitle: "Anvil Data Explorer",
+  explorerTitle: "AnVIL Data Explorer",
   export: exportConfig,
   exportToTerraUrl: "https://app.terra.bio/",
   layout: {

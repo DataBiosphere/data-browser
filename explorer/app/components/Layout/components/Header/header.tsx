@@ -104,7 +104,7 @@ export const Header = ({ header }: Props): JSX.Element => {
           >
             {/* Search */}
             {searchEnabled && <Search />}
-            {/* Login */}
+            {/* LoginView */}
             {authenticationEnabled && <ProfileComponent />}
             {/* Menu */}
             {!desktop && (

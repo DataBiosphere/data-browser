@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { GoogleGISAuthConfig } from "../../config/common/entities";
+import { config } from "../../config/config";
 
 // Template constants
 export const ROUTE_LOGIN = "/login";
@@ -71,7 +71,6 @@ export const AuthContext = createContext<IAuthContext>({
 });
 
 interface Props {
-  authConfig?: GoogleGISAuthConfig;
   children: ReactNode | ReactNode[];
 }
 
@@ -79,10 +78,10 @@ interface Props {
  * Auth provider for consuming components to subscribe to changes in auth-related state.
  * @param props - Component inputs.
  * @param props.children - Set of children components that can possibly consume the query provider.
- * @param props.authConfig - TODO
  * @returns Provider element to be used by consumers to both update authentication state and subscribe to changes in authentication state.
  */
-export function AuthProvider({ authConfig, children }: Props): JSX.Element {
+export function AuthProvider({ children }: Props): JSX.Element {
+  const authConfig = config().authConfig;
   const { clientId, scope } = authConfig || {};
   const router = useRouter();
   const { asPath } = router;
@@ -185,7 +184,7 @@ export function AuthProvider({ authConfig, children }: Props): JSX.Element {
   // Route history ref is updated with the previous route path.
   useEffect(() => {
     if (asPath !== ROUTE_LOGIN) {
-      // Login route omitted; once authorization is successful, the router redirects back to the
+      // LoginView route omitted; once authorization is successful, the router redirects back to the
       // path prior to logging in.
       routeHistoryRef.current = asPath;
     }

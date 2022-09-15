@@ -4,7 +4,7 @@ import { BackPageView } from "app/components/Layout/components/BackPage/backPage
 import { useExportConfig } from "app/hooks/useExportConfig";
 import React from "react";
 
-export const ExportPage = (props: AzulEntityStaticResponse): JSX.Element => {
+export const ExportView = (props: AzulEntityStaticResponse): JSX.Element => {
   const exportConfig = useExportConfig();
   const currentTab = exportConfig.tabs[0];
   const mainColumn = currentTab.mainColumn;
