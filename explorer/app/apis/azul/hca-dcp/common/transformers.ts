@@ -39,14 +39,15 @@ export const samplesGetSpecies = (sample: SamplesResponse): string[] =>
 export const samplesGetSampleType = (sample: SamplesResponse): string =>
   concatStrings(sample?.samples[0]?.sampleEntityType ?? []) ?? "";
 
-export const samplesGetLibConsApproach = (sample: SamplesResponse): string =>
-  concatStrings(sample?.protocols[0]?.libraryConstructionApproach ?? []) ?? "";
+export const samplesGetLibraryConstructionApproach = (
+  sample: SamplesResponse
+): string[] => sample?.protocols[0]?.libraryConstructionApproach ?? [];
 
-export const samplesGetAnatomicalEntity = (sample: SamplesResponse): string =>
-  concatStrings(sample?.samples[0]?.organ ?? []) ?? "";
+export const samplesGetAnatomicalEntity = (sample: SamplesResponse): string[] =>
+  [sample?.samples[0]?.organ] ?? [];
 
-export const samplesGetDiseaseDonor = (sample: SamplesResponse): string =>
-  concatStrings(sample?.donorOrganisms[0]?.disease ?? []) ?? "";
+export const samplesGetDiseaseDonor = (sample: SamplesResponse): string[] =>
+  sample?.donorOrganisms[0]?.disease ?? [];
 
 export const samplesGetCellCount = (sample: SamplesResponse): number =>
   sample?.projects[0]?.estimatedCellCount ?? 0;

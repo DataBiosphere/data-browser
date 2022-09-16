@@ -85,15 +85,15 @@ export const projectsEntity: EntityConfig = {
       },
       {
         componentConfig: {
-          component: Components.Text,
-          viewBuilder: B.projectsToLibConstApproachColumn,
+          component: Components.NTagCell,
+          viewBuilder: B.projectsToLibraryConstructionApproachColumn,
         },
         header: "Library Construction Approach",
         width: { max: "1fr", min: "126px" },
       },
       {
         componentConfig: {
-          component: Components.Text,
+          component: Components.NTagCell,
           viewBuilder: B.projectsToAnatomicalEntityColumn,
         },
         header: "Anatomical Entity",
@@ -101,7 +101,7 @@ export const projectsEntity: EntityConfig = {
       },
       {
         componentConfig: {
-          component: Components.Text,
+          component: Components.NTagCell,
           viewBuilder: B.projectsToDiseaseDonorColumn,
         },
         header: "Disease (Donor)",
@@ -125,9 +125,9 @@ export const projectsEntity: EntityConfig = {
       },
       {
         componentConfig: {
-          component: Components.Text,
+          component: Components.NTagCell,
           viewBuilder: B.buildDevStage,
-        } as ComponentConfig<typeof Components.Text>,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Development Stage",
         hiddenColumn: true,
         width: { max: "1fr", min: "148px" },

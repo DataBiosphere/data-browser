@@ -5,6 +5,8 @@ import {
 } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as Transformers from "../../../../apis/azul/hca-dcp/common/transformers";
 import * as C from "../../../../components";
+import { METADATA_KEY } from "../../../../components/Index/common/entities";
+import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 
 /**
  * Build props for TitledText component for the display of the data release policy section.
@@ -151,25 +153,30 @@ export const samplesBuildSampleType = (
     value: Transformers.samplesGetSampleType(sample),
   };
 };
-export const samplesBuildLibConsApproach = (
+export const samplesBuildLibraryConstructionApproach = (
   sample: SamplesResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    value: Transformers.samplesGetLibConsApproach(sample),
+    label: getPluralizedMetadataLabel(
+      METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
+    ),
+    values: Transformers.samplesGetLibraryConstructionApproach(sample),
   };
 };
 export const samplesBuildAnatomicalEntity = (
   sample: SamplesResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    value: Transformers.samplesGetAnatomicalEntity(sample),
+    label: getPluralizedMetadataLabel(METADATA_KEY.ANATOMICAL_ENTITY),
+    values: Transformers.samplesGetAnatomicalEntity(sample),
   };
 };
 export const samplesBuildDiseaseDonor = (
   sample: SamplesResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    value: Transformers.samplesGetDiseaseDonor(sample),
+    label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_DONOR),
+    values: Transformers.samplesGetDiseaseDonor(sample),
   };
 };
 export const samplesBuildCellCount = (

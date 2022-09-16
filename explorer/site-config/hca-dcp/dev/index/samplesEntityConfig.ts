@@ -9,7 +9,7 @@ import {
   samplesBuildAnatomicalEntity,
   samplesBuildCellCount,
   samplesBuildDiseaseDonor,
-  samplesBuildLibConsApproach,
+  samplesBuildLibraryConstructionApproach,
   samplesBuildProjTitle,
   samplesBuildSampleId,
   samplesBuildSampleType,
@@ -76,9 +76,9 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: samplesBuildLibConsApproach,
-        } as ComponentConfig<typeof Components.Cell>,
+          component: Components.NTagCell,
+          viewBuilder: samplesBuildLibraryConstructionApproach,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Library Construction Approach",
         sort: {
           sortKey: "libraryConstructionApproach",
@@ -87,9 +87,9 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.NTagCell,
           viewBuilder: samplesBuildAnatomicalEntity,
-        } as ComponentConfig<typeof Components.Cell>,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Anatomical Entity",
         sort: {
           sortKey: "specimenOrgan",
@@ -98,9 +98,9 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.NTagCell,
           viewBuilder: samplesBuildDiseaseDonor,
-        } as ComponentConfig<typeof Components.Cell>,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Disease (Donor)",
         sort: {
           sortKey: "donorDisease",

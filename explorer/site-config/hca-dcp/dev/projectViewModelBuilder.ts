@@ -15,12 +15,12 @@ import {
 } from "app/components/Project/common/projectTransformer";
 import { ProjectsResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
-import { concatStrings } from "app/utils/string";
 import React from "react";
+import { METADATA_KEY } from "../../../app/components/Index/common/entities";
+import { getPluralizedMetadataLabel } from "../../../app/components/Index/common/indexTransformer";
 import { PROJECTS_URL } from "./config";
 
 const formatter = Intl.NumberFormat("en", { notation: "compact" });
-
 /**
  * Build props for Citation component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
@@ -230,67 +230,69 @@ export const projectsToCellCountColumn = (
  */
 export const buildDevStage = (
   projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.Text> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   if (!projectsResponse.donorOrganisms) {
     return {
-      children: "",
+      label: getPluralizedMetadataLabel(METADATA_KEY.DEVELOPMENT_STAGE),
+      values: [],
     };
   }
   return {
-    children: concatStrings(
-      projectsResponse.donorOrganisms.flatMap(
-        (orgnanism) => orgnanism.developmentStage
-      )
+    label: getPluralizedMetadataLabel(METADATA_KEY.DEVELOPMENT_STAGE),
+    values: projectsResponse.donorOrganisms.flatMap(
+      (organism) => organism.developmentStage
     ),
-    customColor: "ink",
-    variant: "text-body-400",
   };
 };
 
-export const projectsToLibConstApproachColumn = (
+export const projectsToLibraryConstructionApproachColumn = (
   project: ProjectsResponse
-): React.ComponentProps<typeof C.Text> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   if (!project.protocols?.[0].libraryConstructionApproach) {
     return {
-      children: "",
+      label: getPluralizedMetadataLabel(
+        METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
+      ),
+      values: [],
     };
   }
 
   return {
-    children: concatStrings(project.protocols[0].libraryConstructionApproach),
-    customColor: "ink",
-    variant: "text-body-400",
+    label: getPluralizedMetadataLabel(
+      METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
+    ),
+    values: project.protocols[0]?.libraryConstructionApproach,
   };
 };
 
 export const projectsToAnatomicalEntityColumn = (
   project: ProjectsResponse
-): React.ComponentProps<typeof C.Text> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   if (!project.samples?.[0]?.organ) {
     return {
-      children: "",
+      label: getPluralizedMetadataLabel(METADATA_KEY.ANATOMICAL_ENTITY),
+      values: [],
     };
   }
   return {
-    children: concatStrings(project.samples[0].organ),
-    customColor: "ink",
-    variant: "text-body-400",
+    label: getPluralizedMetadataLabel(METADATA_KEY.ANATOMICAL_ENTITY),
+    values: project.samples[0].organ,
   };
 };
 
 export const projectsToDiseaseDonorColumn = (
   project: ProjectsResponse
-): React.ComponentProps<typeof C.Text> => {
-  if (!project.donorOrganisms?.[0]) {
+): React.ComponentProps<typeof C.NTagCell> => {
+  if (!project?.donorOrganisms[0]?.disease) {
     return {
-      children: "",
+      label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_DONOR),
+      values: [],
     };
   }
 
   return {
-    children: concatStrings(project.donorOrganisms[0].disease),
-    customColor: "ink",
-    variant: "text-body-400",
+    label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_DONOR),
+    values: project?.donorOrganisms[0]?.disease,
   };
 };
 /* eslint-enable sonarjs/no-duplicate-string -- watching for duplicate strings here */

@@ -28,8 +28,8 @@ export const getFocusDisease = (source: NPCICatalogSourceItem): string =>
  * @param source - Study row in the NCPI catalog TSV.
  * @returns String value of Data Type.
  */
-export const getDataType = (source: NPCICatalogSourceItem): string =>
-  source["Data Type"];
+export const getDataType = (source: NPCICatalogSourceItem): string[] =>
+  source["Data Type"].split(";");
 
 /**
  * Return the value in the dbGap Id column.
@@ -60,5 +60,5 @@ export const getParticipants = (source: NPCICatalogSourceItem): number =>
  * @param source - Study row in the NCPI catalog TSV.
  * @returns String value of Consent Code.
  */
-export const getConsentCode = (source: NPCICatalogSourceItem): string =>
-  source["Consent Code"];
+export const getConsentCode = (source: NPCICatalogSourceItem): string[] =>
+  source["Consent Code"].split(";");

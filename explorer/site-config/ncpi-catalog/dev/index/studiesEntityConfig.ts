@@ -53,9 +53,9 @@ export const studiesEntityConfig: EntityConfig<NPCICatalogSourceItem> = {
       },
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDataType,
-        } as ComponentConfig<typeof Components.Cell>,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Data Type",
         width: { max: "2fr", min: "240px" },
       },
@@ -69,9 +69,9 @@ export const studiesEntityConfig: EntityConfig<NPCICatalogSourceItem> = {
       },
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildConsentCode,
-        } as ComponentConfig<typeof Components.Cell>,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Consent Code",
         width: { max: "1fr", min: "120px" },
       },

@@ -11,6 +11,8 @@ import {
   getStudyDesign,
 } from "../../../apis/ncpi-catalog/common/transformers";
 import * as C from "../../../components";
+import { METADATA_KEY } from "../../../components/Index/common/entities";
+import { getPluralizedMetadataLabel } from "../../../components/Index/common/indexTransformer";
 
 /**
  * Build props for platform cell component from the given study in the NCPI catalog.
@@ -58,9 +60,10 @@ export const buildFocusDisease = (
  */
 export const buildDataType = (
   source: NPCICatalogSourceItem
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    value: getDataType(source),
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_TYPE),
+    values: getDataType(source),
   };
 };
 
@@ -110,8 +113,9 @@ export const buildParticipants = (
  */
 export const buildConsentCode = (
   source: NPCICatalogSourceItem
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    value: getConsentCode(source),
+    label: getPluralizedMetadataLabel(METADATA_KEY.CONSENT_CODE),
+    values: getConsentCode(source),
   };
 };
