@@ -139,6 +139,7 @@ export const buildDatasetDetails = (
 ): React.ComponentProps<typeof C.Details> => {
   return {
     keyValuePairs: getDatasetDetails(response),
+    title: "Dataset Details",
   };
 };
 

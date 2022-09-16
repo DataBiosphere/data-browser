@@ -55,7 +55,10 @@ HCAProject.args = {
   ),
   sideColumn: (
     <>
-      <ProjectDetails {...ProjectDetails.args} />
+      <ProjectDetails
+        title={ProjectDetails.args?.title ?? ""}
+        keyValuePairs={ProjectDetails.args?.keyValuePairs}
+      />
     </>
   ),
   top: (

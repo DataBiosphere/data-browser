@@ -14,6 +14,7 @@ const details: KeyValues = new Map([
 export default {
   argTypes: {
     keyValuePairs: { control: "object" },
+    title: { control: "text" },
   },
   component: Details,
   title: "Components/SectionContent/Content/Project",
@@ -26,4 +27,5 @@ const Template: ComponentStory<typeof Details> = (args) => (
 export const ProjectDetails = Template.bind({});
 ProjectDetails.args = {
   keyValuePairs: details,
+  title: "",
 };

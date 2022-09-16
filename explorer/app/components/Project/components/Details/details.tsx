@@ -11,6 +11,7 @@ import { SectionDetailsEmpty } from "../../../Detail/components/Section/componen
 
 interface Props {
   keyValuePairs?: KeyValues;
+  title: string;
 }
 
 /**
@@ -23,9 +24,9 @@ function renderKey(props: { children: Key }): JSX.Element {
   return <Typography color="ink.light">{props.children}</Typography>;
 }
 
-export const Details = ({ keyValuePairs }: Props): JSX.Element => {
+export const Details = ({ keyValuePairs, title }: Props): JSX.Element => {
   return (
-    <CollapsableSection collapsable title="Project Details">
+    <CollapsableSection collapsable title={title}>
       {keyValuePairs ? (
         <KeyValuePairs
           KeyElType={renderKey}

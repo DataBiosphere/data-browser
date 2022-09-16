@@ -110,6 +110,7 @@ export const buildDetails = (
 ): React.ComponentProps<typeof C.Details> => {
   return {
     keyValuePairs: getProjectDetails(projectsResponse),
+    title: "Project Details",
   };
 };
 
