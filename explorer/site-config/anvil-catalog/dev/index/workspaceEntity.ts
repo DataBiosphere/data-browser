@@ -10,6 +10,11 @@ import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "../../tsv-config";
 
 /**
  * Entity config object responsible to config anything related to the /explore/workspaces route.
+ name    status    consortium    phsId    library:dataUseRestriction    library:indication
+ library:studyDesign    library:datatype    subjectCount    bucketName    sampleCount
+ participantCount    familyCount    discoveryCount    bucketSize    requestorPays
+ NRES    GRU    HMB    IRB    PUB    COL    NPU    MDS    GSO    DS    diseaseText
+ consentLongName    consentTitle
  */
 export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
   detail: {
@@ -25,6 +30,10 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
           viewBuilder: ViewBuilder.buildConsortia,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Consortium",
+        sort: {
+          default: true,
+          sortKey: "consortium",
+        },
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -33,6 +42,9 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
           viewBuilder: ViewBuilder.buildStudyName,
         } as ComponentConfig<typeof Components.Text>,
         header: "Terra Workspace Name",
+        sort: {
+          sortKey: "name",
+        },
         width: { max: "1fr", min: "360px" },
       },
       {
@@ -41,6 +53,9 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
           viewBuilder: ViewBuilder.buildIndication,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Disease (indication)",
+        sort: {
+          sortKey: "library:indication",
+        },
         width: { max: "2fr", min: "240px" },
       },
       {
@@ -49,6 +64,9 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
           viewBuilder: ViewBuilder.buildDataType,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Data type",
+        sort: {
+          sortKey: "library:datatype",
+        },
         width: { max: "2fr", min: "120px" },
       },
       {
@@ -57,6 +75,9 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
           viewBuilder: ViewBuilder.buildStudyDesign,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Study Design",
+        sort: {
+          sortKey: "library:studyDesign",
+        },
         width: { max: "2fr", min: "240px" },
       },
       {
@@ -65,6 +86,9 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
           viewBuilder: ViewBuilder.buildParticipantCount,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Participants",
+        sort: {
+          sortKey: "participantCount",
+        },
         width: { max: "2fr", min: "120px" },
       },
     ],

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { EntityConfig, SiteConfig } from "../config/common/entities";
 
 /**
@@ -28,13 +28,13 @@ export const getCurrentEntityConfig = (
   config: SiteConfig
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
 ): EntityConfig<any> => {
-  const entity = config.entities.find((entity) => entity.route === path);
+  const entityConfig = config.entities.find((entity) => entity.route === path);
 
-  if (!entity) {
+  if (!entityConfig) {
     throw Error("No entity found");
   }
 
-  return entity;
+  return entityConfig;
 };
 
 const CurrentEntityContext = React.createContext<EntityConfig>(EMPTY_ENTITY);
@@ -46,6 +46,6 @@ export const CurrentEntityProvider = CurrentEntityContext.Provider;
  * @returns The current entity based using the context value provided by the current page.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
-export const useCurrentEntityConfig = (): EntityConfig<any> => {
-  return useContext(CurrentEntityContext);
-};
+// const useCurrentEntityConfig = (): EntityConfig<any> => {
+//   return useContext(CurrentEntityContext);
+// };

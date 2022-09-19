@@ -7,6 +7,7 @@ interface PageProps {
   entity: EntityConfig;
 }
 
+//TODO can we delete this now?
 export const Page = ({ children, entity }: PageProps): JSX.Element => {
   return (
     <CurrentEntityProvider value={entity}>{children}</CurrentEntityProvider>

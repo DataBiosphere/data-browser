@@ -1,5 +1,4 @@
 import { config, getEntityConfig } from "app/config/config";
-import { getCurrentEntityConfig } from "app/hooks/useCurrentEntityConfig";
 import { parseContentRows, readFile } from "app/utils/tsvParser";
 import { ExploreView } from "app/views/ExploreView/exploreView";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
@@ -67,33 +66,33 @@ export const getStaticProps: GetStaticProps<
   AzulEntitiesStaticResponse
 > = async (context: GetStaticPropsContext) => {
   const { entityListType } = context.params as PageUrl;
-  const entity = getCurrentEntityConfig(entityListType, config());
+  const entityConfig = getEntityConfig(entityListType);
 
   // Determine the type of fetch, either from an API endpoint or a TSV.
-  const fetcher = getEntityService(entity);
+  const fetcher = getEntityService(entityConfig);
 
   // Build database from configured TSV, if any.
-  if (entity.tsv) {
-    const file = await readFile(entity.tsv.path);
+  if (entityConfig.tsv) {
+    const file = await readFile(entityConfig.tsv.path);
 
     if (!file) {
       throw new Error(
-        `File ${entity.tsv.path} not found for entity ${entity.label}`
+        `File ${entityConfig.tsv.path} not found for entity ${entityConfig.label}`
       );
     }
 
     const result = await parseContentRows(
       file,
       "\t",
-      entity.tsv.sourceFieldKey,
-      entity.tsv.sourceFieldType
+      entityConfig.tsv.sourceFieldKey,
+      entityConfig.tsv.sourceFieldType
     );
     database.get().seed(result);
   }
 
   // Fetch the result set from either a configured API endpoint or from a local database seeded from a configured TSV.
   const resultList =
-    entity.staticLoad || entity.tsv
+    entityConfig.staticLoad || entityConfig.tsv
       ? await fetcher.fetchAllEntities(fetcher.path)
       : EMPTY_PAGE;
 

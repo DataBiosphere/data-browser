@@ -1,4 +1,3 @@
-import { useCallback, useState } from "react";
 import { Filters, SelectedFilter } from "../apis/azul/common/entities";
 import { COLLATOR_CASE_INSENSITIVE } from "../common/constants";
 import {
@@ -10,7 +9,6 @@ import {
   SelectCategoryView,
 } from "../common/entities";
 import { CategoryConfig } from "../config/common/entities";
-import { useConfig } from "./useConfig";
 
 /**
  * State backing filter functionality and calculations. Converted to view model for display.
@@ -42,47 +40,47 @@ export type OnFilterFn = (
  * @returns FilterInstance - a view model of the filter state.
  * Depends on filterState
  */
-export const useCategoryFilter = (
-  categories: SelectCategory[],
-  initialFilter: Filters
-): FilterInstance => {
-  // Complete set of categories and category values to be included for display and filtering.
-  const [filterState, setFilterState] = useState<FilterState>(initialFilter);
-
-  // Grab the list of categories for the current site.
-  const { categoryConfigs = [] } = useConfig();
-
-  /**
-   * Callback function to call when the selected filters change.
-   * @param categoryKey - The category being filtered.
-   * @param selectedValue - The value to set or clear.
-   * @param selected - indicate if the selected value is being set or cleared.
-   * @returns the callback.
-   * Depends on: filterState
-   */
-  const onFilter = useCallback<OnFilterFn>(
-    (
-      categoryKey: CategoryKey,
-      selectedValue: CategoryValueKey,
-      selected: boolean
-    ) => {
-      const nextFilterState = buildNextFilterState(
-        filterState,
-        categoryKey,
-        selectedValue,
-        selected
-      );
-      setFilterState(nextFilterState);
-    },
-    [filterState]
-  );
-
-  return {
-    categories: buildCategoryViews(categories, categoryConfigs, filterState),
-    filter: filterState,
-    onFilter,
-  };
-};
+// export const useCategoryFilter = (
+//   categories: SelectCategory[],
+//   initialFilter: Filters
+// ): FilterInstance => {
+//   // Complete set of categories and category values to be included for display and filtering.
+//   //const [filterState, setFilterState] = useState<FilterState>(initialFilter);
+//
+//   // Grab the list of categories for the current site.
+//   const { categoryConfigs = [] } = useConfig();
+//
+//   /**
+//    * Callback function to call when the selected filters change.
+//    * @param categoryKey - The category being filtered.
+//    * @param selectedValue - The value to set or clear.
+//    * @param selected - indicate if the selected value is being set or cleared.
+//    * @returns the callback.
+//    * Depends on: filterState
+//    */
+//   const onFilter = useCallback<OnFilterFn>(
+//     (
+//       categoryKey: CategoryKey,
+//       selectedValue: CategoryValueKey,
+//       selected: boolean
+//     ) => {
+//       const nextFilterState = buildNextFilterState(
+//         filterState,
+//         categoryKey,
+//         selectedValue,
+//         selected
+//       );
+//       setFilterState(nextFilterState);
+//     },
+//     [filterState]
+//   );
+//
+//   return {
+//     categories: buildCategoryViews(categories, categoryConfigs, filterState),
+//     filter: filterState,
+//     onFilter,
+//   };
+// };
 
 /**
  * Build the view-specific model of the given category value.
@@ -136,7 +134,7 @@ function buildCategoryView(
  * @param filterState - Current set of selected category and category values.
  * @returns Array of category view objects.
  */
-function buildCategoryViews(
+export function buildCategoryViews(
   categories: SelectCategory[],
   categoryConfigs: CategoryConfig[],
   filterState: FilterState
@@ -181,7 +179,7 @@ function buildCategoryViews(
  * @param selected - True if value is selected, false if de-selected.
  * @returns New filter state generated from the current set of selected values and the newly selected value.
  */
-function buildNextFilterState(
+export function buildNextFilterState(
   filterState: FilterState,
   categoryKey: CategoryKey,
   selectedValue: CategoryValueKey,

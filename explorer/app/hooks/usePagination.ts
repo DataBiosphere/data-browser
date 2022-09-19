@@ -2,6 +2,7 @@ import { AzulEntitiesResponse } from "app/apis/azul/common/entities";
 import { Pagination } from "app/common/entities";
 import { useCallback, useContext, useState } from "react";
 import { AuthContext } from "../common/context/authState";
+import { FilterStateContext } from "../common/context/filterState";
 import { useAsync } from "./useAsync";
 import { useEntityService } from "./useEntityService";
 
@@ -10,10 +11,13 @@ const DEFAULT_CURRENT_PAGE = 1;
 // TODO(cc) revisit optional chaining; pagination needs to be optional. #338
 export const usePagination = (data?: AzulEntitiesResponse): Pagination => {
   const { token } = useContext(AuthContext);
+
   const { run } = useAsync<AzulEntitiesResponse>();
+  const { exploreState } = useContext(FilterStateContext);
+  const tabValue = exploreState.tabValue;
 
   // Determine type of fetch to be executed, either API endpoint or TSV.
-  const { fetchEntitiesFromURL } = useEntityService();
+  const { fetchEntitiesFromURL } = useEntityService(tabValue);
 
   // Init pagination-related state.
   const [currentPage, setCurrentPage] = useState(DEFAULT_CURRENT_PAGE);

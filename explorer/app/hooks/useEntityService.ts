@@ -1,7 +1,7 @@
 import { EntityConfig } from "../config/common/entities";
+import { getEntityConfig } from "../config/config";
 import { createEntityService } from "../entity/service/factory";
 import { EntityService } from "../entity/service/model";
-import { useCurrentEntityConfig } from "./useCurrentEntityConfig";
 
 interface FetcherResponse extends EntityService {
   detailStaticLoad: boolean;
@@ -36,9 +36,14 @@ export const getEntityService = (entity: EntityConfig): FetcherResponse => {
 /**
  * Hook to determine how the data should be loaded.
  * From API or from a tsv file.
+ * @param tabValue - the selected entity type
  * @returns @see FetcherResponse
  */
-export const useEntityService = (): FetcherResponse => {
-  const entity = useCurrentEntityConfig();
-  return getEntityService(entity);
+export const useEntityService = (tabValue: string): FetcherResponse => {
+  return getEntityServiceByPath(tabValue);
+};
+
+export const getEntityServiceByPath = (path: string): FetcherResponse => {
+  const entityConfig = getEntityConfig(path);
+  return getEntityService(entityConfig);
 };

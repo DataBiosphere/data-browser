@@ -73,6 +73,10 @@ export const projectsEntity: EntityConfig = {
           viewBuilder: B.projectsToProjectTitleColumn,
         } as ComponentConfig<typeof Components.Links>,
         header: "Project Title",
+        sort: {
+          default: true,
+          sortKey: "projectTitle",
+        },
         width: { max: "2fr", min: "374px" },
       },
       {
@@ -81,6 +85,9 @@ export const projectsEntity: EntityConfig = {
           viewBuilder: ViewBuilder.buildSpecies,
         },
         header: "Species",
+        sort: {
+          sortKey: "genusSpecies",
+        },
         width: { max: "1fr", min: "136px" },
       },
       {
@@ -89,6 +96,9 @@ export const projectsEntity: EntityConfig = {
           viewBuilder: B.projectsToLibraryConstructionApproachColumn,
         },
         header: "Library Construction Approach",
+        sort: {
+          sortKey: "libraryConstructionApproach",
+        },
         width: { max: "1fr", min: "126px" },
       },
       {
@@ -97,6 +107,9 @@ export const projectsEntity: EntityConfig = {
           viewBuilder: B.projectsToAnatomicalEntityColumn,
         },
         header: "Anatomical Entity",
+        sort: {
+          sortKey: "specimenOrgan",
+        },
         width: { max: "1fr", min: "146px" },
       },
       {
@@ -105,6 +118,9 @@ export const projectsEntity: EntityConfig = {
           viewBuilder: B.projectsToDiseaseDonorColumn,
         },
         header: "Disease (Donor)",
+        sort: {
+          sortKey: "donorDisease",
+        },
         width: { max: "1fr", min: "128px" },
       },
       {
@@ -121,6 +137,9 @@ export const projectsEntity: EntityConfig = {
           },
         } as ComponentConfig<typeof Components.Tooltip>,
         header: "Cell Count Estimate",
+        sort: {
+          sortKey: "effectiveCellCount",
+        },
         width: { max: "1fr", min: "96px" },
       },
       {
@@ -130,6 +149,9 @@ export const projectsEntity: EntityConfig = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Development Stage",
         hiddenColumn: true,
+        sort: {
+          sortKey: "developmentStage",
+        },
         width: { max: "1fr", min: "148px" },
       },
     ],

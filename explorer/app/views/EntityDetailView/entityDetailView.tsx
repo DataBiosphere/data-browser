@@ -1,12 +1,12 @@
 import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
 import { Detail as DetailView } from "app/components/Detail/detail";
 import { useCurrentDetailTab } from "app/hooks/useCurrentDetailTab";
-import { useCurrentEntityConfig } from "app/hooks/useCurrentEntityConfig";
 import { useFetchEntity } from "app/hooks/useFetchEntity";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AzulEntityStaticResponse } from "../../apis/azul/common/entities";
+import { FilterStateContext } from "../../common/context/filterState";
 import {
   Tab,
   Tabs,
@@ -14,6 +14,7 @@ import {
   TabValue,
 } from "../../components/common/Tabs/tabs";
 import { EntityConfig } from "../../config/common/entities";
+import { getEntityConfig } from "../../config/config";
 
 /**
  * Returns tabs to be used as a prop for the Tabs component.
@@ -30,20 +31,23 @@ function getTabs(entity: EntityConfig): Tab[] {
 export const EntityDetailView = (
   props: AzulEntityStaticResponse
 ): JSX.Element => {
-  const { currentTab, route: tabRoute } = useCurrentDetailTab();
-  const entity = useCurrentEntityConfig();
+  const { exploreState } = useContext(FilterStateContext);
+  const { currentTab, route: tabRoute } = useCurrentDetailTab(
+    exploreState.tabValue
+  );
+  const currentEntityConfig = getEntityConfig(exploreState.tabValue);
   const { isLoading, response } = useFetchEntity(props);
   const [tabsValue, setTabsValue] = useState<TabsValue>(tabRoute);
   const { push, query } = useRouter();
-  const entityRoute = entity.route;
+  const entityRoute = currentEntityConfig.route;
   const uuid = query.params?.[PARAMS_INDEX_UUID];
-  const isDetailOverview = entity.detail.detailOverviews?.includes(
+  const isDetailOverview = currentEntityConfig.detail.detailOverviews?.includes(
     currentTab.label
   );
   const mainColumn = currentTab.mainColumn;
   const sideColumn = currentTab.sideColumn;
-  const tabs = getTabs(entity);
-  const top = entity.detail.top;
+  const tabs = getTabs(currentEntityConfig);
+  const top = currentEntityConfig.detail.top;
 
   if (isLoading) {
     return <span></span>; //TODO: return the loading UI component

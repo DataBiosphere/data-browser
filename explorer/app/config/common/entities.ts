@@ -115,8 +115,8 @@ export interface ColumnConfig<
 > {
   componentConfig: ComponentConfig<C, T>;
   header: string;
-  hiddenColumn?: boolean;
-  sort?: {
+  hiddenColumn?: boolean; //TODO rename to hidded by default or similar
+  sort: {
     default?: boolean;
     sortKey: string;
   };

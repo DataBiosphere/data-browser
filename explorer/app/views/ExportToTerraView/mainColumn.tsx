@@ -11,7 +11,7 @@ import { FilterStateContext } from "../../common/context/filterState";
 
 export const MainColumn = (): JSX.Element => {
   // Grab the filter context; use this to keep selected filter state up-to-date.
-  const { filterState } = useContext(FilterStateContext);
+  const { exploreState } = useContext(FilterStateContext);
 
   // Grab configuration and check expected values are set. TODO(cc) add discriminating unions to config so checks aren't necessary.
   const config = useConfig();
@@ -33,7 +33,7 @@ export const MainColumn = (): JSX.Element => {
   });
 
   // Add filters to request params, if any.
-  const filtersParam = transformFilters(filterState);
+  const filtersParam = transformFilters(exploreState.filterState);
   if (filtersParam) {
     requestParams.append(AZUL_PARAM.FILTERS, filtersParam);
   }

@@ -1,7 +1,8 @@
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { AzulEntityStaticResponse } from "../apis/azul/common/entities";
+import { FilterStateContext } from "../common/context/filterState";
 import { useAsync } from "./useAsync";
 import { useEntityService } from "./useEntityService";
 
@@ -19,7 +20,10 @@ interface UseEntityDetailResponse<T> {
 export const useFetchEntity = <T,>(
   value?: AzulEntityStaticResponse
 ): UseEntityDetailResponse<T> => {
-  const { detailStaticLoad, fetchEntityDetail, path } = useEntityService();
+  const { exploreState } = useContext(FilterStateContext);
+  const tabValue = exploreState.tabValue;
+  const { detailStaticLoad, fetchEntityDetail, path } =
+    useEntityService(tabValue);
 
   const router = useRouter();
   const uuid = router.query.params?.[PARAMS_INDEX_UUID] as string;
