@@ -9,7 +9,7 @@ import { FilterTags } from "../FilterTags/filterTags";
 import { Filters as FilterList } from "./filters.styles";
 
 interface Props {
-  categories: SelectCategoryView[];
+  categoryViews: SelectCategoryView[];
   onFilter: OnFilterFn;
 }
 
@@ -77,15 +77,17 @@ function renderFilterTarget(
   return <FilterLabel disabled={isDisabled} label={label} {...props} />;
 }
 
-export const Filters = ({ categories, onFilter }: Props): JSX.Element => {
+export const Filters = ({ categoryViews, onFilter }: Props): JSX.Element => {
   return (
     <FilterList>
-      {categories.map((category) => (
+      {categoryViews.map((categoryView) => (
         <Filter
-          content={renderFilterMenu(category, onFilter)}
-          key={category.key}
-          tags={renderFilterTags(category, onFilter)}
-          Target={(props): JSX.Element => renderFilterTarget(category, props)}
+          content={renderFilterMenu(categoryView, onFilter)}
+          key={categoryView.key}
+          tags={renderFilterTags(categoryView, onFilter)}
+          Target={(props): JSX.Element =>
+            renderFilterTarget(categoryView, props)
+          }
         />
       ))}
     </FilterList>

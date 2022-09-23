@@ -1,5 +1,6 @@
 /**
  * Model to represent anvil's TSV file
+ * TODO review property types.
  */
 export interface AnvilSourceItem {
   bucketName: string;
@@ -16,10 +17,10 @@ export interface AnvilSourceItem {
   GSO: string;
   HMB: string;
   IRB: string;
-  "library:datatype": string;
+  "library:datatype": string[];
   "library:dataUseRestriction": string;
   "library:indication": string;
-  "library:studyDesign": string;
+  "library:studyDesign": string[];
   MDS: string;
   name: string;
   NPU: string;

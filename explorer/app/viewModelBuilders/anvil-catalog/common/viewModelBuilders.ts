@@ -50,15 +50,16 @@ export const buildDisease = (
 };
 
 /**
- * Build props for data type cell component from the given study in the Anvil catalog.
+ * Build props for data type NTagCell component from the given study in the Anvil catalog.
  * @param source - Study row in the Anvil catalog TSV.
- * @returns Model to be used as props for the platform cell.
+ * @returns Model to be used as props for the data type NTagCell.
  */
 export const buildDataType = (
   source: AnvilSourceItem
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    value: getDataType(source),
+    label: "Data Types",
+    values: getDataType(source),
   };
 };
 
@@ -76,15 +77,16 @@ export const buildIndication = (
 };
 
 /**
- * Build props for study design cell component from the given study in the Anvil catalog.
+ * Build props for study design NTagCell component from the given study in the Anvil catalog.
  * @param source - Study row in the Anvil catalog TSV.
- * @returns Model to be used as props for the platform cell.
+ * @returns Model to be used as props for the study designs NTagCell.
  */
 export const buildStudyDesign = (
   source: AnvilSourceItem
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    value: getStudyDesign(source),
+    label: "Study Designs",
+    values: getStudyDesign(source),
   };
 };
 

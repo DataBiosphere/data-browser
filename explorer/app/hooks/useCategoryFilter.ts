@@ -136,10 +136,10 @@ function buildCategoryView(
  */
 export function buildCategoryViews(
   categories: SelectCategory[],
-  categoryConfigs: CategoryConfig[],
+  categoryConfigs: CategoryConfig[] | undefined,
   filterState: FilterState
 ): SelectCategoryView[] {
-  if (!categories) {
+  if (!categories || !categoryConfigs) {
     return [];
   }
 

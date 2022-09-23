@@ -47,7 +47,7 @@ const defaultValues = [
 
 export const DefaultFilters = Template.bind({});
 DefaultFilters.args = {
-  categories: [
+  categoryViews: [
     {
       isDisabled: false,
       key: "default1",
@@ -78,7 +78,7 @@ DefaultFilters.args = {
 
 export const SelectCategoriesFilters = Template.bind({});
 SelectCategoriesFilters.args = {
-  categories: [
+  categoryViews: [
     {
       isDisabled: false,
       key: "genusSpecies",

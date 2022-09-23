@@ -2,7 +2,7 @@ import { config } from "app/config/config";
 import { useContext, useEffect } from "react";
 import { AzulSummaryResponse } from "../apis/azul/common/entities";
 import { AuthContext } from "../common/context/authState";
-import { FilterStateContext } from "../common/context/filterState";
+import { ExploreStateContext } from "../common/context/exploreState";
 import { useAsync } from "./useAsync";
 import { useEntityService } from "./useEntityService";
 
@@ -19,7 +19,7 @@ interface UseSummaryResponse {
  */
 export const useSummary = (): UseSummaryResponse => {
   const { token } = useContext(AuthContext);
-  const { exploreState } = useContext(FilterStateContext);
+  const { exploreState } = useContext(ExploreStateContext);
   const {
     data: response,
     isLoading: apiIsLoading,

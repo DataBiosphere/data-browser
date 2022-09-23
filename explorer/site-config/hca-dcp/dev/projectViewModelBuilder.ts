@@ -216,6 +216,7 @@ export const projectsToCellCountColumn = (
       children: "",
     };
   }
+  // TODO review estimated cell count query.
   return {
     children: `${formatter.format(project.cellSuspensions[0].totalCells)}`,
     customColor: "ink",

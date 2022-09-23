@@ -7,11 +7,12 @@ import {
   EXPORT_TO_TERRA_PARAM,
 } from "../../apis/azul/common/constants";
 import { transformFilters } from "../../apis/azul/common/filterTransformer";
-import { FilterStateContext } from "../../common/context/filterState";
+import { ExploreStateContext } from "../../common/context/exploreState";
 
 export const MainColumn = (): JSX.Element => {
   // Grab the filter context; use this to keep selected filter state up-to-date.
-  const { exploreState } = useContext(FilterStateContext);
+  const { exploreState } = useContext(ExploreStateContext);
+  const { filterState } = exploreState;
 
   // Grab configuration and check expected values are set. TODO(cc) add discriminating unions to config so checks aren't necessary.
   const config = useConfig();
@@ -33,7 +34,7 @@ export const MainColumn = (): JSX.Element => {
   });
 
   // Add filters to request params, if any.
-  const filtersParam = transformFilters(exploreState.filterState);
+  const filtersParam = transformFilters(filterState);
   if (filtersParam) {
     requestParams.append(AZUL_PARAM.FILTERS, filtersParam);
   }

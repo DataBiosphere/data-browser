@@ -2,8 +2,7 @@ import { humanFileSize } from "../../../../utils/fileSize";
 import { concatStrings } from "../../../../utils/string";
 import { FilesResponse, SamplesResponse } from "./responses";
 
-//FilesResponse
-
+// TODO(Dave or Fran) review data tolerance of nulls.
 export const filesGetFileName = (file: FilesResponse): string =>
   file.files[0].name ?? "";
 

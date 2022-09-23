@@ -11,18 +11,25 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getFacetedRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { useScroll } from "app/hooks/useScroll";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   ExploreActionKind,
-  FilterStateContext,
-} from "../../common/context/filterState";
+  ExploreStateContext,
+} from "../../common/context/exploreState";
 import { Pagination, Sort, SortOrderType } from "../../common/entities";
+import { getEntityConfig } from "../../config/config";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
 import { GridPaper, RoundedPaper } from "../common/Paper/paper.styles";
+import {
+  buildCategoryViews,
+  getFacetedUniqueValuesWithArrayValues,
+} from "./common/utils";
 import { Pagination as DXPagination } from "./components/Pagination/pagination";
 import { PaginationSummary } from "./components/PaginationSummary/paginationSummary";
 import { Table as GridTable, TableToolbar } from "./table.styles";
@@ -81,13 +88,14 @@ export const TableComponent = <T extends object>({
   sort,
   total,
 }: TableProps<T>): JSX.Element => {
-  const { exploreDispatch } = useContext(FilterStateContext);
-
+  const { exploreDispatch, exploreState } = useContext(ExploreStateContext);
+  const { filterState, tabValue } = exploreState;
+  const { tsv } = getEntityConfig(tabValue);
+  const listStaticLoad = !!tsv;
   const initialSorting = sort
     ? [{ desc: sort.sortOrder === "desc", id: sort.sortKey ?? "" }]
     : [];
-
-  const initialState = disablePagination
+  const state = disablePagination
     ? {
         pagination: {
           pageIndex: 0,
@@ -98,7 +106,24 @@ export const TableComponent = <T extends object>({
     : {
         sorting: initialSorting,
       };
-
+  const tableInstance = useReactTable({
+    columns,
+    data: items,
+    enableColumnFilters: true, //listStaticLoad,
+    enableFilters: true, //listStaticLoad,
+    enableMultiSort: false,
+    getCoreRowModel: getCoreRowModel(),
+    getFacetedRowModel: listStaticLoad ? getFacetedRowModel() : undefined,
+    getFacetedUniqueValues: listStaticLoad
+      ? getFacetedUniqueValuesWithArrayValues()
+      : undefined,
+    getFilteredRowModel: listStaticLoad ? getFilteredRowModel() : undefined,
+    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: !!pagination,
+    manualSorting: !listStaticLoad,
+    pageCount: total,
+    state,
+  });
   const {
     getCanNextPage: tableCanNextPage,
     getCanPreviousPage: tableCanPreviousPage,
@@ -107,22 +132,16 @@ export const TableComponent = <T extends object>({
     getState,
     nextPage: tableNextPage,
     previousPage: tablePreviousPage,
-  } = useReactTable({
-    columns,
-    data: items,
-    enableMultiSort: false,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    manualPagination: !!pagination,
-    manualSorting: true,
-    pageCount: total,
-    state: initialState,
-  });
+  } = tableInstance;
+  const tableState = getState();
+  const { columnFilters } = tableState;
+  const headerGroups = getHeaderGroups();
   const scrollTop = useScroll();
   const currentPage =
     pagination?.currentPage ?? getState().pagination.pageIndex + 1;
   const totalPage = total ?? getState().pagination.pageSize;
   const pageCount = count ?? getState().pagination.pageSize;
+  const isLastPage = currentPage === pages;
 
   const handleTableNextPage = (): void => {
     const nextPage = pagination?.nextPage ?? tableNextPage;
@@ -153,7 +172,27 @@ export const TableComponent = <T extends object>({
     }
   };
 
-  const isLastPage = currentPage === pages;
+  // Set react table column filters `columnFilters` state, for statically loaded api only, with update of filterState.
+  useEffect(() => {
+    if (listStaticLoad) {
+      tableInstance.setColumnFilters(
+        filterState.map(({ categoryKey, value }) => ({
+          id: categoryKey,
+          value,
+        }))
+      );
+    }
+  }, [filterState, listStaticLoad, tableInstance]);
+
+  // Builds categoryViews using react table `getFacetedUniqueValues`, for statically loaded api only, with update of columnFilters.
+  useEffect(() => {
+    if (listStaticLoad) {
+      exploreDispatch({
+        payload: buildCategoryViews(headerGroups),
+        type: ExploreActionKind.ProcessExploreResponse,
+      });
+    }
+  }, [columnFilters, exploreDispatch, headerGroups, listStaticLoad]);
 
   return (
     <RoundedPaper>
@@ -244,6 +283,7 @@ export const TableComponent = <T extends object>({
  * comparison function used to determine if the component should skip the next render
  * @param prevProps - current props used by the component
  * @param nextProps - next props that the component will receive
+ * TODO(Dave) review.
  * @returns boolean value
  */
 const shouldSkipRender = <T extends object>(
@@ -270,6 +310,7 @@ const shouldSkipRender = <T extends object>(
   );
 };
 
+// TODO(Dave) review whether memo is necessary - flash between tabs / loading state.
 export const Table = React.memo(
   TableComponent,
   shouldSkipRender

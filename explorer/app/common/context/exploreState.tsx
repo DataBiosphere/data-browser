@@ -1,19 +1,23 @@
 import { createContext, Dispatch, ReactNode, useReducer } from "react";
 import { SelectedFilter } from "../../apis/azul/common/entities";
 import { config, getDefaultSort, getEntityConfig } from "../../config/config";
-import { buildNextFilterState } from "../../hooks/useCategoryFilter";
+import {
+  buildCategoryViews,
+  buildNextFilterState,
+} from "../../hooks/useCategoryFilter";
 import {
   CategoryKey,
   CategoryValueKey,
   PaginationDirectionType,
+  SelectCategory,
   Sort,
   SortOrderType,
 } from "../entities";
 
 /**
- * Model of filter state context.
+ * Model of explore state context.
  */
-interface IFilterStateContext {
+interface IExploreStateContext {
   exploreDispatch: Dispatch<ExploreAction>;
   exploreState: ExploreState;
 }
@@ -30,12 +34,13 @@ const defaultPaginationState = {
 const defaultEntity = config().redirectRootToPath?.slice(1) ?? ""; // TODO remove ??
 
 /**
- * Filter state context for storing and using filter-related state.
+ * Explore state context for storing and using filter-related and explore state.
  */
-export const FilterStateContext = createContext<IFilterStateContext>({
+export const ExploreStateContext = createContext<IExploreStateContext>({
   // eslint-disable-next-line @typescript-eslint/no-empty-function -- allow dummy function for default state.
   exploreDispatch: () => {},
   exploreState: {
+    categoryViews: [],
     filterState: [],
     paginationState: defaultPaginationState,
     sortState: {
@@ -47,18 +52,18 @@ export const FilterStateContext = createContext<IFilterStateContext>({
 });
 
 /**
- * Filter state provider for consuming components to subscribe to changes in filter-related state.
+ * Explore state provider for consuming components to subscribe to changes in filter-related and explore-related state.
  * @param props - Component inputs.
  * @param props.children - Set of children components that can possibly consume the query provider.
- * @returns Provider element to be used by consumers to both update filter state and subscribe to changes in filter state.
+ * @returns Provider element to be used by consumers to both update explore state and subscribe to changes in explore state.
  */
-export function FilterStateProvider({
+export function ExploreStateProvider({
   children,
 }: {
   children: ReactNode | ReactNode[];
 }): JSX.Element {
-  // const [filterState, setFilterState] = useState<FilterState>([]);
   const [exploreState, exploreDispatch] = useReducer(exploreReducer, {
+    categoryViews: [],
     filterState: [],
     paginationState: defaultPaginationState,
     sortState: {
@@ -69,9 +74,9 @@ export function FilterStateProvider({
   });
 
   return (
-    <FilterStateContext.Provider value={{ exploreDispatch, exploreState }}>
+    <ExploreStateContext.Provider value={{ exploreDispatch, exploreState }}>
       {children}
-    </FilterStateContext.Provider>
+    </ExploreStateContext.Provider>
   );
 }
 
@@ -85,6 +90,7 @@ export interface PaginationState {
 }
 
 type ExploreState = {
+  categoryViews: SelectCategory[];
   filterState: SelectedFilter[];
   paginationState: PaginationState;
   sortState: Sort;
@@ -92,40 +98,36 @@ type ExploreState = {
 };
 
 export enum ExploreActionKind {
-  ClearFilters = "CLEAR_FILTERS",
+  // ClearFilters = "CLEAR_FILTERS",
   FlipSortOrder = "FLIP_SORT_ORDER",
   PaginateTable = "PAGINATE_TABLE",
+  ProcessExploreResponse = "PROCESS_EXPLORE_RESPONSE",
   SelectEntityType = "SELECT_ENTITY_TYPE",
   SetSortKey = "SET_SORT_KEY",
   UpdateFilter = "UPDATE_FILTER",
 }
 
 type ExploreAction =
-  | UpdateFilterAction
+  | PaginateTableAction
+  | ProcessExploreResponseAction
   | SelectEntityTypeAction
-  | SetSortOrderAction
   | SetSortKeyAction
-  | PaginateTableAction;
+  | SetSortOrderAction
+  | UpdateFilterAction;
 
-type UpdateFilterPayload = {
-  categoryKey: CategoryKey;
-  selected: boolean;
-  selectedValue: CategoryValueKey;
+type PaginateTableAction = {
+  payload: PaginationDirectionType;
+  type: ExploreActionKind.PaginateTable;
 };
 
-type UpdateFilterAction = {
-  payload: UpdateFilterPayload;
-  type: ExploreActionKind.UpdateFilter;
+type ProcessExploreResponseAction = {
+  payload: SelectCategory[];
+  type: ExploreActionKind.ProcessExploreResponse;
 };
 
 type SelectEntityTypeAction = {
   payload: string;
   type: ExploreActionKind.SelectEntityType;
-};
-
-type PaginateTableAction = {
-  payload: PaginationDirectionType;
-  type: ExploreActionKind.PaginateTable;
 };
 
 type SetSortKeyAction = {
@@ -138,42 +140,26 @@ type SetSortOrderAction = {
   type: ExploreActionKind.FlipSortOrder;
 };
 
+type UpdateFilterAction = {
+  payload: UpdateFilterPayload;
+  type: ExploreActionKind.UpdateFilter;
+};
+
+type UpdateFilterPayload = {
+  categoryKey: CategoryKey;
+  selected: boolean;
+  selectedValue: CategoryValueKey;
+};
+
 function exploreReducer(
   state: ExploreState,
   action: ExploreAction
 ): ExploreState {
   const { payload, type } = action;
+  const { categoryConfigs } = config();
   switch (type) {
     /**
-     * Update Filter
-     **/
-    case ExploreActionKind.UpdateFilter: {
-      return {
-        ...state,
-        filterState: buildNextFilterState(
-          state.filterState,
-          payload.categoryKey,
-          payload.selectedValue,
-          payload.selected
-        ),
-      };
-    }
-    /**
-     * Select entity Type
-     **/
-    case ExploreActionKind.SelectEntityType: {
-      const nextSort: Sort = {
-        sortKey: getDefaultSort(getEntityConfig(payload)),
-        sortOrder: "asc",
-      };
-      return {
-        ...state,
-        sortState: nextSort,
-        tabValue: payload,
-      };
-    }
-    /**
-     * Flip Sort Order
+     * Flip sort order
      **/
     case ExploreActionKind.FlipSortOrder: {
       const nextSort: Sort = { ...state.sortState };
@@ -188,7 +174,42 @@ function exploreReducer(
       };
     }
     /**
-     * Set Sort Key
+     * Paginate table
+     **/
+    case ExploreActionKind.PaginateTable: {
+      return {
+        ...state, // TODO implement this case
+      };
+    }
+    /**
+     * Process explore response
+     **/
+    case ExploreActionKind.ProcessExploreResponse: {
+      return {
+        ...state,
+        categoryViews: buildCategoryViews(
+          payload,
+          categoryConfigs,
+          state.filterState
+        ),
+      };
+    }
+    /**
+     * Select entity type
+     **/
+    case ExploreActionKind.SelectEntityType: {
+      const nextSort: Sort = {
+        sortKey: getDefaultSort(getEntityConfig(payload)),
+        sortOrder: "asc",
+      };
+      return {
+        ...state,
+        sortState: nextSort,
+        tabValue: payload,
+      };
+    }
+    /**
+     * Set sort key
      **/
     case ExploreActionKind.SetSortKey: {
       const nextSort: Sort = {
@@ -201,11 +222,17 @@ function exploreReducer(
       };
     }
     /**
-     * Paginate Tale
+     * Update filter
      **/
-    case ExploreActionKind.PaginateTable: {
+    case ExploreActionKind.UpdateFilter: {
       return {
-        ...state, // TODO implement this case
+        ...state,
+        filterState: buildNextFilterState(
+          state.filterState,
+          payload.categoryKey,
+          payload.selectedValue,
+          payload.selected
+        ),
       };
     }
     default:

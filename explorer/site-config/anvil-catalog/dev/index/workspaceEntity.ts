@@ -60,10 +60,11 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
       },
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDataType,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Data type",
+        } as ComponentConfig<typeof Components.NTagCell>,
+        filterFn: "arrIncludesSome",
+        header: "Data Type",
         sort: {
           sortKey: "library:datatype",
         },
@@ -71,9 +72,10 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
       },
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildStudyDesign,
-        } as ComponentConfig<typeof Components.Cell>,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        filterFn: "arrIncludesSome",
         header: "Study Design",
         sort: {
           sortKey: "library:studyDesign",

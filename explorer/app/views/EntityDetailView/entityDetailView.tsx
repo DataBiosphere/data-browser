@@ -6,7 +6,7 @@ import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { AzulEntityStaticResponse } from "../../apis/azul/common/entities";
-import { FilterStateContext } from "../../common/context/filterState";
+import { ExploreStateContext } from "../../common/context/exploreState";
 import {
   Tab,
   Tabs,
@@ -31,23 +31,19 @@ function getTabs(entity: EntityConfig): Tab[] {
 export const EntityDetailView = (
   props: AzulEntityStaticResponse
 ): JSX.Element => {
-  const { exploreState } = useContext(FilterStateContext);
-  const { currentTab, route: tabRoute } = useCurrentDetailTab(
-    exploreState.tabValue
-  );
-  const currentEntityConfig = getEntityConfig(exploreState.tabValue);
+  const { exploreState } = useContext(ExploreStateContext);
+  const { tabValue } = exploreState;
+  const { currentTab, route: tabRoute } = useCurrentDetailTab(tabValue);
+  const { mainColumn, sideColumn } = currentTab;
   const { isLoading, response } = useFetchEntity(props);
-  const [tabsValue, setTabsValue] = useState<TabsValue>(tabRoute);
   const { push, query } = useRouter();
-  const entityRoute = currentEntityConfig.route;
+  const [tabsValue, setTabsValue] = useState<TabsValue>(tabRoute);
+  const currentEntityConfig = getEntityConfig(tabValue);
+  const { detail, route: entityRoute } = currentEntityConfig;
+  const { detailOverviews, top } = detail;
   const uuid = query.params?.[PARAMS_INDEX_UUID];
-  const isDetailOverview = currentEntityConfig.detail.detailOverviews?.includes(
-    currentTab.label
-  );
-  const mainColumn = currentTab.mainColumn;
-  const sideColumn = currentTab.sideColumn;
+  const isDetailOverview = detailOverviews?.includes(currentTab.label);
   const tabs = getTabs(currentEntityConfig);
-  const top = currentEntityConfig.detail.top;
 
   if (isLoading) {
     return <span></span>; //TODO: return the loading UI component

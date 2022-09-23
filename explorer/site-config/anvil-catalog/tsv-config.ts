@@ -30,6 +30,7 @@ export const SOURCE_FIELD_KEY = {
   SUBJECT_COUNT: "subjectCount",
 };
 
+// TODO(Fran) review types
 export const SOURCE_FIELD_TYPE = {
   BUCKET_NAME: "string",
   BUCKET_SIZE: "number",
@@ -37,7 +38,7 @@ export const SOURCE_FIELD_TYPE = {
   CONSENT_LONG_NAME: "string",
   CONSENT_TITLE: "string",
   CONSORTIUM: "string",
-  DATATYPE: "string",
+  DATATYPE: "array",
   DATA_USE_RESTRICTION: "string",
   DISCOVERY_COUNT: "number",
   DISEASE_TEXT: "string",
@@ -58,6 +59,6 @@ export const SOURCE_FIELD_TYPE = {
   REQUESTOR_PAYS: "boolean",
   SAMPLE_COUNT: "number",
   STATUS: "string",
-  STUDY_DESIGN: "string",
+  STUDY_DESIGN: "array",
   SUBJECT_COUNT: "number",
 };

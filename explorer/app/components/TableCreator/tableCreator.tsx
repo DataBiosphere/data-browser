@@ -9,6 +9,7 @@ import React, { useMemo } from "react";
 import { Pagination, Sort } from "../../common/entities";
 import { ComponentCreator } from "../ComponentCreator/ComponentCreator";
 import { Loading } from "../Loading/loading";
+import { arrIncludesSome } from "../Table/common/utils";
 import { Table } from "../Table/table";
 
 interface TableCreatorProps<T> {
@@ -77,14 +78,16 @@ export const TableCreator = <T extends object>({
   staticallyLoaded,
   total,
 }: TableCreatorProps<T>): JSX.Element => {
-  const { editColumns, visibleColumns } = useEditColumns(columns);
+  const { editColumns, visibleColumns } = useEditColumns(columns); // TODO(Dave or Fran) include hidden table functionality in to table - we want access to all columns for table categories.
   const gridTemplateColumns = getGridTemplateColumnsValue(visibleColumns);
 
   const reactVisibleColumns: ColumnDef<T>[] = useMemo(
     () =>
       visibleColumns.map((columnConfig) => ({
+        accessorKey: columnConfig.sort?.sortKey,
         cell: createCell(columnConfig),
         enableSorting: !!columnConfig.sort,
+        filterFn: arrIncludesSome,
         header: columnConfig.header,
         id: columnConfig.sort?.sortKey,
       })),

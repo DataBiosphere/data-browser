@@ -12,7 +12,7 @@ import { getAppTheme } from "app/theme/theme";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { AuthProvider } from "../app/common/context/authState";
-import { FilterStateProvider } from "../app/common/context/filterState";
+import { ExploreStateProvider } from "../app/common/context/exploreState";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   // Set up the site configuration, layout and theme.
@@ -34,11 +34,11 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           <AuthProvider>
             <AppLayout>
               <Header header={layout.header} />
-              <FilterStateProvider>
+              <ExploreStateProvider>
                 <Main>
                   <Component {...pageProps} />
                 </Main>
-              </FilterStateProvider>
+              </ExploreStateProvider>
               <Footer footer={layout.footer} />
             </AppLayout>
           </AuthProvider>

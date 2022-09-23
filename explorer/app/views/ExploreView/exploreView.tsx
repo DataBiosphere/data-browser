@@ -12,8 +12,9 @@ import {
 } from "../../apis/azul/common/entities";
 import {
   ExploreActionKind,
-  FilterStateContext,
-} from "../../common/context/filterState";
+  ExploreStateContext,
+} from "../../common/context/exploreState";
+import { CategoryKey, CategoryValueKey } from "../../common/entities";
 import { Filters } from "../../components/Filter/components/Filters/filters";
 import { Index as IndexView } from "../../components/Index/index";
 import { SidebarLabel } from "../../components/Layout/components/Sidebar/components/SidebarLabel/sidebarLabel";
@@ -25,18 +26,35 @@ import { useSummary } from "../../hooks/useSummary";
 // TODO(Dave) create an interface for props and maybe not drill the static load through here
 export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
   const { disablePagination, explorerTitle, summaryConfig } = config();
-  const { exploreDispatch, exploreState } = useContext(FilterStateContext);
-  const tabValue = exploreState.tabValue;
-  const currentEntityConfig = getEntityConfig(exploreState.tabValue);
+  const { exploreDispatch, exploreState } = useContext(ExploreStateContext);
+  const { categoryViews, sortState, tabValue } = exploreState;
   const { push } = useRouter();
+  const { list, staticLoad } = getEntityConfig(tabValue);
+  const { columns: columnsConfig } = list;
   const tabs = getTabs();
+  const { response: summaryResponse } = useSummary(); // Fetch summary.
+  const { loading, pagination, response } = useEntityList(props); // Fetch entities.
 
-  // Fetch summary and entities.
-  const { response: summaryResponse } = useSummary();
-  const { categories, loading, onFilter, pagination, response, sort } =
-    useEntityList(props);
-  // Get the column config for the current entity.
-  const columnsConfig = currentEntityConfig.list.columns;
+  /**
+   * Callback fired when selected state of a category value is toggled.
+   * @param categoryKey - The category being filtered.
+   * @param selectedCategoryValue - The value to set or clear.
+   * @param selected - Indication of whether the selected value is being set or cleared.
+   */
+  const onFilterChange = (
+    categoryKey: CategoryKey,
+    selectedCategoryValue: CategoryValueKey,
+    selected: boolean
+  ): void => {
+    exploreDispatch({
+      payload: {
+        categoryKey,
+        selected,
+        selectedValue: selectedCategoryValue,
+      },
+      type: ExploreActionKind.UpdateFilter,
+    });
+  };
 
   /**
    * Callback fired when selected tab value changes.
@@ -45,9 +63,8 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
    * @param tabValue - Selected tab value.
    */
   const onTabChange = (tabValue: TabValue): void => {
-    //  setTabsValue(tabValue); // Set state tabsValue prior to route change to indicate selection success.
     push(`/${tabValue}`);
-    pagination?.resetPage();
+    pagination?.resetPage(); // TODO(Dave) review use of resetPage
     exploreDispatch({
       payload: tabValue,
       type: ExploreActionKind.SelectEntityType,
@@ -96,10 +113,10 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
         total={entitiesResponse.pagination.total}
         pageCount={entitiesResponse.pagination.count}
         pagination={pagination}
-        sort={sort}
+        sort={sortState}
         pages={entitiesResponse.pagination.pages}
         loading={loading}
-        staticallyLoaded={currentEntityConfig.staticLoad}
+        staticallyLoaded={staticLoad}
         disablePagination={disablePagination}
       />
     );
@@ -107,9 +124,9 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
 
   return (
     <>
-      {categories && !!categories.length && (
+      {categoryViews && !!categoryViews.length && (
         <Sidebar Label={<SidebarLabel label={"Filters"} />}>
-          <Filters categories={categories} onFilter={onFilter} />
+          <Filters categoryViews={categoryViews} onFilter={onFilterChange} />
         </Sidebar>
       )}
       <IndexView
