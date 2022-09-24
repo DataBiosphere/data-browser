@@ -1,0 +1,12 @@
+title: LungMAP Analytics Report
+author: ""
+
+exclude_patterns: [src]
+
+execute:
+  execute_notebooks: force
+
+sphinx:
+  recursive_update: true
+  config:
+    execution_timeout: 120
