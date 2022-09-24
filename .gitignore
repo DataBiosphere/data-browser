@@ -49,4 +49,5 @@ boardwalk.zip
 
 #Python
 __pycache__/
-analytics/hdgar-book/_build
+analytics/**/_build
+analytics/**/src
