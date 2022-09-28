@@ -5,7 +5,6 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { AzulEntitiesStaticResponse } from "../../app/apis/azul/common/entities";
-import { Page } from "../../app/components/Layout/components/Page/page";
 import { EMPTY_PAGE } from "../../app/entity/api/constants";
 import { getEntityService } from "../../app/hooks/useEntityService";
 import { database } from "../../app/utils/database";
@@ -19,27 +18,17 @@ interface ListPageProps extends AzulEntitiesStaticResponse {
 }
 
 /**
- * Entity list component
- * @param listPageProps - props type for this component.
- * @param listPageProps.entityListType - as specified on the URL
- * @param listPageProps.props - dont know! //TODO what's in here?
- * @constructor
+ * Explore view page.
+ * @param props - Explore view page props.
+ * @param props.entityListType - Entity list type.
+ * @returns Explore view component.
  */
 const IndexPage = ({
   entityListType,
   ...props
 }: ListPageProps): JSX.Element => {
-  if (!entityListType) {
-    return <></>;
-  }
-
-  const entityConfig = getEntityConfig(entityListType);
-
-  return (
-    <Page entity={entityConfig}>
-      <ExploreView {...props} />
-    </Page>
-  );
+  if (!entityListType) return <></>;
+  return <ExploreView {...props} />;
 };
 
 /**

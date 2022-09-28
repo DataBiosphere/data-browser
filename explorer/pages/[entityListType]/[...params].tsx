@@ -5,7 +5,6 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { AzulEntityStaticResponse } from "../../app/apis/azul/common/entities";
-import { Page } from "../../app/components/Layout/components/Page/page";
 import { EntityDetailView } from "../../app/views/EntityDetailView/entityDetailView";
 
 interface PageUrl extends ParsedUrlQuery {
@@ -18,25 +17,17 @@ interface EntityDetailPageProps extends AzulEntityStaticResponse {
 }
 
 /**
- * Entity detail component
- * @param projectPageProps - d
- * @param projectPageProps.entityListType - d
- * @param projectPageProps.props - d
- * @constructor
+ * Entity detail view page.
+ * @param props - Entity detail view page props.
+ * @param props.entityListType - Entity list type.
+ * @returns Entity detail view component.
  */
 const EntityDetailPage = ({
   entityListType,
   ...props
 }: EntityDetailPageProps): JSX.Element => {
   if (!entityListType) return <></>;
-
-  const entityConfig = getEntityConfig(entityListType);
-
-  return (
-    <Page entity={entityConfig}>
-      <EntityDetailView {...props} />
-    </Page>
-  );
+  return <EntityDetailView {...props} />;
 };
 
 /**

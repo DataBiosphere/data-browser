@@ -19,15 +19,6 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const layout = siteConfig.layout;
   const theme = getAppTheme(siteConfig.theme);
 
-  // Determine the entity type.
-  // const router = useRouter();
-  // const { entityListType } = router.query;
-  // pageProps = {
-  //   ...pageProps,
-  //   entityListType,
-  // };
-  /// pageProps.entityListType = entityListType;
-
   return (
     <Emotion10ThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
