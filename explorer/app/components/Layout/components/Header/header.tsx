@@ -48,7 +48,7 @@ export const Header = ({ header }: Props): JSX.Element => {
   }, [desktop]);
 
   return (
-    <AppBar elevation={1} position="sticky">
+    <AppBar elevation={1} position="fixed">
       <Toolbar sx={{ gap: 4, height: HEADER_HEIGHT }} variant="dense">
         {/* Logo */}
         <Logo logo={logo} />

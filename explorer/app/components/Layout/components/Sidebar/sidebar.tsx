@@ -7,7 +7,10 @@ import {
   useBreakpointHelper,
 } from "../../../../hooks/useBreakpointHelper";
 import { CloseDrawerIconButton } from "../../../common/IconButton/iconButton.styles";
-import { Sidebar as PermanentSidebar } from "./sidebar.styles";
+import {
+  Sidebar as PermanentSidebar,
+  SidebarPositioner,
+} from "./sidebar.styles";
 
 interface Props {
   children: ReactNode | ReactNode[];
@@ -49,15 +52,17 @@ export const Sidebar = ({
 
   return (
     <Bar {...barProps}>
-      {drawerOpen && tablet && (
-        <CloseDrawerIconButton
-          Icon={CloseRounded}
-          onClick={onDrawerClose}
-          size="medium" // overrides size specification of IconButton component via destructured props
-        />
-      )}
-      {Label}
-      {children}
+      <SidebarPositioner>
+        {drawerOpen && tablet && (
+          <CloseDrawerIconButton
+            Icon={CloseRounded}
+            onClick={onDrawerClose}
+            size="medium" // overrides size specification of IconButton component via destructured props
+          />
+        )}
+        {Label}
+        {children}
+      </SidebarPositioner>
     </Bar>
   );
 };
