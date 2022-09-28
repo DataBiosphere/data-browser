@@ -17,6 +17,7 @@ import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "../../tsv-config";
 
 export const studiesEntityConfig: EntityConfig<NPCICatalogSourceItem> = {
   detail: {
+    staticLoad: true,
     tabs: [],
     top: [],
   },

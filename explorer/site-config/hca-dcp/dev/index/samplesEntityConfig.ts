@@ -23,6 +23,7 @@ import { buildDevStage } from "../projectViewModelBuilder";
 export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
   apiPath: "index/samples",
   detail: {
+    staticLoad: false,
     tabs: [],
     top: [],
   },

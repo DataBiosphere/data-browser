@@ -44,7 +44,6 @@ const EntityDetailPage = ({
  */
 export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   const entities = config().entities;
-
   const paths = await Promise.all(
     entities.map(async (entityConfig) => {
       const resultParams: { params: PageUrl }[] = [];

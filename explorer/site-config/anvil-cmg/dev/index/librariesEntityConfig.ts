@@ -13,6 +13,7 @@ import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil-cmg/c
 export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
   apiPath: "index/libraries",
   detail: {
+    staticLoad: false,
     tabs: [],
     top: [],
   },

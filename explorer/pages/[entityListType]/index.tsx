@@ -53,7 +53,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     },
   }));
   return {
-    fallback: true,
+    fallback: true, //TODO should this not be false? We have no server...
     paths,
   };
 };

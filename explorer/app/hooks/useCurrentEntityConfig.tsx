@@ -7,6 +7,7 @@ import { EntityConfig, SiteConfig } from "../config/common/entities";
 const EMPTY_ENTITY: EntityConfig = {
   apiPath: "",
   detail: {
+    staticLoad: false,
     tabs: [],
     top: [],
   },

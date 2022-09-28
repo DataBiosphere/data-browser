@@ -13,6 +13,7 @@ import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/commo
 export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
   apiPath: "index/donors",
   detail: {
+    staticLoad: false,
     tabs: [],
     top: [],
   },

@@ -1,4 +1,5 @@
 import { DatasetsResponse } from "../../../../app/apis/azul/anvil/common/responses";
+import { getDatasetEntryId } from "../../../../app/apis/azul/anvil/common/transformers";
 import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
@@ -17,6 +18,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
   apiPath: "index/datasets",
   detail: {
     detailOverviews: ["Overview"],
+    staticLoad: true,
     tabs: [
       {
         label: "Overview",
@@ -27,6 +29,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
     ],
     top: top,
   },
+  getId: getDatasetEntryId,
   label: "Datasets",
   list: {
     columns: [

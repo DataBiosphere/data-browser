@@ -18,6 +18,7 @@ import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "../../tsv-config";
  */
 export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
   detail: {
+    staticLoad: true,
     tabs: [],
     top: [],
   },

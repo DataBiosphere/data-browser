@@ -3,6 +3,7 @@ import { BackPageConfig, ComponentConfig } from "app/config/common/entities";
 import * as T from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 export const exportConfig: BackPageConfig = {
+  staticLoad: true,
   tabs: [
     {
       label: "Choose Export Method",

@@ -22,6 +22,7 @@ import { buildDevStage } from "../projectViewModelBuilder";
 export const filesEntityConfig: EntityConfig<FilesResponse> = {
   apiPath: "index/files",
   detail: {
+    staticLoad: false,
     tabs: [],
     top: [],
   },

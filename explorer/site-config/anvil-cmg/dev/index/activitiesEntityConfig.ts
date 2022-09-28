@@ -13,6 +13,7 @@ import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil-cmg/c
 export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
   apiPath: "index/activities",
   detail: {
+    staticLoad: false,
     tabs: [],
     top: [],
   },

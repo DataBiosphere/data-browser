@@ -10,7 +10,6 @@ import { Main } from "app/components/Layout/components/Main/main.styles";
 import { config } from "app/config/config";
 import { getAppTheme } from "app/theme/theme";
 import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
 import { AuthProvider } from "../app/common/context/authState";
 import { ExploreStateProvider } from "../app/common/context/exploreState";
 
@@ -21,9 +20,13 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const theme = getAppTheme(siteConfig.theme);
 
   // Determine the entity type.
-  const router = useRouter();
-  const { entityListType } = router.query;
-  pageProps.entityListType = entityListType;
+  // const router = useRouter();
+  // const { entityListType } = router.query;
+  // pageProps = {
+  //   ...pageProps,
+  //   entityListType,
+  // };
+  /// pageProps.entityListType = entityListType;
 
   return (
     <Emotion10ThemeProvider theme={theme}>
