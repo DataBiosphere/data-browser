@@ -6,6 +6,7 @@ import {
   ListConfig,
 } from "../../../../app/config/common/entities";
 import {
+  projectsBuildDevelopmentStage,
   samplesBuildAnatomicalEntity,
   samplesBuildCellCount,
   samplesBuildDiseaseDonor,
@@ -15,7 +16,6 @@ import {
   samplesBuildSampleType,
   samplesBuildSpecies,
 } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { buildDevStage } from "../projectViewModelBuilder";
 
 /**
  * Entity config object responsible to config anything related to the /explore/samples route.
@@ -122,7 +122,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: buildDevStage,
+          viewBuilder: projectsBuildDevelopmentStage,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Development Stage",
         hiddenColumn: true,

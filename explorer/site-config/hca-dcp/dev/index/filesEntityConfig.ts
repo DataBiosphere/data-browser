@@ -13,8 +13,8 @@ import {
   filesBuildFileName,
   filesBuildFileSize,
   filesBuildProjTitle,
+  projectsBuildDevelopmentStage,
 } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { buildDevStage } from "../projectViewModelBuilder";
 
 /**
  * Entity config object responsible to config anything related to the /explore/files route.
@@ -107,7 +107,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.Text,
-          viewBuilder: buildDevStage,
+          viewBuilder: projectsBuildDevelopmentStage,
         } as ComponentConfig<typeof Components.Text>,
         header: "Development Stage",
         hiddenColumn: true,

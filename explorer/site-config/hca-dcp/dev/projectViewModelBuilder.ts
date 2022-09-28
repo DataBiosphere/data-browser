@@ -16,11 +16,8 @@ import {
 import { ProjectsResponse } from "app/models/responses";
 import { ENTRIES } from "app/project-edits";
 import React from "react";
-import { METADATA_KEY } from "../../../app/components/Index/common/entities";
-import { getPluralizedMetadataLabel } from "../../../app/components/Index/common/indexTransformer";
 import { PROJECTS_URL } from "./config";
 
-const formatter = Intl.NumberFormat("en", { notation: "compact" });
 /**
  * Build props for Citation component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
@@ -156,6 +153,11 @@ export const buildSupplementaryLinks = (
   };
 };
 
+/**
+ * Build props for FileCounts from the given projects response.
+ * @param project - Response model return from projects API.
+ * @returns model to be used as props for the FileCounts component.
+ */
 export const projectsToFileCounts = (
   project: ProjectsResponse
 ): React.ComponentProps<typeof C.FileCounts> => {
@@ -171,6 +173,11 @@ export const projectsToFileCounts = (
   };
 };
 
+/**
+ * Build props for AnalysisPortals from the given projects response.
+ * @param project - Response model return from projects API.
+ * @returns model to be used as props for the AnalysisPortals component.
+ */
 export const projectsToAnalysisPortals = (
   project: ProjectsResponse
 ): React.ComponentProps<typeof C.IconList> => {
@@ -193,107 +200,3 @@ export const projectsToAnalysisPortals = (
     })),
   };
 };
-
-export const projectsToProjectTitleColumn = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.Links> => {
-  return {
-    links: [
-      {
-        label: project.projects[0].projectTitle,
-        url: `/projects/${project.projects[0].projectId}`,
-      },
-    ],
-  };
-};
-
-/* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
-export const projectsToCellCountColumn = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.Text> => {
-  if (!project.cellSuspensions?.[0]) {
-    return {
-      children: "",
-    };
-  }
-  // TODO review estimated cell count query.
-  return {
-    children: `${formatter.format(project.cellSuspensions[0].totalCells)}`,
-    customColor: "ink",
-    variant: "text-body-400",
-  };
-};
-
-/**
- * Build props for the Development stage Text component from the given projects response.
- * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the development stage table column.
- */
-export const buildDevStage = (
-  projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  if (!projectsResponse.donorOrganisms) {
-    return {
-      label: getPluralizedMetadataLabel(METADATA_KEY.DEVELOPMENT_STAGE),
-      values: [],
-    };
-  }
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.DEVELOPMENT_STAGE),
-    values: projectsResponse.donorOrganisms.flatMap(
-      (organism) => organism.developmentStage
-    ),
-  };
-};
-
-export const projectsToLibraryConstructionApproachColumn = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  if (!project.protocols?.[0].libraryConstructionApproach) {
-    return {
-      label: getPluralizedMetadataLabel(
-        METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
-      ),
-      values: [],
-    };
-  }
-
-  return {
-    label: getPluralizedMetadataLabel(
-      METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
-    ),
-    values: project.protocols[0]?.libraryConstructionApproach,
-  };
-};
-
-export const projectsToAnatomicalEntityColumn = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  if (!project.samples?.[0]?.organ) {
-    return {
-      label: getPluralizedMetadataLabel(METADATA_KEY.ANATOMICAL_ENTITY),
-      values: [],
-    };
-  }
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.ANATOMICAL_ENTITY),
-    values: project.samples[0].organ,
-  };
-};
-
-export const projectsToDiseaseDonorColumn = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  if (!project?.donorOrganisms[0]?.disease) {
-    return {
-      label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_DONOR),
-      values: [],
-    };
-  }
-
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_DONOR),
-    values: project?.donorOrganisms[0]?.disease,
-  };
-};
-/* eslint-enable sonarjs/no-duplicate-string -- watching for duplicate strings here */

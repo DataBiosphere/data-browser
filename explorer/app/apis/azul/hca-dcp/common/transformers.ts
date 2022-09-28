@@ -1,6 +1,16 @@
+import { MetadataValue } from "../../../../components/Index/common/entities";
+import { ProjectsResponse } from "../../../../models/responses";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { concatStrings } from "../../../../utils/string";
+import { LABEL } from "../../common/entities";
+import {
+  processAggregatedOrArrayValue,
+  processEntityValue,
+  processNumberEntityValue,
+} from "../../common/utils";
 import { FilesResponse, SamplesResponse } from "./responses";
+
+const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
 // TODO(Dave or Fran) review data tolerance of nulls.
 export const filesGetFileName = (file: FilesResponse): string =>
@@ -50,3 +60,110 @@ export const samplesGetDiseaseDonor = (sample: SamplesResponse): string[] =>
 
 export const samplesGetCellCount = (sample: SamplesResponse): number =>
   sample?.projects[0]?.estimatedCellCount ?? 0;
+
+/** Returns the project title
+ * @param projectsResponse - Response model from projects API
+ * @returns String containing the project title
+ */
+export function getProjectsTitleName(
+  projectsResponse: ProjectsResponse
+): string {
+  return processEntityValue(projectsResponse.projects, "projectTitle");
+}
+
+/** Returns the project url
+ * @param projectsResponse - Response model from projects API
+ * @returns String containing the project url
+ */
+export function getProjectsTitleUrl(
+  projectsResponse: ProjectsResponse
+): string {
+  return `/projects/${processEntityValue(
+    projectsResponse.projects,
+    "projectId"
+  )}`;
+}
+
+/**
+ * Maps the metadata species from the projects API.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns project species.
+ */
+export function getProjectMetadataSpecies(
+  projectsResponse?: ProjectsResponse
+): MetadataValue[] {
+  return processAggregatedOrArrayValue(
+    projectsResponse?.donorOrganisms ?? [],
+    "genusSpecies"
+  );
+}
+
+/** Returns the formatted cell count
+ * @param projectsResponse - Response model from projects API
+ * @returns String containing the formatted cell count
+ */
+export function getProjectsCellCountColumn(
+  projectsResponse: ProjectsResponse
+): string {
+  return `${formatter.format(
+    processNumberEntityValue(
+      projectsResponse.cellSuspensions ?? [],
+      "totalCells"
+    )
+  )}`;
+}
+
+/**
+ * Returns an array of development stages
+ * @param projectsResponse - Response model from projects API
+ * @returns List of metadata values for the development stage cell
+ */
+export function getProjectsDevelopmentStage(
+  projectsResponse: ProjectsResponse
+): MetadataValue[] {
+  return processAggregatedOrArrayValue(
+    projectsResponse.donorOrganisms,
+    "developmentStage"
+  );
+}
+
+/**
+ * Returns an array for the library construction approach column
+ * @param projectsResponse - Response model from projects API
+ * @returns List of metadata values for the library construction approach cell
+ */
+export function getProjectsLibraryConstructionApproachColumn(
+  projectsResponse: ProjectsResponse
+): MetadataValue[] {
+  //TODO: Refactor to use utils functions, currently having typing issues
+  if (!projectsResponse.protocols[0].libraryConstructionApproach) {
+    return [LABEL.UNSPECIFIED];
+  } else {
+    return projectsResponse.protocols[0]?.libraryConstructionApproach;
+  }
+}
+
+/**
+ * Returns an array for the anatomical entity column
+ * @param projectsResponse - Response model from projects API
+ * @returns List of metadata values for the anatomical entity approach cell
+ */
+export function getProjectsAnatomicalEntityColumn(
+  projectsResponse: ProjectsResponse
+): MetadataValue[] {
+  return processAggregatedOrArrayValue(projectsResponse.samples, "organ");
+}
+
+/**
+ * Returns an array for the disease (donor) column
+ * @param projectsResponse - Response model from projects API
+ * @returns List of metadata values for the disease (donor) cell
+ */
+export function getProjectsDiseaseDonor(
+  projectsResponse: ProjectsResponse
+): MetadataValue[] {
+  return processAggregatedOrArrayValue(
+    projectsResponse?.donorOrganisms,
+    "disease"
+  );
+}

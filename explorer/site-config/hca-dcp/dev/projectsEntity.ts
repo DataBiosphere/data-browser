@@ -6,6 +6,15 @@ import {
   EntityConfig,
   ListConfig,
 } from "../../../app/config/common/entities";
+import {
+  projectsBuildAnatomicalEntityColumn,
+  projectsBuildCellCountColumn,
+  projectsBuildDevelopmentStage,
+  projectsBuildDiseaseDonorColumn,
+  projectsBuildLibraryConstructionApproachColumn,
+  projectsBuildProjectTitleColumn,
+  projectsBuildSpecies,
+} from "../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 import { PROJECTS_LABEL } from "./constants";
 import { mainColumn as exportMainColumn } from "./detail/project/exportMainColumn";
 import { sideColumn as exportSideColumn } from "./detail/project/exportSideColumn";
@@ -18,8 +27,6 @@ import { sideColumn as overviewSideColumn } from "./detail/project/overviewSideC
 import { mainColumn as projectFilesMainColumn } from "./detail/project/projectFilesMainColumn";
 import { sideColumn as projectFilesSideColumn } from "./detail/project/projectFilesSideColumn";
 import { top } from "./detail/project/top";
-import * as ViewBuilder from "./projectsViewModelBuilder";
-import * as B from "./projectViewModelBuilder";
 
 /**
  * Entity config object responsible to config anything related to the /explore/projects route.
@@ -70,7 +77,7 @@ export const projectsEntity: EntityConfig = {
       {
         componentConfig: {
           component: Components.Links,
-          viewBuilder: B.projectsToProjectTitleColumn,
+          viewBuilder: projectsBuildProjectTitleColumn,
         } as ComponentConfig<typeof Components.Links>,
         header: "Project Title",
         sort: {
@@ -82,7 +89,7 @@ export const projectsEntity: EntityConfig = {
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildSpecies,
+          viewBuilder: projectsBuildSpecies,
         },
         header: "Species",
         sort: {
@@ -93,7 +100,7 @@ export const projectsEntity: EntityConfig = {
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: B.projectsToLibraryConstructionApproachColumn,
+          viewBuilder: projectsBuildLibraryConstructionApproachColumn,
         },
         header: "Library Construction Approach",
         sort: {
@@ -104,7 +111,7 @@ export const projectsEntity: EntityConfig = {
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: B.projectsToAnatomicalEntityColumn,
+          viewBuilder: projectsBuildAnatomicalEntityColumn,
         },
         header: "Anatomical Entity",
         sort: {
@@ -115,7 +122,7 @@ export const projectsEntity: EntityConfig = {
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: B.projectsToDiseaseDonorColumn,
+          viewBuilder: projectsBuildDiseaseDonorColumn,
         },
         header: "Disease (Donor)",
         sort: {
@@ -128,7 +135,7 @@ export const projectsEntity: EntityConfig = {
           children: [
             {
               component: Components.Text,
-              viewBuilder: B.projectsToCellCountColumn,
+              viewBuilder: projectsBuildCellCountColumn,
             } as ComponentConfig<typeof Components.Text>,
           ],
           component: Components.Tooltip,
@@ -145,7 +152,7 @@ export const projectsEntity: EntityConfig = {
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: B.buildDevStage,
+          viewBuilder: projectsBuildDevelopmentStage,
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Development Stage",
         hiddenColumn: true,

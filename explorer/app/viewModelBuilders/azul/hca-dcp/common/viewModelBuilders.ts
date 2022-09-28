@@ -4,9 +4,20 @@ import {
   SamplesResponse,
 } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as Transformers from "../../../../apis/azul/hca-dcp/common/transformers";
+import {
+  getProjectMetadataSpecies,
+  getProjectsAnatomicalEntityColumn,
+  getProjectsCellCountColumn,
+  getProjectsDevelopmentStage,
+  getProjectsDiseaseDonor,
+  getProjectsLibraryConstructionApproachColumn,
+  getProjectsTitleName,
+  getProjectsTitleUrl,
+} from "../../../../apis/azul/hca-dcp/common/transformers";
 import * as C from "../../../../components";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import { ProjectsResponse } from "../../../../models/responses";
 
 /**
  * Build props for TitledText component for the display of the data release policy section.
@@ -67,6 +78,11 @@ export const buildExportToCavaticaMetadata = (): React.ComponentProps<
 
 // Files view builders
 
+/**
+ * Build props for FileName component from the given files response.
+ * @param file - Response model return from projects API.
+ * @returns model to be used as props for the Citation component.
+ */
 export const filesBuildFileName = (
   file: FilesResponse
 ): React.ComponentProps<typeof C.Cell> => {
@@ -75,6 +91,11 @@ export const filesBuildFileName = (
   };
 };
 
+/**
+ * Build props for FileDownload component from the given files response.
+ * @param file - Response model return from files API.
+ * @returns model to be used as props for the FileDownload component.
+ */
 export const filesBuildFileDownload = (
   file: FilesResponse
 ): React.ComponentProps<typeof C.AzulFileDownload> => {
@@ -186,3 +207,111 @@ export const samplesBuildCellCount = (
     value: Transformers.samplesGetCellCount(sample),
   };
 };
+
+/**
+ * Build props for the project title cell component from the given projects response.
+ * @param project - Response model return from projects API.
+ * @returns model to be used as props for the project title cell components.
+ */
+export const projectsBuildProjectTitleColumn = (
+  project: ProjectsResponse
+): React.ComponentProps<typeof C.Links> => {
+  return {
+    links: [
+      {
+        label: getProjectsTitleName(project),
+        url: getProjectsTitleUrl(project),
+      },
+    ],
+  };
+};
+
+/* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
+/**
+ * Build props for the CellCount component from the given projects response.
+ * @param project - Response model return from projects API.
+ * @returns model to be used as props for the CellCount component.
+ */
+export const projectsBuildCellCountColumn = (
+  project: ProjectsResponse
+): React.ComponentProps<typeof C.Text> => {
+  if (!project.cellSuspensions?.[0]) {
+    return {
+      children: "",
+    };
+  }
+  return {
+    children: getProjectsCellCountColumn(project),
+    customColor: "ink",
+    variant: "text-body-400",
+  };
+};
+/**
+ * Build props for the Development stage NTagCell component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the development stage table column.
+ */
+export const projectsBuildDevelopmentStage = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DEVELOPMENT_STAGE),
+    values: getProjectsDevelopmentStage(projectsResponse),
+  };
+};
+/**
+ * Build props for the library construction cell component from the given projects response.
+ * @param project - Response model return from projects API.
+ * @returns model to be used as props for the library construction cell approach cell.
+ */
+export const projectsBuildLibraryConstructionApproachColumn = (
+  project: ProjectsResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(
+      METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
+    ),
+    values: getProjectsLibraryConstructionApproachColumn(project),
+  };
+};
+/**
+ * Build props for the AnatomicalEntity components from the given projects response.
+ * @param project - Response model return from projects API.
+ * @returns model to be used as props for the AnatomicalEntity component.
+ */
+export const projectsBuildAnatomicalEntityColumn = (
+  project: ProjectsResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.ANATOMICAL_ENTITY),
+    values: getProjectsAnatomicalEntityColumn(project),
+  };
+};
+/**
+ * Build props for the DiseaseDonor components from the given projects response.
+ * @param project - Response model return from projects API.
+ * @returns model to be used as props for the Disease (Donor) table column.
+ */
+export const projectsBuildDiseaseDonorColumn = (
+  project: ProjectsResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_DONOR),
+    values: getProjectsDiseaseDonor(project),
+  };
+};
+/**
+ * Build props for project index species NTagCell component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the project index species NTagCell.
+ */
+export const projectsBuildSpecies = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.SPECIES),
+    values: getProjectMetadataSpecies(projectsResponse),
+  };
+};
+
+/* eslint-enable sonarjs/no-duplicate-string -- Allowing duplicate strings here */
