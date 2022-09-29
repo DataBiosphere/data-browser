@@ -1,104 +1,121 @@
+import { AnVILCatalogWorkspace } from "../../../apis/anvil-catalog/common/entities";
 import {
-  getConsortia,
-  getDataType,
-  getDisease,
-  getIndication,
+  getConsentCode,
+  getConsortium,
+  getDataTypes,
+  getDbGapId,
+  getDiseases,
   getParticipantCount,
-  getStudyDesign,
-  getStudyName,
+  getStudyDesigns,
+  getTerraWorkspaceName,
 } from "../../../apis/anvil-catalog/common/transformers";
-import { AnvilSourceItem } from "../../../apis/anvil/common/entities";
 import * as C from "../../../components";
+import { METADATA_KEY } from "../../../components/Index/common/entities";
+import { getPluralizedMetadataLabel } from "../../../components/Index/common/indexTransformer";
 
 /**
- * Build props for study name cell component from the given study in the Anvil catalog.
- * @param source - Study row in the Anvil catalog TSV.
- * @returns Model to be used as props for the platform cell.
+ * Build props for consent code cell component from the given workspace in the AnVIL catalog.
+ * @param anvilCatalogWorkspace - AnVIL catalog workspace.
+ * @returns Model to be used as props for the consent code cell.
  */
-export const buildStudyName = (
-  source: AnvilSourceItem
+export const buildConsentCode = (
+  anvilCatalogWorkspace: AnVILCatalogWorkspace
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getStudyName(source),
+    value: getConsentCode(anvilCatalogWorkspace),
   };
 };
 
 /**
- * Build props for consortia cell component from the given study in the Anvil catalog.
- * @param source - Study row in the Anvil catalog TSV.
- * @returns Model to be used as props for the platform cell.
+ * Build props for consortium cell component from the given workspace in the AnVIL catalog.
+ * @param anvilCatalogWorkspace - AnVIL catalog workspace.
+ * @returns Model to be used as props for the consortium cell.
  */
-export const buildConsortia = (
-  source: AnvilSourceItem
+export const buildConsortium = (
+  anvilCatalogWorkspace: AnVILCatalogWorkspace
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getConsortia(source),
+    value: getConsortium(anvilCatalogWorkspace),
   };
 };
 
 /**
- * Build props for disease cell component from the given study in the Anvil catalog.
- * @param source - Study row in the Anvil catalog TSV.
- * @returns Model to be used as props for the platform cell.
+ * Build props for data type cell component from the given workspace in the AnVIL catalog.
+ * @param anvilCatalogWorkspace - AnVIL catalog workspace.
+ * @returns Model to be used as props for the data type cell.
  */
-export const buildDisease = (
-  source: AnvilSourceItem
-): React.ComponentProps<typeof C.Cell> => {
-  return {
-    value: getDisease(source),
-  };
-};
-
-/**
- * Build props for data type NTagCell component from the given study in the Anvil catalog.
- * @param source - Study row in the Anvil catalog TSV.
- * @returns Model to be used as props for the data type NTagCell.
- */
-export const buildDataType = (
-  source: AnvilSourceItem
+export const buildDataTypes = (
+  anvilCatalogWorkspace: AnVILCatalogWorkspace
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    label: "Data Types",
-    values: getDataType(source),
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_TYPE),
+    values: getDataTypes(anvilCatalogWorkspace),
   };
 };
 
 /**
- * Build props for indication cell component from the given study in the Anvil catalog.
- * @param source - Study row in the Anvil catalog TSV.
- * @returns Model to be used as props for the platform cell.
+ * Build props for dbGap Id cell component from the given workspace in the AnVIL catalog.
+ * @param anvilCatalogWorkspace - AnVIL catalog workspace.
+ * @returns Model to be used as props for the dbGap Id cell.
  */
-export const buildIndication = (
-  source: AnvilSourceItem
+export const buildDbGapId = (
+  anvilCatalogWorkspace: AnVILCatalogWorkspace
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getIndication(source),
+    value: getDbGapId(anvilCatalogWorkspace),
   };
 };
 
 /**
- * Build props for study design NTagCell component from the given study in the Anvil catalog.
- * @param source - Study row in the Anvil catalog TSV.
- * @returns Model to be used as props for the study designs NTagCell.
+ * Build props for disease (indication) cell component from the given workspace in the AnVIL catalog.
+ * @param anvilCatalogWorkspace - AnVIL catalog workspace.
+ * @returns Model to be used as props for the disease (indication) cell.
  */
-export const buildStudyDesign = (
-  source: AnvilSourceItem
+export const buildDiseases = (
+  anvilCatalogWorkspace: AnVILCatalogWorkspace
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    label: "Study Designs",
-    values: getStudyDesign(source),
+    label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_INDICATION),
+    values: getDiseases(anvilCatalogWorkspace),
   };
 };
 
 /**
- * Build props for participant count cell component from the given study in the Anvil catalog.
- * @param source - Study row in the Anvil catalog TSV.
- * @returns Model to be used as props for the platform cell.
+ * Build props for participant count cell component from the given workspace in the AnVIL catalog.
+ * @param anvilCatalogWorkspace - AnVIL catalog workspace.
+ * @returns Model to be used as props for the participant count cell.
  */
 export const buildParticipantCount = (
-  source: AnvilSourceItem
+  anvilCatalogWorkspace: AnVILCatalogWorkspace
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getParticipantCount(source),
+    value: getParticipantCount(anvilCatalogWorkspace),
+  };
+};
+
+/**
+ * Build props for study design cell component from the given workspace in the AnVIL catalog.
+ * @param anvilCatalogWorkspace - AnVIL catalog workspace.
+ * @returns Model to be used as props for the study design cell.
+ */
+export const buildStudyDesigns = (
+  anvilCatalogWorkspace: AnVILCatalogWorkspace
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.STUDY_DESIGN),
+    values: getStudyDesigns(anvilCatalogWorkspace),
+  };
+};
+
+/**
+ * Build props for terra workspace name cell component from the given workspace in the AnVIL catalog.
+ * @param anvilCatalogWorkspace - AnVIL catalog workspace.
+ * @returns Model to be used as props for the terra workspace name cell.
+ */
+export const buildTerraWorkspaceName = (
+  anvilCatalogWorkspace: AnVILCatalogWorkspace
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: getTerraWorkspaceName(anvilCatalogWorkspace),
   };
 };

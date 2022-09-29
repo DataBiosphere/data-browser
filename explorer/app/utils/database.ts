@@ -20,7 +20,7 @@ interface DatabaseReturn<T> {
  * Closure to hide database implementation details and make all data available only through database functions.
  */
 export const database = (<T>(): DatabaseReturn<T> => {
-  const ITEMS: T[] = [];
+  let ITEMS: T[] = [];
 
   const dbInstance: Database<T> = {
     all: () => ITEMS,
@@ -28,7 +28,7 @@ export const database = (<T>(): DatabaseReturn<T> => {
       return ITEMS.find((value: T) => getById(value));
     },
     seed: (newItems: T[]): void => {
-      ITEMS.push(...newItems);
+      ITEMS = [...newItems];
     },
   };
 

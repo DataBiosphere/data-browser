@@ -1,4 +1,4 @@
-import { AnvilSourceItem } from "../../../../app/apis/anvil/common/entities";
+import { AnVILCatalogWorkspace } from "../../../../app/apis/anvil-catalog/common/entities";
 import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
@@ -10,13 +10,8 @@ import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "../../tsv-config";
 
 /**
  * Entity config object responsible to config anything related to the /explore/workspaces route.
- name    status    consortium    phsId    library:dataUseRestriction    library:indication
- library:studyDesign    library:datatype    subjectCount    bucketName    sampleCount
- participantCount    familyCount    discoveryCount    bucketSize    requestorPays
- NRES    GRU    HMB    IRB    PUB    COL    NPU    MDS    GSO    DS    diseaseText
- consentLongName    consentTitle
  */
-export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
+export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
   detail: {
     staticLoad: true,
     tabs: [],
@@ -28,60 +23,82 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: ViewBuilder.buildConsortia,
+          viewBuilder: ViewBuilder.buildConsortium,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Consortium",
         sort: {
           default: true,
-          sortKey: "consortium",
+          sortKey: SOURCE_FIELD_KEY.CONSORTIUM,
         },
         width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: ViewBuilder.buildStudyName,
-        } as ComponentConfig<typeof Components.Text>,
+          viewBuilder: ViewBuilder.buildDbGapId,
+        } as ComponentConfig<typeof Components.Cell>,
+        header: "dbGap Id",
+        sort: {
+          default: true,
+          sortKey: SOURCE_FIELD_KEY.DB_GAP_ID,
+        },
+        width: { max: "1.24fr", min: "124px" },
+      },
+      {
+        componentConfig: {
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildConsentCode,
+        } as ComponentConfig<typeof Components.Cell>,
+        header: "Consent Code",
+        sort: {
+          default: true,
+          sortKey: SOURCE_FIELD_KEY.DATA_USE_RESTRICTION,
+        },
+        width: { max: "1.6fr", min: "160px" },
+      },
+      {
+        componentConfig: {
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildTerraWorkspaceName,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Terra Workspace Name",
         sort: {
-          sortKey: "name",
+          sortKey: SOURCE_FIELD_KEY.WORKSPACE_NAME,
         },
         width: { max: "1fr", min: "360px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildIndication,
-        } as ComponentConfig<typeof Components.Cell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDiseases,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Disease (indication)",
         sort: {
-          sortKey: "library:indication",
+          sortKey: SOURCE_FIELD_KEY.DISEASES,
         },
-        width: { max: "2fr", min: "240px" },
+        width: { max: "1.6fr", min: "160px" },
       },
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDataType,
+          viewBuilder: ViewBuilder.buildDataTypes,
         } as ComponentConfig<typeof Components.NTagCell>,
-        filterFn: "arrIncludesSome",
         header: "Data Type",
         sort: {
-          sortKey: "library:datatype",
+          sortKey: SOURCE_FIELD_KEY.DATA_TYPES,
         },
-        width: { max: "2fr", min: "120px" },
+        width: { max: "1.6fr", min: "160px" },
       },
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildStudyDesign,
+          viewBuilder: ViewBuilder.buildStudyDesigns,
         } as ComponentConfig<typeof Components.NTagCell>,
-        filterFn: "arrIncludesSome",
         header: "Study Design",
         sort: {
-          sortKey: "library:studyDesign",
+          sortKey: SOURCE_FIELD_KEY.STUDY_DESIGNS,
         },
-        width: { max: "2fr", min: "240px" },
+        width: { max: "1.6fr", min: "160px" },
       },
       {
         componentConfig: {
@@ -90,12 +107,12 @@ export const workspaceEntity: EntityConfig<AnvilSourceItem> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Participants",
         sort: {
-          sortKey: "participantCount",
+          sortKey: SOURCE_FIELD_KEY.PARTICIPANT_COUNT,
         },
-        width: { max: "2fr", min: "120px" },
+        width: { max: "1.16fr", min: "116px" },
       },
     ],
-  } as ListConfig<AnvilSourceItem>,
+  } as ListConfig<AnVILCatalogWorkspace>,
   route: "workspaces",
   tsv: {
     path: "dashboard-source-anvil.tsv",

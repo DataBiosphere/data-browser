@@ -1,28 +1,37 @@
 import { SiteConfig } from "../../../app/config/common/entities";
 import anvilDevConfig from "../../anvil/dev/config";
+import { SOURCE_FIELD_KEY } from "../tsv-config";
 import { workspaceEntity } from "./index/workspaceEntity";
 
 const config: SiteConfig = {
   ...anvilDevConfig,
   categoryConfigs: [
     {
-      key: "consortium",
+      key: SOURCE_FIELD_KEY.CONSORTIUM,
       label: "Consortium",
     },
     {
-      key: "name",
+      key: SOURCE_FIELD_KEY.DB_GAP_ID,
+      label: "dbGap Id",
+    },
+    {
+      key: SOURCE_FIELD_KEY.DATA_USE_RESTRICTION,
+      label: "Consent Code",
+    },
+    {
+      key: SOURCE_FIELD_KEY.WORKSPACE_NAME,
       label: "Terra Workspace Name",
     },
     {
-      key: "library:indication",
+      key: SOURCE_FIELD_KEY.DISEASES,
       label: "Disease (indication)",
     },
     {
-      key: "library:datatype",
+      key: SOURCE_FIELD_KEY.DATA_TYPES,
       label: "Data Type",
     },
     {
-      key: "library:studyDesign",
+      key: SOURCE_FIELD_KEY.STUDY_DESIGNS,
       label: "Study Design",
     },
   ],

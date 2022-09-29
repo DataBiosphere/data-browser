@@ -4,7 +4,7 @@
 
 import { PAGINATION_PAGE_SIZE } from "app/shared/constants";
 import { database } from "app/utils/database";
-import { AnvilSourceItem } from "../../apis/anvil/common/entities";
+import { AnVILCatalogWorkspace } from "../../apis/anvil-catalog/common/entities";
 import {
   AzulEntitiesResponse,
   AzulSummaryResponse,
@@ -33,7 +33,8 @@ export const fetchAllEntities = async (): Promise<AzulEntitiesResponse> => {
   return fetchEntitiesFromQuery();
 };
 
-export const fetchEntityDetail = async (): Promise<AnvilSourceItem> => {
+// TODO(Fran or Dave) review the type.
+export const fetchEntityDetail = async (): Promise<AnVILCatalogWorkspace> => {
   throw new Error("Not implemented function"); //This function isn't necessary yet
 };
 

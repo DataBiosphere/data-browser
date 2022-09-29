@@ -1,19 +1,34 @@
 /**
- * Model to represent anvil's catalog TSV file. Currently anvil/common/entities.ts is used.
- * TODO(Fran) review AnVIL catalog transformer types.
+ * Model of AnVIL catalog workspace.
  */
-export interface AnvilCatalogSourceItem {
-  Access: string;
-  "Consent Code": string;
-  Consortium: string;
-  "Data Type": string;
-  "dbGap Id": string;
-  Disease: string;
-  Participants: number;
-  Samples: number;
-  "Size (TB)": number;
-  Study: string;
-  "Study Accession": string;
-  "Study Design": string;
-  "Terra Workspace Name": string;
+export interface AnVILCatalogWorkspace {
+  bucketName: string;
+  bucketSize: number;
+  COL: string;
+  consentLongName: string;
+  consentTitle: string;
+  consortium: string;
+  discoveryCount: number;
+  diseaseText: string;
+  DS: string;
+  familyCount: number;
+  GRU: string;
+  GSO: string;
+  HMB: string;
+  IRB: string;
+  "library:datatype": string[];
+  "library:dataUseRestriction": string;
+  "library:indication": string[];
+  "library:studyDesign": string[];
+  MDS: string;
+  name: string;
+  NPU: string;
+  NRES: string;
+  participantCount: number;
+  phsId: string;
+  PUB: string;
+  requestorPays: boolean;
+  sampleCount: number;
+  status: string;
+  subjectCount: number;
 }
