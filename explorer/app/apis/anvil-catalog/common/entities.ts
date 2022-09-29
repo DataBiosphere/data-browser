@@ -1,5 +1,6 @@
 /**
  * Model to represent anvil's catalog TSV file. Currently anvil/common/entities.ts is used.
+ * TODO(Fran) review AnVIL catalog transformer types.
  */
 export interface AnvilCatalogSourceItem {
   Access: string;

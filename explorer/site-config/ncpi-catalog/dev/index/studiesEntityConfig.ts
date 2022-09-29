@@ -1,4 +1,4 @@
-import { NPCICatalogSourceItem } from "../../../../app/apis/ncpi-catalog/common/entities";
+import { NCPICatalogDataset } from "../../../../app/apis/ncpi-catalog/common/entities";
 import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
@@ -10,12 +10,8 @@ import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "../../tsv-config";
 
 /**
  * Entity config object responsible for config related to the /explore/studies route.
- * Platform    Study    dbGap Id    Study Accession
- * Focus / Disease    Data Type    Study Design    Consent Code
- * Participants
- * */
-
-export const studiesEntityConfig: EntityConfig<NPCICatalogSourceItem> = {
+ */
+export const studiesEntityConfig: EntityConfig<NCPICatalogDataset> = {
   detail: {
     staticLoad: true,
     tabs: [],
@@ -26,15 +22,15 @@ export const studiesEntityConfig: EntityConfig<NPCICatalogSourceItem> = {
     columns: [
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildPlatform,
-        } as ComponentConfig<typeof Components.Cell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildPlatforms,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Platform",
         sort: {
           default: true,
-          sortKey: "Platform",
+          sortKey: SOURCE_FIELD_KEY.PLATFORMS,
         },
-        width: { max: "1fr", min: "120px" },
+        width: { max: "1fr", min: "100px" },
       },
       {
         componentConfig: {
@@ -43,9 +39,9 @@ export const studiesEntityConfig: EntityConfig<NPCICatalogSourceItem> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Study",
         sort: {
-          sortKey: "Study",
+          sortKey: SOURCE_FIELD_KEY.STUDY,
         },
-        width: { max: "1fr", min: "120px" },
+        width: { max: "2fr", min: "200px" },
       },
       {
         componentConfig: {
@@ -54,67 +50,67 @@ export const studiesEntityConfig: EntityConfig<NPCICatalogSourceItem> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "dbGap Id",
         sort: {
-          sortKey: "dbGap Id",
+          sortKey: SOURCE_FIELD_KEY.DB_GAP_ID,
         },
-        width: { max: "1fr", min: "120px" },
+        width: { max: "1.24fr", min: "124px" },
       },
       {
         componentConfig: {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildFocusDisease,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Focus/Disease",
+        header: "Focus / Disease",
         sort: {
-          sortKey: "Focus / Disease",
+          sortKey: SOURCE_FIELD_KEY.FOCUS_DISEASE,
         },
-        width: { max: "2fr", min: "240px" },
+        width: { max: "1.6fr", min: "160px" },
       },
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDataType,
+          viewBuilder: ViewBuilder.buildDataTypes,
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Data Type",
         sort: {
-          sortKey: "Data Type",
+          sortKey: SOURCE_FIELD_KEY.DATA_TYPES,
         },
-        width: { max: "2fr", min: "240px" },
-      },
-      {
-        componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildStudyDesign,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Study Design",
-        sort: {
-          sortKey: "Study Design",
-        },
-        width: { max: "2fr", min: "240px" },
+        width: { max: "1.6fr", min: "160px" },
       },
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildConsentCode,
+          viewBuilder: ViewBuilder.buildStudyDesigns,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Study Design",
+        sort: {
+          sortKey: SOURCE_FIELD_KEY.STUDY_DESIGNS,
+        },
+        width: { max: "1.6fr", min: "160px" },
+      },
+      {
+        componentConfig: {
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildConsentCodes,
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Consent Code",
         sort: {
-          sortKey: "Consent Code",
+          sortKey: SOURCE_FIELD_KEY.CONSENT_CODES,
         },
-        width: { max: "1fr", min: "120px" },
+        width: { max: "1.6fr", min: "160px" },
       },
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: ViewBuilder.buildParticipants,
+          viewBuilder: ViewBuilder.buildParticipantCount,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Participants",
         sort: {
-          sortKey: "Participants",
+          sortKey: SOURCE_FIELD_KEY.PARTICIPANT_COUNT,
         },
-        width: { max: "2fr", min: "240px" },
+        width: { max: "1.16fr", min: "116px" },
       },
     ],
-  } as ListConfig<NPCICatalogSourceItem>,
+  } as ListConfig<NCPICatalogDataset>,
   route: "studies",
   tsv: {
     path: "ncpi-dataset-catalog-results.tsv",

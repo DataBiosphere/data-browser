@@ -1,64 +1,71 @@
-import { NPCICatalogSourceItem } from "./entities";
+import { NCPICatalogDataset } from "./entities";
 
 /**
- * Return the value in the Platform column.
- * @param source - Study row in the NCPI catalog TSV.
- * @returns String value of Platform.
+ * Returns the consent codes.
+ * @param ncpiCatalogDataset - NCPI catalog dataset.
+ * @returns Array of consent codes.
  */
-export const getPlatform = (source: NPCICatalogSourceItem): string =>
-  source.Platform;
+export const getConsentCodes = (
+  ncpiCatalogDataset: NCPICatalogDataset
+): string[] => ncpiCatalogDataset.consentCodes ?? [];
 
 /**
- * Return the value in the Study column.
- * @param source - Study row in the NCPI catalog TSV.
- * @returns String value of Study.
+ * Returns the data types.
+ * @param ncpiCatalogDataset - NCPI catalog dataset.
+ * @returns Array of data types.
  */
-export const getStudy = (source: NPCICatalogSourceItem): string => source.Study;
+export const getDataTypes = (
+  ncpiCatalogDataset: NCPICatalogDataset
+): string[] => ncpiCatalogDataset.dataTypes ?? [];
 
 /**
- * Return the value in the Focus/Disease column.
- * @param source - Study row in the NCPI catalog TSV.
- * @returns String value of Focus/Disease.
+ * Returns the study identifier.
+ * @param ncpiCatalogDataset - NCPI catalog dataset.
+ * @returns String value of dbGapId.
  */
-export const getFocusDisease = (source: NPCICatalogSourceItem): string =>
-  source["Focus / Disease"];
+export const getDbGapId = (ncpiCatalogDataset: NCPICatalogDataset): string =>
+  ncpiCatalogDataset.dbGapId;
 
 /**
- * Return the value in the Data Type column.
- * @param source - Study row in the NCPI catalog TSV.
- * @returns String value of Data Type.
+ * Returns the focus/disease.
+ * @param ncpiCatalogDataset - NCPI catalog dataset.
+ * @returns String value of focus/disease.
  */
-export const getDataType = (source: NPCICatalogSourceItem): string[] =>
-  source["Data Type"].split(";");
+export const getFocusDisease = (
+  ncpiCatalogDataset: NCPICatalogDataset
+): string => ncpiCatalogDataset.focusDisease;
 
 /**
- * Return the value in the dbGap Id column.
- * @param source - Study row in the NCPI catalog TSV.
- * @returns String value of dbGap Id.
- */
-export const getDbGapId = (source: NPCICatalogSourceItem): string =>
-  source["dbGap Id"];
-
-/**
- * Return the value in the Study Design column.
- * @param source - Study row in the NCPI catalog TSV.
- * @returns String value of Study Design.
- */
-export const getStudyDesign = (source: NPCICatalogSourceItem): string =>
-  source["Study Design"];
-
-/**
- * Return the value in the Participants column.
- * @param source - Study row in the NCPI catalog TSV.
+ * Returns the participant count.
+ * @param ncpiCatalogDataset - NCPI catalog dataset.
  * @returns The number of participants in the study.
  */
-export const getParticipants = (source: NPCICatalogSourceItem): number =>
-  source.Participants;
+export const getParticipantCount = (
+  ncpiCatalogDataset: NCPICatalogDataset
+): number => ncpiCatalogDataset.participantCount;
 
 /**
- * Return the value in the Consent Code column.
- * @param source - Study row in the NCPI catalog TSV.
- * @returns String value of Consent Code.
+ * Returns the platforms.
+ * @param ncpiCatalogDataset - NCPI catalog dataset.
+ * @returns Array of platforms.
  */
-export const getConsentCode = (source: NPCICatalogSourceItem): string[] =>
-  source["Consent Code"].split(";");
+export const getPlatforms = (
+  ncpiCatalogDataset: NCPICatalogDataset
+): string[] => ncpiCatalogDataset.platforms ?? [];
+
+/**
+ * Returns the study.
+ * @param ncpiCatalogDataset - NCPI catalog dataset.
+ * @returns String value of Study.
+ */
+export const getStudy = (ncpiCatalogDataset: NCPICatalogDataset): string =>
+  ncpiCatalogDataset.study;
+
+/**
+ * Returns the study designs.
+ * @param ncpiCatalogDataset - NCPI catalog dataset.
+ * @returns Array of study designs.
+ */
+export const getStudyDesigns = (
+  ncpiCatalogDataset: NCPICatalogDataset
+): string[] => ncpiCatalogDataset.studyDesigns ?? [];

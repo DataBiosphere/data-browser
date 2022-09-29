@@ -20,7 +20,9 @@ const {
   LIBRARY_PREPARATION,
   ORGANISM_TYPE,
   PHENOTYPIC_SEX,
+  PLATFORM,
   REPORTED_ETHNICITY,
+  STUDY_DESIGN,
 } = METADATA_KEY;
 const { DONORS, ESTIMATED_CELLS, FILE_FORMATS, FILES, SPECIES, SPECIMENS } =
   SUMMARY;
@@ -57,7 +59,9 @@ export const PLURALIZED_METADATA_LABEL = {
   [LIBRARY_PREPARATION]: "library preparations",
   [ORGANISM_TYPE]: "organism types",
   [PHENOTYPIC_SEX]: "phenotypic sexes",
+  [PLATFORM]: "platforms",
   [REPORTED_ETHNICITY]: "reported ethnicities",
+  [STUDY_DESIGN]: "study designs",
   [METADATA_KEY.SPECIES]: "species",
 };
 

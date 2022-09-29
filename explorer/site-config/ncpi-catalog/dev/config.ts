@@ -4,6 +4,7 @@ import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
 import anvilConfig from "../../anvil/dev/config";
+import { SOURCE_FIELD_KEY } from "../tsv-config";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 
 // Template constants
@@ -36,6 +37,36 @@ const SOCIALS: Social[] = [
 const { summaryConfig, ...basicConfig } = anvilConfig;
 const config: SiteConfig = {
   ...basicConfig,
+  categoryConfigs: [
+    {
+      key: SOURCE_FIELD_KEY.PLATFORMS,
+      label: "Platform",
+    },
+    {
+      key: SOURCE_FIELD_KEY.STUDY,
+      label: "Study",
+    },
+    {
+      key: SOURCE_FIELD_KEY.DB_GAP_ID,
+      label: "dbGap Id",
+    },
+    {
+      key: SOURCE_FIELD_KEY.FOCUS_DISEASE,
+      label: "Focus / Disease",
+    },
+    {
+      key: SOURCE_FIELD_KEY.DATA_TYPES,
+      label: "Data Type",
+    },
+    {
+      key: SOURCE_FIELD_KEY.STUDY_DESIGNS,
+      label: "Study Design",
+    },
+    {
+      key: SOURCE_FIELD_KEY.CONSENT_CODES,
+      label: "Consent Code",
+    },
+  ],
   disablePagination: true,
   entities: [studiesEntityConfig],
   explorerTitle: "NCPI Dataset Catalog",

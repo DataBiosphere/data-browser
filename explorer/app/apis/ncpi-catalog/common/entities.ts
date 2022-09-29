@@ -1,14 +1,14 @@
 /**
- * Model of a study in the NCPI catalog TSV file.
+ * Model of NCPI catalog dataset.
  */
-export interface NPCICatalogSourceItem {
-  "Consent Code": string;
-  "Data Type": string;
-  "dbGap Id": string;
-  "Focus / Disease": string;
-  Participants: number;
-  Platform: string;
-  Study: string;
-  "Study Accession": string;
-  "Study Design": string;
+export interface NCPICatalogDataset {
+  consentCodes: string[];
+  dataTypes: string[];
+  dbGapId: string;
+  focusDisease: string;
+  participantCount: number;
+  platforms: string[];
+  study: string;
+  studyAccession: string;
+  studyDesigns: string[];
 }
