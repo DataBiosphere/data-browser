@@ -104,7 +104,7 @@ const config: SiteConfig = {
       size: "25",
       sort: "entryId",
     },
-    url: "https://service.nadove4.anvil.gi.ucsc.edu/",
+    url: "https://service.anvil.gi.ucsc.edu/",
   },
   entities: [
     datasetsEntityConfig,
