@@ -43,6 +43,7 @@ export const Input = ({
     <InputFormControl className={className}>
       {label && <Typography variant="text-body-400">{label}</Typography>}
       <InputField
+        autoFocus
         fullWidth
         inputProps={{ spellCheck: false }}
         isFilled={!!searchTerm}
