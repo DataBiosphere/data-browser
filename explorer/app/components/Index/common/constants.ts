@@ -14,16 +14,20 @@ const {
   DATA_MODALITY,
   DATA_TYPE,
   DATASET_NAME,
+  DBGAP_ID,
   DEVELOPMENT_STAGE,
   DISEASE_DONOR,
   DISEASE_INDICATION,
+  FOCUS_DISEASE,
   LIBRARY_CONSTRUCTION_APPROACH,
   LIBRARY_PREPARATION,
   ORGANISM_TYPE,
   PHENOTYPIC_SEX,
   PLATFORM,
   REPORTED_ETHNICITY,
+  STUDY,
   STUDY_DESIGN,
+  WORKSPACE_NAME,
 } = METADATA_KEY;
 const { DONORS, ESTIMATED_CELLS, FILE_FORMATS, FILES, SPECIES, SPECIMENS } =
   SUMMARY;
@@ -54,17 +58,21 @@ export const PLURALIZED_METADATA_LABEL = {
   [DATASET_NAME]: "dataset names",
   [DATA_MODALITY]: "data modalities",
   [DATA_TYPE]: "data types",
+  [DBGAP_ID]: "dbGap ids",
   [DEVELOPMENT_STAGE]: "development stages",
   [DISEASE_DONOR]: "diseases",
   [DISEASE_INDICATION]: "diseases",
+  [FOCUS_DISEASE]: "focuses / diseases",
   [LIBRARY_CONSTRUCTION_APPROACH]: "library construction approaches",
   [LIBRARY_PREPARATION]: "library preparations",
   [ORGANISM_TYPE]: "organism types",
   [PHENOTYPIC_SEX]: "phenotypic sexes",
   [PLATFORM]: "platforms",
   [REPORTED_ETHNICITY]: "reported ethnicities",
+  [STUDY]: "studies",
   [STUDY_DESIGN]: "study designs",
   [METADATA_KEY.SPECIES]: "species",
+  [WORKSPACE_NAME]: "workspaces",
 };
 
 /**

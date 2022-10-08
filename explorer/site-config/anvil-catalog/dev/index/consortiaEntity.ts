@@ -1,5 +1,5 @@
-import { AnVILCatalogWorkspace } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
-import { buildAnVILCatalogWorkspaces } from "../../../../app/apis/catalog/anvil-catalog/common/utils";
+import { AnVILCatalogConsortium } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
+import { buildAnVILCatalogConsortia } from "../../../../app/apis/catalog/anvil-catalog/common/utils";
 import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
@@ -10,15 +10,15 @@ import * as ViewBuilder from "../../../../app/viewModelBuilders/anvil-catalog/co
 import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "../../tsv-config";
 
 /**
- * Entity config object responsible to config anything related to the /explore/workspaces route.
+ * Entity config object responsible to config anything related to the /explore/consortia route.
  */
-export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
+export const consortiaEntity: EntityConfig<AnVILCatalogConsortium> = {
   detail: {
     staticLoad: true,
     tabs: [],
     top: [],
   },
-  label: "Workspaces",
+  label: "Consortia",
   list: {
     columns: [
       {
@@ -28,45 +28,33 @@ export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Consortium",
         sort: {
-          default: true,
           sortKey: "consortium",
         },
         width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildDbGapId,
-        } as ComponentConfig<typeof Components.Cell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDbGapIds,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "dbGap Id",
         sort: {
           default: true,
-          sortKey: "dbGapId",
+          sortKey: "dbGapId", // dbGapIds - a list of study identifiers.
         },
-        width: { max: "1.24fr", min: "124px" },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildConsentCode,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Consent Code",
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildConsentCodes,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Consent Codes",
         sort: {
           default: true,
-          sortKey: "consentCode",
+          sortKey: "consentCode", // consentCodes - a list of consent codes.
         },
-        width: { max: "1.6fr", min: "160px" },
-      },
-      {
-        componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildTerraWorkspaceName,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Terra Workspace Name",
-        sort: {
-          sortKey: "workspaceName",
-        },
-        width: { max: "1fr", min: "360px" },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -77,7 +65,7 @@ export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
         sort: {
           sortKey: "diseases",
         },
-        width: { max: "1.6fr", min: "160px" },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -88,7 +76,7 @@ export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
         sort: {
           sortKey: "dataTypes",
         },
-        width: { max: "1.6fr", min: "160px" },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -99,7 +87,18 @@ export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
         sort: {
           sortKey: "studyDesigns",
         },
-        width: { max: "1.6fr", min: "160px" },
+        width: { max: "1fr", min: "120px" },
+      },
+      {
+        componentConfig: {
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildTerraWorkspaceNames,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Workspaces",
+        sort: {
+          sortKey: "workspaceName", // workspaceNames - a list of workspace names.
+        },
+        width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
@@ -110,13 +109,13 @@ export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
         sort: {
           sortKey: "participantCount",
         },
-        width: { max: "1.16fr", min: "116px" },
+        width: { max: "1fr", min: "120px" },
       },
     ],
-  } as ListConfig<AnVILCatalogWorkspace>,
-  route: "workspaces",
+  } as ListConfig<AnVILCatalogConsortium>,
+  route: "consortia",
   tsv: {
-    builderFn: buildAnVILCatalogWorkspaces,
+    builderFn: buildAnVILCatalogConsortia,
     path: "dashboard-source-anvil.tsv",
     sourceFieldKey: SOURCE_FIELD_KEY,
     sourceFieldType: SOURCE_FIELD_TYPE,

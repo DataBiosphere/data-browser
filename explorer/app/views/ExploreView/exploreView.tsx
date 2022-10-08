@@ -4,7 +4,7 @@ import { NoResults } from "app/components/NoResults/noResults";
 import { TableCreator } from "app/components/TableCreator/tableCreator";
 import { useEntityList } from "app/hooks/useEntityList";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   AzulEntitiesResponse,
   AzulEntitiesStaticResponse,
@@ -34,6 +34,7 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
   const tabs = getTabs();
   const { response: summaryResponse } = useSummary(); // Fetch summary.
   const { loading, pagination, response } = useEntityList(props); // Fetch entities.
+  const { entityListType } = props;
 
   /**
    * Callback fired when selected state of a category value is toggled.
@@ -65,11 +66,17 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
   const onTabChange = (tabValue: TabValue): void => {
     push(`/${tabValue}`);
     pagination?.resetPage(); // TODO(Dave) review use of resetPage
-    exploreDispatch({
-      payload: tabValue,
-      type: ExploreActionKind.SelectEntityType,
-    });
   };
+
+  // Selects entity type with update to entity list type.
+  useEffect(() => {
+    if (entityListType) {
+      exploreDispatch({
+        payload: entityListType,
+        type: ExploreActionKind.SelectEntityType,
+      });
+    }
+  }, [entityListType, exploreDispatch]);
 
   /**
    * Render either a loading view, empty result set notification or the table itself.
@@ -81,6 +88,10 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
   ): JSX.Element => {
     if (!entitiesResponse) {
       return <></>; //TODO: return the loading UI component
+    }
+
+    if (entityListType !== tabValue) {
+      return <></>; // TODO(Fran) review loading and return.
     }
 
     if (!entitiesResponse.hits || entitiesResponse.hits.length === 0) {

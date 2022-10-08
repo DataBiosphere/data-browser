@@ -1,5 +1,5 @@
-import { studiesEntityConfig } from "site-config/ncpi-catalog/dev/index/studiesEntityConfig";
-import { DugVariableResponse } from "../../../../app/apis/ncpi-catalog-dug/common/entities";
+import { studiesEntity } from "site-config/ncpi-catalog/dev/index/studiesEntity";
+import { DugVariableResponse } from "../../../../app/apis/catalog/ncpi-catalog-dug/common/entities";
 import * as C from "../../../../app/components";
 import {
   ComponentConfig,
@@ -12,9 +12,9 @@ import { DUG_API_PATH } from "../constants";
 /**
  * Entity config object responsible for config related to the /explore/studies route.
  */
-export const relatedStudiesEntityConfig: EntityConfig<DugVariableResponse> = {
+export const relatedStudiesEntity: EntityConfig<DugVariableResponse> = {
   apiPath: DUG_API_PATH,
-  detail: studiesEntityConfig.detail,
+  detail: studiesEntity.detail,
   label: "Related Studies",
   list: {
     columns: [

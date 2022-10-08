@@ -4,37 +4,41 @@
 
 import { PAGINATION_PAGE_SIZE } from "app/shared/constants";
 import { database } from "app/utils/database";
-import { AnVILCatalogWorkspace } from "../../apis/anvil-catalog/common/entities";
 import {
   AzulEntitiesResponse,
   AzulSummaryResponse,
 } from "../../apis/azul/common/entities";
 
-export const fetchEntitiesFromQuery =
-  async (): Promise<AzulEntitiesResponse> => {
-    const items = database.get().all();
-    return Promise.resolve({
-      hits: items,
-      pagination: {
-        count: 0,
-        pages: Math.ceil(items.length / PAGINATION_PAGE_SIZE),
-        size: PAGINATION_PAGE_SIZE,
-        total: items.length,
-      },
-      termFacets: {},
-    });
-  };
-
-export const fetchEntitiesFromURL = async (): Promise<AzulEntitiesResponse> => {
-  return fetchEntitiesFromQuery();
+export const fetchEntitiesFromQuery = async (
+  entityListType: string
+): Promise<AzulEntitiesResponse> => {
+  const entities = database.get().all(entityListType);
+  return Promise.resolve({
+    hits: entities,
+    pagination: {
+      count: 0,
+      pages: Math.ceil(entities.length / PAGINATION_PAGE_SIZE),
+      size: PAGINATION_PAGE_SIZE,
+      total: entities.length,
+    },
+    termFacets: {},
+  });
 };
 
-export const fetchAllEntities = async (): Promise<AzulEntitiesResponse> => {
-  return fetchEntitiesFromQuery();
+export const fetchEntitiesFromURL = async (
+  entityListType: string
+): Promise<AzulEntitiesResponse> => {
+  return fetchEntitiesFromQuery(entityListType);
 };
 
-// TODO(Fran or Dave) review the type.
-export const fetchEntityDetail = async (): Promise<AnVILCatalogWorkspace> => {
+export const fetchAllEntities = async (
+  entityListType: string
+): Promise<AzulEntitiesResponse> => {
+  return fetchEntitiesFromQuery(entityListType);
+};
+
+// TODO review type
+export const fetchEntityDetail = async (): Promise<unknown[]> => {
   throw new Error("Not implemented function"); //This function isn't necessary yet
 };
 

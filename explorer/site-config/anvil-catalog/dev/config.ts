@@ -1,42 +1,43 @@
 import { SiteConfig } from "../../../app/config/common/entities";
 import anvilDevConfig from "../../anvil/dev/config";
-import { SOURCE_FIELD_KEY } from "../tsv-config";
+import { consortiaEntity } from "./index/consortiaEntity";
+import { studiesEntity } from "./index/studiesEntity";
 import { workspaceEntity } from "./index/workspaceEntity";
 
 const config: SiteConfig = {
   ...anvilDevConfig,
   categoryConfigs: [
     {
-      key: SOURCE_FIELD_KEY.CONSORTIUM,
-      label: "Consortium",
-    },
-    {
-      key: SOURCE_FIELD_KEY.DB_GAP_ID,
-      label: "dbGap Id",
-    },
-    {
-      key: SOURCE_FIELD_KEY.DATA_USE_RESTRICTION,
+      key: "consentCode",
       label: "Consent Code",
     },
     {
-      key: SOURCE_FIELD_KEY.WORKSPACE_NAME,
-      label: "Terra Workspace Name",
+      key: "consortium",
+      label: "Consortium",
     },
     {
-      key: SOURCE_FIELD_KEY.DISEASES,
-      label: "Disease (indication)",
-    },
-    {
-      key: SOURCE_FIELD_KEY.DATA_TYPES,
+      key: "dataTypes",
       label: "Data Type",
     },
     {
-      key: SOURCE_FIELD_KEY.STUDY_DESIGNS,
+      key: "dbGapId",
+      label: "dbGap Id",
+    },
+    {
+      key: "diseases",
+      label: "Disease (indication)",
+    },
+    {
+      key: "studyDesigns",
       label: "Study Design",
+    },
+    {
+      key: "workspaceName",
+      label: "Terra Workspace Name",
     },
   ],
   disablePagination: true,
-  entities: [workspaceEntity],
+  entities: [workspaceEntity, studiesEntity, consortiaEntity],
   explorerTitle: "AnVIL Dataset Catalog",
   redirectRootToPath: "/workspaces",
   summaryConfig: undefined,

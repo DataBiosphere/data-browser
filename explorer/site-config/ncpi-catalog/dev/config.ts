@@ -5,7 +5,8 @@ import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
 import anvilConfig from "../../anvil/dev/config";
 import { SOURCE_FIELD_KEY } from "../tsv-config";
-import { studiesEntityConfig } from "./index/studiesEntityConfig";
+import { platformsEntity } from "./index/platformsEntity";
+import { studiesEntity } from "./index/studiesEntity";
 
 // Template constants
 const BROWSER_URL = "https://anvilproject.org";
@@ -68,7 +69,7 @@ const config: SiteConfig = {
     },
   ],
   disablePagination: true,
-  entities: [studiesEntityConfig],
+  entities: [studiesEntity, platformsEntity],
   explorerTitle: "NCPI Dataset Catalog",
   layout: {
     footer: anvilConfig.layout.footer,

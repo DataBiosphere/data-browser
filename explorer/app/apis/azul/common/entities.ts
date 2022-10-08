@@ -44,6 +44,7 @@ export interface AzulEntitiesResponse<T = any> {
  */
 export interface AzulEntitiesStaticResponse {
   data?: AzulEntitiesResponse;
+  entityListType: string;
 }
 
 /**

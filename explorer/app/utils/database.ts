@@ -4,9 +4,9 @@ type GetByIdFunction<T> = (value: T) => boolean;
  * Database interface containing database functions available to the app.
  */
 interface Database<T> {
-  all: () => T[];
-  find: (getById: GetByIdFunction<T>) => T | undefined;
-  seed: (newItems: T[]) => void;
+  all: (entityListType: string) => T[];
+  find: (getById: GetByIdFunction<T>, entityListType: string) => T | undefined;
+  seed: (entityListType: string, entities: T[]) => void;
 }
 
 /**
@@ -20,15 +20,21 @@ interface DatabaseReturn<T> {
  * Closure to hide database implementation details and make all data available only through database functions.
  */
 export const database = (<T>(): DatabaseReturn<T> => {
-  let ITEMS: T[] = [];
+  const entitiesByEntityListType: Map<string, T[]> = new Map();
 
   const dbInstance: Database<T> = {
-    all: () => ITEMS,
-    find: (getById: GetByIdFunction<T>): T | undefined => {
-      return ITEMS.find((value: T) => getById(value));
+    all: (entityListType: string) =>
+      entitiesByEntityListType.get(entityListType) ?? [],
+    find: (
+      getById: GetByIdFunction<T>,
+      entityListType: string
+    ): T | undefined => {
+      return entitiesByEntityListType
+        .get(entityListType)
+        ?.find((value: T) => getById(value));
     },
-    seed: (newItems: T[]): void => {
-      ITEMS = [...newItems];
+    seed: (entityListType: string, entities: T[]): void => {
+      entitiesByEntityListType.set(entityListType, entities);
     },
   };
 

@@ -1,37 +1,48 @@
-import { AnVILCatalogWorkspace } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
-import { buildAnVILCatalogWorkspaces } from "../../../../app/apis/catalog/anvil-catalog/common/utils";
+import { NCPICatalogStudy } from "../../../../app/apis/catalog/ncpi-catalog/common/entities";
+import { buildNCPICatalogStudies } from "../../../../app/apis/catalog/ncpi-catalog/common/utils";
 import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
-import * as ViewBuilder from "../../../../app/viewModelBuilders/anvil-catalog/common/viewModelBuilders";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/ncpi-catalog/common/viewModelBuilders";
 import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "../../tsv-config";
 
 /**
- * Entity config object responsible to config anything related to the /explore/workspaces route.
+ * Entity config object responsible for config related to the /explore/studies route.
  */
-export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
+export const studiesEntity: EntityConfig<NCPICatalogStudy> = {
   detail: {
     staticLoad: true,
     tabs: [],
     top: [],
   },
-  label: "Workspaces",
+  label: "Studies",
   list: {
     columns: [
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildConsortium,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Consortium",
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildPlatforms,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Platform",
         sort: {
           default: true,
-          sortKey: "consortium",
+          sortKey: "platforms",
         },
-        width: { max: "1fr", min: "120px" },
+        width: { max: "1fr", min: "100px" },
+      },
+      {
+        componentConfig: {
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildStudyName,
+        } as ComponentConfig<typeof Components.Cell>,
+        header: "Study",
+        sort: {
+          sortKey: "studyName",
+        },
+        width: { max: "2fr", min: "200px" },
       },
       {
         componentConfig: {
@@ -40,7 +51,6 @@ export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "dbGap Id",
         sort: {
-          default: true,
           sortKey: "dbGapId",
         },
         width: { max: "1.24fr", min: "124px" },
@@ -48,34 +58,11 @@ export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: ViewBuilder.buildConsentCode,
+          viewBuilder: ViewBuilder.buildFocusDisease,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Consent Code",
+        header: "Focus / Disease",
         sort: {
-          default: true,
-          sortKey: "consentCode",
-        },
-        width: { max: "1.6fr", min: "160px" },
-      },
-      {
-        componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildTerraWorkspaceName,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Terra Workspace Name",
-        sort: {
-          sortKey: "workspaceName",
-        },
-        width: { max: "1fr", min: "360px" },
-      },
-      {
-        componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDiseases,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Disease (indication)",
-        sort: {
-          sortKey: "diseases",
+          sortKey: "focusDisease",
         },
         width: { max: "1.6fr", min: "160px" },
       },
@@ -103,6 +90,17 @@ export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
       },
       {
         componentConfig: {
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildConsentCodes,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Consent Code",
+        sort: {
+          sortKey: "consentCodes",
+        },
+        width: { max: "1.6fr", min: "160px" },
+      },
+      {
+        componentConfig: {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildParticipantCount,
         } as ComponentConfig<typeof Components.Cell>,
@@ -113,11 +111,11 @@ export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
         width: { max: "1.16fr", min: "116px" },
       },
     ],
-  } as ListConfig<AnVILCatalogWorkspace>,
-  route: "workspaces",
+  } as ListConfig<NCPICatalogStudy>,
+  route: "studies",
   tsv: {
-    builderFn: buildAnVILCatalogWorkspaces,
-    path: "dashboard-source-anvil.tsv",
+    builderFn: buildNCPICatalogStudies,
+    path: "ncpi-dataset-catalog-results.tsv",
     sourceFieldKey: SOURCE_FIELD_KEY,
     sourceFieldType: SOURCE_FIELD_TYPE,
   },

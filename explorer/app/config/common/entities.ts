@@ -5,6 +5,8 @@ import { HeroTitle } from "../../components/common/Title/title";
 
 type GetIdFunction<T> = (detail: T) => string;
 
+type BuilderFn = (catalogs: unknown[]) => unknown[];
+
 /**
  * Model of category configured in site config.
  */
@@ -34,6 +36,7 @@ export interface EntityConfig<D = any> extends TabConfig {
   options?: Options;
   staticLoad?: boolean;
   tsv?: {
+    builderFn: BuilderFn;
     path: string;
     sourceFieldKey: { [key: string]: string };
     sourceFieldType: { [key: string]: string };

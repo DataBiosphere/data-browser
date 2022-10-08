@@ -15,7 +15,7 @@ export const SOURCE_FIELD_TYPE = {
   DATA_TYPES: "array",
   DB_GAP_ID: "string",
   FOCUS_DISEASE: "string",
-  PARTICIPANTS: "number",
+  PARTICIPANT_COUNT: "number",
   PLATFORMS: "array",
   STUDY: "string",
   STUDY_ACCESSION: "string",
