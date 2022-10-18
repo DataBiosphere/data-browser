@@ -38,6 +38,7 @@ export interface AggregatedBioSampleResponse {
  */
 export interface AggregatedDataset {
   dataset_id: string[];
+  title: string[];
 }
 
 /**

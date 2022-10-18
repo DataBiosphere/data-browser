@@ -36,12 +36,34 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       {
         componentConfig: {
           component: Components.Links,
-          viewBuilder: ViewBuilder.buildDatasetId,
+          viewBuilder: ViewBuilder.buildDatasetTitle,
         } as ComponentConfig<typeof Components.Links>,
-        header: "Dataset Id",
+        header: "Dataset",
         sort: {
           default: true,
-          sortKey: "dataset_id",
+          sortKey: "title",
+        },
+        width: { max: "2fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildRegisteredIdentifier,
+        } as ComponentConfig<typeof Components.Cell>,
+        header: "Identifier",
+        sort: {
+          sortKey: "registered_identifier",
+        },
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildConsentGroup,
+        } as ComponentConfig<typeof Components.Cell>,
+        header: "Consent Group",
+        sort: {
+          sortKey: "consent_group",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -78,17 +100,17 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         },
         width: { max: "1fr", min: "200px" },
       },
-      {
-        componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildPrepMaterialNames,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Library Preparation",
-        sort: {
-          sortKey: "prep_material_name",
-        },
-        width: { max: "1fr", min: "200px" },
-      },
+      // {
+      //   componentConfig: {
+      //     component: Components.NTagCell,
+      //     viewBuilder: ViewBuilder.buildPrepMaterialNames,
+      //   } as ComponentConfig<typeof Components.NTagCell>,
+      //   header: "Library Preparation",
+      //   sort: {
+      //     sortKey: "prep_material_name",
+      //   },
+      //   width: { max: "1fr", min: "200px" },
+      // },
       {
         componentConfig: {
           component: Components.NTagCell,

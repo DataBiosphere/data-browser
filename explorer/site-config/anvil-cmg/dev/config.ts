@@ -14,7 +14,6 @@ import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
 import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
-import { librariesEntityConfig } from "./index/librariesEntityConfig";
 import { summary } from "./index/summary";
 
 // Template constants
@@ -63,12 +62,20 @@ const config: SiteConfig = {
   browserURL: BROWSER_URL,
   categoryConfigs: [
     {
+      key: "anatomical_site",
+      label: "Anatomical Site",
+    },
+    {
       key: "biosample_type",
       label: "BioSample Type",
     },
     {
       key: "data_modality",
       label: "Data Modality",
+    },
+    {
+      key: "title",
+      label: "Dataset",
     },
     {
       key: "file_format",
@@ -110,7 +117,6 @@ const config: SiteConfig = {
     datasetsEntityConfig,
     donorsEntityConfig,
     biosamplesEntityConfig,
-    librariesEntityConfig,
     activitiesEntityConfig,
     filesEntityConfig,
   ],

@@ -68,11 +68,11 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDatasetIds,
+          viewBuilder: ViewBuilder.buildDatasetTitles,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Dataset Id",
+        header: "Dataset",
         sort: {
-          sortKey: "dataset_id",
+          sortKey: "title",
         },
         width: { max: "1fr", min: "200px" },
       },

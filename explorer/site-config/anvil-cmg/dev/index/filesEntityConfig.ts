@@ -87,11 +87,11 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDatasetIds,
+          viewBuilder: ViewBuilder.buildDatasetTitles,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Dataset ID",
+        header: "Dataset",
         sort: {
-          sortKey: "dataset_id",
+          sortKey: "title",
         },
         width: { max: "2fr", min: "240px" },
       },

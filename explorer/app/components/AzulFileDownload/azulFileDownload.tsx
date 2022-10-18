@@ -70,11 +70,15 @@ function buildFetchFileUrl(fileUrl?: string): string | undefined {
     return;
   }
 
-  const url = new URL(fileUrl);
-  const path = url.pathname;
-  if (!path.includes(API_FILE_LOCATION_FETCH)) {
-    url.pathname = `${API_FILE_LOCATION_FETCH}${path}`;
+  try {
+    const url = new URL(fileUrl);
+    const path = url.pathname;
+    if (!path.includes(API_FILE_LOCATION_FETCH)) {
+      url.pathname = `${API_FILE_LOCATION_FETCH}${path}`;
+    }
+    return url.toString();
+  } catch (error) {
+    //console.log("error parsing file URL", fileUrl);
+    return;
   }
-
-  return url.toString();
 }

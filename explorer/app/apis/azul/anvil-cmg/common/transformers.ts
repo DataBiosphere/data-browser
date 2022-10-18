@@ -66,6 +66,15 @@ export function getBioSampleType(response: BioSampleEntityResponse): string {
 }
 
 /**
+ * Maps biosample type from the core biosample entity returned from the index/biosamples API response.
+ * @param response - Response model return from biosamples API.
+ * @returns Biosample type.
+ */
+export function getConsentGroup(response: DatasetEntityResponse): string {
+  return processEntityValue(response.datasets, "consent_group");
+}
+
+/**
  * Maps biosample type from an aggregated biosamples value returned from endpoints other than index/biosamples.
  * @param response - Response model return from Azul that includes aggregated biosamples.
  * @returns Set of aggregated biosample types.
@@ -87,7 +96,7 @@ export function getDatasetBreadcrumbs(
   firstCrumb: Breadcrumb,
   response: DatasetEntityResponse
 ): Breadcrumb[] {
-  const datasetName = getDatasetId(response);
+  const datasetName = getDatasetTitle(response);
   const breadcrumbs = [firstCrumb];
   if (datasetName) {
     breadcrumbs.push({ path: "", text: datasetName });
@@ -158,6 +167,15 @@ export function getDatasetId(response: DatasetEntityResponse): string {
 }
 
 /**
+ * Maps dataset ID from the core dataset entity returned from the index/datasets endpoint.
+ * @param response - Response model return from datasets or dataset API endpoints.
+ * @returns Dataset ID.
+ */
+export function getDatasetTitle(response: DatasetEntityResponse): string {
+  return processEntityValue(response.datasets, "title", LABEL.NONE);
+}
+
+/**
  * Maps dataset name from an aggregated datasets value returned from endpoints other than index/datasets.
  * @param response - Response model return from Azul that includes aggregated datasets.
  * @returns Set of aggregated dataset names.
@@ -166,6 +184,17 @@ export function getAggregatedDatasetIds(
   response: AggregatedDatasetResponse
 ): string[] {
   return processAggregatedOrArrayValue(response.datasets, "dataset_id");
+}
+
+/**
+ * Maps dataset name from an aggregated datasets value returned from endpoints other than index/datasets.
+ * @param response - Response model return from Azul that includes aggregated datasets.
+ * @returns Set of aggregated dataset names.
+ */
+export function getAggregatedDatasetTitles(
+  response: AggregatedDatasetResponse
+): string[] {
+  return processAggregatedOrArrayValue(response.datasets, "title");
 }
 
 /**
@@ -311,6 +340,17 @@ export function getAggregatedPhenotypicSexes(
   response: AggregatedDonorResponse
 ): string[] {
   return processAggregatedOrArrayValue(response.donors, "phenotypic_sex");
+}
+
+/**
+ * Maps phenotypic sex from the core donor value returned from the /index/donors API response.
+ * @param response - Response model return from index/donors API endpoint.
+ * @returns Phenotypic sex.
+ */
+export function getRegisteredIdentifier(
+  response: DatasetEntityResponse
+): string {
+  return processEntityValue(response.datasets, "registered_identifier");
 }
 
 /**

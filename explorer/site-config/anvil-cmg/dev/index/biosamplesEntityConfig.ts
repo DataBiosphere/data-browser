@@ -79,11 +79,11 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
       {
         componentConfig: {
           component: Components.NTagCell,
-          viewBuilder: ViewBuilders.buildDatasetIds,
+          viewBuilder: ViewBuilders.buildDatasetTitles,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Dataset Id",
+        header: "Dataset",
         sort: {
-          sortKey: "dataset_id",
+          sortKey: "title",
         },
         width: { max: "1fr", min: "200px" },
       },

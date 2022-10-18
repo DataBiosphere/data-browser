@@ -23,6 +23,7 @@ import {
   getActivityType,
   getAggregatedBioSampleTypes,
   getAggregatedDatasetIds,
+  getAggregatedDatasetTitles,
   getAggregatedOrganismTypes,
   getAggregatedPhenotypicSexes,
   getAggregatedPrepMaterialNames,
@@ -30,11 +31,13 @@ import {
   getAnatomicalSite,
   getBioSampleId,
   getBioSampleType,
+  getConsentGroup,
   getDatasetBreadcrumbs,
   getDatasetDescription,
   getDatasetDetails,
   getDatasetEntryId,
   getDatasetId,
+  getDatasetTitle,
   getDocumentId,
   getDonorId,
   getFileDataModalities,
@@ -47,6 +50,7 @@ import {
   getOrganismType,
   getPhenotypicSex,
   getPrepMaterialName,
+  getRegisteredIdentifier,
   getReportedEthnicities,
 } from "../../../../apis/azul/anvil-cmg/common/transformers";
 import * as C from "../../../../components";
@@ -120,6 +124,19 @@ export const buildBioSampleTypes = (
 };
 
 /**
+ * Build props for phenotypic sex cell component from the given donors response.
+ * @param response - Response model return from index/donors API endpoint.
+ * @returns model to be used as props for the phenotypic sex cell.
+ */
+export const buildConsentGroup = (
+  response: DatasetEntityResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: getConsentGroup(response),
+  };
+};
+
+/**
  * Build props for Description component from the given entity response.
  * TODO revisit - separate from entity builder, generalize description component, revisit transformer
  * @param response - Response model return from datasets API.
@@ -160,7 +177,7 @@ export const buildDatasetHero = (
   const firstCrumb = { path: URL_DATASETS, text: "Datasets" };
   return {
     breadcrumbs: getDatasetBreadcrumbs(firstCrumb, response),
-    title: getDatasetId(response),
+    title: getDatasetTitle(response),
   };
 };
 
@@ -221,6 +238,38 @@ export const buildDatasetIds = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATASET_NAME),
     values: getAggregatedDatasetIds(response),
+  };
+};
+
+/**
+ * Build dataset name Cell component from the given index/datasets response.
+ * @param response - Response model return from index/datasets API.
+ * @returns model to be used as props for the dataset name cell.
+ */
+export const buildDatasetTitle = (
+  response: DatasetsResponse
+): React.ComponentProps<typeof C.Links> => {
+  return {
+    links: [
+      {
+        label: getDatasetTitle(response),
+        url: `/datasets/${getDatasetEntryId(response)}`,
+      },
+    ],
+  };
+};
+
+/**
+ * Build dataset ID Cell component from the given entity response.
+ * @param response - Response model return from Azul that includes aggregated datasets.
+ * @returns model to be used as props for the dataset ID cell.
+ */
+export const buildDatasetTitles = (
+  response: AggregatedDatasetResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATASET_NAME),
+    values: getAggregatedDatasetTitles(response),
   };
 };
 
@@ -420,6 +469,19 @@ export const buildPrepMaterialNames = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.LIBRARY_PREPARATION),
     values: getAggregatedPrepMaterialNames(response),
+  };
+};
+
+/**
+ * Build props for phenotypic sex cell component from the given donors response.
+ * @param response - Response model return from index/donors API endpoint.
+ * @returns model to be used as props for the phenotypic sex cell.
+ */
+export const buildRegisteredIdentifier = (
+  response: DatasetEntityResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: getRegisteredIdentifier(response),
   };
 };
 

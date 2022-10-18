@@ -35,8 +35,11 @@ export interface BioSampleEntityResponse {
  * Model of core dataset value returned from the /index/datasets API endpoint.
  */
 export interface DatasetEntity {
+  consent_group: string;
   dataset_id: string;
   entity_description: string;
+  registered_identifier: string;
+  title: string;
 }
 
 /**
