@@ -2,7 +2,7 @@
 set -e
 
 export GTM_ID=GTM-M2J5NTJ
-export GTM_AUTH=CWB1d2Aoi1q3GOmQMSGMsZA
+export GTM_AUTH=WB1d2Aoi1q3GOmQMSGMsZA
 export GTM_ENV=env-150
 
 gtmHead=$(cat "./gtm/gtm.head.txt")
