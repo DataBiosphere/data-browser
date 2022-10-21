@@ -164,4 +164,5 @@ export const projectsEntity: EntityConfig = {
     ],
   } as ListConfig<ProjectsResponse>,
   route: "projects",
+  staticLoad: false,
 };

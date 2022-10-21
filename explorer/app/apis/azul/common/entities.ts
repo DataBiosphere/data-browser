@@ -69,14 +69,21 @@ export enum AZUL_FILTER_OPERATOR {
 export interface AzulListParams {
   filters?: string;
   order?: string;
+  search_after?: string;
+  search_before?: string;
   size?: string;
   sort?: string;
 }
 
+export type AzulSearchIndex = keyof Pick<
+  AzulListParams,
+  "search_before" | "search_after"
+>;
+
 /**
  * Base index response interface, implemented by specific index responses (e.g. projects, samples, files).
  */
-interface AzulPaginationResponse {
+export interface AzulPaginationResponse {
   count: number;
   next?: string;
   order?: "asc" | "desc";

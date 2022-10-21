@@ -28,7 +28,7 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         header: "Biosample Id",
         sort: {
           default: true,
-          sortKey: "biosample_id",
+          sortKey: "biosamples.biosample_id",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -39,7 +39,7 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Biosample Type",
         sort: {
-          sortKey: "biosample_type",
+          sortKey: "biosamples.biosample_type",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -50,7 +50,7 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Organism Type",
         sort: {
-          sortKey: "organism_type",
+          sortKey: "donors.organism_type",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -61,7 +61,7 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Phenotypic Sex",
         sort: {
-          sortKey: "phenotypic_sex",
+          sortKey: "donors.phenotypic_sex",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -72,7 +72,7 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Anatomical Site",
         sort: {
-          sortKey: "anatomical_site",
+          sortKey: "biosamples.anatomical_site",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -83,11 +83,12 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Dataset",
         sort: {
-          sortKey: "title",
+          sortKey: "datasets.title",
         },
         width: { max: "1fr", min: "200px" },
       },
     ],
   } as ListConfig<BioSamplesResponse>,
   route: "biosamples",
+  staticLoad: false,
 };

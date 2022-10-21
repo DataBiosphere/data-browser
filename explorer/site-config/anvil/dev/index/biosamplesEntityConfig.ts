@@ -90,4 +90,5 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
     ],
   } as ListConfig<BioSamplesResponse>,
   route: "biosamples",
+  staticLoad: false,
 };

@@ -79,4 +79,5 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
     ],
   } as ListConfig<ActivitiesResponse>,
   route: "activities",
+  staticLoad: false,
 };

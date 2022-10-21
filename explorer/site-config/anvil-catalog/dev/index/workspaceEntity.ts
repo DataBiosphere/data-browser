@@ -115,6 +115,7 @@ export const workspaceEntity: EntityConfig<AnVILCatalogWorkspace> = {
     ],
   } as ListConfig<AnVILCatalogWorkspace>,
   route: "workspaces",
+  staticLoad: true,
   tsv: {
     builderFn: buildAnVILCatalogWorkspaces,
     path: "dashboard-source-anvil.tsv",

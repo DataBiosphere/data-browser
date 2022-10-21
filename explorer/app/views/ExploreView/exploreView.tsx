@@ -6,12 +6,12 @@ import { useEntityList } from "app/hooks/useEntityList";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect } from "react";
 import {
-  AzulEntitiesResponse,
   AzulEntitiesStaticResponse,
   AzulSummaryResponse,
 } from "../../apis/azul/common/entities";
 import {
   ExploreActionKind,
+  ExploreState,
   ExploreStateContext,
 } from "../../common/context/exploreState";
 import { CategoryKey, CategoryValueKey } from "../../common/entities";
@@ -25,15 +25,21 @@ import { useSummary } from "../../hooks/useSummary";
 
 // TODO(Dave) create an interface for props and maybe not drill the static load through here
 export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
+  // Get app level config
   const { disablePagination, explorerTitle, summaryConfig } = config();
+
+  // Get the useReducer state and dispatch for "Explore"
   const { exploreDispatch, exploreState } = useContext(ExploreStateContext);
+
   const { categoryViews, sortState, tabValue } = exploreState;
   const { push } = useRouter();
   const { list, staticLoad } = getEntityConfig(tabValue);
+
   const { columns: columnsConfig } = list;
   const tabs = getTabs();
   const { response: summaryResponse } = useSummary(); // Fetch summary.
-  const { loading, pagination, response } = useEntityList(props); // Fetch entities.
+  //const { loading, pagination, response } = useEntityList(props); // Fetch entities.
+  useEntityList(props); // Fetch entities.
   const { entityListType } = props;
 
   /**
@@ -65,7 +71,6 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
    */
   const onTabChange = (tabValue: TabValue): void => {
     push(`/${tabValue}`);
-    pagination?.resetPage(); // TODO(Dave) review use of resetPage
   };
 
   // Selects entity type with update to entity list type.
@@ -80,21 +85,25 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
 
   /**
    * Render either a loading view, empty result set notification or the table itself.
-   * @param entitiesResponse - ExploreView responses from Azul, such as projects (index/projects), samples (index/samples) and files (index/files).
+   * @param exploreState - ExploreView responses from Azul, such as projects (index/projects), samples (index/samples) and files (index/files).
    * @returns Element to render.
    */
-  const renderContent = (
-    entitiesResponse?: AzulEntitiesResponse
-  ): JSX.Element => {
-    if (!entitiesResponse) {
+  const renderContent = (exploreState: ExploreState): JSX.Element => {
+    if (!exploreState || !tabValue) {
       return <></>; //TODO: return the loading UI component
     }
 
     if (entityListType !== tabValue) {
+      // required currently for static load site as the pre-rendered page
+      // loads with the previous tabs data on the first render after switching tabs. (or similar)
+      //console.log("Entity list type != tab value", entityListType, tabValue);
       return <></>; // TODO(Fran) review loading and return.
     }
 
-    if (!entitiesResponse.hits || entitiesResponse.hits.length === 0) {
+    if (
+      !exploreState.loading &&
+      (!exploreState.listItems || exploreState.listItems.length === 0)
+    ) {
       return (
         <NoResults
           // actions={
@@ -119,14 +128,13 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
     return (
       <TableCreator
         columns={columnsConfig}
-        items={entitiesResponse.hits}
-        pageSize={entitiesResponse.pagination.size}
-        total={entitiesResponse.pagination.total}
-        pageCount={entitiesResponse.pagination.count}
-        pagination={pagination}
+        items={exploreState.listItems ?? []}
+        pageSize={exploreState.paginationState.pageSize}
+        total={exploreState.paginationState.rows}
+        pagination={undefined}
         sort={sortState}
-        pages={entitiesResponse.pagination.pages}
-        loading={loading}
+        pages={exploreState.paginationState.pages}
+        loading={exploreState.loading}
         staticallyLoaded={staticLoad}
         disablePagination={disablePagination}
       />
@@ -141,7 +149,7 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
         </Sidebar>
       )}
       <IndexView
-        entities={renderContent(response)}
+        entities={renderContent(exploreState)}
         Summaries={renderSummary(summaryConfig, summaryResponse)}
         Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabValue} />}
         title={explorerTitle}

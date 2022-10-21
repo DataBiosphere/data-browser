@@ -47,19 +47,14 @@ export const useEditColumns = (columns: ColumnConfig[]) => {
   );
 
   const editColumns = useMemo(() => {
-    if (defaultColumns.length !== columns.length) {
-      return {
-        onVisibleColumnsChange: handleVisibleColumnsChanged,
-        options: columnsOptions,
-        readOnlyColumns: readOnlyColumns,
-        selectedColumns: selectedColumns,
-      };
-    }
-    return undefined;
+    return {
+      onVisibleColumnsChange: handleVisibleColumnsChanged,
+      options: columnsOptions,
+      readOnlyColumns: readOnlyColumns,
+      selectedColumns: selectedColumns,
+    };
   }, [
-    columns.length,
     columnsOptions,
-    defaultColumns.length,
     handleVisibleColumnsChanged,
     readOnlyColumns,
     selectedColumns,

@@ -28,7 +28,7 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
         header: "Donor Id",
         sort: {
           default: true,
-          sortKey: "donor_id",
+          sortKey: "donors.donor_id",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -39,7 +39,7 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Organism Type",
         sort: {
-          sortKey: "organism_type",
+          sortKey: "donors.organism_type",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -50,7 +50,7 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Phenoypic Sex",
         sort: {
-          sortKey: "phenotypic_sex",
+          sortKey: "donors.phenotypic_sex",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -61,7 +61,7 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Reported Ethnicity",
         sort: {
-          sortKey: "reported_ethnicity",
+          sortKey: "donors.reported_ethnicity",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -72,11 +72,12 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Dataset",
         sort: {
-          sortKey: "title",
+          sortKey: "datasets.title",
         },
         width: { max: "1fr", min: "200px" },
       },
     ],
   } as ListConfig<DonorsResponse>,
   route: "donors",
+  staticLoad: false,
 };

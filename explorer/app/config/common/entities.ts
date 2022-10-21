@@ -34,7 +34,7 @@ export interface EntityConfig<D = any> extends TabConfig {
   getId?: GetIdFunction<D>;
   list: ListConfig;
   options?: Options;
-  staticLoad?: boolean;
+  staticLoad: boolean;
   tsv?: {
     builderFn: BuilderFn;
     path: string;

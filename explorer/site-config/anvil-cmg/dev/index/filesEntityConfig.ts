@@ -31,12 +31,12 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: Components.Cell,
-          viewBuilder: ViewBuilder.buildFileId,
+          viewBuilder: ViewBuilder.buildFileName,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "File ID",
+        header: "Name",
         sort: {
           default: true,
-          sortKey: "file_id",
+          sortKey: "files.name",
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -45,9 +45,9 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildFileFormat,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "File Format",
+        header: "Format",
         sort: {
-          sortKey: "file_format",
+          sortKey: "files.file_format",
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -56,23 +56,23 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildFileSize,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "File Size",
+        header: "Size",
         sort: {
           sortKey: "size",
         },
         width: { max: "1fr", min: "120px" },
       },
-      {
-        componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildFileType,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "File Type",
-        sort: {
-          sortKey: "file_type",
-        },
-        width: { max: "1fr", min: "120px" },
-      },
+      // { //TODO remove builders etc.
+      //   componentConfig: {
+      //     component: Components.Cell,
+      //     viewBuilder: ViewBuilder.buildFileType,
+      //   } as ComponentConfig<typeof Components.Cell>,
+      //   header: "File Type",
+      //   sort: {
+      //     sortKey: "files.file_type",
+      //   },
+      //   width: { max: "1fr", min: "120px" },
+      // },
       {
         componentConfig: {
           component: Components.NTagCell,
@@ -80,7 +80,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Data Modality",
         sort: {
-          sortKey: "data_modality",
+          sortKey: "activities.data_modality",
         },
         width: { max: "1fr", min: "240px" },
       },
@@ -91,11 +91,12 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Dataset",
         sort: {
-          sortKey: "title",
+          sortKey: "datasets.title",
         },
         width: { max: "2fr", min: "240px" },
       },
     ],
   } as ListConfig<FilesResponse>,
   route: "files",
+  staticLoad: false,
 };

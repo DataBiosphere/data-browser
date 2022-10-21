@@ -41,7 +41,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         header: "Dataset",
         sort: {
           default: true,
-          sortKey: "title",
+          sortKey: "datasets.title",
         },
         width: { max: "2fr", min: "200px" },
       },
@@ -52,7 +52,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Identifier",
         sort: {
-          sortKey: "registered_identifier",
+          sortKey: "datasets.registered_identifier",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -63,7 +63,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Consent Group",
         sort: {
-          sortKey: "consent_group",
+          sortKey: "datasets.consent_group",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -74,7 +74,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Organism Type",
         sort: {
-          sortKey: "organism_type",
+          sortKey: "donors.organism_type",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -85,7 +85,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Phenotypic Sex",
         sort: {
-          sortKey: "phenotypic_sex",
+          sortKey: "donors.phenotypic_sex",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -96,7 +96,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Reported Ethnicity",
         sort: {
-          sortKey: "reported_ethnicity",
+          sortKey: "donors.reported_ethnicity",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -119,11 +119,12 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         header: "Data Modality",
         hiddenColumn: true,
         sort: {
-          sortKey: "data_modality",
+          sortKey: "activities.data_modality",
         },
         width: { max: "1fr", min: "148px" },
       },
     ],
   } as ListConfig<DatasetsResponse>,
   route: "datasets",
+  staticLoad: false,
 };

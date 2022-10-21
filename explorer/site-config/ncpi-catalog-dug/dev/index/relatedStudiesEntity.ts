@@ -33,4 +33,5 @@ export const relatedStudiesEntity: EntityConfig<DugVariableResponse> = {
   } as ListConfig<DugVariableResponse>,
   options: { method: "POST" },
   route: "related",
+  staticLoad: false,
 };

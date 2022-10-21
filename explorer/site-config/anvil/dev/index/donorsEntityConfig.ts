@@ -79,4 +79,5 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
     ],
   } as ListConfig<DonorsResponse>,
   route: "donors",
+  staticLoad: false,
 };

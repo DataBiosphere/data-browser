@@ -23,7 +23,6 @@ import {
   ExploreStateContext,
 } from "../../common/context/exploreState";
 import { Pagination, Sort, SortOrderType } from "../../common/entities";
-import { getEntityConfig } from "../../config/config";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
 import { GridPaper, RoundedPaper } from "../common/Paper/paper.styles";
 import {
@@ -59,17 +58,13 @@ interface TableProps<T extends object> {
 
 /**
  * This table can be Controlled or Uncontrolled based on the set of props passed to it.
- * Controlled table will receive the navigation functions and it will be used for dynamic loads.
+ * Controlled table will receive the navigation functions, and it will be used for dynamic loads.
  * Uncontrolled table will take advantage of React Table's state and will be used for static loads.
  * @param tableProps - Set of props required for displaying the table.
  * @param tableProps.items - Row data to display.
  * @param tableProps.columns - Set of columns to display.
  * @param tableProps.editColumns - True if edit column functionality is enabled for table.
- * @param tableProps.pageSize - Number of rows to display per page.
  * @param tableProps.total - Total number of rows in the result set.
- * @param tableProps.count - Total number of rows in the current page.
- * @param tableProps.pages - Total amount of pages.
- * @param tableProps.pagination - Config for rendering pagination and corresponding events.
  * @param tableProps.sort - Config for rendering current sort and handling corresponding events.
  * @param tableProps.gridTemplateColumns - Defines grid table track sizing.
  * @param tableProps.disablePagination - Determine if the table shouldn't be paginated
@@ -77,21 +72,17 @@ interface TableProps<T extends object> {
  */
 export const TableComponent = <T extends object>({
   columns,
-  count,
   disablePagination,
   editColumns,
   gridTemplateColumns,
   items,
-  pages,
-  pageSize,
-  pagination,
   sort,
   total,
 }: TableProps<T>): JSX.Element => {
   const { exploreDispatch, exploreState } = useContext(ExploreStateContext);
-  const { filterState, tabValue } = exploreState;
-  const { tsv } = getEntityConfig(tabValue);
-  const listStaticLoad = !!tsv;
+  const { filterState } = exploreState;
+  const listStaticLoad = exploreState.listStaticLoad;
+
   const initialSorting = sort
     ? [{ desc: sort.sortOrder === "desc", id: sort.sortKey ?? "" }]
     : [];
@@ -104,8 +95,13 @@ export const TableComponent = <T extends object>({
         sorting: initialSorting,
       }
     : {
+        pagination: {
+          pageIndex: 0,
+          pageSize: exploreState.paginationState.pageSize,
+        },
         sorting: initialSorting,
       };
+
   const tableInstance = useReactTable({
     columns,
     data: items,
@@ -119,14 +115,14 @@ export const TableComponent = <T extends object>({
       : undefined,
     getFilteredRowModel: listStaticLoad ? getFilteredRowModel() : undefined,
     getPaginationRowModel: getPaginationRowModel(),
-    manualPagination: !!pagination,
+    manualPagination: listStaticLoad,
     manualSorting: !listStaticLoad,
     pageCount: total,
     state,
   });
   const {
-    getCanNextPage: tableCanNextPage,
-    getCanPreviousPage: tableCanPreviousPage,
+    // getCanNextPage: tableCanNextPage,
+    // getCanPreviousPage: tableCanPreviousPage,
     getHeaderGroups,
     getRowModel,
     getState,
@@ -137,20 +133,41 @@ export const TableComponent = <T extends object>({
   const { columnFilters } = tableState;
   const headerGroups = getHeaderGroups();
   const scrollTop = useScroll();
-  const currentPage =
-    pagination?.currentPage ?? getState().pagination.pageIndex + 1;
-  const totalPage = total ?? getState().pagination.pageSize;
-  const pageCount = count ?? getState().pagination.pageSize;
-  const isLastPage = currentPage === pages;
+
+  const currentPage = exploreState.paginationState.currentPage;
+  const pages = exploreState.paginationState.pages;
+  const pageSize = exploreState.paginationState.pageSize;
+  const rows = exploreState.paginationState.rows;
+  const isLastPage =
+    exploreState.paginationState.currentPage ===
+    exploreState.paginationState.pages;
 
   const handleTableNextPage = (): void => {
-    const nextPage = pagination?.nextPage ?? tableNextPage;
+    let nextPage = tableNextPage;
+    if (!listStaticLoad) {
+      nextPage = (): void => {
+        exploreDispatch({
+          payload: "next",
+          type: ExploreActionKind.PaginateTable,
+        });
+      };
+    }
+    // const nextPage = pagination?.nextPage ?? tableNextPage;
     nextPage();
     scrollTop();
   };
 
   const handleTablePreviousPage = (): void => {
-    const previousPage = pagination?.previousPage ?? tablePreviousPage;
+    //const previousPage = pagination?.previousPage ?? tablePreviousPage;
+    let previousPage = tablePreviousPage;
+    if (!listStaticLoad) {
+      previousPage = (): void => {
+        exploreDispatch({
+          payload: "prev",
+          type: ExploreActionKind.PaginateTable,
+        });
+      };
+    }
     previousPage();
     scrollTop();
   };
@@ -168,7 +185,6 @@ export const TableComponent = <T extends object>({
           type: ExploreActionKind.FlipSortOrder,
         });
       }
-      pagination?.resetPage();
     }
   };
 
@@ -188,11 +204,40 @@ export const TableComponent = <T extends object>({
   useEffect(() => {
     if (listStaticLoad) {
       exploreDispatch({
-        payload: buildCategoryViews(headerGroups),
+        payload: {
+          listItems: exploreState.listItems,
+          loading: false,
+          paginationResponse: {
+            nextIndex: null,
+            pageSize: tableInstance.getFilteredRowModel().rows.length,
+            pages: 1,
+            previousIndex: null,
+            rows: tableInstance.getFilteredRowModel().rows.length,
+          },
+          selectCategories: buildCategoryViews(headerGroups),
+        },
         type: ExploreActionKind.ProcessExploreResponse,
       });
     }
-  }, [columnFilters, exploreDispatch, headerGroups, listStaticLoad]);
+  }, [
+    columnFilters,
+    exploreDispatch,
+    headerGroups,
+    listStaticLoad,
+    exploreState.listItems,
+    tableInstance,
+  ]);
+
+  function canNextPage(): boolean {
+    return (
+      exploreState.paginationState.currentPage <
+      exploreState.paginationState.pages
+    );
+  }
+
+  function canPreviousPage(): boolean {
+    return exploreState.paginationState.currentPage > 1;
+  }
 
   return (
     <RoundedPaper>
@@ -201,8 +246,8 @@ export const TableComponent = <T extends object>({
           <TableToolbar>
             <PaginationSummary
               firstResult={(currentPage - 1) * pageSize + 1}
-              lastResult={isLastPage ? totalPage : pageCount * currentPage}
-              totalResult={totalPage}
+              lastResult={isLastPage ? rows : pageSize * currentPage}
+              totalResult={rows}
             />
             <CheckboxMenu
               label="Edit Columns"
@@ -243,7 +288,6 @@ export const TableComponent = <T extends object>({
                 </TableRow>
               </TableHead>
             ))}
-
             <TableBody>
               {getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
@@ -264,10 +308,8 @@ export const TableComponent = <T extends object>({
         </TableContainer>
         {!disablePagination && (
           <DXPagination
-            canNextPage={pagination?.canNextPage ?? !!tableCanNextPage}
-            canPreviousPage={
-              pagination?.canPreviousPage ?? !!tableCanPreviousPage
-            }
+            canNextPage={canNextPage()}
+            canPreviousPage={canPreviousPage()}
             currentPage={currentPage}
             onNextPage={handleTableNextPage}
             onPreviousPage={handleTablePreviousPage}
@@ -279,39 +321,6 @@ export const TableComponent = <T extends object>({
   );
 };
 
-/**
- * comparison function used to determine if the component should skip the next render
- * @param prevProps - current props used by the component
- * @param nextProps - next props that the component will receive
- * TODO(Dave) review.
- * @returns boolean value
- */
-const shouldSkipRender = <T extends object>(
-  prevProps: TableProps<T>,
-  nextProps: TableProps<T>
-): boolean => {
-  /**
-   * If the table's items aren't statically loaded, skip the next render when the component
-   * is loading
-   */
-  if (!nextProps.staticallyLoaded) {
-    return !!nextProps.loading;
-  }
-
-  /**
-   * If the table's items are statically loaded, check if both columns config and items
-   * have changed. If not, skip the next render
-   */
-  return (
-    (prevProps.columns !== nextProps.columns &&
-      prevProps.items === nextProps.items) ||
-    (prevProps.columns === nextProps.columns &&
-      prevProps.items !== nextProps.items)
-  );
-};
-
 // TODO(Dave) review whether memo is necessary - flash between tabs / loading state.
-export const Table = React.memo(
-  TableComponent,
-  shouldSkipRender
-) as typeof TableComponent;
+// export const Table = React.memo(TableComponent) as typeof TableComponent;
+export const Table = TableComponent as typeof TableComponent;

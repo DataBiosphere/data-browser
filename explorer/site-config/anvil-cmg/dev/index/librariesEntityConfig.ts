@@ -68,4 +68,5 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
     ],
   } as ListConfig<LibrariesResponse>,
   route: "libraries",
+  staticLoad: false,
 };

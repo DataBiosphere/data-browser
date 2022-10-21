@@ -43,6 +43,7 @@ import {
   getFileDataModalities,
   getFileFormat,
   getFileId,
+  getFileName,
   getFileSize,
   getFileType,
   getFileUrl,
@@ -336,6 +337,19 @@ export const buildFileId = (
 ): React.ComponentProps<typeof C.Cell> => {
   return {
     value: getFileId(response),
+  };
+};
+
+/**
+ * Build props for file ID Cell component from the given files response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns model to be used as props for the file ID cell.
+ */
+export const buildFileName = (
+  response: FileEntityResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: getFileName(response),
   };
 };
 

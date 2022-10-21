@@ -104,4 +104,5 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
     ],
   } as ListConfig<DatasetsResponse>,
   route: "datasets",
+  staticLoad: false,
 };

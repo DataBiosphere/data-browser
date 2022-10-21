@@ -114,6 +114,7 @@ export const consortiaEntity: EntityConfig<AnVILCatalogConsortium> = {
     ],
   } as ListConfig<AnVILCatalogConsortium>,
   route: "consortia",
+  staticLoad: true,
   tsv: {
     builderFn: buildAnVILCatalogConsortia,
     path: "dashboard-source-anvil.tsv",

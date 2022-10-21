@@ -234,6 +234,15 @@ export function getFileId(response: FileEntityResponse): string {
 }
 
 /**
+ * Maps file ID from the core file value returned from the /index/files API response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns File ID.
+ */
+export function getFileName(response: FileEntityResponse): string {
+  return processEntityValue(response.files, "name");
+}
+
+/**
  * Maps file format from the core file value returned from the /index/files API response.
  * @param response - Response model return from index/files API endpoint.
  * @returns File format.

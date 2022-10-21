@@ -113,6 +113,7 @@ export const platformsEntity: EntityConfig<NCPICatalogPlatform> = {
     ],
   } as ListConfig<NCPICatalogPlatform>,
   route: "platforms",
+  staticLoad: true,
   tsv: {
     builderFn: buildNCPICatalogPlatforms,
     path: "ncpi-dataset-catalog-results.tsv",

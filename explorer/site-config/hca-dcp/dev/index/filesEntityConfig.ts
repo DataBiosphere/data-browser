@@ -116,4 +116,5 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     ],
   } as ListConfig<FilesResponse>,
   route: "files",
+  staticLoad: false,
 };

@@ -131,4 +131,5 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
     ],
   } as ListConfig<SamplesResponse>,
   route: "samples",
+  staticLoad: false,
 };

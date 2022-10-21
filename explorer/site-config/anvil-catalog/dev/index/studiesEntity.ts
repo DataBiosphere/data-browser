@@ -125,6 +125,7 @@ export const studiesEntity: EntityConfig<AnVILCatalogStudy> = {
     ],
   } as ListConfig<AnVILCatalogStudy>,
   route: "studies",
+  staticLoad: true,
   tsv: {
     builderFn: buildAnVILCatalogStudies,
     path: "dashboard-source-anvil.tsv",

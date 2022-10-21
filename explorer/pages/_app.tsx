@@ -10,6 +10,7 @@ import { Main } from "app/components/Layout/components/Main/main.styles";
 import { config } from "app/config/config";
 import { getAppTheme } from "app/theme/theme";
 import type { AppProps } from "next/app";
+import { AzulEntitiesStaticResponse } from "../app/apis/azul/common/entities";
 import { AuthProvider } from "../app/common/context/authState";
 import { ExploreStateProvider } from "../app/common/context/exploreState";
 
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const siteConfig = config();
   const layout = siteConfig.layout;
   const theme = getAppTheme(siteConfig.theme);
+  const { entityListType } = pageProps as AzulEntitiesStaticResponse;
 
   return (
     <Emotion10ThemeProvider theme={theme}>
@@ -28,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           <AuthProvider>
             <AppLayout>
               <Header header={layout.header} />
-              <ExploreStateProvider>
+              <ExploreStateProvider entityListType={entityListType}>
                 <Main>
                   <Component {...pageProps} />
                 </Main>

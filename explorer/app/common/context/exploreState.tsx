@@ -1,5 +1,8 @@
 import { createContext, Dispatch, ReactNode, useReducer } from "react";
-import { SelectedFilter } from "../../apis/azul/common/entities";
+import {
+  AzulSearchIndex,
+  SelectedFilter,
+} from "../../apis/azul/common/entities";
 import { config, getDefaultSort, getEntityConfig } from "../../config/config";
 import {
   buildCategoryViews,
@@ -23,12 +26,13 @@ interface IExploreStateContext {
 }
 
 const defaultPaginationState = {
-  canNextPage: false,
-  canPreviousPage: false,
   currentPage: 1,
-  pageCount: 1,
-  rowsPerPage: 0,
-  totalRows: 0,
+  index: null,
+  nextIndex: null,
+  pageSize: 25,
+  pages: 1,
+  previousIndex: null,
+  rows: 0,
 };
 
 const defaultEntity = config().redirectRootToPath?.slice(1) ?? ""; // TODO remove ??
@@ -38,10 +42,21 @@ const defaultEntity = config().redirectRootToPath?.slice(1) ?? ""; // TODO remov
  */
 export const ExploreStateContext = createContext<IExploreStateContext>({
   // eslint-disable-next-line @typescript-eslint/no-empty-function -- allow dummy function for default state.
+  /**
+   * The defaultValue argument is only used when a component does not have a matching Provider
+   * above it in the tree. This default value can be helpful for testing components
+   * in isolation without wrapping them. Note: passing undefined as a Provider value
+   * does not cause consuming components to use defaultValue.
+   * So basically the default value is not used...
+   */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function -- default note used
   exploreDispatch: () => {},
   exploreState: {
     categoryViews: [],
     filterState: [],
+    listItems: [],
+    listStaticLoad: false,
+    loading: false,
     paginationState: defaultPaginationState,
     sortState: {
       sortKey: getDefaultSort(getEntityConfig(defaultEntity)) ?? "",
@@ -55,22 +70,31 @@ export const ExploreStateContext = createContext<IExploreStateContext>({
  * Explore state provider for consuming components to subscribe to changes in filter-related and explore-related state.
  * @param props - Component inputs.
  * @param props.children - Set of children components that can possibly consume the query provider.
+ * @param props.entityListType - type of list to display
  * @returns Provider element to be used by consumers to both update explore state and subscribe to changes in explore state.
  */
 export function ExploreStateProvider({
   children,
+  entityListType,
 }: {
   children: ReactNode | ReactNode[];
+  entityListType: string;
 }): JSX.Element {
+  if (!entityListType) {
+    entityListType = defaultEntity;
+  }
   const [exploreState, exploreDispatch] = useReducer(exploreReducer, {
     categoryViews: [],
     filterState: [],
+    listItems: [],
+    listStaticLoad: getEntityConfig(entityListType).staticLoad ?? false,
+    loading: true,
     paginationState: defaultPaginationState,
     sortState: {
-      sortKey: getDefaultSort(getEntityConfig(defaultEntity)) ?? "", // TODO remove ??
+      sortKey: getDefaultSort(getEntityConfig(entityListType)) ?? "", // TODO remove ??
       sortOrder: "asc",
     },
-    tabValue: defaultEntity,
+    tabValue: entityListType,
   });
 
   return (
@@ -80,18 +104,44 @@ export function ExploreStateProvider({
   );
 }
 
-export interface PaginationState {
-  canNextPage: boolean;
-  canPreviousPage: boolean;
-  currentPage: number;
-  pageCount: number;
-  rowsPerPage: number;
-  totalRows: number;
+export interface PaginationIndex {
+  type: AzulSearchIndex;
+  value: string | null;
 }
 
-type ExploreState = {
+export interface PaginationState {
+  currentPage: number;
+  index: PaginationIndex | null;
+  nextIndex: PaginationIndex | null;
+  pages: number;
+  pageSize: number;
+  previousIndex: PaginationIndex | null;
+  rows: number;
+}
+
+export interface PaginationResponse {
+  nextIndex: PaginationIndex | null;
+  pages: number;
+  pageSize: number;
+  previousIndex: PaginationIndex | null;
+  rows: number;
+}
+
+export interface ExploreResponse {
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any -- TODO revisit when adding reqct query or similar
+  listItems: any[] | undefined;
+  loading: boolean;
+  paginationResponse: PaginationResponse;
+  selectCategories: SelectCategory[];
+}
+
+export type ExploreState = {
   categoryViews: SelectCategory[];
   filterState: SelectedFilter[];
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any -- TODO revisit when adding reqct query or similar
+  listItems: any[] | undefined;
+  listStaticLoad: boolean;
+  loading: boolean;
   paginationState: PaginationState;
   sortState: Sort;
   tabValue: string;
@@ -121,7 +171,7 @@ type PaginateTableAction = {
 };
 
 type ProcessExploreResponseAction = {
-  payload: SelectCategory[];
+  payload: ExploreResponse;
   type: ExploreActionKind.ProcessExploreResponse;
 };
 
@@ -151,12 +201,21 @@ type UpdateFilterPayload = {
   selectedValue: CategoryValueKey;
 };
 
+function resetPage(paginationState: PaginationState): PaginationState {
+  const nextPaginationState = { ...paginationState };
+  nextPaginationState.index = null;
+  nextPaginationState.currentPage = 1;
+
+  return nextPaginationState;
+}
+
 function exploreReducer(
   state: ExploreState,
   action: ExploreAction
 ): ExploreState {
   const { payload, type } = action;
   const { categoryConfigs } = config();
+
   switch (type) {
     /**
      * Flip sort order
@@ -168,8 +227,10 @@ function exploreReducer(
       } else {
         nextSort.sortOrder = "asc";
       }
+
       return {
         ...state,
+        paginationState: resetPage(state.paginationState),
         sortState: nextSort,
       };
     }
@@ -177,33 +238,69 @@ function exploreReducer(
      * Paginate table
      **/
     case ExploreActionKind.PaginateTable: {
+      const nextPaginationState = { ...state.paginationState };
+      if (payload == "next") {
+        nextPaginationState.currentPage++;
+        nextPaginationState.index = nextPaginationState.nextIndex;
+      } else {
+        nextPaginationState.currentPage--;
+        nextPaginationState.index = nextPaginationState.previousIndex;
+      }
       return {
-        ...state, // TODO implement this case
+        ...state,
+        paginationState: nextPaginationState,
       };
     }
     /**
      * Process explore response
      **/
     case ExploreActionKind.ProcessExploreResponse: {
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any -- TODO revisit when adding reqct query or similar
+      let listItems: any[] | undefined = [];
+      if (!payload.loading) {
+        listItems = payload.listItems;
+      }
       return {
         ...state,
         categoryViews: buildCategoryViews(
-          payload,
+          payload.selectCategories,
           categoryConfigs,
           state.filterState
         ),
+        listItems: listItems,
+        loading: payload.loading,
+        paginationState: {
+          currentPage: state.paginationState.currentPage,
+          index: state.paginationState.index,
+          nextIndex: payload.paginationResponse.nextIndex,
+          pageSize: payload.paginationResponse.pageSize,
+          pages: payload.paginationResponse.pages,
+          previousIndex: payload.paginationResponse.previousIndex,
+          rows: payload.paginationResponse.rows,
+        },
       };
     }
     /**
      * Select entity type
      **/
     case ExploreActionKind.SelectEntityType: {
+      if (payload === state.tabValue) {
+        return state;
+      }
       const nextSort: Sort = {
         sortKey: getDefaultSort(getEntityConfig(payload)),
         sortOrder: "asc",
       };
+
+      const { tsv } = getEntityConfig(payload);
+      const listStaticLoad = !!tsv;
+
       return {
         ...state,
+        listItems: [],
+        listStaticLoad,
+        loading: true,
+        paginationState: resetPage(state.paginationState),
         sortState: nextSort,
         tabValue: payload,
       };
@@ -218,6 +315,7 @@ function exploreReducer(
       };
       return {
         ...state,
+        paginationState: resetPage(state.paginationState),
         sortState: nextSort,
       };
     }
@@ -233,6 +331,7 @@ function exploreReducer(
           payload.selectedValue,
           payload.selected
         ),
+        paginationState: resetPage(state.paginationState),
       };
     }
     default:

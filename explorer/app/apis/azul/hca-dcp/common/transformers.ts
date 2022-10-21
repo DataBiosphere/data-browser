@@ -19,8 +19,14 @@ export const filesGetFileName = (file: FilesResponse): string =>
 export const filesGetFileFormat = (file: FilesResponse): string =>
   file.files[0].format ?? "";
 
-export const filesGetFileUrl = (file: FilesResponse): string | undefined =>
-  file.files[0].url;
+export const filesGetFileUrl = (file: FilesResponse): string | undefined => {
+  try {
+    return file.files[0].url;
+  } catch (e) {
+    console.log(file);
+  }
+  // return file.files[0].url;
+};
 
 export const filesGetProjTitle = (file: FilesResponse): string =>
   concatStrings(file.projects[0].projectTitle) ?? "";

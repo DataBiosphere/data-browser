@@ -28,7 +28,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         header: "Document Id",
         sort: {
           default: true,
-          sortKey: "document_id",
+          sortKey: "activities.document_id",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -39,7 +39,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Activity Type",
         sort: {
-          sortKey: "activity_type",
+          sortKey: "activities.activity_type",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -50,7 +50,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Data Modality",
         sort: {
-          sortKey: "data_modality",
+          sortKey: "activities.data_modality",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -61,7 +61,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "BioSample Type",
         sort: {
-          sortKey: "biosample_type",
+          sortKey: "biosamples.biosample_type",
         },
         width: { max: "1fr", min: "200px" },
       },
@@ -72,11 +72,12 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Dataset",
         sort: {
-          sortKey: "title",
+          sortKey: "datasets.title",
         },
         width: { max: "1fr", min: "200px" },
       },
     ],
   } as ListConfig<ActivitiesResponse>,
   route: "activities",
+  staticLoad: false,
 };

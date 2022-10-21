@@ -113,6 +113,7 @@ export const studiesEntity: EntityConfig<NCPICatalogStudy> = {
     ],
   } as ListConfig<NCPICatalogStudy>,
   route: "studies",
+  staticLoad: true,
   tsv: {
     builderFn: buildNCPICatalogStudies,
     path: "ncpi-dataset-catalog-results.tsv",

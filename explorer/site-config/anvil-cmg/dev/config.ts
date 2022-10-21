@@ -62,35 +62,35 @@ const config: SiteConfig = {
   browserURL: BROWSER_URL,
   categoryConfigs: [
     {
-      key: "anatomical_site",
+      key: "biosamples.anatomical_site",
       label: "Anatomical Site",
     },
     {
-      key: "biosample_type",
+      key: "biosamples.biosample_type",
       label: "BioSample Type",
     },
     {
-      key: "data_modality",
+      key: "activities.data_modality",
       label: "Data Modality",
     },
     {
-      key: "title",
+      key: "datasets.title",
       label: "Dataset",
     },
     {
-      key: "file_format",
+      key: "files.file_format",
       label: "File Format",
     },
     {
-      key: "file_type",
+      key: "files.file_type",
       label: "File Type",
     },
     {
-      key: "organism_type",
+      key: "donors.organism_type",
       label: "Organism Type",
     },
     {
-      key: "phenotypic_sex",
+      key: "donors.phenotypic_sex",
       label: "Phenotypic Sex",
     },
     {
@@ -98,7 +98,7 @@ const config: SiteConfig = {
       label: "Library Preparation",
     },
     {
-      key: "reported_ethnicity",
+      key: "donors.reported_ethnicity",
       label: "Reported Ethnicity",
     },
   ],
