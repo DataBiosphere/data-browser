@@ -8,13 +8,15 @@ export const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px 0;
-  max-width: 400px;
+  max-width: 424px;
+  padding-top: 92px;
+  margin: 0 auto;
 `;
 
 export const LoginSection = styled(Section)`
   gap: 24px 0;
-  padding: 31px !important;
-  padding-top: 33px !important;
+  padding: 32px !important;
+  padding-top: 32px !important;
 `;
 
 export const LoginSectionActions = styled(SectionActions)`

@@ -1,12 +1,25 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../common/context/authState";
+import { useAuthenticationConfig } from "app/hooks/useAuthenticationConfig";
+import React from "react";
+import { LoginNotice } from "../../components/Login/components/LoginNotice/loginNotice";
+import { Login } from "../../components/Login/login";
 
 export const LoginView = (): JSX.Element => {
-  const { authorizeUser } = useContext(AuthContext);
+  const { googleGISAuthConfig, loginNotice, text, title } =
+    useAuthenticationConfig();
 
   return (
-    <div>
-      <button onClick={(): void => authorizeUser()}>Login with Google</button>
-    </div>
+    <Login
+      isGoogle={!!googleGISAuthConfig}
+      loginNotice={
+        loginNotice ? (
+          <LoginNotice
+            privacyUrl={loginNotice.privacyUrl}
+            conditionsUrl={loginNotice.conditionsUrl}
+          />
+        ) : undefined
+      }
+      text={text}
+      title={title}
+    />
   );
 };

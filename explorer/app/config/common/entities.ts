@@ -134,6 +134,23 @@ export interface GoogleGISAuthConfig {
   terraProfileEndpoint: string; // TODO move this to its own interface
 }
 
+/**
+ * Interface to define the authentication configuration for a given site.
+ */
+export interface AuthenticationConfig {
+  googleGISAuthConfig?: GoogleGISAuthConfig;
+  loginNotice?: LoginNotice;
+  text?: string;
+  title: string;
+}
+/**
+ * Interface to define the authentication login notice component.
+ */
+export interface LoginNotice {
+  conditionsUrl: string;
+  privacyUrl: string;
+}
+
 export type GridTrackAuto = "auto"; // Dimension specifying the track's maximum of the largest max-content size of the items in that track.
 export type GridTrackFlex = `${number}fr`; // Dimension specifying the track's flex factor; unit in "fr".
 export type GridTrackLength = `${number}px`; // Dimension specifying the track's (fixed) width; unit in "px".
@@ -166,7 +183,7 @@ export interface ListConfig<T = any> {
  * Interface that will hold the whole configuration for a given site.
  */
 export interface SiteConfig {
-  authConfig?: GoogleGISAuthConfig;
+  authentication?: AuthenticationConfig;
   browserURL: string;
   categoryConfigs?: CategoryConfig[];
   dataSource: DataSourceConfig;

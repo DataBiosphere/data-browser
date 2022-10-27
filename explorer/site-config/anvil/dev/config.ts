@@ -8,6 +8,7 @@ import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil/common/constants";
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
+import { authenticationConfig } from "./authentication/authentication";
 import { exportConfig } from "./export/export";
 import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
 import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
@@ -51,15 +52,7 @@ const SOCIALS: Social[] = [
 ];
 
 const config: SiteConfig = {
-  authConfig: {
-    clientId:
-      "561542988117-9e04fhfrc9su130eb2ggea7bdppolkjq.apps.googleusercontent.com",
-    googleProfileEndpoint: "https://www.googleapis.com/oauth2/v3/userinfo",
-    scope:
-      "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
-    terraProfileEndpoint:
-      "https://sam.dsde-prod.broadinstitute.org/register/user/v1",
-  },
+  authentication: authenticationConfig,
   browserURL: BROWSER_URL,
   categoryConfigs: [
     {

@@ -81,8 +81,9 @@ interface Props {
  * @returns Provider element to be used by consumers to both update authentication state and subscribe to changes in authentication state.
  */
 export function AuthProvider({ children }: Props): JSX.Element {
-  const authConfig = config().authConfig;
-  const { clientId, scope } = authConfig || {};
+  const authConfig = config().authentication;
+  const { googleGISAuthConfig } = authConfig || {};
+  const { clientId, scope } = googleGISAuthConfig || {};
   const router = useRouter();
   const { asPath } = router;
   const routeHistoryRef = useRef<string>(asPath);
@@ -175,11 +176,11 @@ export function AuthProvider({ children }: Props): JSX.Element {
 
   // Fetches user profile and sets userProfile state when token is retrieved.
   useEffect(() => {
-    if (authConfig && token) {
-      fetchGoogleProfile(authConfig.googleProfileEndpoint, token);
-      fetchTerraProfile(authConfig.terraProfileEndpoint, token);
+    if (googleGISAuthConfig && token) {
+      fetchGoogleProfile(googleGISAuthConfig.googleProfileEndpoint, token);
+      fetchTerraProfile(googleGISAuthConfig.terraProfileEndpoint, token);
     }
-  }, [authConfig, fetchGoogleProfile, fetchTerraProfile, token]);
+  }, [googleGISAuthConfig, fetchGoogleProfile, fetchTerraProfile, token]);
 
   // Route history ref is updated with the previous route path.
   useEffect(() => {
