@@ -165,6 +165,10 @@ declare module "@mui/material/Paper" {
  * SvgIcon prop options.
  */
 declare module "@mui/material/SvgIcon" {
+  interface SvgIconPropsColorOverrides {
+    inkLight: true;
+  }
+
   interface SvgIconPropsSizeOverrides {
     xsmall: true;
     xxlarge: true;

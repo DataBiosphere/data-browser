@@ -688,6 +688,9 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
       },
       MuiSvgIcon: {
         styleOverrides: {
+          colorInkLight: {
+            color: inkLight,
+          },
           fontSizeLarge: {
             fontSize: "32px",
           },
@@ -708,6 +711,11 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
           },
         },
         variants: [
+          {
+            props: {
+              color: "inkLight",
+            },
+          },
           {
             props: {
               size: "xsmall",
