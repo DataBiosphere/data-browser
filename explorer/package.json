@@ -24,7 +24,9 @@
     "storybook": "start-storybook -s images,.next  -p 6006",
     "build-storybook": "build-storybook",
     "test": "jest --watch",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:anvil": "playwright test -c playwright_anvil.config.ts",
+    "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
