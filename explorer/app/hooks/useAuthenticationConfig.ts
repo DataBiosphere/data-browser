@@ -9,7 +9,10 @@ export const useAuthenticationConfig = (): AuthenticationConfig => {
   const config = useConfig();
 
   if (!config.authentication) {
-    throw new Error(`This config does not have an authentication field set`);
+    return {
+      title: "",
+    };
+    // throw new Error(`This config does not have an authentication field set`);
   }
 
   return config.authentication;
