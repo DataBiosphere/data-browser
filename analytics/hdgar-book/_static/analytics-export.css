@@ -6,6 +6,10 @@
 }
 
 @media print {
+	#jb-print-toc {
+		margin-bottom: 0rem;
+	}
+	
 	main.bd-content {
 		padding-top: 2em !important;
 	}
