@@ -37,3 +37,5 @@
 
 * In `data-analytics.ipynb`:
   * Update the DCP release passed to `hca.plot_ethnicity` and given in the description following it
+
+* After exporting, rename the PDF to "HCA DCP Data Portal Analytics Report - <end date>.pdf"
