@@ -128,6 +128,7 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
     return (
       <TableCreator
         columns={columnsConfig}
+        exploreState={exploreState}
         items={exploreState.listItems ?? []}
         pageSize={exploreState.paginationState.pageSize}
         total={exploreState.paginationState.rows}
@@ -150,7 +151,7 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
       )}
       <IndexView
         entities={renderContent(exploreState)}
-        Summaries={renderSummary(summaryConfig, summaryResponse)}
+        Summaries={renderSummary(exploreState, summaryConfig, summaryResponse)}
         Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabValue} />}
         title={explorerTitle}
       />
@@ -163,11 +164,13 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
  * - defined summary config,
  * - valid summary response, and
  * - defined summaries transformed from the given summary response.
+ * @param exploreState - the application global state
  * @param summaryConfig - Summary config.
  * @param summaryResponse - Response model return from summary API.
  * @returns rendered Summaries component.
  */
 function renderSummary(
+  exploreState: ExploreState,
   summaryConfig?: SummaryConfig,
   summaryResponse?: AzulSummaryResponse
 ): JSX.Element | undefined {

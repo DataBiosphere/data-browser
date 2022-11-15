@@ -10,6 +10,7 @@ export { Summaries } from "./Index/components/Hero/components/Summaries/summarie
 export { NTagCell } from "./Index/components/NTagCell/nTagCell";
 export { LabelValue } from "./LabelValue/LabelValue";
 export { BackPageHero } from "./Layout/components/BackPage/components/BackPageHero/backPageHero";
+export { Link } from "./Links/components/Link/link";
 export { Links } from "./Links/Links";
 export { Citation } from "./Project/components/Citation/citation";
 export { CollaboratingOrganizations } from "./Project/components/CollaboratingOrganizations/collaboratingOrganizations";

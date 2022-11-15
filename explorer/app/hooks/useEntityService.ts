@@ -9,27 +9,29 @@ interface FetcherResponse extends EntityService {
   path: string;
 }
 
-export const getEntityService = (entity: EntityConfig): FetcherResponse => {
-  if (entity.apiPath) {
+export const getEntityService = (
+  entityConfig: EntityConfig
+): FetcherResponse => {
+  if (entityConfig.apiPath) {
     return {
       ...createEntityService("API"),
-      detailStaticLoad: !!entity.detail.staticLoad,
-      listStaticLoad: !!entity.staticLoad,
-      path: entity.apiPath,
+      detailStaticLoad: !!entityConfig.detail.staticLoad,
+      listStaticLoad: !!entityConfig.staticLoad,
+      path: entityConfig.apiPath,
     };
   }
 
-  if (entity.tsv) {
+  if (entityConfig.staticLoad) {
     return {
       ...createEntityService("TSV"),
       detailStaticLoad: true,
       listStaticLoad: true,
-      path: entity.tsv.path,
+      path: entityConfig.route, //the entity list type
     };
   }
 
   throw Error(
-    `There's no data path for the entity ${entity.label}. Define a tsvPath or an apiPath`
+    `There's no data path for the entity ${entityConfig.label}. Define a tsvPath or an apiPath`
   );
 };
 

@@ -5,6 +5,9 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { AzulEntityStaticResponse } from "../../app/apis/azul/common/entities";
+import { EntityConfig } from "../../app/config/common/entities";
+import { database } from "../../app/utils/database";
+import { readFile } from "../../app/utils/tsvParser";
 import { EntityDetailView } from "../../app/views/EntityDetailView/entityDetailView";
 
 interface PageUrl extends ParsedUrlQuery {
@@ -12,7 +15,7 @@ interface PageUrl extends ParsedUrlQuery {
   params: string[];
 }
 
-interface EntityDetailPageProps extends AzulEntityStaticResponse {
+export interface EntityDetailPageProps extends AzulEntityStaticResponse {
   entityListType: string;
 }
 
@@ -22,12 +25,40 @@ interface EntityDetailPageProps extends AzulEntityStaticResponse {
  * @param props.entityListType - Entity list type.
  * @returns Entity detail view component.
  */
-const EntityDetailPage = ({
-  entityListType,
-  ...props
-}: EntityDetailPageProps): JSX.Element => {
-  if (!entityListType) return <></>;
+const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
+  if (!props.entityListType) return <></>;
   return <EntityDetailView {...props} />;
+};
+
+/**
+ * Seed database.
+ * @param entityListType - Entity list type.
+ * @param entityConfig - Entity config.
+ */
+const seedDatabase = async function seedDatabase(
+  entityListType: string,
+  entityConfig: EntityConfig
+): Promise<void> {
+  const { label, staticEntityImportMapper, staticLoadFile } = entityConfig;
+
+  if (!staticLoadFile) {
+    throw new Error(`staticLoadFile not found for entity entity ${label}`);
+  }
+
+  // Build database from configured TSV, if any.
+  const rawData = await readFile(staticLoadFile);
+
+  if (!rawData) {
+    throw new Error(`File ${staticLoadFile} not found for entity ${label}`);
+  }
+
+  const object = JSON.parse(rawData.toString());
+  const entities = staticEntityImportMapper
+    ? Object.values(object).map(staticEntityImportMapper)
+    : Object.values(object);
+
+  // Seed entities.
+  database.get().seed(entityListType, entities);
 };
 
 /**
@@ -37,6 +68,15 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   const entities = config().entities;
   const paths = await Promise.all(
     entities.map(async (entityConfig) => {
+      // Seed database.
+      if (
+        entityConfig &&
+        entityConfig.staticLoad &&
+        entityConfig.detail.staticLoad
+      ) {
+        await seedDatabase(entityConfig.route, entityConfig);
+      }
+
       const resultParams: { params: PageUrl }[] = [];
       if (entityConfig.detail.staticLoad && entityConfig.getId) {
         const { fetchAllEntities, path } = getEntityService(entityConfig);
@@ -75,17 +115,26 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   params,
 }: GetStaticPropsContext) => {
   const { entityListType } = params as PageUrl;
-  const entity = getEntityConfig(entityListType);
+  const entityConfig = getEntityConfig(entityListType);
 
-  if (!entity) {
+  if (!entityConfig) {
     return {
       notFound: true,
     };
   }
 
   const props: EntityDetailPageProps = { entityListType: entityListType };
-  if (entity.detail.staticLoad) {
-    const { fetchEntityDetail, path } = getEntityService(entity);
+  if (entityConfig.detail.staticLoad) {
+    // Seed database.
+    if (
+      entityConfig &&
+      entityConfig.staticLoad &&
+      entityConfig.detail.staticLoad
+    ) {
+      await seedDatabase(entityConfig.route, entityConfig);
+    }
+
+    const { fetchEntityDetail, path } = getEntityService(entityConfig);
     const data = await fetchEntityDetail(
       (params as PageUrl).params[PARAMS_INDEX_UUID],
       path

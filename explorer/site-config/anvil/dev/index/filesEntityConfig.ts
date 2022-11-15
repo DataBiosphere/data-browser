@@ -13,6 +13,7 @@ import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/commo
 export const filesEntityConfig: EntityConfig<FilesResponse> = {
   apiPath: "index/files",
   detail: {
+    detailOverviews: [],
     staticLoad: false,
     tabs: [],
     top: [],

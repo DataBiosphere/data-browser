@@ -292,8 +292,8 @@ function exploreReducer(
         sortOrder: "asc",
       };
 
-      const { tsv } = getEntityConfig(payload);
-      const listStaticLoad = !!tsv;
+      const { staticLoad } = getEntityConfig(payload);
+      const listStaticLoad = staticLoad;
 
       return {
         ...state,

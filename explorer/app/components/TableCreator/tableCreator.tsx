@@ -6,6 +6,7 @@ import {
 } from "app/config/common/entities";
 import { useEditColumns } from "app/hooks/useEditColumns";
 import React, { useMemo } from "react";
+import { ExploreState } from "../../common/context/exploreState";
 import { Pagination, Sort } from "../../common/entities";
 import { ComponentCreator } from "../ComponentCreator/ComponentCreator";
 import { Loading } from "../Loading/loading";
@@ -15,6 +16,7 @@ import { Table } from "../Table/table";
 interface TableCreatorProps<T> {
   columns: ColumnConfig<T>[];
   disablePagination?: boolean;
+  exploreState: ExploreState;
   items: T[];
   loading?: boolean;
   pageCount?: number;

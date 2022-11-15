@@ -4,7 +4,7 @@ import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
 import anvilConfig from "../../anvil/dev/config";
-import { SOURCE_FIELD_KEY } from "../tsv-config";
+import { NCPI_CATALOG_FILTER_CATEGORY_KEYS } from "../filter-category-keys";
 import { platformsEntity } from "./index/platformsEntity";
 import { studiesEntity } from "./index/studiesEntity";
 
@@ -40,31 +40,31 @@ const config: SiteConfig = {
   ...basicConfig,
   categoryConfigs: [
     {
-      key: SOURCE_FIELD_KEY.PLATFORMS,
+      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.PLATFORM,
       label: "Platform",
     },
     {
-      key: SOURCE_FIELD_KEY.STUDY,
+      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.TITLE,
       label: "Study",
     },
     {
-      key: SOURCE_FIELD_KEY.DB_GAP_ID,
+      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.DB_GAP_ID,
       label: "dbGap Id",
     },
     {
-      key: SOURCE_FIELD_KEY.FOCUS_DISEASE,
+      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.FOCUS,
       label: "Focus / Disease",
     },
     {
-      key: SOURCE_FIELD_KEY.DATA_TYPES,
+      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.DATA_TYPE,
       label: "Data Type",
     },
     {
-      key: SOURCE_FIELD_KEY.STUDY_DESIGNS,
+      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.STUDY_DESIGN,
       label: "Study Design",
     },
     {
-      key: SOURCE_FIELD_KEY.CONSENT_CODES,
+      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.CONSENT_CODE,
       label: "Consent Code",
     },
   ],

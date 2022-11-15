@@ -4,49 +4,35 @@ import {
   NCPICatalogPlatform,
   NCPICatalogStudy,
 } from "../../../apis/catalog/ncpi-catalog/common/entities";
-import {
-  getConsentCodes,
-  getDataTypes,
-  getDbGapId,
-  getDbGapIds,
-  getFocusDisease,
-  getFocusDiseases,
-  getParticipantCount,
-  getPlatform,
-  getPlatforms,
-  getStudyDesigns,
-  getStudyName,
-  getStudyNames,
-} from "../../../apis/catalog/ncpi-catalog/common/transformers";
 import * as C from "../../../components";
 import { METADATA_KEY } from "../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../components/Index/common/indexTransformer";
 
 /**
  * Build props for consent codes cell component from the given NCPI entity.
- * @param ncpiCatalogEntity - NCPI catalog entity.
+ * @param ncpiCatalogEntry - NCPI catalog entity.
  * @returns Model to be used as props for the consent codes cell.
  */
 export const buildConsentCodes = (
-  ncpiCatalogEntity: NCPICatalogEntity
+  ncpiCatalogEntry: NCPICatalogEntity
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.CONSENT_CODE),
-    values: getConsentCodes(ncpiCatalogEntity),
+    values: ncpiCatalogEntry.consentCode,
   };
 };
 
 /**
  * Build props for data types cell component from the given NCPI entity.
- * @param ncpiCatalogEntity - NCPI catalog entity.
+ * @param ncpiCatalogEntry - NCPI catalog entity.
  * @returns Model to be used as props for the data types cell.
  */
 export const buildDataTypes = (
-  ncpiCatalogEntity: NCPICatalogEntity
+  ncpiCatalogEntry: NCPICatalogEntity
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATA_TYPE),
-    values: getDataTypes(ncpiCatalogEntity),
+    values: ncpiCatalogEntry.dataType,
   };
 };
 
@@ -59,7 +45,7 @@ export const buildDbGapId = (
   ncpiCatalogStudy: NCPICatalogStudy
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getDbGapId(ncpiCatalogStudy),
+    value: ncpiCatalogStudy.dbGapId,
   };
 };
 
@@ -73,7 +59,7 @@ export const buildDbGapIds = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DBGAP_ID),
-    values: getDbGapIds(ncpiCatalogPlatform),
+    values: ncpiCatalogPlatform.dbGapId,
   };
 };
 
@@ -82,11 +68,11 @@ export const buildDbGapIds = (
  * @param ncpiCatalogStudy - NCPI catalog study.
  * @returns Model to be used as props for the focus/disease cell.
  */
-export const buildFocusDisease = (
+export const buildFocus = (
   ncpiCatalogStudy: NCPICatalogStudy
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getFocusDisease(ncpiCatalogStudy),
+    value: ncpiCatalogStudy.focus,
   };
 };
 
@@ -100,20 +86,20 @@ export const buildFocusDiseases = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.FOCUS_DISEASE),
-    values: getFocusDiseases(ncpiCatalogPlatform),
+    values: ncpiCatalogPlatform.focus,
   };
 };
 
 /**
  * Build props for participant count cell component from the given NCPI entity.
- * @param ncpiCatalogEntity - NCPI catalog entity.
+ * @param ncpiCatalogEntry - NCPI catalog entity.
  * @returns Model to be used as props for the participant count cell.
  */
 export const buildParticipantCount = (
-  ncpiCatalogEntity: NCPICatalogEntity
+  ncpiCatalogEntry: NCPICatalogEntity
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getParticipantCount(ncpiCatalogEntity),
+    value: ncpiCatalogEntry.participantCount,
   };
 };
 
@@ -126,7 +112,7 @@ export const buildPlatform = (
   ncpiCatalogPlatform: NCPICatalogPlatform
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getPlatform(ncpiCatalogPlatform),
+    value: ncpiCatalogPlatform.platform,
   };
 };
 
@@ -140,7 +126,7 @@ export const buildPlatforms = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.PLATFORM),
-    values: getPlatforms(ncpiCatalogStudy),
+    values: ncpiCatalogStudy.platform,
   };
 };
 
@@ -154,7 +140,7 @@ export const buildStudyDesigns = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.STUDY_DESIGN),
-    values: getStudyDesigns(ncpiCatalogEntity),
+    values: ncpiCatalogEntity.studyDesign,
   };
 };
 
@@ -163,11 +149,11 @@ export const buildStudyDesigns = (
  * @param ncpiCatalogStudy - NCPI catalog study.
  * @returns Model to be used as props for the study name cell.
  */
-export const buildStudyName = (
+export const buildStudyTitle = (
   ncpiCatalogStudy: NCPICatalogStudy
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getStudyName(ncpiCatalogStudy),
+    value: ncpiCatalogStudy.title,
   };
 };
 
@@ -181,6 +167,6 @@ export const buildStudyNames = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.STUDY),
-    values: getStudyNames(ncpiCatalogPlatform),
+    values: ncpiCatalogPlatform.title,
   };
 };

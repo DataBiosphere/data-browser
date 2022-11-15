@@ -1,0 +1,24 @@
+{
+  "name": "build-anvil-catalog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-anvil-db": "esrun anvil-catalog/build-anvil-catalog.ts",
+    "build-ncpi-db": "esrun ncpi-catalog/build-ncpi-catalog.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@digitak/esrun": "^3.2.13"
+  },
+  "dependencies": {
+    "@types/fhir": "^0.0.35",
+    "html-entities": "^2.3.3",
+    "node-fetch": "^3.2.10",
+    "remark": "^14.0.2",
+    "remark-html": "^15.0.1",
+    "typescript": "^4.8.4"
+  }
+}

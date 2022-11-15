@@ -7,7 +7,6 @@
 
 import { CastingContext, parse as parseCsv } from "csv-parse/sync";
 import fs from "fs";
-import path from "path";
 
 type ReturnType = string | number | boolean;
 
@@ -53,7 +52,8 @@ export const readFile = async function readFile(
 ): Promise<Buffer | undefined> {
   try {
     // const filePath = path.resolve(__dirname, file);
-    const jsonDirectory = path.join(process.cwd(), "files");
+    // const jsonDirectory = path.join(process.cwd(), "files");
+    const jsonDirectory = process.cwd();
     return fs.readFileSync(jsonDirectory + "/" + file, options);
     // eslint-disable-next-line no-empty -- copied from anvil-portal
   } catch (err) {}

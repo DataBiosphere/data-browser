@@ -3,6 +3,7 @@ import { BackPageConfig, ComponentConfig } from "app/config/common/entities";
 import * as T from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 
 export const exportConfig: BackPageConfig = {
+  detailOverviews: [],
   staticLoad: true,
   tabs: [
     {

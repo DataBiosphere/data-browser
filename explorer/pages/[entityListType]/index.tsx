@@ -8,7 +8,7 @@ import { EntityConfig } from "../../app/config/common/entities";
 import { EMPTY_PAGE } from "../../app/entity/api/constants";
 import { getEntityService } from "../../app/hooks/useEntityService";
 import { database } from "../../app/utils/database";
-import { parseContentRows, readFile } from "../../app/utils/tsvParser";
+import { readFile } from "../../app/utils/tsvParser";
 
 interface PageUrl extends ParsedUrlQuery {
   entityListType: string;
@@ -23,38 +23,27 @@ interface ListPageProps extends AzulEntitiesStaticResponse {
  * @param entityListType - Entity list type.
  * @param entityConfig - Entity config.
  */
-const seedDatabase = async function seedDatabase(
+const seedDatabase = async function seedDatabase( // TODO get rid of this duplicated code
   entityListType: string,
   entityConfig: EntityConfig
 ): Promise<void> {
-  const { label, tsv } = entityConfig;
+  const { label, staticEntityImportMapper, staticLoadFile } = entityConfig;
 
-  if (!tsv) {
-    throw new Error(`TSV config not found for entity entity ${label}`);
+  if (!staticLoadFile) {
+    throw new Error(`staticLoadFile not found for entity entity ${label}`);
   }
-
-  const { builderFn, path: tsvPath, sourceFieldKey, sourceFieldType } = tsv;
 
   // Build database from configured TSV, if any.
-  const file = await readFile(tsvPath);
+  const rawData = await readFile(staticLoadFile);
 
-  if (!file) {
-    throw new Error(`File ${tsvPath} not found for entity ${label}`);
+  if (!rawData) {
+    throw new Error(`File ${staticLoadFile} not found for entity ${label}`);
   }
 
-  const result = await parseContentRows(
-    file,
-    "\t",
-    sourceFieldKey,
-    sourceFieldType
-  );
-
-  if (!result) {
-    throw new Error(`Error parsing ${tsvPath}.`);
-  }
-
-  // Build entities.
-  const entities = builderFn(result);
+  const object = JSON.parse(rawData.toString());
+  const entities = staticEntityImportMapper
+    ? Object.values(object).map(staticEntityImportMapper)
+    : Object.values(object);
 
   // Seed entities.
   database.get().seed(entityListType, entities);
@@ -99,19 +88,18 @@ export const getStaticProps: GetStaticProps<
 > = async (context: GetStaticPropsContext) => {
   const { entityListType } = context.params as PageUrl;
   const entityConfig = getEntityConfig(entityListType);
-  const { tsv } = entityConfig;
+  const { staticLoad } = entityConfig;
   const { fetchAllEntities } = getEntityService(entityConfig); // Determine the type of fetch, either from an API endpoint or a TSV.
 
   // Seed database.
-  if (entityConfig && tsv) {
+  if (entityConfig && staticLoad) {
     await seedDatabase(entityListType, entityConfig);
   }
 
   // Fetch the result set from either a configured API endpoint or from a local database seeded from a configured TSV.
-  const resultList =
-    entityConfig.staticLoad || entityConfig.tsv
-      ? await fetchAllEntities(entityListType)
-      : EMPTY_PAGE;
+  const resultList = entityConfig.staticLoad
+    ? await fetchAllEntities(entityListType)
+    : EMPTY_PAGE;
 
   return {
     props: {

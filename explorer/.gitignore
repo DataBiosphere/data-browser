@@ -49,3 +49,5 @@ _templates
 # favicons
 /public/favicons/*
 
+/files/anvil-catalog/out/
+/files/ncpi-catalog/out/

@@ -1,5 +1,8 @@
 import { NCPICatalogPlatform } from "../../../../app/apis/catalog/ncpi-catalog/common/entities";
-import { buildNCPICatalogPlatforms } from "../../../../app/apis/catalog/ncpi-catalog/common/utils";
+import {
+  getPlatformId,
+  NCPIPlatformInputMapper,
+} from "../../../../app/apis/catalog/ncpi-catalog/common/utils";
 import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
@@ -7,17 +10,19 @@ import {
   ListConfig,
 } from "../../../../app/config/common/entities";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/ncpi-catalog/common/viewModelBuilders";
-import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "../../tsv-config";
+import { NCPI_CATALOG_FILTER_CATEGORY_KEYS } from "../../filter-category-keys";
 
 /**
  * Entity config object responsible for config related to the /explore/platforms route.
  */
 export const platformsEntity: EntityConfig<NCPICatalogPlatform> = {
   detail: {
+    detailOverviews: [],
     staticLoad: true,
     tabs: [],
     top: [],
   },
+  getId: getPlatformId,
   label: "Platforms",
   list: {
     columns: [
@@ -29,7 +34,7 @@ export const platformsEntity: EntityConfig<NCPICatalogPlatform> = {
         header: "Platform",
         sort: {
           default: true,
-          sortKey: "platforms", // platform - a singular platform.
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.PLATFORM, // platform - a singular platform.
         },
         width: { max: "1fr", min: "100px" },
       },
@@ -40,18 +45,18 @@ export const platformsEntity: EntityConfig<NCPICatalogPlatform> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Study",
         sort: {
-          sortKey: "studyName", // studyNames - a list of study names.
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.TITLE, // studyNames - a list of study names.
         },
         width: { max: "2fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDbGapIds,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "dbGap Id",
+        header: "dbGap Ids",
         sort: {
-          sortKey: "dbGapId", // dbGapIds - a list of study identifiers.
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.DB_GAP_ID, // dbGapIds - a list of study identifiers.
         },
         width: { max: "1.24fr", min: "124px" },
       },
@@ -62,7 +67,7 @@ export const platformsEntity: EntityConfig<NCPICatalogPlatform> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Focus / Disease",
         sort: {
-          sortKey: "focusDisease", // focusDiseases - a list of focuses / diseases.
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.FOCUS, // focusDiseases - a list of focuses / diseases.
         },
         width: { max: "1.6fr", min: "160px" },
       },
@@ -73,7 +78,7 @@ export const platformsEntity: EntityConfig<NCPICatalogPlatform> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Data Type",
         sort: {
-          sortKey: "dataTypes",
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.DATA_TYPE,
         },
         width: { max: "1.6fr", min: "160px" },
       },
@@ -84,7 +89,7 @@ export const platformsEntity: EntityConfig<NCPICatalogPlatform> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Study Design",
         sort: {
-          sortKey: "studyDesigns",
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.STUDY_DESIGN,
         },
         width: { max: "1.6fr", min: "160px" },
       },
@@ -95,7 +100,7 @@ export const platformsEntity: EntityConfig<NCPICatalogPlatform> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Consent Code",
         sort: {
-          sortKey: "consentCodes",
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.CONSENT_CODE,
         },
         width: { max: "1.6fr", min: "160px" },
       },
@@ -106,18 +111,14 @@ export const platformsEntity: EntityConfig<NCPICatalogPlatform> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Participants",
         sort: {
-          sortKey: "participantCount",
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.PARTICIPANT_COUNT,
         },
         width: { max: "1.16fr", min: "116px" },
       },
     ],
   } as ListConfig<NCPICatalogPlatform>,
   route: "platforms",
+  staticEntityImportMapper: NCPIPlatformInputMapper,
   staticLoad: true,
-  tsv: {
-    builderFn: buildNCPICatalogPlatforms,
-    path: "ncpi-dataset-catalog-results.tsv",
-    sourceFieldKey: SOURCE_FIELD_KEY,
-    sourceFieldType: SOURCE_FIELD_TYPE,
-  },
+  staticLoadFile: "files/ncpi-catalog/out/ncpi-platforms.json",
 };

@@ -1,191 +1,64 @@
 import {
-  accumulateValue,
-  accumulateValues,
-  sumValues,
-} from "../../common/utils";
+  sanitizeString,
+  sanitizeStringArray,
+} from "../../../../viewModelBuilders/common/utils";
 import {
-  AnVILCatalog,
   AnVILCatalogConsortium,
+  AnVILCatalogEntity,
   AnVILCatalogStudy,
   AnVILCatalogWorkspace,
 } from "./entities";
 
 /**
- * Returns AnVIL catalog consortia.
- * @param anvilCatalogs - AnVIL catalogs.
- * @returns AnVIL catalog consortia.
+ * Returns the id of the study (the dbGaP id).
+ * @param anvilCatalogStudy - AnVIL study.
+ * @returns String value of dbGapId.
  */
-export function buildAnVILCatalogConsortia(
-  anvilCatalogs: unknown[]
-): unknown[] {
-  const anvilCatalogConsortiaByConsortium = new Map();
-  const workspaces = buildAnVILCatalogWorkspaces(
-    anvilCatalogs
-  ) as AnVILCatalogWorkspace[];
-
-  // Build the workspaces for the consortium.
-  for (const workspace of workspaces) {
-    const { consortium } = workspace;
-    const anvilCatalogConsortium =
-      anvilCatalogConsortiaByConsortium.get(consortium) || {};
-    anvilCatalogConsortiaByConsortium.set(
-      consortium,
-      buildAnVILCatalogConsortium(workspace, anvilCatalogConsortium)
-    );
-  }
-
-  return [...anvilCatalogConsortiaByConsortium.values()];
-}
+export const getStudyId = (anvilCatalogStudy: AnVILCatalogStudy): string =>
+  anvilCatalogStudy.dbGapId || "";
 
 /**
- * Returns AnVIL catalog studies.
- * @param anvilCatalogs - AnVIL catalogs.
- * @returns AnVIL catalog studies.
+ * Returns the terra workspace name.
+ * @param anvilCatalogWorkspace - AnVIL catalog workspace.
+ * @returns String value of terra workspace name.
  */
-export function buildAnVILCatalogStudies(anvilCatalogs: unknown[]): unknown[] {
-  const studiesByStudyId = new Map();
-  const workspaces = buildAnVILCatalogWorkspaces(
-    anvilCatalogs
-  ) as AnVILCatalogWorkspace[];
-
-  // Build the studies.
-  for (const workspace of workspaces) {
-    const { dbGapId } = workspace;
-    if (isStudy(dbGapId)) {
-      const study = studiesByStudyId.get(dbGapId) || {};
-      studiesByStudyId.set(dbGapId, buildAnVILCatalogStudy(workspace, study));
-    }
-  }
-
-  return [...studiesByStudyId.values()];
-}
+export const getWorkspaceId = (
+  anvilCatalogWorkspace: AnVILCatalogWorkspace
+): string => anvilCatalogWorkspace.workspaceName ?? "";
 
 /**
- * Returns AnVIL catalog workspaces.
- * @param anVILCatalogs - AnVIL catalogs.
- * @returns AnVIL catalog workspaces.
+ * Returns the consortium.
+ * @param anvilCatalogEntity - AnVIL consortium
+ * @returns String value of consortium.
  */
-export function buildAnVILCatalogWorkspaces(
-  anVILCatalogs: unknown[]
-): unknown[] {
-  return (anVILCatalogs as AnVILCatalog[]).map((anVILCatalog) => {
-    const workspace: AnVILCatalogWorkspace = {
-      consentCode: anVILCatalog["library:dataUseRestriction"],
-      consortium: anVILCatalog.consortium,
-      dataTypes: anVILCatalog["library:datatype"],
-      dbGapId: anVILCatalog.phsId,
-      diseases: anVILCatalog["library:indication"],
-      participantCount: anVILCatalog.participantCount,
-      studyDesigns: anVILCatalog["library:studyDesign"],
-      workspaceName: anVILCatalog.name,
-    };
-    return workspace;
-  });
-}
+export const getConsortiumId = (
+  anvilCatalogEntity: AnVILCatalogEntity
+): string => anvilCatalogEntity.consortium ?? "";
 
-/**
- * Returns AnVIL catalog consortium.
- * @param workspace - AnVIL catalog workspace.
- * @param anvilCatalogConsortium - AnVIL catalog consortium.
- * @returns AnVIL catalog consortium.
- */
-function buildAnVILCatalogConsortium(
-  workspace: AnVILCatalogWorkspace,
-  anvilCatalogConsortium: AnVILCatalogConsortium
-): AnVILCatalogConsortium {
-  const consentCodes = accumulateValue(
-    anvilCatalogConsortium.consentCode, // consentCodes - a list of consent codes.
-    workspace.consentCode
-  );
-  const consortium = workspace.consortium;
-  const dataTypes = accumulateValues(
-    anvilCatalogConsortium.dataTypes,
-    workspace.dataTypes
-  );
-  const dbGapId = accumulateValue(
-    anvilCatalogConsortium.dbGapId,
-    workspace.dbGapId
-  ); // dbGapIds - a list of study ids.
-  const diseases = accumulateValues(
-    anvilCatalogConsortium.diseases,
-    workspace.diseases
-  );
-  const participantCount = sumValues([
-    anvilCatalogConsortium.participantCount,
-    workspace.participantCount,
-  ]);
-  const studyDesigns = accumulateValues(
-    anvilCatalogConsortium.studyDesigns,
-    workspace.studyDesigns
-  );
-  const workspaceNames = accumulateValue(
-    anvilCatalogConsortium.workspaceName, // workspaceNames - a list of workspace names.
-    workspace.workspaceName
-  );
+export const anvilCatalogStudyInputMapper = (
+  input: AnVILCatalogStudy
+): AnVILCatalogStudy => {
   return {
-    consentCode: consentCodes,
-    consortium,
-    dataTypes,
-    dbGapId,
-    diseases,
-    participantCount,
-    studyDesigns,
-    workspaceCount: workspaceNames.length,
-    workspaceName: workspaceNames,
+    ...input,
+    studyName: sanitizeString(input.studyName),
   };
-}
+};
 
-/**
- * Returns AnVIL catalog study.
- * @param workspace - AnVIL catalog workspace.
- * @param study - AnVIL catalog study.
- * @returns AnVIL catalog study.
- */
-function buildAnVILCatalogStudy(
-  workspace: AnVILCatalogWorkspace,
-  study: AnVILCatalogStudy
-): AnVILCatalogStudy {
-  const consentCodes = accumulateValue(
-    study.consentCode, // consentCodes - a list of consent codes.
-    workspace.consentCode
-  );
-  const consortium = workspace.consortium;
-  const dataTypes = accumulateValues(study.dataTypes, workspace.dataTypes);
-  const dbGapId = workspace.dbGapId;
-  const diseases = accumulateValues(study.diseases, workspace.diseases);
-  const participantCount = sumValues([
-    study.participantCount,
-    workspace.participantCount,
-  ]);
-  const studyDesigns = accumulateValues(
-    study.studyDesigns,
-    workspace.studyDesigns
-  );
-  const workspaceNames = accumulateValue(
-    study.workspaceName, // workspaceNames - a list of workspace names.
-    workspace.workspaceName
-  );
+export const anvilCatalogWorkspaceInputMapper = (
+  input: AnVILCatalogWorkspace
+  // eslint-disable-next-line sonarjs/no-identical-functions -- //TODO remove this duplication
+): AnVILCatalogWorkspace => {
   return {
-    consentCode: consentCodes,
-    consortium,
-    dataTypes,
-    dbGapId,
-    diseases,
-    participantCount,
-    studyDesigns,
-    workspaceCount: workspaceNames.length,
-    workspaceName: workspaceNames,
+    ...input,
+    studyName: sanitizeString(input.studyName),
   };
-}
+};
 
-/**
- * Returns true if study has a valid dbGapId.
- * @param dbGapId - study identifier.
- * @returns true if the study has a valid dbGapId.
- */
-function isStudy(dbGapId: string): boolean {
-  if (!dbGapId) {
-    return false;
-  }
-  return dbGapId.toLowerCase().startsWith("phs");
-}
+export const anvilCatalogConsortiumInputMapper = (
+  input: AnVILCatalogConsortium
+): AnVILCatalogConsortium => {
+  return {
+    ...input,
+    studyName: sanitizeStringArray(input.studyName),
+  };
+};

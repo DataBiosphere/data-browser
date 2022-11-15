@@ -322,5 +322,5 @@ export const TableComponent = <T extends object>({
 };
 
 // TODO(Dave) review whether memo is necessary - flash between tabs / loading state.
-// export const Table = React.memo(TableComponent) as typeof TableComponent;
-export const Table = TableComponent as typeof TableComponent;
+export const Table = React.memo(TableComponent) as typeof TableComponent;
+//export const Table = TableComponent as typeof TableComponent;

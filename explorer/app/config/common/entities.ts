@@ -1,11 +1,11 @@
 import { ThemeOptions } from "@mui/material";
 import { Footer, Header } from "app/components/Layout/common/entities";
 import { JSXElementConstructor } from "react";
+import { ExploreState } from "../../common/context/exploreState";
 import { HeroTitle } from "../../components/common/Title/title";
 
 type GetIdFunction<T> = (detail: T) => string;
-
-type BuilderFn = (catalogs: unknown[]) => unknown[];
+type EntityImportMapper<I, D> = (input: I) => D;
 
 /**
  * Model of category configured in site config.
@@ -28,19 +28,15 @@ interface TabConfig {
  * the detail and the list page configuration.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
-export interface EntityConfig<D = any> extends TabConfig {
+export interface EntityConfig<D = any, I = any> extends TabConfig {
   apiPath?: string;
   detail: BackPageConfig;
   getId?: GetIdFunction<D>;
   list: ListConfig;
   options?: Options;
+  staticEntityImportMapper?: EntityImportMapper<I, D>;
   staticLoad: boolean;
-  tsv?: {
-    builderFn: BuilderFn;
-    path: string;
-    sourceFieldKey: { [key: string]: string };
-    sourceFieldType: { [key: string]: string };
-  };
+  staticLoadFile?: string;
 }
 
 /**
@@ -58,7 +54,10 @@ export interface ComponentConfig<
   children?: ComponentConfig[];
   component: React.FC<React.ComponentProps<T>>;
   props?: React.ComponentProps<T>;
-  viewBuilder?: (model: D) => React.ComponentProps<T>;
+  viewBuilder?: (
+    model: D,
+    exploreState?: ExploreState
+  ) => React.ComponentProps<T>;
 }
 
 /**
@@ -88,7 +87,7 @@ export interface DataSourceConfig {
  * Interface to define the set of components that will be used for the back page.
  */
 export interface BackPageConfig {
-  detailOverviews?: TabConfig["label"][];
+  detailOverviews: TabConfig["label"][];
   staticLoad: boolean;
   tabs: BackPageTabConfig[];
   top: ComponentsConfig;
@@ -143,6 +142,7 @@ export interface AuthenticationConfig {
   text?: string;
   title: string;
 }
+
 /**
  * Interface to define the authentication login notice component.
  */

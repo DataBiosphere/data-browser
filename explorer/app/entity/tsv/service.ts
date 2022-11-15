@@ -37,9 +37,11 @@ export const fetchAllEntities = async (
   return fetchEntitiesFromQuery(entityListType);
 };
 
-// TODO review type
-export const fetchEntityDetail = async (): Promise<unknown[]> => {
-  throw new Error("Not implemented function"); //This function isn't necessary yet
+export const fetchEntityDetail = async (
+  entityListType: string,
+  entityId: string
+): Promise<unknown> => {
+  return database.get().find(entityId, entityListType);
 };
 
 export const fetchSummary = async (): Promise<AzulSummaryResponse> => {

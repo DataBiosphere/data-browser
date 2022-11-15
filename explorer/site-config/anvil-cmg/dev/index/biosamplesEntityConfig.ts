@@ -13,6 +13,7 @@ import * as ViewBuilders from "../../../../app/viewModelBuilders/azul/anvil-cmg/
 export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
   apiPath: "index/biosamples",
   detail: {
+    detailOverviews: [],
     staticLoad: false,
     tabs: [],
     top: [],

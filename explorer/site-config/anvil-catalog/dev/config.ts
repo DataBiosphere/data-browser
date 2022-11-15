@@ -1,45 +1,50 @@
 import { SiteConfig } from "../../../app/config/common/entities";
 import anvilDevConfig from "../../anvil/dev/config";
-import { consortiaEntity } from "./index/consortiaEntity";
-import { studiesEntity } from "./index/studiesEntity";
-import { workspaceEntity } from "./index/workspaceEntity";
+import { ANVIL_CATALOG_FILTER_CATEGORY_KEYS } from "../filter-category-keys";
+import { consortiaEntityConfig } from "./index/consortiaEntityConfig";
+import { studiesEntityConfig } from "./index/studiesEntityConfig";
+import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
 
 const config: SiteConfig = {
   ...anvilDevConfig,
   categoryConfigs: [
     {
-      key: "consentCode",
+      key: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.CONSENT_CODE,
       label: "Consent Code",
     },
     {
-      key: "consortium",
+      key: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.CONSORTIUM,
       label: "Consortium",
     },
     {
-      key: "dataTypes",
+      key: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.DATA_TYPE,
       label: "Data Type",
     },
     {
-      key: "dbGapId",
+      key: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.DB_GAP_ID,
       label: "dbGap Id",
     },
     {
-      key: "diseases",
+      key: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.DISEASE,
       label: "Disease (indication)",
     },
     {
-      key: "studyDesigns",
+      key: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.STUDY_DESIGN,
       label: "Study Design",
     },
     {
-      key: "workspaceName",
+      key: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.STUDY_NAME,
+      label: "Study",
+    },
+    {
+      key: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.WORKSPACE_NAME,
       label: "Terra Workspace Name",
     },
   ],
   disablePagination: true,
-  entities: [workspaceEntity, studiesEntity, consortiaEntity],
+  entities: [studiesEntityConfig, workspaceEntityConfig, consortiaEntityConfig],
   explorerTitle: "AnVIL Dataset Catalog",
-  redirectRootToPath: "/workspaces",
+  redirectRootToPath: "/studies",
   summaryConfig: undefined,
 };
 

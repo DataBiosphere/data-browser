@@ -4,9 +4,8 @@ import { useCurrentDetailTab } from "app/hooks/useCurrentDetailTab";
 import { useFetchEntity } from "app/hooks/useFetchEntity";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
-import { AzulEntityStaticResponse } from "../../apis/azul/common/entities";
-import { ExploreStateContext } from "../../common/context/exploreState";
+import React, { useState } from "react";
+import { EntityDetailPageProps } from "../../../pages/[entityListType]/[...params]";
 import {
   Tab,
   Tabs,
@@ -28,17 +27,16 @@ function getTabs(entity: EntityConfig): Tab[] {
   }));
 }
 
-export const EntityDetailView = (
-  props: AzulEntityStaticResponse
-): JSX.Element => {
-  const { exploreState } = useContext(ExploreStateContext);
-  const { tabValue } = exploreState;
-  const { currentTab, route: tabRoute } = useCurrentDetailTab(tabValue);
+export const EntityDetailView = (props: EntityDetailPageProps): JSX.Element => {
+  // const { tabValue } = exploreState;
+  const { currentTab, route: tabRoute } = useCurrentDetailTab(
+    props.entityListType
+  );
   const { mainColumn, sideColumn } = currentTab;
   const { isLoading, response } = useFetchEntity(props);
   const { push, query } = useRouter();
   const [tabsValue, setTabsValue] = useState<TabsValue>(tabRoute);
-  const currentEntityConfig = getEntityConfig(tabValue);
+  const currentEntityConfig = getEntityConfig(props.entityListType);
   const { detail, route: entityRoute } = currentEntityConfig;
   const { detailOverviews, top } = detail;
   const uuid = query.params?.[PARAMS_INDEX_UUID];

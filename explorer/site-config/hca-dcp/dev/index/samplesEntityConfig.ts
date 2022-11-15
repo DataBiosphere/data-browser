@@ -23,6 +23,7 @@ import {
 export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
   apiPath: "index/samples",
   detail: {
+    detailOverviews: [],
     staticLoad: false,
     tabs: [],
     top: [],
