@@ -3,14 +3,19 @@ import { ButtonProps } from "@mui/material/Button";
 import React from "react";
 import { NavLinkDropdownButton as Button } from "./navLinkDropdownButton.styles";
 
-type Props = Exclude<ButtonProps, "StartIcon">;
+type MButtonProps = Exclude<ButtonProps, "StartIcon">;
+
+interface Props extends MButtonProps {
+  isActive: boolean;
+}
 
 export const NavLinkDropdownButton = ({
   children,
+  isActive,
   ...props /* Spread props to allow for Button specific props ButtonProps e.g. "onClick". */
 }: Props): JSX.Element => {
   return (
-    <Button EndIcon={ArrowDropDownRoundedIcon} {...props}>
+    <Button EndIcon={ArrowDropDownRoundedIcon} isActive={isActive} {...props}>
       {children}
     </Button>
   );
