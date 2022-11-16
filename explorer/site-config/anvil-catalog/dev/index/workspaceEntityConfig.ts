@@ -9,7 +9,7 @@ import {
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
-import * as ViewBuilder from "../../../../app/viewModelBuilders/anvil-catalog/common/viewModelBuilders";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
 import { ANVIL_CATALOG_FILTER_CATEGORY_KEYS } from "../../filter-category-keys";
 
 /**

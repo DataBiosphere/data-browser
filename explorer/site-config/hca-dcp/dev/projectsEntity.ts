@@ -76,9 +76,9 @@ export const projectsEntity: EntityConfig = {
     columns: [
       {
         componentConfig: {
-          component: Components.Links,
+          component: Components.Link,
           viewBuilder: projectsBuildProjectTitleColumn,
-        } as ComponentConfig<typeof Components.Links>,
+        } as ComponentConfig<typeof Components.Link>,
         header: "Project Title",
         sort: {
           default: true,

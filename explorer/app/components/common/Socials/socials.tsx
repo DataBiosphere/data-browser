@@ -1,7 +1,7 @@
 import { Box, IconButtonProps, SxProps, Theme } from "@mui/material";
 import Link from "next/link";
 import React, { ElementType } from "react";
-import { ANCHOR_TARGET } from "../../Links/components/Link/link";
+import { ANCHOR_TARGET } from "../../Links/common/entities";
 import { IconName } from "../CustomIcon/common/iconSvgPathShapes";
 import { CustomIcon } from "../CustomIcon/customIcon";
 import { IconButtonSocials } from "../IconButton/iconButton.styles";

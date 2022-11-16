@@ -1,6 +1,6 @@
 import * as C from "../../../../../app/components";
 import { ComponentConfig } from "../../../../../app/config/common/entities";
-import * as T from "../../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
+import * as T from "../../../../../app/viewModelBuilders/catalog/ncpi-catalog/common/viewModelBuilders";
 
 export const sideColumn = [
   {
@@ -12,4 +12,8 @@ export const sideColumn = [
     ],
     component: C.GridPaperSection,
   } as ComponentConfig<typeof C.GridPaperSection>,
+  {
+    component: C.Details,
+    viewBuilder: T.buildStudySummary,
+  } as ComponentConfig<typeof C.Details>,
 ];

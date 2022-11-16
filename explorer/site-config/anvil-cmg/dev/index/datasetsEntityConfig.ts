@@ -35,9 +35,9 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
     columns: [
       {
         componentConfig: {
-          component: Components.Links,
+          component: Components.Link,
           viewBuilder: ViewBuilder.buildDatasetTitle,
-        } as ComponentConfig<typeof Components.Links>,
+        } as ComponentConfig<typeof Components.Link>,
         header: "Dataset",
         sort: {
           default: true,

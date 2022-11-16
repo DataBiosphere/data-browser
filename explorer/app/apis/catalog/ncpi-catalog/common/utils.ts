@@ -13,7 +13,8 @@ export function NCPIStudyInputMapper(ncpiStudy: NCPIStudy): NCPICatalogStudy {
     focus: sanitizeString(ncpiStudy.focus),
     participantCount: ncpiStudy.participantCount,
     platform: ncpiStudy.platforms,
-    studyAccession: [ncpiStudy.studyAccession],
+    studyAccession: ncpiStudy.studyAccession,
+    studyDescription: ncpiStudy.description,
     studyDesign: ncpiStudy.studyDesigns,
     title: sanitizeString(ncpiStudy.title),
   };
@@ -34,7 +35,6 @@ export function NCPIPlatformInputMapper(
     studyDesign: ncpiPlatform.studyDesign,
     title: sanitizeStringArray(ncpiPlatform.title),
   };
-
   return ncpiCatalogPlatform;
 }
 

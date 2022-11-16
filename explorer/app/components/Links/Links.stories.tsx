@@ -4,9 +4,7 @@ import { Links } from "./Links";
 
 export default {
   argTypes: {
-    enumerate: { control: "boolean" },
     links: { control: "array" },
-    showCopyButton: { control: "boolean" },
   },
   component: Links,
   title: "Components/Deprecated/Links",
@@ -29,7 +27,6 @@ NoNumeratedWithoutCopyButton.args = {
 
 export const NumeratedWithoutCopyButton = Template.bind({});
 NumeratedWithoutCopyButton.args = {
-  enumerate: true,
   links: [
     { label: "Google", url: GOOGLE_URL },
     { label: "Facebook", url: FACEBOOK_URL },
@@ -39,11 +36,9 @@ NumeratedWithoutCopyButton.args = {
 
 export const NumeratedWithCopyButton = Template.bind({});
 NumeratedWithCopyButton.args = {
-  enumerate: true,
   links: [
     { label: "Google", url: GOOGLE_URL },
     { label: "Facebook", url: FACEBOOK_URL },
     { label: "Twitter", url: TWITTER_URL },
   ],
-  showCopyButton: true,
 };

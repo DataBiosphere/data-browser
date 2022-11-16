@@ -1,4 +1,4 @@
-import { studiesEntity } from "site-config/ncpi-catalog/dev/index/studiesEntity";
+import { studiesEntityConfig } from "site-config/ncpi-catalog/dev/index/studiesEntityConfig";
 import { DugVariableResponse } from "../../../../app/apis/catalog/ncpi-catalog-dug/common/entities";
 import * as C from "../../../../app/components";
 import {
@@ -6,7 +6,7 @@ import {
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
-import * as ViewBuilder from "../../../../app/viewModelBuilders/ncpi-catalog/common/viewModelBuilders";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/catalog/ncpi-catalog/common/viewModelBuilders";
 import { DUG_API_PATH } from "../constants";
 
 /**
@@ -14,7 +14,7 @@ import { DUG_API_PATH } from "../constants";
  */
 export const relatedStudiesEntity: EntityConfig<DugVariableResponse> = {
   apiPath: DUG_API_PATH,
-  detail: studiesEntity.detail,
+  detail: studiesEntityConfig.detail,
   label: "Related Studies",
   list: {
     columns: [

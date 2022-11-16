@@ -3,11 +3,11 @@
  * Optional wrapper components for the key values, key value tuple, key and value for complete ui flexibility.
  */
 
-import React, { ElementType } from "react";
+import React, { ElementType, ReactNode } from "react";
 import { Stack } from "../Stack/Stack";
 
 export type Key = string;
-export type Value = number | number[] | string | string[]; // TODO update Value with more specific types i.e. when project details has been mapped.
+export type Value = number | number[] | ReactNode | string | string[];
 export type KeyValues = Map<Key, Value>;
 
 interface Props {

@@ -215,14 +215,10 @@ export const samplesBuildCellCount = (
  */
 export const projectsBuildProjectTitleColumn = (
   project: ProjectsResponse
-): React.ComponentProps<typeof C.Links> => {
+): React.ComponentProps<typeof C.Link> => {
   return {
-    links: [
-      {
-        label: getProjectsTitleName(project),
-        url: getProjectsTitleUrl(project),
-      },
-    ],
+    label: getProjectsTitleName(project),
+    url: getProjectsTitleUrl(project),
   };
 };
 

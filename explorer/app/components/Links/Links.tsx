@@ -1,31 +1,24 @@
-// TODO replace Item component with Link from explorer/app/components/Links/components/Link/link.tsx
-import { Box } from "@mui/material";
 import React from "react";
-import { Item } from "./Item";
+import { Link as ILink } from "./common/entities";
+import { Link } from "./components/Link/link";
 
-interface LinksProps {
-  enumerate?: boolean;
-  links: { label: string; url: string }[];
-  showCopyButton?: boolean;
+interface Props {
+  links: ILink[];
 }
 
-export const Links = ({
-  enumerate,
-  links,
-  showCopyButton,
-}: LinksProps): JSX.Element => {
+export const Links = ({ links }: Props): JSX.Element => {
   return (
-    <Box>
-      {links.map((link, index) => {
-        return (
-          <Item
-            key={link.url}
-            link={link}
-            number={enumerate ? index + 1 : undefined}
-            showCopyButton={showCopyButton}
-          />
-        );
-      })}
-    </Box>
+    <>
+      {links.map(({ copyable, label, noWrap, target, url }) => (
+        <Link
+          key={url}
+          copyable={copyable}
+          label={label}
+          noWrap={noWrap}
+          target={target}
+          url={url}
+        />
+      ))}
+    </>
   );
 };

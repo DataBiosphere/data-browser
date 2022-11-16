@@ -1,20 +1,10 @@
-import { Link as MLink, LinkProps } from "@mui/material";
+import { Link as MLink } from "@mui/material";
 import NLink from "next/link";
-import React, { ReactNode } from "react";
+import React from "react";
 import { CopyToClipboard } from "../../../common/CopyToClipboard/copyToClipboard";
+import { ANCHOR_TARGET, Link as ILink } from "../../common/entities";
 
-export enum ANCHOR_TARGET {
-  BLANK = "_blank",
-  SELF = "_self",
-}
-
-interface Props {
-  copyable?: boolean;
-  label: ReactNode /* link label may be an element */;
-  noWrap?: LinkProps["noWrap"];
-  target?: ANCHOR_TARGET;
-  url: string;
-}
+type Props = ILink;
 
 export const Link = ({
   copyable = false,

@@ -1,26 +1,25 @@
 /**
- * Sanitize a string for a view model builder.
- *
- * @param input - the value to sanitize
- * @returns Change empty string, null  or undefined values to "Unspecified"
+ * Sanitizes a string for display i.e. any empty, null or undefined value is sanitized to "Unspecified".
+ * @param str - String to sanitize.
+ * @returns the string or sanitized string value.
  */
-export function sanitizeString(input: string): string {
-  if (input === "" || input === null || input === undefined) {
+export function sanitizeString(str: string): string {
+  if (str === "" || str === null || str === undefined) {
     return "Unspecified";
   } else {
-    return input;
+    return str;
   }
 }
 
 /**
- * Sanatize a string array for display.
- *
- * @param input - the string array to sanitize.
- * @returns a blank array if the input is undefined or otherwize an array of sanitized strings.
+ * Sanitizes a string array for display i.e. any string element within the string array that is an empty, null or
+ * undefined value is sanitized to "Unspecified".
+ * @param strArray - String array to sanitize.
+ * @returns the string array, sanitized.
  */
-export function sanitizeStringArray(input: string[]): string[] {
-  if (!input) {
-    return [];
+export function sanitizeStringArray(strArray: string[]): string[] {
+  if (!strArray || strArray.length === 0) {
+    return ["Unspecified"];
   }
-  return input.map(sanitizeString);
+  return strArray.map(sanitizeString);
 }

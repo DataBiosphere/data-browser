@@ -4,16 +4,17 @@ import {
   AnVILCatalogEntity,
   AnVILCatalogStudy,
   AnVILCatalogWorkspace,
-} from "../../../apis/catalog/anvil-catalog/common/entities";
-import { ExploreState } from "../../../common/context/exploreState";
-import * as C from "../../../components";
+} from "../../../../apis/catalog/anvil-catalog/common/entities";
+import { ExploreState } from "../../../../common/context/exploreState";
+import * as C from "../../../../components";
 import {
   Key,
   Value,
-} from "../../../components/common/KeyValuePairs/keyValuePairs";
-import { METADATA_KEY } from "../../../components/Index/common/entities";
-import { getPluralizedMetadataLabel } from "../../../components/Index/common/indexTransformer";
-import { getEntityConfig } from "../../../config/config";
+} from "../../../../components/common/KeyValuePairs/keyValuePairs";
+import { stringifyValues } from "../../../../components/Detail/common/utils";
+import { METADATA_KEY } from "../../../../components/Index/common/entities";
+import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import { getEntityConfig } from "../../../../config/config";
 
 /**
  * Build props for consent code cell component from the given AnVIL workspace.
@@ -166,23 +167,28 @@ export const buildStudyNames = (
 };
 
 /**
- * Build props for Details component from the given datasets index or detaset detail response.
+ * Build props for KeyValuePairs component from the given datasets index or dataset detail response.
  * TODO revisit - separate from entity builder, generalize modeling/component?, revisit transformer
  * @param response - Response model return from datasets or dataset API endpoints.
- * @returns model to be used as props for the Description component.
+ * @returns model to be used as props for the KeyValuePairs component.
  */
 export const buildStudyDetails = (
   response: AnVILCatalogStudy
-): React.ComponentProps<typeof C.Details> => {
-  const consortium = response.consortium;
-  const phsID = response.dbGapId;
-  const details = new Map<Key, Value>();
-  details.set("Consortium", consortium);
-  details.set("PHSID", phsID);
-
+): React.ComponentProps<typeof C.KeyValuePairs> => {
+  const { consentCode, consortium, dataType, dbGapId, disease, studyDesign } =
+    response;
+  const keyValuePairs = new Map<Key, Value>();
+  keyValuePairs.set("Consortium", consortium);
+  keyValuePairs.set("Consent Codes", stringifyValues(consentCode));
+  keyValuePairs.set("Diseases", stringifyValues(disease));
+  keyValuePairs.set("Study Design", stringifyValues(studyDesign));
+  keyValuePairs.set("Data Types", stringifyValues(dataType));
+  keyValuePairs.set("dbGaP ID", dbGapId);
   return {
-    keyValuePairs: details,
-    title: "",
+    KeyElType: C.KeyElType,
+    KeyValuesElType: (props) => C.Stack({ gap: 4, ...props }),
+    ValueElType: C.ValueElType,
+    keyValuePairs,
   };
 };
 
@@ -190,25 +196,20 @@ export const buildStudyDetails = (
  * Build props for Hero component from the given study response.
  * TODO revisit - separate from entity builder, generalize modeling?, revisit transformer
  * @param response - Response model return from datasets API.
- * @param exploreState - global search state
+ * @param exploreState - Global search state.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildStudyHero = (
   response: AnVILCatalogStudy,
   exploreState: ExploreState
 ): React.ComponentProps<typeof C.BackPageHero> => {
-  const entityConfig = getEntityConfig(exploreState.tabValue);
-  const firstCrumb = {
-    path: "/" + entityConfig.route,
-    text: entityConfig.label,
-  };
-
+  const { label, route } = getEntityConfig(exploreState.tabValue);
+  const firstCrumb = { path: `/${route}`, text: label };
   const studyName = response.studyName;
   const breadcrumbs = [firstCrumb];
   if (studyName) {
     breadcrumbs.push({ path: "", text: studyName });
   }
-
   return {
     breadcrumbs: breadcrumbs,
     title: response.studyName,

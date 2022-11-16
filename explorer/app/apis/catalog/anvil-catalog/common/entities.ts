@@ -1,27 +1,23 @@
-/**
- * Model of AnVIL catalog.
- */
-
 export type AnVILCatalogEntity =
   | AnVILCatalogStudy
   | AnVILCatalogWorkspace
   | AnVILCatalogConsortium;
 
 export interface AnVILCatalogConsortium {
-  consentCode: string[]; // consentCodes - a list of consent codes.
+  consentCode: string[];
   consortium: string;
   dataType: string[];
-  dbGapId: string[]; // dbGapIds - a list of study ids.
+  dbGapId: string[];
   disease: string[];
   participantCount: number;
   studyDesign: string[];
   studyName: string[];
   workspaceCount: number;
-  workspaceName: string[]; // workspaceNames - a list of workspace names.
+  workspaceName: string[];
 }
 
 export interface AnVILCatalogStudy {
-  consentCode: string[]; // consentCodes - a list of consent codes.
+  consentCode: string[];
   consortium: string;
   dataType: string[];
   dbGapId: string;
@@ -31,7 +27,7 @@ export interface AnVILCatalogStudy {
   studyDesign: string[];
   studyName: string;
   workspaceCount: number;
-  workspaceName: string[]; // workspaceNames - a list of workspace names.
+  workspaceName: string[];
 }
 
 export interface AnVILCatalogWorkspace {

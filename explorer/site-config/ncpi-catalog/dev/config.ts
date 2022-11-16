@@ -1,37 +1,14 @@
-import { Social } from "app/components/common/Socials/socials";
 import logoNcpi from "images/logoNcpi.svg";
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
-import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
 import anvilConfig from "../../anvil/dev/config";
 import { NCPI_CATALOG_FILTER_CATEGORY_KEYS } from "../filter-category-keys";
-import { platformsEntity } from "./index/platformsEntity";
-import { studiesEntity } from "./index/studiesEntity";
+import { platformsEntityConfig } from "./index/platformsEntityConfig";
+import { studiesEntityConfig } from "./index/studiesEntityConfig";
 
 // Template constants
 const BROWSER_URL = "https://anvilproject.org";
 const SLOGAN = "NIH Cloud Platform Interoperability Effort";
-const LOGO: Logo = {
-  alt: SLOGAN,
-  height: 40,
-  link: "/",
-  src: logoNcpi,
-};
-
-const SOCIALS: Social[] = [
-  {
-    type: "youtube",
-    url: "https://www.youtube.com/channel/UCJvPdDZOxJvOwObfnZ8X3gA",
-  },
-  {
-    type: "github",
-    url: "https://github.com/NIH-NCPI/",
-  },
-  {
-    type: "slack",
-    url: "https://nihcloudplatforms.slack.com/",
-  },
-];
 
 // Remove the summary from the AnVIL config.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- using rest syntax to remove summary from config.
@@ -69,13 +46,18 @@ const config: SiteConfig = {
     },
   ],
   disablePagination: true,
-  entities: [studiesEntity, platformsEntity],
+  entities: [studiesEntityConfig, platformsEntityConfig],
   explorerTitle: "NCPI Dataset Catalog",
   layout: {
     footer: anvilConfig.layout.footer,
     header: {
       authenticationEnabled: false,
-      logo: LOGO,
+      logo: {
+        alt: SLOGAN,
+        height: 40,
+        link: "/",
+        src: logoNcpi,
+      },
       navAlignment: ELEMENT_ALIGNMENT.CENTER,
       navLinks: [
         {
@@ -109,7 +91,20 @@ const config: SiteConfig = {
       ],
       searchEnabled: true,
       slogan: SLOGAN,
-      socials: SOCIALS,
+      socials: [
+        {
+          type: "youtube",
+          url: "https://www.youtube.com/channel/UCJvPdDZOxJvOwObfnZ8X3gA",
+        },
+        {
+          type: "github",
+          url: "https://github.com/NIH-NCPI/",
+        },
+        {
+          type: "slack",
+          url: "https://nihcloudplatforms.slack.com/",
+        },
+      ],
     },
   },
   redirectRootToPath: "/studies",

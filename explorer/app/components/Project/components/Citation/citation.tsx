@@ -4,7 +4,8 @@ import React, { ReactNode } from "react";
 import { Stack } from "../../../common/Stack/Stack";
 import { CollapsableSection } from "../../../Detail/components/Section/components/CollapsableSection/collapsableSection";
 import { SectionDetailsEmpty } from "../../../Detail/components/Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
-import { ANCHOR_TARGET, Link } from "../../../Links/components/Link/link";
+import { ANCHOR_TARGET } from "../../../Links/common/entities";
+import { Link } from "../../../Links/components/Link/link";
 import { ProjectPath } from "../../common/entities";
 import { CitationLink } from "./citation.styles";
 

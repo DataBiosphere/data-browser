@@ -1,17 +1,15 @@
-// /**
-
 export type NCPICatalogEntity = NCPICatalogPlatform | NCPICatalogStudy;
 
 export interface NCPICatalogPlatform {
   consentCode: string[];
   dataType: string[];
-  dbGapId: string[]; // dbGapIds - a list of study ids.
-  focus: string[]; // focusDiseases - a list of focuses / diseases.
+  dbGapId: string[];
+  focus: string[];
   participantCount: number;
-  platform: string; // platform - a singular platform.
-  studyAccession: string[]; // studyAccessions - a list of study accessions.
+  platform: string;
+  studyAccession: string[];
   studyDesign: string[];
-  title: string[]; // studyNames - a list of study names.
+  title: string[];
 }
 
 export interface NCPICatalogStudy {
@@ -21,7 +19,8 @@ export interface NCPICatalogStudy {
   focus: string;
   participantCount: number;
   platform: string[];
-  studyAccession: string[];
+  studyAccession: string;
+  studyDescription: string;
   studyDesign: string[];
   title: string;
 }

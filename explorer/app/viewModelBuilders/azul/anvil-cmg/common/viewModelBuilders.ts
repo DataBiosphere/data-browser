@@ -217,14 +217,10 @@ export const buildDataReleasePolicy = (): React.ComponentProps<
  */
 export const buildDatasetId = (
   response: DatasetsResponse
-): React.ComponentProps<typeof C.Links> => {
+): React.ComponentProps<typeof C.Link> => {
   return {
-    links: [
-      {
-        label: getDatasetId(response),
-        url: `/datasets/${getDatasetEntryId(response)}`,
-      },
-    ],
+    label: getDatasetId(response),
+    url: `/datasets/${getDatasetEntryId(response)}`,
   };
 };
 
@@ -249,14 +245,10 @@ export const buildDatasetIds = (
  */
 export const buildDatasetTitle = (
   response: DatasetsResponse
-): React.ComponentProps<typeof C.Links> => {
+): React.ComponentProps<typeof C.Link> => {
   return {
-    links: [
-      {
-        label: getDatasetTitle(response),
-        url: `/datasets/${getDatasetEntryId(response)}`,
-      },
-    ],
+    label: getDatasetTitle(response),
+    url: `/datasets/${getDatasetEntryId(response)}`,
   };
 };
 

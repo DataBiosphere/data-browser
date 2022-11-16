@@ -1,7 +1,7 @@
-import { NCPICatalogStudy } from "../../../../app/apis/catalog/ncpi-catalog/common/entities";
+import { NCPICatalogPlatform } from "../../../../app/apis/catalog/ncpi-catalog/common/entities";
 import {
-  getStudyId,
-  NCPIStudyInputMapper,
+  getPlatformId,
+  NCPIPlatformInputMapper,
 } from "../../../../app/apis/catalog/ncpi-catalog/common/utils";
 import * as Components from "../../../../app/components";
 import {
@@ -9,65 +9,65 @@ import {
   EntityConfig,
   ListConfig,
 } from "../../../../app/config/common/entities";
-import * as ViewBuilder from "../../../../app/viewModelBuilders/ncpi-catalog/common/viewModelBuilders";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/catalog/ncpi-catalog/common/viewModelBuilders";
 import { NCPI_CATALOG_FILTER_CATEGORY_KEYS } from "../../filter-category-keys";
 
 /**
- * Entity config object responsible for config related to the /explore/studies route.
+ * Entity config object responsible for config related to the /explore/platforms route.
  */
-export const studiesEntity: EntityConfig<NCPICatalogStudy> = {
+export const platformsEntityConfig: EntityConfig<NCPICatalogPlatform> = {
   detail: {
     detailOverviews: [],
     staticLoad: true,
     tabs: [],
     top: [],
   },
-  getId: getStudyId,
-  label: "Studies",
+  getId: getPlatformId,
+  label: "Platforms",
   list: {
     columns: [
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildPlatforms,
-        } as ComponentConfig<typeof Components.NTagCell>,
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildPlatform,
+        } as ComponentConfig<typeof Components.Cell>,
         header: "Platform",
         sort: {
           default: true,
-          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.PLATFORM,
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.PLATFORM, // platform - a singular platform.
         },
         width: { max: "1fr", min: "100px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildStudyTitle,
-        } as ComponentConfig<typeof Components.Cell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildStudyNames,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Study",
         sort: {
-          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.TITLE,
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.TITLE, // studyNames - a list of study names.
         },
         width: { max: "2fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildDbGapId,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "dbGap Id",
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDbGapIds,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "dbGap Ids",
         sort: {
-          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.DB_GAP_ID,
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.DB_GAP_ID, // dbGapIds - a list of study identifiers.
         },
         width: { max: "1.24fr", min: "124px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildFocus,
-        } as ComponentConfig<typeof Components.Cell>,
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildFocusDiseases,
+        } as ComponentConfig<typeof Components.NTagCell>,
         header: "Focus / Disease",
         sort: {
-          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.FOCUS,
+          sortKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.FOCUS, // focusDiseases - a list of focuses / diseases.
         },
         width: { max: "1.6fr", min: "160px" },
       },
@@ -116,9 +116,9 @@ export const studiesEntity: EntityConfig<NCPICatalogStudy> = {
         width: { max: "1.16fr", min: "116px" },
       },
     ],
-  } as ListConfig<NCPICatalogStudy>,
-  route: "studies",
-  staticEntityImportMapper: NCPIStudyInputMapper,
+  } as ListConfig<NCPICatalogPlatform>,
+  route: "platforms",
+  staticEntityImportMapper: NCPIPlatformInputMapper,
   staticLoad: true,
-  staticLoadFile: "files/ncpi-catalog/out/ncpi-platform-studies.json",
+  staticLoadFile: "files/ncpi-catalog/out/ncpi-platforms.json",
 };

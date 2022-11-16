@@ -194,14 +194,10 @@ export const buildDataReleasePolicy = (): React.ComponentProps<
  */
 export const buildDatasetName = (
   response: DatasetsResponse
-): React.ComponentProps<typeof C.Links> => {
+): React.ComponentProps<typeof C.Link> => {
   return {
-    links: [
-      {
-        label: getDatasetName(response),
-        url: `/datasets/${getDatasetEntryId(response)}`,
-      },
-    ],
+    label: getDatasetName(response),
+    url: `/datasets/${getDatasetEntryId(response)}`,
   };
 };
 

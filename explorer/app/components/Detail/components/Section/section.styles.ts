@@ -13,6 +13,11 @@ export const Section = styled.div`
   }
 `;
 
+// Basic section with white background - typically used as a direct descendant of GridPaper component.
+export const GridPaperSection = styled(Section)`
+  background-color: ${({ theme }) => theme.palette.common.white};
+`;
+
 export const SectionContent = styled.div`
   display: flex;
   flex-direction: column;
