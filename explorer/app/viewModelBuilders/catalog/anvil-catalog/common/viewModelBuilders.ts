@@ -224,9 +224,10 @@ export const buildStudyHero = (
 export const buildStudyName = (
   workspaceOrStudy: Exclude<AnVILCatalogEntity, AnVILCatalogConsortium>
 ): React.ComponentProps<typeof C.Link> => {
+  const { dbGapId, studyAccession, studyName } = workspaceOrStudy;
   return {
-    label: workspaceOrStudy.studyName,
-    url: `/studies/${workspaceOrStudy.dbGapId}`,
+    label: studyName,
+    url: studyAccession ? `/studies/${dbGapId}` : "",
   };
 };
 

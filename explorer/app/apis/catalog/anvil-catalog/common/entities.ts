@@ -23,6 +23,7 @@ export interface AnVILCatalogStudy {
   dbGapId: string;
   disease: string[];
   participantCount: number;
+  studyAccession: string;
   studyDescription: string;
   studyDesign: string[];
   studyName: string;
@@ -37,6 +38,7 @@ export interface AnVILCatalogWorkspace {
   dbGapId: string;
   disease: string[];
   participantCount: number;
+  studyAccession: string;
   studyDesign: string[];
   studyName: string;
   workspaceName: string;

@@ -50,6 +50,7 @@ export function buildAnVILCatalogWorkspace(
     dbGapId: anVILCatalog.phsId,
     disease: anVILCatalog["library:indication"],
     participantCount: anVILCatalog.participantCount,
+    studyAccession: dbGapStudy?.studyAccession ?? "",
     studyDesign: anVILCatalog["library:studyDesign"],
     studyName: dbGapStudy?.title ?? "",
     workspaceName: anVILCatalog.name,

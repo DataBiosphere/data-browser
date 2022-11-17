@@ -262,9 +262,10 @@ export const buildStudySummary = (
 export const buildStudyTitle = (
   ncpiCatalogStudy: NCPICatalogStudy
 ): React.ComponentProps<typeof C.Link> => {
+  const { dbGapId, studyAccession, title } = ncpiCatalogStudy;
   return {
-    label: ncpiCatalogStudy.title,
-    url: `/studies/${ncpiCatalogStudy.dbGapId}`,
+    label: title,
+    url: studyAccession ? `/studies/${dbGapId}` : "",
   };
 };
 

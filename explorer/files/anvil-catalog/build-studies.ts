@@ -52,6 +52,7 @@ export function buildAnVILCatalogStudy(
     study.participantCount,
     workspace.participantCount,
   ]);
+  const studyAccession = dbGapStudy?.studyAccession ?? "";
   const studyDesigns = accumulateValues(
     study.studyDesign,
     workspace.studyDesign
@@ -69,6 +70,7 @@ export function buildAnVILCatalogStudy(
     dbGapId,
     disease: diseases,
     participantCount,
+    studyAccession,
     studyDescription,
     studyDesign: studyDesigns,
     studyName,
