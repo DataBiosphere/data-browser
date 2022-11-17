@@ -163,15 +163,15 @@ export const buildStudyApplyingForAccess = (): React.ComponentProps<
 };
 
 /**
- * Build props for Description component from the given NCPI entity.
+ * Build props for Markdown component from the given NCPI entity.
  * @param ncpiCatalogStudy - NCPI catalog study.
- * @returns model to be used as props for the Description component.
+ * @returns model to be used as props for the Markdown component.
  */
 export const buildStudyDescription = (
   ncpiCatalogStudy: NCPICatalogStudy
-): React.ComponentProps<typeof C.Description> => {
+): React.ComponentProps<typeof C.Markdown> => {
   return {
-    projectDescription: ncpiCatalogStudy.studyDescription || "None",
+    content: ncpiCatalogStudy.studyDescription || "None",
   };
 };
 

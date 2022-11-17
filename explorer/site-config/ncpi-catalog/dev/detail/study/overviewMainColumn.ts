@@ -5,9 +5,18 @@ import * as T from "../../../../../app/viewModelBuilders/catalog/ncpi-catalog/co
 
 export const mainColumn = [
   {
-    component: C.Description,
-    viewBuilder: T.buildStudyDescription,
-  } as ComponentConfig<typeof C.Description, NCPICatalogStudy>,
+    children: [
+      {
+        component: C.Markdown,
+        viewBuilder: T.buildStudyDescription,
+      } as ComponentConfig<typeof C.Markdown, NCPICatalogStudy>,
+    ],
+    component: C.CollapsableSection,
+    props: {
+      collapsable: false,
+      title: "Description",
+    },
+  } as ComponentConfig<typeof C.CollapsableSection, NCPICatalogStudy>,
   {
     children: [
       {

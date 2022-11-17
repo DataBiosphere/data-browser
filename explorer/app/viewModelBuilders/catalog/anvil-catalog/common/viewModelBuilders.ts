@@ -125,16 +125,16 @@ export const buildParticipantCount = (
 };
 
 /**
- * Build props for Description component from the given entity response.
+ * Build props for Markdown component from the given AnVIL entity.
  * TODO revisit - separate from entity builder, generalize description component, revisit transformer
- * @param response - Response model return from datasets API.
- * @returns model to be used as props for the Description component.
+ * @param anvilCatalogStudy - AnVIL catalog study.
+ * @returns model to be used as props for the Markdown component.
  */
 export const buildStudyDescription = (
-  response: AnVILCatalogStudy
-): React.ComponentProps<typeof C.Description> => {
+  anvilCatalogStudy: AnVILCatalogStudy
+): React.ComponentProps<typeof C.Markdown> => {
   return {
-    projectDescription: response.studyDescription || "None",
+    content: anvilCatalogStudy.studyDescription || "None",
   };
 };
 

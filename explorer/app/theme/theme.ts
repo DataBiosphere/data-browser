@@ -211,6 +211,7 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
   const infoLight = defaultTheme.palette.info.light;
   const ink = defaultTheme.palette.ink.main;
   const inkLight = defaultTheme.palette.ink.light;
+  const primary = defaultTheme.palette.primary.main;
   const smoke = defaultTheme.palette.smoke.main;
   const smokeDark = defaultTheme.palette.smoke.dark;
   const smokeLight = defaultTheme.palette.smoke.light;
@@ -439,11 +440,22 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
       },
       MuiCssBaseline: {
         styleOverrides: {
+          a: {
+            color: primary,
+            textDecoration: "none",
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
+            "&:hover": {
+              textDecoration: "underline",
+            },
+          },
           body: {
             fontFamily: defaultTheme.typography.fontFamily,
           },
           img: {
             display: "block",
+          },
+          strong: {
+            fontWeight: 500,
           },
         },
       },

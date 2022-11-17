@@ -5,7 +5,16 @@ import * as T from "../../../../../app/viewModelBuilders/catalog/anvil-catalog/c
 
 export const mainColumn = [
   {
-    component: C.Description,
-    viewBuilder: T.buildStudyDescription,
-  } as ComponentConfig<typeof C.Description, AnVILCatalogStudy>,
+    children: [
+      {
+        component: C.Markdown,
+        viewBuilder: T.buildStudyDescription,
+      } as ComponentConfig<typeof C.Markdown, AnVILCatalogStudy>,
+    ],
+    component: C.CollapsableSection,
+    props: {
+      collapsable: false,
+      title: "Description",
+    },
+  } as ComponentConfig<typeof C.CollapsableSection, AnVILCatalogStudy>,
 ];
