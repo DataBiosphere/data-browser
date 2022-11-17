@@ -220,9 +220,15 @@ export const buildStudyHero = (
   ncpiCatalogStudy: NCPICatalogStudy,
   exploreState: ExploreState
 ): React.ComponentProps<typeof C.BackPageHero> => {
+  const { dbGapId, title } = ncpiCatalogStudy;
   return {
-    breadcrumbs: getCatalogBreadcrumbs(exploreState, ncpiCatalogStudy.title),
-    title: ncpiCatalogStudy.title,
+    breadcrumbs: getCatalogBreadcrumbs(exploreState, title),
+    callToAction: {
+      label: "Request Access",
+      target: ANCHOR_TARGET.BLANK,
+      url: `https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=${dbGapId}`,
+    },
+    title: title,
   };
 };
 

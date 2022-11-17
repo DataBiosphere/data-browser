@@ -9,6 +9,7 @@ import {
 } from "app/components/Detail/components/Section/section.styles";
 import Link from "next/link";
 import React from "react";
+import { ANCHOR_TARGET } from "../../../../../Links/common/entities";
 import { BatchNormalizationWarning } from "../../../BatchNormalizationWarning/batchNormalizationWarning";
 
 interface Props {
@@ -31,7 +32,11 @@ export const ExportToTerraReady = ({ terraUrl }: Props): JSX.Element => {
         </SectionContent>
         <SectionActions>
           <Link href={terraUrl} passHref>
-            <ButtonPrimary href="passHref" rel="noopener" target="_blank">
+            <ButtonPrimary
+              href="passHref"
+              rel="noopener"
+              target={ANCHOR_TARGET.BLANK}
+            >
               Open Terra
             </ButtonPrimary>
           </Link>
