@@ -16,6 +16,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { ListViewConfig } from "app/config/common/entities";
 import { useScroll } from "app/hooks/useScroll";
 import React, { useContext, useEffect } from "react";
 import {
@@ -25,6 +26,7 @@ import {
 import { Pagination, Sort, SortOrderType } from "../../common/entities";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
 import { GridPaper, RoundedPaper } from "../common/Paper/paper.styles";
+import { ToggleButtonGroup } from "../common/ToggleButtonGroup/toggleButtonGroup";
 import {
   buildCategoryViews,
   getFacetedUniqueValuesWithArrayValues,
@@ -47,6 +49,7 @@ interface TableProps<T extends object> {
   editColumns?: EditColumnConfig;
   gridTemplateColumns: string;
   items: T[];
+  listView?: ListViewConfig;
   loading?: boolean;
   pages?: number;
   pageSize: number;
@@ -64,6 +67,7 @@ interface TableProps<T extends object> {
  * @param tableProps.items - Row data to display.
  * @param tableProps.columns - Set of columns to display.
  * @param tableProps.editColumns - True if edit column functionality is enabled for table.
+ * @param tableProps.listView - Entity list toggle button for switching between "views".
  * @param tableProps.total - Total number of rows in the result set.
  * @param tableProps.sort - Config for rendering current sort and handling corresponding events.
  * @param tableProps.gridTemplateColumns - Defines grid table track sizing.
@@ -76,6 +80,7 @@ export const TableComponent = <T extends object>({
   editColumns,
   gridTemplateColumns,
   items,
+  listView,
   sort,
   total,
 }: TableProps<T>): JSX.Element => {
@@ -244,11 +249,15 @@ export const TableComponent = <T extends object>({
       <GridPaper>
         {editColumns && (
           <TableToolbar>
-            <PaginationSummary
-              firstResult={(currentPage - 1) * pageSize + 1}
-              lastResult={isLastPage ? rows : pageSize * currentPage}
-              totalResult={rows}
-            />
+            {listView ? (
+              <ToggleButtonGroup toggleButtons={listView.toggleButtons} />
+            ) : (
+              <PaginationSummary
+                firstResult={(currentPage - 1) * pageSize + 1}
+                lastResult={isLastPage ? rows : pageSize * currentPage}
+                totalResult={rows}
+              />
+            )}
             <CheckboxMenu
               label="Edit Columns"
               onItemSelectionChange={editColumns.onVisibleColumnsChange}

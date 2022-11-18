@@ -10,7 +10,26 @@ const config: SiteConfig = {
     defaultListParams: DUG_API_PARAMS,
     url: DUG_API_URL,
   },
-  entities: [studiesEntityConfig /*relatedStudiesEntity*/],
+  entities: [
+    {
+      ...studiesEntityConfig,
+      listView: {
+        // TODO list view configuration
+        toggleButtons: [
+          {
+            label: "Exact Match (243)",
+            onToggle: () => console.log("exact-match"),
+            value: "NCPI",
+          },
+          {
+            label: "Related (33)",
+            onToggle: () => console.log("related-match"),
+            value: "AnVIL",
+          },
+        ],
+      },
+    } /*relatedStudiesEntity*/,
+  ],
   layout: {
     ...ncpiDevConfig.layout,
     header: {

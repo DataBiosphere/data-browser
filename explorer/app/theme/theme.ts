@@ -215,6 +215,7 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
   const smoke = defaultTheme.palette.smoke.main;
   const smokeDark = defaultTheme.palette.smoke.dark;
   const smokeLight = defaultTheme.palette.smoke.light;
+  const smokeLightest = defaultTheme.palette.smoke.lightest;
   const warningLight = defaultTheme.palette.warning.light;
   const white = defaultTheme.palette.common.white;
 
@@ -835,6 +836,49 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
             [breakpointUpTablet]: {
               margin: 0,
             },
+          },
+        },
+      },
+      MuiToggleButton: {
+        styleOverrides: {
+          root: {
+            ...textBody500,
+            backgroundColor: smoke,
+            border: "none",
+            borderRadius: 4,
+            color: ink,
+            flex: 1,
+            padding: "8px 12px",
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
+            "&:hover": {
+              backgroundColor: smokeLightest,
+            },
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
+            "&.Mui-selected": {
+              backgroundColor: white,
+              // eslint-disable-next-line sort-keys -- disabling key order for readability
+              "&:hover": {
+                backgroundColor: white,
+              },
+            },
+          },
+        },
+      },
+      MuiToggleButtonGroup: {
+        styleOverrides: {
+          grouped: {
+            border: "none !important", // Overrides "grouped" css selector specificity.
+            borderRadius: "4px !important", // Overrides "grouped" css selector specificity.
+            margin: "0 !important", // Overrides "grouped" css selector specificity.
+          },
+          root: {
+            backgroundColor: smoke,
+            borderRadius: 6,
+            color: ink,
+            display: "grid",
+            gridAutoColumns: "1fr",
+            gridAutoFlow: "column",
+            padding: 2,
           },
         },
       },

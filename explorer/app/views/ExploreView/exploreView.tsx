@@ -33,7 +33,7 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
 
   const { categoryViews, sortState, tabValue } = exploreState;
   const { push } = useRouter();
-  const { list, staticLoad } = getEntityConfig(tabValue);
+  const { list, listView, staticLoad } = getEntityConfig(tabValue);
 
   const { columns: columnsConfig } = list;
   const tabs = getTabs();
@@ -130,6 +130,7 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
         columns={columnsConfig}
         exploreState={exploreState}
         items={exploreState.listItems ?? []}
+        listView={listView}
         pageSize={exploreState.paginationState.pageSize}
         total={exploreState.paginationState.rows}
         pagination={undefined}

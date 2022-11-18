@@ -3,6 +3,7 @@ import { Footer, Header } from "app/components/Layout/common/entities";
 import { JSXElementConstructor } from "react";
 import { ExploreState } from "../../common/context/exploreState";
 import { HeroTitle } from "../../components/common/Title/title";
+import { ToggleButton } from "../../components/common/ToggleButtonGroup/toggleButtonGroup";
 
 type GetIdFunction<T> = (detail: T) => string;
 type EntityImportMapper<I, D> = (input: I) => D;
@@ -33,6 +34,7 @@ export interface EntityConfig<D = any, I = any> extends TabConfig {
   detail: BackPageConfig;
   getId?: GetIdFunction<D>;
   list: ListConfig;
+  listView?: ListViewConfig;
   options?: Options;
   staticEntityImportMapper?: EntityImportMapper<I, D>;
   staticLoad: boolean;
@@ -124,6 +126,13 @@ export interface ColumnConfig<
   };
   tooltip?: string;
   width: GridTrackSize;
+}
+
+/**
+ * Interface to define the entity list toggle button for switching between "views".
+ */
+export interface ListViewConfig {
+  toggleButtons: ToggleButton[];
 }
 
 export interface GoogleGISAuthConfig {
