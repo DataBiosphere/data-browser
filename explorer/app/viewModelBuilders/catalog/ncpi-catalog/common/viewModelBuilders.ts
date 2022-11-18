@@ -140,7 +140,7 @@ export const buildPlatforms = (
 };
 
 /**
- * Build props for Links component for the "Applying For Access" section from the given NCPI entity.
+ * Build props for Links component for the "Applying For Access" section.
  * @returns model to be used as props for the Links component.
  */
 export const buildStudyApplyingForAccess = (): React.ComponentProps<
@@ -247,7 +247,7 @@ export const buildStudySummary = (
   keyValuePairs.set("Focus / Diseases", focus);
   keyValuePairs.set("Study Design", stringifyValues(studyDesign));
   keyValuePairs.set("Data Types", stringifyValues(dataType));
-  keyValuePairs.set("Subjects", participantCount);
+  keyValuePairs.set("Subjects", participantCount.toLocaleString());
   return {
     keyValuePairs,
     title: "Summary",

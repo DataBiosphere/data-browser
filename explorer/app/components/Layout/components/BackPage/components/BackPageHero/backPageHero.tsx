@@ -17,6 +17,7 @@ import { HeroTitle, Title } from "../../../../../common/Title/title";
 import {
   BackPageHeroHeadline,
   CallToActionButton,
+  HeroHeader,
 } from "./backPageHero.styles";
 
 interface Props {
@@ -37,10 +38,10 @@ export const BackPageHero = ({
     <>
       {(breadcrumbs || title) && (
         <HeroHeadline>
-          <Stack gap={1}>
+          <HeroHeader gap={1}>
             {breadcrumbs && <Breadcrumbs breadcrumbs={breadcrumbs} />}
             {title && <Title title={title} />}
-          </Stack>
+          </HeroHeader>
           {callToAction && (
             <CallToActionButton
               callToAction={callToAction}

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Stack } from "@mui/material";
 import { BREAKPOINT } from "../../../../../../hooks/useBreakpointHelper";
 import { CallToActionButton as CTAButton } from "../../../../../common/Button/components/CallToActionButton/callToActionButton";
 
@@ -22,6 +23,10 @@ export const BackPageHeroHeadline = styled.div`
       grid-column: unset;
     }
   }
+`;
+
+export const HeroHeader = styled(Stack)`
+  flex: 1;
 `;
 
 export const CallToActionButton = styled(CTAButton)<Props>`

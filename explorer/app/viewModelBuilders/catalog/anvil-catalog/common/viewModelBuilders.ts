@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import {
   AnVILCatalogConsortium,
   AnVILCatalogEntity,
@@ -7,6 +7,7 @@ import {
 } from "../../../../apis/catalog/anvil-catalog/common/entities";
 import { ExploreState } from "../../../../common/context/exploreState";
 import * as C from "../../../../components";
+import { Breadcrumb } from "../../../../components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
   Value,
@@ -14,6 +15,7 @@ import {
 import { stringifyValues } from "../../../../components/Detail/common/utils";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import { ANCHOR_TARGET } from "../../../../components/Links/common/entities";
 import { getEntityConfig } from "../../../../config/config";
 
 /**
@@ -125,6 +127,29 @@ export const buildParticipantCount = (
 };
 
 /**
+ * Build props for Links component for the "Applying For Access" section.
+ * @returns model to be used as props for the Links component.
+ */
+export const buildStudyApplyingForAccess = (): React.ComponentProps<
+  typeof C.Links
+> => {
+  return {
+    links: [
+      {
+        label: "dbGaP FAQ",
+        target: ANCHOR_TARGET.BLANK,
+        url: "https://www.ncbi.nlm.nih.gov/books/NBK5295/",
+      },
+      {
+        label: "dbGaP Access Request Video Tutorial",
+        target: ANCHOR_TARGET.BLANK,
+        url: "https://www.youtube.com/watch?v=m0xp_cCO7kA",
+      },
+    ],
+  };
+};
+
+/**
  * Build props for Markdown component from the given AnVIL entity.
  * TODO revisit - separate from entity builder, generalize description component, revisit transformer
  * @param anvilCatalogStudy - AnVIL catalog study.
@@ -167,23 +192,19 @@ export const buildStudyNames = (
 };
 
 /**
- * Build props for KeyValuePairs component from the given datasets index or dataset detail response.
+ * Build props for KeyValuePairs component from the given AnVIL entity.
  * TODO revisit - separate from entity builder, generalize modeling/component?, revisit transformer
- * @param response - Response model return from datasets or dataset API endpoints.
+ * @param anVILCatalogStudy - AnVIL catalog study.
  * @returns model to be used as props for the KeyValuePairs component.
  */
 export const buildStudyDetails = (
-  response: AnVILCatalogStudy
+  anVILCatalogStudy: AnVILCatalogStudy
 ): React.ComponentProps<typeof C.KeyValuePairs> => {
-  const { consentCode, consortium, dataType, dbGapId, disease, studyDesign } =
-    response;
+  const { consortium, dbGapId, studyAccession } = anVILCatalogStudy;
   const keyValuePairs = new Map<Key, Value>();
   keyValuePairs.set("Consortium", consortium);
-  keyValuePairs.set("Consent Codes", stringifyValues(consentCode));
-  keyValuePairs.set("Diseases", stringifyValues(disease));
-  keyValuePairs.set("Study Design", stringifyValues(studyDesign));
-  keyValuePairs.set("Data Types", stringifyValues(dataType));
-  keyValuePairs.set("dbGaP ID", dbGapId);
+  keyValuePairs.set("dbGaP ID", getStudyDbGapIdKeyValue(studyAccession));
+  keyValuePairs.set("APIs", getStudyAPIKeyValue(dbGapId));
   return {
     KeyElType: C.KeyElType,
     KeyValuesElType: (props) => C.Stack({ gap: 4, ...props }),
@@ -193,26 +214,25 @@ export const buildStudyDetails = (
 };
 
 /**
- * Build props for Hero component from the given study response.
+ * Build props for Hero component from the given AnVIL entity.
  * TODO revisit - separate from entity builder, generalize modeling?, revisit transformer
- * @param response - Response model return from datasets API.
+ * @param anVILCatalogStudy - AnVIL catalog study.
  * @param exploreState - Global search state.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildStudyHero = (
-  response: AnVILCatalogStudy,
+  anVILCatalogStudy: AnVILCatalogStudy,
   exploreState: ExploreState
 ): React.ComponentProps<typeof C.BackPageHero> => {
-  const { label, route } = getEntityConfig(exploreState.tabValue);
-  const firstCrumb = { path: `/${route}`, text: label };
-  const studyName = response.studyName;
-  const breadcrumbs = [firstCrumb];
-  if (studyName) {
-    breadcrumbs.push({ path: "", text: studyName });
-  }
+  const { dbGapId, studyName } = anVILCatalogStudy;
   return {
-    breadcrumbs: breadcrumbs,
-    title: response.studyName,
+    breadcrumbs: getCatalogBreadcrumbs(exploreState, studyName),
+    callToAction: {
+      label: "Request Access",
+      target: ANCHOR_TARGET.BLANK,
+      url: `https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=${dbGapId}`,
+    },
+    title: studyName,
   };
 };
 
@@ -228,6 +248,28 @@ export const buildStudyName = (
   return {
     label: studyName,
     url: studyAccession ? `/studies/${dbGapId}` : "",
+  };
+};
+
+/**
+ * Build props for Details component from the given AnVIL entity.
+ * @param anVILCatalogStudy - AnVIL catalog study.
+ * @returns model to be used as props for the Details component.
+ */
+export const buildStudySummary = (
+  anVILCatalogStudy: AnVILCatalogStudy
+): React.ComponentProps<typeof C.Details> => {
+  const { consentCode, dataType, disease, participantCount, studyDesign } =
+    anVILCatalogStudy;
+  const keyValuePairs = new Map<Key, Value>();
+  keyValuePairs.set("Consent Codes", stringifyValues(consentCode));
+  keyValuePairs.set("Diseases", stringifyValues(disease));
+  keyValuePairs.set("Study Design", stringifyValues(studyDesign));
+  keyValuePairs.set("Data Types", stringifyValues(dataType));
+  keyValuePairs.set("Subjects", participantCount.toLocaleString());
+  return {
+    keyValuePairs,
+    title: "Summary",
   };
 };
 
@@ -257,3 +299,57 @@ export const buildTerraWorkspaceNames = (
     values: anVILCatalogEntity.workspaceName,
   };
 };
+
+/**
+ * Returns catalog related breadcrumbs.
+ * @param exploreState - Global search state.
+ * @param lastCrumbText - Study title to be displayed as last crumb text.
+ * @returns catalog breadcrumbs.
+ */
+function getCatalogBreadcrumbs(
+  exploreState: ExploreState,
+  lastCrumbText?: string
+): Breadcrumb[] {
+  const { label, route } = getEntityConfig(exploreState.tabValue);
+  const firstCrumb = {
+    path: `/${route}`,
+    text: label,
+  };
+  const breadcrumbs = [firstCrumb];
+  if (lastCrumbText) {
+    breadcrumbs.push({ path: "", text: lastCrumbText });
+  }
+  return breadcrumbs;
+}
+
+/**
+ * Returns the KeyValuePair value for the specified AnVIL entity.
+ * @param dbGapId - Study identifier.
+ * @returns the KeyValuePair value for study APIs as a ReactElement.
+ */
+function getStudyAPIKeyValue(dbGapId: string): ReactElement {
+  return C.Stack({
+    children: C.Links({
+      links: [
+        {
+          label: "dbGaP FHIR",
+          target: ANCHOR_TARGET.BLANK,
+          url: `https://dbgap-api.ncbi.nlm.nih.gov/fhir/x1/ResearchStudy?_id=${dbGapId}&_format=json`,
+        },
+      ],
+    }),
+  });
+}
+
+/**
+ * Returns the KeyValuePair value for the specified AnVIL entity.
+ * @param studyAccession - Study identifier with version.
+ * @returns the KeyValuePair value for study dbGap Id as a ReactElement.
+ */
+function getStudyDbGapIdKeyValue(studyAccession: string): ReactElement {
+  return C.Link({
+    label: studyAccession,
+    target: ANCHOR_TARGET.BLANK,
+    url: `https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=${studyAccession}`,
+  });
+}
