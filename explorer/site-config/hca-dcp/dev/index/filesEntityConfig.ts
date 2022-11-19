@@ -15,6 +15,7 @@ import {
   filesBuildProjTitle,
   projectsBuildDevelopmentStage,
 } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { HCADCP_FILTER_CATEGORY_KEYS } from "../../filter-category-keys";
 
 /**
  * Entity config object responsible to config anything related to the /explore/files route.
@@ -46,7 +47,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         header: "File Name",
         sort: {
           default: true,
-          sortKey: "fileName",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.FILE_NAME,
         },
         width: { max: "2fr", min: "240px" },
       },
@@ -57,7 +58,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "File Format",
         sort: {
-          sortKey: "fileFormat",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.FILE_FORMAT,
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -68,7 +69,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "File Size",
         sort: {
-          sortKey: "fileSize",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.FILE_SIZE,
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -79,7 +80,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Content Description",
         sort: {
-          sortKey: "contentDescription",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.CONTENT_DESCRIPTION,
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -90,7 +91,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Project Title",
         sort: {
-          sortKey: "projectTitle",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.PROJECT_TITLE,
         },
         width: { max: "2fr", min: "240px" },
       },
@@ -101,7 +102,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Cell Count Estimate",
         sort: {
-          sortKey: "cellCount",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.CELL_COUNT,
         },
         width: { max: "1fr", min: "120px" },
       },

@@ -15,6 +15,7 @@ import {
   projectsBuildProjectTitleColumn,
   projectsBuildSpecies,
 } from "../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { HCADCP_FILTER_CATEGORY_KEYS } from "../filter-category-keys";
 import { PROJECTS_LABEL } from "./constants";
 import { mainColumn as exportMainColumn } from "./detail/project/exportMainColumn";
 import { sideColumn as exportSideColumn } from "./detail/project/exportSideColumn";
@@ -82,7 +83,7 @@ export const projectsEntity: EntityConfig = {
         header: "Project Title",
         sort: {
           default: true,
-          sortKey: "projectTitle",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.PROJECT_TITLE,
         },
         width: { max: "2fr", min: "374px" },
       },
@@ -93,7 +94,7 @@ export const projectsEntity: EntityConfig = {
         },
         header: "Species",
         sort: {
-          sortKey: "genusSpecies",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.GENUS_SPECIES,
         },
         width: { max: "1fr", min: "136px" },
       },
@@ -104,7 +105,7 @@ export const projectsEntity: EntityConfig = {
         },
         header: "Library Construction Approach",
         sort: {
-          sortKey: "libraryConstructionApproach",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.LIBRARY_CONSTRUCTION_APPROACH,
         },
         width: { max: "1fr", min: "126px" },
       },
@@ -115,7 +116,7 @@ export const projectsEntity: EntityConfig = {
         },
         header: "Anatomical Entity",
         sort: {
-          sortKey: "specimenOrgan",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.SPECIMEN_ORGAN,
         },
         width: { max: "1fr", min: "146px" },
       },
@@ -126,7 +127,7 @@ export const projectsEntity: EntityConfig = {
         },
         header: "Disease (Donor)",
         sort: {
-          sortKey: "donorDisease",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.DONOR_DISEASE,
         },
         width: { max: "1fr", min: "128px" },
       },
@@ -145,7 +146,7 @@ export const projectsEntity: EntityConfig = {
         } as ComponentConfig<typeof Components.Tooltip>,
         header: "Cell Count Estimate",
         sort: {
-          sortKey: "effectiveCellCount",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.EFFECTIVE_CELL_COUNT,
         },
         width: { max: "1fr", min: "96px" },
       },
@@ -157,7 +158,7 @@ export const projectsEntity: EntityConfig = {
         header: "Development Stage",
         hiddenColumn: true,
         sort: {
-          sortKey: "developmentStage",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.DEVELOPMENT_STAGE,
         },
         width: { max: "1fr", min: "148px" },
       },

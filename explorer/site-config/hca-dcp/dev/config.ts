@@ -5,6 +5,7 @@ import { Social } from "../../../app/components/common/Socials/socials";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
 import { breakpointTablet } from "../../../app/theme/theme";
+import { HCADCP_FILTER_CATEGORY_KEYS } from "../filter-category-keys";
 import { exportConfig } from "./export/export";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
@@ -42,83 +43,83 @@ const config: SiteConfig = {
   browserURL: BROWSER_URL,
   categoryConfigs: [
     {
-      key: "anatomicalEntity",
+      key: HCADCP_FILTER_CATEGORY_KEYS.SPECIMEN_ORGAN,
       label: "Anatomical Entity",
     },
     {
-      key: "biologicalSex",
+      key: HCADCP_FILTER_CATEGORY_KEYS.BIOLOGICAL_SEX,
       label: "Biological Sex",
     },
     {
-      key: "contactName",
+      key: HCADCP_FILTER_CATEGORY_KEYS.CONTACT_NAME,
       label: "Contact Name",
     },
     {
-      key: "developmentStage",
+      key: HCADCP_FILTER_CATEGORY_KEYS.DEVELOPMENT_STAGE,
       label: "Development Stage",
     },
     {
-      key: "genusSpecies",
+      key: HCADCP_FILTER_CATEGORY_KEYS.GENUS_SPECIES,
       label: "Genus Species",
     },
     {
-      key: "donorDisease",
+      key: HCADCP_FILTER_CATEGORY_KEYS.DONOR_DISEASE,
       label: "Donor Disease",
     },
     {
-      key: "instrumentManufacturerModel",
+      key: HCADCP_FILTER_CATEGORY_KEYS.INSTRUMENT_MANUFACTURER_MODEL,
       label: "Instrument Manufacturer Model",
     },
     {
-      key: "institution",
+      key: HCADCP_FILTER_CATEGORY_KEYS.INSTITUTION,
       label: "Institution",
     },
     {
-      key: "laboratory",
+      key: HCADCP_FILTER_CATEGORY_KEYS.LABORATORY,
       label: "Laboratory",
     },
     {
-      key: "modelOrgan",
+      key: HCADCP_FILTER_CATEGORY_KEYS.MODEL_ORGAN,
       label: "Model Organ",
     },
     {
-      key: "nucleicAcidSource",
+      key: HCADCP_FILTER_CATEGORY_KEYS.NUCLEIC_ACID_SOURCE,
       label: "Nucleic Acid Source",
     },
     {
-      key: "organPart",
+      key: HCADCP_FILTER_CATEGORY_KEYS.ORGAN_PART,
       label: "Organ Part",
     },
     {
-      key: "pairedEnd",
+      key: HCADCP_FILTER_CATEGORY_KEYS.PAIRED_END,
       label: "Paired End",
     },
     {
-      key: "preservationMethod",
+      key: HCADCP_FILTER_CATEGORY_KEYS.PRESERVATION_METHOD,
       label: "Preservation Method",
     },
     {
-      key: "publicationTitle",
+      key: HCADCP_FILTER_CATEGORY_KEYS.PUBLICATION_TITLE,
       label: "Publication Title",
     },
     {
-      key: "libraryConstructionApproach",
+      key: HCADCP_FILTER_CATEGORY_KEYS.LIBRARY_CONSTRUCTION_APPROACH,
       label: "Library Construction Method",
     },
     {
-      key: "specimenDisease",
+      key: HCADCP_FILTER_CATEGORY_KEYS.SPECIMEN_DISEASE,
       label: "Specimen Disease",
     },
     {
-      key: "selectedCellType",
+      key: HCADCP_FILTER_CATEGORY_KEYS.SELECTED_CELL_TYPE,
       label: "Selected Cell Type",
     },
     {
-      key: "sampleType",
+      key: HCADCP_FILTER_CATEGORY_KEYS.SAMPLE_TYPE,
       label: "Sample Type",
     },
     {
-      key: "workflow",
+      key: HCADCP_FILTER_CATEGORY_KEYS.WORKFLOW,
       label: "Analysis Protocol",
     },
   ],

@@ -16,6 +16,7 @@ import {
   samplesBuildSampleType,
   samplesBuildSpecies,
 } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { HCADCP_FILTER_CATEGORY_KEYS } from "../../filter-category-keys";
 
 /**
  * Entity config object responsible to config anything related to the /explore/samples route.
@@ -39,7 +40,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         header: "Sample ID",
         sort: {
           default: true,
-          sortKey: "sampleId",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.SAMPLE_ID,
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -50,7 +51,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Project Title",
         sort: {
-          sortKey: "projectTitle",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.PROJECT_TITLE,
         },
         width: { max: "2fr", min: "240px" },
       },
@@ -61,7 +62,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Species",
         sort: {
-          sortKey: "genusSpecies",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.GENUS_SPECIES,
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -72,7 +73,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Sample Type",
         sort: {
-          sortKey: "sampleEntityType",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.SAMPLE_ENTITY_TYPE,
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -83,7 +84,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Library Construction Approach",
         sort: {
-          sortKey: "libraryConstructionApproach",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.LIBRARY_CONSTRUCTION_APPROACH,
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -94,7 +95,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Anatomical Entity",
         sort: {
-          sortKey: "specimenOrgan",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.SPECIMEN_ORGAN,
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -105,7 +106,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Disease (Donor)",
         sort: {
-          sortKey: "donorDisease",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.DONOR_DISEASE,
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -116,7 +117,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Cell Count Estimate",
         sort: {
-          sortKey: "cellCount",
+          sortKey: HCADCP_FILTER_CATEGORY_KEYS.CELL_COUNT,
         },
         width: { max: "1fr", min: "120px" },
       },
