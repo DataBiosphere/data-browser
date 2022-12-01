@@ -61,7 +61,7 @@ build_prod:
     - npm run build-cgl-dcp2
     - cd ..
     - cd scripts
-    - npm run update-sitemap -- catalog=dcp21
+    - npm run update-sitemap -- catalog=dcp22
   only:
     - prod
 
