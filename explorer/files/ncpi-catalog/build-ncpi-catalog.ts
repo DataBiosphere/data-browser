@@ -68,6 +68,7 @@ export async function buildNCPIPlatformStudies(
   platformStudyStubs: NCPIPlatformStudyStub[]
 ): Promise<NCPIStudy[]> {
   const ncpiStudies: NCPIStudy[] = [];
+  const studiesById: Map<string, NCPIStudy> = new Map();
 
   // build workspaces
   for (const stub of platformStudyStubs) {
@@ -77,11 +78,22 @@ export async function buildNCPIPlatformStudies(
     if (!study || !isStudyFieldsComplete(study)) {
       continue;
     }
+
+    // If a study with this ID has been seen already, add the platform to that existing object
+    const existingPlatforms = studiesById.get(study.dbGapId)?.platforms;
+    if (existingPlatforms) {
+      if (!existingPlatforms.includes(stub.platform)) {
+        existingPlatforms.push(stub.platform);
+      }
+      continue;
+    }
+
     const ncpiStudy = {
       ...study,
       platforms: [stub.platform],
     };
 
+    studiesById.set(study.dbGapId, ncpiStudy);
     ncpiStudies.push(ncpiStudy);
     console.log(ncpiStudy.dbGapId, ncpiStudy.title);
   }
