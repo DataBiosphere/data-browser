@@ -37,7 +37,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         header: "Name",
         sort: {
           default: true,
-          sortKey: "files.name",
+          sortKey: "name",
         },
         width: { max: "1fr", min: "120px" },
       },

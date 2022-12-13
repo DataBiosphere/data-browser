@@ -239,7 +239,7 @@ export function getFileId(response: FileEntityResponse): string {
  * @returns File ID.
  */
 export function getFileName(response: FileEntityResponse): string {
-  return processEntityValue(response.files, "name");
+  return processEntityValue(response.files, "file_name");
 }
 
 /**

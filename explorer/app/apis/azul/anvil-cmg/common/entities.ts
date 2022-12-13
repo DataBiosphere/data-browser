@@ -76,8 +76,8 @@ export interface FileEntity {
   document_id: string;
   file_format: string;
   file_id: string;
+  file_name: string;
   file_type: string;
-  name: string;
   size: number;
   url: string;
 }
