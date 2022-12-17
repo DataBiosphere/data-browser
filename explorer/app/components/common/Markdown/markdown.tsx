@@ -1,4 +1,5 @@
 // TODO convert Markdown to be able to use MDX.
+import DOMPurify from "isomorphic-dompurify";
 import React from "react";
 
 interface Props {
@@ -6,5 +7,7 @@ interface Props {
 }
 
 export const Markdown = ({ content }: Props): JSX.Element => {
-  return <div dangerouslySetInnerHTML={{ __html: content }} />;
+  return (
+    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
+  );
 };
