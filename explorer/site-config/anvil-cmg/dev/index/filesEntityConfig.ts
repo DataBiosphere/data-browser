@@ -37,7 +37,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         header: "Name",
         sort: {
           default: true,
-          sortKey: "name",
+          sortKey: "files.file_name",
         },
         width: { max: "1fr", min: "120px" },
       },
@@ -59,7 +59,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "Size",
         sort: {
-          sortKey: "size",
+          sortKey: "files.file_size",
         },
         width: { max: "1fr", min: "120px" },
       },

@@ -257,7 +257,7 @@ export function getFileFormat(response: FileEntityResponse): string {
  * @returns Formatted file size.
  */
 export function getFileSize(response: FileEntityResponse): string {
-  const fileSize = processNumberEntityValue(response.files, "size");
+  const fileSize = processNumberEntityValue(response.files, "file_size");
   return humanFileSize(fileSize);
 }
 
