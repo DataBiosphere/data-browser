@@ -40,9 +40,9 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
       },
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.Link,
           viewBuilder: ViewBuilder.buildTerraWorkspaceName,
-        } as ComponentConfig<typeof Components.Cell>,
+        } as ComponentConfig<typeof Components.Link>,
         header: "Terra Workspace",
         sort: {
           sortKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.WORKSPACE_NAME,

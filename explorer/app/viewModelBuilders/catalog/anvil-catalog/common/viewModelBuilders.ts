@@ -280,9 +280,12 @@ export const buildStudySummary = (
  */
 export const buildTerraWorkspaceName = (
   anvilCatalogWorkspace: AnVILCatalogWorkspace
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.Link> => {
+  const workspaceName = anvilCatalogWorkspace.workspaceName;
   return {
-    value: anvilCatalogWorkspace.workspaceName,
+    label: workspaceName,
+    target: ANCHOR_TARGET.BLANK,
+    url: `https://anvil.terra.bio/#workspaces/anvil-datastorage/${workspaceName}`,
   };
 };
 
