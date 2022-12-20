@@ -63,6 +63,10 @@ const config: SiteConfig = {
       label: "BioSample Type",
     },
     {
+      key: "datasets.consent_group",
+      label: "Consent Group",
+    },
+    {
       key: "activities.data_modality",
       label: "Data Modality",
     },
@@ -77,6 +81,10 @@ const config: SiteConfig = {
     {
       key: "files.file_type",
       label: "File Type",
+    },
+    {
+      key: "datasets.registered_identifier",
+      label: "Identifier",
     },
     {
       key: "donors.organism_type",
