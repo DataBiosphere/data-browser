@@ -23,6 +23,7 @@ export const buildDetailViewRelatedStudiesTable = (
     columns: buildTableColumns(),
     gridTemplateColumns: "2fr auto auto 1fr auto 1fr auto",
     items: relatedStudies,
+    noResultsTitle: "No Related Studies",
     tools: buildTableToolbarTools(),
   };
 };

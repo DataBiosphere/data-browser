@@ -26,6 +26,7 @@ interface TableProps<T extends object> {
   columns: ColumnDef<T>[];
   gridTemplateColumns: string;
   items: T[];
+  noResultsTitle: string;
   tools?: ReactNode;
 }
 
@@ -33,6 +34,7 @@ export const Table = <T extends object>({
   columns,
   gridTemplateColumns,
   items,
+  noResultsTitle,
   tools,
 }: TableProps<T>): JSX.Element => {
   const tableInstance = useReactTable({
@@ -82,6 +84,6 @@ export const Table = <T extends object>({
       </GridPaper>
     </RoundedPaper>
   ) : (
-    <NoResults title={"No Related Studies"} />
+    <NoResults title={noResultsTitle} />
   );
 };

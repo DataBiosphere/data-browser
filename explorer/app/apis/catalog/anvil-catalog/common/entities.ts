@@ -29,6 +29,7 @@ export interface AnVILCatalogStudy {
   studyName: string;
   workspaceCount: number;
   workspaceName: string[];
+  workspaces: AnVILCatalogWorkspace[];
 }
 
 export interface AnVILCatalogWorkspace {

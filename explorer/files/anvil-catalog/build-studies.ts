@@ -63,6 +63,7 @@ export function buildAnVILCatalogStudy(
     study.workspaceName, // workspaceNames - a list of workspace names.
     workspace.workspaceName
   );
+  const workspaces = accumulateWorkspace(study.workspaces, workspace);
   return {
     consentCode: consentCodes,
     consortium,
@@ -76,6 +77,7 @@ export function buildAnVILCatalogStudy(
     studyName,
     workspaceCount: workspaceNames.length,
     workspaceName: workspaceNames,
+    workspaces,
   };
 }
 
@@ -89,4 +91,25 @@ export function hasStudy(dbGapId: string): boolean {
     return false;
   }
   return dbGapId.toLowerCase().startsWith("phs");
+}
+
+/**
+ * Returns accumulated workspaces for the given AnVIL study.
+ * @param workspaces - Study workspaces.
+ * @param workspace - Workspace to add to the list of study workspaces.
+ * @returns a list of study workspaces.
+ */
+function accumulateWorkspace(
+  workspaces: AnVILCatalogWorkspace[] = [],
+  workspace: AnVILCatalogWorkspace
+): AnVILCatalogWorkspace[] {
+  if (
+    workspaces?.find(
+      ({ workspaceName }) => workspaceName === workspace.workspaceName
+    )
+  ) {
+    return workspaces;
+  }
+  workspaces.push(workspace);
+  return workspaces;
 }

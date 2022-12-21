@@ -14,6 +14,7 @@ import { ANVIL_CATALOG_FILTER_CATEGORY_KEYS } from "../../filter-category-keys";
 import { mainColumn } from "../detail/study/overviewMainColumn";
 import { sideColumn } from "../detail/study/overviewSideColumn";
 import { top } from "../detail/study/top";
+import { workspacesMainColumn } from "../detail/study/workspacesMainColumn";
 
 /**
  * Entity config object responsible to config anything related to the /explore/studies route.
@@ -28,6 +29,11 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
         mainColumn: mainColumn,
         route: "",
         sideColumn: sideColumn,
+      },
+      {
+        label: "Workspaces",
+        mainColumn: workspacesMainColumn,
+        route: "workspaces",
       },
     ],
     top: top,

@@ -1,4 +1,6 @@
+import { ColumnDef } from "@tanstack/react-table";
 import React, { ReactElement } from "react";
+import { ANVIL_CATALOG_FILTER_CATEGORY_KEYS } from "../../../../../site-config/anvil-catalog/filter-category-keys";
 import {
   AnVILCatalogConsortium,
   AnVILCatalogEntity,
@@ -69,6 +71,23 @@ export const buildDataTypes = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATA_TYPE),
     values: anvilCatalogEntity.dataType,
+  };
+};
+
+/**
+ * Build props for DetailViewTable component from the given AnVIL entity.
+ * @param anVILCatalogStudy - AnVil catalog study.
+ * @returns Model to be used as props for the detail view table component.
+ */
+export const buildDetailViewWorkspacesTable = (
+  anVILCatalogStudy: AnVILCatalogStudy
+): React.ComponentProps<typeof C.DetailViewTable> => {
+  const { workspaces } = anVILCatalogStudy;
+  return {
+    columns: buildTableColumns(),
+    gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr auto",
+    items: workspaces,
+    noResultsTitle: "No Workspaces",
   };
 };
 
@@ -302,6 +321,49 @@ export const buildTerraWorkspaceNames = (
     values: anVILCatalogEntity.workspaceName,
   };
 };
+
+/**
+ * Builds the table column definition model for the detailed view workspaces table.
+ * @returns workspaces table column definition.
+ */
+function buildTableColumns<T>(): ColumnDef<T>[] {
+  return [
+    {
+      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.CONSORTIUM,
+      header: "Consortium",
+    },
+    {
+      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.WORKSPACE_NAME,
+      cell: ({ row: { original } }) =>
+        C.Link(
+          buildTerraWorkspaceName(original as unknown as AnVILCatalogWorkspace)
+        ), // TODO revisit type assertion here
+      header: "Terra Workspace",
+    },
+    {
+      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.CONSENT_CODE,
+      header: "Consent Code",
+    },
+    {
+      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.DISEASE,
+      header: "Disease (indication)",
+    },
+    {
+      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.DATA_TYPE,
+      header: "Data Type",
+    },
+    {
+      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.STUDY_DESIGN,
+      header: "Study Design",
+    },
+    {
+      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.PARTICIPANT_COUNT,
+      cell: ({ getValue }) =>
+        (getValue() as unknown as number)?.toLocaleString(),
+      header: "Participants",
+    },
+  ];
+}
 
 /**
  * Returns catalog related breadcrumbs.
