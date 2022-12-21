@@ -4,7 +4,7 @@ import {
   sumValues,
 } from "../../app/apis/catalog/common/utils";
 import { NCPICatalogPlatform } from "../../app/apis/catalog/ncpi-catalog/common/entities";
-import { NCPIStudy } from "./build-ncpi-catalog";
+import { NCPIStudy } from "./entities";
 
 /**
  * Build the catalog Platforms for NCPI

@@ -86,6 +86,11 @@ const sideColumn = css`
   grid-column: 9 / -1;
 `;
 
+// Single column.
+export const BackPageContentSingleColumn = styled(BackPageContentColumn)`
+  grid-column: 1 / -1;
+`;
+
 // Main column.
 export const BackPageContentMainColumn = styled(BackPageContentColumn)`
   ${({ theme }) => theme.breakpoints.up(BREAKPOINT.TABLET)} {

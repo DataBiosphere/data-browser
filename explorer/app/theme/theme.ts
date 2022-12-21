@@ -208,7 +208,9 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
   /**
    * Color constants
    */
+  const info = defaultTheme.palette.info.main;
   const infoLight = defaultTheme.palette.info.light;
+  const infoLightest = defaultTheme.palette.info.lightest;
   const ink = defaultTheme.palette.ink.main;
   const inkLight = defaultTheme.palette.ink.light;
   const primary = defaultTheme.palette.primary.main;
@@ -223,6 +225,7 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
    * Color alpha constants
    */
   const alpha04 = "0a";
+  const alpha32 = "52";
   const alpha80 = "cc";
 
   /**
@@ -258,6 +261,39 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
    */
   return createTheme(defaultTheme, {
     components: {
+      MuiAlert: {
+        styleOverrides: {
+          icon: {
+            opacity: 1,
+            padding: 0,
+          },
+          message: {
+            padding: 0,
+          },
+          standard: {
+            alignItems: "center",
+            boxShadow: elevation01,
+            color: ink,
+            padding: 16,
+          },
+          standardInfo: {
+            backgroundColor: infoLightest,
+            border: `1px solid ${info}${alpha32}`,
+            // eslint-disable-next-line sort-keys -- disabling key order for readability
+            "& .MuiAlert-icon": {
+              color: info,
+            },
+          },
+        },
+      },
+      MuiAlertTitle: {
+        styleOverrides: {
+          root: {
+            ...textBody500,
+            margin: 0,
+          },
+        },
+      },
       MuiAppBar: {
         defaultProps: {
           color: "default",

@@ -1,5 +1,6 @@
 import SouthRoundedIcon from "@mui/icons-material/SouthRounded";
 import {
+  AlertTitle,
   TableBody,
   TableCell,
   TableContainer,
@@ -16,24 +17,25 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ListViewConfig } from "app/config/common/entities";
 import { useScroll } from "app/hooks/useScroll";
 import React, { useContext, useEffect } from "react";
 import {
+  EntityView,
   ExploreActionKind,
   ExploreStateContext,
 } from "../../common/context/exploreState";
 import { Pagination, Sort, SortOrderType } from "../../common/entities";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
+import { InfoIcon } from "../common/CustomIcon/components/InfoIcon/infoIcon";
 import { GridPaper, RoundedPaper } from "../common/Paper/paper.styles";
-import { ToggleButtonGroup } from "../common/ToggleButtonGroup/toggleButtonGroup";
 import {
   buildCategoryViews,
   getFacetedUniqueValuesWithArrayValues,
 } from "./common/utils";
+import { EntityViewToggle } from "./components/EntityViewToggle/EntityViewToggle";
 import { Pagination as DXPagination } from "./components/Pagination/pagination";
 import { PaginationSummary } from "./components/PaginationSummary/paginationSummary";
-import { Table as GridTable, TableToolbar } from "./table.styles";
+import { Alert, Table as GridTable, TableToolbar } from "./table.styles";
 
 export interface EditColumnConfig {
   onVisibleColumnsChange: (newColumnId: string) => void;
@@ -49,7 +51,6 @@ interface TableProps<T extends object> {
   editColumns?: EditColumnConfig;
   gridTemplateColumns: string;
   items: T[];
-  listView?: ListViewConfig;
   loading?: boolean;
   pages?: number;
   pageSize: number;
@@ -67,11 +68,10 @@ interface TableProps<T extends object> {
  * @param tableProps.items - Row data to display.
  * @param tableProps.columns - Set of columns to display.
  * @param tableProps.editColumns - True if edit column functionality is enabled for table.
- * @param tableProps.listView - Entity list toggle button for switching between "views".
  * @param tableProps.total - Total number of rows in the result set.
  * @param tableProps.sort - Config for rendering current sort and handling corresponding events.
  * @param tableProps.gridTemplateColumns - Defines grid table track sizing.
- * @param tableProps.disablePagination - Determine if the table shouldn't be paginated
+ * @param tableProps.disablePagination - Determine if the table shouldn't be paginated.
  * @returns Configured table element for display.
  */
 export const TableComponent = <T extends object>({
@@ -80,12 +80,11 @@ export const TableComponent = <T extends object>({
   editColumns,
   gridTemplateColumns,
   items,
-  listView,
   sort,
   total,
 }: TableProps<T>): JSX.Element => {
   const { exploreDispatch, exploreState } = useContext(ExploreStateContext);
-  const { filterState } = exploreState;
+  const { filterState, isRelatedView, relatedListItems } = exploreState;
   const listStaticLoad = exploreState.listStaticLoad;
 
   const initialSorting = sort
@@ -138,7 +137,6 @@ export const TableComponent = <T extends object>({
   const { columnFilters } = tableState;
   const headerGroups = getHeaderGroups();
   const scrollTop = useScroll();
-
   const currentPage = exploreState.paginationState.currentPage;
   const pages = exploreState.paginationState.pages;
   const pageSize = exploreState.paginationState.pageSize;
@@ -193,21 +191,27 @@ export const TableComponent = <T extends object>({
     }
   };
 
-  // Set react table column filters `columnFilters` state, for statically loaded api only, with update of filterState.
+  // Sets or resets react table column filters `columnFilters` state, for statically loaded api only, with update of filterState.
+  // - `columnFilters` state is "cleared" for related view, and
+  // - `columnFilters` state is "set" for all other views.
   useEffect(() => {
     if (listStaticLoad) {
-      tableInstance.setColumnFilters(
-        filterState.map(({ categoryKey, value }) => ({
-          id: categoryKey,
-          value,
-        }))
-      );
+      if (isRelatedView) {
+        tableInstance.resetColumnFilters();
+      } else {
+        tableInstance.setColumnFilters(
+          filterState.map(({ categoryKey, value }) => ({
+            id: categoryKey,
+            value,
+          }))
+        );
+      }
     }
-  }, [filterState, listStaticLoad, tableInstance]);
+  }, [filterState, isRelatedView, listStaticLoad, tableInstance]);
 
   // Builds categoryViews using react table `getFacetedUniqueValues`, for statically loaded api only, with update of columnFilters.
   useEffect(() => {
-    if (listStaticLoad) {
+    if (!isRelatedView && listStaticLoad) {
       exploreDispatch({
         payload: {
           listItems: exploreState.listItems,
@@ -228,10 +232,21 @@ export const TableComponent = <T extends object>({
     columnFilters,
     exploreDispatch,
     headerGroups,
+    isRelatedView,
     listStaticLoad,
     exploreState.listItems,
     tableInstance,
   ]);
+
+  // Unmount - reset entity view to "exact".
+  useEffect(() => {
+    return () => {
+      exploreDispatch({
+        payload: EntityView.EXACT,
+        type: ExploreActionKind.ToggleEntityView,
+      });
+    };
+  }, [exploreDispatch]);
 
   function canNextPage(): boolean {
     return (
@@ -249,8 +264,8 @@ export const TableComponent = <T extends object>({
       <GridPaper>
         {editColumns && (
           <TableToolbar>
-            {listView ? (
-              <ToggleButtonGroup toggleButtons={listView.toggleButtons} />
+            {relatedListItems ? (
+              <EntityViewToggle />
             ) : (
               <PaginationSummary
                 firstResult={(currentPage - 1) * pageSize + 1}
@@ -266,6 +281,14 @@ export const TableComponent = <T extends object>({
               selected={editColumns.selectedColumns}
             />
           </TableToolbar>
+        )}
+        {isRelatedView && (
+          <Alert icon={<InfoIcon fontSize="small" />} severity="info">
+            <AlertTitle>
+              Dug has identified the following studies as mentioning the
+              selected focus/disease or related term in the study description.
+            </AlertTitle>
+          </Alert>
         )}
         <TableContainer>
           <GridTable gridTemplateColumns={gridTemplateColumns}>

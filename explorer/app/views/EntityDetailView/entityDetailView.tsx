@@ -4,14 +4,9 @@ import { useCurrentDetailTab } from "app/hooks/useCurrentDetailTab";
 import { useFetchEntity } from "app/hooks/useFetchEntity";
 import { PARAMS_INDEX_UUID } from "app/shared/constants";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { EntityDetailPageProps } from "../../../pages/[entityListType]/[...params]";
-import {
-  Tab,
-  Tabs,
-  TabsValue,
-  TabValue,
-} from "../../components/common/Tabs/tabs";
+import { Tab, Tabs, TabValue } from "../../components/common/Tabs/tabs";
 import { EntityConfig } from "../../config/common/entities";
 import { getEntityConfig } from "../../config/config";
 
@@ -28,14 +23,12 @@ function getTabs(entity: EntityConfig): Tab[] {
 }
 
 export const EntityDetailView = (props: EntityDetailPageProps): JSX.Element => {
-  // const { tabValue } = exploreState;
   const { currentTab, route: tabRoute } = useCurrentDetailTab(
     props.entityListType
   );
   const { mainColumn, sideColumn } = currentTab;
   const { isLoading, response } = useFetchEntity(props);
   const { push, query } = useRouter();
-  const [tabsValue, setTabsValue] = useState<TabsValue>(tabRoute);
   const currentEntityConfig = getEntityConfig(props.entityListType);
   const { detail, route: entityRoute } = currentEntityConfig;
   const { detailOverviews, top } = detail;
@@ -49,12 +42,10 @@ export const EntityDetailView = (props: EntityDetailPageProps): JSX.Element => {
 
   /**
    * Callback fired when selected tab value changes.
-   * - Sets state tabsValue to selected tab value.
    * - Executes a pushState.
    * @param tabValue - Selected tab value.
    */
   const onTabChange = (tabValue: TabValue): void => {
-    setTabsValue(tabValue); // Set state tabsValue prior to route change to indicate selection success.
     push(`/${entityRoute}/${uuid}/${tabValue}`);
   };
 
@@ -65,9 +56,11 @@ export const EntityDetailView = (props: EntityDetailPageProps): JSX.Element => {
         <ComponentCreator components={mainColumn} response={response} />
       }
       sideColumn={
-        <ComponentCreator components={sideColumn} response={response} />
+        sideColumn ? (
+          <ComponentCreator components={sideColumn} response={response} />
+        ) : undefined
       }
-      Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabsValue} />}
+      Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabRoute} />}
       top={<ComponentCreator components={top} response={response} />}
     />
   );

@@ -130,6 +130,9 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
       },
     ],
   } as ListConfig<AnVILCatalogWorkspace>,
+  listView: {
+    disablePagination: true,
+  },
   route: "workspaces",
   staticEntityImportMapper: anvilCatalogWorkspaceInputMapper,
   staticLoad: true,

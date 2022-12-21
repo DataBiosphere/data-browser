@@ -19,27 +19,22 @@ import { Filters } from "../../components/Filter/components/Filters/filters";
 import { Index as IndexView } from "../../components/Index/index";
 import { SidebarLabel } from "../../components/Layout/components/Sidebar/components/SidebarLabel/sidebarLabel";
 import { Sidebar } from "../../components/Layout/components/Sidebar/sidebar";
-import { SummaryConfig } from "../../config/common/entities";
+import { EntityConfig, SummaryConfig } from "../../config/common/entities";
 import { config, getEntityConfig, getTabs } from "../../config/config";
+import { useEntityListRelatedView } from "../../hooks/useEntityListRelatedView";
 import { useSummary } from "../../hooks/useSummary";
 
 // TODO(Dave) create an interface for props and maybe not drill the static load through here
 export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
-  // Get app level config
-  const { disablePagination, explorerTitle, summaryConfig } = config();
-
-  // Get the useReducer state and dispatch for "Explore"
-  const { exploreDispatch, exploreState } = useContext(ExploreStateContext);
-
-  const { categoryViews, sortState, tabValue } = exploreState;
+  const { explorerTitle, summaryConfig } = config(); // Get app level config.
+  const { exploreDispatch, exploreState } = useContext(ExploreStateContext); // Get the useReducer state and dispatch for "Explore".
+  const { categoryViews, isRelatedView, tabValue } = exploreState;
+  const entityConfig = getEntityConfig(tabValue); // Entity config.
   const { push } = useRouter();
-  const { list, listView, staticLoad } = getEntityConfig(tabValue);
-
-  const { columns: columnsConfig } = list;
   const tabs = getTabs();
   const { response: summaryResponse } = useSummary(); // Fetch summary.
-  //const { loading, pagination, response } = useEntityList(props); // Fetch entities.
   useEntityList(props); // Fetch entities.
+  useEntityListRelatedView(); // Fetch related entities.
   const { entityListType } = props;
 
   /**
@@ -83,75 +78,19 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
     }
   }, [entityListType, exploreDispatch]);
 
-  /**
-   * Render either a loading view, empty result set notification or the table itself.
-   * @param exploreState - ExploreView responses from Azul, such as projects (index/projects), samples (index/samples) and files (index/files).
-   * @returns Element to render.
-   */
-  const renderContent = (exploreState: ExploreState): JSX.Element => {
-    if (!exploreState || !tabValue) {
-      return <></>; //TODO: return the loading UI component
-    }
-
-    if (entityListType !== tabValue) {
-      // required currently for static load site as the pre-rendered page
-      // loads with the previous tabs data on the first render after switching tabs. (or similar)
-      //console.log("Entity list type != tab value", entityListType, tabValue);
-      return <></>; // TODO(Fran) review loading and return.
-    }
-
-    if (
-      !exploreState.loading &&
-      (!exploreState.listItems || exploreState.listItems.length === 0)
-    ) {
-      return (
-        <NoResults
-          // actions={
-          //   <>
-          //     <ButtonPrimary
-          //       onClick={(): void => console.log("Remove last filter")} // TODO create "remove last filter" function
-          //     >
-          //       Remove last filter
-          //     </ButtonPrimary>
-          //     <ButtonSecondary
-          //       onClick={(): void => console.log("Clear all filters")} // TODO create "clear all filters" function
-          //     >
-          //       Clear all filters
-          //     </ButtonSecondary>
-          //   </>
-          // }
-          title={"No Results found"}
-        />
-      );
-    }
-
-    return (
-      <TableCreator
-        columns={columnsConfig}
-        exploreState={exploreState}
-        items={exploreState.listItems ?? []}
-        listView={listView}
-        pageSize={exploreState.paginationState.pageSize}
-        total={exploreState.paginationState.rows}
-        pagination={undefined}
-        sort={sortState}
-        pages={exploreState.paginationState.pages}
-        loading={exploreState.loading}
-        staticallyLoaded={staticLoad}
-        disablePagination={disablePagination}
-      />
-    );
-  };
-
   return (
     <>
       {categoryViews && !!categoryViews.length && (
         <Sidebar Label={<SidebarLabel label={"Filters"} />}>
-          <Filters categoryViews={categoryViews} onFilter={onFilterChange} />
+          <Filters
+            categoryViews={categoryViews}
+            disabled={isRelatedView}
+            onFilter={onFilterChange}
+          />
         </Sidebar>
       )}
       <IndexView
-        entities={renderContent(exploreState)}
+        entities={renderEntities(exploreState, entityConfig, entityListType)}
         Summaries={renderSummary(exploreState, summaryConfig, summaryResponse)}
         Tabs={<Tabs onTabChange={onTabChange} tabs={tabs} value={tabValue} />}
         title={explorerTitle}
@@ -161,11 +100,87 @@ export const ExploreView = (props: AzulEntitiesStaticResponse): JSX.Element => {
 };
 
 /**
+ * Render either a loading view, empty result set notification or the table itself.
+ * @param exploreState - ExploreView responses from Azul, such as projects (index/projects), samples (index/samples) and files (index/files).
+ * @param entityConfig - Entity configuration.
+ * @param entityListType - Entity list type.
+ * @returns rendered Table component.
+ */
+function renderEntities(
+  exploreState: ExploreState,
+  entityConfig: EntityConfig,
+  entityListType: string
+): JSX.Element {
+  const {
+    isRelatedView,
+    listItems,
+    loading,
+    paginationState,
+    relatedListItems,
+    sortState,
+    tabValue,
+  } = exploreState;
+  const { list, listView, staticLoad } = entityConfig;
+  const { columns: columnsConfig } = list;
+  const { disablePagination = false } = listView || {};
+
+  if (!exploreState || !tabValue) {
+    return <></>; //TODO: return the loading UI component
+  }
+
+  if (entityListType !== tabValue) {
+    // required currently for static load site as the pre-rendered page
+    // loads with the previous tabs data on the first render after switching tabs. (or similar)
+    //console.log("Entity list type != tab value", entityListType, tabValue);
+    return <></>; // TODO(Fran) review loading and return.
+  }
+
+  if (!loading && (!listItems || listItems.length === 0)) {
+    return (
+      <NoResults
+        // actions={
+        //   <>
+        //     <ButtonPrimary
+        //       onClick={(): void => console.log("Remove last filter")} // TODO create "remove last filter" function
+        //     >
+        //       Remove last filter
+        //     </ButtonPrimary>
+        //     <ButtonSecondary
+        //       onClick={(): void => console.log("Clear all filters")} // TODO create "clear all filters" function
+        //     >
+        //       Clear all filters
+        //     </ButtonSecondary>
+        //   </>
+        // }
+        title={"No Results found"}
+      />
+    );
+  }
+
+  return (
+    <TableCreator
+      columns={columnsConfig}
+      disablePagination={disablePagination}
+      items={
+        isRelatedView && relatedListItems ? relatedListItems : listItems ?? []
+      }
+      loading={loading}
+      pages={paginationState.pages}
+      pageSize={paginationState.pageSize}
+      pagination={undefined}
+      sort={sortState}
+      staticallyLoaded={staticLoad}
+      total={paginationState.rows}
+    />
+  );
+}
+
+/**
  * Renders Summaries component when all the following requirements are fulfilled:
  * - defined summary config,
  * - valid summary response, and
  * - defined summaries transformed from the given summary response.
- * @param exploreState - the application global state
+ * @param exploreState - Global state.
  * @param summaryConfig - Summary config.
  * @param summaryResponse - Response model return from summary API.
  * @returns rendered Summaries component.

@@ -54,10 +54,13 @@ export const ExploreStateContext = createContext<IExploreStateContext>({
   exploreState: {
     categoryViews: [],
     filterState: [],
+    isRelatedView: false,
     listItems: [],
     listStaticLoad: false,
+    listView: undefined,
     loading: false,
     paginationState: defaultPaginationState,
+    relatedListItems: undefined,
     sortState: {
       sortKey: getDefaultSort(getEntityConfig(defaultEntity)) ?? "",
       sortOrder: "asc",
@@ -86,10 +89,13 @@ export function ExploreStateProvider({
   const [exploreState, exploreDispatch] = useReducer(exploreReducer, {
     categoryViews: [],
     filterState: [],
+    isRelatedView: false,
     listItems: [],
     listStaticLoad: getEntityConfig(entityListType).staticLoad ?? false,
+    listView: EntityView.EXACT,
     loading: true,
     paginationState: defaultPaginationState,
+    relatedListItems: undefined,
     sortState: {
       sortKey: getDefaultSort(getEntityConfig(entityListType)) ?? "", // TODO remove ??
       sortOrder: "asc",
@@ -103,6 +109,14 @@ export function ExploreStateProvider({
     </ExploreStateContext.Provider>
   );
 }
+
+export enum EntityView {
+  EXACT = "EXACT",
+  RELATED = "RELATED",
+}
+
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any -- TODO revisit when adding react query or similar
+export type ListItems = any[] | undefined;
 
 export interface PaginationIndex {
   type: AzulSearchIndex;
@@ -127,9 +141,15 @@ export interface PaginationResponse {
   rows: number;
 }
 
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any -- TODO revisit when adding react query or similar
+export type RelatedListItems = any[] | undefined;
+
+export interface RelatedResponse {
+  relatedListItems: RelatedListItems;
+}
+
 export interface ExploreResponse {
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any -- TODO revisit when adding reqct query or similar
-  listItems: any[] | undefined;
+  listItems: ListItems;
   loading: boolean;
   paginationResponse: PaginationResponse;
   selectCategories: SelectCategory[];
@@ -138,11 +158,13 @@ export interface ExploreResponse {
 export type ExploreState = {
   categoryViews: SelectCategory[];
   filterState: SelectedFilter[];
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any -- TODO revisit when adding reqct query or similar
-  listItems: any[] | undefined;
+  isRelatedView: boolean;
+  listItems: ListItems;
   listStaticLoad: boolean;
+  listView: EntityView | undefined;
   loading: boolean;
   paginationState: PaginationState;
+  relatedListItems: RelatedListItems;
   sortState: Sort;
   tabValue: string;
 };
@@ -152,17 +174,21 @@ export enum ExploreActionKind {
   FlipSortOrder = "FLIP_SORT_ORDER",
   PaginateTable = "PAGINATE_TABLE",
   ProcessExploreResponse = "PROCESS_EXPLORE_RESPONSE",
+  ProcessRelatedResponse = "PROCESS_RELATED_RESPONSE",
   SelectEntityType = "SELECT_ENTITY_TYPE",
   SetSortKey = "SET_SORT_KEY",
+  ToggleEntityView = "TOGGLE_ENTITY_VIEW",
   UpdateFilter = "UPDATE_FILTER",
 }
 
 type ExploreAction =
   | PaginateTableAction
   | ProcessExploreResponseAction
+  | ProcessRelatedResponseAction
   | SelectEntityTypeAction
   | SetSortKeyAction
   | SetSortOrderAction
+  | ToggleEntityView
   | UpdateFilterAction;
 
 type PaginateTableAction = {
@@ -173,6 +199,11 @@ type PaginateTableAction = {
 type ProcessExploreResponseAction = {
   payload: ExploreResponse;
   type: ExploreActionKind.ProcessExploreResponse;
+};
+
+type ProcessRelatedResponseAction = {
+  payload: RelatedResponse;
+  type: ExploreActionKind.ProcessRelatedResponse;
 };
 
 type SelectEntityTypeAction = {
@@ -188,6 +219,11 @@ type SetSortKeyAction = {
 type SetSortOrderAction = {
   payload: SortOrderType;
   type: ExploreActionKind.FlipSortOrder;
+};
+
+type ToggleEntityView = {
+  payload: EntityView;
+  type: ExploreActionKind.ToggleEntityView;
 };
 
 type UpdateFilterAction = {
@@ -255,8 +291,7 @@ function exploreReducer(
      * Process explore response
      **/
     case ExploreActionKind.ProcessExploreResponse: {
-      // eslint-disable-next-line  @typescript-eslint/no-explicit-any -- TODO revisit when adding reqct query or similar
-      let listItems: any[] | undefined = [];
+      let listItems: ListItems = [];
       if (!payload.loading) {
         listItems = payload.listItems;
       }
@@ -278,6 +313,15 @@ function exploreReducer(
           previousIndex: payload.paginationResponse.previousIndex,
           rows: payload.paginationResponse.rows,
         },
+      };
+    }
+    /**
+     * Process related response
+     */
+    case ExploreActionKind.ProcessRelatedResponse: {
+      return {
+        ...state,
+        relatedListItems: payload.relatedListItems,
       };
     }
     /**
@@ -317,6 +361,16 @@ function exploreReducer(
         ...state,
         paginationState: resetPage(state.paginationState),
         sortState: nextSort,
+      };
+    }
+    /**
+     * Toggle entity view
+     */
+    case ExploreActionKind.ToggleEntityView: {
+      return {
+        ...state,
+        isRelatedView: payload === EntityView.RELATED,
+        listView: payload,
       };
     }
     /**

@@ -1,12 +1,18 @@
 import { ThemeOptions } from "@mui/material";
 import { Footer, Header } from "app/components/Layout/common/entities";
 import { JSXElementConstructor } from "react";
+import { SelectedFilterValue } from "../../apis/azul/common/entities";
 import { ExploreState } from "../../common/context/exploreState";
+import { CategoryKey } from "../../common/entities";
 import { HeroTitle } from "../../components/common/Title/title";
-import { ToggleButton } from "../../components/common/ToggleButtonGroup/toggleButtonGroup";
 
 type GetIdFunction<T> = (detail: T) => string;
 type EntityImportMapper<I, D> = (input: I) => D;
+type RelatedSearchFunction = (
+  searchKey: CategoryKey | undefined,
+  resultKey: CategoryKey | undefined,
+  selectedCategoryValues: SelectedFilterValue | undefined
+) => Promise<RelatedSearchResult | undefined>;
 
 /**
  * Model of category configured in site config.
@@ -100,7 +106,7 @@ export interface BackPageConfig {
  */
 export interface BackPageTabConfig extends TabConfig {
   mainColumn: ComponentsConfig;
-  sideColumn: ComponentsConfig;
+  sideColumn?: ComponentsConfig;
 }
 
 /**
@@ -129,10 +135,29 @@ export interface ColumnConfig<
 }
 
 /**
- * Interface to define the entity list toggle button for switching between "views".
+ * Product of the related search function.
+ */
+export interface RelatedSearchResult {
+  resultKey: CategoryKey; // The related search function resultant search values' category key.
+  searchKey: CategoryKey; // The related search function search parameters' category key.
+  values: string[]; // Resultant search values.
+}
+
+/**
+ * Related view configuration.
+ */
+export interface RelatedViewConfig {
+  relatedSearchFn: RelatedSearchFunction;
+  resultKey: CategoryKey; // The related search function resultant search values' category key.
+  searchKey: CategoryKey; // The related search function search parameters' category key.
+}
+
+/**
+ * List view configuration.
  */
 export interface ListViewConfig {
-  toggleButtons: ToggleButton[];
+  disablePagination?: boolean;
+  relatedView?: RelatedViewConfig;
 }
 
 export interface GoogleGISAuthConfig {
@@ -196,7 +221,6 @@ export interface SiteConfig {
   browserURL: string;
   categoryConfigs?: CategoryConfig[];
   dataSource: DataSourceConfig;
-  disablePagination?: boolean;
   entities: EntityConfig[];
   explorerTitle: HeroTitle;
   export?: BackPageConfig;

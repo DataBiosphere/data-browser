@@ -1,34 +1,12 @@
 import { parseContentRows, readFile } from "../../app/utils/tsvParser";
-import { DbGapStudy, getStudy } from "../common/dbGaP";
 import { writeAsJSON } from "../common/utils";
 import { buildNCPICatalogPlatforms } from "./build-plaftorms";
+import { buildNCPIPlatformStudies } from "./build-platform-studies";
+import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE, tsvPath } from "./constants";
+import { NCPIPlatformStudy } from "./entities";
 
 console.log("Building NCPI Catalog Data");
 export {};
-
-const tsvPath = "ncpi-catalog/files/dashboard-source-ncpi.tsv";
-
-const SOURCE_HEADER_KEY = {
-  DB_GAP_ID: "identifier",
-  PLATFORM: "platform",
-};
-const SOURCE_FIELD_KEY = {
-  [SOURCE_HEADER_KEY.DB_GAP_ID]: "dbGapId",
-  [SOURCE_HEADER_KEY.PLATFORM]: "platform",
-};
-const SOURCE_FIELD_TYPE = {
-  [SOURCE_HEADER_KEY.DB_GAP_ID]: "string",
-  [SOURCE_HEADER_KEY.PLATFORM]: "string",
-};
-
-export interface NCPIPlatformStudyStub {
-  dbGapId: string;
-  platform: string;
-}
-
-export interface NCPIStudy extends DbGapStudy {
-  platforms: string[];
-}
 
 /**
  * Returns the NCPI dashboard studies.
@@ -45,7 +23,7 @@ async function buildCatalog(): Promise<void> {
     "\t",
     SOURCE_FIELD_KEY,
     SOURCE_FIELD_TYPE
-  )) as NCPIPlatformStudyStub[];
+  )) as NCPIPlatformStudy[];
 
   const ncpiPlatformStudies = await buildNCPIPlatformStudies(
     platformStudyStubs
@@ -62,52 +40,6 @@ async function buildCatalog(): Promise<void> {
     "ncpi-catalog/out/ncpi-platforms.json",
     Object.fromEntries(ncpiCatalogPlatforms.entries())
   );
-}
-
-export async function buildNCPIPlatformStudies(
-  platformStudyStubs: NCPIPlatformStudyStub[]
-): Promise<NCPIStudy[]> {
-  const ncpiStudies: NCPIStudy[] = [];
-  const studiesById: Map<string, NCPIStudy> = new Map();
-
-  // build workspaces
-  for (const stub of platformStudyStubs) {
-    const study = await getStudy(stub.dbGapId);
-    /* Continue when the study is incomplete. */
-
-    if (!study || !isStudyFieldsComplete(study)) {
-      continue;
-    }
-
-    // If a study with this ID has been seen already, add the platform to that existing object
-    const existingPlatforms = studiesById.get(study.dbGapId)?.platforms;
-    if (existingPlatforms) {
-      if (!existingPlatforms.includes(stub.platform)) {
-        existingPlatforms.push(stub.platform);
-      }
-      continue;
-    }
-
-    const ncpiStudy = {
-      ...study,
-      platforms: [stub.platform],
-    };
-
-    studiesById.set(study.dbGapId, ncpiStudy);
-    ncpiStudies.push(ncpiStudy);
-    console.log(ncpiStudy.dbGapId, ncpiStudy.title);
-  }
-  return ncpiStudies;
-}
-
-/**
- * Returns true if the study has a valid study name and subjects total.
- *
- * @param study - a dbGaP study
- * @returns true if the study is "complete" meaning it has at least a title and subjects
- */
-function isStudyFieldsComplete(study: DbGapStudy): boolean {
-  return !!(study.title && study.participantCount);
 }
 
 buildCatalog();

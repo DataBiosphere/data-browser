@@ -1,4 +1,4 @@
-import { NCPIStudy } from "../../../../../files/ncpi-catalog/build-ncpi-catalog";
+import { NCPIStudy } from "../../../../../files/ncpi-catalog/entities";
 import {
   sanitizeString,
   sanitizeStringArray,

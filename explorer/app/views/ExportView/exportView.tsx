@@ -14,7 +14,11 @@ export const ExportView = (props: AzulEntityStaticResponse): JSX.Element => {
   return (
     <BackPageView
       mainColumn={<ComponentCreator components={mainColumn} response={props} />}
-      sideColumn={<ComponentCreator components={sideColumn} response={props} />}
+      sideColumn={
+        sideColumn ? (
+          <ComponentCreator components={sideColumn} response={props} />
+        ) : undefined
+      }
       top={<ComponentCreator components={top} response={props} />}
     />
   );

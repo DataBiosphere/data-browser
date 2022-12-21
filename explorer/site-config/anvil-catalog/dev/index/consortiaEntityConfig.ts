@@ -129,6 +129,9 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
       },
     ],
   } as ListConfig<AnVILCatalogConsortium>,
+  listView: {
+    disablePagination: true,
+  },
   route: "consortia",
   staticEntityImportMapper: anvilCatalogConsortiumInputMapper,
   staticLoad: true,

@@ -45,7 +45,6 @@ const config: SiteConfig = {
       label: "Consent Code",
     },
   ],
-  disablePagination: true,
   entities: [studiesEntityConfig, platformsEntityConfig],
   explorerTitle: "NCPI Dataset Catalog",
   layout: {

@@ -41,7 +41,6 @@ const config: SiteConfig = {
       label: "Terra Workspace Name",
     },
   ],
-  disablePagination: true,
   entities: [studiesEntityConfig, workspaceEntityConfig, consortiaEntityConfig],
   explorerTitle: "AnVIL Dataset Catalog",
   redirectRootToPath: "/studies",

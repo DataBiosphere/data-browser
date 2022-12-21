@@ -1,16 +1,19 @@
-/**
- * Response from Dug API call
- */
+import { NCPICatalogStudy } from "../../ncpi-catalog/common/entities";
 
-export interface DugVariableResponse {
-  result: DugDbGapResponse;
+export interface DugSearchResponse {
+  result: DugSearchResultResponse;
   status: string;
 }
 
-export interface DugDbGapResponse {
-  DBGapId: DugVariableResponseElement[];
+export interface DugSearchResultResponse {
+  AnVIL: DugDbGapIdResultResponse[];
+  DBGapId: DugDbGapIdResultResponse[];
 }
 
-export interface DugVariableResponseElement {
-  "dbGap Id": string;
+export interface DugDbGapIdResultResponse {
+  c_id: string;
+}
+
+export interface DugCatalogStudy extends NCPICatalogStudy {
+  relatedStudies?: DugCatalogStudy[];
 }

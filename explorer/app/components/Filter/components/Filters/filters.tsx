@@ -10,6 +10,7 @@ import { Filters as FilterList } from "./filters.styles";
 
 interface Props {
   categoryViews: SelectCategoryView[];
+  disabled: boolean; // Global disabling of filters; typically in "related" entity view.
   onFilter: OnFilterFn;
 }
 
@@ -77,9 +78,13 @@ function renderFilterTarget(
   return <FilterLabel disabled={isDisabled} label={label} {...props} />;
 }
 
-export const Filters = ({ categoryViews, onFilter }: Props): JSX.Element => {
+export const Filters = ({
+  categoryViews,
+  disabled = false, // Global disabling of filters; typically in "related" entity view.
+  onFilter,
+}: Props): JSX.Element => {
   return (
-    <FilterList>
+    <FilterList disabled={disabled}>
       {categoryViews.map((categoryView) => (
         <Filter
           content={renderFilterMenu(categoryView, onFilter)}

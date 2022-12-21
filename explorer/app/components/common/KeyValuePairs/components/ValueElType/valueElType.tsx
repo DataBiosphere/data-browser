@@ -8,6 +8,13 @@ interface Props {
   children: ReactNode;
 }
 
-export const ValueElType = ({ children }: Props): JSX.Element => {
-  return <Typography variant="text-body-400-2lines">{children}</Typography>;
+export const ValueElType = ({
+  children,
+  ...props /* Spread props to allow for Typography specific prop overrides e.g. "variant". */
+}: Props): JSX.Element => {
+  return (
+    <Typography variant="text-body-400-2lines" {...props}>
+      {children}
+    </Typography>
+  );
 };

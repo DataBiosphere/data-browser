@@ -4,7 +4,7 @@ import { BackPageView } from "../Layout/components/BackPage/backPageView";
 interface Props {
   isDetailOverview?: boolean;
   mainColumn: ReactNode;
-  sideColumn: ReactNode;
+  sideColumn?: ReactNode;
   Tabs?: ReactNode;
   top: ReactNode;
 }

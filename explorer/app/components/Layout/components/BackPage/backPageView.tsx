@@ -3,6 +3,7 @@ import {
   BackPageContent,
   BackPageContentMainColumn,
   BackPageContentSideColumn,
+  BackPageContentSingleColumn,
   BackPageHero,
   BackPageTabs,
   BackPageView as BackPageLayout,
@@ -14,7 +15,7 @@ import {
 interface Props {
   isDetailOverview?: boolean;
   mainColumn: ReactNode;
-  sideColumn: ReactNode;
+  sideColumn?: ReactNode;
   Tabs?: ReactNode;
   top: ReactNode;
 }
@@ -31,7 +32,9 @@ export const BackPageView = ({
     : BackPageContent;
   const MainColumn = isDetailOverview
     ? DetailPageOverviewContentMainColumn
-    : BackPageContentMainColumn;
+    : sideColumn
+    ? BackPageContentMainColumn
+    : BackPageContentSingleColumn;
   const SideColumn = isDetailOverview
     ? DetailPageOverviewContentSideColumn
     : BackPageContentSideColumn;
@@ -41,7 +44,7 @@ export const BackPageView = ({
       {Tabs && <BackPageTabs>{Tabs}</BackPageTabs>}
       <Content>
         <MainColumn>{mainColumn}</MainColumn>
-        <SideColumn>{sideColumn}</SideColumn>
+        {sideColumn && <SideColumn>{sideColumn}</SideColumn>}
       </Content>
     </BackPageLayout>
   );

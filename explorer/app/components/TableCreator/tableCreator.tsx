@@ -3,11 +3,9 @@ import {
   ColumnConfig,
   GridTrackMinMax,
   GridTrackSize,
-  ListViewConfig,
 } from "app/config/common/entities";
 import { useEditColumns } from "app/hooks/useEditColumns";
 import React, { useMemo } from "react";
-import { ExploreState } from "../../common/context/exploreState";
 import { Pagination, Sort } from "../../common/entities";
 import { ComponentCreator } from "../ComponentCreator/ComponentCreator";
 import { Loading } from "../Loading/loading";
@@ -17,9 +15,7 @@ import { Table } from "../Table/table";
 interface TableCreatorProps<T> {
   columns: ColumnConfig<T>[];
   disablePagination?: boolean;
-  exploreState: ExploreState;
   items: T[];
-  listView?: ListViewConfig;
   loading?: boolean;
   pageCount?: number;
   pages: number;
@@ -73,7 +69,6 @@ export const TableCreator = <T extends object>({
   columns,
   disablePagination,
   items,
-  listView,
   loading,
   pageCount,
   pages,
@@ -104,19 +99,18 @@ export const TableCreator = <T extends object>({
       <Loading loading={loading || false} />
       <Table<T>
         columns={reactVisibleColumns}
+        count={pageCount}
         disablePagination={disablePagination}
         editColumns={editColumns}
         gridTemplateColumns={gridTemplateColumns}
         items={items}
-        listView={listView}
+        loading={loading}
         pages={pages}
         pageSize={pageSize}
         pagination={pagination}
         sort={sort}
-        total={total}
-        count={pageCount}
-        loading={loading}
         staticallyLoaded={staticallyLoaded}
+        total={total}
       />
     </div>
   );
