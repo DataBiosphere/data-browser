@@ -18,10 +18,12 @@ export const useEditColumns = (columns: ColumnConfig[]) => {
 
   const readOnlyColumns = defaultColumns.map(({ header }) => header);
   const selectedColumns = visibleColumns.map(({ header }) => header);
-  const columnsOptions = columns.map(({ header }) => ({
-    id: header,
-    label: header,
-  }));
+  const columnsOptions = columns
+    .filter(({ editable = true }) => editable) // Default is to show all columns, unless the column config "editable" is specified otherwise.
+    .map(({ header }) => ({
+      id: header,
+      label: header,
+    }));
 
   const handleVisibleColumnsChanged = useCallback(
     (columnId: string) => {

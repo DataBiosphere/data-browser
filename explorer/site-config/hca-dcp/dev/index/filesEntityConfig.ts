@@ -36,6 +36,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           component: Components.AzulFileDownload,
           viewBuilder: filesBuildFileDownload,
         } as ComponentConfig<typeof Components.AzulFileDownload>,
+        editable: false,
         header: " ",
         width: "auto",
       },

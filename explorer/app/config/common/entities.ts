@@ -124,8 +124,9 @@ export interface ColumnConfig<
   C extends keyof JSX.IntrinsicElements | JSXElementConstructor<any> = any
 > {
   componentConfig: ComponentConfig<C, T>;
+  editable?: boolean; // Determines editability of column via "Edit Columns" functionality (default is "true").
   header: string;
-  hiddenColumn?: boolean; //TODO rename to hidded by default or similar
+  hiddenColumn?: boolean; //TODO rename to hidden by default or similar
   sort: {
     default?: boolean;
     sortKey: string;
