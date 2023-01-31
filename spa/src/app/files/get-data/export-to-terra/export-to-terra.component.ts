@@ -133,6 +133,15 @@ export class ExportToTerraComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if the atlas for the current environment is LungMAP.
+     *
+     * @returns {boolean}
+     */
+    public isAtlasLungMAP(): boolean {
+        return this.configService.isAtlasLungMAP();
+    }
+
+    /**
      * Returns true if export to Terra request has been completed.
      *
      * @param {ExportToTerraStatus} status

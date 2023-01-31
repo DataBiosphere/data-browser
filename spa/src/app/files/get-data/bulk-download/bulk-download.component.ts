@@ -77,6 +77,15 @@ export class BulkDownloadComponent
     }
 
     /**
+     * Returns true if the atlas for the current environment is LungMAP.
+     *
+     * @returns {boolean}
+     */
+    public isAtlasLungMAP(): boolean {
+        return this.configService.isAtlasLungMAP();
+    }
+
+    /**
      * Returns true if bulk download request form is valid. That is, at least one file format as well as the operating
      * system (for the curl command) are selected.
      *
