@@ -285,6 +285,16 @@ export class ConfigService {
         return this.getAtlas() === AtlasName.HCA;
     }
 
+
+    /**
+     * Returns true if the atlas for the current environment is LungMAP.
+     *
+     * @returns {boolean}
+     */
+    public isAtlasLungMAP(): boolean {
+        return this.getAtlas() === AtlasName.LUNGMAP;
+    }
+
     /**
      * Returns true if auth is enabled. Auth is currently only enabled in dev.
      */
