@@ -4,8 +4,13 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
+  SORT_DIRECTION,
 } from "../../../../app/config/common/entities";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import {
+  ANVIL_CMG_CATEGORY_KEY,
+  ANVIL_CMG_CATEGORY_LABEL,
+} from "../../category";
 
 /**
  * Entity config object responsible for config related to the /explore/files route.
@@ -26,8 +31,10 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           component: Components.AzulFileDownload,
           viewBuilder: ViewBuilder.buildFileDownload,
         } as ComponentConfig<typeof Components.AzulFileDownload>,
+        disableSorting: true,
         editable: false,
-        header: " ",
+        header: ANVIL_CMG_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
+        id: ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD,
         width: "auto",
       },
       {
@@ -35,11 +42,8 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildFileName,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Name",
-        sort: {
-          default: true,
-          sortKey: "files.file_name",
-        },
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_NAME,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_NAME,
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -48,9 +52,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           viewBuilder: ViewBuilder.buildFileFormat,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Format",
-        sort: {
-          sortKey: "files.file_format",
-        },
+        id: "files.file_format",
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -59,9 +61,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           viewBuilder: ViewBuilder.buildFileSize,
         } as ComponentConfig<typeof Components.Cell>,
         header: "Size",
-        sort: {
-          sortKey: "files.file_size",
-        },
+        id: "files.file_size",
         width: { max: "1fr", min: "120px" },
       },
       // { //TODO remove builders etc.
@@ -70,9 +70,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       //     viewBuilder: ViewBuilder.buildFileType,
       //   } as ComponentConfig<typeof Components.Cell>,
       //   header: "File Type",
-      //   sort: {
-      //     sortKey: "files.file_type",
-      //   },
+      //   id: "files.file_type",
       //   width: { max: "1fr", min: "120px" },
       // },
       {
@@ -81,9 +79,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           viewBuilder: ViewBuilder.buildFileDataModality,
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Data Modality",
-        sort: {
-          sortKey: "activities.data_modality",
-        },
+        id: "activities.data_modality",
         width: { max: "1fr", min: "240px" },
       },
       {
@@ -92,12 +88,14 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           viewBuilder: ViewBuilder.buildDatasetTitles,
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Dataset",
-        sort: {
-          sortKey: "datasets.title",
-        },
+        id: "datasets.title",
         width: { max: "2fr", min: "240px" },
       },
     ],
+    defaultSort: {
+      desc: SORT_DIRECTION.ASCENDING,
+      id: ANVIL_CMG_CATEGORY_KEY.FILE_NAME,
+    },
   } as ListConfig<FilesResponse>,
   route: "files",
   staticLoad: false,

@@ -4,6 +4,7 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
+  SORT_DIRECTION,
 } from "../../../../app/config/common/entities";
 import {
   projectsBuildDevelopmentStage,
@@ -16,7 +17,7 @@ import {
   samplesBuildSampleType,
   samplesBuildSpecies,
 } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { HCADCP_FILTER_CATEGORY_KEYS } from "../../filter-category-keys";
+import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../../category";
 
 /**
  * Entity config object responsible to config anything related to the /explore/samples route.
@@ -37,11 +38,8 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
           component: Components.Cell,
           viewBuilder: samplesBuildSampleId,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Sample ID",
-        sort: {
-          default: true,
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.SAMPLE_ID,
-        },
+        header: HCA_DCP_CATEGORY_LABEL.SAMPLE_ID,
+        id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -49,10 +47,8 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
           component: Components.Cell,
           viewBuilder: samplesBuildProjTitle,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Project Title",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.PROJECT_TITLE,
-        },
+        header: HCA_DCP_CATEGORY_LABEL.PROJECT_TITLE,
+        id: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
         width: { max: "2fr", min: "240px" },
       },
       {
@@ -60,10 +56,8 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
           component: Components.Cell,
           viewBuilder: samplesBuildSpecies,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Species",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.GENUS_SPECIES,
-        },
+        header: "Species", // TODO review header
+        id: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -71,10 +65,8 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
           component: Components.Cell,
           viewBuilder: samplesBuildSampleType,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Sample Type",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.SAMPLE_ENTITY_TYPE,
-        },
+        header: HCA_DCP_CATEGORY_LABEL.SAMPLE_TYPE,
+        id: HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE,
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -82,10 +74,8 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
           component: Components.NTagCell,
           viewBuilder: samplesBuildLibraryConstructionApproach,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Library Construction Approach",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.LIBRARY_CONSTRUCTION_APPROACH,
-        },
+        header: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
+        id: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -93,10 +83,8 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
           component: Components.NTagCell,
           viewBuilder: samplesBuildAnatomicalEntity,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Anatomical Entity",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.SPECIMEN_ORGAN,
-        },
+        header: HCA_DCP_CATEGORY_LABEL.ANATOMICAL_ENTITY,
+        id: HCA_DCP_CATEGORY_KEY.ANATOMICAL_ENTITY,
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -104,10 +92,8 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
           component: Components.NTagCell,
           viewBuilder: samplesBuildDiseaseDonor,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Disease (Donor)",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.DONOR_DISEASE,
-        },
+        header: "Disease (Donor)", // TODO confirm header
+        id: HCA_DCP_CATEGORY_KEY.DONOR_DISEASE,
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -115,10 +101,8 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
           component: Components.Cell,
           viewBuilder: samplesBuildCellCount,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Cell Count Estimate",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.CELL_COUNT,
-        },
+        header: HCA_DCP_CATEGORY_LABEL.CELL_COUNT,
+        id: HCA_DCP_CATEGORY_KEY.CELL_COUNT,
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -126,11 +110,17 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
           component: Components.Cell,
           viewBuilder: projectsBuildDevelopmentStage,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Development Stage",
+        disableSorting: true,
+        header: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,
         hiddenColumn: true,
+        id: HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE,
         width: { max: "1fr", min: "148px" },
       },
     ],
+    defaultSort: {
+      desc: SORT_DIRECTION.ASCENDING,
+      id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
+    },
   } as ListConfig<SamplesResponse>,
   route: "samples",
   staticLoad: false,

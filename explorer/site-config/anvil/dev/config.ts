@@ -9,6 +9,7 @@ import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
 import { authenticationConfig } from "./authentication/authentication";
+import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "./category";
 import { exportConfig } from "./export/export";
 import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
 import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
@@ -56,36 +57,36 @@ const config: SiteConfig = {
   browserURL: BROWSER_URL,
   categoryConfigs: [
     {
-      key: "biosample_type",
-      label: "BioSample Type",
+      key: ANVIL_CATEGORY_KEY.BIOSAMPLE_TYPE,
+      label: ANVIL_CATEGORY_LABEL.BIOSAMPLE_TYPE,
     },
     {
-      key: "data_modality",
-      label: "Data Modality",
+      key: ANVIL_CATEGORY_KEY.DATA_MODALITY,
+      label: ANVIL_CATEGORY_LABEL.DATA_MODALITY,
     },
     {
-      key: "file_format",
-      label: "File Format",
+      key: ANVIL_CATEGORY_KEY.FILE_FORMAT,
+      label: ANVIL_CATEGORY_LABEL.FILE_FORMAT,
     },
     {
-      key: "file_type",
-      label: "File Type",
+      key: ANVIL_CATEGORY_KEY.FILE_TYPE,
+      label: ANVIL_CATEGORY_LABEL.FILE_TYPE,
     },
     {
-      key: "organism_type",
-      label: "Organism Type",
+      key: ANVIL_CATEGORY_KEY.ORGANISM_TYPE,
+      label: ANVIL_CATEGORY_LABEL.ORGANISM_TYPE,
     },
     {
-      key: "phenotypic_sex",
-      label: "Phenotypic Sex",
+      key: ANVIL_CATEGORY_KEY.PHENOTYPIC_SEX,
+      label: ANVIL_CATEGORY_LABEL.PHENOTYPIC_SEX,
     },
     {
-      key: "prep_material_name",
-      label: "Library Preparation",
+      key: ANVIL_CATEGORY_KEY.LIBRARY_PREPARATION,
+      label: ANVIL_CATEGORY_LABEL.LIBRARY_PREPARATION,
     },
     {
-      key: "reported_ethnicity",
-      label: "Reported Ethnicity",
+      key: ANVIL_CATEGORY_KEY.REPORTED_ETHNICITY,
+      label: ANVIL_CATEGORY_LABEL.REPORTED_ETHNICITY,
     },
   ],
   dataSource: {

@@ -8,9 +8,13 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
+  SORT_DIRECTION,
 } from "../../../../app/config/common/entities";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
-import { ANVIL_CATALOG_FILTER_CATEGORY_KEYS } from "../../filter-category-keys";
+import {
+  ANVIL_CATALOG_CATEGORY_KEY,
+  ANVIL_CATALOG_CATEGORY_LABEL,
+} from "../../category";
 
 /**
  * Entity config object responsible to config anything related to the /explore/workspaces route.
@@ -31,11 +35,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildConsortium,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Consortium",
-        sort: {
-          default: true,
-          sortKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.CONSORTIUM,
-        },
+        header: ANVIL_CATALOG_CATEGORY_LABEL.CONSORTIUM,
+        id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -43,10 +44,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
           component: Components.Link,
           viewBuilder: ViewBuilder.buildTerraWorkspaceName,
         } as ComponentConfig<typeof Components.Link>,
-        header: "Terra Workspace",
-        sort: {
-          sortKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.WORKSPACE_NAME,
-        },
+        header: "Terra Workspace", // TODO revisit header
+        id: ANVIL_CATALOG_CATEGORY_KEY.WORKSPACE_NAME,
         width: { max: "1fr", min: "360px" },
       },
       {
@@ -54,10 +53,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
           component: Components.Link,
           viewBuilder: ViewBuilder.buildStudyName,
         } as ComponentConfig<typeof Components.Link>,
-        header: "Study",
-        sort: {
-          sortKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.STUDY_NAME,
-        },
+        header: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_NAME,
+        id: ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME,
         width: { max: "1fr", min: "360px" },
       },
       {
@@ -65,11 +62,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildDbGapId,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "dbGap Id",
-        sort: {
-          default: true,
-          sortKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.DB_GAP_ID,
-        },
+        header: ANVIL_CATALOG_CATEGORY_LABEL.DB_GAP_ID,
+        id: ANVIL_CATALOG_CATEGORY_KEY.DB_GAP_ID,
         width: { max: "1.24fr", min: "124px" },
       },
       {
@@ -77,11 +71,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildConsentCode,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Consent Code",
-        sort: {
-          default: true,
-          sortKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.CONSENT_CODE,
-        },
+        header: ANVIL_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
+        id: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
         width: { max: "1.6fr", min: "160px" },
       },
       {
@@ -89,10 +80,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDiseases,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Disease (indication)",
-        sort: {
-          sortKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.DISEASE,
-        },
+        header: ANVIL_CATALOG_CATEGORY_LABEL.DISEASE,
+        id: ANVIL_CATALOG_CATEGORY_KEY.DISEASE,
         width: { max: "1.6fr", min: "160px" },
       },
       {
@@ -100,10 +89,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDataTypes,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Data Type",
-        sort: {
-          sortKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.DATA_TYPE,
-        },
+        header: ANVIL_CATALOG_CATEGORY_LABEL.DATA_TYPE,
+        id: ANVIL_CATALOG_CATEGORY_KEY.DATA_TYPE,
         width: { max: "1.6fr", min: "160px" },
       },
       {
@@ -111,10 +98,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildStudyDesigns,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Study Design",
-        sort: {
-          sortKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.STUDY_DESIGN,
-        },
+        header: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_DESIGN,
+        id: ANVIL_CATALOG_CATEGORY_KEY.STUDY_DESIGN,
         width: { max: "1.6fr", min: "160px" },
       },
       {
@@ -122,13 +107,15 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildParticipantCount,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Participants",
-        sort: {
-          sortKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.PARTICIPANT_COUNT,
-        },
+        header: ANVIL_CATALOG_CATEGORY_LABEL.PARTICIPANT_COUNT,
+        id: ANVIL_CATALOG_CATEGORY_KEY.PARTICIPANT_COUNT,
         width: { max: "1.16fr", min: "116px" },
       },
     ],
+    defaultSort: {
+      desc: SORT_DIRECTION.ASCENDING,
+      id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+    },
   } as ListConfig<AnVILCatalogWorkspace>,
   listView: {
     disablePagination: true,

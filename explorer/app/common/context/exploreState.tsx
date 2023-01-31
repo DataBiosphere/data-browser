@@ -1,9 +1,15 @@
+import { ColumnSort } from "@tanstack/react-table";
 import { createContext, Dispatch, ReactNode, useReducer } from "react";
 import {
   AzulSearchIndex,
   SelectedFilter,
 } from "../../apis/azul/common/entities";
-import { config, getDefaultSort, getEntityConfig } from "../../config/config";
+import { SORT_DIRECTION } from "../../config/common/entities";
+import {
+  config,
+  getDefaultSortState,
+  getEntityConfig,
+} from "../../config/config";
 import {
   buildCategoryViews,
   buildNextFilterState,
@@ -13,8 +19,6 @@ import {
   CategoryValueKey,
   PaginationDirectionType,
   SelectCategory,
-  Sort,
-  SortOrderType,
 } from "../entities";
 
 /**
@@ -61,10 +65,7 @@ export const ExploreStateContext = createContext<IExploreStateContext>({
     loading: false,
     paginationState: defaultPaginationState,
     relatedListItems: undefined,
-    sortState: {
-      sortKey: getDefaultSort(getEntityConfig(defaultEntity)) ?? "",
-      sortOrder: "asc",
-    }, // TODO remove ??
+    sortState: getDefaultSortState(getEntityConfig(defaultEntity)),
     tabValue: defaultEntity,
   },
 });
@@ -96,10 +97,7 @@ export function ExploreStateProvider({
     loading: true,
     paginationState: defaultPaginationState,
     relatedListItems: undefined,
-    sortState: {
-      sortKey: getDefaultSort(getEntityConfig(entityListType)) ?? "", // TODO remove ??
-      sortOrder: "asc",
-    },
+    sortState: getDefaultSortState(getEntityConfig(entityListType)),
     tabValue: entityListType,
   });
 
@@ -165,7 +163,7 @@ export type ExploreState = {
   loading: boolean;
   paginationState: PaginationState;
   relatedListItems: RelatedListItems;
-  sortState: Sort;
+  sortState: ColumnSort | undefined; // TODO update sortState to ColumnSort[]?
   tabValue: string;
 };
 
@@ -212,12 +210,12 @@ type SelectEntityTypeAction = {
 };
 
 type SetSortKeyAction = {
-  payload: string;
+  payload: ColumnSort["id"];
   type: ExploreActionKind.SetSortKey;
 };
 
 type SetSortOrderAction = {
-  payload: SortOrderType;
+  payload: boolean;
   type: ExploreActionKind.FlipSortOrder;
 };
 
@@ -257,13 +255,11 @@ function exploreReducer(
      * Flip sort order
      **/
     case ExploreActionKind.FlipSortOrder: {
-      const nextSort: Sort = { ...state.sortState };
-      if (state.sortState.sortOrder == "asc") {
-        nextSort.sortOrder = "desc";
-      } else {
-        nextSort.sortOrder = "asc";
+      let nextSort;
+      if (state.sortState) {
+        nextSort = { ...state.sortState };
+        nextSort.desc = !state.sortState.desc;
       }
-
       return {
         ...state,
         paginationState: resetPage(state.paginationState),
@@ -331,11 +327,7 @@ function exploreReducer(
       if (payload === state.tabValue) {
         return state;
       }
-      const nextSort: Sort = {
-        sortKey: getDefaultSort(getEntityConfig(payload)),
-        sortOrder: "asc",
-      };
-
+      const nextSort = getDefaultSortState(getEntityConfig(payload));
       const { staticLoad } = getEntityConfig(payload);
       const listStaticLoad = staticLoad;
 
@@ -353,9 +345,9 @@ function exploreReducer(
      * Set sort key
      **/
     case ExploreActionKind.SetSortKey: {
-      const nextSort: Sort = {
-        sortKey: payload,
-        sortOrder: "asc",
+      const nextSort = {
+        desc: SORT_DIRECTION.ASCENDING,
+        id: payload,
       };
       return {
         ...state,

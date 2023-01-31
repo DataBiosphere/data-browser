@@ -4,8 +4,10 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
+  SORT_DIRECTION,
 } from "../../../../app/config/common/entities";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "../category";
 
 /**
  * Entity config object responsible for config related to the /explore/donors route.
@@ -26,11 +28,8 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildDonorId,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Donor Id",
-        sort: {
-          default: true,
-          sortKey: "donor_id",
-        },
+        header: ANVIL_CATEGORY_LABEL.DONOR_ID,
+        id: ANVIL_CATEGORY_KEY.DONOR_ID,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -38,10 +37,8 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildOrganismType,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Organism Type",
-        sort: {
-          sortKey: "organism_type",
-        },
+        header: ANVIL_CATEGORY_LABEL.ORGANISM_TYPE,
+        id: ANVIL_CATEGORY_KEY.ORGANISM_TYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -49,10 +46,8 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildPhenotypicSex,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Phenoypic Sex",
-        sort: {
-          sortKey: "phenotypic_sex",
-        },
+        header: ANVIL_CATEGORY_LABEL.PHENOTYPIC_SEX,
+        id: ANVIL_CATEGORY_KEY.PHENOTYPIC_SEX,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -60,10 +55,8 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildReportedEthnicity,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Reported Ethnicity",
-        sort: {
-          sortKey: "reported_ethnicity",
-        },
+        header: ANVIL_CATEGORY_LABEL.REPORTED_ETHNICITY,
+        id: ANVIL_CATEGORY_KEY.REPORTED_ETHNICITY,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -71,13 +64,15 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDatasetNames,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Dataset Name",
-        sort: {
-          sortKey: "title",
-        },
+        header: ANVIL_CATEGORY_LABEL.DATASET_NAME,
+        id: ANVIL_CATEGORY_KEY.DATASET_NAME,
         width: { max: "1fr", min: "200px" },
       },
     ],
+    defaultSort: {
+      desc: SORT_DIRECTION.ASCENDING,
+      id: ANVIL_CATEGORY_KEY.DONOR_ID,
+    },
   } as ListConfig<DonorsResponse>,
   route: "donors",
   staticLoad: false,

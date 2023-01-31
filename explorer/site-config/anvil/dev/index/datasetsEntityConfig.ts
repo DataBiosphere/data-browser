@@ -5,8 +5,10 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
+  SORT_DIRECTION,
 } from "../../../../app/config/common/entities";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "../category";
 import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
@@ -38,11 +40,8 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
           component: Components.Link,
           viewBuilder: ViewBuilder.buildDatasetName,
         } as ComponentConfig<typeof Components.Link>,
-        header: "Dataset Name",
-        sort: {
-          default: true,
-          sortKey: "title",
-        },
+        header: ANVIL_CATEGORY_LABEL.DATASET_NAME,
+        id: ANVIL_CATEGORY_KEY.DATASET_NAME,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -50,10 +49,8 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildOrganismTypes,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Organism Type",
-        sort: {
-          sortKey: "organism_type",
-        },
+        header: ANVIL_CATEGORY_LABEL.ORGANISM_TYPE,
+        id: ANVIL_CATEGORY_KEY.ORGANISM_TYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -61,10 +58,8 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildPhenotypicSexes,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Phenotypic Sex",
-        sort: {
-          sortKey: "phenotypic_sex",
-        },
+        header: ANVIL_CATEGORY_LABEL.PHENOTYPIC_SEX,
+        id: ANVIL_CATEGORY_KEY.PHENOTYPIC_SEX,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -72,10 +67,8 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildReportedEthnicities,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Reported Ethnicity",
-        sort: {
-          sortKey: "reported_ethnicity",
-        },
+        header: ANVIL_CATEGORY_LABEL.REPORTED_ETHNICITY,
+        id: ANVIL_CATEGORY_KEY.REPORTED_ETHNICITY,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -83,10 +76,8 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildPrepMaterialNames,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Library Preparation",
-        sort: {
-          sortKey: "prep_material_name",
-        },
+        header: ANVIL_CATEGORY_LABEL.LIBRARY_PREPARATION,
+        id: ANVIL_CATEGORY_KEY.LIBRARY_PREPARATION,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -94,14 +85,16 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDataModality,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Data Modality",
+        header: ANVIL_CATEGORY_LABEL.DATA_MODALITY,
         hiddenColumn: true,
-        sort: {
-          sortKey: "data_modality",
-        },
+        id: ANVIL_CATEGORY_KEY.DATA_MODALITY,
         width: { max: "1fr", min: "148px" },
       },
     ],
+    defaultSort: {
+      desc: SORT_DIRECTION.ASCENDING,
+      id: ANVIL_CATEGORY_KEY.DATASET_NAME,
+    },
   } as ListConfig<DatasetsResponse>,
   route: "datasets",
   staticLoad: false,

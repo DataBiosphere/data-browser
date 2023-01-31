@@ -1,6 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import React, { ReactElement } from "react";
-import { ANVIL_CATALOG_FILTER_CATEGORY_KEYS } from "../../../../../site-config/anvil-catalog/filter-category-keys";
+import {
+  ANVIL_CATALOG_CATEGORY_KEY,
+  ANVIL_CATALOG_CATEGORY_LABEL,
+} from "../../../../../site-config/anvil-catalog/category";
 import {
   AnVILCatalogConsortium,
   AnVILCatalogEntity,
@@ -329,11 +332,11 @@ export const buildTerraWorkspaceNames = (
 function buildTableColumns<T>(): ColumnDef<T>[] {
   return [
     {
-      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.CONSORTIUM,
-      header: "Consortium",
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+      header: ANVIL_CATALOG_CATEGORY_LABEL.CONSORTIUM,
     },
     {
-      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.WORKSPACE_NAME,
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.WORKSPACE_NAME,
       cell: ({ row: { original } }) =>
         C.Link(
           buildTerraWorkspaceName(original as unknown as AnVILCatalogWorkspace)
@@ -341,26 +344,26 @@ function buildTableColumns<T>(): ColumnDef<T>[] {
       header: "Terra Workspace",
     },
     {
-      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.CONSENT_CODE,
-      header: "Consent Code",
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
+      header: ANVIL_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
     },
     {
-      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.DISEASE,
-      header: "Disease (indication)",
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.DISEASE,
+      header: ANVIL_CATALOG_CATEGORY_LABEL.DISEASE,
     },
     {
-      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.DATA_TYPE,
-      header: "Data Type",
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.DATA_TYPE,
+      header: ANVIL_CATALOG_CATEGORY_LABEL.DATA_TYPE,
     },
     {
-      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.STUDY_DESIGN,
-      header: "Study Design",
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.STUDY_DESIGN,
+      header: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_DESIGN,
     },
     {
-      accessorKey: ANVIL_CATALOG_FILTER_CATEGORY_KEYS.PARTICIPANT_COUNT,
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.PARTICIPANT_COUNT,
       cell: ({ getValue }) =>
         (getValue() as unknown as number)?.toLocaleString(),
-      header: "Participants",
+      header: ANVIL_CATALOG_CATEGORY_LABEL.PARTICIPANT_COUNT,
     },
   ];
 }

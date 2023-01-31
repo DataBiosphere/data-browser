@@ -5,7 +5,7 @@ import { Social } from "../../../app/components/common/Socials/socials";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
 import { breakpointTablet } from "../../../app/theme/theme";
-import { HCADCP_FILTER_CATEGORY_KEYS } from "../filter-category-keys";
+import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
 import { exportConfig } from "./export/export";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
@@ -43,84 +43,84 @@ const config: SiteConfig = {
   browserURL: BROWSER_URL,
   categoryConfigs: [
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.SPECIMEN_ORGAN,
-      label: "Anatomical Entity",
+      key: HCA_DCP_CATEGORY_KEY.ANATOMICAL_ENTITY, // specimenOrgan
+      label: HCA_DCP_CATEGORY_LABEL.ANATOMICAL_ENTITY,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.BIOLOGICAL_SEX,
-      label: "Biological Sex",
+      key: HCA_DCP_CATEGORY_KEY.BIOLOGICAL_SEX,
+      label: HCA_DCP_CATEGORY_LABEL.BIOLOGICAL_SEX,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.CONTACT_NAME,
-      label: "Contact Name",
+      key: HCA_DCP_CATEGORY_KEY.CONTACT_NAME,
+      label: HCA_DCP_CATEGORY_LABEL.CONTACT_NAME,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.DEVELOPMENT_STAGE,
-      label: "Development Stage",
+      key: HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE,
+      label: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.GENUS_SPECIES,
-      label: "Genus Species",
+      key: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
+      label: HCA_DCP_CATEGORY_LABEL.GENUS_SPECIES,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.DONOR_DISEASE,
-      label: "Donor Disease",
+      key: HCA_DCP_CATEGORY_KEY.DONOR_DISEASE,
+      label: HCA_DCP_CATEGORY_LABEL.DONOR_DISEASE,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.INSTRUMENT_MANUFACTURER_MODEL,
-      label: "Instrument Manufacturer Model",
+      key: HCA_DCP_CATEGORY_KEY.INSTRUMENT_MANUFACTURER_MODEL,
+      label: HCA_DCP_CATEGORY_LABEL.INSTRUMENT_MANUFACTURER_MODEL,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.INSTITUTION,
-      label: "Institution",
+      key: HCA_DCP_CATEGORY_KEY.INSTITUTION,
+      label: HCA_DCP_CATEGORY_LABEL.INSTITUTION,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.LABORATORY,
-      label: "Laboratory",
+      key: HCA_DCP_CATEGORY_KEY.LABORATORY,
+      label: HCA_DCP_CATEGORY_LABEL.LABORATORY,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.MODEL_ORGAN,
-      label: "Model Organ",
+      key: HCA_DCP_CATEGORY_KEY.MODEL_ORGAN,
+      label: HCA_DCP_CATEGORY_LABEL.MODEL_ORGAN,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.NUCLEIC_ACID_SOURCE,
-      label: "Nucleic Acid Source",
+      key: HCA_DCP_CATEGORY_KEY.NUCLEIC_ACID_SOURCE,
+      label: HCA_DCP_CATEGORY_LABEL.NUCLEIC_ACID_SOURCE,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.ORGAN_PART,
-      label: "Organ Part",
+      key: HCA_DCP_CATEGORY_KEY.ORGAN_PART,
+      label: HCA_DCP_CATEGORY_LABEL.ORGAN_PART,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.PAIRED_END,
-      label: "Paired End",
+      key: HCA_DCP_CATEGORY_KEY.PAIRED_END,
+      label: HCA_DCP_CATEGORY_LABEL.PAIRED_END,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.PRESERVATION_METHOD,
-      label: "Preservation Method",
+      key: HCA_DCP_CATEGORY_KEY.PRESERVATION_METHOD,
+      label: HCA_DCP_CATEGORY_LABEL.PRESERVATION_METHOD,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.PUBLICATION_TITLE,
-      label: "Publication Title",
+      key: HCA_DCP_CATEGORY_KEY.PUBLICATION_TITLE,
+      label: HCA_DCP_CATEGORY_LABEL.PUBLICATION_TITLE,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.LIBRARY_CONSTRUCTION_APPROACH,
-      label: "Library Construction Method",
+      key: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
+      label: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.SPECIMEN_DISEASE,
-      label: "Specimen Disease",
+      key: HCA_DCP_CATEGORY_KEY.SPECIMEN_DISEASE,
+      label: HCA_DCP_CATEGORY_LABEL.SPECIMEN_DISEASE,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.SELECTED_CELL_TYPE,
-      label: "Selected Cell Type",
+      key: HCA_DCP_CATEGORY_KEY.SELECTED_CELL_TYPE,
+      label: HCA_DCP_CATEGORY_LABEL.SELECTED_CELL_TYPE,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.SAMPLE_TYPE,
-      label: "Sample Type",
+      key: HCA_DCP_CATEGORY_KEY.SAMPLE_TYPE,
+      label: HCA_DCP_CATEGORY_LABEL.SAMPLE_TYPE,
     },
     {
-      key: HCADCP_FILTER_CATEGORY_KEYS.WORKFLOW,
-      label: "Analysis Protocol",
+      key: HCA_DCP_CATEGORY_KEY.ANALYSIS_PROTOCOL, // workflow
+      label: HCA_DCP_CATEGORY_LABEL.ANALYSIS_PROTOCOL,
     },
   ],
   dataSource: {

@@ -1,6 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
-import { NCPI_CATALOG_FILTER_CATEGORY_KEYS } from "../../../../../site-config/ncpi-catalog/filter-category-keys";
+import {
+  NCPI_CATALOG_CATEGORY_KEY,
+  NCPI_CATALOG_CATEGORY_LABEL,
+} from "../../../../../site-config/ncpi-catalog/category";
 import { DugCatalogStudy } from "../../../../apis/catalog/ncpi-catalog-dug/common/entities";
 import * as C from "../../../../components";
 import {
@@ -68,17 +71,17 @@ function buildStudyTitle(
 function buildTableColumns<T>(): ColumnDef<T>[] {
   return [
     {
-      accessorKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.TITLE,
+      accessorKey: NCPI_CATALOG_CATEGORY_KEY.TITLE,
       cell: ({ row: { original } }) =>
         C.Link(buildStudyTitle(original as unknown as DugCatalogStudy)), // TODO revisit type assertion here
-      header: "Study Title",
+      header: "Study Title", // TODO revisit name
     },
     {
-      accessorKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.DB_GAP_ID,
-      header: "dbGap Id",
+      accessorKey: NCPI_CATALOG_CATEGORY_KEY.DB_GAP_ID,
+      header: NCPI_CATALOG_CATEGORY_LABEL.DB_GAP_ID,
     },
     {
-      accessorKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.DATA_TYPE,
+      accessorKey: NCPI_CATALOG_CATEGORY_KEY.DATA_TYPE,
       cell: ({ column, row }) =>
         C.NTagCell(
           buildNTagCellProps(
@@ -87,14 +90,14 @@ function buildTableColumns<T>(): ColumnDef<T>[] {
             METADATA_KEY.DATA_TYPE
           )
         ),
-      header: "Data Type",
+      header: NCPI_CATALOG_CATEGORY_LABEL.DATA_TYPE,
     },
     {
-      accessorKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.FOCUS,
-      header: "Focus",
+      accessorKey: NCPI_CATALOG_CATEGORY_KEY.FOCUS,
+      header: "Focus", // TODO revisit header
     },
     {
-      accessorKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.CONSENT_CODE,
+      accessorKey: NCPI_CATALOG_CATEGORY_KEY.CONSENT_CODE,
       cell: ({ column, row }) =>
         C.NTagCell(
           buildNTagCellProps(
@@ -103,17 +106,17 @@ function buildTableColumns<T>(): ColumnDef<T>[] {
             METADATA_KEY.CONSENT_CODE
           )
         ),
-      header: "Consent Code",
+      header: NCPI_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
     },
     {
-      accessorKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.STUDY_DESIGN,
-      header: "Study Design",
+      accessorKey: NCPI_CATALOG_CATEGORY_KEY.STUDY_DESIGN,
+      header: NCPI_CATALOG_CATEGORY_LABEL.STUDY_DESIGN,
     },
     {
-      accessorKey: NCPI_CATALOG_FILTER_CATEGORY_KEYS.PARTICIPANT_COUNT,
+      accessorKey: NCPI_CATALOG_CATEGORY_KEY.PARTICIPANT_COUNT,
       cell: ({ getValue }) =>
         (getValue() as unknown as number)?.toLocaleString(),
-      header: "Participants",
+      header: NCPI_CATALOG_CATEGORY_LABEL.PARTICIPANT_COUNT,
     },
   ];
 }

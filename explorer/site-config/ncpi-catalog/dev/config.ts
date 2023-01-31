@@ -2,7 +2,10 @@ import logoNcpi from "images/logoNcpi.svg";
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
 import anvilConfig from "../../anvil/dev/config";
-import { NCPI_CATALOG_FILTER_CATEGORY_KEYS } from "../filter-category-keys";
+import {
+  NCPI_CATALOG_CATEGORY_KEY,
+  NCPI_CATALOG_CATEGORY_LABEL,
+} from "../category";
 import { platformsEntityConfig } from "./index/platformsEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 
@@ -17,32 +20,32 @@ const config: SiteConfig = {
   ...basicConfig,
   categoryConfigs: [
     {
-      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.PLATFORM,
-      label: "Platform",
+      key: NCPI_CATALOG_CATEGORY_KEY.PLATFORM,
+      label: NCPI_CATALOG_CATEGORY_LABEL.PLATFORM,
     },
     {
-      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.TITLE,
-      label: "Study",
+      key: NCPI_CATALOG_CATEGORY_KEY.TITLE,
+      label: NCPI_CATALOG_CATEGORY_LABEL.TITLE,
     },
     {
-      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.DB_GAP_ID,
-      label: "dbGap Id",
+      key: NCPI_CATALOG_CATEGORY_KEY.DB_GAP_ID,
+      label: NCPI_CATALOG_CATEGORY_LABEL.DB_GAP_ID,
     },
     {
-      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.FOCUS,
-      label: "Focus / Disease",
+      key: NCPI_CATALOG_CATEGORY_KEY.FOCUS,
+      label: NCPI_CATALOG_CATEGORY_LABEL.FOCUS,
     },
     {
-      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.DATA_TYPE,
-      label: "Data Type",
+      key: NCPI_CATALOG_CATEGORY_KEY.DATA_TYPE,
+      label: NCPI_CATALOG_CATEGORY_LABEL.DATA_TYPE,
     },
     {
-      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.STUDY_DESIGN,
-      label: "Study Design",
+      key: NCPI_CATALOG_CATEGORY_KEY.STUDY_DESIGN,
+      label: NCPI_CATALOG_CATEGORY_LABEL.STUDY_DESIGN,
     },
     {
-      key: NCPI_CATALOG_FILTER_CATEGORY_KEYS.CONSENT_CODE,
-      label: "Consent Code",
+      key: NCPI_CATALOG_CATEGORY_KEY.CONSENT_CODE,
+      label: NCPI_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
     },
   ],
   entities: [studiesEntityConfig, platformsEntityConfig],

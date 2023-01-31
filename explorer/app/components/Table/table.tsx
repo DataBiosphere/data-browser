@@ -15,6 +15,7 @@ import {
   getFacetedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  InitialTableState,
   useReactTable,
 } from "@tanstack/react-table";
 import { useScroll } from "app/hooks/useScroll";
@@ -24,13 +25,16 @@ import {
   ExploreActionKind,
   ExploreStateContext,
 } from "../../common/context/exploreState";
-import { Pagination, Sort, SortOrderType } from "../../common/entities";
+import { Pagination } from "../../common/entities";
+import { SORT_DIRECTION } from "../../config/common/entities";
 import { CheckboxMenu, CheckboxMenuItem } from "../CheckboxMenu/checkboxMenu";
 import { InfoIcon } from "../common/CustomIcon/components/InfoIcon/infoIcon";
 import { GridPaper, RoundedPaper } from "../common/Paper/paper.styles";
 import {
   buildCategoryViews,
+  getColumnSortDirection,
   getFacetedUniqueValuesWithArrayValues,
+  isColumnSortActive,
 } from "./common/utils";
 import { EntityViewToggle } from "./components/EntityViewToggle/EntityViewToggle";
 import { Pagination as DXPagination } from "./components/Pagination/pagination";
@@ -50,12 +54,12 @@ interface TableProps<T extends object> {
   disablePagination?: boolean;
   editColumns?: EditColumnConfig;
   gridTemplateColumns: string;
+  initialState: InitialTableState;
   items: T[];
   loading?: boolean;
   pages?: number;
   pageSize: number;
   pagination?: Pagination;
-  sort?: Sort;
   staticallyLoaded?: boolean;
   total?: number;
 }
@@ -68,8 +72,8 @@ interface TableProps<T extends object> {
  * @param tableProps.items - Row data to display.
  * @param tableProps.columns - Set of columns to display.
  * @param tableProps.editColumns - True if edit column functionality is enabled for table.
+ * @param tableProps.initialState - Initial table state.
  * @param tableProps.total - Total number of rows in the result set.
- * @param tableProps.sort - Config for rendering current sort and handling corresponding events.
  * @param tableProps.gridTemplateColumns - Defines grid table track sizing.
  * @param tableProps.disablePagination - Determine if the table shouldn't be paginated.
  * @returns Configured table element for display.
@@ -79,31 +83,29 @@ export const TableComponent = <T extends object>({
   disablePagination,
   editColumns,
   gridTemplateColumns,
+  initialState,
   items,
-  sort,
   total,
 }: TableProps<T>): JSX.Element => {
   const { exploreDispatch, exploreState } = useContext(ExploreStateContext);
-  const { filterState, isRelatedView, relatedListItems } = exploreState;
+  const { filterState, isRelatedView, relatedListItems, sortState } =
+    exploreState;
   const listStaticLoad = exploreState.listStaticLoad;
-
-  const initialSorting = sort
-    ? [{ desc: sort.sortOrder === "desc", id: sort.sortKey ?? "" }]
-    : [];
+  const sorting = sortState ? [sortState] : undefined;
   const state = disablePagination
     ? {
         pagination: {
           pageIndex: 0,
           pageSize: Number.MAX_SAFE_INTEGER,
         },
-        sorting: initialSorting,
+        sorting,
       }
     : {
         pagination: {
           pageIndex: 0,
           pageSize: exploreState.paginationState.pageSize,
         },
-        sorting: initialSorting,
+        sorting,
       };
 
   const tableInstance = useReactTable({
@@ -119,6 +121,7 @@ export const TableComponent = <T extends object>({
       : undefined,
     getFilteredRowModel: listStaticLoad ? getFilteredRowModel() : undefined,
     getPaginationRowModel: getPaginationRowModel(),
+    initialState,
     manualPagination: listStaticLoad,
     manualSorting: !listStaticLoad,
     pageCount: total,
@@ -175,16 +178,17 @@ export const TableComponent = <T extends object>({
     scrollTop();
   };
 
+  // TODO review handleSortClicked with possible use of React Table API e.g. setSorting.
   const handleSortClicked = (columnDef: ColumnDef<T>): void => {
-    if (sort) {
-      if (sort.sortKey !== columnDef.id) {
+    if (columnDef.id) {
+      if (sortState?.id !== columnDef.id) {
         exploreDispatch({
-          payload: columnDef.id ?? "", // TODO fix or empty string
+          payload: columnDef.id,
           type: ExploreActionKind.SetSortKey,
         });
       } else {
         exploreDispatch({
-          payload: "asc", // TODO asc is ignored how to not specify?
+          payload: SORT_DIRECTION.ASCENDING, // TODO asc is ignored how to not specify?
           type: ExploreActionKind.FlipSortOrder,
         });
       }
@@ -298,13 +302,11 @@ export const TableComponent = <T extends object>({
                   {headerGroup.headers.map((header) => (
                     <TableCell key={header.id}>
                       <TableSortLabel
-                        active={!!header.column.getIsSorted()}
-                        direction={
-                          !header.column.getIsSorted()
-                            ? "asc"
-                            : (header.column.getIsSorted() as SortOrderType)
-                        }
-                        disabled={!header.column.columnDef.enableSorting}
+                        active={isColumnSortActive(header.column.getIsSorted())}
+                        direction={getColumnSortDirection(
+                          header.column.getIsSorted()
+                        )}
+                        disabled={!header.column.getCanSort()}
                         IconComponent={SouthRoundedIcon}
                         onClick={(): void =>
                           handleSortClicked(header.column.columnDef)

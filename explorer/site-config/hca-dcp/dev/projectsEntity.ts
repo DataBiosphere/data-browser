@@ -5,6 +5,7 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
+  SORT_DIRECTION,
 } from "../../../app/config/common/entities";
 import {
   projectsBuildAnatomicalEntityColumn,
@@ -15,7 +16,7 @@ import {
   projectsBuildProjectTitleColumn,
   projectsBuildSpecies,
 } from "../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { HCADCP_FILTER_CATEGORY_KEYS } from "../filter-category-keys";
+import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
 import { PROJECTS_LABEL } from "./constants";
 import { mainColumn as exportMainColumn } from "./detail/project/exportMainColumn";
 import { sideColumn as exportSideColumn } from "./detail/project/exportSideColumn";
@@ -80,11 +81,8 @@ export const projectsEntity: EntityConfig = {
           component: Components.Link,
           viewBuilder: projectsBuildProjectTitleColumn,
         } as ComponentConfig<typeof Components.Link>,
-        header: "Project Title",
-        sort: {
-          default: true,
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.PROJECT_TITLE,
-        },
+        header: HCA_DCP_CATEGORY_LABEL.PROJECT_TITLE,
+        id: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
         width: { max: "2fr", min: "374px" },
       },
       {
@@ -92,10 +90,8 @@ export const projectsEntity: EntityConfig = {
           component: Components.NTagCell,
           viewBuilder: projectsBuildSpecies,
         },
-        header: "Species",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.GENUS_SPECIES,
-        },
+        header: "Species", // TODO confirm header
+        id: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
         width: { max: "1fr", min: "136px" },
       },
       {
@@ -103,10 +99,8 @@ export const projectsEntity: EntityConfig = {
           component: Components.NTagCell,
           viewBuilder: projectsBuildLibraryConstructionApproachColumn,
         },
-        header: "Library Construction Approach",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.LIBRARY_CONSTRUCTION_APPROACH,
-        },
+        header: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
+        id: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
         width: { max: "1fr", min: "126px" },
       },
       {
@@ -114,10 +108,8 @@ export const projectsEntity: EntityConfig = {
           component: Components.NTagCell,
           viewBuilder: projectsBuildAnatomicalEntityColumn,
         },
-        header: "Anatomical Entity",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.SPECIMEN_ORGAN,
-        },
+        header: HCA_DCP_CATEGORY_LABEL.ANATOMICAL_ENTITY,
+        id: HCA_DCP_CATEGORY_KEY.ANATOMICAL_ENTITY,
         width: { max: "1fr", min: "146px" },
       },
       {
@@ -125,10 +117,8 @@ export const projectsEntity: EntityConfig = {
           component: Components.NTagCell,
           viewBuilder: projectsBuildDiseaseDonorColumn,
         },
-        header: "Disease (Donor)",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.DONOR_DISEASE,
-        },
+        header: "Disease (Donor)", // TODO confirm header
+        id: HCA_DCP_CATEGORY_KEY.DONOR_DISEASE,
         width: { max: "1fr", min: "128px" },
       },
       {
@@ -144,10 +134,8 @@ export const projectsEntity: EntityConfig = {
             title: "Cell Count Estimate",
           },
         } as ComponentConfig<typeof Components.Tooltip>,
-        header: "Cell Count Estimate",
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.EFFECTIVE_CELL_COUNT,
-        },
+        header: HCA_DCP_CATEGORY_LABEL.EFFECTIVE_CELL_COUNT,
+        id: HCA_DCP_CATEGORY_KEY.EFFECTIVE_CELL_COUNT,
         width: { max: "1fr", min: "96px" },
       },
       {
@@ -155,14 +143,16 @@ export const projectsEntity: EntityConfig = {
           component: Components.NTagCell,
           viewBuilder: projectsBuildDevelopmentStage,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Development Stage",
+        header: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,
         hiddenColumn: true,
-        sort: {
-          sortKey: HCADCP_FILTER_CATEGORY_KEYS.DEVELOPMENT_STAGE,
-        },
+        id: HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE,
         width: { max: "1fr", min: "148px" },
       },
     ],
+    defaultSort: {
+      desc: SORT_DIRECTION.ASCENDING,
+      id: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
+    },
   } as ListConfig<ProjectsResponse>,
   route: "projects",
   staticLoad: false,

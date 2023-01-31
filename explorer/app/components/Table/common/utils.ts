@@ -1,4 +1,13 @@
-import { HeaderGroup, memo, Row, RowData, Table } from "@tanstack/react-table";
+import {
+  ColumnSort,
+  HeaderGroup,
+  InitialTableState,
+  memo,
+  Row,
+  RowData,
+  SortDirection,
+  Table,
+} from "@tanstack/react-table";
 import { SelectCategory } from "../../../common/entities";
 
 /**
@@ -68,6 +77,20 @@ export function buildCategoryViews<T>(
 }
 
 /**
+ * Returns the column sort direction.
+ * @param sortDirection - Column sort direction.
+ * @returns the coumn sort direction.
+ */
+export function getColumnSortDirection(
+  sortDirection: false | SortDirection
+): SortDirection | undefined {
+  if (!sortDirection) {
+    return;
+  }
+  return sortDirection;
+}
+
+/**
  * Returns unique category term counts keyed by category terms.
  * Custom function based off react table function getFacetedUniqueValues, see
  * https://tanstack.com/table/v8/docs/api/features/filters#getfaceteduniquevalues, and
@@ -105,6 +128,48 @@ export function getFacetedUniqueValuesWithArrayValues<T extends RowData>(): (
         onChange: () => {},
       }
     );
+}
+
+/**
+ * Returns initial table state.
+ * @param defaultSort - Column sort configuration.
+ * @returns initial table state.
+ */
+export function getInitialState(
+  defaultSort: ColumnSort | undefined
+): InitialTableState {
+  const sorting = getInitialTableStateSorting(defaultSort);
+  return {
+    sorting,
+  };
+}
+
+/**
+ * Returns the initial table sorting state for the specified column sort configuration.
+ * @param defaultSort - Column sort configuration.
+ * @returns initial table sorting state.
+ */
+export function getInitialTableStateSorting(
+  defaultSort: ColumnSort | undefined
+): ColumnSort[] | undefined {
+  if (!defaultSort) {
+    return;
+  }
+  return [defaultSort];
+}
+
+/**
+ * Returns true if column has a sort direction.
+ * @param sortDirection - Column sort direction.
+ * @returns true when column has a sort direction.
+ */
+export function isColumnSortActive(
+  sortDirection: false | SortDirection
+): boolean {
+  if (!sortDirection) {
+    return sortDirection;
+  }
+  return true;
 }
 
 /**

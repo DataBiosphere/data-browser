@@ -1,3 +1,4 @@
+import { ColumnSort } from "@tanstack/react-table";
 import anvilCatalogDev from "../../site-config/anvil-catalog/dev/config";
 import anvilCatalogProd from "../../site-config/anvil-catalog/prod/config";
 import anvilCmgDev from "../../site-config/anvil-cmg/dev/config";
@@ -86,15 +87,14 @@ export const getTabs = (): Tab[] => {
     value: route,
   }));
 };
+
 /**
- * Get the default sort for the given entity config.
- * @param entityConfig - the entity config to search.
- * @returns - the default sort if it is configured or the first column if
- * no default is set.
+ * Returns the initial table sorting state for the specified entity list configuration.
+ * @param entityConfig - Entity configuration.
+ * @returns initial sort state.
  */
-export const getDefaultSort = (entityConfig: EntityConfig): string => {
-  return (
-    entityConfig.list.columns.find((column) => column.sort?.default)?.sort
-      ?.sortKey ?? entityConfig.list.columns[0].sort.sortKey
-  );
+export const getDefaultSortState = (
+  entityConfig: EntityConfig
+): ColumnSort | undefined => {
+  return entityConfig.list.defaultSort;
 };

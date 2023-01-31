@@ -4,8 +4,10 @@ import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
+  SORT_DIRECTION,
 } from "../../../../app/config/common/entities";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "../category";
 
 /**
  * Entity config object responsible for config related to the /explore/libraries route.
@@ -26,11 +28,8 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildLibraryId,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Library Id",
-        sort: {
-          default: true,
-          sortKey: "library_id",
-        },
+        header: ANVIL_CATEGORY_LABEL.LIBRARY_ID,
+        id: ANVIL_CATEGORY_KEY.LIBRARY_ID,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -38,10 +37,8 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildPrepMaterialName,
         } as ComponentConfig<typeof Components.Cell>,
-        header: "Prep Material Name",
-        sort: {
-          sortKey: "prep_material_name",
-        },
+        header: ANVIL_CATEGORY_LABEL.LIBRARY_PREPARATION,
+        id: ANVIL_CATEGORY_KEY.LIBRARY_PREPARATION,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -49,10 +46,8 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildBioSampleTypes,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "BioSample Type",
-        sort: {
-          sortKey: "biosample_type",
-        },
+        header: ANVIL_CATEGORY_LABEL.BIOSAMPLE_TYPE,
+        id: ANVIL_CATEGORY_KEY.BIOSAMPLE_TYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -60,13 +55,15 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDatasetNames,
         } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Dataset Name",
-        sort: {
-          sortKey: "title",
-        },
+        header: ANVIL_CATEGORY_LABEL.DATASET_NAME,
+        id: ANVIL_CATEGORY_KEY.DATASET_NAME,
         width: { max: "1fr", min: "200px" },
       },
     ],
+    defaultSort: {
+      desc: SORT_DIRECTION.ASCENDING,
+      id: ANVIL_CATEGORY_KEY.LIBRARY_ID,
+    },
   } as ListConfig<LibrariesResponse>,
   route: "libraries",
   staticLoad: false,
