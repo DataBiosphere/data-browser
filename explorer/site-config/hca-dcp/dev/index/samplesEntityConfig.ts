@@ -106,13 +106,13 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "120px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: Components.Cell,
           viewBuilder: projectsBuildDevelopmentStage,
         } as ComponentConfig<typeof Components.Cell>,
         disableSorting: true,
         header: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,
-        hiddenColumn: true,
         id: HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE,
         width: { max: "1fr", min: "148px" },
       },

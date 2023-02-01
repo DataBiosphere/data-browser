@@ -81,12 +81,12 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDataModality,
         } as ComponentConfig<typeof Components.NTagCell>,
         header: ANVIL_CATEGORY_LABEL.DATA_MODALITY,
-        hiddenColumn: true,
         id: ANVIL_CATEGORY_KEY.DATA_MODALITY,
         width: { max: "1fr", min: "148px" },
       },

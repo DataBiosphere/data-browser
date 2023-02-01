@@ -139,12 +139,12 @@ export const projectsEntity: EntityConfig = {
         width: { max: "1fr", min: "96px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: Components.NTagCell,
           viewBuilder: projectsBuildDevelopmentStage,
         } as ComponentConfig<typeof Components.NTagCell>,
         header: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,
-        hiddenColumn: true,
         id: HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE,
         width: { max: "1fr", min: "148px" },
       },

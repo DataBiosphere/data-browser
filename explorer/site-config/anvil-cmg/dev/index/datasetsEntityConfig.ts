@@ -102,12 +102,12 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       //   width: { max: "1fr", min: "200px" },
       // },
       {
+        columnVisible: false,
         componentConfig: {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDataModality,
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Data Modality",
-        hiddenColumn: true,
         id: "activities.data_modality",
         width: { max: "1fr", min: "148px" },
       },

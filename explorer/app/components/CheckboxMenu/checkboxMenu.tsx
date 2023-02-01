@@ -1,4 +1,9 @@
-import { Checkbox, FormControlLabel, MenuItem } from "@mui/material";
+import {
+  Checkbox,
+  CheckboxProps,
+  FormControlLabel,
+  MenuItem,
+} from "@mui/material";
 import React, { MouseEvent, useState } from "react";
 import { DropdownButton } from "../common/Button/components/DropdownButton/dropdownButton";
 import { CheckedIcon } from "../common/CustomIcon/components/CheckedIcon/checkedIcon";
@@ -6,24 +11,21 @@ import { UncheckedIcon } from "../common/CustomIcon/components/UncheckedIcon/unc
 import { CheckboxMenu as Menu } from "./checkboxMenu.styles";
 
 export interface CheckboxMenuItem {
-  id: string;
+  checked: boolean;
+  disabled?: boolean;
   label: string;
+  onChange: CheckboxProps["onChange"];
+  value: string;
 }
 
 interface Props {
   label: string;
-  onItemSelectionChange: (id: string) => void;
   options: CheckboxMenuItem[];
-  readOnly?: string[];
-  selected: string[];
 }
 
 export const CheckboxMenu = ({
-  label,
-  onItemSelectionChange,
+  label: buttonLabel,
   options,
-  readOnly = [],
-  selected,
 }: Props): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
   const open = Boolean(anchorEl);
@@ -38,7 +40,7 @@ export const CheckboxMenu = ({
 
   return (
     <>
-      <DropdownButton onClick={onOpenMenu}>{label}</DropdownButton>
+      <DropdownButton onClick={onOpenMenu}>{buttonLabel}</DropdownButton>
       <Menu
         anchorEl={anchorEl}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
@@ -50,22 +52,24 @@ export const CheckboxMenu = ({
           vertical: "top",
         }}
       >
-        {options.map(({ id: value, label }) => (
-          <MenuItem disabled={readOnly.includes(value)} key={value}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={selected.includes(value)}
-                  checkedIcon={<CheckedIcon />}
-                  disabled={readOnly.includes(value)}
-                  icon={<UncheckedIcon />}
-                  onChange={(): void => onItemSelectionChange(value)}
-                />
-              }
-              label={label}
-            />
-          </MenuItem>
-        ))}
+        {options.map(
+          ({ checked, disabled = false, label, onChange, value }) => (
+            <MenuItem disabled={disabled} key={value}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked}
+                    checkedIcon={<CheckedIcon />}
+                    disabled={disabled}
+                    icon={<UncheckedIcon />}
+                    onChange={onChange}
+                  />
+                }
+                label={label}
+              />
+            </MenuItem>
+          )
+        )}
       </Menu>
     </>
   );

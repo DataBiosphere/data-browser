@@ -15,34 +15,34 @@ export default {
 
 const Template: ComponentStory<typeof Menu> = (args) => <Menu {...args} />;
 
+const onChange = (): void => {
+  // onChange function
+};
+
 export const CheckboxMenu = Template.bind({});
 CheckboxMenu.args = {
   label: "Options",
   options: [
-    { id: "item_1", label: "Item 1" },
-    { id: "item_2", label: "Item 2" },
+    {
+      checked: true,
+      disabled: true,
+      label: "Item 1",
+      onChange,
+      value: "item_1",
+    },
+    {
+      checked: false,
+      disabled: false,
+      label: "Item 2",
+      onChange,
+      value: "item_2",
+    },
+    {
+      checked: true,
+      disabled: false,
+      label: "Item 3",
+      onChange,
+      value: "item_3",
+    },
   ],
-  selected: [],
-};
-
-export const CheckboxMenuWithSelectedItems = Template.bind({});
-CheckboxMenuWithSelectedItems.args = {
-  label: "Options",
-  options: [
-    { id: "item_1", label: "Item 1" },
-    { id: "item_2", label: "Item 2" },
-  ],
-  selected: ["item_1"],
-};
-
-export const CheckboxMenuWithReadOnlyItems = Template.bind({});
-CheckboxMenuWithReadOnlyItems.args = {
-  label: "Options",
-  options: [
-    { id: "item_1", label: "Item 1" },
-    { id: "item_2", label: "Item 2" },
-    { id: "item_3", label: "Item 3" },
-  ],
-  readOnly: ["item_1", "item_2"],
-  selected: ["item_1"],
 };
