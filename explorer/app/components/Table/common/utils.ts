@@ -18,7 +18,7 @@ import {
   GridTrackMinMax,
   GridTrackSize,
 } from "../../../config/common/entities";
-import { CheckboxMenuItem } from "../../CheckboxMenu/checkboxMenu";
+import { CheckboxMenuListItem } from "../components/CheckboxMenu/checkboxMenu";
 
 /**
  * Internal model of a category term count keyed by category term.
@@ -100,7 +100,9 @@ export function getColumnSortDirection(
  * @param table - Table.
  * @returns a list of edit column options.
  */
-export function getEditColumnOptions<T>(table: Table<T>): CheckboxMenuItem[] {
+export function getEditColumnOptions<T>(
+  table: Table<T>
+): CheckboxMenuListItem[] {
   const { getAllColumns, initialState } = table;
   const { columnVisibility: initialVisibilityState } = initialState;
   const allColumns = getAllColumns();
@@ -116,7 +118,7 @@ export function getEditColumnOptions<T>(table: Table<T>): CheckboxMenuItem[] {
       }
     ) => {
       if (getCanHide()) {
-        const option: CheckboxMenuItem = {
+        const option: CheckboxMenuListItem = {
           checked: getIsVisible(),
           disabled: initialVisibilityState[id],
           label: header as string, // TODO revisit type assertion here
@@ -127,7 +129,7 @@ export function getEditColumnOptions<T>(table: Table<T>): CheckboxMenuItem[] {
       }
       return acc;
     },
-    [] as CheckboxMenuItem[]
+    [] as CheckboxMenuListItem[]
   );
 }
 

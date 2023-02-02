@@ -28,7 +28,6 @@ import {
   ExploreStateContext,
 } from "../../common/context/exploreState";
 import { Pagination } from "../../common/entities";
-import { CheckboxMenu } from "../CheckboxMenu/checkboxMenu";
 import { InfoIcon } from "../common/CustomIcon/components/InfoIcon/infoIcon";
 import { GridPaper, RoundedPaper } from "../common/Paper/paper.styles";
 import {
@@ -38,6 +37,7 @@ import {
   getGridTemplateColumns,
   getTableSortLabelProps,
 } from "./common/utils";
+import { CheckboxMenu } from "./components/CheckboxMenu/checkboxMenu";
 import { EntityViewToggle } from "./components/EntityViewToggle/EntityViewToggle";
 import { Pagination as DXPagination } from "./components/Pagination/pagination";
 import { PaginationSummary } from "./components/PaginationSummary/paginationSummary";
@@ -131,6 +131,7 @@ export const TableComponent = <T extends object>({
     getVisibleFlatColumns,
     nextPage: tableNextPage,
     previousPage: tablePreviousPage,
+    resetColumnVisibility,
   } = tableInstance;
   const allColumns = getAllColumns();
   const { columnFilters } = getState();
@@ -234,6 +235,13 @@ export const TableComponent = <T extends object>({
     return currentPage > 1;
   }
 
+  /**
+   * Resets column visibility to default state.
+   */
+  const onResetColumnVisibility = (): void => {
+    resetColumnVisibility(false);
+  };
+
   return (
     <RoundedPaper>
       <GridPaper>
@@ -248,7 +256,11 @@ export const TableComponent = <T extends object>({
                 totalResult={rows}
               />
             )}
-            <CheckboxMenu label="Edit Columns" options={editColumnOptions} />
+            <CheckboxMenu
+              label="Edit Columns"
+              onReset={onResetColumnVisibility}
+              options={editColumnOptions}
+            />
           </TableToolbar>
         )}
         {isRelatedView && (

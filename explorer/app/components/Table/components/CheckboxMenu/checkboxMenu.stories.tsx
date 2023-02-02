@@ -5,9 +5,8 @@ import { CheckboxMenu as Menu } from "./checkboxMenu";
 export default {
   argTypes: {
     label: { control: "text" },
-    onItemSelectionChange: { action: "onItemSelectionChange" },
+    onReset: { control: { disabled: true } },
     options: { control: "array" },
-    selected: { control: "array" },
   },
   component: Menu,
   title: "Components/Common/Menu/CheckboxMenu",
@@ -19,9 +18,14 @@ const onChange = (): void => {
   // onChange function
 };
 
+const onReset = (): void => {
+  // onReset function
+};
+
 export const CheckboxMenu = Template.bind({});
 CheckboxMenu.args = {
   label: "Options",
+  onReset: onReset,
   options: [
     {
       checked: true,
