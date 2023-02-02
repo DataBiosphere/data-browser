@@ -41,7 +41,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         disableSorting: true,
         header: HCA_DCP_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
         id: HCA_DCP_CATEGORY_KEY.AZUL_FILE_DOWNLOAD,
-        width: "auto",
+        width: { max: "auto", min: "76px" },
       },
       {
         componentConfig: {

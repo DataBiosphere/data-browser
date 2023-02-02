@@ -35,7 +35,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         disableSorting: true,
         header: ANVIL_CMG_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
         id: ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD,
-        width: "auto",
+        width: { max: "auto", min: "76px" },
       },
       {
         componentConfig: {
