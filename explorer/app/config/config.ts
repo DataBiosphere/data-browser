@@ -91,10 +91,12 @@ export const getTabs = (): Tab[] => {
 /**
  * Returns the initial table sorting state for the specified entity list configuration.
  * @param entityConfig - Entity configuration.
- * @returns initial sort state.
+ * @returns initial sorting state.
  */
-export const getDefaultSortState = (
-  entityConfig: EntityConfig
-): ColumnSort | undefined => {
-  return entityConfig.list.defaultSort;
+export const getDefaultSorting = (entityConfig: EntityConfig): ColumnSort[] => {
+  const columnSort = entityConfig.list.defaultSort;
+  if (!columnSort) {
+    return [];
+  }
+  return [columnSort];
 };

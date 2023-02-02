@@ -1,4 +1,3 @@
-import SouthRoundedIcon from "@mui/icons-material/SouthRounded";
 import {
   AlertTitle,
   TableBody,
@@ -10,12 +9,15 @@ import {
 } from "@mui/material";
 import {
   ColumnDef,
+  ColumnSort,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   InitialTableState,
+  Updater,
   useReactTable,
 } from "@tanstack/react-table";
 import { useScroll } from "app/hooks/useScroll";
@@ -26,17 +28,15 @@ import {
   ExploreStateContext,
 } from "../../common/context/exploreState";
 import { Pagination } from "../../common/entities";
-import { SORT_DIRECTION } from "../../config/common/entities";
 import { CheckboxMenu } from "../CheckboxMenu/checkboxMenu";
 import { InfoIcon } from "../common/CustomIcon/components/InfoIcon/infoIcon";
 import { GridPaper, RoundedPaper } from "../common/Paper/paper.styles";
 import {
   buildCategoryViews,
-  getColumnSortDirection,
   getEditColumnOptions,
   getFacetedUniqueValuesWithArrayValues,
   getGridTemplateColumns,
-  isColumnSortActive,
+  getTableSortLabelProps,
 } from "./common/utils";
 import { EntityViewToggle } from "./components/EntityViewToggle/EntityViewToggle";
 import { Pagination as DXPagination } from "./components/Pagination/pagination";
@@ -84,10 +84,15 @@ export const TableComponent = <T extends object>({
     listStaticLoad,
     paginationState,
     relatedListItems,
-    sortState,
+    sorting,
   } = exploreState;
   const { currentPage, pages, pageSize, rows } = paginationState;
-  const sorting = sortState ? [sortState] : undefined;
+  const onSortingChange = (updater: Updater<ColumnSort[]>): void => {
+    exploreDispatch({
+      payload: typeof updater === "function" ? updater(sorting) : updater,
+      type: ExploreActionKind.UpdateSorting,
+    });
+  };
   const state = {
     pagination: {
       pageIndex: 0,
@@ -98,9 +103,11 @@ export const TableComponent = <T extends object>({
   const tableInstance = useReactTable({
     columns,
     data: items,
-    enableColumnFilters: true, //listStaticLoad,
-    enableFilters: true, //listStaticLoad,
+    enableColumnFilters: true, // listStaticLoad,
+    enableFilters: true, // listStaticLoad,
     enableMultiSort: false,
+    enableSorting: true, // listStaticLoad
+    enableSortingRemoval: false, // listStaticLoad
     getCoreRowModel: getCoreRowModel(),
     getFacetedRowModel: listStaticLoad ? getFacetedRowModel() : undefined,
     getFacetedUniqueValues: listStaticLoad
@@ -108,15 +115,15 @@ export const TableComponent = <T extends object>({
       : undefined,
     getFilteredRowModel: listStaticLoad ? getFilteredRowModel() : undefined,
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: listStaticLoad ? getSortedRowModel() : undefined,
     initialState,
     manualPagination: listStaticLoad,
     manualSorting: !listStaticLoad,
+    onSortingChange,
     pageCount: total,
     state,
   });
   const {
-    // getCanNextPage: tableCanNextPage,
-    // getCanPreviousPage: tableCanPreviousPage,
     getAllColumns,
     getHeaderGroups,
     getRowModel,
@@ -160,23 +167,6 @@ export const TableComponent = <T extends object>({
     }
     previousPage();
     scrollTop();
-  };
-
-  // TODO review handleSortClicked with possible use of React Table API e.g. setSorting.
-  const handleSortClicked = (columnDef: ColumnDef<T>): void => {
-    if (columnDef.id) {
-      if (sortState?.id !== columnDef.id) {
-        exploreDispatch({
-          payload: columnDef.id,
-          type: ExploreActionKind.SetSortKey,
-        });
-      } else {
-        exploreDispatch({
-          payload: SORT_DIRECTION.ASCENDING, // TODO asc is ignored how to not specify?
-          type: ExploreActionKind.FlipSortOrder,
-        });
-      }
-    }
   };
 
   // Sets or resets react table column filters `columnFilters` state, for statically loaded api only, with update of filterState.
@@ -277,15 +267,7 @@ export const TableComponent = <T extends object>({
                   {headerGroup.headers.map((header) => (
                     <TableCell key={header.id}>
                       <TableSortLabel
-                        active={isColumnSortActive(header.column.getIsSorted())}
-                        direction={getColumnSortDirection(
-                          header.column.getIsSorted()
-                        )}
-                        disabled={!header.column.getCanSort()}
-                        IconComponent={SouthRoundedIcon}
-                        onClick={(): void =>
-                          handleSortClicked(header.column.columnDef)
-                        }
+                        {...getTableSortLabelProps(header.column)}
                       >
                         {flexRender(
                           header.column.columnDef.header,

@@ -28,7 +28,7 @@ export const useEntityList = (
 ): void => {
   // Load up the relevant contexts
   const { exploreDispatch, exploreState } = useContext(ExploreStateContext);
-  const { filterState, sortState } = exploreState;
+  const { filterState, sorting } = exploreState;
 
   const { token } = useContext(AuthContext);
   const { fetchEntitiesFromQuery, listStaticLoad, path } =
@@ -43,8 +43,9 @@ export const useEntityList = (
   useEffect(() => {
     if (!listStaticLoad) {
       // Build basic list params
-      const listParams: AzulListParams = sortState
-        ? { order: sortState.desc ? "desc" : "asc", sort: sortState.id }
+      const [sort] = sorting;
+      const listParams: AzulListParams = sort
+        ? { order: sort.desc ? "desc" : "asc", sort: sort.id }
         : {};
 
       // Build filter query params, if any
@@ -70,7 +71,7 @@ export const useEntityList = (
     filterState,
     path,
     run,
-    sortState,
+    sorting,
     listStaticLoad,
     token,
   ]);

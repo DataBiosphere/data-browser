@@ -4,7 +4,11 @@ import React, { useMemo } from "react";
 import { Pagination } from "../../common/entities";
 import { ComponentCreator } from "../ComponentCreator/ComponentCreator";
 import { Loading } from "../Loading/loading";
-import { arrIncludesSome, getInitialState } from "../Table/common/utils";
+import {
+  arrIncludesSome,
+  getInitialState,
+  sortingFn,
+} from "../Table/common/utils";
 import { Table } from "../Table/table";
 
 interface TableCreatorProps<T> {
@@ -58,6 +62,7 @@ export const TableCreator = <T extends object>({
         meta: {
           width: columnConfig.width,
         },
+        sortingFn: sortingFn,
       })),
     [columns]
   );

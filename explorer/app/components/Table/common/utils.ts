@@ -1,3 +1,5 @@
+import SouthRoundedIcon from "@mui/icons-material/SouthRounded";
+import { TableSortLabelProps } from "@mui/material/TableSortLabel/TableSortLabel";
 import {
   ColumnSort,
   InitialTableState,
@@ -5,11 +7,11 @@ import {
   Row,
   RowData,
   SortDirection,
+  sortingFns,
   Table,
 } from "@tanstack/react-table";
 import { Column } from "@tanstack/table-core";
 import { VisibilityState } from "@tanstack/table-core/src/features/Visibility";
-import { ChangeEvent } from "react";
 import { SelectCategory } from "../../../common/entities";
 import {
   ColumnConfig,
@@ -99,23 +101,26 @@ export function getColumnSortDirection(
  * @returns a list of edit column options.
  */
 export function getEditColumnOptions<T>(table: Table<T>): CheckboxMenuItem[] {
-  const { getAllColumns, getState, initialState, setColumnVisibility } = table;
+  const { getAllColumns, initialState } = table;
   const { columnVisibility: initialVisibilityState } = initialState;
   const allColumns = getAllColumns();
-  const { columnVisibility } = getState();
   return allColumns.reduce(
-    (acc, { columnDef: { header }, getCanHide, getIsVisible, id }) => {
+    (
+      acc,
+      {
+        columnDef: { header },
+        getCanHide,
+        getIsVisible,
+        getToggleVisibilityHandler,
+        id,
+      }
+    ) => {
       if (getCanHide()) {
         const option: CheckboxMenuItem = {
           checked: getIsVisible(),
           disabled: initialVisibilityState[id],
           label: header as string, // TODO revisit type assertion here
-          onChange: (event: ChangeEvent<HTMLInputElement>): void => {
-            setColumnVisibility({
-              ...columnVisibility,
-              [id]: event.target.checked,
-            });
-          },
+          onChange: getToggleVisibilityHandler(),
           value: id,
         };
         acc.push(option);
@@ -209,11 +214,29 @@ export function getInitialState(
  */
 export function getInitialTableStateSorting(
   defaultSort: ColumnSort | undefined
-): ColumnSort[] | undefined {
+): ColumnSort[] {
   if (!defaultSort) {
-    return;
+    return [];
   }
   return [defaultSort];
+}
+
+/**
+ * Returns table sort label props.
+ * @param column - Table column.
+ * @returns table sort label props.
+ */
+export function getTableSortLabelProps<T>(
+  column: Column<T>
+): TableSortLabelProps {
+  const { getCanSort, getIsSorted, getToggleSortingHandler } = column;
+  return {
+    IconComponent: SouthRoundedIcon,
+    active: isColumnSortActive(getIsSorted()),
+    direction: getColumnSortDirection(getIsSorted()),
+    disabled: !getCanSort(),
+    onClick: getToggleSortingHandler(),
+  };
 }
 
 /**
@@ -228,6 +251,48 @@ export function isColumnSortActive(
     return sortDirection;
   }
   return true;
+}
+
+/**
+ * Returns sort return value from the compare function. The compare function is dependent on the row value type:
+ * - row values of type "array" use a compare function based off React Table "basic" compare function,
+ * - all other row values use the React Table "alphanumeric" compare function.
+ * See React Table https://github.com/TanStack/table/blob/beccddcab001434f3bb11843b3fda72f8b000cc2/packages/table-core/src/sortingFns.ts.
+ * @param rowA - First row to sort.
+ * @param rowB - Second row to sort.
+ * @param columnId - Sorted column identifier.
+ * @returns sort return value from the compare function (0 | 1 | -1).
+ */
+export function sortingFn<T>(
+  rowA: Row<T>,
+  rowB: Row<T>,
+  columnId: string
+): number {
+  const columnAValue = rowA.getValue(columnId);
+  const columnBValue = rowB.getValue(columnId);
+  if (Array.isArray(columnAValue) && Array.isArray(columnBValue)) {
+    // Values are type "array", sort with a basic compare function.
+    // Should the "basic" compare function not be sufficient for the given array value types see
+    // React Table's "compareAlphanumeric" function
+    // https://github.com/TanStack/table/blob/beccddcab001434f3bb11843b3fda72f8b000cc2/packages/table-core/src/sortingFns.ts#L73.
+    return basicSort(
+      toString(columnAValue[0]).toLowerCase(),
+      toString(columnBValue[0]).toLowerCase()
+    );
+  }
+  // Sort other values with React Table's "alphanumeric" compare function.
+  return sortingFns.alphanumeric(rowA, rowB, columnId);
+}
+
+/**
+ * Basic compare function, returning a sort return value.
+ * See React Table https://github.com/TanStack/table/blob/beccddcab001434f3bb11843b3fda72f8b000cc2/packages/table-core/src/sortingFns.ts#L53
+ * @param val0 - First value.
+ * @param val1 - Second value.
+ * @returns sort return value (0 | 1 | -1).
+ */
+function basicSort<TValue>(val0: TValue, val1: TValue): number {
+  return val0 === val1 ? 0 : val0 > val1 ? 1 : -1;
 }
 
 /**
@@ -251,6 +316,26 @@ function getInitialTableColumnVisibility(
  */
 function isGridTrackMinMax(width?: GridTrackSize): width is GridTrackMinMax {
   return (width as GridTrackMinMax).min !== undefined;
+}
+
+/**
+ * Returns the given value as a string.
+ * See React Table "toString" function
+ * https://github.com/TanStack/table/blob/beccddcab001434f3bb11843b3fda72f8b000cc2/packages/table-core/src/sortingFns.ts#L57
+ * @param tValue - Cell value.
+ * @returns the value as a string.
+ */
+function toString<TValue>(tValue: TValue): string {
+  if (typeof tValue === "number") {
+    if (isNaN(tValue) || tValue === Infinity || tValue === -Infinity) {
+      return "";
+    }
+    return String(tValue);
+  }
+  if (typeof tValue === "string") {
+    return tValue;
+  }
+  return "";
 }
 
 /**

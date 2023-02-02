@@ -4,10 +4,9 @@ import {
   AzulSearchIndex,
   SelectedFilter,
 } from "../../apis/azul/common/entities";
-import { SORT_DIRECTION } from "../../config/common/entities";
 import {
   config,
-  getDefaultSortState,
+  getDefaultSorting,
   getEntityConfig,
 } from "../../config/config";
 import {
@@ -65,7 +64,7 @@ export const ExploreStateContext = createContext<IExploreStateContext>({
     loading: false,
     paginationState: defaultPaginationState,
     relatedListItems: undefined,
-    sortState: getDefaultSortState(getEntityConfig(defaultEntity)),
+    sorting: getDefaultSorting(getEntityConfig(defaultEntity)),
     tabValue: defaultEntity,
   },
 });
@@ -97,7 +96,7 @@ export function ExploreStateProvider({
     loading: true,
     paginationState: defaultPaginationState,
     relatedListItems: undefined,
-    sortState: getDefaultSortState(getEntityConfig(entityListType)),
+    sorting: getDefaultSorting(getEntityConfig(entityListType)),
     tabValue: entityListType,
   });
 
@@ -163,20 +162,19 @@ export type ExploreState = {
   loading: boolean;
   paginationState: PaginationState;
   relatedListItems: RelatedListItems;
-  sortState: ColumnSort | undefined; // TODO update sortState to ColumnSort[]?
+  sorting: ColumnSort[];
   tabValue: string;
 };
 
 export enum ExploreActionKind {
   // ClearFilters = "CLEAR_FILTERS",
-  FlipSortOrder = "FLIP_SORT_ORDER",
   PaginateTable = "PAGINATE_TABLE",
   ProcessExploreResponse = "PROCESS_EXPLORE_RESPONSE",
   ProcessRelatedResponse = "PROCESS_RELATED_RESPONSE",
   SelectEntityType = "SELECT_ENTITY_TYPE",
-  SetSortKey = "SET_SORT_KEY",
   ToggleEntityView = "TOGGLE_ENTITY_VIEW",
   UpdateFilter = "UPDATE_FILTER",
+  UpdateSorting = "UPDATE_SORTING",
 }
 
 type ExploreAction =
@@ -184,10 +182,9 @@ type ExploreAction =
   | ProcessExploreResponseAction
   | ProcessRelatedResponseAction
   | SelectEntityTypeAction
-  | SetSortKeyAction
-  | SetSortOrderAction
   | ToggleEntityView
-  | UpdateFilterAction;
+  | UpdateFilterAction
+  | UpdateSortingAction;
 
 type PaginateTableAction = {
   payload: PaginationDirectionType;
@@ -209,16 +206,6 @@ type SelectEntityTypeAction = {
   type: ExploreActionKind.SelectEntityType;
 };
 
-type SetSortKeyAction = {
-  payload: ColumnSort["id"];
-  type: ExploreActionKind.SetSortKey;
-};
-
-type SetSortOrderAction = {
-  payload: boolean;
-  type: ExploreActionKind.FlipSortOrder;
-};
-
 type ToggleEntityView = {
   payload: EntityView;
   type: ExploreActionKind.ToggleEntityView;
@@ -233,6 +220,11 @@ type UpdateFilterPayload = {
   categoryKey: CategoryKey;
   selected: boolean;
   selectedValue: CategoryValueKey;
+};
+
+type UpdateSortingAction = {
+  payload: ColumnSort[];
+  type: ExploreActionKind.UpdateSorting;
 };
 
 function resetPage(paginationState: PaginationState): PaginationState {
@@ -251,21 +243,6 @@ function exploreReducer(
   const { categoryConfigs } = config();
 
   switch (type) {
-    /**
-     * Flip sort order
-     **/
-    case ExploreActionKind.FlipSortOrder: {
-      let nextSort;
-      if (state.sortState) {
-        nextSort = { ...state.sortState };
-        nextSort.desc = !state.sortState.desc;
-      }
-      return {
-        ...state,
-        paginationState: resetPage(state.paginationState),
-        sortState: nextSort,
-      };
-    }
     /**
      * Paginate table
      **/
@@ -327,7 +304,7 @@ function exploreReducer(
       if (payload === state.tabValue) {
         return state;
       }
-      const nextSort = getDefaultSortState(getEntityConfig(payload));
+      const nextSort = getDefaultSorting(getEntityConfig(payload));
       const { staticLoad } = getEntityConfig(payload);
       const listStaticLoad = staticLoad;
 
@@ -337,22 +314,8 @@ function exploreReducer(
         listStaticLoad,
         loading: true,
         paginationState: resetPage(state.paginationState),
-        sortState: nextSort,
+        sorting: nextSort,
         tabValue: payload,
-      };
-    }
-    /**
-     * Set sort key
-     **/
-    case ExploreActionKind.SetSortKey: {
-      const nextSort = {
-        desc: SORT_DIRECTION.ASCENDING,
-        id: payload,
-      };
-      return {
-        ...state,
-        paginationState: resetPage(state.paginationState),
-        sortState: nextSort,
       };
     }
     /**
@@ -378,6 +341,16 @@ function exploreReducer(
           payload.selected
         ),
         paginationState: resetPage(state.paginationState),
+      };
+    }
+    /**
+     * Update sorting
+     **/
+    case ExploreActionKind.UpdateSorting: {
+      return {
+        ...state,
+        paginationState: resetPage(state.paginationState),
+        sorting: payload,
       };
     }
     default:
