@@ -202,7 +202,7 @@ export const TableComponent = <T extends object>({
             previousIndex: null,
             rows: tableInstance.getFilteredRowModel().rows.length,
           },
-          selectCategories: buildCategoryViews(allColumns),
+          selectCategories: buildCategoryViews(allColumns, columnFilters),
         },
         type: ExploreActionKind.ProcessExploreResponse,
       });

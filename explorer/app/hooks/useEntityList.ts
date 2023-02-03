@@ -84,7 +84,7 @@ export const useEntityList = (
           listItems: data?.hits,
           loading: isLoading || isIdle,
           paginationResponse: transformAzulPagination(data?.pagination),
-          selectCategories: transformTermFacets(termFacets),
+          selectCategories: transformTermFacets(termFacets, filterState),
         },
         type: ExploreActionKind.ProcessExploreResponse,
       });
@@ -93,6 +93,7 @@ export const useEntityList = (
     data?.hits,
     data?.pagination,
     exploreDispatch,
+    filterState,
     isIdle,
     isLoading,
     listStaticLoad,

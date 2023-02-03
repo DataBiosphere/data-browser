@@ -10,6 +10,7 @@ import {
   AZUL_FILTER_OPERATOR,
   Filters,
   LABEL,
+  SelectedFilter,
 } from "./entities";
 
 /**
@@ -90,26 +91,51 @@ function extractIndex(
 /**
  * Generalize Azul term facets model into categories and category values.
  * @param termFacets - Model of term facets returned from Azul.
+ * @param filterState - Filter state.
  * @returns Categories and category values built from Azul term facets.
  */
 export function transformTermFacets(
-  termFacets: AzulTermFacets
+  termFacets: AzulTermFacets,
+  filterState: SelectedFilter[]
 ): SelectCategory[] {
   const categories: SelectCategory[] = [];
 
   // Build categories and category values from term facets.
   return Object.keys(termFacets).reduce((accum, key) => {
     const termFacet = termFacets[key];
+    // Build a set of filter state category values for the category.
+    const setOfFilterStateValues = new Set(
+      filterState.find(({ categoryKey }) => categoryKey === key)?.value
+    );
 
     // Build category values from terms of term facet.
     const categoryValues: SelectCategoryValue[] = termFacet.terms.map(
-      (term) => ({
-        count: term.count,
-        key: term.term,
-        label: term.term ?? LABEL.UNSPECIFIED,
-        selected: false, // Selected state updated in filter hook.
-      })
+      (term) => {
+        if (setOfFilterStateValues.has(term.term)) {
+          // Delete the filter state category value; the term facet term equivalent will build the
+          // select category value.
+          setOfFilterStateValues.delete(term.term);
+        }
+        return {
+          count: term.count,
+          key: term.term,
+          label: term.term ?? LABEL.UNSPECIFIED,
+          selected: false, // Selected state updated in filter hook.
+        };
+      }
     );
+
+    // Add remaining filter state category values to the category values. This allows us to maintain the selected
+    // state of values that are selected but possibly filtered out from subsequent category selection.
+    // Selected category values filtered out are assigned a zero count.
+    for (const term of [...setOfFilterStateValues]) {
+      categoryValues.push({
+        count: 0,
+        key: term,
+        label: term ?? LABEL.UNSPECIFIED,
+        selected: false, // Selected state updated in filter hook
+      });
+    }
 
     // Build category and add to set of categories.
     const category: SelectCategory = {

@@ -1,6 +1,7 @@
 import SouthRoundedIcon from "@mui/icons-material/SouthRounded";
 import { TableSortLabelProps } from "@mui/material/TableSortLabel/TableSortLabel";
 import {
+  ColumnFiltersState,
   ColumnSort,
   InitialTableState,
   memo,
@@ -55,14 +56,19 @@ export function arrIncludesSome<T>(
 /**
  * Build view-specific models from react table faceted values function.
  * @param columns - Table columns.
+ * @param columnFilters - Column filters state.
  * @returns Array of category views objects.
  */
-export function buildCategoryViews<T>(columns: Column<T>[]): SelectCategory[] {
+export function buildCategoryViews<T>(
+  columns: Column<T>[],
+  columnFilters: ColumnFiltersState
+): SelectCategory[] {
   const categoryViews: SelectCategory[] = [];
   for (const column of columns) {
     const { columnDef, getCanFilter, getFacetedUniqueValues, id } = column;
     const { header: columnHeader } = columnDef;
     if (getCanFilter()) {
+      updateFacetedUniqueValues(getFacetedUniqueValues(), columnFilters, id);
       const key = id;
       const label = columnHeader as string;
       const values = [...getFacetedUniqueValues()].map(([value, count]) => ({
@@ -338,6 +344,37 @@ function toString<TValue>(tValue: TValue): string {
     return tValue;
   }
   return "";
+}
+
+/**
+ * Updates React Table faceted unique values with any selected category values from the column filter state not yet
+ * mapped as a faceted unique value.
+ * Unmapped selected category values indicate the value has been filtered out from subsequent category selection.
+ * Selected category values filtered out are assigned a zero count.
+ * @param facetedUniqueValues - Map of unique values and their occurrences.
+ * @param columnFilters - Column filter state.
+ * @param columnId - Column identifier.
+ */
+function updateFacetedUniqueValues(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- see React Table FiltersColumn getFacetedUniqueValues
+  facetedUniqueValues: Map<any, number>,
+  columnFilters: ColumnFiltersState,
+  columnId: string
+): void {
+  // Grab the selected category values for the specified column.
+  const filterStateValues = columnFilters.find(
+    ({ id }) => id === columnId
+  )?.value;
+  if (Array.isArray(filterStateValues)) {
+    filterStateValues.forEach((term) => {
+      if (facetedUniqueValues.has(term)) {
+        // Selected category value exists as a faceted value.
+        return;
+      }
+      // Add selected category value with a zero count.
+      facetedUniqueValues.set(term, 0);
+    });
+  }
 }
 
 /**
