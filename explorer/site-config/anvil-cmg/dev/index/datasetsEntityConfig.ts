@@ -45,7 +45,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         } as ComponentConfig<typeof Components.Link>,
         header: ANVIL_CMG_CATEGORY_LABEL.DATASET,
         id: ANVIL_CMG_CATEGORY_KEY.DATASET,
-        width: { max: "2fr", min: "280" },
+        width: { max: "2fr", min: "280px" },
       },
       {
         componentConfig: {
