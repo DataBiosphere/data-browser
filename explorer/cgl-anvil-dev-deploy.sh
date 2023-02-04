@@ -31,5 +31,5 @@ mv out/explore/* build/explore/anvil-cmg
 export BUCKET=s3://anvil.explorer.gi.ucsc.edu/
 export SRCDIR=build/
 
-aws s3 sync --acl public-read $SRCDIR $BUCKET --delete --profile platform-anvil-dev
-aws cloudfront create-invalidation --distribution-id E2DEJ1QLYBYKJ4 --paths "/*" --profile platform-anvil-dev
+aws s3 sync  $SRCDIR $BUCKET --delete --profile platform-anvil-dev
+aws cloudfront create-invalidation --distribution-id E3JAUIVOC72EMP --paths "/*" --profile platform-anvil-dev
