@@ -6,6 +6,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "../../../../app/config/common/entities";
+import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import * as ViewBuilders from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import {
   ANVIL_CMG_CATEGORY_KEY,
@@ -38,6 +39,15 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
       {
         componentConfig: {
           component: Components.Cell,
+          viewBuilder: ViewBuilders.buildAnatomicalSite,
+        } as ComponentConfig<typeof Components.Cell>,
+        header: "Anatomical Site",
+        id: "biosamples.anatomical_site",
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: Components.Cell,
           viewBuilder: ViewBuilders.buildBioSampleType,
         } as ComponentConfig<typeof Components.Cell>,
         header: "BioSample Type",
@@ -54,6 +64,7 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: Components.NTagCell,
           viewBuilder: ViewBuilders.buildPhenotypicSexes,
@@ -63,12 +74,22 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilders.buildAnatomicalSite,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Anatomical Site",
-        id: "biosamples.anatomical_site",
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildReportedEthnicity,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Reported Ethnicity",
+        id: "donors.reported_ethnicity",
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDiagnoses,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Diagnosis",
+        id: "diagnoses.phenotype",
         width: { max: "1fr", min: "200px" },
       },
       {

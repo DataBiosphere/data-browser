@@ -65,6 +65,15 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
       {
         componentConfig: {
           component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDiagnoses,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Diagnosis",
+        id: "diagnoses.phenotype",
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDatasetTitles,
         } as ComponentConfig<typeof Components.NTagCell>,
         header: "Dataset",

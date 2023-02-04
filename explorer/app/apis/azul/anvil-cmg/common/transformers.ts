@@ -16,6 +16,7 @@ import {
 import {
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
+  AggregatedDiagnosisResponse,
   AggregatedDonorResponse,
   AggregatedLibraryResponse,
 } from "./aggregatedEntities";
@@ -306,6 +307,17 @@ export function getAggregatedOrganismTypes(
   response: AggregatedDonorResponse
 ): string[] {
   return processAggregatedOrArrayValue(response.donors, "organism_type");
+}
+
+/**
+ * Maps diagnoses from aggregated diagnoses values returned from endpoints other than index/diagnosis.
+ * @param response - Response model return from Azul that includes diagnoses.
+ * @returns Organism types.
+ */
+export function getAggregatedDiagnoses(
+  response: AggregatedDiagnosisResponse
+): string[] {
+  return processAggregatedOrArrayValue(response.diagnoses, "phenotype");
 }
 
 /**

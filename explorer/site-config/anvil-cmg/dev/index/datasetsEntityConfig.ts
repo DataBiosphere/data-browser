@@ -45,7 +45,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         } as ComponentConfig<typeof Components.Link>,
         header: ANVIL_CMG_CATEGORY_LABEL.DATASET,
         id: ANVIL_CMG_CATEGORY_KEY.DATASET,
-        width: { max: "2fr", min: "200px" },
+        width: { max: "2fr", min: "280" },
       },
       {
         componentConfig: {
@@ -75,6 +75,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildPhenotypicSexes,
@@ -84,6 +85,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildReportedEthnicities,
@@ -92,17 +94,16 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         id: "donors.reported_ethnicity",
         width: { max: "1fr", min: "200px" },
       },
-      // {
-      //   componentConfig: {
-      //     component: Components.NTagCell,
-      //     viewBuilder: ViewBuilder.buildPrepMaterialNames,
-      //   } as ComponentConfig<typeof Components.NTagCell>,
-      //   header: "Library Preparation",
-      //   id: "prep_material_name",
-      //   width: { max: "1fr", min: "200px" },
-      // },
       {
-        columnVisible: false,
+        componentConfig: {
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDiagnoses,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Diagnosis",
+        id: "diagnoses.phenotype",
+        width: { max: "1fr", min: "200px" },
+      },
+      {
         componentConfig: {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildDataModality,

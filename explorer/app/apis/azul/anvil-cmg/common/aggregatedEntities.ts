@@ -68,6 +68,22 @@ export interface AggregatedDonorResponse {
 }
 
 /**
+ * Model of aggregated ("inner") diagnosis value returned from API endpoints other than /index/diagnosis (for example,
+ * /index/files).
+ */
+export interface AggregatedDiagnosis {
+  phenotype: string[];
+}
+
+/**
+ * Model of array of aggregated ("inner") diagnoses returned from API endpoints other than /index/diagnoses
+ * (for example, /index/files).
+ */
+export interface AggregatedDiagnosisResponse {
+  diagnoses: AggregatedDiagnosis[];
+}
+
+/**
  * Model of aggregated ("inner") file value returned from API endpoints other than /index/files (for example,
  * /index/libraries).
  */

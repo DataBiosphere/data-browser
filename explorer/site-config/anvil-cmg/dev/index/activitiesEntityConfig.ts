@@ -7,6 +7,7 @@ import {
   SORT_DIRECTION,
 } from "../../../../app/config/common/entities";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import * as ViewBuilders from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
@@ -60,6 +61,45 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: "BioSample Type",
         id: "biosamples.biosample_type",
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilders.buildOrganismTypes,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Organism Type",
+        id: "donors.organism_type",
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilders.buildPhenotypicSexes,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Phenotypic Sex",
+        id: "donors.phenotypic_sex",
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildReportedEthnicity,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Reported Ethnicity",
+        id: "donors.reported_ethnicity",
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: Components.NTagCell,
+          viewBuilder: ViewBuilder.buildDiagnoses,
+        } as ComponentConfig<typeof Components.NTagCell>,
+        header: "Diagnosis",
+        id: "diagnoses.phenotype",
         width: { max: "1fr", min: "200px" },
       },
       {

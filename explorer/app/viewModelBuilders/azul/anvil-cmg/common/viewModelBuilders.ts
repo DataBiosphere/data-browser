@@ -3,6 +3,7 @@ import { URL_DATASETS } from "../../../../../site-config/anvil/dev/config";
 import {
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
+  AggregatedDiagnosisResponse,
   AggregatedDonorResponse,
   AggregatedLibraryResponse,
 } from "../../../../apis/azul/anvil-cmg/common/aggregatedEntities";
@@ -24,6 +25,7 @@ import {
   getAggregatedBioSampleTypes,
   getAggregatedDatasetIds,
   getAggregatedDatasetTitles,
+  getAggregatedDiagnoses,
   getAggregatedOrganismTypes,
   getAggregatedPhenotypicSexes,
   getAggregatedPrepMaterialNames,
@@ -263,6 +265,20 @@ export const buildDatasetTitles = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATASET_NAME),
     values: getAggregatedDatasetTitles(response),
+  };
+};
+
+/**
+ * Build props for diagnosis type cell component from the given entity response.
+ * @param response - Response model return from Azul that includes aggregated diagnoses.
+ * @returns model to be used as props for the diagnosis cell.
+ */
+export const buildDiagnoses = (
+  response: AggregatedDiagnosisResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DIAGNOSIS),
+    values: getAggregatedDiagnoses(response),
   };
 };
 

@@ -75,6 +75,10 @@ const config: SiteConfig = {
       label: "Dataset",
     },
     {
+      key: "diagnoses.phenotype",
+      label: "Diagnosis",
+    },
+    {
       key: "files.file_format",
       label: "File Format",
     },
