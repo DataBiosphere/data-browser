@@ -27,17 +27,17 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
   label: "Files",
   list: {
     columns: [
-      {
-        componentConfig: {
-          component: Components.AzulFileDownload,
-          viewBuilder: ViewBuilder.buildFileDownload,
-        } as ComponentConfig<typeof Components.AzulFileDownload>,
-        disableHiding: true,
-        disableSorting: true,
-        header: ANVIL_CMG_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
-        id: ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD,
-        width: { max: "auto", min: "76px" },
-      },
+      // {
+      //   componentConfig: {
+      //     component: Components.AzulFileDownload,
+      //     viewBuilder: ViewBuilder.buildFileDownload,
+      //   } as ComponentConfig<typeof Components.AzulFileDownload>,
+      //   disableHiding: true,
+      //   disableSorting: true,
+      //   header: ANVIL_CMG_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
+      //   id: ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD,
+      //   width: { max: "auto", min: "76px" },
+      // },
       {
         componentConfig: {
           component: Components.Cell,
