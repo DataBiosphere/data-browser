@@ -4,20 +4,20 @@ import { HEADER_HEIGHT } from "../../header";
 
 interface Props {
   children: ReactNode | ReactNode[];
-  desktop: boolean;
+  desktopSm: boolean;
   drawerOpen: boolean;
   onDrawerClose: () => void;
 }
 
 export const Content = ({
   children,
-  desktop,
+  desktopSm,
   drawerOpen,
   onDrawerClose,
 }: Props): JSX.Element => {
-  const HeaderContent = desktop ? Fragment : Drawer;
-  const HeaderContentContainer = desktop ? Fragment : Box;
-  const contentProps = desktop
+  const HeaderContent = desktopSm ? Fragment : Drawer;
+  const HeaderContentContainer = desktopSm ? Fragment : Box;
+  const contentProps = desktopSm
     ? {}
     : {
         ModalProps: { sx: { top: `${HEADER_HEIGHT}px` } },
@@ -29,7 +29,7 @@ export const Content = ({
         onClose: onDrawerClose,
         open: drawerOpen,
       };
-  const contentContainerProps = desktop
+  const contentContainerProps = desktopSm
     ? {}
     : { sx: { display: "grid", gap: 2, py: 4 } };
 

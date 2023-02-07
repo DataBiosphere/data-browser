@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { SOCIAL } from "app/components/common/Socials/socials";
 import logoHhs from "images/logoHhs.svg";
 import logoHumanCellAtlas from "images/logoHumanCellAtlas.png";
 import logoLungmap from "images/logoLungmap.png";
@@ -67,19 +68,19 @@ AnvilFooter.args = {
     ],
     socials: [
       {
-        type: "discourse",
+        ...SOCIAL.DISCOURSE,
         url: "https://help.anvilproject.org/",
       },
       {
-        type: "twitter",
+        ...SOCIAL.TWITTER,
         url: "https://twitter.com/useAnVIL",
       },
       {
-        type: "youtube",
+        ...SOCIAL.YOUTUBE,
         url: "https://www.youtube.com/channel/UCBbHCj7kUogAMFyBAzzzfUw",
       },
       {
-        type: "github",
+        ...SOCIAL.GITHUB,
         url: "https://github.com/anvilproject",
       },
     ],
@@ -118,15 +119,15 @@ HCAFooter.args = {
     ],
     socials: [
       {
-        type: "twitter",
+        ...SOCIAL.TWITTER,
         url: "https://twitter.com/humancellatlas",
       },
       {
-        type: "github",
+        ...SOCIAL.GITHUB,
         url: "https://github.com/HumanCellAtlas",
       },
       {
-        type: "slack",
+        ...SOCIAL.SLACK,
         url: "https://humancellatlas.slack.com/archives/C02TM2SDVM2",
       },
     ],
@@ -152,7 +153,7 @@ LungMapFooter.args = {
     ],
     socials: [
       {
-        type: "twitter",
+        ...SOCIAL.TWITTER,
         url: "https://twitter.com/lungmapnet",
       },
     ],

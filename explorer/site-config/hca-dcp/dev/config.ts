@@ -1,11 +1,11 @@
 import logoHca from "images/logoHca.png";
 import logoHumanCellAtlas from "images/logoHumanCellAtlas.png";
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
-import { Social } from "../../../app/components/common/Socials/socials";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
 import { breakpointTablet } from "../../../app/theme/theme";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
+import { socials } from "./constants";
 import { exportConfig } from "./export/export";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
@@ -24,20 +24,6 @@ const LOGO: Logo = {
   link: BROWSER_URL,
   src: logoHca,
 };
-const SOCIALS: Social[] = [
-  {
-    type: "twitter",
-    url: "https://twitter.com/humancellatlas",
-  },
-  {
-    type: "github",
-    url: "https://github.com/HumanCellAtlas",
-  },
-  {
-    type: "slack",
-    url: "https://humancellatlas.slack.com/archives/C02TM2SDVM2",
-  },
-];
 
 const config: SiteConfig = {
   browserURL: BROWSER_URL,
@@ -159,7 +145,7 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/contact`,
         },
       ],
-      socials: SOCIALS,
+      socials,
     },
     header: {
       authenticationEnabled: false,
@@ -201,7 +187,7 @@ const config: SiteConfig = {
       ],
       searchEnabled: false,
       slogan: undefined,
-      socials: SOCIALS,
+      socials,
     },
   },
   redirectRootToPath: PROJECTS_URL,

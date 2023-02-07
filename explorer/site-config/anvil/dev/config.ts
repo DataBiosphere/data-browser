@@ -1,4 +1,3 @@
-import { Social } from "app/components/common/Socials/socials";
 import logoAnvil from "images/logoAnvil.png";
 import logoHhs from "images/logoHhs.svg";
 import logoNhgri from "images/logoNhgri.svg";
@@ -10,6 +9,7 @@ import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
 import { authenticationConfig } from "./authentication/authentication";
 import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "./category";
+import { socials } from "./constants";
 import { exportConfig } from "./export/export";
 import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
 import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
@@ -29,28 +29,6 @@ const LOGO: Logo = {
   link: "/",
   src: logoAnvil,
 };
-const SOCIALS: Social[] = [
-  {
-    type: "discourse",
-    url: "https://help.anvilproject.org/",
-  },
-  {
-    type: "twitter",
-    url: "https://twitter.com/useAnVIL",
-  },
-  {
-    type: "youtube",
-    url: "https://www.youtube.com/channel/UCBbHCj7kUogAMFyBAzzzfUw",
-  },
-  {
-    type: "github",
-    url: "https://github.com/anvilproject",
-  },
-  {
-    type: "slack",
-    url: "https://join.slack.com/t/anvil-community/shared_invite/zt-hsyfam1w-LXlCv~3vNLSfDj~qNd5uBg",
-  },
-];
 
 const config: SiteConfig = {
   authentication: authenticationConfig,
@@ -149,7 +127,7 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/privacy`,
         },
       ],
-      socials: SOCIALS,
+      socials,
     },
     header: {
       authenticationEnabled: true,
@@ -177,21 +155,27 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/events`,
         },
         {
-          label: "Team",
-          url: `${BROWSER_URL}/team`,
-        },
-        {
-          label: "FAQ",
-          url: `${BROWSER_URL}/faq`,
-        },
-        {
-          label: "Help",
-          url: `${BROWSER_URL}/help`,
+          label: "More",
+          menuItems: [
+            {
+              label: "Team",
+              url: `${BROWSER_URL}/team`,
+            },
+            {
+              label: "FAQ",
+              url: `${BROWSER_URL}/faq`,
+            },
+            {
+              label: "Help",
+              url: `${BROWSER_URL}/help`,
+            },
+          ],
+          url: "",
         },
       ],
       searchEnabled: false,
       slogan: SLOGAN,
-      socials: SOCIALS,
+      socials,
     },
   },
   redirectRootToPath: "/datasets",

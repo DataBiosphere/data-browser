@@ -1,9 +1,9 @@
-import { Social } from "app/components/common/Socials/socials";
 import logoLungmap from "images/logoLungmap.png";
 import hcaConfig from "site-config/hca-dcp/dev/config";
 import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
 import { Logo } from "../../../app/components/Layout/common/entities";
 import { SiteConfig } from "../../../app/config/common/entities";
+import { socials } from "./constants";
 import { summary } from "./index/summary";
 
 // Template constants
@@ -16,12 +16,6 @@ const LOGO: Logo = {
   link: PROJECTS_URL,
   src: logoLungmap,
 };
-const SOCIALS: Social[] = [
-  {
-    type: "twitter",
-    url: "https://twitter.com/lungmapnet",
-  },
-];
 
 const config: SiteConfig = {
   browserURL: BROWSER_URL,
@@ -49,7 +43,7 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/lungmap-privacy`,
         },
       ],
-      socials: SOCIALS,
+      socials,
     },
     header: {
       authenticationEnabled: false,
@@ -71,7 +65,7 @@ const config: SiteConfig = {
       ],
       searchEnabled: false,
       slogan: undefined,
-      socials: SOCIALS,
+      socials,
     },
   },
   redirectRootToPath: PROJECTS_URL,

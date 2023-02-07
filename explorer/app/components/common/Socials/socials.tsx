@@ -6,7 +6,16 @@ import { IconName } from "../CustomIcon/common/iconSvgPathShapes";
 import { CustomIcon } from "../CustomIcon/customIcon";
 import { IconButtonSocials } from "../IconButton/iconButton.styles";
 
+export const SOCIAL: Record<string, Omit<Social, "url">> = {
+  DISCOURSE: { label: "Discourse", type: "discourse" },
+  GITHUB: { label: "GitHub", type: "github" },
+  SLACK: { label: "Slack", type: "slack" },
+  TWITTER: { label: "Twitter", type: "twitter" },
+  YOUTUBE: { label: "YouTube", type: "youtube" },
+};
+
 export interface Social {
+  label: string;
   type: IconName;
   url: string;
 }

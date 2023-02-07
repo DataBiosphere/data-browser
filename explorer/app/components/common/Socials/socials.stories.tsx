@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
-import { Socials } from "./socials";
+import { SOCIAL, Socials } from "./socials";
 
 export default {
   argTypes: {
@@ -20,23 +20,23 @@ export const Primary = Template.bind({});
 Primary.args = {
   socials: [
     {
-      type: "twitter",
+      ...SOCIAL.TWITTER,
       url: GITHUB_URL,
     },
     {
-      type: "github",
+      ...SOCIAL.GITHUB,
       url: GITHUB_URL,
     },
     {
-      type: "youtube",
+      ...SOCIAL.YOUTUBE,
       url: GITHUB_URL,
     },
     {
-      type: "discourse",
+      ...SOCIAL.DISCOURSE,
       url: GITHUB_URL,
     },
     {
-      type: "slack",
+      ...SOCIAL.SLACK,
       url: GITHUB_URL,
     },
   ],

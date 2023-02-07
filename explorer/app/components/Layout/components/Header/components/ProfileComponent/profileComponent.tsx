@@ -13,15 +13,15 @@ export const ProfileComponent = (): JSX.Element => {
   const { isAuthorized, requestAuthorization, userProfile } =
     useContext(AuthContext);
   const profileImageURL = userProfile?.picture;
-  const desktop = useBreakpointHelper(
+  const smDesktop = useBreakpointHelper(
     BREAKPOINT_FN_NAME.UP,
-    BREAKPOINT.DESKTOP
+    BREAKPOINT.DESKTOP_SM
   );
   return (
     <>
       {isAuthorized ? (
         <ProfileImage profileImageURL={profileImageURL} />
-      ) : desktop ? (
+      ) : smDesktop ? (
         <Button
           startIcon={<LoginRoundedIcon />}
           variant="nav"

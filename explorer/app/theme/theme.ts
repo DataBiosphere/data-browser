@@ -7,6 +7,7 @@ import { BREAKPOINT } from "../hooks/useBreakpointHelper";
  */
 export const breakpointMobile = 0;
 export const breakpointTablet = 768; // Tablet.
+export const breakpointDesktopSm = 1280; // Desktop - small.
 export const breakpointDesktop = 1440; // Desktop.
 
 /**
@@ -47,6 +48,7 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
       breakpoints: {
         values: {
           [BREAKPOINT.DESKTOP]: breakpointDesktop,
+          [BREAKPOINT.DESKTOP_SM]: breakpointDesktopSm,
           [BREAKPOINT.MOBILE]: breakpointMobile,
           [BREAKPOINT.TABLET]: breakpointTablet,
         },
@@ -202,6 +204,9 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
    * Breakpoint constants
    */
   const breakpointUpDesktop = defaultTheme.breakpoints.up(BREAKPOINT.DESKTOP);
+  const breakpointUpDesktopSm = defaultTheme.breakpoints.up(
+    BREAKPOINT.DESKTOP_SM
+  );
   const breakpointUpMobile = defaultTheme.breakpoints.up(BREAKPOINT.MOBILE);
   const breakpointUpTablet = defaultTheme.breakpoints.up(BREAKPOINT.TABLET);
 
@@ -371,7 +376,7 @@ export const getAppTheme = (customTheme?: ThemeOptions): Theme => {
               "&:hover": {
                 backgroundColor: smokeLight,
               },
-              [breakpointUpDesktop]: {
+              [breakpointUpDesktopSm]: {
                 padding: "6px 12px",
               },
             },

@@ -8,13 +8,13 @@ import {
 import { SearchIcon } from "../../../../../common/CustomIcon/components/SearchIcon/searchIcon";
 
 export const Search = (): JSX.Element => {
-  const desktop = useBreakpointHelper(
+  const smDesktop = useBreakpointHelper(
     BREAKPOINT_FN_NAME.UP,
-    BREAKPOINT.DESKTOP
+    BREAKPOINT.DESKTOP_SM
   );
   return (
     <>
-      {desktop ? (
+      {smDesktop ? (
         <Button startIcon={<SearchIcon />} variant="nav">
           Search
         </Button>

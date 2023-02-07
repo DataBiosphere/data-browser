@@ -6,6 +6,7 @@ import {
   NCPI_CATALOG_CATEGORY_KEY,
   NCPI_CATALOG_CATEGORY_LABEL,
 } from "../category";
+import { socials } from "./constants";
 import { platformsEntityConfig } from "./index/platformsEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 
@@ -79,34 +80,27 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/ncpi/data`,
         },
         {
-          label: "Demonstration Projects",
-          url: `${BROWSER_URL}/ncpi/demonstration-projects`,
-        },
-        {
-          label: "Training",
-          url: `${BROWSER_URL}/ncpi/training`,
-        },
-        {
-          label: "Updates",
-          url: `${BROWSER_URL}/ncpi/progress-updates`,
+          label: "More",
+          menuItems: [
+            {
+              label: "Demonstration Projects",
+              url: `${BROWSER_URL}/ncpi/demonstration-projects`,
+            },
+            {
+              label: "Training",
+              url: `${BROWSER_URL}/ncpi/training`,
+            },
+            {
+              label: "Updates",
+              url: `${BROWSER_URL}/ncpi/progress-updates`,
+            },
+          ],
+          url: "",
         },
       ],
       searchEnabled: true,
       slogan: SLOGAN,
-      socials: [
-        {
-          type: "youtube",
-          url: "https://www.youtube.com/channel/UCJvPdDZOxJvOwObfnZ8X3gA",
-        },
-        {
-          type: "github",
-          url: "https://github.com/NIH-NCPI/",
-        },
-        {
-          type: "slack",
-          url: "https://nihcloudplatforms.slack.com/",
-        },
-      ],
+      socials,
     },
   },
   redirectRootToPath: "/studies",

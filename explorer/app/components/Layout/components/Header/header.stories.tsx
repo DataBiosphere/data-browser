@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { SOCIAL } from "app/components/common/Socials/socials";
 import logoAnvil from "images/logoAnvil.png";
 import logoHca from "images/logoHca.png";
 import logoLungmap from "images/logoLungmap.png";
@@ -63,35 +64,41 @@ AnvilHeader.args = {
         url: "https://anvilproject.org/events",
       },
       {
-        label: "Team",
-        url: "https://anvilproject.org/team",
-      },
-      {
-        label: "FAQ",
-        url: "https://anvilproject.org/faq",
-      },
-      {
-        label: "Help",
-        url: "https://anvilproject.org/help",
+        label: "More",
+        menuItems: [
+          {
+            label: "Team",
+            url: "https://anvilproject.org/team",
+          },
+          {
+            label: "FAQ",
+            url: "https://anvilproject.org/faq",
+          },
+          {
+            label: "Help",
+            url: "https://anvilproject.org/help",
+          },
+        ],
+        url: "",
       },
     ],
     searchEnabled: true,
     slogan: "NHGRI Analysis Visualization and Informatics Lab-space",
     socials: [
       {
-        type: "twitter",
+        ...SOCIAL.TWITTER,
         url: "https://twitter.com/useAnVIL",
       },
       {
-        type: "youtube",
+        ...SOCIAL.YOUTUBE,
         url: "https://www.youtube.com/channel/UCBbHCj7kUogAMFyBAzzzfUw",
       },
       {
-        type: "discourse",
+        ...SOCIAL.DISCOURSE,
         url: "https://help.anvilproject.org/",
       },
       {
-        type: "github",
+        ...SOCIAL.GITHUB,
         url: "https://github.com/anvilproject",
       },
     ],
@@ -147,15 +154,15 @@ HCAHeader.args = {
     slogan: undefined,
     socials: [
       {
-        type: "twitter",
+        ...SOCIAL.TWITTER,
         url: "https://twitter.com/humancellatlas",
       },
       {
-        type: "github",
+        ...SOCIAL.GITHUB,
         url: "https://github.com/HumanCellAtlas",
       },
       {
-        type: "slack",
+        ...SOCIAL.SLACK,
         url: "https://humancellatlas.slack.com/archives/C02TM2SDVM2",
       },
     ],
@@ -191,7 +198,7 @@ LungMapHeader.args = {
     slogan: undefined,
     socials: [
       {
-        type: "twitter",
+        ...SOCIAL.TWITTER,
         url: "https://twitter.com/lungmapnet",
       },
     ],

@@ -1,5 +1,6 @@
 import { Social } from "../../common/Socials/socials";
 import { ImageSrc } from "../../common/StaticImage/staticImage";
+import { MenuItem } from "../components/Header/components/NavLinkMenu/navLinkMenu";
 import { NavAlignment } from "../components/Header/components/NavLinks/navLinks";
 
 /**
@@ -41,5 +42,6 @@ export interface Logo {
  */
 export interface NavLinkItem {
   label: string;
+  menuItems?: MenuItem[];
   url: string;
 }

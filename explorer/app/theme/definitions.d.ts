@@ -41,6 +41,7 @@ declare module "@mui/material/styles" {
     xl: false;
     [BREAKPOINT.MOBILE]: true;
     [BREAKPOINT.DESKTOP]: true;
+    [BREAKPOINT.DESKTOP_SM]: true;
     [BREAKPOINT.TABLET]: true;
   }
 

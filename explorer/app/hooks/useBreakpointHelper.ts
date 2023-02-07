@@ -7,17 +7,19 @@ import { Breakpoint, Theme, useMediaQuery } from "@mui/material";
 
 export const enum BREAKPOINT {
   DESKTOP = "desktop",
+  DESKTOP_SM = "desktopSm",
   MOBILE = "mobile",
   TABLET = "tablet",
 }
 
 export const enum BREAKPOINT_FN_NAME {
   DOWN = "down",
+  ONLY = "only",
   UP = "up",
 }
 
 type BreakpointFnName = BREAKPOINT_FN_NAME;
-type BreakpointKey = Breakpoint | number;
+type BreakpointKey = Breakpoint;
 
 export const useBreakpointHelper = (
   fnName: BreakpointFnName,
