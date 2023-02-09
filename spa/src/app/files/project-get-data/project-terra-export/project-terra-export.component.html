@@ -7,6 +7,11 @@
         <div contentLeft>
             <p class="fontsize-s">Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy. <a href="https://app.terra.bio/#library/showcase" target="_blank">Learn More.</a></p>
             <p class="fontsize-s">To make the most out of your data with Terra, <a href="https://app.terra.bio/#workspaces/featured-workspaces-hca/HCA_Optimus_Pipeline" target="_blank">clone this featured workspace</a>.</p>
+            <warning color="orange" *ngIf="isAtlasLungMAP()">
+                <warning-content>
+                    <p class="fontsize-m">Fastq files for human subjects are not available for export. For access, please apply to dbGaP.</p>
+                </warning-content>
+            </warning>
             <ng-container *ngIf="isRequestNotStarted(state.exportToTerraStatus)">
                 <ng-container *ngIf="state.fileTypeSummaries.length > 0">
                     <h4 class="fontsize-m semi-bold">Species</h4>

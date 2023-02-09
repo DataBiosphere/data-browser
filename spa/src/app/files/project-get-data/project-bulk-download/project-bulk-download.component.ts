@@ -206,6 +206,15 @@ export class ProjectBulkDownloadComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if the atlas for the current environment is LungMAP.
+     *
+     * @returns {boolean}
+     */
+    public isAtlasLungMAP(): boolean {
+        return this.configService.isAtlasLungMAP();
+    }
+
+    /**
      * Returns true if there no file type summaries.
      */
     public isFileTypeSummariesEmpty(
