@@ -1,6 +1,5 @@
 import { Tabs, TabValue } from "app/components/common/Tabs/tabs";
 import { ComponentCreator } from "app/components/ComponentCreator/ComponentCreator";
-import { NoResults } from "app/components/NoResults/noResults";
 import { TableCreator } from "app/components/TableCreator/tableCreator";
 import { useEntityList } from "app/hooks/useEntityList";
 import { useRouter } from "next/router";
@@ -132,28 +131,6 @@ function renderEntities(
     // loads with the previous tabs data on the first render after switching tabs. (or similar)
     //console.log("Entity list type != tab value", entityListType, tabValue);
     return <></>; // TODO(Fran) review loading and return.
-  }
-
-  if (!loading && (!listItems || listItems.length === 0)) {
-    return (
-      <NoResults
-        // actions={
-        //   <>
-        //     <ButtonPrimary
-        //       onClick={(): void => console.log("Remove last filter")} // TODO create "remove last filter" function
-        //     >
-        //       Remove last filter
-        //     </ButtonPrimary>
-        //     <ButtonSecondary
-        //       onClick={(): void => console.log("Clear all filters")} // TODO create "clear all filters" function
-        //     >
-        //       Clear all filters
-        //     </ButtonSecondary>
-        //   </>
-        // }
-        title={"No Results found"}
-      />
-    );
   }
 
   return (

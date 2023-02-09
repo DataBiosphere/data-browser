@@ -30,6 +30,7 @@ import {
 import { Pagination } from "../../common/entities";
 import { InfoIcon } from "../common/CustomIcon/components/InfoIcon/infoIcon";
 import { GridPaper, RoundedPaper } from "../common/Paper/paper.styles";
+import { NoResults } from "../NoResults/noResults";
 import {
   buildCategoryViews,
   getEditColumnOptions,
@@ -75,13 +76,15 @@ export const TableComponent = <T extends object>({
   initialState,
   items,
   total,
-}: TableProps<T>): JSX.Element => {
+}: // eslint-disable-next-line sonarjs/cognitive-complexity -- TODO fix component length / complexity
+TableProps<T>): JSX.Element => {
   const { exploreDispatch, exploreState } = useContext(ExploreStateContext);
   const {
     filterState,
     isRelatedView,
     listItems,
     listStaticLoad,
+    loading,
     paginationState,
     relatedListItems,
     sorting,
@@ -135,6 +138,8 @@ export const TableComponent = <T extends object>({
   } = tableInstance;
   const allColumns = getAllColumns();
   const { columnFilters } = getState();
+  const { rows: results } = getRowModel();
+  const noResults = !loading && (!results || results.length === 0);
   const scrollTop = useScroll();
   const isLastPage = currentPage === pages;
   const editColumnOptions = getEditColumnOptions(tableInstance);
@@ -242,7 +247,9 @@ export const TableComponent = <T extends object>({
     resetColumnVisibility(false);
   };
 
-  return (
+  return noResults ? (
+    <NoResults title={"No Results found"} />
+  ) : (
     <RoundedPaper>
       <GridPaper>
         {editColumnOptions && (
