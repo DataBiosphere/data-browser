@@ -6,6 +6,11 @@
         <ng-container title>Download Project Data Using curl</ng-container>
         <div *ngIf="state.loaded" contentLeft>
             <p class="fontsize-s">Obtain a curl command for downloading the selected data.</p>
+            <warning color="orange" *ngIf="isAtlasLungMAP()">
+                <warning-content>
+                    <p class="fontsize-m">Fastq files for human subjects are not available for export. For access, please apply to dbGaP.</p>
+                </warning-content>
+            </warning>
             <ng-container *ngIf="isDownloadNotStarted(state.manifestResponse)">
                 <ng-container *ngIf="!isFileTypeSummariesEmpty(state.fileTypeSummaries)">
                     <h4 class="fontsize-m semi-bold">Species</h4>

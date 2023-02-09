@@ -201,6 +201,15 @@ export class ProjectTerraExportComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Returns true if the atlas for the current environment is LungMAP.
+     *
+     * @returns {boolean}
+     */
+    public isAtlasLungMAP(): boolean {
+        return this.configService.isAtlasLungMAP();
+    }
+
+    /**
      * Returns true if file type form field is valid. That is, at least one file type has been selected.
      *
      * @param {SearchTerm[]} selectedSearchTerms
