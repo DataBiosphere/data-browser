@@ -23,6 +23,7 @@ yt_service_params = (
 	lambda service, params: service.reports().query(**params).execute()
 )
 
+next_port = 8082
 default_service_system = None
 
 def authenticate(secret_name, service_params=ga_service_params):
@@ -33,7 +34,9 @@ def authenticate(secret_name, service_params=ga_service_params):
 	flow = InstalledAppFlow.from_client_secrets_file(ANALYTICS_REPORTING_CLIENT_SECRET_PATH,
 		scopes=scopes)
 
-	credentials = flow.run_local_server()
+	global next_port
+	credentials = flow.run_local_server(port=next_port)
+	next_port += 1
 	
 	# Build the service object.
 	service = build(service_name, service_version, credentials=credentials)
