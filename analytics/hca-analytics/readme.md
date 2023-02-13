@@ -1,16 +1,10 @@
-## Installing
+## Installing and activating the environment
 
-* In Anaconda Prompt, navigate to this directory
-
-* Install the environment:
-
-  `conda env create -f environment.yml`
+* See `../readme.md`
 
 ## Running
 
-* Activate the environment:
-
-  `conda activate hdgar-book`
+* Activate the environment
 
 * Build the book:
 

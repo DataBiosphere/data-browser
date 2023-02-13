@@ -49,5 +49,5 @@ boardwalk.zip
 
 #Python
 __pycache__/
-analytics/**/_build
-analytics/**/src
+/analytics/**/_build
+/analytics/venv
