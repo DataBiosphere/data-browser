@@ -6,8 +6,9 @@
 }
 
 @media print {
-	#jb-print-toc {
-		margin-bottom: 0rem;
+	#main-content {
+		max-width: none !important;
+		margin-left: 0 !important;
 	}
 	
 	main.bd-content {

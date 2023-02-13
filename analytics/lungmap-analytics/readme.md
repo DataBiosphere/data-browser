@@ -1,18 +1,10 @@
-## Installing
+## Installing and activating the environment
 
-* In Anaconda Prompt, navigate to this directory
-
-* Install the environment:
-
-  `conda env create -f environment.yml`
-
-* Separately install the analytics package using the labeled command near the top of the notebook
+* See `../readme.md`
 
 ## Running
 
-* Activate the environment:
-
-  `conda activate lungmap-analytics`
+* Activate the environment
 
 * Build the book:
 
