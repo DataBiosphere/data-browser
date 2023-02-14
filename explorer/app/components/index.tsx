@@ -3,6 +3,7 @@ export { KeyElType } from "./common/KeyValuePairs/components/KeyElType/keyElType
 export { ValueElType } from "./common/KeyValuePairs/components/ValueElType/valueElType";
 export { KeyValuePairs } from "./common/KeyValuePairs/keyValuePairs";
 export { Markdown } from "./common/Markdown/markdown";
+export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
 export { Stack } from "./common/Stack/Stack";
 export { StaticImage } from "./common/StaticImage/staticImage";
 export { CollapsableSection } from "./Detail/components/Section/components/CollapsableSection/collapsableSection";
