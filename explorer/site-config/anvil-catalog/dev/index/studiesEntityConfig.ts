@@ -66,9 +66,9 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
       },
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.Link,
           viewBuilder: ViewBuilder.buildConsortium,
-        } as ComponentConfig<typeof Components.Cell>,
+        } as ComponentConfig<typeof Components.Link>,
         header: ANVIL_CATALOG_CATEGORY_LABEL.CONSORTIUM,
         id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
         width: { max: "1fr", min: "120px" },

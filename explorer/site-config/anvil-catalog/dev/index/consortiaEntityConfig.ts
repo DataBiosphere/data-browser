@@ -15,16 +15,24 @@ import {
   ANVIL_CATALOG_CATEGORY_KEY,
   ANVIL_CATALOG_CATEGORY_LABEL,
 } from "../../category";
+import { mainColumn } from "../detail/consortium/overviewMainColumn";
+import { top } from "../detail/consortium/top";
 
 /**
  * Entity config object responsible to config anything related to the /explore/consortia route.
  */
 export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
   detail: {
-    detailOverviews: [],
-    staticLoad: false,
-    tabs: [],
-    top: [],
+    detailOverviews: ["Overview"],
+    staticLoad: true,
+    tabs: [
+      {
+        label: "Overview",
+        mainColumn: mainColumn,
+        route: "",
+      },
+    ],
+    top: top,
   },
   getId: getConsortiumId,
   label: "Consortia",
@@ -32,9 +40,9 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
     columns: [
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.Link,
           viewBuilder: ViewBuilder.buildConsortium,
-        } as ComponentConfig<typeof Components.Cell>,
+        } as ComponentConfig<typeof Components.Link>,
         header: ANVIL_CATALOG_CATEGORY_LABEL.CONSORTIUM,
         id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
         width: { max: "1fr", min: "120px" },

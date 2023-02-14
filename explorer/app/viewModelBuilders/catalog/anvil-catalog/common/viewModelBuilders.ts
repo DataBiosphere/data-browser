@@ -57,9 +57,11 @@ export const buildConsentCodes = (
  */
 export const buildConsortium = (
   anVILCatalogEntity: AnVILCatalogEntity
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.Link> => {
+  const { consortium } = anVILCatalogEntity;
   return {
-    value: anVILCatalogEntity.consortium,
+    label: consortium,
+    url: `/consortia/${consortium}`,
   };
 };
 
@@ -132,6 +134,23 @@ export const buildDiseases = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_INDICATION),
     values: anvilCatalogEntity.disease,
+  };
+};
+
+/**
+ * Build props for Hero component from the given AnVIL entity.
+ * @param anvilCatalogConsortium - AnVIL catalog consortium.
+ * @param exploreState - Global search state.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildConsortiumHero = (
+  anvilCatalogConsortium: AnVILCatalogConsortium,
+  exploreState: ExploreState
+): React.ComponentProps<typeof C.BackPageHero> => {
+  const { consortium } = anvilCatalogConsortium;
+  return {
+    breadcrumbs: getCatalogBreadcrumbs(exploreState, consortium),
+    title: consortium,
   };
 };
 
