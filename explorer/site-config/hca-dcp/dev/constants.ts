@@ -1,4 +1,7 @@
-import { SOCIAL, Social } from "../../../app/components/common/Socials/socials";
+import {
+  SOCIAL,
+  Social,
+} from "@clevercanary/data-explorer-ui/lib/components/common/Socials/socials";
 
 /**
  * File to hold constants that will be used for the HCA-DCP project.

@@ -1,4 +1,4 @@
-import { SiteConfig } from "../../../app/config/common/entities";
+import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import anvilDevConfig from "../../anvil/dev/config";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,

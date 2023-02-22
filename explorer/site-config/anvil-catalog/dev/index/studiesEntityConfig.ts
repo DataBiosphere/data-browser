@@ -1,15 +1,15 @@
+import {
+  ComponentConfig,
+  EntityConfig,
+  ListConfig,
+  SORT_DIRECTION,
+} from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { AnVILCatalogStudy } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
 import {
   anvilCatalogStudyInputMapper,
   getStudyId,
 } from "../../../../app/apis/catalog/anvil-catalog/common/utils";
 import * as Components from "../../../../app/components";
-import {
-  ComponentConfig,
-  EntityConfig,
-  ListConfig,
-  SORT_DIRECTION,
-} from "../../../../app/config/common/entities";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,

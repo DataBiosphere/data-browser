@@ -1,4 +1,4 @@
-import { SiteConfig } from "../../../app/config/common/entities";
+import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import devConfig from "../dev/config";
 
 // Template constants

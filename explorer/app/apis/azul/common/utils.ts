@@ -1,7 +1,7 @@
 /**
  * Type that is a union of all keys of T that have a type of string or null.
  */
-import { LABEL } from "./entities";
+import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 
 /**
  * Type that is a union of all keys of T that have a type of string or null.

@@ -230,16 +230,14 @@ export const projectsBuildProjectTitleColumn = (
  */
 export const projectsBuildCellCountColumn = (
   project: ProjectsResponse
-): React.ComponentProps<typeof C.Text> => {
+): React.ComponentProps<typeof C.Cell> => {
   if (!project.cellSuspensions?.[0]) {
     return {
-      children: "",
+      value: "",
     };
   }
   return {
-    children: getProjectsCellCountColumn(project),
-    customColor: "ink",
-    variant: "text-body-400",
+    value: getProjectsCellCountColumn(project),
   };
 };
 /**

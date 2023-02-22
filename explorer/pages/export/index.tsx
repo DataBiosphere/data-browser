@@ -1,5 +1,5 @@
+import { ExportView as ExportPageView } from "@clevercanary/data-explorer-ui/lib/views/ExportView/exportView";
 import React from "react";
-import { ExportView as ExportPageView } from "../../app/views/ExportView/exportView";
 
 /**
  * Export page.

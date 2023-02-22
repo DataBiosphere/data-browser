@@ -1,6 +1,9 @@
+import {
+  ImageSrc,
+  StaticImage,
+} from "@clevercanary/data-explorer-ui/lib/components/common/StaticImage/staticImage";
+import { Typography } from "@mui/material";
 import React from "react";
-import { ImageSrc, StaticImage } from "../common/StaticImage/staticImage";
-import { Text } from "../Text/Text";
 import { IconContainer, ItemContainer } from "./IconList.styles";
 
 export interface ItemProps {
@@ -18,9 +21,9 @@ export const Item = ({ icon, label }: ItemProps): JSX.Element => {
         <StaticImage src={icon.path} alt={icon.alt} />
       </IconContainer>
       {label && (
-        <Text variant="text-body-400" customColor="ink">
+        <Typography variant="text-body-400" color="ink">
           {label}
-        </Text>
+        </Typography>
       )}
     </ItemContainer>
   );

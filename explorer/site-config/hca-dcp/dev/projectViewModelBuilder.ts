@@ -154,26 +154,6 @@ export const buildSupplementaryLinks = (
 };
 
 /**
- * Build props for FileCounts from the given projects response.
- * @param project - Response model return from projects API.
- * @returns model to be used as props for the FileCounts component.
- */
-export const projectsToFileCounts = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.FileCounts> => {
-  if (!project) {
-    return { files: [] };
-  }
-
-  return {
-    files: project.fileTypeSummaries.map((file) => ({
-      count: file.count,
-      name: file.format,
-    })),
-  };
-};
-
-/**
  * Build props for AnalysisPortals from the given projects response.
  * @param project - Response model return from projects API.
  * @returns model to be used as props for the AnalysisPortals component.

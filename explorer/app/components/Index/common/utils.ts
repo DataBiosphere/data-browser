@@ -1,5 +1,4 @@
-import { AzulSummaryResponse } from "../../../apis/azul/common/entities";
-import { MetadataValue } from "./entities";
+import { AzulSummaryResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 
 /**
  * Calculates the summary file format count using count values returned for each file format in the summary response.
@@ -42,17 +41,6 @@ export function calculateSummaryTotalCellCount(
 }
 
 /**
- * Returns a list of values that are not null.
- * @param values - List of values.
- * @returns a list of values that are not null.
- */
-export function filterDefinedValues(
-  values: string[] | undefined
-): string[] | undefined {
-  return values?.filter((value) => value ?? false);
-}
-
-/**
  * Formats count sizes.
  * @param value - Count size.
  * @returns formatted count size as display string.
@@ -91,15 +79,4 @@ export function getSummaryCount(
   summaryKey: keyof AzulSummaryResponse
 ): number {
   return summaryResponse[summaryKey] as number;
-}
-
-/**
- * String-concatenates the specified list of metadata values to a string value, joined by a comma ",".
- * @param metadataValues - List of metadata values.
- * @returns the metadata values in a string, each value joined by a comma.
- */
-export function stringifyMetadataValues(
-  metadataValues: MetadataValue[]
-): string {
-  return metadataValues.join(", ");
 }

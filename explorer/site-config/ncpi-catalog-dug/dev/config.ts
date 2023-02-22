@@ -1,5 +1,5 @@
+import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import logoDug from "images/logoNcpiDug.svg";
-import { SiteConfig } from "../../../app/config/common/entities";
 import ncpiDevConfig from "../../ncpi-catalog/dev/config";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 

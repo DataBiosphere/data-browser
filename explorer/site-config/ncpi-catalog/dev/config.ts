@@ -1,6 +1,6 @@
+import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import logoNcpi from "images/logoNcpi.svg";
-import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
-import { SiteConfig } from "../../../app/config/common/entities";
 import anvilConfig from "../../anvil/dev/config";
 import {
   NCPI_CATALOG_CATEGORY_KEY,

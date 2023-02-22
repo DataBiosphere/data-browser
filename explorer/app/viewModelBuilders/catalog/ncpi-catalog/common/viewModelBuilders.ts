@@ -1,21 +1,20 @@
-import { ANCHOR_TARGET } from "app/components/Links/common/entities";
+import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
+import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
+import {
+  Key,
+  Value,
+} from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
+import { ViewContext } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import React, { ReactElement } from "react";
 import {
   NCPICatalogEntity,
   NCPICatalogPlatform,
   NCPICatalogStudy,
 } from "../../../../apis/catalog/ncpi-catalog/common/entities";
-import { ExploreState } from "../../../../common/context/exploreState";
 import * as C from "../../../../components";
-import { Breadcrumb } from "../../../../components/common/Breadcrumbs/breadcrumbs";
-import {
-  Key,
-  Value,
-} from "../../../../components/common/KeyValuePairs/keyValuePairs";
-import { stringifyValues } from "../../../../components/Detail/common/utils";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
-import { getEntityConfig } from "../../../../config/config";
 
 /**
  * Build props for consent codes cell component from the given NCPI entity.
@@ -213,16 +212,16 @@ export const buildStudyDetails = (
 /**
  * Build props for Hero component from the given NCPI entity.
  * @param ncpiCatalogStudy - NCPI catalog study.
- * @param exploreState - Global search state.
+ * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildStudyHero = (
   ncpiCatalogStudy: NCPICatalogStudy,
-  exploreState: ExploreState
+  viewContext: ViewContext
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const { dbGapId, title } = ncpiCatalogStudy;
   return {
-    breadcrumbs: getCatalogBreadcrumbs(exploreState, title),
+    breadcrumbs: getCatalogBreadcrumbs(viewContext, title),
     callToAction: {
       label: "Request Access",
       target: ANCHOR_TARGET.BLANK,
@@ -285,15 +284,15 @@ export const buildStudyNames = (
 
 /**
  * Returns catalog related breadcrumbs.
- * @param exploreState - Global search state.
+ * @param viewContext - View context.
  * @param lastCrumbText - Study title to be displayed as last crumb text.
  * @returns catalog breadcrumbs.
  */
 function getCatalogBreadcrumbs(
-  exploreState: ExploreState,
+  viewContext: ViewContext,
   lastCrumbText?: string
 ): Breadcrumb[] {
-  const { label, route } = getEntityConfig(exploreState.tabValue);
+  const { label, route } = viewContext.entityConfig;
   const firstCrumb = {
     path: `/${route}`,
     text: label,

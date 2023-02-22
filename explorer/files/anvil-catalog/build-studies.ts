@@ -3,6 +3,7 @@ import {
   AnVILCatalogWorkspace,
 } from "../../app/apis/catalog/anvil-catalog/common/entities";
 import {
+  accumulateObject,
   accumulateValue,
   accumulateValues,
   sumValues,
@@ -11,7 +12,7 @@ import { DbGapStudy, getStudy } from "../common/dbGaP";
 
 export async function buildAnVILCatalogStudies(
   anVILCatalogWorkspaces: AnVILCatalogWorkspace[]
-): Promise<AnVILCatalogStudy[]> {
+): Promise<Map<string, AnVILCatalogStudy>> {
   // Build the studies.
   const studiesByStudyId = new Map();
   for (const workspace of anVILCatalogWorkspaces) {
@@ -25,7 +26,7 @@ export async function buildAnVILCatalogStudies(
       );
     }
   }
-  return [...studiesByStudyId.values()];
+  return studiesByStudyId;
 }
 
 /**
@@ -63,7 +64,11 @@ export function buildAnVILCatalogStudy(
     study.workspaceName, // workspaceNames - a list of workspace names.
     workspace.workspaceName
   );
-  const workspaces = accumulateWorkspace(study.workspaces, workspace);
+  const workspaces = accumulateObject<AnVILCatalogWorkspace>(
+    study.workspaces,
+    workspace,
+    "workspaceName"
+  );
   return {
     consentCode: consentCodes,
     consortium,
@@ -91,25 +96,4 @@ export function hasStudy(dbGapId: string): boolean {
     return false;
   }
   return dbGapId.toLowerCase().startsWith("phs");
-}
-
-/**
- * Returns accumulated workspaces for the given AnVIL study.
- * @param workspaces - Study workspaces.
- * @param workspace - Workspace to add to the list of study workspaces.
- * @returns a list of study workspaces.
- */
-function accumulateWorkspace(
-  workspaces: AnVILCatalogWorkspace[] = [],
-  workspace: AnVILCatalogWorkspace
-): AnVILCatalogWorkspace[] {
-  if (
-    workspaces?.find(
-      ({ workspaceName }) => workspaceName === workspace.workspaceName
-    )
-  ) {
-    return workspaces;
-  }
-  workspaces.push(workspace);
-  return workspaces;
 }

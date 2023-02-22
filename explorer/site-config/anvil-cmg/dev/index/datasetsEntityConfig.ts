@@ -1,12 +1,12 @@
-import { DatasetsResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
-import { getDatasetEntryId } from "../../../../app/apis/azul/anvil-cmg/common/transformers";
-import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
   SORT_DIRECTION,
-} from "../../../../app/config/common/entities";
+} from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { DatasetsResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
+import { getDatasetEntryId } from "../../../../app/apis/azul/anvil-cmg/common/transformers";
+import * as Components from "../../../../app/components";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import {
   ANVIL_CMG_CATEGORY_KEY,

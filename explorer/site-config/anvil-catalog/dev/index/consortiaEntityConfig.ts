@@ -1,22 +1,24 @@
+import {
+  ComponentConfig,
+  EntityConfig,
+  ListConfig,
+  SORT_DIRECTION,
+} from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { AnVILCatalogConsortium } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
 import {
   anvilCatalogConsortiumInputMapper,
   getConsortiumId,
 } from "../../../../app/apis/catalog/anvil-catalog/common/utils";
 import * as Components from "../../../../app/components";
-import {
-  ComponentConfig,
-  EntityConfig,
-  ListConfig,
-  SORT_DIRECTION,
-} from "../../../../app/config/common/entities";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,
   ANVIL_CATALOG_CATEGORY_LABEL,
 } from "../../category";
 import { mainColumn } from "../detail/consortium/overviewMainColumn";
+import { studiesMainColumn } from "../detail/consortium/studiesMainColumn";
 import { top } from "../detail/consortium/top";
+import { workspacesMainColumn } from "../detail/consortium/workspacesMainColumn";
 
 /**
  * Entity config object responsible to config anything related to the /explore/consortia route.
@@ -30,6 +32,16 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
         label: "Overview",
         mainColumn: mainColumn,
         route: "",
+      },
+      {
+        label: "Studies",
+        mainColumn: studiesMainColumn,
+        route: "studies",
+      },
+      {
+        label: "Workspaces",
+        mainColumn: workspacesMainColumn,
+        route: "workspaces",
       },
     ],
     top: top,

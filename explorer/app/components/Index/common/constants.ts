@@ -1,4 +1,4 @@
-import { AzulSummaryResponse } from "../../../apis/azul/common/entities";
+import { AzulSummaryResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { METADATA_KEY, SUMMARY } from "./entities";
 import {
   calculateSummaryFileFormatsCount,

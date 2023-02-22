@@ -1,6 +1,6 @@
+import { EntityConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { DugCatalogStudy } from "../../../../app/apis/catalog/ncpi-catalog-dug/common/entities";
 import { DugStudyInputMapper } from "../../../../app/apis/catalog/ncpi-catalog-dug/common/utils";
-import { EntityConfig } from "../../../../app/config/common/entities";
 import { NCPI_CATALOG_CATEGORY_KEY } from "../../../ncpi-catalog/category";
 import { top } from "../../../ncpi-catalog/dev/detail/study/top";
 import { studiesEntityConfig as ncpiStudiesEntityConfig } from "../../../ncpi-catalog/dev/index/studiesEntityConfig";

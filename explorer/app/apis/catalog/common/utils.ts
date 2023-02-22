@@ -1,4 +1,23 @@
 /**
+ * Adds a given object to an array of objects and returns a list of objects with distinct values in a given key.
+ * @param objects - List of objects.
+ * @param newObject - Object to add to the list of objects.
+ * @param key - Key to check for distinct values.
+ * @returns List of distinct objects.
+ */
+export function accumulateObject<ObjType extends object>(
+  objects: ObjType[] = [],
+  newObject: ObjType,
+  key: keyof ObjType
+): ObjType[] {
+  if (objects?.find((obj) => obj[key] === newObject[key])) {
+    return objects;
+  }
+  objects.push(newObject);
+  return objects;
+}
+
+/**
  * Adds a given value to an array of values and returns a list of distinct values.
  * @param values - List of values.
  * @param value - Value to add to the list of values.

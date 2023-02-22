@@ -1,6 +1,6 @@
+import { SectionDetailsEmpty } from "@clevercanary/data-explorer-ui/lib/components/common/Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import React from "react";
-import { SectionDetailsEmpty } from "../../Detail/components/Section/components/SectionDetailsEmpty/sectionDetailsEmpty";
 
 export type MDXSerializeResult = MDXRemoteSerializeResult | null;
 

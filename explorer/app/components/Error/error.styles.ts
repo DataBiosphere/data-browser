@@ -1,5 +1,5 @@
+import { Section } from "@clevercanary/data-explorer-ui/lib/components/common/Section/section.styles";
 import styled from "@emotion/styled";
-import { Section } from "../Detail/components/Section/section.styles";
 
 export const Error = styled.div`
   margin: 0 auto;

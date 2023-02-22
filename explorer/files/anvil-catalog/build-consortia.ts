@@ -1,8 +1,11 @@
 import {
   AnVILCatalogConsortium,
+  AnVILCatalogConsortiumStudy,
+  AnVILCatalogStudy,
   AnVILCatalogWorkspace,
 } from "../../app/apis/catalog/anvil-catalog/common/entities";
 import {
+  accumulateObject,
   accumulateValue,
   accumulateValues,
   sumValues,
@@ -11,10 +14,12 @@ import {
 /**
  * Returns AnVIL catalog consortia.
  * @param anVILCatalogWorkspaces - the workspaces read from the TSV report.
+ * @param studiesByStudyId - Map from dbGaP study ID to AnVIL catalog study.
  * @returns AnVIL catalog consortia.
  */
 export function buildAnVILCatalogConsortia(
-  anVILCatalogWorkspaces: AnVILCatalogWorkspace[]
+  anVILCatalogWorkspaces: AnVILCatalogWorkspace[],
+  studiesByStudyId: Map<string, AnVILCatalogStudy>
 ): unknown[] {
   const anvilCatalogConsortiaByConsortium = new Map();
 
@@ -25,7 +30,11 @@ export function buildAnVILCatalogConsortia(
       anvilCatalogConsortiaByConsortium.get(consortium) || {};
     anvilCatalogConsortiaByConsortium.set(
       consortium,
-      buildAnVILCatalogConsortium(workspace, anvilCatalogConsortium)
+      buildAnVILCatalogConsortium(
+        studiesByStudyId,
+        workspace,
+        anvilCatalogConsortium
+      )
     );
   }
 
@@ -34,11 +43,13 @@ export function buildAnVILCatalogConsortia(
 
 /**
  * Returns AnVIL catalog consortium.
+ * @param studiesByStudyId - Map from dbGaP study ID to AnVIL catalog study.
  * @param workspace - AnVIL catalog workspace.
  * @param anvilCatalogConsortium - AnVIL catalog consortium.
  * @returns AnVIL catalog consortium.
  */
 function buildAnVILCatalogConsortium(
+  studiesByStudyId: Map<string, AnVILCatalogStudy>,
   workspace: AnVILCatalogWorkspace,
   anvilCatalogConsortium: AnVILCatalogConsortium
 ): AnVILCatalogConsortium {
@@ -63,6 +74,14 @@ function buildAnVILCatalogConsortium(
     anvilCatalogConsortium.participantCount,
     workspace.participantCount,
   ]);
+  const study = studiesByStudyId.get(workspace.dbGapId);
+  const studies = study
+    ? accumulateObject<AnVILCatalogConsortiumStudy>(
+        anvilCatalogConsortium.studies,
+        Object.assign({}, study, { workspaces: undefined }),
+        "studyName"
+      )
+    : anvilCatalogConsortium.studies || [];
   const studyDesigns = accumulateValues(
     anvilCatalogConsortium.studyDesign,
     workspace.studyDesign
@@ -75,6 +94,11 @@ function buildAnVILCatalogConsortium(
     anvilCatalogConsortium.workspaceName, // workspaceNames - a list of workspace names.
     workspace.workspaceName
   );
+  const workspaces = accumulateObject<AnVILCatalogWorkspace>(
+    anvilCatalogConsortium.workspaces,
+    workspace,
+    "workspaceName"
+  );
   return {
     consentCode: consentCodes,
     consortium,
@@ -82,9 +106,11 @@ function buildAnVILCatalogConsortium(
     dbGapId,
     disease: diseases,
     participantCount,
+    studies,
     studyDesign: studyDesigns,
     studyName: studyNames,
     workspaceCount: workspaceNames.length,
     workspaceName: workspaceNames,
+    workspaces,
   };
 }

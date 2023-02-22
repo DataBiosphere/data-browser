@@ -1,6 +1,10 @@
 import React from "react";
 import { Item, ItemProps } from "./Item";
 
+/**
+ * TODO deprecate IconList folder and associated components and use KeyValuePairs component instead.
+ */
+
 interface IconListProps {
   icons: ItemProps[];
 }

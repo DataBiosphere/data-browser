@@ -1,11 +1,12 @@
 import {
   sanitizeString,
   sanitizeStringArray,
-} from "../../../../viewModelBuilders/common/utils";
+} from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/utils";
 import {
   AnVILCatalogConsortium,
   AnVILCatalogEntity,
   AnVILCatalogStudy,
+  AnVILCatalogStudyAny,
   AnVILCatalogWorkspace,
 } from "./entities";
 
@@ -35,9 +36,11 @@ export const getConsortiumId = (
   anvilCatalogEntity: AnVILCatalogEntity
 ): string => anvilCatalogEntity.consortium ?? "";
 
-export const anvilCatalogStudyInputMapper = (
-  input: AnVILCatalogStudy
-): AnVILCatalogStudy => {
+export const anvilCatalogStudyInputMapper = <
+  StudyType extends AnVILCatalogStudyAny
+>(
+  input: StudyType
+): StudyType => {
   return {
     ...input,
     studyName: sanitizeString(input.studyName),
@@ -59,6 +62,8 @@ export const anvilCatalogConsortiumInputMapper = (
 ): AnVILCatalogConsortium => {
   return {
     ...input,
+    studies: input.studies.map(anvilCatalogStudyInputMapper),
     studyName: sanitizeStringArray(input.studyName),
+    workspaces: input.workspaces.map(anvilCatalogWorkspaceInputMapper),
   };
 };

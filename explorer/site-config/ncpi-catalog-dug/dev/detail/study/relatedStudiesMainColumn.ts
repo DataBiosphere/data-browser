@@ -1,5 +1,5 @@
+import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "app/components";
-import { ComponentConfig } from "app/config/common/entities";
 import { DugCatalogStudy } from "../../../../../app/apis/catalog/ncpi-catalog-dug/common/entities";
 import * as T from "../../../../../app/viewModelBuilders/catalog/ncpi-catalog-dug/common/viewModelBuilders";
 

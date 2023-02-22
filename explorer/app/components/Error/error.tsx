@@ -1,11 +1,14 @@
+import { ButtonPrimary } from "@clevercanary/data-explorer-ui/lib/components/common/Button/button.styles";
+import { AlertIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/AlertIcon/alertIcon";
+import { SectionActions } from "@clevercanary/data-explorer-ui/lib/components/common/Section/section.styles";
+import {
+  PRIORITY,
+  StatusIcon,
+} from "@clevercanary/data-explorer-ui/lib/components/common/StatusIcon/statusIcon";
 import { Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import { ROOT_URL } from "../../shared/constants";
-import { ButtonPrimary } from "../common/Button/button.styles";
-import { AlertIcon } from "../common/CustomIcon/components/AlertIcon/alertIcon";
-import { PRIORITY, StatusIcon } from "../common/StatusIcon/statusIcon";
-import { SectionActions } from "../Detail/components/Section/section.styles";
 import {
   Error as CustomError,
   ErrorSection,

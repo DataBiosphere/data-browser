@@ -27,11 +27,6 @@ export enum METADATA_KEY {
 }
 
 /**
- * Model of metadata value to be used as props for the NTagCell and NTag component.
- */
-export type MetadataValue = string;
-
-/**
  * Set of possible summary counts and other summary values as part of summary response.
  */
 export enum SUMMARY {
@@ -41,12 +36,4 @@ export enum SUMMARY {
   FILES = "FILES",
   SPECIES = "SPECIES",
   SPECIMENS = "SPECIMENS",
-}
-
-/**
- * Model of summary to be used as props for the Hero component.
- */
-export interface Summary {
-  count: string;
-  label: string;
 }

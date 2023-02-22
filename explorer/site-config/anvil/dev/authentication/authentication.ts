@@ -1,4 +1,4 @@
-import { AuthenticationConfig } from "app/config/common/entities";
+import { AuthenticationConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 
 export const authenticationConfig: AuthenticationConfig = {
   googleGISAuthConfig: {

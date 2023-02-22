@@ -1,5 +1,5 @@
+import { ExportToTerraView } from "@clevercanary/data-explorer-ui/lib/views/ExportToTerraView/exportToTerraView";
 import React from "react";
-import { ExportToTerraView } from "../../app/views/ExportToTerraView/exportToTerraView";
 
 /**
  * Export page.

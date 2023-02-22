@@ -43,8 +43,14 @@ async function buildCatalog(): Promise<void> {
   const anVILCatalogWorkspaces = await buildAnVILCatalogWorkspaces(
     tsvWorkspaces as AnVILCatalog[]
   );
-  const studies = await buildAnVILCatalogStudies(anVILCatalogWorkspaces);
-  const consortia = buildAnVILCatalogConsortia(anVILCatalogWorkspaces);
+  const studiesByStudyId = await buildAnVILCatalogStudies(
+    anVILCatalogWorkspaces
+  );
+  const studies = [...studiesByStudyId.values()];
+  const consortia = buildAnVILCatalogConsortia(
+    anVILCatalogWorkspaces,
+    studiesByStudyId
+  );
 
   /**
    * Write out the resulting files

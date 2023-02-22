@@ -1,8 +1,8 @@
-import { NCPIStudy } from "../../../../../files/ncpi-catalog/entities";
 import {
   sanitizeString,
   sanitizeStringArray,
-} from "../../../../viewModelBuilders/common/utils";
+} from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/utils";
+import { NCPIStudy } from "../../../../../files/ncpi-catalog/entities";
 import { NCPICatalogPlatform, NCPICatalogStudy } from "./entities";
 
 export function NCPIStudyInputMapper(ncpiStudy: NCPIStudy): NCPICatalogStudy {

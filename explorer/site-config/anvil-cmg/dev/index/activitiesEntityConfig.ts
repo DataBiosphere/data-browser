@@ -1,11 +1,11 @@
-import { ActivitiesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
-import * as Components from "../../../../app/components";
 import {
   ComponentConfig,
   EntityConfig,
   ListConfig,
   SORT_DIRECTION,
-} from "../../../../app/config/common/entities";
+} from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { ActivitiesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
+import * as Components from "../../../../app/components";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import * as ViewBuilders from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import {

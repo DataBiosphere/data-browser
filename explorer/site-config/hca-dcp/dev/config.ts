@@ -1,9 +1,16 @@
+import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
+import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { tabletUp } from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
+import {
+  TEXT_BODY_LARGE_500,
+  TEXT_HEADING,
+  TEXT_HEADING_LARGE,
+  TEXT_HEADING_SMALL,
+  TEXT_HEADING_XLARGE,
+} from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
 import logoHca from "images/logoHca.png";
 import logoHumanCellAtlas from "images/logoHumanCellAtlas.png";
-import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
-import { Logo } from "../../../app/components/Layout/common/entities";
-import { SiteConfig } from "../../../app/config/common/entities";
-import { breakpointTablet } from "../../../app/theme/theme";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
 import { socials } from "./constants";
 import { exportConfig } from "./export/export";
@@ -18,7 +25,7 @@ const CATALOG_DCP2 = "dcp2";
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
 const PAGINATION_PAGE_SIZE = "25";
 export const PROJECTS_URL = "/projects";
-const LOGO: Logo = {
+const LOGO: LogoProps = {
   alt: "Human Cell Atlas Data Coordination Platform",
   height: 32,
   link: BROWSER_URL,
@@ -195,7 +202,7 @@ const config: SiteConfig = {
     apiPath: "index/summary",
     components: summary,
   },
-  theme: {
+  themeOptions: {
     palette: {
       primary: {
         dark: "#005EA9",
@@ -203,48 +210,48 @@ const config: SiteConfig = {
       },
     },
     typography: {
-      "text-body-large-500": {
+      [TEXT_BODY_LARGE_500]: {
         fontFamily: FONT_FAMILY_DIN,
         fontSize: 18,
         fontWeight: 400,
       },
-      "text-heading": {
+      [TEXT_HEADING]: {
         fontFamily: FONT_FAMILY_DIN,
         fontSize: 22,
         fontWeight: 400,
         letterSpacing: "normal",
-        [`@media (min-width: ${breakpointTablet}px)`]: {
+        [tabletUp]: {
           fontSize: 26,
           letterSpacing: "normal",
         },
       },
-      "text-heading-large": {
+      [TEXT_HEADING_LARGE]: {
         fontFamily: FONT_FAMILY_DIN,
         fontSize: 26,
         fontWeight: 400,
         letterSpacing: "normal",
         lineHeight: "34px",
-        [`@media (min-width: ${breakpointTablet}px)`]: {
+        [tabletUp]: {
           fontSize: 32,
           letterSpacing: "normal",
         },
       },
-      "text-heading-small": {
+      [TEXT_HEADING_SMALL]: {
         fontFamily: FONT_FAMILY_DIN,
         fontSize: 20,
         fontWeight: 400,
         letterSpacing: "normal",
-        [`@media (min-width: ${breakpointTablet}px)`]: {
+        [tabletUp]: {
           fontSize: 22,
           letterSpacing: "normal",
         },
       },
-      "text-heading-xlarge": {
+      [TEXT_HEADING_XLARGE]: {
         fontFamily: FONT_FAMILY_DIN,
         fontSize: 32,
         fontWeight: 400,
         letterSpacing: "normal",
-        [`@media (min-width: ${breakpointTablet}px)`]: {
+        [tabletUp]: {
           fontSize: 42,
           letterSpacing: "-0.4px",
         },

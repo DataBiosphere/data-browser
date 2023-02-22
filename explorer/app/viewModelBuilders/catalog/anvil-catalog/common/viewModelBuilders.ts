@@ -1,3 +1,11 @@
+import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
+import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
+import {
+  Key,
+  Value,
+} from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
+import { ViewContext } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { ColumnDef } from "@tanstack/react-table";
 import React, { ReactElement } from "react";
 import {
@@ -6,22 +14,14 @@ import {
 } from "../../../../../site-config/anvil-catalog/category";
 import {
   AnVILCatalogConsortium,
+  AnVILCatalogConsortiumStudy,
   AnVILCatalogEntity,
   AnVILCatalogStudy,
   AnVILCatalogWorkspace,
 } from "../../../../apis/catalog/anvil-catalog/common/entities";
-import { ExploreState } from "../../../../common/context/exploreState";
 import * as C from "../../../../components";
-import { Breadcrumb } from "../../../../components/common/Breadcrumbs/breadcrumbs";
-import {
-  Key,
-  Value,
-} from "../../../../components/common/KeyValuePairs/keyValuePairs";
-import { stringifyValues } from "../../../../components/Detail/common/utils";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
-import { ANCHOR_TARGET } from "../../../../components/Links/common/entities";
-import { getEntityConfig } from "../../../../config/config";
 
 /**
  * Build props for consent code cell component from the given AnVIL workspace.
@@ -66,6 +66,40 @@ export const buildConsortium = (
 };
 
 /**
+ * Build props for DetailViewTable component from the given AnVIL entity.
+ * @param anVILCatalogConsortium - AnVil catalog consortium.
+ * @returns Model to be used as props for the detail view table component.
+ */
+export const buildConsortiumDetailViewStudiesTable = (
+  anVILCatalogConsortium: AnVILCatalogConsortium
+): React.ComponentProps<typeof C.DetailViewTable> => {
+  const { studies } = anVILCatalogConsortium;
+  return {
+    columns: buildConsortiumStudiesTableColumns(),
+    gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr 1fr auto",
+    items: studies,
+    noResultsTitle: "No Studies",
+  };
+};
+
+/**
+ * Build props for DetailViewTable component from the given AnVIL entity.
+ * @param anVILCatalogConsortium - AnVil catalog consortium.
+ * @returns Model to be used as props for the detail view table component.
+ */
+export const buildConsortiumDetailViewWorkspacesTable = (
+  anVILCatalogConsortium: AnVILCatalogConsortium
+): React.ComponentProps<typeof C.DetailViewTable> => {
+  const { workspaces } = anVILCatalogConsortium;
+  return {
+    columns: buildConsortiumWorkspacesTableColumns(),
+    gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr auto",
+    items: workspaces,
+    noResultsTitle: "No Workspaces",
+  };
+};
+
+/**
  * Build props for data type cell component from the given AnVIL entity.
  * @param anvilCatalogEntity - AnVIL catalog entity.
  * @returns Model to be used as props for the data type cell.
@@ -76,23 +110,6 @@ export const buildDataTypes = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATA_TYPE),
     values: anvilCatalogEntity.dataType,
-  };
-};
-
-/**
- * Build props for DetailViewTable component from the given AnVIL entity.
- * @param anVILCatalogStudy - AnVil catalog study.
- * @returns Model to be used as props for the detail view table component.
- */
-export const buildDetailViewWorkspacesTable = (
-  anVILCatalogStudy: AnVILCatalogStudy
-): React.ComponentProps<typeof C.DetailViewTable> => {
-  const { workspaces } = anVILCatalogStudy;
-  return {
-    columns: buildTableColumns(),
-    gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr auto",
-    items: workspaces,
-    noResultsTitle: "No Workspaces",
   };
 };
 
@@ -140,16 +157,16 @@ export const buildDiseases = (
 /**
  * Build props for Hero component from the given AnVIL entity.
  * @param anvilCatalogConsortium - AnVIL catalog consortium.
- * @param exploreState - Global search state.
+ * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildConsortiumHero = (
   anvilCatalogConsortium: AnVILCatalogConsortium,
-  exploreState: ExploreState
+  viewContext: ViewContext
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const { consortium } = anvilCatalogConsortium;
   return {
-    breadcrumbs: getCatalogBreadcrumbs(exploreState, consortium),
+    breadcrumbs: getCatalogBreadcrumbs(viewContext, consortium),
     title: consortium,
   };
 };
@@ -219,6 +236,23 @@ export const buildStudyDesigns = (
 };
 
 /**
+ * Build props for DetailViewTable component from the given AnVIL entity.
+ * @param anVILCatalogStudy - AnVil catalog study.
+ * @returns Model to be used as props for the detail view table component.
+ */
+export const buildStudyDetailViewWorkspacesTable = (
+  anVILCatalogStudy: AnVILCatalogStudy
+): React.ComponentProps<typeof C.DetailViewTable> => {
+  const { workspaces } = anVILCatalogStudy;
+  return {
+    columns: buildStudyWorkspacesTableColumns(),
+    gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr auto",
+    items: workspaces,
+    noResultsTitle: "No Workspaces",
+  };
+};
+
+/**
  * Build props for study design cell component from the given AnVIL entity.
  * @param anVILCatalogConsortium - AnVIL catalog consortium.
  * @returns Model to be used as props for the study design cell.
@@ -258,16 +292,16 @@ export const buildStudyDetails = (
  * Build props for Hero component from the given AnVIL entity.
  * TODO revisit - separate from entity builder, generalize modeling?, revisit transformer
  * @param anVILCatalogStudy - AnVIL catalog study.
- * @param exploreState - Global search state.
+ * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildStudyHero = (
   anVILCatalogStudy: AnVILCatalogStudy,
-  exploreState: ExploreState
+  viewContext: ViewContext
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const { dbGapId, studyName } = anVILCatalogStudy;
   return {
-    breadcrumbs: getCatalogBreadcrumbs(exploreState, studyName),
+    breadcrumbs: getCatalogBreadcrumbs(viewContext, studyName),
     callToAction: {
       label: "Request Access",
       target: ANCHOR_TARGET.BLANK,
@@ -345,38 +379,84 @@ export const buildTerraWorkspaceNames = (
 };
 
 /**
- * Builds the table column definition model for the detailed view workspaces table.
- * @returns workspaces table column definition.
+ * Builds the table column definition model for the group of consecutive columns shared by all detailed view tables.
+ * @returns table column definition.
  */
-function buildTableColumns<T>(): ColumnDef<T>[] {
+function buildSharedTableColumns<T>(): ColumnDef<T>[] {
   return [
     {
-      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
-      header: ANVIL_CATALOG_CATEGORY_LABEL.CONSORTIUM,
-    },
-    {
-      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.WORKSPACE_NAME,
-      cell: ({ row: { original } }) =>
-        C.Link(
-          buildTerraWorkspaceName(original as unknown as AnVILCatalogWorkspace)
-        ), // TODO revisit type assertion here
-      header: "Terra Workspace",
-    },
-    {
-      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
-      header: ANVIL_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
-    },
-    {
       accessorKey: ANVIL_CATALOG_CATEGORY_KEY.DISEASE,
+      cell: ({ row }) =>
+        C.NTagCell(
+          buildDiseases(row.original as unknown as AnVILCatalogEntity) // TODO revisit type assertion here
+        ),
       header: ANVIL_CATALOG_CATEGORY_LABEL.DISEASE,
     },
     {
       accessorKey: ANVIL_CATALOG_CATEGORY_KEY.DATA_TYPE,
+      cell: ({ row }) =>
+        C.NTagCell(
+          buildDataTypes(row.original as unknown as AnVILCatalogEntity) // TODO revisit type assertion here
+        ),
       header: ANVIL_CATALOG_CATEGORY_LABEL.DATA_TYPE,
     },
     {
       accessorKey: ANVIL_CATALOG_CATEGORY_KEY.STUDY_DESIGN,
+      cell: ({ row }) =>
+        C.NTagCell(
+          buildStudyDesigns(row.original as unknown as AnVILCatalogEntity) // TODO revisit type assertion here
+        ),
       header: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_DESIGN,
+    },
+  ];
+}
+
+/**
+ * Builds the table column definition model for the detailed view studies table.
+ * @returns studies table column definition.
+ */
+function buildConsortiumStudiesTableColumns<T>(): ColumnDef<T>[] {
+  return [
+    {
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME,
+      cell: ({ row: { original } }): JSX.Element => {
+        const { dbGapId, studyAccession, studyName } =
+          original as unknown as AnVILCatalogConsortiumStudy; // TODO revisit type assertion here
+        return C.Link({
+          label: studyName,
+          url: studyAccession ? `/studies/${dbGapId}` : "",
+        });
+      },
+      header: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_NAME,
+    },
+    {
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.DB_GAP_ID,
+      header: ANVIL_CATALOG_CATEGORY_LABEL.DB_GAP_ID,
+    },
+    {
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
+      cell: ({ row }): JSX.Element => {
+        const { consentCode } =
+          row.original as unknown as AnVILCatalogConsortiumStudy; // TODO revisit type assertion here
+        return C.NTagCell({
+          label: getPluralizedMetadataLabel(METADATA_KEY.CONSENT_CODE),
+          values: consentCode,
+        });
+      },
+      header: ANVIL_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
+    },
+    ...buildSharedTableColumns<T>(),
+    {
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.WORKSPACE_NAME,
+      cell: ({ row }): JSX.Element => {
+        const { workspaceName } =
+          row.original as unknown as AnVILCatalogConsortiumStudy; // TODO revisit type assertion here
+        return C.NTagCell({
+          label: getPluralizedMetadataLabel(METADATA_KEY.WORKSPACE_NAME),
+          values: workspaceName,
+        });
+      },
+      header: "Workspaces",
     },
     {
       accessorKey: ANVIL_CATALOG_CATEGORY_KEY.PARTICIPANT_COUNT,
@@ -388,16 +468,85 @@ function buildTableColumns<T>(): ColumnDef<T>[] {
 }
 
 /**
+ * Builds the table column definition model for the detailed view workspaces table.
+ * @returns workspaces table column definition.
+ */
+function buildConsortiumWorkspacesTableColumns<T>(): ColumnDef<T>[] {
+  return [
+    buildWorkspaceNameTableColumn<T>(),
+    {
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME,
+      cell: ({ row: { original } }) =>
+        C.Link(buildStudyName(original as unknown as AnVILCatalogWorkspace)), // TODO revisit type assertion here
+      header: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_NAME,
+    },
+    {
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
+      header: ANVIL_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
+    },
+    ...buildSharedTableColumns<T>(),
+    {
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.PARTICIPANT_COUNT,
+      cell: ({ getValue }) =>
+        (getValue() as unknown as number)?.toLocaleString(),
+      header: ANVIL_CATALOG_CATEGORY_LABEL.PARTICIPANT_COUNT,
+    },
+  ];
+}
+
+/**
+ * Builds the table column definition model for the detailed view workspaces table.
+ * @returns workspaces table column definition.
+ */
+function buildStudyWorkspacesTableColumns<T>(): ColumnDef<T>[] {
+  return [
+    {
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+      cell: ({ row: { original } }) =>
+        C.Link(buildConsortium(original as unknown as AnVILCatalogWorkspace)), // TODO revisit type assertion here
+      header: ANVIL_CATALOG_CATEGORY_LABEL.CONSORTIUM,
+    },
+    buildWorkspaceNameTableColumn<T>(),
+    {
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
+      header: ANVIL_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
+    },
+    ...buildSharedTableColumns<T>(),
+    {
+      accessorKey: ANVIL_CATALOG_CATEGORY_KEY.PARTICIPANT_COUNT,
+      cell: ({ getValue }) =>
+        (getValue() as unknown as number)?.toLocaleString(),
+      header: ANVIL_CATALOG_CATEGORY_LABEL.PARTICIPANT_COUNT,
+    },
+  ];
+}
+
+/**
+ * Builds the table column definition model for the name column of the detailed view workspaces table.
+ * @returns workspaces table column definition.
+ */
+function buildWorkspaceNameTableColumn<T>(): ColumnDef<T> {
+  return {
+    accessorKey: ANVIL_CATALOG_CATEGORY_KEY.WORKSPACE_NAME,
+    cell: ({ row: { original } }) =>
+      C.Link(
+        buildTerraWorkspaceName(original as unknown as AnVILCatalogWorkspace) // TODO revisit type assertion here
+      ),
+    header: "Terra Workspace",
+  };
+}
+
+/**
  * Returns catalog related breadcrumbs.
- * @param exploreState - Global search state.
+ * @param viewContext - View context.
  * @param lastCrumbText - Study title to be displayed as last crumb text.
  * @returns catalog breadcrumbs.
  */
 function getCatalogBreadcrumbs(
-  exploreState: ExploreState,
+  viewContext: ViewContext,
   lastCrumbText?: string
 ): Breadcrumb[] {
-  const { label, route } = getEntityConfig(exploreState.tabValue);
+  const { label, route } = viewContext.entityConfig;
   const firstCrumb = {
     path: `/${route}`,
     text: label,

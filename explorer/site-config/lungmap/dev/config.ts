@@ -1,8 +1,8 @@
+import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
+import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import logoLungmap from "images/logoLungmap.png";
 import hcaConfig from "site-config/hca-dcp/dev/config";
-import { ELEMENT_ALIGNMENT } from "../../../app/common/entities";
-import { Logo } from "../../../app/components/Layout/common/entities";
-import { SiteConfig } from "../../../app/config/common/entities";
 import { socials } from "./constants";
 import { summary } from "./index/summary";
 
@@ -10,7 +10,7 @@ import { summary } from "./index/summary";
 const BROWSER_URL = "https://data-browser.dev.lungmap.net";
 const CATALOG_LM2 = "lm2";
 const PROJECTS_URL = "/projects";
-const LOGO: Logo = {
+const LOGO: LogoProps = {
   alt: "LungMAP Data Browser",
   height: 32,
   link: PROJECTS_URL,

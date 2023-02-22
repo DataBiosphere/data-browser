@@ -1,9 +1,10 @@
-import { useConfig } from "app/hooks/useConfig";
+import { Redirect } from "@clevercanary/data-explorer-ui/lib/components/Redirect/redirect";
+import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
 import React from "react";
-import { Redirect } from "../app/components/Redirect/Redirect";
 
 const HomePage = (): JSX.Element => {
-  const { redirectRootToPath } = useConfig();
+  const { config } = useConfig();
+  const { redirectRootToPath } = config;
 
   if (redirectRootToPath) {
     return <Redirect destination={redirectRootToPath} replace />;

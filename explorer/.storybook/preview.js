@@ -1,9 +1,10 @@
+import "@clevercanary/data-explorer-ui";
+import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
+import { createAppTheme } from "@clevercanary/data-explorer-ui/lib/theme/theme";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { ThemeProvider as Emotion10ThemeProvider } from "emotion-theming";
 import { RouterContext } from "next/dist/shared/lib/router-context";
-import { useConfig } from "../app/hooks/useConfig";
-import { getAppTheme } from "../app/theme/theme";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -21,8 +22,9 @@ export const parameters = {
 };
 
 const withThemeProvider = (Story, context) => {
-  const currentConfig = useConfig();
-  const theme = getAppTheme(currentConfig.theme);
+  // TODO current config is not returned, and extended theme interfaces are not recognised.
+  const { config } = useConfig();
+  const theme = createAppTheme(config.themeOptions);
   return (
     <Emotion10ThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>

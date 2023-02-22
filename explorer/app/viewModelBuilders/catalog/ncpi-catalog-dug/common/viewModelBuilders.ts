@@ -1,3 +1,7 @@
+import {
+  Key,
+  Value,
+} from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import {
@@ -6,10 +10,6 @@ import {
 } from "../../../../../site-config/ncpi-catalog/category";
 import { DugCatalogStudy } from "../../../../apis/catalog/ncpi-catalog-dug/common/entities";
 import * as C from "../../../../components";
-import {
-  Key,
-  Value,
-} from "../../../../components/common/KeyValuePairs/keyValuePairs";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 

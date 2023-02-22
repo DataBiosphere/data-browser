@@ -1,4 +1,5 @@
-import { ColumnSort } from "@tanstack/react-table";
+import { setConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
+import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import anvilCatalogDev from "../../site-config/anvil-catalog/dev/config";
 import anvilCatalogProd from "../../site-config/anvil-catalog/prod/config";
 import anvilCmgDev from "../../site-config/anvil-cmg/dev/config";
@@ -13,8 +14,6 @@ import ncpiDugMapDev from "../../site-config/ncpi-catalog-dug/dev/config";
 import ncpiDugMapProd from "../../site-config/ncpi-catalog-dug/prod/config";
 import ncpiMapDev from "../../site-config/ncpi-catalog/dev/config";
 import ncpiMapProd from "../../site-config/ncpi-catalog/prod/config";
-import { Tab } from "../components/common/Tabs/tabs";
-import { EntityConfig, SiteConfig } from "./common/entities";
 
 const CONFIGS: { [k: string]: SiteConfig } = {
   "anvil-catalog-dev": anvilCatalogDev,
@@ -54,49 +53,6 @@ export const config = (): SiteConfig => {
     console.log(`Using app config ${config}`);
   }
 
+  setConfig(appConfig); // Sets app config.
   return appConfig;
-};
-
-/**
- * Returns the config for the given entity
- * @param path - the path used to identify the entity
- * @returns - the entity config associated with the given route path.
- */
-export const getEntityConfig = (
-  path: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This config model is part of a generic array
-): EntityConfig<any> => {
-  const entityConfig = config().entities.find(
-    (entity) => entity.route === path
-  );
-
-  if (!entityConfig) {
-    throw Error("No entity found with name: " + path);
-  }
-
-  return entityConfig;
-};
-
-/**
- * Retrieve the tabs for the entity configs
- * @returns tabs list for the current config
- */
-export const getTabs = (): Tab[] => {
-  return config().entities.map(({ label, route }) => ({
-    label,
-    value: route,
-  }));
-};
-
-/**
- * Returns the initial table sorting state for the specified entity list configuration.
- * @param entityConfig - Entity configuration.
- * @returns initial sorting state.
- */
-export const getDefaultSorting = (entityConfig: EntityConfig): ColumnSort[] => {
-  const columnSort = entityConfig.list.defaultSort;
-  if (!columnSort) {
-    return [];
-  }
-  return [columnSort];
 };
