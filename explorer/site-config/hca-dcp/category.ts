@@ -19,6 +19,7 @@ export const HCA_DCP_CATEGORY_KEY = {
   LIBRARY_CONSTRUCTION_METHOD: "libraryConstructionApproach",
   MODEL_ORGAN: "modelOrgan",
   NUCLEIC_ACID_SOURCE: "nucleicAcidSource",
+  ORGAN: "organ",
   ORGAN_PART: "organPart",
   PAIRED_END: "pairedEnd",
   PRESERVATION_METHOD: "preservationMethod",

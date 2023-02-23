@@ -18,13 +18,19 @@ export interface FileFormatResponse {
   format: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- TODO - revisit nested Azul structure.
+export type ProjectResponseContributedAnalyses = { [key: string]: unknown };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- TODO - revisit nested Azul structure.
+export type ProjectResponseMatrices = { [key: string]: unknown };
+
 /**
  * Model of project value nested in response returned from index/projects API endpoint.
  */
 export interface ProjectResponse {
-  contributedAnalyses: object;
+  contributedAnalyses: ProjectResponseContributedAnalyses;
   contributors: ContributorResponse[];
   estimatedCellCount: number;
+  matrices: ProjectResponseMatrices;
   projectDescription: string;
   projectId: string;
   projectShortname: string;

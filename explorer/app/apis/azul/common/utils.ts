@@ -40,6 +40,16 @@ type StringOrNull = string | null;
 type StringOrNullArray = (string | null)[];
 
 /**
+ * Returns true if the value null/undefined.
+ * @param value - Any value.
+ * @returns true if the value is null or undefined.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- we can't determine the value.
+export function isNullOrUndefined(value: any): boolean {
+  return !(value || value === 0 || value === false);
+}
+
+/**
  * Aggregate and process the values of the given key across the given response values. The value with the given key
  * can either be an array value on a "core" entity or an aggregated "inner" entity.
  * @param responseValues - Array of values returned from the backend.
