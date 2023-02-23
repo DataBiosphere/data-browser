@@ -1,3 +1,6 @@
+import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { CallToAction } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import React from "react";
 import { URL_DATASETS } from "../../../../../site-config/anvil/dev/config";
 import {
@@ -178,8 +181,10 @@ export const buildDatasetHero = (
   response: DatasetEntityResponse
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const firstCrumb = { path: URL_DATASETS, text: "Datasets" };
+  const callToAction = getDatasetCallToAction(response);
   return {
     breadcrumbs: getDatasetBreadcrumbs(firstCrumb, response),
+    callToAction,
     title: getDatasetTitle(response),
   };
 };
@@ -566,3 +571,22 @@ export const buildExportToCavaticaMetadata = (): React.ComponentProps<
   route: "/export",
   title: "Export to CAVATICA",
 });
+
+/**
+ * Returns the callToAction prop for the Hero component from the given datasets API.
+ * @param datasetEntity - Response model return from datasets API.
+ * @returns model to be used as props for the CallToActionButton component.
+ */
+function getDatasetCallToAction(
+  datasetEntity: DatasetEntityResponse
+): CallToAction | undefined {
+  const registeredIdentifier = getRegisteredIdentifier(datasetEntity);
+  if (registeredIdentifier === LABEL.UNSPECIFIED) {
+    return;
+  }
+  return {
+    label: "Request Access",
+    target: ANCHOR_TARGET.BLANK,
+    url: `https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=${registeredIdentifier}`,
+  };
+}

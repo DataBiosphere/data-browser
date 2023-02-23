@@ -168,9 +168,9 @@ export function getDatasetId(response: DatasetEntityResponse): string {
 }
 
 /**
- * Maps dataset ID from the core dataset entity returned from the index/datasets endpoint.
+ * Maps dataset title from the core dataset entity returned from the index/datasets endpoint.
  * @param response - Response model return from datasets or dataset API endpoints.
- * @returns Dataset ID.
+ * @returns Dataset title.
  */
 export function getDatasetTitle(response: DatasetEntityResponse): string {
   return processEntityValue(response.datasets, "title", LABEL.NONE);
@@ -364,9 +364,9 @@ export function getAggregatedPhenotypicSexes(
 }
 
 /**
- * Maps phenotypic sex from the core donor value returned from the /index/donors API response.
- * @param response - Response model return from index/donors API endpoint.
- * @returns Phenotypic sex.
+ * Maps registered identifier from the core dataset entity returned from the /index/datasets API response.
+ * @param response - Response model return from index/datasets API endpoint.
+ * @returns registered identifier.
  */
 export function getRegisteredIdentifier(
   response: DatasetEntityResponse
