@@ -1,3 +1,4 @@
+import withMDX from "@next/mdx";
 import withPlugins from "next-compose-plugins";
 import withOptimizedImages from "next-optimized-images";
 import path from "path";
@@ -12,6 +13,7 @@ export default withPlugins(
         imagesFolder: "images",
       },
     ],
+    withMDX,
   ],
   {
     basePath: "/explore",
@@ -20,6 +22,20 @@ export default withPlugins(
       disableStaticImages: true,
     },
     webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+      config.module = {
+        ...config.module,
+        rules: [
+          ...config.module.rules,
+          {
+            test: /\.mdx?$/,
+            use: [
+              {
+                loader: "@mdx-js/loader",
+              },
+            ],
+          },
+        ],
+      };
       // Add the alias for the peer dependency
       config.resolve.alias["@emotion/react"] = path.resolve(
         process.cwd(),

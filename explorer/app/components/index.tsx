@@ -2,6 +2,7 @@ export { KeyElType } from "@clevercanary/data-explorer-ui/lib/components/common/
 export { ValueElType } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/components/ValueElType/valueElType";
 export { KeyValuePairs } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
 export { Markdown } from "@clevercanary/data-explorer-ui/lib/components/common/Markdown/markdown";
+export { FluidPaper } from "@clevercanary/data-explorer-ui/lib/components/common/Paper/paper.styles";
 export { CollapsableSection } from "@clevercanary/data-explorer-ui/lib/components/common/Section/components/CollapsableSection/collapsableSection";
 export { GridPaperSection } from "@clevercanary/data-explorer-ui/lib/components/common/Section/section.styles";
 export { Stack } from "@clevercanary/data-explorer-ui/lib/components/common/Stack/stack";
