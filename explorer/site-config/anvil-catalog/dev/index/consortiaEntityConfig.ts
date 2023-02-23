@@ -96,6 +96,7 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
         width: { max: "1fr", min: "120px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildStudyNames,
@@ -114,6 +115,7 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
         width: { max: "1fr", min: "120px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: Components.NTagCell,
           viewBuilder: ViewBuilder.buildTerraWorkspaceNames,
