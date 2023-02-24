@@ -8,8 +8,8 @@ export const mainColumn: ComponentConfig[] = [
       {
         children: [
           {
-            component: MDX.Generated,
-          } as ComponentConfig<typeof MDX.Generated>,
+            component: MDX.DCPGeneratedMatrices,
+          } as ComponentConfig<typeof MDX.DCPGeneratedMatrices>,
         ],
         component: MDX.Section,
       } as ComponentConfig<typeof MDX.Section>,
