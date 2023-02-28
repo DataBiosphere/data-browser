@@ -5,7 +5,10 @@ import {
   ProjectResponseContributedAnalyses,
   ProjectResponseMatrices,
 } from "../../../../models/responses";
-import { ProjectMatrixView } from "../../common/entities";
+import {
+  ProjectMatrixTableView,
+  ProjectMatrixView,
+} from "../../common/entities";
 
 // Template constants
 const { GENUS_SPECIES, LIBRARY_CONSTRUCTION_METHOD, ORGAN } =
@@ -24,9 +27,38 @@ type ResponseTree =
  * @returns project related matrix file and corresponding meta values.
  */
 export function projectMatrixMapper(
-  responseTree: ResponseTree
+  responseTree: ResponseTree | undefined = {}
 ): ProjectMatrixView[] {
   return bindMatrices(responseTree);
+}
+
+/**
+ * Group the project matrix views by species. If project matrix views has multiple species, they are grouped by the
+ * union of all species defined for the view.
+ * @param projectMatrixViews - Project matrix views.
+ * @returns project matrix views by species.
+ */
+export function groupProjectMatrixViewsBySpecies(
+  projectMatrixViews: ProjectMatrixView[]
+): ProjectMatrixTableView[] {
+  const viewsBySpecies = projectMatrixViews.reduce(
+    (accum, projectMatrixView) => {
+      const species = projectMatrixView[GENUS_SPECIES];
+      const speciesKey = species.join(" ");
+      if (!accum.has(speciesKey)) {
+        accum.set(speciesKey, {
+          projectMatrixViews: [],
+          species,
+        });
+      }
+      accum.get(speciesKey)?.projectMatrixViews.push(projectMatrixView);
+      return accum;
+    },
+    new Map<string, ProjectMatrixTableView>()
+  );
+  const groupedViews = Array.from(viewsBySpecies.values());
+  sortProjectMatrixTableViews(groupedViews);
+  return groupedViews;
 }
 
 /**
@@ -251,6 +283,23 @@ function sortMatrixViewsMeta(matrixViews: ProjectMatrixView[]): void {
         value.sort();
       }
     });
+  });
+}
+
+/**
+ * Sort matrix view groups first by species cardinality, then by species alpha.
+ * @param views - Project matrix views by species.
+ */
+function sortProjectMatrixTableViews(views: ProjectMatrixTableView[]): void {
+  views.sort((group0, group1) => {
+    const speciesCount0 = group0.species.length;
+    const speciesCount1 = group1.species.length;
+    if (speciesCount0 > speciesCount1) {
+      return 1;
+    } else if (speciesCount0 < speciesCount1) {
+      return -1;
+    }
+    return 0;
   });
 }
 

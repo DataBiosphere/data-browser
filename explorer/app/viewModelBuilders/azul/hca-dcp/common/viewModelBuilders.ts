@@ -1,4 +1,9 @@
+import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
+import {
+  HCA_DCP_CATEGORY_KEY,
+  HCA_DCP_CATEGORY_LABEL,
+} from "../../../../../site-config/hca-dcp/category";
 import {
   FilesResponse,
   SamplesResponse,
@@ -17,7 +22,14 @@ import {
 import * as C from "../../../../components";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import { getProjectResponse } from "../../../../components/Project/common/projectTransformer";
 import { ProjectsResponse } from "../../../../models/responses";
+import { humanFileSize } from "../../../../utils/fileSize";
+import { ProjectMatrixTableView } from "../../common/entities";
+import {
+  groupProjectMatrixViewsBySpecies,
+  projectMatrixMapper,
+} from "./projectMatrixMapper";
 
 /**
  * Build props for TitledText component for the display of the data release policy section.
@@ -30,6 +42,26 @@ export const buildDataReleasePolicy = (): React.ComponentProps<
     text: [
       "Downloaded data is governed by the HCA Data Release Policy and licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). For more information please see our Data Use Agreement.",
     ],
+  };
+};
+
+/**
+ * Build props for GeneratedMatricesTable component from the given project response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the generated matrices table component.
+ */
+export const buildDCPGeneratedMatricesTable = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.GeneratedMatricesTables> => {
+  const project = getProjectResponse(projectsResponse);
+  const projectMatrixViews = projectMatrixMapper(project?.matrices);
+  const projectMatrixViewsBySpecies =
+    groupProjectMatrixViewsBySpecies(projectMatrixViews);
+  return {
+    columns: buildDCPGeneratedMatricesTableColumns(),
+    gridTemplateColumns:
+      "auto minmax(240px, 1fr) repeat(5, minmax(124px, 1fr))",
+    projectMatrixViewsBySpecies,
   };
 };
 
@@ -222,7 +254,6 @@ export const projectsBuildProjectTitleColumn = (
   };
 };
 
-/* eslint-disable sonarjs/no-duplicate-string -- ignoring duplicate strings here */
 /**
  * Build props for the CellCount component from the given projects response.
  * @param project - Response model return from projects API.
@@ -308,4 +339,152 @@ export const projectsBuildSpecies = (
   };
 };
 
-/* eslint-enable sonarjs/no-duplicate-string -- Allowing duplicate strings here */
+/**
+ * Builds the table column definition model for the generated matrices table.
+ * @returns generated matrices table column definition.
+ */
+function buildDCPGeneratedMatricesTableColumns<T>(): ColumnDef<T>[] {
+  return [
+    getGeneratedMatricesActionsColumnDef(),
+    getGeneratedMatricesFileNameColumnDef(),
+    getGeneratedMatricesContentDescriptionColumnDef(),
+    getGeneratedMatricesGenusSpeciesColumnDef(),
+    getGeneratedMatricesAnatomicalEntityColumnDef(),
+    getGeneratedMatricesLibraryConstructionMethodColumnDef(),
+    getGeneratedMatricesFileSizeColumnDef(),
+  ];
+}
+
+/**
+ * Build props for NTagCell component from the given entity and entity key.
+ * @param projectMatrixTableView - Project matrix view (by species).
+ * @param key - Project matrix view key.
+ * @param metadataKey - Metadata key.
+ * @returns model to be used as props for the NTagCell component.
+ */
+function buildNTagCellProps(
+  projectMatrixTableView: ProjectMatrixTableView,
+  key: string,
+  metadataKey: keyof typeof METADATA_KEY
+): React.ComponentProps<typeof C.NTagCell> {
+  return {
+    label: getPluralizedMetadataLabel(metadataKey),
+    values: projectMatrixTableView[
+      key as keyof ProjectMatrixTableView
+    ] as string[],
+  };
+}
+
+/**
+ * Returns generated matrices actions column def.
+ * @returns actions column def.
+ */
+function getGeneratedMatricesActionsColumnDef<T>(): ColumnDef<T> {
+  return {
+    accessorKey: "",
+    header: "Actions",
+  };
+}
+
+/**
+ * Returns generated matrices anatomical entity column def.
+ * @returns anatomical entity column def.
+ */
+function getGeneratedMatricesAnatomicalEntityColumnDef<T>(): ColumnDef<T> {
+  return {
+    accessorKey: HCA_DCP_CATEGORY_KEY.ORGAN,
+    cell: ({ column, row }) =>
+      C.NTagCell(
+        buildNTagCellProps(
+          row.original as unknown as ProjectMatrixTableView, // TODO revisit type assertion here
+          column.id,
+          METADATA_KEY.ANATOMICAL_ENTITY
+        )
+      ),
+    header: HCA_DCP_CATEGORY_LABEL.ANATOMICAL_ENTITY,
+  };
+}
+
+/**
+ * Returns generated matrices content description column def.
+ * @returns content description column def.
+ */
+function getGeneratedMatricesContentDescriptionColumnDef<T>(): ColumnDef<T> {
+  return {
+    accessorKey: HCA_DCP_CATEGORY_KEY.CONTENT_DESCRIPTION,
+    cell: ({ column, row }) =>
+      C.NTagCell(
+        buildNTagCellProps(
+          row.original as unknown as ProjectMatrixTableView, // TODO revisit type assertion here
+          column.id,
+          METADATA_KEY.CONTENT_DESCRIPTION
+        )
+      ),
+    header: HCA_DCP_CATEGORY_LABEL.CONTENT_DESCRIPTION,
+  };
+}
+
+/**
+ * Returns generated matrices file name column def.
+ * @returns file name column def.
+ */
+function getGeneratedMatricesFileNameColumnDef<T>(): ColumnDef<T> {
+  return {
+    accessorKey: HCA_DCP_CATEGORY_KEY.FILE_NAME,
+    cell: ({ getValue }) =>
+      C.FileNameCell({ value: getValue() as unknown as string }),
+    header: HCA_DCP_CATEGORY_LABEL.FILE_NAME,
+  };
+}
+
+/**
+ * Returns generated matrices file size column def.
+ * @returns file size method column def.
+ */
+function getGeneratedMatricesFileSizeColumnDef<T>(): ColumnDef<T> {
+  return {
+    accessorKey: "size",
+    cell: ({ getValue }) => humanFileSize(getValue() as unknown as number),
+    header: HCA_DCP_CATEGORY_LABEL.FILE_SIZE,
+  };
+}
+
+/**
+ * Returns generated matrices genus species column def.
+ * @returns genus species column def.
+ */
+function getGeneratedMatricesGenusSpeciesColumnDef<T>(): ColumnDef<T> {
+  return {
+    accessorKey: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
+    cell: ({ column, row }) =>
+      C.NTagCell(
+        buildNTagCellProps(
+          row.original as unknown as ProjectMatrixTableView, // TODO revisit type assertion here
+          column.id,
+          METADATA_KEY.SPECIES
+        )
+      ),
+    header: "Species",
+  };
+}
+
+/**
+ * Returns generated matrices library construction method column def.
+ * @returns library construction method column def.
+ */
+function getGeneratedMatricesLibraryConstructionMethodColumnDef<
+  T
+>(): ColumnDef<T> {
+  return {
+    accessorKey: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
+    cell: ({ column, row }) =>
+      C.NTagCell(
+        buildNTagCellProps(
+          row.original as unknown as ProjectMatrixTableView, // TODO revisit type assertion here
+          column.id,
+          METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
+        )
+      ),
+    header: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
+  };
+}
