@@ -1,4 +1,3 @@
-import { ButtonGroup } from "@clevercanary/data-explorer-ui/src/components/common/ButtonGroup/buttonGroup";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import * as MDX from "../../../../../app/content/index";
@@ -28,7 +27,10 @@ import { formatCountSize } from "../../../../components/Index/common/utils";
 import { getProjectResponse } from "../../../../components/Project/common/projectTransformer";
 import { ProjectsResponse } from "../../../../models/responses";
 import { humanFileSize } from "../../../../utils/fileSize";
-import { ProjectMatrixTableView } from "../../common/entities";
+import {
+  ProjectMatrixTableView,
+  ProjectMatrixView,
+} from "../../common/entities";
 import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
@@ -410,30 +412,6 @@ function buildDCPGeneratedMatricesTableColumns<T>(): ColumnDef<T>[] {
 }
 
 /**
- * Build buttons prop for ButtonGroup component from the given matrix row.
- * @returns model to be used as buttons prop for the ButtonGroup component.
- */
-function buildMatricesActionsButtonsProp(): ButtonGroup[] {
-  return [
-    {
-      action: "Download project matrix",
-      label: C.DownloadIconSmall,
-      onClick: () => console.log("Download"),
-    },
-    {
-      action: "Copy project matrix",
-      label: C.ContentCopyIconSmall,
-      onClick: () => console.log("Copy"),
-    },
-    {
-      action: "View archive preview",
-      label: C.InventoryIconSmall,
-      onClick: () => console.log("Archive"),
-    },
-  ];
-}
-
-/**
  * Build props for NTagCell component from the given entity and entity key.
  * @param projectMatrixTableView - Project matrix view (by species).
  * @param key - Project matrix view key.
@@ -471,9 +449,9 @@ function formatMatrixCellCount(matrixCellCount?: number): string {
 function getGeneratedMatricesActionsColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: "",
-    cell: () =>
-      C.ButtonGroup({
-        buttons: buildMatricesActionsButtonsProp(),
+    cell: ({ row }) =>
+      C.ActionCell({
+        projectMatrixView: row.original as unknown as ProjectMatrixView,
       }),
     header: "Actions",
   };
