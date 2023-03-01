@@ -41,7 +41,7 @@ export const GeneratedMatricesTables = <T extends object>({
           }
         )
       ) : (
-        <Alert color="info" icon={false} variant="neutral">
+        <Alert icon={false} severity="info" variant="neutral">
           There are currently no DCP generated matrices for this project.
         </Alert>
       )}

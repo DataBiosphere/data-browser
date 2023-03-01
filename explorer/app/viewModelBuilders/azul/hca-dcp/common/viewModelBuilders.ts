@@ -1,6 +1,7 @@
 import { ButtonGroup } from "@clevercanary/data-explorer-ui/src/components/common/ButtonGroup/buttonGroup";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
+import * as MDX from "../../../../../app/content/index";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
@@ -32,6 +33,20 @@ import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
 } from "./projectMatrixMapper";
+
+/**
+ * Build props for the data normalization and batch correction alert component.
+ * @returns model to be used as props for the alert component.
+ */
+export const buildBatchCorrectionWarning = (): React.ComponentProps<
+  typeof C.Alert
+> => {
+  return {
+    children: MDX.RenderComponent({ Component: MDX.BatchCorrectionWarning }),
+    severity: "warning",
+    title: "Please note",
+  };
+};
 
 /**
  * Build props for GeneratedMatricesTable component from the given project response.

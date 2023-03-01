@@ -6,6 +6,10 @@ import * as T from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/vie
 
 export const mainColumn: ComponentConfig[] = [
   {
+    component: C.Alert,
+    viewBuilder: T.buildBatchCorrectionWarning,
+  } as ComponentConfig<typeof C.Alert>,
+  {
     children: [
       {
         children: [
