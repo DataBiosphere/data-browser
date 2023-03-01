@@ -22,6 +22,7 @@ import {
 import * as C from "../../../../components";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import { formatCountSize } from "../../../../components/Index/common/utils";
 import { getProjectResponse } from "../../../../components/Project/common/projectTransformer";
 import { ProjectsResponse } from "../../../../models/responses";
 import { humanFileSize } from "../../../../utils/fileSize";
@@ -30,6 +31,26 @@ import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
 } from "./projectMatrixMapper";
+
+/**
+ * Build props for GeneratedMatricesTable component from the given project response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the contributor generated matrices table component.
+ */
+export const buildContributorGeneratedMatricesTable = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.GeneratedMatricesTables> => {
+  const project = getProjectResponse(projectsResponse);
+  const projectMatrixViews = projectMatrixMapper(project?.contributedAnalyses);
+  const projectMatrixViewsBySpecies =
+    groupProjectMatrixViewsBySpecies(projectMatrixViews);
+  return {
+    columns: buildContributorGeneratedMatricesTableColumns(),
+    gridTemplateColumns:
+      "auto minmax(240px, 1fr) repeat(6, minmax(124px, 1fr))",
+    projectMatrixViewsBySpecies,
+  };
+};
 
 /**
  * Build props for TitledText component for the display of the data release policy section.
@@ -340,7 +361,24 @@ export const projectsBuildSpecies = (
 };
 
 /**
- * Builds the table column definition model for the generated matrices table.
+ * Builds the table column definition model for the contributor generated matrices table.
+ * @returns generated matrices table column definition.
+ */
+function buildContributorGeneratedMatricesTableColumns<T>(): ColumnDef<T>[] {
+  return [
+    getGeneratedMatricesActionsColumnDef(),
+    getGeneratedMatricesFileNameColumnDef(),
+    getGeneratedMatricesContentDescriptionColumnDef(),
+    getGeneratedMatricesGenusSpeciesColumnDef(),
+    getGeneratedMatricesAnatomicalEntityColumnDef(),
+    getGeneratedMatricesLibraryConstructionMethodColumnDef(),
+    getGeneratedMatricesFileSizeColumnDef(),
+    getGeneratedMatricesMatrixCellCountColumnDef(),
+  ];
+}
+
+/**
+ * Builds the table column definition model for the DCP generated matrices table.
  * @returns generated matrices table column definition.
  */
 function buildDCPGeneratedMatricesTableColumns<T>(): ColumnDef<T>[] {
@@ -373,6 +411,17 @@ function buildNTagCellProps(
       key as keyof ProjectMatrixTableView
     ] as string[],
   };
+}
+
+/**
+ * Returns matrix cell count formatted by count size.
+ * @param matrixCellCount - Matrix cell count.
+ * @returns matrix cell count formatted by count size.
+ */
+function formatMatrixCellCount(matrixCellCount?: number): string {
+  return matrixCellCount || matrixCellCount === 0
+    ? formatCountSize(matrixCellCount)
+    : "-";
 }
 
 /**
@@ -486,5 +535,18 @@ function getGeneratedMatricesLibraryConstructionMethodColumnDef<
         )
       ),
     header: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
+  };
+}
+
+/**
+ * Returns generated matrices matrix cell count column def.
+ * @returns matrix cell count column def.
+ */
+function getGeneratedMatricesMatrixCellCountColumnDef<T>(): ColumnDef<T> {
+  return {
+    accessorKey: HCA_DCP_CATEGORY_KEY.MATRIX_CELL_COUNT,
+    cell: ({ getValue }) =>
+      formatMatrixCellCount(getValue() as unknown as number),
+    header: HCA_DCP_CATEGORY_LABEL.MATRIX_CELL_COUNT,
   };
 }
