@@ -8,6 +8,19 @@ export const sideColumn: ComponentConfig[] = [
       {
         children: [
           {
+            component: MDX.MatrixQuestionnaire,
+          } as ComponentConfig<typeof MDX.MatrixQuestionnaire>,
+        ],
+        component: MDX.Section,
+      } as ComponentConfig<typeof MDX.Section>,
+    ],
+    component: C.FluidPaper,
+  } as ComponentConfig<typeof C.FluidPaper>,
+  {
+    children: [
+      {
+        children: [
+          {
             component: MDX.DataReleasePolicy,
           } as ComponentConfig<typeof MDX.DataReleasePolicy>,
         ],
