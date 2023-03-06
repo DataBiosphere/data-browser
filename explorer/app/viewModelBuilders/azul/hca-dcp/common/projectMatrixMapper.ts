@@ -136,7 +136,7 @@ function createMatrixViews(
  * @param views - File objects flattened from depth-first, postorder, traversal of tree.
  * @returns project matrix views.
  */
-function flattenResponseTree(
+export function flattenResponseTree(
   responseTree: ResponseTree,
   meta: ResponseMeta = {},
   views: ProjectMatrixView[] = []
@@ -219,7 +219,7 @@ function mergeDuplicatedMatrixView(
  * @param matrixViews - Project matrix views.
  * @returns merged project matrix views.
  */
-function mergeDuplicatedMatrixViews(
+export function mergeDuplicatedMatrixViews(
   matrixViews: ProjectMatrixView[]
 ): ProjectMatrixView[] {
   const viewsByUrl = matrixViews.reduce((accum, matrixView) => {
@@ -242,7 +242,7 @@ function mergeDuplicatedMatrixViews(
  * Sort matrix views by display columns: species, organ, library construction approach, file name.
  * @param matrixViews - project matrix views.
  */
-function sortMatrixViews(matrixViews: ProjectMatrixView[]): void {
+export function sortMatrixViews(matrixViews: ProjectMatrixView[]): void {
   matrixViews.sort((view0, view1) => {
     // Sort by species
     const species0 = (view0[GENUS_SPECIES] || []).join("");
@@ -276,7 +276,7 @@ function sortMatrixViews(matrixViews: ProjectMatrixView[]): void {
  * Sort meta values of file view model.
  * @param matrixViews - Project matrix views.
  */
-function sortMatrixViewsMeta(matrixViews: ProjectMatrixView[]): void {
+export function sortMatrixViewsMeta(matrixViews: ProjectMatrixView[]): void {
   matrixViews.forEach((matrixView) => {
     Object.values(matrixView).forEach((value) => {
       if (Array.isArray(value)) {
