@@ -1,6 +1,6 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "../../../../../app/components";
-import * as MDX from "../../../../../app/content/index";
+import * as MDX from "../../../../../app/content/hca-dcp";
 import { ProjectsResponse } from "../../../../../app/models/responses";
 import * as T from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 

@@ -1,6 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
-import * as MDX from "../../../../../app/content/index";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
@@ -25,6 +24,7 @@ import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { formatCountSize } from "../../../../components/Index/common/utils";
 import { getProjectResponse } from "../../../../components/Project/common/projectTransformer";
+import * as MDX from "../../../../content/hca-dcp";
 import { ProjectsResponse } from "../../../../models/responses";
 import { humanFileSize } from "../../../../utils/fileSize";
 import {
@@ -67,20 +67,6 @@ export const buildContributorGeneratedMatricesTable = (
     gridTemplateColumns:
       "auto minmax(240px, 1fr) repeat(6, minmax(124px, 1fr))",
     projectMatrixViewsBySpecies,
-  };
-};
-
-/**
- * Build props for TitledText component for the display of the data release policy section.
- * @returns model to be used as props for the TitledText component.
- */
-export const buildDataReleasePolicy = (): React.ComponentProps<
-  typeof C.TitledText
-> => {
-  return {
-    text: [
-      "Downloaded data is governed by the HCA Data Release Policy and licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). For more information please see our Data Use Agreement.",
-    ],
   };
 };
 

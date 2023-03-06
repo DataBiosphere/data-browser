@@ -1,13 +1,19 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "../../../../../app/components";
+import * as MDX from "../../../../../app/content/hca-dcp";
 
 export const sideColumn: ComponentConfig[] = [
   {
-    component: C.TitledText,
-    viewBuilder: () => ({
-      text: [
-        "Downloaded data is governed by the HCA Data Release Policy and licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). For more information please see our Data Use Agreement.",
-      ],
-    }),
-  } as ComponentConfig<typeof C.TitledText>,
+    children: [
+      {
+        children: [
+          {
+            component: MDX.DataReleasePolicy,
+          } as ComponentConfig<typeof MDX.DataReleasePolicy>,
+        ],
+        component: MDX.Section,
+      } as ComponentConfig<typeof MDX.Section>,
+    ],
+    component: C.FluidPaper,
+  } as ComponentConfig<typeof C.FluidPaper>,
 ];
