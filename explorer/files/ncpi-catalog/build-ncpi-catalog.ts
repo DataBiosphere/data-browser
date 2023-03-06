@@ -3,7 +3,7 @@ import { writeAsJSON } from "../common/utils";
 import { buildNCPICatalogPlatforms } from "./build-plaftorms";
 import { buildNCPIPlatformStudies } from "./build-platform-studies";
 import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE, tsvPath } from "./constants";
-import { NCPIPlatformStudy } from "./entities";
+import { PlatformStudy } from "./entities";
 
 console.log("Building NCPI Catalog Data");
 export {};
@@ -23,7 +23,7 @@ async function buildCatalog(): Promise<void> {
     "\t",
     SOURCE_FIELD_KEY,
     SOURCE_FIELD_TYPE
-  )) as NCPIPlatformStudy[];
+  )) as PlatformStudy[];
 
   const ncpiPlatformStudies = await buildNCPIPlatformStudies(
     platformStudyStubs

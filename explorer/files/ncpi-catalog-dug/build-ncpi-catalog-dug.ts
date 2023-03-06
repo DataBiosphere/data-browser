@@ -6,7 +6,7 @@ import {
   SOURCE_FIELD_TYPE,
   tsvPath,
 } from "../ncpi-catalog/constants";
-import { NCPIPlatformStudy } from "../ncpi-catalog/entities";
+import { PlatformStudy } from "../ncpi-catalog/entities";
 import { buildNCPIDugCatalogStudies } from "./build-studies";
 
 console.log("Building NCPI Catalog Dug Data");
@@ -27,7 +27,7 @@ async function buildCatalog(): Promise<void> {
     "\t",
     SOURCE_FIELD_KEY,
     SOURCE_FIELD_TYPE
-  )) as NCPIPlatformStudy[];
+  )) as PlatformStudy[];
 
   const ncpiPlatformStudies = await buildNCPIPlatformStudies(platformStudies);
 

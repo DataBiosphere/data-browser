@@ -7,7 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-anvil-db": "esrun anvil-catalog/build-anvil-catalog.ts",
     "build-ncpi-db": "esrun ncpi-catalog/build-ncpi-catalog.ts",
-    "build-dug-db": "esrun ncpi-catalog-dug/build-ncpi-catalog-dug.ts"
+    "build-dug-db": "esrun ncpi-catalog-dug/build-ncpi-catalog-dug.ts",
+    "update-crdc-source": "esrun ncpi-catalog/update-crdc-source.ts",
+    "update-bdc-source": "esrun ncpi-catalog/update-bdc-source.ts",
+    "update-anvil-source": "esrun ncpi-catalog/update-anvil-source.ts",
+    "update-kfdrc-source": "esrun ncpi-catalog/update-kfdrc-source.ts",
+    "update-all-ncpi-sources": "npm run update-crdc-source && npm run update-bdc-source && npm run update-anvil-source && npm run update-kfdrc-source"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +21,7 @@
   },
   "dependencies": {
     "@types/fhir": "^0.0.35",
+    "csv-stringify": "^6.2.3",
     "html-entities": "^2.3.3",
     "node-fetch": "^3.2.10",
     "remark": "^14.0.2",

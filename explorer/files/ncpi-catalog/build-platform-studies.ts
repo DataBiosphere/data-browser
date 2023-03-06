@@ -1,5 +1,5 @@
 import { DbGapStudy, getStudy } from "../common/dbGaP";
-import { NCPIPlatformStudy, NCPIStudy } from "./entities";
+import { NCPIStudy, PlatformStudy } from "./entities";
 
 /**
  * Build the catalog platform studies for NCPI.
@@ -7,7 +7,7 @@ import { NCPIPlatformStudy, NCPIStudy } from "./entities";
  * @returns NCPI catalog platform studies.
  */
 export async function buildNCPIPlatformStudies(
-  platformStudies: NCPIPlatformStudy[]
+  platformStudies: PlatformStudy[]
 ): Promise<NCPIStudy[]> {
   const ncpiStudies: NCPIStudy[] = [];
   const studiesById: Map<string, NCPIStudy> = new Map();

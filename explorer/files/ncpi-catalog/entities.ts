@@ -1,6 +1,6 @@
 import { DbGapStudy } from "../common/dbGaP";
 
-export interface NCPIPlatformStudy {
+export interface PlatformStudy {
   dbGapId: string;
   platform: string;
 }
@@ -8,3 +8,5 @@ export interface NCPIPlatformStudy {
 export interface NCPIStudy extends DbGapStudy {
   platforms: string[];
 }
+
+export type DbGapId = string;
