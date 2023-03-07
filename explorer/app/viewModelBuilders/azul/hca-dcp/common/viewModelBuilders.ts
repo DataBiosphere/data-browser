@@ -65,7 +65,7 @@ export const buildContributorGeneratedMatricesTable = (
   return {
     columns: buildContributorGeneratedMatricesTableColumns(),
     gridTemplateColumns:
-      "auto minmax(240px, 1fr) repeat(6, minmax(124px, 1fr))",
+      "150px minmax(240px, 1fr) repeat(6, minmax(124px, 1fr))",
     projectMatrixViewsBySpecies,
   };
 };
@@ -436,8 +436,18 @@ function getGeneratedMatricesActionsColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: "",
     cell: ({ row }) =>
-      C.ActionCell({
-        projectMatrixView: row.original as unknown as ProjectMatrixView,
+      C.ButtonGroup({
+        Buttons: [
+          C.FileLocationDownload({
+            projectMatrixView: row.original as unknown as ProjectMatrixView,
+          }),
+          C.FileLocationCopy({
+            projectMatrixView: row.original as unknown as ProjectMatrixView,
+          }),
+          C.FileLocationArchivePreview({
+            projectMatrixView: row.original as unknown as ProjectMatrixView,
+          }),
+        ],
       }),
     header: "Actions",
   };
@@ -447,7 +457,9 @@ function getGeneratedMatricesActionsColumnDef<T>(): ColumnDef<T> {
  * Returns generated matrices anatomical entity column def.
  * @returns anatomical entity column def.
  */
-function getGeneratedMatricesAnatomicalEntityColumnDef<T>(): ColumnDef<T> {
+export function getGeneratedMatricesAnatomicalEntityColumnDef<
+  T
+>(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.ORGAN,
     cell: ({ column, row }) =>
@@ -466,7 +478,9 @@ function getGeneratedMatricesAnatomicalEntityColumnDef<T>(): ColumnDef<T> {
  * Returns generated matrices content description column def.
  * @returns content description column def.
  */
-function getGeneratedMatricesContentDescriptionColumnDef<T>(): ColumnDef<T> {
+export function getGeneratedMatricesContentDescriptionColumnDef<
+  T
+>(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.CONTENT_DESCRIPTION,
     cell: ({ column, row }) =>
@@ -485,7 +499,7 @@ function getGeneratedMatricesContentDescriptionColumnDef<T>(): ColumnDef<T> {
  * Returns generated matrices file name column def.
  * @returns file name column def.
  */
-function getGeneratedMatricesFileNameColumnDef<T>(): ColumnDef<T> {
+export function getGeneratedMatricesFileNameColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.FILE_NAME,
     cell: ({ getValue }) =>
@@ -498,7 +512,7 @@ function getGeneratedMatricesFileNameColumnDef<T>(): ColumnDef<T> {
  * Returns generated matrices file size column def.
  * @returns file size method column def.
  */
-function getGeneratedMatricesFileSizeColumnDef<T>(): ColumnDef<T> {
+export function getGeneratedMatricesFileSizeColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: "size",
     cell: ({ getValue }) => humanFileSize(getValue() as unknown as number),
@@ -510,7 +524,7 @@ function getGeneratedMatricesFileSizeColumnDef<T>(): ColumnDef<T> {
  * Returns generated matrices genus species column def.
  * @returns genus species column def.
  */
-function getGeneratedMatricesGenusSpeciesColumnDef<T>(): ColumnDef<T> {
+export function getGeneratedMatricesGenusSpeciesColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
     cell: ({ column, row }) =>
@@ -529,7 +543,7 @@ function getGeneratedMatricesGenusSpeciesColumnDef<T>(): ColumnDef<T> {
  * Returns generated matrices library construction method column def.
  * @returns library construction method column def.
  */
-function getGeneratedMatricesLibraryConstructionMethodColumnDef<
+export function getGeneratedMatricesLibraryConstructionMethodColumnDef<
   T
 >(): ColumnDef<T> {
   return {
@@ -550,7 +564,9 @@ function getGeneratedMatricesLibraryConstructionMethodColumnDef<
  * Returns generated matrices matrix cell count column def.
  * @returns matrix cell count column def.
  */
-function getGeneratedMatricesMatrixCellCountColumnDef<T>(): ColumnDef<T> {
+export function getGeneratedMatricesMatrixCellCountColumnDef<
+  T
+>(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.MATRIX_CELL_COUNT,
     cell: ({ getValue }) =>
