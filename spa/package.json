@@ -64,7 +64,7 @@
     "@typescript-eslint/parser": "^5.18.0",
     "bufferutil": "^4.0.6",
     "eslint": "^8.12.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.0.0",
     "fibers": "^5.0.1",
     "html-webpack-plugin": "4.3.0",
