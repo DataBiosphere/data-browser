@@ -1,10 +1,19 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { FileNameCell as Cell } from "./fileNameCell.styles";
 
 export interface FileNameCellProps {
-  value: string;
+  archivePreview?: ReactNode;
+  fileName: string;
 }
 
-export const FileNameCell = ({ value }: FileNameCellProps): JSX.Element => {
-  return <Cell>{value}</Cell>;
+export const FileNameCell = ({
+  archivePreview,
+  fileName,
+}: FileNameCellProps): JSX.Element => {
+  return (
+    <Cell>
+      {fileName}
+      {archivePreview}
+    </Cell>
+  );
 };

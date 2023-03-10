@@ -1,8 +1,7 @@
-import { ButtonGroupButton } from "@clevercanary/data-explorer-ui/lib/components/common/ButtonGroup/components/ButtonGroupButton/buttonGroupButton";
-import { InventoryIconSmall } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/common/constants";
 import React, { useState } from "react";
 import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/common/entities";
 import { ArchivePreviewDialog } from "../ArchivePreviewDialog/archivePreviewDialog";
+import { FileLocationArchivePreviewButton as Button } from "./fileLocationArchivePreview.styles";
 
 const ARCHIVE_FILE_TYPE_REGEX = /\.(zip|tar|tar\.gz)$/;
 
@@ -25,15 +24,11 @@ export const FileLocationArchivePreview = ({
   projectMatrixView,
 }: FileLocationArchivePreviewProps): JSX.Element | null => {
   const [open, setOpen] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- TODO future loading state for archive preview dialog.
   const [loading, setLoading] = useState<boolean>(false);
   return isArchivePreviewAvailable(projectMatrixView) ? (
     <>
-      <ButtonGroupButton
-        action="View archive preview"
-        label={<InventoryIconSmall />}
-        loading={loading}
-        onClick={(): void => setOpen(true)}
-      />
+      <Button onClick={(): void => setOpen(true)}>Preview Archive</Button>
       <ArchivePreviewDialog
         onClose={(): void => setOpen(false)}
         open={open}

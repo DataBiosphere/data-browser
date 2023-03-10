@@ -28,7 +28,7 @@ function getArchivePreviewTableColumns<T extends object>(): ColumnDef<T>[] {
     {
       accessorKey: HCA_DCP_CATEGORY_KEY.FILE_NAME,
       cell: ({ getValue }) =>
-        FileNameCell({ value: getValue() as unknown as string }),
+        FileNameCell({ fileName: getValue() as unknown as string }),
       header: HCA_DCP_CATEGORY_LABEL.FILE_NAME,
     },
     {
@@ -49,6 +49,7 @@ export const ArchivePreviewTable = ({
 }: ArchivePreviewTableProps): JSX.Element => {
   const { archiveFiles, isLoading, isSuccess } =
     useProjectMatrixArchiveFiles(projectMatrixView);
+  const isArchiveFiles = archiveFiles && archiveFiles.length > 0;
 
   useEffect(() => {
     setLoading(isLoading);
@@ -56,7 +57,7 @@ export const ArchivePreviewTable = ({
 
   return (
     <>
-      {archiveFiles && isSuccess ? (
+      {isArchiveFiles && isSuccess ? (
         <GridPaper>
           <Table
             columns={getArchivePreviewTableColumns()}

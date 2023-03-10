@@ -21,7 +21,6 @@ import { PROJECTS_LABEL } from "./constants";
 import { mainColumn as exportMainColumn } from "./detail/project/exportMainColumn";
 import { sideColumn as exportSideColumn } from "./detail/project/exportSideColumn";
 import { mainColumn as matricesMainColumn } from "./detail/project/matricesMainColumn";
-import { sideColumn as matricesSideColumn } from "./detail/project/matricesSideColumn";
 import { mainColumn as metadataMainColumn } from "./detail/project/metadataMainColumn";
 import { sideColumn as metadataSideColumn } from "./detail/project/metadataSideColumn";
 import { mainColumn as overviewMainColumn } from "./detail/project/overviewMainColumn";
@@ -55,7 +54,6 @@ export const projectsEntity: EntityConfig = {
         label: "Matrices",
         mainColumn: matricesMainColumn,
         route: "project-matrices",
-        sideColumn: matricesSideColumn,
       },
       {
         label: "Project Files",

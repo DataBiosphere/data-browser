@@ -101,7 +101,7 @@ export const buildContributorGeneratedMatricesTable = (
   return {
     columns: buildContributorGeneratedMatricesTableColumns(),
     gridTemplateColumns:
-      "150px minmax(240px, 1fr) repeat(6, minmax(124px, 1fr))",
+      "auto minmax(240px, 1fr) repeat(6, minmax(124px, 1fr))",
     projectMatrixViewsBySpecies,
   };
 };
@@ -121,7 +121,7 @@ export const buildDCPGeneratedMatricesTable = (
   return {
     columns: buildDCPGeneratedMatricesTableColumns(),
     gridTemplateColumns:
-      "150px minmax(240px, 1fr) repeat(5, minmax(124px, 1fr))",
+      "auto minmax(240px, 1fr) repeat(5, minmax(124px, 1fr))",
     projectMatrixViewsBySpecies,
   };
 };
@@ -168,6 +168,26 @@ export const buildExportToCavaticaMetadata = (): React.ComponentProps<
   route: "/export",
   title: "Export to CAVATICA",
 });
+
+/**
+ * Returns grid props for the Grid component.
+ * Views render as follows:
+ * - mobile view: grid component is ignored and children are rendered as direct children of the next ancestor.
+ * - tablet view: 2 columns.
+ * - desktop view: 3 columns.
+ * @returns model to be used as props for the Grid component.
+ */
+export const buildTripleColumnGrid = (): React.ComponentProps<
+  typeof C.Grid
+> => {
+  return {
+    gridSx: {
+      display: { sm: "grid", xs: "contents" },
+      gap: 4,
+      gridTemplateColumns: { md: "repeat(3, 1fr)", sm: "1fr 1fr" },
+    },
+  };
+};
 
 // Files view builders
 
@@ -486,7 +506,7 @@ function formatMatrixCellCount(matrixCellCount?: number): string {
  * Returns generated matrices actions column def.
  * @returns actions column def.
  */
-function getGeneratedMatricesActionsColumnDef<T>(): ColumnDef<T> {
+export function getGeneratedMatricesActionsColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: "",
     cell: ({ row }) =>
@@ -496,9 +516,6 @@ function getGeneratedMatricesActionsColumnDef<T>(): ColumnDef<T> {
             projectMatrixView: row.original as unknown as ProjectMatrixView,
           }),
           C.FileLocationCopy({
-            projectMatrixView: row.original as unknown as ProjectMatrixView,
-          }),
-          C.FileLocationArchivePreview({
             projectMatrixView: row.original as unknown as ProjectMatrixView,
           }),
         ],
@@ -556,8 +573,13 @@ export function getGeneratedMatricesContentDescriptionColumnDef<
 export function getGeneratedMatricesFileNameColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.FILE_NAME,
-    cell: ({ getValue }) =>
-      C.FileNameCell({ value: getValue() as unknown as string }),
+    cell: ({ getValue, row }) =>
+      C.FileNameCell({
+        archivePreview: C.FileLocationArchivePreview({
+          projectMatrixView: row.original as unknown as ProjectMatrixView,
+        }),
+        fileName: getValue() as unknown as string,
+      }),
     header: HCA_DCP_CATEGORY_LABEL.FILE_NAME,
   };
 }

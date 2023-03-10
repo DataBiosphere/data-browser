@@ -3,12 +3,13 @@ import {
   sectionMargin,
   sectionMarginSm,
 } from "@clevercanary/data-explorer-ui/lib/components/common/Section/section.styles";
-import { TABLET } from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
-import styled from "@emotion/styled";
 import {
   textBody4002Lines,
+  textBody500,
   textBodyLarge500,
-} from "../../../../../utils/typographyToCSS";
+} from "@clevercanary/data-explorer-ui/lib/styles/common/mixins/fonts";
+import { TABLET } from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
+import styled from "@emotion/styled";
 
 export const Section = styled("div")`
   ${sectionMargin}
@@ -16,13 +17,18 @@ export const Section = styled("div")`
     ${sectionMarginSm}
   }
 
+  h3,
+  h4 {
+    margin: 0 0 8px;
+  }
+
   h3 {
     ${textBodyLarge500};
-    margin: 0 0 8px;
+  }
 
-    &:nth-of-type(n + 2) {
-      margin-top: 20px;
-    }
+  h4 {
+    ${textBody500};
+    margin-top: 20px;
   }
 
   p {

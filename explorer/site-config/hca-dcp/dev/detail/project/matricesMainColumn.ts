@@ -43,4 +43,36 @@ export const mainColumn: ComponentConfig[] = [
     ],
     component: C.FluidPaper,
   } as ComponentConfig<typeof C.FluidPaper>,
+  {
+    children: [
+      {
+        children: [
+          {
+            children: [
+              {
+                component: MDX.MatrixQuestionnaire,
+              } as ComponentConfig<typeof MDX.MatrixQuestionnaire>,
+            ],
+            component: MDX.Section,
+          } as ComponentConfig<typeof MDX.Section>,
+        ],
+        component: C.FluidPaper,
+      } as ComponentConfig<typeof C.FluidPaper>,
+      {
+        children: [
+          {
+            children: [
+              {
+                component: MDX.DataReleasePolicy,
+              } as ComponentConfig<typeof MDX.DataReleasePolicy>,
+            ],
+            component: MDX.Section,
+          } as ComponentConfig<typeof MDX.Section>,
+        ],
+        component: C.FluidPaper,
+      } as ComponentConfig<typeof C.FluidPaper>,
+    ],
+    component: C.Grid,
+    viewBuilder: T.buildTripleColumnGrid,
+  } as ComponentConfig<typeof C.Grid>,
 ];

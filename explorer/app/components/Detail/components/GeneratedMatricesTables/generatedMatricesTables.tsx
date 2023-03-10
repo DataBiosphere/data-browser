@@ -28,7 +28,8 @@ export const GeneratedMatricesTables = <T extends object>({
             return (
               <Fragment key={title}>
                 {i > 0 && <Divider />}
-                <SectionTitle title={title} />
+                <SectionTitle>{title}</SectionTitle>
+                <Divider />
                 <GridPaper>
                   <Table
                     columns={columns}

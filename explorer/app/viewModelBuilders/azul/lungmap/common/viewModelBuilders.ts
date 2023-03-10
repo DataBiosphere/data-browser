@@ -1,18 +1,21 @@
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
+import {
+  HCA_DCP_CATEGORY_KEY,
+  HCA_DCP_CATEGORY_LABEL,
+} from "../../../../../site-config/hca-dcp/category";
 import * as C from "../../../../components";
 import { getProjectResponse } from "../../../../components/Project/common/projectTransformer";
 import * as MDX from "../../../../content/lungmap";
 import { ProjectsResponse } from "../../../../models/responses";
-import { ProjectMatrixView } from "../../common/entities";
 import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
 } from "../../hca-dcp/common/projectMatrixMapper";
 import {
+  getGeneratedMatricesActionsColumnDef,
   getGeneratedMatricesAnatomicalEntityColumnDef,
   getGeneratedMatricesContentDescriptionColumnDef,
-  getGeneratedMatricesFileNameColumnDef,
   getGeneratedMatricesFileSizeColumnDef,
   getGeneratedMatricesGenusSpeciesColumnDef,
   getGeneratedMatricesLibraryConstructionMethodColumnDef,
@@ -71,23 +74,14 @@ function buildContributorGeneratedMatricesTableColumns<T>(): ColumnDef<T>[] {
 }
 
 /**
- * Returns generated matrices actions column def.
- * @returns actions column def.
+ * Returns generated matrices file name column def.
+ * @returns file name column def.
  */
-function getGeneratedMatricesActionsColumnDef<T>(): ColumnDef<T> {
+function getGeneratedMatricesFileNameColumnDef<T>(): ColumnDef<T> {
   return {
-    accessorKey: "",
-    cell: ({ row }) =>
-      C.ButtonGroup({
-        Buttons: [
-          C.FileLocationDownload({
-            projectMatrixView: row.original as unknown as ProjectMatrixView,
-          }),
-          C.FileLocationCopy({
-            projectMatrixView: row.original as unknown as ProjectMatrixView,
-          }),
-        ],
-      }),
-    header: "Actions",
+    accessorKey: HCA_DCP_CATEGORY_KEY.FILE_NAME,
+    cell: ({ getValue }) =>
+      C.FileNameCell({ fileName: getValue() as unknown as string }),
+    header: HCA_DCP_CATEGORY_LABEL.FILE_NAME,
   };
 }
