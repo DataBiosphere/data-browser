@@ -1,7 +1,8 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "app/components";
 import { ProjectsResponse } from "app/models/responses";
-import * as T from "../../projectViewModelBuilder";
+import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import * as T from "../../projectViewModelBuilder"; // TODO refactor to "app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders"
 
 export const mainColumn = [
   {
@@ -36,6 +37,19 @@ export const mainColumn = [
     component: C.SupplementaryLinks,
     viewBuilder: T.buildSupplementaryLinks,
   } as ComponentConfig<typeof C.SupplementaryLinks>,
+  {
+    children: [
+      {
+        component: C.KeyValuePairs,
+        viewBuilder: V.buildAccessions,
+      } as ComponentConfig<typeof C.KeyValuePairs, ProjectsResponse>,
+    ],
+    component: C.CollapsableSection,
+    props: {
+      collapsable: true,
+      title: "Accessions",
+    },
+  } as ComponentConfig<typeof C.CollapsableSection>,
   {
     component: C.DataReleasePolicy,
   } as ComponentConfig<typeof C.DataReleasePolicy>,

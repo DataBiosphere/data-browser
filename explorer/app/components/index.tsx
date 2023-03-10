@@ -5,6 +5,8 @@ export {
   DownloadIconSmall,
   InventoryIconSmall,
 } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/common/constants";
+export { GridItem } from "@clevercanary/data-explorer-ui/lib/components/common/Grid/components/GridItem/gridItem";
+export { Grid } from "@clevercanary/data-explorer-ui/lib/components/common/Grid/grid";
 export { KeyElType } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/components/KeyElType/keyElType";
 export { ValueElType } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/components/ValueElType/valueElType";
 export { KeyValuePairs } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
@@ -12,6 +14,7 @@ export { Markdown } from "@clevercanary/data-explorer-ui/lib/components/common/M
 export { FluidPaper } from "@clevercanary/data-explorer-ui/lib/components/common/Paper/paper.styles";
 export { CollapsableSection } from "@clevercanary/data-explorer-ui/lib/components/common/Section/components/CollapsableSection/collapsableSection";
 export { GridPaperSection } from "@clevercanary/data-explorer-ui/lib/components/common/Section/section.styles";
+export { Divider } from "@clevercanary/data-explorer-ui/lib/components/common/Stack/components/Divider/divider";
 export { Stack } from "@clevercanary/data-explorer-ui/lib/components/common/Stack/stack";
 export { StaticImage } from "@clevercanary/data-explorer-ui/lib/components/common/StaticImage/staticImage";
 export { DetailViewTable } from "@clevercanary/data-explorer-ui/lib/components/Detail/components/DetailViewTable/detailViewTable";

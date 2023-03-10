@@ -1,5 +1,10 @@
+import {
+  Key,
+  Value,
+} from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
+import React, { Fragment, ReactElement } from "react";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
@@ -31,10 +36,41 @@ import {
   ProjectMatrixTableView,
   ProjectMatrixView,
 } from "../../common/entities";
+import { mapAccessions } from "./accessionMapper/accessionMapper";
+import { Accession } from "./accessionMapper/entities";
 import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
 } from "./projectMatrixMapper";
+
+/**
+ * Build props for the KeyValuePairs component for displaying the project accessions.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the key value pairs component.
+ */
+export const buildAccessions = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.KeyValuePairs> => {
+  const project = getProjectResponse(projectsResponse);
+  const accessionsByLabel = mapAccessions(project?.accessions);
+  const keyValuePairs = new Map<Key, Value>();
+  for (const [label, accessions] of accessionsByLabel) {
+    keyValuePairs.set(`${label}:`, getAccessionsKeyValue(accessions));
+  }
+  return {
+    KeyElType: (props) =>
+      C.KeyElType({
+        color: "ink.main",
+        ...props,
+      }),
+    KeyValueElType: Fragment,
+    KeyValuesElType: (props) =>
+      C.Grid({ gap: 1, gridTemplateColumns: "auto 1fr", ...props }),
+    ValueElType: (props) =>
+      C.GridItem({ display: "flex", flexWrap: "wrap", ...props }),
+    keyValuePairs,
+  };
+};
 
 /**
  * Build props for the data normalization and batch correction alert component.
@@ -200,6 +236,24 @@ export const filesBuildCellCount = (
     value: Transformers.filesGetCellCount(file),
   };
 };
+
+/**
+ * Returns the KeyValuePair value for the accessions.
+ * @param accessions - Accessions.
+ * @returns the KeyValuePair value for the accessions as a ReactElement.
+ */
+function getAccessionsKeyValue(accessions: Accession[]): ReactElement {
+  return C.Links({
+    divider: C.Divider({ children: ", " }),
+    links: accessions.map(({ id, url }) => {
+      return {
+        label: id,
+        target: ANCHOR_TARGET.BLANK,
+        url,
+      };
+    }),
+  });
+}
 
 // Samples view builders
 

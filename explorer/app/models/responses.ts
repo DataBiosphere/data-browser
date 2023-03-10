@@ -1,4 +1,12 @@
 /**
+ * Model of accessions included in the response from index/projects or /projects/uuid API endpoints.
+ */
+export interface AccessionResponse {
+  accession: string;
+  namespace: string;
+}
+
+/**
  * Model of contributor value included in the response from index/projects API endpoint.
  */
 export interface ContributorResponse {
@@ -27,6 +35,7 @@ export type ProjectResponseMatrices = { [key: string]: unknown };
  * Model of project value nested in response returned from index/projects API endpoint.
  */
 export interface ProjectResponse {
+  accessions: AccessionResponse[];
   contributedAnalyses: ProjectResponseContributedAnalyses;
   contributors: ContributorResponse[];
   estimatedCellCount: number;
