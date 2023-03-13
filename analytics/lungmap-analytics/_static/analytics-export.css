@@ -6,6 +6,15 @@
 }
 
 @media print {
+	#jb-print-docs-body h1 {
+		font-size: 36px;
+		margin-top: 0.7em;
+	}
+
+	#print-main-content {
+		display: none;
+	}
+
 	#main-content {
 		max-width: none !important;
 		margin-left: 0 !important;
