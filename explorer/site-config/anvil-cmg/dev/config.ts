@@ -18,7 +18,7 @@ import { filesEntityConfig } from "./index/filesEntityConfig";
 import { summary } from "./index/summary";
 
 // Template constants
-const BROWSER_URL = "https://staging.anvilproject.org";
+const BROWSER_URL = "https://anvil.gi.ucsc.edu";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 export const URL_DATASETS = "/datasets";
 const LOGO: LogoProps = {
@@ -184,7 +184,8 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/help`,
         },
       ],
-      searchEnabled: false,
+      searchEnabled: true,
+      searchURL: `${BROWSER_URL}/search`,
       slogan: SLOGAN,
       socials,
     },
