@@ -19,6 +19,8 @@ import { FileLocation } from "../../file-location/file-location.model";
 import { FileLocationStatus } from "../../file-location/file-location-status.model";
 import { Project } from "./project.model";
 import { ArchivePreview } from "../../project-matrix/archive-preview.model";
+import { ProjectManifestSpreadsheet } from "../../project-manifest-spreadsheet/project-manifest-spreadsheet.model";
+import { FetchProjectFullManifestExistsSuccessAction } from "./fetch-project-full-manifest-exists-success.action";
 
 const DEFAULT_PROJECT = {
     matrixArchivePreviewsByProjectId: new Map<
@@ -30,12 +32,17 @@ const DEFAULT_PROJECT = {
         Map<string, FileLocation>
     >(),
     manifestFileLocationsByProjectId: new Map<string, FileLocation>(),
+    manifestSpreadsheetsByProjectId: new Map<
+        string,
+        ProjectManifestSpreadsheet
+    >(),
 };
 
 export class ProjectState implements Project {
     matrixArchivePreviewsByProjectId: Map<string, Map<string, ArchivePreview>>; // Archive preview keyed by project then matrix UUID
     matrixFileLocationsByProjectId: Map<string, Map<string, FileLocation>>; // File locations keyed by project then file URL
     manifestFileLocationsByProjectId: Map<string, FileLocation>;
+    manifestSpreadsheetsByProjectId: Map<string, ProjectManifestSpreadsheet>;
 
     /**
      * @param {ProjectState} state
@@ -63,6 +70,8 @@ export class ProjectState implements Project {
                 this.matrixArchivePreviewsByProjectId,
             matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
             manifestFileLocationsByProjectId: updatedResponsesByProjectId,
+            manifestSpreadsheetsByProjectId:
+                this.manifestSpreadsheetsByProjectId,
         });
     }
 
@@ -86,6 +95,8 @@ export class ProjectState implements Project {
             matrixFileLocationsByProjectId: updatedLocationsByProjectId,
             manifestFileLocationsByProjectId:
                 this.manifestFileLocationsByProjectId,
+            manifestSpreadsheetsByProjectId:
+                this.manifestSpreadsheetsByProjectId,
         });
     }
 
@@ -108,6 +119,8 @@ export class ProjectState implements Project {
             matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
             manifestFileLocationsByProjectId:
                 this.manifestFileLocationsByProjectId,
+            manifestSpreadsheetsByProjectId:
+                this.manifestSpreadsheetsByProjectId,
         });
     }
 
@@ -135,6 +148,8 @@ export class ProjectState implements Project {
                 this.matrixArchivePreviewsByProjectId,
             matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
             manifestFileLocationsByProjectId: updatedLocationsByProjectId,
+            manifestSpreadsheetsByProjectId:
+                this.manifestSpreadsheetsByProjectId,
         });
     }
 
@@ -156,6 +171,36 @@ export class ProjectState implements Project {
                 this.matrixArchivePreviewsByProjectId,
             matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
             manifestFileLocationsByProjectId: updatedResponsesByProjectId,
+            manifestSpreadsheetsByProjectId:
+                this.manifestSpreadsheetsByProjectId,
+        });
+    }
+
+    /**
+     * Fetch of project manifest spreadsheet successfully has completed - store in state.
+     */
+    public fetchProjectManifestSpreadsheetSuccess(
+        action: FetchProjectFullManifestExistsSuccessAction
+    ): ProjectState {
+        const { projectManifestSpreadsheet } =
+            action as FetchProjectFullManifestExistsSuccessAction;
+
+        const updatedManifestSpreadsheetsByProjectId = new Map(
+            this.manifestSpreadsheetsByProjectId
+        );
+        updatedManifestSpreadsheetsByProjectId.set(
+            projectManifestSpreadsheet.projectId,
+            projectManifestSpreadsheet
+        );
+
+        return new ProjectState({
+            matrixArchivePreviewsByProjectId:
+                this.matrixArchivePreviewsByProjectId,
+            matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
+            manifestFileLocationsByProjectId:
+                this.manifestFileLocationsByProjectId,
+            manifestSpreadsheetsByProjectId:
+                updatedManifestSpreadsheetsByProjectId,
         });
     }
 
@@ -199,6 +244,8 @@ export class ProjectState implements Project {
             matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
             manifestFileLocationsByProjectId:
                 this.manifestFileLocationsByProjectId,
+            manifestSpreadsheetsByProjectId:
+                this.manifestSpreadsheetsByProjectId,
         });
     }
 
@@ -234,6 +281,8 @@ export class ProjectState implements Project {
             matrixFileLocationsByProjectId: this.matrixFileLocationsByProjectId,
             manifestFileLocationsByProjectId:
                 this.manifestFileLocationsByProjectId,
+            manifestSpreadsheetsByProjectId:
+                this.manifestSpreadsheetsByProjectId,
         });
     }
 
@@ -272,6 +321,8 @@ export class ProjectState implements Project {
             matrixFileLocationsByProjectId: updatedLocationsByProjectId,
             manifestFileLocationsByProjectId:
                 this.manifestFileLocationsByProjectId,
+            manifestSpreadsheetsByProjectId:
+                this.manifestSpreadsheetsByProjectId,
         });
     }
 
@@ -306,6 +357,8 @@ export class ProjectState implements Project {
             matrixFileLocationsByProjectId: updatedLocationsByProjectId,
             manifestFileLocationsByProjectId:
                 this.manifestFileLocationsByProjectId,
+            manifestSpreadsheetsByProjectId:
+                this.manifestSpreadsheetsByProjectId,
         });
     }
 

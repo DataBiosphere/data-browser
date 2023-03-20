@@ -19,6 +19,7 @@ import { ProjectState } from "./project.state";
 import { ClearProjectMatrixArchivePreviewAction } from "./clear-project-matrix-archive-preview.action";
 import { FetchProjectMatrixArchivePreviewRequestAction } from "./fetch-project-matrix-archive-preview-request.action";
 import { FetchProjectMatrixArchivePreviewSuccessAction } from "./fetch-project-matrix-archive-preview-success.action";
+import { FetchProjectFullManifestExistsSuccessAction } from "./fetch-project-full-manifest-exists-success.action";
 
 export function reducer(
     state: ProjectState = ProjectState.getDefaultState(),
@@ -53,6 +54,12 @@ export function reducer(
         case FetchProjectManifestFileLocationSuccessAction.ACTION_TYPE:
             return state.fetchProjectManifestFileLocationSuccess(
                 action as FetchProjectManifestFileLocationSuccessAction
+            );
+
+        // Fetch manifest spreadsheet has been requested - update store.
+        case FetchProjectFullManifestExistsSuccessAction.ACTION_TYPE:
+            return state.fetchProjectManifestSpreadsheetSuccess(
+                action as FetchProjectFullManifestExistsSuccessAction
             );
 
         // Project matrix archive preview has been requested - update store

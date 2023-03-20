@@ -5,22 +5,14 @@
  * Styles for project prepared manifest download functionality.
  */
 
+/** Limit width of text and no hits */
+* {
+    max-width: 600px;
+}
+
 /* Initial paragraph */
 p:first-of-type {
     margin-top: 24px;
-}
-
-/* Container for downloads and section bar */
-.downloads-and-data-use {
-    align-items: flex-start; /* Required to prevent left-bar component stretching with flex */
-    display: flex;
-}
-
-/* Sizing for downloads and section bar */
-.downloads-and-data-use > * {
-    box-sizing: border-box;
-    flex: 1;
-    flex-basis: 50%;
 }
 
 /* Download list */

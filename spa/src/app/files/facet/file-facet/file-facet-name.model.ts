@@ -6,6 +6,7 @@
  */
 
 export enum FileFacetName {
+    "CONTENT_DESCRIPTION" = "contentDescription",
     "DISEASE" = "disease",
     "DONOR_DISEASE" = "donorDisease",
     "DEVELOMENT_STAGE" = "developmentStage",

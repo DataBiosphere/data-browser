@@ -149,6 +149,7 @@ import { TerraRegistrationComponent } from "./terra-registration/terra-registrat
 import { TitleService } from "./title/title.service";
 import { UrlService } from "./url/url.service";
 import { WarningDataNormalizationComponent } from "./warning-data-normalization/warning-data-normalization.component";
+import { ProjectManifestSpreadsheetComponent } from "./project-manifest-spreadsheet/project-manifest-spreadsheet.component";
 
 @NgModule({
     imports: [
@@ -261,6 +262,7 @@ import { WarningDataNormalizationComponent } from "./warning-data-normalization/
         ProjectOverviewDataSummaryComponent,
         ProjectPortalsComponent,
         ProjectSpeciesFormComponent,
+        ProjectManifestSpreadsheetComponent,
         ProjectSummaryStatsComponent,
         ProjectSupplementaryLinksComponent,
         ProjectWithdrawnComponent,
