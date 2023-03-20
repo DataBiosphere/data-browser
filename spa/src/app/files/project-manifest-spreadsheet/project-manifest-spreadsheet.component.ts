@@ -10,7 +10,6 @@ import { Component, Input } from "@angular/core";
 import { BehaviorSubject, of, Subject } from "rxjs";
 import { select, Store } from "@ngrx/store";
 import { map, switchMap, takeUntil } from "rxjs/operators";
-import { ClipboardService } from "ngx-clipboard";
 import { AppState } from "../../_ngrx/app.state";
 
 // App dependencies
@@ -47,12 +46,8 @@ export class ProjectManifestSpreadsheetComponent {
 
     /**
      * @param {Store<AppState>} store
-     * @param {ClipboardService} copyToClipboardService
      */
-    public constructor(
-        private store: Store<AppState>,
-        private copyToClipboardService: ClipboardService
-    ) {}
+    public constructor(private store: Store<AppState>) {}
 
     /**
      * Initiate request for file location of specified file.

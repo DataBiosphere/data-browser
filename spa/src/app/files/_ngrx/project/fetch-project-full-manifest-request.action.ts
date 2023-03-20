@@ -2,7 +2,7 @@
  * Human Cell Atlas
  * https://www.humancellatlas.org/
  *
- * Action triggered when existence of file is to be checked.
+ * Action triggered when full manifest file is downloaded or copied to clipboard.
  */
 
 // Core dependencies
@@ -32,7 +32,7 @@ export class FetchProjectFullManifestRequestAction
         public readonly project: Project,
         public readonly fileUrl: string,
         public readonly fileName: string,
-        public trigger: FileLocationTrigger
+        public readonly trigger: FileLocationTrigger
     ) {}
 
     /**
