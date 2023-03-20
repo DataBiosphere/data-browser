@@ -108,25 +108,25 @@ export const ENTRIES = [
     withdrawn: true,
   },
   {
-    entryId: "29f53b7e-071b-44b5-998a-0ae70d0229a4",
     deprecated: true,
+    entryId: "29f53b7e-071b-44b5-998a-0ae70d0229a4",
     projectShortname:
       "Profiling of CD34+ cells from human bone marrow to understand hematopoiesis",
     supersededBy: "091cf39b-01bc-42e5-9437-f419a66c8a45",
   },
   {
-    entryId: "dd7ada84-3f14-4765-b7ce-9b64642bb3dc",
     deprecated: true,
+    entryId: "dd7ada84-3f14-4765-b7ce-9b64642bb3dc",
     projectShortname:
       "Single-nucleus RNA-seq profiling of the human primary motor cortex in amyotrophic lateral sclerosis and frontotemporal lobar degeneration",
   },
   {
-    entryId: "9bab0f03-a725-4a13-9ab1-196e46cd80ed",
     duplicateOf: "a004b150-1c36-4af6-9bbd-070c06dbc17d",
+    entryId: "9bab0f03-a725-4a13-9ab1-196e46cd80ed",
   },
   {
-    entryId: "992aad5e-7fab-46d9-a47d-df715e8cfd24",
     duplicateOf: "504e0cee-1688-40fa-b936-361c4a831f87",
+    entryId: "992aad5e-7fab-46d9-a47d-df715e8cfd24",
   },
   {
     analysisPortals: [
