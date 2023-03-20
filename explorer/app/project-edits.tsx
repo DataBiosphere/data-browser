@@ -121,12 +121,12 @@ export const ENTRIES = [
       "Single-nucleus RNA-seq profiling of the human primary motor cortex in amyotrophic lateral sclerosis and frontotemporal lobar degeneration",
   },
   {
-    duplicateOf: "a004b150-1c36-4af6-9bbd-070c06dbc17d",
     entryId: "9bab0f03-a725-4a13-9ab1-196e46cd80ed",
+    duplicateOf: "a004b150-1c36-4af6-9bbd-070c06dbc17d",
   },
   {
-    duplicateOf: "504e0cee-1688-40fa-b936-361c4a831f87",
     entryId: "992aad5e-7fab-46d9-a47d-df715e8cfd24",
+    duplicateOf: "504e0cee-1688-40fa-b936-361c4a831f87",
   },
   {
     analysisPortals: [
