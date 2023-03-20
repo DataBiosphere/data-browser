@@ -14,5 +14,5 @@ import { Component, Input } from "@angular/core";
     styleUrls: ["./project-deprecated.component.scss"],
 })
 export class ProjectDeprecatedComponent {
-    @Input() updatedProjectId: string;
+    @Input() updatedProjectId?: string;
 }

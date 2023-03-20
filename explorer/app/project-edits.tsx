@@ -115,6 +115,12 @@ export const ENTRIES = [
     supersededBy: "091cf39b-01bc-42e5-9437-f419a66c8a45",
   },
   {
+    deprecated: true,
+    entryId: "dd7ada84-3f14-4765-b7ce-9b64642bb3dc",
+    projectShortname:
+      "Single-nucleus RNA-seq profiling of the human primary motor cortex in amyotrophic lateral sclerosis and frontotemporal lobar degeneration",
+  },
+  {
     duplicateOf: "a004b150-1c36-4af6-9bbd-070c06dbc17d",
     entryId: "9bab0f03-a725-4a13-9ab1-196e46cd80ed",
   },
