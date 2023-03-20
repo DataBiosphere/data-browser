@@ -108,8 +108,8 @@ export const ENTRIES = [
     withdrawn: true,
   },
   {
-    deprecated: true,
     entryId: "29f53b7e-071b-44b5-998a-0ae70d0229a4",
+    deprecated: true,
     projectShortname:
       "Profiling of CD34+ cells from human bone marrow to understand hematopoiesis",
     supersededBy: "091cf39b-01bc-42e5-9437-f419a66c8a45",
