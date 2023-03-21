@@ -16,5 +16,5 @@ npm run build-cgl-dcp2
 export BUCKET=s3://org-humancellatlas-data-browser-dcp2-prod/
 export SRCDIR=dist/
 cd ..
-aws s3 sync --acl public-read $SRCDIR $BUCKET --delete --profile platform-hca-prod
+aws s3 sync  $SRCDIR $BUCKET --delete --profile platform-hca-prod
 aws cloudfront create-invalidation --distribution-id E1LYQC3LZXO7M3 --paths "/*" --profile platform-hca-prod
