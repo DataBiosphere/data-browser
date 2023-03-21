@@ -1,5 +1,4 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import logoAnvil from "images/logoAnvil.png";
 import logoHhs from "images/logoHhs.svg";
@@ -18,24 +17,17 @@ import { filesEntityConfig } from "./index/filesEntityConfig";
 import { summary } from "./index/summary";
 
 // Template constants
-const BROWSER_URL = "https://anvil.gi.ucsc.edu";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 export const URL_DATASETS = "/datasets";
-const LOGO: LogoProps = {
-  alt: SLOGAN,
-  height: 40,
-  link: "/",
-  src: logoAnvil,
-};
 
-const config: SiteConfig = {
+export function make_config(browserUrl: string): SiteConfig { return {
   analytics: {
     gtmAuth: "up3ucjProssPj7Iq59W45g", // GTM environment-specific
     gtmId: "GTM-KDZF5XS",
     gtmPreview: "env-3",
   },
   authentication: authenticationConfig,
-  browserURL: BROWSER_URL,
+  browserURL: browserUrl,
   categoryConfigs: [
     {
       key: "biosamples.anatomical_site",
@@ -142,27 +134,32 @@ const config: SiteConfig = {
       navLinks: [
         {
           label: "Help",
-          url: `${BROWSER_URL}/help`,
+          url: `${browserUrl}/help`,
         },
         {
           label: "Privacy",
-          url: `${BROWSER_URL}/privacy`,
+          url: `${browserUrl}/privacy`,
         },
       ],
       socials,
     },
     header: {
       authenticationEnabled: true,
-      logo: LOGO,
+      logo: {
+        alt: SLOGAN,
+        height: 40,
+        link: `${browserUrl}/`,
+        src: logoAnvil,
+      },
       navAlignment: ELEMENT_ALIGNMENT.CENTER,
       navLinks: [
         {
           label: "Overview",
-          url: `${BROWSER_URL}/overview`,
+          url: `${browserUrl}/overview`,
         },
         {
           label: "Learn",
-          url: `${BROWSER_URL}/learn`,
+          url: `${browserUrl}/learn`,
         },
         {
           label: "Datasets",
@@ -170,33 +167,33 @@ const config: SiteConfig = {
         },
         {
           label: "News",
-          url: `${BROWSER_URL}/news`,
+          url: `${browserUrl}/news`,
         },
         {
           label: "Events",
-          url: `${BROWSER_URL}/events`,
+          url: `${browserUrl}/events`,
         },
         {
           label: "More",
           menuItems: [
             {
               label: "Team",
-              url: `${BROWSER_URL}/team`,
+          url: `${browserUrl}/team`,
             },
             {
               label: "FAQ",
-              url: `${BROWSER_URL}/faq`,
+          url: `${browserUrl}/faq`,
             },
             {
               label: "Help",
-              url: `${BROWSER_URL}/help`,
+          url: `${browserUrl}/help`,
             },
           ],
           url: "",
         },
       ],
       searchEnabled: true,
-      searchURL: `${BROWSER_URL}/search`,
+      searchURL: `${browserUrl}/search`,
       slogan: SLOGAN,
       socials,
     },
@@ -214,6 +211,8 @@ const config: SiteConfig = {
       },
     },
   },
-};
+};}
+
+const config: SiteConfig = make_config("https://anvil.gi.ucsc.edu")
 
 export default config;

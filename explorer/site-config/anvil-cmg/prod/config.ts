@@ -1,13 +1,9 @@
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import devConfig from "../dev/config";
-
-// Template constants
-const BROWSER_URL = "https://anvil.gi.ucsc.edu";
+import { make_config } from "../dev/config";
 
 const config: SiteConfig = {
-  ...devConfig,
-  browserURL: BROWSER_URL,
-  exportToTerraUrl: "https://app.terra.bio",
+  ...make_config("https://anvil.gi.ucsc.edu"),
+  exportToTerraUrl: "https://app.terra.bio/",
 };
 
 // Update gtmAuth for the prod environment lookup.
