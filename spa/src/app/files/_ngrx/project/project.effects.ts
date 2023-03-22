@@ -58,11 +58,25 @@ import { ViewProjectIntegrationAction } from "../table/view-project-integration.
 import { ViewProjectSupplementaryLinkAction } from "../table/view-project-supplementary-link.action";
 import { ViewProjectWithdrawnAction } from "../table/view-project-withdrawn.action";
 import { ViewProjectAccessionAction } from "./view-project-accession.action";
+import { selectSelectedProject } from "../files.selectors";
+import { SearchTerm } from "../../search/search-term.model";
+import { SearchEntity } from "../../search/search-entity.model";
+import { FileFacetName } from "../../facet/file-facet/file-facet-name.model";
+import { SearchFacetTerm } from "../../search/search-facet-term.model";
+import { ContentDescription } from "../../shared/content-description.model";
+import { DEFAULT_TABLE_PARAMS } from "../../table/pagination/table-params.model";
+import { EntityName } from "../../shared/entity-name.model";
+import { FilesService } from "../../shared/files.service";
+import { FetchProjectFullManifestExistsRequestAction } from "./fetch-project-full-manifest-exists-request.action";
+import { ProjectManifestSpreadsheetStatus } from "../../project-manifest-spreadsheet/project-manifest-spreadsheet-status.model";
+import { FetchProjectFullManifestExistsSuccessAction } from "./fetch-project-full-manifest-exists-success.action";
+import { FetchProjectFullManifestRequestAction } from "./fetch-project-full-manifest-request.action";
 
 @Injectable()
 export class ProjectEffects {
     /**
      * @param {FileLocationService} fileLocationService
+     * @param {FilesService} filesService
      * @param {GTMService} gtmService
      * @param {ProjectService} projectService
      * @param {Store<AppState>} store
@@ -70,11 +84,123 @@ export class ProjectEffects {
      */
     constructor(
         private fileLocationService: FileLocationService,
+        private filesService: FilesService,
         private gtmService: GTMService,
         private projectService: ProjectService,
         private store: Store<AppState>,
         private actions$: Actions
     ) {}
+
+    /**
+     * Trigger tracking of project manifest spreadsheet download or copy.
+     */
+    fetchProjectManifestSpreadsheet$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(FetchProjectFullManifestRequestAction.ACTION_TYPE),
+                concatMap((action) =>
+                    of(action).pipe(
+                        withLatestFrom(
+                            this.store.pipe(select(selectCatalog), take(1))
+                        )
+                    )
+                ),
+                tap(([action, catalog]) => {
+                    this.gtmService.trackEvent(
+                        (
+                            action as FetchProjectFullManifestRequestAction
+                        ).asEvent({
+                            catalog,
+                        })
+                    );
+                })
+            ),
+        { dispatch: false }
+    );
+
+    /**
+     * Trigger fetch, check and store of project manifest spreadsheet.
+     */
+    fetchProjectManifestSpreadsheetExists: Observable<Action> = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(FetchProjectFullManifestExistsRequestAction.ACTION_TYPE),
+                concatMap((action) =>
+                    of(action).pipe(
+                        withLatestFrom(
+                            this.store.pipe(select(selectCatalog), take(1)),
+                            this.store.pipe(
+                                select(selectSelectedProject),
+                                take(1)
+                            )
+                        )
+                    )
+                ),
+                // Merge map here as we don't want to cancel any previous requests for separate file existence checks.
+                mergeMap(([action, catalog, project]) => {
+                    // Build entity request
+                    const searchTermsBySearchKey = new Map<
+                        string,
+                        Set<SearchTerm>
+                    >();
+
+                    const { entryId: projectId } = project;
+                    const projectSearchTerm = new SearchEntity(
+                        FileFacetName.PROJECT_ID,
+                        projectId,
+                        project.projectTitle,
+                        0
+                    );
+                    searchTermsBySearchKey.set(
+                        FileFacetName.PROJECT_ID,
+                        new Set([projectSearchTerm])
+                    );
+
+                    const contentDescriptionSearchTerm = new SearchFacetTerm(
+                        FileFacetName.CONTENT_DESCRIPTION,
+                        ContentDescription.DATABASE_ENTRY_METADATA,
+                        0
+                    );
+                    searchTermsBySearchKey.set(
+                        FileFacetName.CONTENT_DESCRIPTION,
+                        new Set([contentDescriptionSearchTerm])
+                    );
+
+                    // Hit files endpoint to determine if file exists.
+                    const searchResults$ =
+                        this.filesService.fetchEntitySearchResults(
+                            catalog,
+                            searchTermsBySearchKey,
+                            DEFAULT_TABLE_PARAMS,
+                            EntityName.FILES
+                        );
+
+                    return searchResults$.pipe(withLatestFrom(of(projectId)));
+                }),
+                map(([searchResults, projectId]) => {
+                    // Handle case where file does not exist.
+                    const files = searchResults.tableModel.data;
+                    if (!files || files.length === 0) {
+                        return new FetchProjectFullManifestExistsSuccessAction({
+                            exists: false,
+                            projectId,
+                            status: ProjectManifestSpreadsheetStatus.COMPLETED,
+                        });
+                    }
+
+                    // Project manifest spreadsheet exists, save accessor details in store.
+                    const file = files[0];
+                    return new FetchProjectFullManifestExistsSuccessAction({
+                        exists: true,
+                        fileFormat: file.files[0]?.format,
+                        fileName: file.files[0]?.name,
+                        fileUrl: file.files[0]?.url,
+                        projectId,
+                        status: ProjectManifestSpreadsheetStatus.COMPLETED,
+                    });
+                })
+            )
+    );
 
     /**
      * Trigger fetch and display of project, when selected from the project table. Must also grab projects edit data from

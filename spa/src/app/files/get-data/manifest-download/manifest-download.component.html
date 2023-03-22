@@ -1,7 +1,7 @@
 <script src="../export-to-terra-species-form/export-to-terra-species-form.component.ts"></script>
 <ng-container *ngIf="state$ | async as state">
     <get-data-layout [tabs]="getBackButtonTab()" (tabSelected)="onTabSelected()">
-        <ng-container title>Request File Manifest</ng-container>
+        <ng-container title>Manifest Summary</ng-container>
         <div content>
             <ng-container *ngIf="isDownloadNotStarted(state.manifestResponse)">
                 <get-data-panel [loading]="isFileTypeSummariesEmpty(state.fileTypeSummaries)">

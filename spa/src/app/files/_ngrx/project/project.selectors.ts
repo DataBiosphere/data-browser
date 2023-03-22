@@ -47,3 +47,11 @@ export const selectProjectManifestFileLocation = (projectId: string) =>
     createSelector(selectProject, (state) =>
         state.manifestFileLocationsByProjectId.get(projectId)
     );
+
+/**
+ * Returns the manifest spreadsheet for the specified project.
+ */
+export const selectProjectManifestSpreadsheet = (projectId: string) =>
+    createSelector(selectProject, (state) =>
+        state.manifestSpreadsheetsByProjectId.get(projectId)
+    );

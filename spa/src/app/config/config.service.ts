@@ -125,6 +125,15 @@ export class ConfigService {
     }
 
     /**
+     * Returns the URL for the files end point.
+     */
+    public getFilesUrl(): string {
+        const basePath = this.getIndexPath();
+        const filesPath = APIEndpoints.FILES;
+        return `${basePath}${filesPath}`;
+    }
+
+    /**
      * Returns the URL for the integrations end point.
      *
      * @returns {string}

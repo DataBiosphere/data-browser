@@ -1,7 +1,7 @@
 <ng-container *ngIf="viewState$ | async as viewState">
     <ng-container [ngSwitch]="viewState">
         <img  *ngSwitchCase="fileLocationStatus.NOT_STARTED"
-              (click)="onFileLocationRequested(fileUrl, filename)"
+              (click)="onFileLocationRequested(fileUrl, fileName)"
               matTooltip="Copy download link"
               matTooltipClass="tooltip tooltip-small"
               class="copy-not-started"

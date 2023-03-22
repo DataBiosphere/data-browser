@@ -1,0 +1,23 @@
+<ng-container *ngIf="viewState$ | async as viewState">
+    <ng-container [ngSwitch]="viewState.status">
+        <mat-spinner *ngSwitchCase="fileDownloadCheckStatus.IN_PROGRESS" class="check-in-progress" diameter="14"></mat-spinner>
+        <div *ngSwitchCase="fileDownloadCheckStatus.COMPLETED">
+            <div *ngIf="viewState.projectManifestSpreadsheet.exists" class="downloads">
+                <div class="download-actions">
+                    <file-location-download [fileLocation]="viewState.fileLocation"
+                                            [fileName]="viewState.projectManifestSpreadsheet.fileName"
+                                            [fileUrl]="viewState.projectManifestSpreadsheet.fileUrl"
+                                            (fileLocationRequested)="onSpreadsheetLocationRequested($event, viewState.projectManifestSpreadsheet.fileFormat)"></file-location-download>
+                    <file-location-copy [fileLocation]="viewState.fileLocation"
+                                        [fileName]="viewState.projectManifestSpreadsheet.fileName"
+                                        [fileUrl]="viewState.projectManifestSpreadsheet.fileUrl"
+                                        (fileLocationRequested)="onSpreadsheetLocationRequested($event, viewState.projectManifestSpreadsheet.fileFormat)"></file-location-copy>
+                </div>
+                <span class="fontsize-s">xlsx</span>
+            </div>
+            <no-hits *ngIf="!viewState.projectManifestSpreadsheet.exists">
+                <p class="fontsize-s">The full metadata is not available for this project.</p>
+            </no-hits>
+        </div>
+    </ng-container>
+</ng-container>

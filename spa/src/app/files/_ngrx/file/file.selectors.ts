@@ -23,3 +23,11 @@ export const selectFileFileLocations = createSelector(
     selectFile,
     (state) => state.fileFileLocationsByFileUrl
 );
+
+/**
+ * Returns the file location for the given file.
+ */
+export const selectFileFileLocationByFileUrl = (fileUrl: string) =>
+    createSelector(selectFile, (state) =>
+        state.fileFileLocationsByFileUrl.get(fileUrl)
+    );

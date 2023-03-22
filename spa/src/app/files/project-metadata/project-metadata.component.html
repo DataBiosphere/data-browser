@@ -1,14 +1,15 @@
 <ng-container *ngIf="state$ | async as state">
-    <project-download-layout [loaded]="state.loaded"
+    <project-download-layout [fullWidth]="true"
+                             [loaded]="state.loaded"
                              [project]="state.project"
                              [tabs]="getBackButtonTab()"
                              (tabSelected)="onTabSelected(state.project.entryId)">
-        <ng-container title>Project Metadata</ng-container>
-        <div contentLeft>
-            <project-manifest-download class="max600"
-                                       *ngIf="state.loaded"
-                                       [classFontName]="'fontsize-s'"
-                                       [project]="state.project"></project-manifest-download>
+        <ng-container title>Full Metadata</ng-container>
+        <div content>
+            <project-manifest-download 
+                    *ngIf="state.loaded" 
+                    [classFontName]="'fontsize-s'" 
+                    [project]="state.project"></project-manifest-download>
         </div>
     </project-download-layout>
 </ng-container>
