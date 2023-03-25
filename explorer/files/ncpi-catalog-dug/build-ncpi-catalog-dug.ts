@@ -1,3 +1,4 @@
+import { PlatformStudy } from "../../app/apis/catalog/ncpi-catalog/common/entities";
 import { parseContentRows, readFile } from "../../app/utils/tsvParser";
 import { writeAsJSON } from "../common/utils";
 import { buildNCPIPlatformStudies } from "../ncpi-catalog/build-platform-studies";
@@ -6,7 +7,6 @@ import {
   SOURCE_FIELD_TYPE,
   tsvPath,
 } from "../ncpi-catalog/constants";
-import { PlatformStudy } from "../ncpi-catalog/entities";
 import { buildNCPIDugCatalogStudies } from "./build-studies";
 
 console.log("Building NCPI Catalog Dug Data");

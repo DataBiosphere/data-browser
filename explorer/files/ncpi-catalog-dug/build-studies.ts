@@ -1,9 +1,6 @@
-import { NCPIStudy } from "../ncpi-catalog/entities";
+import { DugStudy } from "../../app/apis/catalog/ncpi-catalog-dug/common/entities";
+import { NCPIStudy } from "../../app/apis/catalog/ncpi-catalog/common/entities";
 import { fetchRelatedStudies } from "./dug";
-
-export interface DugStudy extends NCPIStudy {
-  relatedStudies?: NCPIStudy[];
-}
 
 /**
  * Build the NCPI Dug studies.

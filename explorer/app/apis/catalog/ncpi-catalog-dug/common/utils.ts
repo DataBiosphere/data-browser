@@ -2,8 +2,7 @@ import {
   sanitizeString,
   sanitizeStringArray,
 } from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/utils";
-import { DugStudy } from "../../../../../files/ncpi-catalog-dug/build-studies";
-import { DugCatalogStudy } from "./entities";
+import { DugCatalogStudy, DugStudy } from "./entities";
 
 /**
  * Returns Dug catalog study with related studies.

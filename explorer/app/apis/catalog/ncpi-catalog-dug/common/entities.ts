@@ -1,4 +1,11 @@
-import { NCPICatalogStudy } from "../../ncpi-catalog/common/entities";
+import {
+  NCPICatalogStudy,
+  NCPIStudy,
+} from "../../ncpi-catalog/common/entities";
+
+export interface DugStudy extends NCPIStudy {
+  relatedStudies?: NCPIStudy[];
+}
 
 export interface DugSearchResponse {
   result: DugSearchResultResponse;

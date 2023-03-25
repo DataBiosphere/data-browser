@@ -1,9 +1,9 @@
+import { PlatformStudy } from "../../app/apis/catalog/ncpi-catalog/common/entities";
 import { parseContentRows, readFile } from "../../app/utils/tsvParser";
 import { writeAsJSON } from "../common/utils";
 import { buildNCPICatalogPlatforms } from "./build-plaftorms";
 import { buildNCPIPlatformStudies } from "./build-platform-studies";
 import { SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE, tsvPath } from "./constants";
-import { PlatformStudy } from "./entities";
 
 console.log("Building NCPI Catalog Data");
 export {};

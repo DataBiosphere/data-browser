@@ -1,5 +1,6 @@
 import { AnVILCatalogWorkspace } from "../../app/apis/catalog/anvil-catalog/common/entities";
-import { DbGapStudy, getStudy } from "../common/dbGaP";
+import { DbGapStudy } from "../../app/apis/catalog/common/entities";
+import { getStudy } from "../common/dbGaP";
 
 export interface AnVILCatalog {
   bucketName: string;
