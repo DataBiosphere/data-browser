@@ -4,14 +4,13 @@ import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
 } from "../../../../../site-config/hca-dcp/category";
+import { ProjectsResponse } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
-import { getProjectResponse } from "../../../../components/Project/common/projectTransformer";
 import * as MDX from "../../../../content/lungmap";
-import { ProjectsResponse } from "../../../../models/responses";
 import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
-} from "../../hca-dcp/common/projectMatrixMapper";
+} from "../../hca-dcp/common/projectMatrixMapper/projectMatrixMapper";
 import {
   getGeneratedMatricesActionsColumnDef,
   getGeneratedMatricesAnatomicalEntityColumnDef,
@@ -20,6 +19,7 @@ import {
   getGeneratedMatricesGenusSpeciesColumnDef,
   getGeneratedMatricesLibraryConstructionMethodColumnDef,
   getGeneratedMatricesMatrixCellCountColumnDef,
+  getProjectResponse,
 } from "../../hca-dcp/common/viewModelBuilders";
 
 /**

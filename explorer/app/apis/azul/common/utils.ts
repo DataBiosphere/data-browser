@@ -37,7 +37,7 @@ type StringOrNull = string | null;
 /**
  * Type of possible values returned in an aggregated value from Azul.
  */
-type StringOrNullArray = (string | null)[];
+type StringOrNullArray = (string | null)[] | undefined;
 
 /**
  * Returns true if the value null/undefined.
@@ -68,9 +68,47 @@ export function processAggregatedOrArrayValue<
 }
 
 /**
+ * Aggregate and process the numerical values of the given key across the given response values.
+ * @param responseValues - Array of values returned from the backend.
+ * @param key - The object key (of a value containing number or null values) in each response value to aggregate.
+ * @returns A totaled numerical value in the response values with the given key.
+ */
+export function processAggregatedNumberEntityValue<
+  T,
+  K extends KeyOfTypeNumberOrNull<T>
+>(responseValues: T[], key: K): number {
+  // Aggregate key values across response values.
+  return aggregateNumericalResponseValues(responseValues, key);
+}
+
+/**
+ * Process the string or null array value for the given response value.
+ * @param responseValues - Singleton array containing values returned from the backend.
+ * @param key - The object key (of an array value containing string or null values).
+ * @param label - Value to display if value for given key is null. Defaults to "Unspecified".
+ * @returns Value in the response with the given key, converted to array if null.
+ */
+export function processEntityArrayValue<
+  T,
+  K extends KeyOfTypeStringOrNullArray<T>
+>(responseValues: T[], key: K, label = LABEL.UNSPECIFIED): string[] {
+  // Response values should be a singleton array; check for at least one value here.
+  if (responseValues.length === 0) {
+    return [LABEL.ERROR];
+  }
+
+  // Grab value from the singleton array for the given key.
+  const responseValue = responseValues[0];
+  const values = responseValue[key] as unknown as StringOrNullArray; // TODO revisit type assertion here
+
+  // Sanitize.
+  return processNullElements(values) ?? [label];
+}
+
+/**
  * Process the string or null value for the given response value.
  * @param responseValues - Singleton array containing values returned from the backend.
- * @param key - The object key (of an array value containing string or null values) in each response value to aggregate.
+ * @param key - The object key (of a value containing string or null values).
  * @param label - Value to display if value for given key is null. Defaults to "Unspecified".
  * @returns Value in the response with the given key, converted to string if null.
  */
@@ -95,7 +133,7 @@ export function processEntityValue<T, K extends KeyOfTypeStringOrNull<T>>(
 /**
  * Process the number or null value for the given response value.
  * @param responseValues - Singleton array containing values returned from the backend.
- * @param key - The object key (of an array value containing null or null values) in each response value to aggregate.
+ * @param key - The object key (of a value containing number or null values).
  * @param defaultValue - Value to display if value for given key is null. Defaults to 0.
  * @returns Value in the response with the given key, converted to 0 if null.
  */
@@ -118,6 +156,21 @@ export function processNumberEntityValue<T, K extends KeyOfTypeNumberOrNull<T>>(
 }
 
 /**
+ * Aggregate the numerical values of the given key across the given response values.
+ * @param responseValues - Array of values returned from the backend.
+ * @param key - The object key in each response value to aggregate.
+ * @returns Totaled value in the response values with the given key.
+ */
+function aggregateNumericalResponseValues<
+  T,
+  K extends KeyOfTypeNumberOrNull<T>
+>(responseValues: T[], key: K): number {
+  return responseValues
+    .map((responseValue) => responseValue[key] as unknown as number)
+    .reduce((acc, val) => acc + (val || 0), 0);
+}
+
+/**
  * Aggregate the values of the given key across the given response values.
  * @param responseValues - Array of values returned from the backend.
  * @param key - The object key (of an array value) in each response value to aggregate.
@@ -128,6 +181,7 @@ function aggregateResponseValues<T, K extends KeyOfTypeStringOrNullArray<T>>(
   key: K
 ): StringOrNullArray {
   return responseValues
+    .filter((responseValue) => !!responseValue[key])
     .map((responseValue) => responseValue[key])
     .flat() as unknown as StringOrNullArray; // TODO revisit type assertion here
 }

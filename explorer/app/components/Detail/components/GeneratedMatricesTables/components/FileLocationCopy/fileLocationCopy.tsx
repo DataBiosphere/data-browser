@@ -3,7 +3,7 @@ import { ContentCopyIconSmall } from "@clevercanary/data-explorer-ui/lib/compone
 import { useFileLocation } from "@clevercanary/data-explorer-ui/lib/hooks/useFileLocation";
 import copy from "copy-to-clipboard";
 import React, { useEffect } from "react";
-import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/common/entities";
+import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 
 export interface FileLocationCopyProps {
   projectMatrixView: ProjectMatrixView;

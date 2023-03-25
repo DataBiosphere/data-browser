@@ -1,74 +1,46 @@
-import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
   KeyValues,
   Value,
 } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-import { Status } from "@clevercanary/data-explorer-ui/lib/components/common/StatusBadge/statusBadge";
-import { HeroTitle } from "@clevercanary/data-explorer-ui/lib/components/common/Title/title";
 import {
   CollaboratingOrganization,
   Contact,
   Contributor,
   DataCurator,
-  Description,
-  ProjectPath,
   Publication,
   SupplementaryLink,
 } from "@clevercanary/data-explorer-ui/lib/components/Project/common/entities";
 import {
   ContributorResponse,
   ProjectResponse,
-  ProjectsResponse,
   PublicationResponse,
-} from "app/models/responses";
-import { ENTRIES } from "../../../project-edits";
+} from "../../../../../apis/azul/hca-dcp/common/entities";
+import { ENTRIES } from "../../../../../project-edits";
 import { CONTRIBUTOR_ROLE } from "./constants";
 
 /**
- * Returns project related breadcrumbs.
- * @param firstCrumb - First breadcrumb.
- * @param projectsResponse - Response model return from projects API.
- * @returns project breadcrumbs.
- */
-export function getProjectBreadcrumbs(
-  firstCrumb: Breadcrumb,
-  projectsResponse?: ProjectsResponse
-): Breadcrumb[] {
-  const projectTitle = getProjectTitle(projectsResponse);
-  const breadcrumbs = [firstCrumb];
-  if (projectTitle) {
-    breadcrumbs.push({ path: "", text: projectTitle });
-  }
-  return breadcrumbs;
-}
-
-/**
- * Maps project collaborating organizations from API response.
- * @param projectsResponse - Response model return from projects API.
+ * Maps project collaborating organizations from the given projects response.
+ * @param projectResponse - Response model return from projects API.
  * @returns project contributor's list of organizations with their corresponding citation number.
  */
-export function getProjectCollaboratingOrganizations(
-  projectsResponse?: ProjectsResponse
+export function mapProjectCollaboratingOrganizations(
+  projectResponse?: ProjectResponse
 ): CollaboratingOrganization[] | undefined {
-  const project = getProjectResponse(projectsResponse);
-  if (!project) {
+  if (!projectResponse) {
     return;
   }
-
   // Filter for project contributors (contributors without the "data curator" role).
   const projectContributors = filterContributorsWithProjectContributors(
-    project.contributors
+    projectResponse.contributors
   );
-
   if (projectContributors.length === 0) {
     return; // Caller is expecting undefined, not an empty array.
   }
-
   // Map the key-value pair contributor organizations and citation.
   const citationByContributorOrganizations =
     getCitationByCollaboratingOrganizations(projectContributors);
-
+  // Return the list of collaborating organizations.
   return [...citationByContributorOrganizations].map(([name, citation]) => {
     return {
       citation,
@@ -78,59 +50,55 @@ export function getProjectCollaboratingOrganizations(
 }
 
 /**
- * Maps project contacts from API response.
- * @param projectsResponse - Response model return from projects API.
+ * Maps project contacts from the given projects response.
+ * @param projectResponse - Response model return from projects API.
  * @returns project contacts.
  */
-export function getProjectContacts(
-  projectsResponse?: ProjectsResponse
+export function mapProjectContacts(
+  projectResponse?: ProjectResponse
 ): Contact[] | undefined {
-  const projectResponse = getProjectResponse(projectsResponse);
   if (!projectResponse) {
     return;
   }
-
-  const contacts = projectResponse.contributors
+  const contacts: Contact[] = projectResponse.contributors
     .filter(
       (contributorResponse) => contributorResponse.correspondingContributor
     )
     .map(({ contactName, email, institution }) => {
-      return { email, institution, name: formatName(contactName) };
+      return {
+        email: email ? email : undefined,
+        institution,
+        name: formatName(contactName),
+      };
     });
-
   if (contacts.length === 0) {
     return; // Caller is expecting undefined, not an empty array.
   }
-
   return contacts;
 }
 
 /**
- * Maps project contributors from API response.
- * @param projectsResponse - Response model return from projects API.
+ * Maps project contributors from the given projects response.
+ * @param projectResponse - Response model return from projects API.
  * @returns project contributors with their corresponding [organization] citation number.
  */
-export function getProjectContributors(
-  projectsResponse?: ProjectsResponse
+export function mapProjectContributors(
+  projectResponse?: ProjectResponse
 ): Contributor[] | undefined {
-  const project = getProjectResponse(projectsResponse);
-  if (!project) {
+  if (!projectResponse) {
     return;
   }
-
   // Filter for project contributors (contributors without the "data curator" role).
   const projectContributors = filterContributorsWithProjectContributors(
-    project.contributors
+    projectResponse.contributors
   );
-
   if (projectContributors.length === 0) {
     return; // Caller is expecting undefined, not an empty array.
   }
-
   // Map the key-value pair contributor organizations and citation.
   const citationByContributorOrganizations =
     getCitationByCollaboratingOrganizations(projectContributors);
-
+  // Return project contributors with their corresponding [organization] citation number.
   return projectContributors.map((projectContributor) => {
     return {
       citation: citationByContributorOrganizations.get(
@@ -143,158 +111,89 @@ export function getProjectContributors(
 }
 
 /**
- * Maps project data curators from API response.
- * @param projectsResponse - Response model return from projects API.
+ * Maps project data curators from the given projects response.
+ * @param projectResponse - Response model return from projects API.
  * @returns formatted list of "data curator" contributors.
  */
-export function getProjectDataCurators(
-  projectsResponse?: ProjectsResponse
+export function mapProjectDataCurators(
+  projectResponse?: ProjectResponse
 ): DataCurator[] | undefined {
-  const project = getProjectResponse(projectsResponse);
-  if (!project) {
+  if (!projectResponse) {
     return;
   }
-
   // Filter for project contributors with the "data curator" role.
-  const dataCurators = project.contributors
+  const dataCurators = projectResponse.contributors
     .filter((contributor) => isContributorDataCurator(contributor.projectRole))
     .map((contributor) => contributor.contactName)
     .map((name) => formatName(name));
-
   if (dataCurators.length === 0) {
     return; // Caller is expecting undefined, not an empty array.
   }
-
   return dataCurators;
 }
 
 /**
- * Maps project description from API response.
- * @param projectsResponse - Response model return from projects API.
- * @returns string representation of project description.
- */
-export function getProjectDescription(
-  projectsResponse?: ProjectsResponse
-): Description | undefined {
-  const project = getProjectResponse(projectsResponse);
-  if (!project) {
-    return;
-  }
-  return project.projectDescription;
-}
-
-/**
- * Maps project data summary related information, included formatted display text from API response.
+ * Maps project data summary related information, included formatted display text from the given projects response.
  * TODO - resolve with the completion of mapping project detail.
- * @param projectsResponse - Response model return from projects API.
+ * @param projectResponse - Response model return from projects API.
  * @returns data summaries key-value pairs of data summary label and corresponding value.
  */
-export function getProjectDetails(
-  projectsResponse?: ProjectsResponse
+export function mapProjectDetails(
+  projectResponse?: ProjectResponse
 ): KeyValues | undefined {
-  const project = getProjectResponse(projectsResponse);
-  if (!project) {
+  if (!projectResponse) {
     return;
   }
   const details = new Map<Key, Value>();
-  details.set("Project Label", project.projectShortname);
+  details.set("Project Label", projectResponse.projectShortname);
   return details;
 }
 
 /**
- * Builds project path from projectId.
- * @param projectsResponse - Response model return from projects API.
- * @returns string representation of project path.
- */
-export function getProjectPath(
-  projectsResponse?: ProjectsResponse
-): ProjectPath | undefined {
-  const project = getProjectResponse(projectsResponse);
-  const projectPath = project?.projectId;
-  if (!project || !projectPath) {
-    return;
-  }
-  return `/${project.projectId}`;
-}
-
-/**
- * Maps project publications from API response, or from corresponding updated project (if listed).
- * @param projectsResponse - Project response model return from API.
+ * Maps project publications from the given projects response, or from corresponding updated project (if listed).
+ * @param projectResponse - Response model return from projects API.
  * @returns project publications.
  */
-export function getProjectPublications(
-  projectsResponse?: ProjectsResponse
+export function mapProjectPublications(
+  projectResponse?: ProjectResponse
 ): Publication[] | undefined {
-  const project = getProjectResponse(projectsResponse);
-  if (!project) {
+  if (!projectResponse) {
     return;
   }
   // If publications are listed in the updated project (loaded from the projects edits JSON), use the updated
   // project's publications. That is, replace the entire publications array returned from the server with the
   // publications array specified in the project edits JSON.
   // Otherwise, use the publication data returned from the server.
-  const publications = mapPublications(project.publications, project.projectId);
-
+  const publications = mapPublications(
+    projectResponse.publications,
+    projectResponse.projectId
+  );
   if (publications.length === 0) {
     return; // Caller is expecting undefined, not an empty array.
   }
-
   return publications;
 }
 
 /**
- * Maps project status from API response.
- * TODO status https://github.com/clevercanary/data-browser/issues/135
- * @param projectsResponse - Response model return from projects API.
- * @returns project status.
- */
-export function getProjectStatus(
-  projectsResponse?: ProjectsResponse
-): Status | undefined {
-  const project = getProjectResponse(projectsResponse);
-  if (!project) {
-    return;
-  }
-}
-
-/**
- * Maps project supplementary links from API response.
- * @param projectsResponse - Response model return from projects API.
+ * Maps project supplementary links from the given projects response.
+ * @param projectResponse - Response model return from projects API.
  * @returns list of supplementary links.
  */
-export function getProjectSupplementaryLinks(
-  projectsResponse?: ProjectsResponse
+export function mapProjectSupplementaryLinks(
+  projectResponse?: ProjectResponse
 ): SupplementaryLink[] | undefined {
-  const project = getProjectResponse(projectsResponse);
-  if (!project) {
+  if (!projectResponse) {
     return;
   }
-
   // Filter valid links - API response can return [null]
-  const supplementaryLinks = project.supplementaryLinks.filter((link) =>
-    isValidUrl(link)
-  );
-
+  const supplementaryLinks: SupplementaryLink[] =
+    projectResponse.supplementaryLinks
+      .filter(notNull)
+      .filter((link) => isValidUrl(link));
   if (supplementaryLinks.length === 0) {
     return; // Caller is expecting undefined, not an empty array.
   }
-
   return supplementaryLinks;
-}
-
-/**
- * Maps project title from API response.
- * @param projectsResponse - Response model return from projects API.
- * @returns project title.
- */
-export function getProjectTitle(
-  projectsResponse?: ProjectsResponse
-): HeroTitle | undefined {
-  const project = getProjectResponse(projectsResponse);
-  if (!project) {
-    return;
-  }
-  return project.projectTitle;
 }
 
 /**
@@ -325,7 +224,7 @@ function formatName(commaDelimitedName: string): string {
  * @param str - Value to format to title case.
  * @returns formatted string as title case.
  */
-function formatTitleCase(str?: string): string | undefined {
+function formatTitleCase(str?: string | null): string | undefined {
   return str?.replace(/\b[a-z]/g, function (match) {
     return match.toUpperCase();
   });
@@ -351,25 +250,13 @@ function getCitationByCollaboratingOrganizations(
 }
 
 /**
- * Returns the project value from the projects API response.
- * @param projectsResponse - Response returned from projects API response.
- * @returns The core project value from the API response.
- */
-export function getProjectResponse(
-  projectsResponse?: ProjectsResponse
-): ProjectResponse | undefined {
-  if (!projectsResponse) {
-    return;
-  }
-  return projectsResponse.projects?.[0];
-}
-
-/**
  * Returns true if the contributor role is "data curator".
  * @param projectRole - Project contributor role.
  * @returns true if the contributor role is "data curator".
  */
-function isContributorDataCurator(projectRole: string | undefined): boolean {
+function isContributorDataCurator(
+  projectRole: string | null | undefined
+): boolean {
   return (
     Boolean(projectRole) &&
     projectRole?.toLowerCase() === CONTRIBUTOR_ROLE.DATA_CURATOR
@@ -418,4 +305,13 @@ function mapPublications(
       publicationUrl: publicationResponse.publicationUrl ?? "",
     };
   });
+}
+
+/**
+ * Determine if the given value is not null.
+ * @param value - Value.
+ * @returns true if the given value is not null.
+ */
+function notNull<T>(value: T | null): value is T {
+  return value !== null;
 }

@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import {
   ArchiveFile,
   fetchProjectMatrixArchiveFiles,
-} from "../apis/azul/hca-dcp/common/archivePreview";
-import { ProjectMatrixView } from "../viewModelBuilders/azul/common/entities";
+} from "../apis/azul/hca-dcp/archivePreview/archivePreview";
+import { ProjectMatrixView } from "../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 
 export interface UseArchivePreview {
   archiveFiles?: ArchiveFile[];

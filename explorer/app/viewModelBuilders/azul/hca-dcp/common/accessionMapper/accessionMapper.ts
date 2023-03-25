@@ -1,4 +1,4 @@
-import { AccessionResponse } from "../../../../../models/responses";
+import { AccessionResponse } from "../../../../../apis/azul/hca-dcp/common/entities";
 import {
   ACCESSION_CONFIGS_BY_RESPONSE_KEY,
   IDENTIFIERS_ORG_URL,
@@ -76,7 +76,6 @@ function transformAccessionURL(
   accessionId: string,
   identifierOrgPrefix: string
 ): string {
-  console.log(accessionId, identifierOrgPrefix);
   if (!accessionId || !identifierOrgPrefix) {
     return "";
   }

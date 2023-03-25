@@ -1,41 +1,40 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "app/components";
-import { ProjectsResponse } from "app/models/responses";
+import { ProjectsResponse } from "../../../../../app/apis/azul/hca-dcp/common/responses";
 import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import * as T from "../../projectViewModelBuilder"; // TODO refactor to "app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders"
 
 export const mainColumn = [
   {
     component: C.Description,
-    viewBuilder: T.buildDescription,
+    viewBuilder: V.buildDescription,
   } as ComponentConfig<typeof C.Description, ProjectsResponse>,
   {
     component: C.Contacts,
-    viewBuilder: T.buildContacts,
+    viewBuilder: V.buildContacts,
   } as ComponentConfig<typeof C.Contacts, ProjectsResponse>,
   {
     component: C.Publications,
-    viewBuilder: T.buildPublications,
+    viewBuilder: V.buildPublications,
   } as ComponentConfig<typeof C.Publications, ProjectsResponse>,
   {
     component: C.Contributors,
-    viewBuilder: T.buildContributors,
+    viewBuilder: V.buildContributors,
   } as ComponentConfig<typeof C.Contributors, ProjectsResponse>,
   {
     component: C.CollaboratingOrganizations,
-    viewBuilder: T.buildCollaboratingOrganizations,
+    viewBuilder: V.buildCollaboratingOrganizations,
   } as ComponentConfig<typeof C.CollaboratingOrganizations, ProjectsResponse>,
   {
     component: C.DataCurators,
-    viewBuilder: T.buildDataCurators,
+    viewBuilder: V.buildDataCurators,
   } as ComponentConfig<typeof C.DataCurators, ProjectsResponse>,
   {
     component: C.Citation,
-    viewBuilder: T.buildCitation,
+    viewBuilder: V.buildCitation,
   } as ComponentConfig<typeof C.Citation, ProjectsResponse>,
   {
     component: C.SupplementaryLinks,
-    viewBuilder: T.buildSupplementaryLinks,
+    viewBuilder: V.buildSupplementaryLinks,
   } as ComponentConfig<typeof C.SupplementaryLinks>,
   {
     children: [

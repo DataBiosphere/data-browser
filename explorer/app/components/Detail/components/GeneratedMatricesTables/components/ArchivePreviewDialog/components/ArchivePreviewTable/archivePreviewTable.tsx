@@ -8,7 +8,7 @@ import {
 } from "../../../../../../../../../site-config/hca-dcp/category";
 import { useProjectMatrixArchiveFiles } from "../../../../../../../../hooks/useProjectMatrixArchiveFiles";
 import { humanFileSize } from "../../../../../../../../utils/fileSize";
-import { ProjectMatrixView } from "../../../../../../../../viewModelBuilders/azul/common/entities";
+import { ProjectMatrixView } from "../../../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 import { FileNameCell } from "../../../FileNameCell/fileNameCell";
 import { ArchivePreviewNotAvailable as PreviewNotAvailable } from "./archivePreviewTable.styles";
 

@@ -4,7 +4,7 @@ import { mainColumn as hcaMetadataMainColumn } from "../../../hca-dcp/dev/detail
 import { mainColumn as hcaOverviewMainColumn } from "../../../hca-dcp/dev/detail/project/overviewMainColumn";
 import { sideColumn as hcaOverviewSideColumn } from "../../../hca-dcp/dev/detail/project/overviewSideColumn";
 import { mainColumn as hcaProjectFilesMainColumn } from "../../../hca-dcp/dev/detail/project/projectFilesMainColumn";
-import { projectsEntity as hcaProjectsEntity } from "../../../hca-dcp/dev/projectsEntity";
+import { projectsEntityConfig as hcaProjectsEntity } from "../../../hca-dcp/dev/index/projectsEntityConfig";
 import { sideColumn as exportSideColumn } from "../detail/project/exportSideColumn";
 import { mainColumn as matricesMainColumn } from "../detail/project/matricesMainColumn";
 import { sideColumn as matricesSideColumn } from "../detail/project/matricesSideColumn";
