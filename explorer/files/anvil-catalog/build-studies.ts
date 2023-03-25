@@ -2,13 +2,14 @@ import {
   AnVILCatalogStudy,
   AnVILCatalogWorkspace,
 } from "../../app/apis/catalog/anvil-catalog/common/entities";
+import { DbGapStudy } from "../../app/apis/catalog/common/entities";
 import {
   accumulateObject,
   accumulateValue,
   accumulateValues,
   sumValues,
 } from "../../app/apis/catalog/common/utils";
-import { DbGapStudy, getStudy } from "../common/dbGaP";
+import { getStudy } from "../common/dbGaP";
 
 export async function buildAnVILCatalogStudies(
   anVILCatalogWorkspaces: AnVILCatalogWorkspace[]

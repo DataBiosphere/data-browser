@@ -3,6 +3,7 @@ import { decode } from "html-entities";
 import fetch, { Response } from "node-fetch";
 import { remark } from "remark";
 import html from "remark-html";
+import { DbGapStudy } from "../../app/apis/catalog/common/entities";
 import { delayFetch } from "./utils";
 
 const urlPrefixFHIR =
@@ -16,18 +17,6 @@ const urlSuffixFHIR = "&_format=json";
  */
 export function getFHIRURL(dbGapId: string): string {
   return `${urlPrefixFHIR}${dbGapId}${urlSuffixFHIR}`;
-}
-
-export interface DbGapStudy {
-  consentCodes: string[];
-  dataTypes: string[];
-  dbGapId: string;
-  description: string;
-  focus: string;
-  participantCount: number;
-  studyAccession: string;
-  studyDesigns: string[];
-  title: string;
 }
 
 const studyBuddy = new Map<string, DbGapStudy>();

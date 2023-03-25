@@ -2,8 +2,7 @@ import {
   sanitizeString,
   sanitizeStringArray,
 } from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/utils";
-import { NCPIStudy } from "../../../../../files/ncpi-catalog/entities";
-import { NCPICatalogPlatform, NCPICatalogStudy } from "./entities";
+import { NCPICatalogPlatform, NCPICatalogStudy, NCPIStudy } from "./entities";
 
 export function NCPIStudyInputMapper(ncpiStudy: NCPIStudy): NCPICatalogStudy {
   const ncpiCatalogStudy: NCPICatalogStudy = {
