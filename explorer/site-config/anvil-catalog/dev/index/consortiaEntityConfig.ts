@@ -25,7 +25,7 @@ import { workspacesMainColumn } from "../detail/consortium/workspacesMainColumn"
  */
 export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
   detail: {
-    detailOverviews: ["Overview"],
+    detailOverviews: [],
     staticLoad: true,
     tabs: [
       {

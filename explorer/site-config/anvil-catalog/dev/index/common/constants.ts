@@ -1,0 +1,15 @@
+export enum CONSORTIUM {
+  "1000G" = "1000G",
+  CCDG = "CCDG",
+  CMG = "CMG",
+  CMH = "CMH",
+  CONVERGENT_NEUROSCIENCE = "Convergent Neuroscience",
+  CSER = "CSER",
+  EMERGE = "eMERGE",
+  GTEX = "GTEx",
+  HPRC = "HPRC",
+  PAGE = "PAGE",
+  T2T = "T2T",
+  UNSPECIFIED = "Unspecified",
+  WGSPD1 = "WGSPD1",
+}
