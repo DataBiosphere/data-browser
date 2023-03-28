@@ -12,6 +12,7 @@ import {
   ANVIL_CATALOG_CATEGORY_KEY,
   ANVIL_CATALOG_CATEGORY_LABEL,
 } from "../../../../../site-config/anvil-catalog/category";
+import { CONSORTIUM } from "../../../../../site-config/anvil-catalog/dev/index/common/constants";
 import {
   AnVILCatalogConsortium,
   AnVILCatalogConsortiumStudy,
@@ -22,6 +23,7 @@ import {
 import * as C from "../../../../components";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import * as MDX from "../../../../content/anvil-catalog";
 
 /**
  * Build props for consent code cell component from the given AnVIL workspace.
@@ -61,7 +63,8 @@ export const buildConsortium = (
   const { consortium } = anVILCatalogEntity;
   return {
     label: consortium,
-    url: `/consortia/${consortium}`,
+    url:
+      consortium === CONSORTIUM.UNSPECIFIED ? "" : `/consortia/${consortium}`,
   };
 };
 
@@ -97,6 +100,69 @@ export const buildConsortiumDetailViewWorkspacesTable = (
     items: workspaces,
     noResultsTitle: "No Workspaces",
   };
+};
+
+/**
+ * Build props for consortium overview component from the given AnVIL entity.
+ * @param anVILCatalogConsortium - AnVil catalog consortium.
+ * @returns model to be used as props for the consortium overview component.
+ */
+export const buildConsortiumOverview = (
+  anVILCatalogConsortium: AnVILCatalogConsortium
+): React.ComponentProps<typeof MDX.RenderComponent> => {
+  switch (anVILCatalogConsortium.consortium) {
+    case CONSORTIUM.CCDG:
+      return { Component: MDX.CCDG };
+    case CONSORTIUM.CMG:
+      return { Component: MDX.CMG };
+    case CONSORTIUM.CMH:
+      return {
+        Component: () =>
+          MDX.ConsortiumInDevelopment({
+            consortium: CONSORTIUM.CMH,
+          }),
+      };
+    case CONSORTIUM.CONVERGENT_NEUROSCIENCE:
+      return {
+        Component: () =>
+          MDX.ConsortiumInDevelopment({
+            consortium: CONSORTIUM.CONVERGENT_NEUROSCIENCE,
+          }),
+      };
+    case CONSORTIUM.CSER:
+      return { Component: MDX.CSER };
+    case CONSORTIUM.EMERGE:
+      return { Component: MDX.EMERGE };
+    case CONSORTIUM.GTEX:
+      return { Component: MDX.GTEX };
+    case CONSORTIUM.HPRC:
+      return { Component: MDX.HPRC };
+    case CONSORTIUM.PAGE:
+      return { Component: MDX.PAGE };
+    case CONSORTIUM.T2T:
+      return {
+        Component: () =>
+          MDX.ConsortiumInDevelopment({
+            consortium: CONSORTIUM.T2T,
+          }),
+      };
+    case CONSORTIUM.WGSPD1:
+      return {
+        Component: () =>
+          MDX.ConsortiumInDevelopment({
+            consortium: CONSORTIUM.WGSPD1,
+          }),
+      };
+    case CONSORTIUM["1000G"]:
+      return { Component: MDX.ThousandG };
+    default:
+      return {
+        Component: () =>
+          MDX.ConsortiumInDevelopment({
+            consortium: undefined,
+          }),
+      };
+  }
 };
 
 /**
