@@ -34,7 +34,7 @@ export const HCA_DCP_CATEGORY_KEY = {
   SPECIMEN_DISEASE: "specimenDisease",
   SPECIMEN_ORGAN: "specimenOrgan",
   WORKFLOW: "workflow",
-};
+} as const;
 
 export const HCA_DCP_CATEGORY_LABEL = {
   ANALYSIS_PROTOCOL: "Analysis Protocol",

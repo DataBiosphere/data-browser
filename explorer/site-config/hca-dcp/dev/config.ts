@@ -15,9 +15,9 @@ import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
 import { socials } from "./constants";
 import { exportConfig } from "./export/export";
 import { filesEntityConfig } from "./index/filesEntityConfig";
+import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { summary } from "./index/summary";
-import { projectsEntity } from "./projectsEntity";
 
 // Template constants
 const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";
@@ -126,7 +126,7 @@ const config: SiteConfig = {
     },
     url: "https://service.dev.singlecell.gi.ucsc.edu/",
   },
-  entities: [projectsEntity, samplesEntityConfig, filesEntityConfig],
+  entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
   explorerTitle: "Explore Data: DCP 2.0 Data View",
   export: exportConfig,
   exportToTerraUrl: "https://app.terra.bio/",

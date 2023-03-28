@@ -1,7 +1,7 @@
 import { ButtonGroup } from "@clevercanary/data-explorer-ui/lib/components/common/ButtonGroup/buttonGroup";
 import { DialogTitle } from "@clevercanary/data-explorer-ui/lib/components/common/Dialog/components/DialogTitle/dialogTitle";
 import React from "react";
-import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/common/entities";
+import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 import { FileLocationCopy } from "../FileLocationCopy/fileLocationCopy";
 import { FileLocationDownload } from "../FileLocationDownload/fileLocationDownload";
 import {

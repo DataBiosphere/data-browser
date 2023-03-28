@@ -24,7 +24,6 @@ export interface ProjectMatrixTableView {
 export interface ProjectMatrixView {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- TODO - revisit type for meta
   [key: string]: any;
-
   // Populated from project edits JSON.
   analysisPortals?: ProjectAnalysisPortal[];
   // Allow additional meta e.g. library construction approach, species.

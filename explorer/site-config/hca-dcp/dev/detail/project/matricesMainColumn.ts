@@ -1,13 +1,13 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { ProjectsResponse } from "../../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../../app/components";
 import * as MDX from "../../../../../app/content/hca-dcp";
-import { ProjectsResponse } from "../../../../../app/models/responses";
-import * as T from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 
 export const mainColumn: ComponentConfig[] = [
   {
     component: C.Alert,
-    viewBuilder: T.buildBatchCorrectionWarning,
+    viewBuilder: V.buildBatchCorrectionWarning,
   } as ComponentConfig<typeof C.Alert>,
   {
     children: [
@@ -21,7 +21,7 @@ export const mainColumn: ComponentConfig[] = [
       } as ComponentConfig<typeof MDX.Section>,
       {
         component: C.GeneratedMatricesTables,
-        viewBuilder: T.buildDCPGeneratedMatricesTable,
+        viewBuilder: V.buildDCPGeneratedMatricesTable,
       } as ComponentConfig<typeof C.GeneratedMatricesTables, ProjectsResponse>,
     ],
     component: C.FluidPaper,
@@ -38,7 +38,7 @@ export const mainColumn: ComponentConfig[] = [
       } as ComponentConfig<typeof MDX.Section>,
       {
         component: C.GeneratedMatricesTables,
-        viewBuilder: T.buildContributorGeneratedMatricesTable,
+        viewBuilder: V.buildContributorGeneratedMatricesTable,
       } as ComponentConfig<typeof C.GeneratedMatricesTables, ProjectsResponse>,
     ],
     component: C.FluidPaper,
@@ -73,6 +73,6 @@ export const mainColumn: ComponentConfig[] = [
       } as ComponentConfig<typeof C.FluidPaper>,
     ],
     component: C.Grid,
-    viewBuilder: T.buildTripleColumnGrid,
+    viewBuilder: V.buildTripleColumnGrid,
   } as ComponentConfig<typeof C.Grid>,
 ];

@@ -9,14 +9,14 @@
 import {
   GenusSpecies,
   LibraryConstructionApproach,
-} from "../app/viewModelBuilders/azul/common/constants";
+} from "../app/viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/constants";
 import {
   flattenResponseTree,
   mergeDuplicatedMatrixViews,
   projectMatrixMapper,
   sortMatrixViews,
   sortMatrixViewsMeta,
-} from "../app/viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper";
+} from "../app/viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/projectMatrixMapper";
 import { HCA_DCP_CATEGORY_KEY } from "../site-config/hca-dcp/category";
 
 const COUNT_MATRIX = "Count Matrix";
