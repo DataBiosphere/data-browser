@@ -41,6 +41,22 @@ export const parseContentRows = async function parseContentRows<T>(
 };
 
 /**
+ * Reads the contents of the specified directory and returns an array of file names.
+ * @param dir - Directory.
+ * @param options - Options.
+ * @returns an array of file names for the specified directory.
+ */
+export const readDir = async function readDir(
+  dir: string,
+  options = null
+): Promise<string[] | undefined> {
+  try {
+    return fs.readdirSync(dir, options);
+    // eslint-disable-next-line no-empty -- copied from readFile function
+  } catch (err) {}
+};
+
+/**
  * Returns the file content for the specified file.
  *
  * @param file - file's path

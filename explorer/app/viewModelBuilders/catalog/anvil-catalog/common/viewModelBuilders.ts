@@ -23,7 +23,6 @@ import {
 import * as C from "../../../../components";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
-import * as MDX from "../../../../content/anvil-catalog";
 
 /**
  * Build props for consent code cell component from the given AnVIL workspace.
@@ -109,60 +108,10 @@ export const buildConsortiumDetailViewWorkspacesTable = (
  */
 export const buildConsortiumOverview = (
   anVILCatalogConsortium: AnVILCatalogConsortium
-): React.ComponentProps<typeof MDX.RenderComponent> => {
-  switch (anVILCatalogConsortium.consortium) {
-    case CONSORTIUM.CCDG:
-      return { Component: MDX.CCDG };
-    case CONSORTIUM.CMG:
-      return { Component: MDX.CMG };
-    case CONSORTIUM.CMH:
-      return {
-        Component: () =>
-          MDX.ConsortiumInDevelopment({
-            consortium: CONSORTIUM.CMH,
-          }),
-      };
-    case CONSORTIUM.CONVERGENT_NEUROSCIENCE:
-      return {
-        Component: () =>
-          MDX.ConsortiumInDevelopment({
-            consortium: CONSORTIUM.CONVERGENT_NEUROSCIENCE,
-          }),
-      };
-    case CONSORTIUM.CSER:
-      return { Component: MDX.CSER };
-    case CONSORTIUM.EMERGE:
-      return { Component: MDX.EMERGE };
-    case CONSORTIUM.GTEX:
-      return { Component: MDX.GTEX };
-    case CONSORTIUM.HPRC:
-      return { Component: MDX.HPRC };
-    case CONSORTIUM.PAGE:
-      return { Component: MDX.PAGE };
-    case CONSORTIUM.T2T:
-      return {
-        Component: () =>
-          MDX.ConsortiumInDevelopment({
-            consortium: CONSORTIUM.T2T,
-          }),
-      };
-    case CONSORTIUM.WGSPD1:
-      return {
-        Component: () =>
-          MDX.ConsortiumInDevelopment({
-            consortium: CONSORTIUM.WGSPD1,
-          }),
-      };
-    case CONSORTIUM["1000G"]:
-      return { Component: MDX.ThousandG };
-    default:
-      return {
-        Component: () =>
-          MDX.ConsortiumInDevelopment({
-            consortium: undefined,
-          }),
-      };
-  }
+): React.ComponentProps<typeof C.MdxMarkdown> => {
+  return {
+    source: anVILCatalogConsortium.consortiumOverview,
+  };
 };
 
 /**

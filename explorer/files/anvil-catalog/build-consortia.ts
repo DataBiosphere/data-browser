@@ -1,3 +1,4 @@
+import { MDXRemoteSerializeResult } from "next-mdx-remote";
 import {
   AnVILCatalogConsortium,
   AnVILCatalogConsortiumStudy,
@@ -15,11 +16,13 @@ import {
  * Returns AnVIL catalog consortia.
  * @param anVILCatalogWorkspaces - the workspaces read from the TSV report.
  * @param studiesByStudyId - Map from dbGaP study ID to AnVIL catalog study.
+ * @param consortiumOverviewByConsortium - Map from consortium to consortium overview.
  * @returns AnVIL catalog consortia.
  */
 export function buildAnVILCatalogConsortia(
   anVILCatalogWorkspaces: AnVILCatalogWorkspace[],
-  studiesByStudyId: Map<string, AnVILCatalogStudy>
+  studiesByStudyId: Map<string, AnVILCatalogStudy>,
+  consortiumOverviewByConsortium: Map<string, MDXRemoteSerializeResult>
 ): unknown[] {
   const anvilCatalogConsortiaByConsortium = new Map();
 
@@ -28,12 +31,17 @@ export function buildAnVILCatalogConsortia(
     const { consortium } = workspace;
     const anvilCatalogConsortium =
       anvilCatalogConsortiaByConsortium.get(consortium) || {};
+    const consortiumOverview =
+      consortiumOverviewByConsortium.get(consortium.toLowerCase()) ||
+      consortiumOverviewByConsortium.get("unspecified") ||
+      null;
     anvilCatalogConsortiaByConsortium.set(
       consortium,
       buildAnVILCatalogConsortium(
         studiesByStudyId,
         workspace,
-        anvilCatalogConsortium
+        anvilCatalogConsortium,
+        consortiumOverview
       )
     );
   }
@@ -46,12 +54,14 @@ export function buildAnVILCatalogConsortia(
  * @param studiesByStudyId - Map from dbGaP study ID to AnVIL catalog study.
  * @param workspace - AnVIL catalog workspace.
  * @param anvilCatalogConsortium - AnVIL catalog consortium.
+ * @param consortiumOverview - Consortium overview.
  * @returns AnVIL catalog consortium.
  */
 function buildAnVILCatalogConsortium(
   studiesByStudyId: Map<string, AnVILCatalogStudy>,
   workspace: AnVILCatalogWorkspace,
-  anvilCatalogConsortium: AnVILCatalogConsortium
+  anvilCatalogConsortium: AnVILCatalogConsortium,
+  consortiumOverview: MDXRemoteSerializeResult | null
 ): AnVILCatalogConsortium {
   const consentCodes = accumulateValue(
     anvilCatalogConsortium.consentCode, // consentCodes - a list of consent codes.
@@ -102,6 +112,7 @@ function buildAnVILCatalogConsortium(
   return {
     consentCode: consentCodes,
     consortium,
+    consortiumOverview,
     dataType: dataTypes,
     dbGapId,
     disease: diseases,

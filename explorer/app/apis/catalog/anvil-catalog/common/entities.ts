@@ -1,3 +1,5 @@
+import { MDXRemoteSerializeResult } from "next-mdx-remote";
+
 export type AnVILCatalogEntity =
   | AnVILCatalogStudy
   | AnVILCatalogWorkspace
@@ -6,6 +8,7 @@ export type AnVILCatalogEntity =
 export interface AnVILCatalogConsortium {
   consentCode: string[];
   consortium: string;
+  consortiumOverview: MDXRemoteSerializeResult | null;
   dataType: string[];
   dbGapId: string[];
   disease: string[];

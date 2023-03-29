@@ -3,7 +3,7 @@ import {
   SOURCE_FIELD_KEY,
   SOURCE_FIELD_TYPE,
 } from "../../site-config/anvil-catalog/tsv-config";
-import { writeAsJSON } from "../common/utils";
+import { getMDXByFilename, writeAsJSON } from "../common/utils";
 import { buildAnVILCatalogConsortia } from "./build-consortia";
 import { buildAnVILCatalogStudies } from "./build-studies";
 import { AnVILCatalog, buildAnVILCatalogWorkspaces } from "./build-workspaces";
@@ -12,6 +12,7 @@ console.log("Building AnVIL Catalog Data");
 export {};
 
 const tsvPath = "anvil-catalog/files/dashboard-source-anvil.tsv";
+const consortiaDir = "anvil-catalog/files/consortia/";
 
 /**
  * Load the workspace TSV, read in associated FHIR studies, join them and save.
@@ -37,6 +38,9 @@ async function buildCatalog(): Promise<void> {
 
   console.log(tsvWorkspaces.length);
 
+  // Map consortium to consortium overview (from MDX).
+  const consortiumOverviewByConsortium = await getMDXByFilename(consortiaDir);
+
   /**
    * Build the workspaces, studies, and consortia
    */
@@ -49,7 +53,8 @@ async function buildCatalog(): Promise<void> {
   const studies = [...studiesByStudyId.values()];
   const consortia = buildAnVILCatalogConsortia(
     anVILCatalogWorkspaces,
-    studiesByStudyId
+    studiesByStudyId,
+    consortiumOverviewByConsortium
   );
 
   /**
