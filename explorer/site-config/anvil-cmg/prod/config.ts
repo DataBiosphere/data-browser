@@ -1,3 +1,4 @@
+import { authenticationConfig } from "./authentication/authentication";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { make_config } from "../dev/config";
 
@@ -7,6 +8,7 @@ const config: SiteConfig = {
 };
 
 config.dataSource.url = "https://service.prod.anvil.gi.ucsc.edu/";
+config.authentication = authenticationConfig;
 
 // Update gtmAuth for the prod environment lookup.
 if (config.analytics) {
