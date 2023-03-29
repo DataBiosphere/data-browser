@@ -1,4 +1,5 @@
 import {
+  ColumnConfig,
   ComponentConfig,
   EntityConfig,
   ListConfig,
@@ -12,6 +13,18 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
+
+export const downloadColumn: ColumnConfig = {
+  componentConfig: {
+    component: Components.AzulFileDownload,
+    viewBuilder: ViewBuilder.buildFileDownload,
+  } as ComponentConfig<typeof Components.AzulFileDownload>,
+  disableHiding: true,
+  disableSorting: true,
+  header: ANVIL_CMG_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
+  id: ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD,
+  width: { max: "auto", min: "76px" },
+};
 
 /**
  * Entity config object responsible for config related to the /explore/files route.
@@ -27,17 +40,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
   label: "Files",
   list: {
     columns: [
-      // {
-      //   componentConfig: {
-      //     component: Components.AzulFileDownload,
-      //     viewBuilder: ViewBuilder.buildFileDownload,
-      //   } as ComponentConfig<typeof Components.AzulFileDownload>,
-      //   disableHiding: true,
-      //   disableSorting: true,
-      //   header: ANVIL_CMG_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
-      //   id: ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD,
-      //   width: { max: "auto", min: "76px" },
-      // },
+      // downloadColumn,
       {
         componentConfig: {
           component: Components.Cell,
