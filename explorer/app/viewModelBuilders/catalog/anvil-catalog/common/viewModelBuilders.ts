@@ -166,6 +166,28 @@ export const buildConsortiumOverview = (
 };
 
 /**
+ * Build props for Details component from the given AnVIL entity.
+ * @param anVILCatalogConsortium - AnVIL catalog consortium.
+ * @returns model to be used as props for the Details component.
+ */
+export const buildConsortiumSummary = (
+  anVILCatalogConsortium: AnVILCatalogConsortium
+): React.ComponentProps<typeof C.Details> => {
+  const { consentCode, dataType, disease, participantCount, studyDesign } =
+    anVILCatalogConsortium;
+  const keyValuePairs = new Map<Key, Value>();
+  keyValuePairs.set("Consent Codes", stringifyValues(consentCode));
+  keyValuePairs.set("Diseases", stringifyValues(disease));
+  keyValuePairs.set("Study Design", stringifyValues(studyDesign));
+  keyValuePairs.set("Data Types", stringifyValues(dataType));
+  keyValuePairs.set("Subjects", participantCount.toLocaleString());
+  return {
+    keyValuePairs,
+    title: "Summary",
+  };
+};
+
+/**
  * Build props for data type cell component from the given AnVIL entity.
  * @param anvilCatalogEntity - AnVIL catalog entity.
  * @returns Model to be used as props for the data type cell.
