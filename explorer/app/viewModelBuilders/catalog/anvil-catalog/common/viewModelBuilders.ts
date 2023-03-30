@@ -110,6 +110,7 @@ export const buildConsortiumOverview = (
   anVILCatalogConsortium: AnVILCatalogConsortium
 ): React.ComponentProps<typeof C.MdxMarkdown> => {
   return {
+    fallback: C.ConsortiumOverview(),
     source: anVILCatalogConsortium.consortiumOverview,
   };
 };
