@@ -16,6 +16,7 @@ import {
   ANVIL_CATALOG_CATEGORY_LABEL,
 } from "../../category";
 import { mainColumn } from "../detail/consortium/overviewMainColumn";
+import { sideColumn } from "../detail/consortium/overviewSideColumn";
 import { studiesMainColumn } from "../detail/consortium/studiesMainColumn";
 import { top } from "../detail/consortium/top";
 import { workspacesMainColumn } from "../detail/consortium/workspacesMainColumn";
@@ -25,13 +26,14 @@ import { workspacesMainColumn } from "../detail/consortium/workspacesMainColumn"
  */
 export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
   detail: {
-    detailOverviews: [],
+    detailOverviews: ["Overview"],
     staticLoad: true,
     tabs: [
       {
         label: "Overview",
         mainColumn: mainColumn,
         route: "",
+        sideColumn: sideColumn,
       },
       {
         label: "Studies",
