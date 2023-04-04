@@ -7,7 +7,7 @@ run `npm run update-all-ncpi-sources` to update all 4 datasets at once.
 
 ### Manual data retrieval
 
-The KFDRC (Kid's First) and AnVIL datasets can not be queried automatically, making additional steps necessary before
+The KFDRC (Kid's First) and AnVIL datasets cannot be queried automatically, making additional steps necessary before
 their corresponding scripts can be run.
 
 #### KFDRC
