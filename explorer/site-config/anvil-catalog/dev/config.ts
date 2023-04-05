@@ -1,5 +1,13 @@
+import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import logoAnvil from "images/logoAnvil.png";
+import logoHhs from "images/logoHhs.svg";
+import logoNhgri from "images/logoNhgri.svg";
+import logoNih from "images/logoNih.svg";
+import logoUsagov from "images/logoUsagov.png";
 import anvilDevConfig from "../../anvil/dev/config";
+import { socials } from "../../anvil/dev/constants";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,
   ANVIL_CATALOG_CATEGORY_LABEL,
@@ -7,6 +15,15 @@ import {
 import { consortiaEntityConfig } from "./index/consortiaEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
+
+const BROWSER_URL = "https://anvil-portal.dev.clevercanary.com";
+const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
+const LOGO: LogoProps = {
+  alt: SLOGAN,
+  height: 40,
+  link: BROWSER_URL,
+  src: logoAnvil,
+};
 
 const config: SiteConfig = {
   ...anvilDevConfig,
@@ -48,10 +65,93 @@ const config: SiteConfig = {
   entities: [studiesEntityConfig, workspaceEntityConfig, consortiaEntityConfig],
   explorerTitle: "AnVIL Dataset Catalog",
   layout: {
-    ...anvilDevConfig.layout,
+    footer: {
+      logos: [
+        {
+          alt: "nhgri",
+          height: 24,
+          link: "https://www.genome.gov/",
+          src: logoNhgri,
+        },
+        {
+          alt: "nih",
+          height: 24,
+          link: "https://www.nih.gov/",
+          src: logoNih,
+        },
+        {
+          alt: "hhs",
+          height: 32,
+          link: "https://www.hhs.gov/",
+          src: logoHhs,
+        },
+        {
+          alt: "hhs",
+          height: 32,
+          link: "https://www.usa.gov/",
+          src: logoUsagov,
+        },
+      ],
+      navLinks: [
+        {
+          label: "Help",
+          url: `${BROWSER_URL}/help`,
+        },
+        {
+          label: "Privacy",
+          url: `${BROWSER_URL}/privacy`,
+        },
+      ],
+      socials,
+    },
     header: {
-      ...anvilDevConfig.layout.header,
       authenticationEnabled: false,
+      logo: LOGO,
+      navAlignment: ELEMENT_ALIGNMENT.CENTER,
+      navLinks: [
+        {
+          label: "Overview",
+          url: `${BROWSER_URL}/overview`,
+        },
+        {
+          label: "Learn",
+          url: `${BROWSER_URL}/learn`,
+        },
+        {
+          label: "Datasets",
+          url: `/`,
+        },
+        {
+          label: "News",
+          url: `${BROWSER_URL}/news`,
+        },
+        {
+          label: "Events",
+          url: `${BROWSER_URL}/events`,
+        },
+        {
+          label: "More",
+          menuItems: [
+            {
+              label: "Team",
+              url: `${BROWSER_URL}/team`,
+            },
+            {
+              label: "FAQ",
+              url: `${BROWSER_URL}/faq`,
+            },
+            {
+              label: "Help",
+              url: `${BROWSER_URL}/help`,
+            },
+          ],
+          url: "",
+        },
+      ],
+      searchEnabled: true,
+      searchURL: `${BROWSER_URL}/search`,
+      slogan: SLOGAN,
+      socials,
     },
   },
   redirectRootToPath: "/studies",
