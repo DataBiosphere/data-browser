@@ -16,7 +16,7 @@ export default withPlugins(
     withMDX,
   ],
   {
-    basePath: "/explore",
+    basePath: process.env.NEXT_PUBLIC_BASE_PATH || "/explore",
     reactStrictMode: true,
     images: {
       disableStaticImages: true,

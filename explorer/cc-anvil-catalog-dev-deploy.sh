@@ -13,7 +13,7 @@ rm -rf ./build
 
 n 16.15.1
 npm ci
-
+export NEXT_PUBLIC_BASE_PATH="/data"
 #./insert-gtm-snippet.sh
 
 mkdir -p build/data
