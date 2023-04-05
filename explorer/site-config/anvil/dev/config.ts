@@ -20,13 +20,13 @@ import { librariesEntityConfig } from "./index/librariesEntityConfig";
 import { summary } from "./index/summary";
 
 // Template constants
-const BROWSER_URL = "https://staging.anvilproject.org";
+const BROWSER_URL = "https://anvil-portal.dev.clevercanary.com";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
-export const URL_DATASETS = "/datasets";
+export const URL_DATASETS = "/data";
 const LOGO: LogoProps = {
   alt: SLOGAN,
   height: 40,
-  link: "/",
+  link: BROWSER_URL,
   src: logoAnvil,
 };
 
@@ -173,7 +173,8 @@ const config: SiteConfig = {
           url: "",
         },
       ],
-      searchEnabled: false,
+      searchEnabled: true,
+      searchURL: `${BROWSER_URL}/search`,
       slogan: SLOGAN,
       socials,
     },
