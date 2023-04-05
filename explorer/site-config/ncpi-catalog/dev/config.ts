@@ -11,7 +11,7 @@ import { platformsEntityConfig } from "./index/platformsEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 
 // Template constants
-const BROWSER_URL = "https://anvilproject.org";
+const BROWSER_URL = "https://anvil-portal.dev.clevercanary.com";
 const SLOGAN = "NIH Cloud Platform Interoperability Effort";
 
 // Remove the summary from the AnVIL config.
@@ -19,6 +19,7 @@ const SLOGAN = "NIH Cloud Platform Interoperability Effort";
 const { summaryConfig, ...basicConfig } = anvilConfig;
 const config: SiteConfig = {
   ...basicConfig,
+  authentication: undefined,
   categoryConfigs: [
     {
       key: NCPI_CATALOG_CATEGORY_KEY.PLATFORM,
@@ -58,7 +59,7 @@ const config: SiteConfig = {
       logo: {
         alt: SLOGAN,
         height: 40,
-        link: "/",
+        link: "https://anvil-portal.dev.clevercanary.com/ncpi",
         src: logoNcpi,
       },
       navAlignment: ELEMENT_ALIGNMENT.CENTER,
@@ -99,6 +100,7 @@ const config: SiteConfig = {
         },
       ],
       searchEnabled: true,
+      searchURL: `${BROWSER_URL}/ncpi/search`,
       slogan: SLOGAN,
       socials,
     },

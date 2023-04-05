@@ -10,6 +10,7 @@ import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
 
 const config: SiteConfig = {
   ...anvilDevConfig,
+  authentication: undefined,
   categoryConfigs: [
     {
       key: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
@@ -46,6 +47,13 @@ const config: SiteConfig = {
   ],
   entities: [studiesEntityConfig, workspaceEntityConfig, consortiaEntityConfig],
   explorerTitle: "AnVIL Dataset Catalog",
+  layout: {
+    ...anvilDevConfig.layout,
+    header: {
+      ...anvilDevConfig.layout.header,
+      authenticationEnabled: false,
+    },
+  },
   redirectRootToPath: "/studies",
   summaryConfig: undefined,
 };
