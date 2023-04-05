@@ -22,7 +22,7 @@ import { summary } from "./index/summary";
 // Template constants
 const BROWSER_URL = "https://anvil-portal.dev.clevercanary.com";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
-export const URL_DATASETS = "/data";
+export const URL_DATASETS = "/datasets";
 const LOGO: LogoProps = {
   alt: SLOGAN,
   height: 40,
