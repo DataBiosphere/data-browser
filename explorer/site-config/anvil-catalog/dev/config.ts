@@ -105,7 +105,7 @@ const config: SiteConfig = {
       socials,
     },
     header: {
-      authenticationEnabled: true,
+      authenticationEnabled: false,
       logo: LOGO,
       navAlignment: ELEMENT_ALIGNMENT.CENTER,
       navLinks: [
