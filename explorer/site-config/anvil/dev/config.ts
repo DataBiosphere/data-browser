@@ -31,6 +31,9 @@ const LOGO: LogoProps = {
 };
 
 const config: SiteConfig = {
+  analytics: {
+    gtmId: "GTM-MBJZTFS",
+  },
   authentication: authenticationConfig,
   browserURL: BROWSER_URL,
   categoryConfigs: [
