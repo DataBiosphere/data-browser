@@ -7,6 +7,7 @@ import {
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { ColumnDef } from "@tanstack/react-table";
 import React, { Fragment, ReactElement } from "react";
+import { TEXT_BODY_400 } from "../../../../../../../data-explorer/packages/data-explorer-ui/lib/theme/common/typography";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
@@ -30,11 +31,12 @@ import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { formatCountSize } from "../../../../components/Index/common/utils";
 import * as MDX from "../../../../content/hca-dcp";
-import { ENTRIES } from "../../../../project-edits";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
+import { AnalysisPortal } from "./projectMapper/projectEdits/entities";
 import {
+  mapProjectAnalysisPortals,
   mapProjectCollaboratingOrganizations,
   mapProjectContacts,
   mapProjectContributors,
@@ -102,30 +104,36 @@ export const buildAggregatedProjectTitle = (
 };
 
 /**
- * Build props for AnalysisPortals from the given projects response.
- * TODO this is incomplete and a copy from the now deprecated projectViewModelBuilder.
- * TODO this method needs to be reviewed and should use the KeyValuePairs component.
- * @param project - Response model return from projects API.
- * @returns model to be used as props for the AnalysisPortals component.
+ * Build props for analysis portals component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the analysis portals component.
  */
 export const buildAnalysisPortals = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.IconList> => {
-  if (!project.entryId) {
-    return { icons: [] };
-  }
-  const entry = ENTRIES.find((entry) => entry.entryId === project.entryId);
-  if (!entry?.analysisPortals) {
-    return { icons: [] };
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.KeyValuePairs> => {
+  const project = getProjectResponse(projectsResponse);
+  const analysisPortals = mapProjectAnalysisPortals(project);
+  const keyValuePairs = new Map<Key, Value>();
+  if (!analysisPortals) {
+    keyValuePairs.set("None", null);
+  } else {
+    for (const analysisPortal of analysisPortals) {
+      keyValuePairs.set(
+        getAnalysisPortalKey(analysisPortal),
+        getAnalysisPortalValue(analysisPortal)
+      );
+    }
   }
   return {
-    icons: entry.analysisPortals.map((entry) => ({
-      icon: {
-        alt: entry.label ?? "",
-        path: entry.icon,
-      },
-      label: entry.label,
-    })),
+    KeyElType: Fragment,
+    KeyValueElType: (props) =>
+      C.KeyValueElType({
+        boxSx: { display: "grid", gap: 2, gridTemplateColumns: "auto 1fr" },
+        ...props,
+      }),
+    KeyValuesElType: Fragment,
+    ValueElType: (props) => C.ValueElType({ variant: TEXT_BODY_400, ...props }),
+    keyValuePairs,
   };
 };
 
@@ -690,6 +698,35 @@ function getAggregatedProjectTitleUrl(
   return `/projects/${takeArrayValueAt(
     processEntityArrayValue(response.projects, "projectId")
   )}`;
+}
+
+/**
+ * Returns the KeyValuePair key for the specified analysis portal.
+ * @param analysisPortal - Analysis portal.
+ * @returns the KeyValuePair key for analysis portal icon as a ReactElement.
+ */
+function getAnalysisPortalKey(analysisPortal: AnalysisPortal): ReactElement {
+  const { icon, label } = analysisPortal;
+  return C.StaticImage({
+    alt: label,
+    src: icon,
+  });
+}
+
+/**
+ * Returns the KeyValuePair value for the specified analysis portal.
+ * @param analysisPortal - Analysis portal.
+ * @returns the KeyValuePair value for analysis portal as a ValueKeyValueFnTuple.
+ */
+function getAnalysisPortalValue(analysisPortal: AnalysisPortal): Value {
+  const { label, url } = analysisPortal;
+
+  // KeyValueFn that opens the analysis portal url in a new tab.
+  const keyValueFn = (): void => {
+    window.open(url, ANCHOR_TARGET.BLANK);
+  };
+
+  return [label, keyValueFn];
 }
 
 /**

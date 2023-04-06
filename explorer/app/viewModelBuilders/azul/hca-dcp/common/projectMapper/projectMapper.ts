@@ -16,8 +16,24 @@ import {
   ProjectResponse,
   PublicationResponse,
 } from "../../../../../apis/azul/hca-dcp/common/entities";
-import { ENTRIES } from "../../../../../project-edits";
 import { CONTRIBUTOR_ROLE } from "./constants";
+import { projectEdits } from "./projectEdits/constants";
+import { AnalysisPortal, ProjectEdit } from "./projectEdits/entities";
+
+/**
+ * Maps project analysis portals from the project edits and given projects response.
+ * @param projectResponse - Response model return from projects API.
+ * @returns project analysis portals.
+ */
+export function mapProjectAnalysisPortals(
+  projectResponse?: ProjectResponse
+): AnalysisPortal[] | undefined {
+  if (!projectResponse) {
+    return;
+  }
+  const { analysisPortals } = getProjectEdit(projectResponse.projectId) || {};
+  return analysisPortals;
+}
 
 /**
  * Maps project collaborating organizations from the given projects response.
@@ -250,6 +266,15 @@ function getCitationByCollaboratingOrganizations(
 }
 
 /**
+ * Returns the project edits for the project.
+ * @param projectId - Project identifier.
+ * @returns project edit for the project.
+ */
+function getProjectEdit(projectId: string): ProjectEdit | undefined {
+  return projectEdits.find((projectEdit) => projectEdit.entryId === projectId);
+}
+
+/**
  * Returns true if the contributor role is "data curator".
  * @param projectRole - Project contributor role.
  * @returns true if the contributor role is "data curator".
@@ -288,7 +313,7 @@ function mapPublications(
   publicationsResponse: PublicationResponse[],
   projectId: string
 ): Publication[] {
-  const updatedProject = ENTRIES.find((entry) => entry.entryId === projectId);
+  const updatedProject = getProjectEdit(projectId);
   if (
     updatedProject &&
     updatedProject.publications &&
