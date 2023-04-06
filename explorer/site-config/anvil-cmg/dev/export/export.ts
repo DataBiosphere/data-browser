@@ -14,10 +14,6 @@ export const exportConfig: BackPageConfig = {
       mainColumn: [
         {
           component: C.ExportMethod,
-          viewBuilder: T.buildExportToCurlCommand,
-        } as ComponentConfig<typeof C.ExportMethod>,
-        {
-          component: C.ExportMethod,
           viewBuilder: T.buildExportToTerraMetadata,
         } as ComponentConfig<typeof C.ExportMethod>,
       ],
