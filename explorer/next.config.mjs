@@ -77,6 +77,10 @@ export default withPlugins(
         process.cwd(),
         "node_modules/react-dom"
       );
+      config.resolve.alias["react-gtm-module"] = path.resolve(
+        process.cwd(),
+        "node_modules/react-gtm-module"
+      );
       config.resolve.alias["uuid"] = path.resolve(
         process.cwd(),
         "node_modules/uuid"

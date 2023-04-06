@@ -19,6 +19,7 @@ const SLOGAN = "NIH Cloud Platform Interoperability Effort";
 const { summaryConfig, ...basicConfig } = anvilConfig;
 const config: SiteConfig = {
   ...basicConfig,
+  analytics: undefined,
   authentication: undefined,
   categoryConfigs: [
     {

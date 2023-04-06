@@ -14,13 +14,24 @@ import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { config } from "app/config/config";
 import type { AppProps } from "next/app";
+import { useEffect } from "react";
+import TagManager from "react-gtm-module";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   // Set up the site configuration, layout and theme.
   const appConfig = config();
-  const { layout, themeOptions } = appConfig;
+  const { analytics, layout, themeOptions } = appConfig;
+  const { gtmId } = analytics || {};
   const theme = createAppTheme(themeOptions);
   const { entityListType } = pageProps as AzulEntitiesStaticResponse;
+
+  // Initialize Google Tag Manager.
+  useEffect(() => {
+    if (gtmId) {
+      TagManager.initialize({ gtmId: gtmId });
+    }
+  }, [gtmId]);
+
   return (
     <EmotionThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
