@@ -5,7 +5,7 @@ import { downloadColumn } from "../dev/index/filesEntityConfig";
 
 const config: SiteConfig = {
   ...make_config("https://prod.anvil.gi.ucsc.edu"),
-  exportToTerraUrl: "https://app.terra.bio/",
+  exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
 };
 
 config.dataSource.url = "https://service.prod.anvil.gi.ucsc.edu/";
