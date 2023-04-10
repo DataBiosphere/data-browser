@@ -2,12 +2,16 @@ import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entit
 import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
+  KeyValueFn,
   Value,
 } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
+import {
+  TEXT_BODY_400,
+  TEXT_BODY_400_2_LINES,
+} from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
 import { ColumnDef } from "@tanstack/react-table";
-import React, { Fragment, ReactElement } from "react";
-import { TEXT_BODY_400 } from "../../../../../../../data-explorer/packages/data-explorer-ui/lib/theme/common/typography";
+import React, { ElementType, Fragment, ReactElement } from "react";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
@@ -113,26 +117,17 @@ export const buildAnalysisPortals = (
 ): React.ComponentProps<typeof C.KeyValuePairs> => {
   const project = getProjectResponse(projectsResponse);
   const analysisPortals = mapProjectAnalysisPortals(project);
-  const keyValuePairs = new Map<Key, Value>();
-  if (!analysisPortals) {
-    keyValuePairs.set("None", null);
-  } else {
-    for (const analysisPortal of analysisPortals) {
-      keyValuePairs.set(
-        getAnalysisPortalKey(analysisPortal),
-        getAnalysisPortalValue(analysisPortal)
-      );
-    }
-  }
+  const keyValuePairs = getAnalysisPortalsKeyValuePairs(analysisPortals);
+  const KeyValueElType = getAnalysisPortalsKeyValueElType(analysisPortals);
   return {
     KeyElType: Fragment,
-    KeyValueElType: (props) =>
-      C.KeyValueElType({
-        boxSx: { display: "grid", gap: 2, gridTemplateColumns: "auto 1fr" },
+    KeyValueElType,
+    KeyValuesElType: Fragment,
+    ValueElType: (props) =>
+      C.ValueElType({
+        variant: analysisPortals ? TEXT_BODY_400 : TEXT_BODY_400_2_LINES,
         ...props,
       }),
-    KeyValuesElType: Fragment,
-    ValueElType: (props) => C.ValueElType({ variant: TEXT_BODY_400, ...props }),
     keyValuePairs,
   };
 };
@@ -714,19 +709,65 @@ function getAnalysisPortalKey(analysisPortal: AnalysisPortal): ReactElement {
 }
 
 /**
- * Returns the KeyValuePair value for the specified analysis portal.
- * @param analysisPortal - Analysis portal.
- * @returns the KeyValuePair value for analysis portal as a ValueKeyValueFnTuple.
+ * Returns the analysis portal key value function for the key value component.
+ * @param analysisPortals - Analysis portals.
+ * @returns key value function for the key value component.
  */
-function getAnalysisPortalValue(analysisPortal: AnalysisPortal): Value {
-  const { label, url } = analysisPortal;
-
-  // KeyValueFn that opens the analysis portal url in a new tab.
-  const keyValueFn = (): void => {
-    window.open(url, ANCHOR_TARGET.BLANK);
+function getAnalysisPortalKeyValueFn(
+  analysisPortals: AnalysisPortal[]
+): KeyValueFn {
+  return (keyValue) => {
+    const [, value] = keyValue;
+    if (value && typeof value === "string") {
+      const url = analysisPortals.find(({ label }) => label === value)?.url;
+      url && window.open(url, ANCHOR_TARGET.BLANK);
+    }
   };
+}
 
-  return [label, keyValueFn];
+/**
+ * Returns the analysis portals key value element type.
+ * @param analysisPortals - Analysis portals.
+ * @returns key value element type for the analysis portals key value pairs component.
+ */
+function getAnalysisPortalsKeyValueElType(
+  analysisPortals: AnalysisPortal[] | undefined
+): ElementType {
+  if (!analysisPortals) {
+    return Fragment; // No analysis portals for the given projects response.
+  }
+  return (props) =>
+    C.KeyValueElType({
+      boxSx: {
+        display: "grid",
+        gap: 2,
+        gridTemplateColumns: "auto 1fr",
+      },
+      keyValueFn: getAnalysisPortalKeyValueFn(analysisPortals),
+      ...props,
+    });
+}
+
+/**
+ * Returns the key value pairs for the analysis portal key value pairs component.
+ * @param analysisPortals - Analysis portals.
+ * @returns key value pairs for the key value pairs component.
+ */
+function getAnalysisPortalsKeyValuePairs(
+  analysisPortals: AnalysisPortal[] | undefined
+): Map<Key, Value> {
+  const keyValuePairs = new Map<Key, Value>();
+  if (!analysisPortals) {
+    keyValuePairs.set(null, "None");
+  } else {
+    for (const analysisPortal of analysisPortals) {
+      keyValuePairs.set(
+        getAnalysisPortalKey(analysisPortal),
+        analysisPortal.label
+      );
+    }
+  }
+  return keyValuePairs;
 }
 
 /**
