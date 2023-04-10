@@ -2,11 +2,16 @@ import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entit
 import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
+  KeyValueFn,
   Value,
 } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
+import {
+  TEXT_BODY_400,
+  TEXT_BODY_400_2_LINES,
+} from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
 import { ColumnDef } from "@tanstack/react-table";
-import React, { Fragment, ReactElement } from "react";
+import React, { ElementType, Fragment, ReactElement } from "react";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
@@ -30,11 +35,12 @@ import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { formatCountSize } from "../../../../components/Index/common/utils";
 import * as MDX from "../../../../content/hca-dcp";
-import { ENTRIES } from "../../../../project-edits";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
+import { AnalysisPortal } from "./projectMapper/projectEdits/entities";
 import {
+  mapProjectAnalysisPortals,
   mapProjectCollaboratingOrganizations,
   mapProjectContacts,
   mapProjectContributors,
@@ -102,30 +108,27 @@ export const buildAggregatedProjectTitle = (
 };
 
 /**
- * Build props for AnalysisPortals from the given projects response.
- * TODO this is incomplete and a copy from the now deprecated projectViewModelBuilder.
- * TODO this method needs to be reviewed and should use the KeyValuePairs component.
- * @param project - Response model return from projects API.
- * @returns model to be used as props for the AnalysisPortals component.
+ * Build props for analysis portals component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the analysis portals component.
  */
 export const buildAnalysisPortals = (
-  project: ProjectsResponse
-): React.ComponentProps<typeof C.IconList> => {
-  if (!project.entryId) {
-    return { icons: [] };
-  }
-  const entry = ENTRIES.find((entry) => entry.entryId === project.entryId);
-  if (!entry?.analysisPortals) {
-    return { icons: [] };
-  }
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.KeyValuePairs> => {
+  const project = getProjectResponse(projectsResponse);
+  const analysisPortals = mapProjectAnalysisPortals(project);
+  const keyValuePairs = getAnalysisPortalsKeyValuePairs(analysisPortals);
+  const KeyValueElType = getAnalysisPortalsKeyValueElType(analysisPortals);
   return {
-    icons: entry.analysisPortals.map((entry) => ({
-      icon: {
-        alt: entry.label ?? "",
-        path: entry.icon,
-      },
-      label: entry.label,
-    })),
+    KeyElType: Fragment,
+    KeyValueElType,
+    KeyValuesElType: Fragment,
+    ValueElType: (props) =>
+      C.ValueElType({
+        variant: analysisPortals ? TEXT_BODY_400 : TEXT_BODY_400_2_LINES,
+        ...props,
+      }),
+    keyValuePairs,
   };
 };
 
@@ -690,6 +693,81 @@ function getAggregatedProjectTitleUrl(
   return `/projects/${takeArrayValueAt(
     processEntityArrayValue(response.projects, "projectId")
   )}`;
+}
+
+/**
+ * Returns the KeyValuePair key for the specified analysis portal.
+ * @param analysisPortal - Analysis portal.
+ * @returns the KeyValuePair key for analysis portal icon as a ReactElement.
+ */
+function getAnalysisPortalKey(analysisPortal: AnalysisPortal): ReactElement {
+  const { icon, label } = analysisPortal;
+  return C.StaticImage({
+    alt: label,
+    src: icon,
+  });
+}
+
+/**
+ * Returns the analysis portal key value function for the key value component.
+ * @param analysisPortals - Analysis portals.
+ * @returns key value function for the key value component.
+ */
+function getAnalysisPortalKeyValueFn(
+  analysisPortals: AnalysisPortal[]
+): KeyValueFn {
+  return (keyValue) => {
+    const [, value] = keyValue;
+    if (value && typeof value === "string") {
+      const url = analysisPortals.find(({ label }) => label === value)?.url;
+      url && window.open(url, ANCHOR_TARGET.BLANK);
+    }
+  };
+}
+
+/**
+ * Returns the analysis portals key value element type.
+ * @param analysisPortals - Analysis portals.
+ * @returns key value element type for the analysis portals key value pairs component.
+ */
+function getAnalysisPortalsKeyValueElType(
+  analysisPortals: AnalysisPortal[] | undefined
+): ElementType {
+  if (!analysisPortals) {
+    return Fragment; // No analysis portals for the given projects response.
+  }
+  return (props) =>
+    C.KeyValueElType({
+      boxSx: {
+        display: "grid",
+        gap: 2,
+        gridTemplateColumns: "auto 1fr",
+      },
+      keyValueFn: getAnalysisPortalKeyValueFn(analysisPortals),
+      ...props,
+    });
+}
+
+/**
+ * Returns the key value pairs for the analysis portal key value pairs component.
+ * @param analysisPortals - Analysis portals.
+ * @returns key value pairs for the key value pairs component.
+ */
+function getAnalysisPortalsKeyValuePairs(
+  analysisPortals: AnalysisPortal[] | undefined
+): Map<Key, Value> {
+  const keyValuePairs = new Map<Key, Value>();
+  if (!analysisPortals) {
+    keyValuePairs.set(null, "None");
+  } else {
+    for (const analysisPortal of analysisPortals) {
+      keyValuePairs.set(
+        getAnalysisPortalKey(analysisPortal),
+        analysisPortal.label
+      );
+    }
+  }
+  return keyValuePairs;
 }
 
 /**

@@ -7,15 +7,26 @@ export const sideColumn = [
   {
     children: [
       {
-        component: C.IconList,
-        viewBuilder: V.buildAnalysisPortals,
-      } as ComponentConfig<typeof C.IconList, ProjectsResponse>,
+        children: [
+          {
+            component: C.SectionTitle,
+            props: {
+              title: "Analysis Portals",
+            },
+          } as ComponentConfig<typeof C.SectionTitle>,
+          {
+            component: C.KeyValuePairs,
+            viewBuilder: V.buildAnalysisPortals,
+          } as ComponentConfig<typeof C.KeyValuePairs, ProjectsResponse>,
+        ],
+        component: C.Grid,
+        props: {
+          gridSx: { gap: 4 },
+        },
+      } as ComponentConfig<typeof C.Grid>,
     ],
-    component: C.CollapsableSection,
-    props: {
-      title: "Analysis Portals",
-    },
-  } as ComponentConfig<typeof C.CollapsableSection>,
+    component: C.GridPaperSection,
+  } as ComponentConfig<typeof C.GridPaperSection>,
   {
     component: C.Details,
     viewBuilder: V.buildDetails,
