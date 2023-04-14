@@ -49,6 +49,9 @@ _templates
 # favicons
 /public/favicons/*
 
+# sitemap
+/public/sitemap.xml
+
 /files/anvil-catalog/out/
 /files/ncpi-catalog/out/
 /files/ncpi-catalog-dug/out/
