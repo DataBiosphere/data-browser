@@ -2,7 +2,10 @@
 const siteMapConfig = {
   changefreq: "monthly",
   generateIndexSitemap: false,
-  siteUrl: process.env.NEXT_PUBLIC_SITEMAP_DOMAIN,
+  outDir: "./out/explore",
+  siteUrl: `${process.env.NEXT_PUBLIC_SITEMAP_DOMAIN}${
+    process.env.NEXT_PUBLIC_BASE_PATH || "/explore"
+  }`,
 };
 
 export default siteMapConfig;
