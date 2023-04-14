@@ -2,7 +2,7 @@
 const siteMapConfig = {
   changefreq: "monthly",
   generateIndexSitemap: false,
-  siteUrl: process.env.BROWSER_URL,
+  siteUrl: process.env.NEXT_PUBLIC_SITEMAP_DOMAIN,
 };
 
 export default siteMapConfig;
