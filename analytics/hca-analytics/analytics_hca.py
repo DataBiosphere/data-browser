@@ -40,6 +40,9 @@ def adjust_table_index_key(val):
 			return ('<a href="' + escape_html("https://data.humancellatlas.org" + val) + '">' + escape_html(val) + '</a>', True)
 	return val
 
+def format_project_id_key(val):
+	return ('<a href="' + escape_html("https://data.humancellatlas.org/explore/projects/" + val) + '">' + escape_html(get_project_name(val)) + '</a>', True)
+
 def plot_users_over_time(**other_params):
 	return ac.show_plot_over_time(
 		"Monthly Activity Overview",
