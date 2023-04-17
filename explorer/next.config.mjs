@@ -21,7 +21,7 @@ export default withPlugins(
     images: {
       disableStaticImages: true,
     },
-    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    webpack: (config, { buildId, defaultLoaders, dev, isServer, webpack }) => {
       config.module = {
         ...config.module,
         rules: [
@@ -56,6 +56,10 @@ export default withPlugins(
       config.resolve.alias["@tanstack/react-table"] = path.resolve(
         process.cwd(),
         "node_modules/@tanstack/react-table"
+      );
+      config.resolve.alias["axios"] = path.resolve(
+        process.cwd(),
+        "node_modules/axios"
       );
       config.resolve.alias["isomorphic-dompurify"] = path.resolve(
         process.cwd(),
