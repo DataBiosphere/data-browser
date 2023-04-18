@@ -27,6 +27,9 @@ const LOGO: LogoProps = {
 
 const config: SiteConfig = {
   ...anvilDevConfig,
+  analytics: {
+    gtmId: "GTM-KMGCR8F",
+  },
   authentication: undefined,
   categoryConfigs: [
     {
