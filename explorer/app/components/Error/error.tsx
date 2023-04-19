@@ -6,6 +6,7 @@ import {
   StatusIcon,
 } from "@clevercanary/data-explorer-ui/lib/components/common/StatusIcon/statusIcon";
 import { Typography } from "@mui/material";
+import { AxiosError, isAxiosError } from "axios";
 import Link from "next/link";
 import React from "react";
 import { ErrorBox } from "./components/errorBox";
@@ -16,18 +17,18 @@ import {
 } from "./error.styles";
 
 interface ErrorProps {
-  code?: string | number;
-  message?: string;
+  error?: Error | AxiosError;
   rootPath?: string;
-  url?: string;
 }
 
-export const Error = ({
-  code,
-  message,
-  rootPath,
-  url,
-}: ErrorProps): JSX.Element => {
+export const Error = ({ error, rootPath }: ErrorProps): JSX.Element => {
+  const { code, message, request } = isAxiosError(error)
+    ? {
+        ...error,
+        code: error.response?.status,
+        request: error.request.responseURL,
+      }
+    : { ...error, code: null, request: null };
   return (
     <CustomError>
       <ErrorSection>
@@ -48,7 +49,7 @@ export const Error = ({
           </SectionActions>
         )}
         {code && <ErrorBox title="Error Code" message={`${code}`} />}
-        {url && <ErrorBox title="Request URL" message={url} />}
+        {request && <ErrorBox title="Request URL" message={request} />}
         {message && <ErrorBox title="Error Message" message={message} />}
       </ErrorSection>
     </CustomError>

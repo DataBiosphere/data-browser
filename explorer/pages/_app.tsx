@@ -12,6 +12,8 @@ import { createAppTheme } from "@clevercanary/data-explorer-ui/lib/theme/theme";
 import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import { Error } from "app/components/Error/error";
+import { ErrorBoundary } from "app/components/ErrorBoundary/errorBoundary";
 import { config } from "app/config/config";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
@@ -43,7 +45,16 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
               <Header {...layout.header} />
               <ExploreStateProvider entityListType={entityListType}>
                 <Main>
-                  <Component {...pageProps} />
+                  <ErrorBoundary
+                    fallbackRender={(error): JSX.Element => (
+                      <Error
+                        error={error}
+                        rootPath={appConfig.redirectRootToPath}
+                      />
+                    )}
+                  >
+                    <Component {...pageProps} />
+                  </ErrorBoundary>
                 </Main>
               </ExploreStateProvider>
               <Footer {...layout.footer} />
