@@ -1,1 +1,0 @@
-export { TempError } from "./tempError";
