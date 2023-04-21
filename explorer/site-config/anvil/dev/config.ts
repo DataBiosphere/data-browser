@@ -32,6 +32,7 @@ const LOGO: LogoProps = {
 
 const config: SiteConfig = {
   analytics: {
+    gtmAuth: "FIXME", //TODO: Add the correct value for this field
     gtmId: "GTM-MBJZTFS",
   },
   authentication: authenticationConfig,
