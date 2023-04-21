@@ -80,7 +80,7 @@ build_lungmap-prod:
     - npm run build-lungmap-prod
     - cd ..
     - cd scripts
-    - npm run update-sitemap -- catalog=lm2
+    - npm run update-sitemap -- catalog=lm3
   only:
     - lungmap-prod
 
