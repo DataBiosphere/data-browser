@@ -28,6 +28,7 @@ const LOGO: LogoProps = {
 const config: SiteConfig = {
   ...anvilDevConfig,
   analytics: {
+    gtmAuth: "FIXME", //TODO: Add the correct value for this field
     gtmId: "GTM-WCWXHT4",
   },
   authentication: undefined,

@@ -1,10 +1,12 @@
 import "@clevercanary/data-explorer-ui";
 import { AzulEntitiesStaticResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { ErrorBoundary } from "@clevercanary/data-explorer-ui/lib/components/ErrorBoundary";
 import { Head } from "@clevercanary/data-explorer-ui/lib/components/Head/head";
 import { AppLayout } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/AppLayout/appLayout.styles";
 import { Footer } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Footer/footer";
 import { Header } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/header";
 import { Main } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Main/main.styles";
+import { TempError } from "@clevercanary/data-explorer-ui/lib/components/TempError";
 import { AuthProvider } from "@clevercanary/data-explorer-ui/lib/providers/authentication";
 import { ConfigProvider as DXConfigProvider } from "@clevercanary/data-explorer-ui/lib/providers/config";
 import { ExploreStateProvider } from "@clevercanary/data-explorer-ui/lib/providers/exploreState";
@@ -43,7 +45,13 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
               <Header {...layout.header} />
               <ExploreStateProvider entityListType={entityListType}>
                 <Main>
-                  <Component {...pageProps} />
+                  <ErrorBoundary
+                    fallbackRender={(error): JSX.Element => (
+                      <TempError error={error} />
+                    )}
+                  >
+                    <Component {...pageProps} />
+                  </ErrorBoundary>
                 </Main>
               </ExploreStateProvider>
               <Footer {...layout.footer} />

@@ -8,14 +8,17 @@ import {
 import { Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
-import { ROOT_URL } from "../../shared/constants";
 import {
   Error as CustomError,
   ErrorSection,
   SectionContent,
 } from "./error.styles";
 
-export const Error = (): JSX.Element => {
+interface ErrorProps {
+  rootPath?: string;
+}
+
+export const Error = ({ rootPath }: ErrorProps): JSX.Element => {
   return (
     <CustomError>
       <ErrorSection>
@@ -28,9 +31,9 @@ export const Error = (): JSX.Element => {
             An error occurred processing your request
           </Typography>
         </SectionContent>
-        {ROOT_URL && (
+        {rootPath && (
           <SectionActions>
-            <Link href={ROOT_URL} passHref>
+            <Link href={rootPath} passHref>
               <ButtonPrimary href="passHref">To Homepage</ButtonPrimary>
             </Link>
           </SectionActions>
