@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-export GATSBY_GTM_ID=GTM-M2J5NTJ
-export GATSBY_GTM_AUTH=CzDpc0__fhyqfREDehPK8Q
-export GATSBY_ENV_NAME=env-83
-
-
 echo \"Deleting ./out/\"
 rm -rf ./out
 
@@ -14,13 +9,12 @@ rm -rf ./build
 n 16.15.1
 npm ci
 export NEXT_PUBLIC_BASE_PATH="/data"
-#./insert-gtm-snippet.sh
 
 mkdir -p build/data
 
 # Build AnVIL
 rm -rf ./out
-npm run build:anvil-catalog
+npm run build-dev:anvil-catalog
 mv out/data/* build/data
 
 export BUCKET=s3://uqc-anvil-portal.dev.data/

@@ -6,9 +6,11 @@
     "dev:ncpi-catalog-dug": "./scripts/dev.sh ncpi-catalog-dug && next dev",
     "build:ncpi-catalog-dug": "./scripts/build.sh ncpi-catalog-dug && next build && next export -o out/explore && npm run postbuild",
     "dev:ncpi-catalog": "./scripts/dev.sh ncpi-catalog && next dev",
-    "build:ncpi-catalog": "./scripts/build.sh ncpi-catalog && next build && next export -o out/ncpi/data && npm run postbuild",
+    "build-dev:ncpi-catalog": "scripts/common-build.sh ncpi-catalog dev && next build && next export -o out/ncpi/data && npm run postbuild",
+    "build-prod:ncpi-catalog": "./scripts/common-build.sh ncpi-catalog prod && next build && next export -o out/ncpi/data && npm run postbuild",
     "dev:anvil-catalog": "./scripts/dev.sh anvil-catalog && next dev",
-    "build:anvil-catalog": "./scripts/build.sh anvil-catalog && next build && next export -o out/data && npm run postbuild",
+    "build-dev:anvil-catalog": "scripts/common-build.sh anvil-catalog dev && next build && next export -o out/data && npm run postbuild",
+    "build-prod:anvil-catalog": "./scripts/common-build.sh anvil-catalog prod && next build && next export -o out/data && npm run postbuild",
     "dev:lungmap": "./scripts/dev.sh lungmap && next dev",
     "build:lungmap": "./scripts/build.sh lungmap && next build && next export -o out/explore && npm run postbuild",
     "dev:anvil": "./scripts/dev.sh anvil && next dev",
@@ -30,7 +32,7 @@
     "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts"
   },
   "dependencies": {
-    "@clevercanary/data-explorer-ui": "0.17.1",
+    "@clevercanary/data-explorer-ui": "^0.17.1",
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",
     "@mdx-js/loader": "^2.3.0",

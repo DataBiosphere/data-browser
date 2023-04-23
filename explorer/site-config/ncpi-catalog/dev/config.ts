@@ -11,7 +11,7 @@ import { platformsEntityConfig } from "./index/platformsEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 
 // Template constants
-const BROWSER_URL = "https://anvil-portal.dev.clevercanary.com";
+const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
 const SLOGAN = "NIH Cloud Platform Interoperability Effort";
 
 // Remove the summary from the AnVIL config.
@@ -60,7 +60,7 @@ const config: SiteConfig = {
       logo: {
         alt: SLOGAN,
         height: 40,
-        link: "https://anvil-portal.dev.clevercanary.com/ncpi",
+        link: `${BROWSER_URL}/ncpi`,
         src: logoNcpi,
       },
       navAlignment: ELEMENT_ALIGNMENT.CENTER,
