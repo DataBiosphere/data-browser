@@ -19,7 +19,10 @@ const SLOGAN = "NIH Cloud Platform Interoperability Effort";
 const { summaryConfig, ...basicConfig } = anvilConfig;
 const config: SiteConfig = {
   ...basicConfig,
-  analytics: undefined,
+  analytics: {
+    gtmAuth: "hQW1TUjhQSW9j0XTXzshYA", // GTM environment-specific
+    gtmId: "GTM-55VGZN8",
+  },
   authentication: undefined,
   categoryConfigs: [
     {
