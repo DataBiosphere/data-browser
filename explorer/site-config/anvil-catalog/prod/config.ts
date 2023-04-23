@@ -1,12 +1,12 @@
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import devConfig from "../dev/config";
+import anvilCatalogDevConfig from "../dev/config";
 
-const config: SiteConfig = { ...devConfig };
+const config: SiteConfig = { ...anvilCatalogDevConfig };
 
 // Update gtmAuth for the prod environment lookup.
 if (config.analytics) {
   const analytics = { ...config.analytics };
-  analytics.gtmAuth = "rrXpUu-I_wxMe0FRk_mnIg"; // TODO(cc) revert to "foHZB1OikGzRdcl1gkapNw"
+  analytics.gtmAuth = "foHZB1OikGzRdcl1gkapNw";
   config.analytics = analytics;
 }
 

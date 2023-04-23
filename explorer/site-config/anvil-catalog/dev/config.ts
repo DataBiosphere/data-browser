@@ -16,7 +16,7 @@ import { consortiaEntityConfig } from "./index/consortiaEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
 
-const BROWSER_URL = "https://anvil-portal.dev.clevercanary.com";
+const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 const LOGO: LogoProps = {
   alt: SLOGAN,
@@ -32,6 +32,7 @@ const config: SiteConfig = {
     gtmId: "GTM-WCWXHT4",
   },
   authentication: undefined,
+  browserURL: BROWSER_URL,
   categoryConfigs: [
     {
       key: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
@@ -66,6 +67,9 @@ const config: SiteConfig = {
       label: "Terra Workspace Name", // TODO review label here and elsewhere
     },
   ],
+  dataSource: {
+    url: "",
+  },
   entities: [studiesEntityConfig, workspaceEntityConfig, consortiaEntityConfig],
   explorerTitle: "AnVIL Dataset Catalog",
   layout: {
