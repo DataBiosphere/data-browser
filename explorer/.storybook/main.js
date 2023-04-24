@@ -1,15 +1,17 @@
 const path = require("path");
 const toPath = (filePath) => path.join(process.cwd(), filePath);
-
 module.exports = {
   stories: ["../app/**/*.stories.mdx", "../app/**/*.stories.@(js|jsx|ts|tsx)"],
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    "storybook-addon-next-router",
+    "@storybook/addon-mdx-gfm",
   ],
-  framework: "@storybook/react",
+  framework: {
+    name: "@storybook/nextjs",
+    options: {},
+  },
   webpackFinal: async (config) => {
     return {
       ...config,
@@ -25,5 +27,8 @@ module.exports = {
         },
       },
     };
+  },
+  docs: {
+    autodocs: true,
   },
 };
