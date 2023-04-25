@@ -1,8 +1,12 @@
 import { Bundle, Coding, Extension, ResearchStudy } from "fhir/r4";
 import { decode } from "html-entities";
 import fetch, { Response } from "node-fetch";
-import { remark } from "remark";
-import html from "remark-html";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
+import rehypeStringify from "rehype-stringify";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import { unified } from "unified";
 import { DbGapStudy } from "../../app/apis/catalog/common/entities";
 import { delayFetch } from "./utils";
 
@@ -60,16 +64,17 @@ function getStudyDescription(resource: ResearchStudy): string {
   if (resource) {
     const rawDescription = resource.description;
     if (rawDescription) {
+      /* Replace any `\n\n\t` with space to avoid unwanted line breaks
       /* Replace any `\t` (tab) with a space - avoids markdown processing tab as <pre/>. */
       /* Replace any dbGap internal links with an external link to the dbGap study. */
       const parsedDescription = rawDescription
+        .replace(/\n\n\t/g, " ")
         .replace(/\t/g, " ")
         .replace(
           /study.cgi\?study_id=|.\/study.cgi\?study_id=/g,
           "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id="
         );
-      return remark().use(html).processSync(parsedDescription).toString();
-      // see https://github.com/vfile/vfile/issues/45
+      return markdownToHTML(parsedDescription);
     }
   }
   return "";
@@ -422,4 +427,18 @@ function findExtensionType(
 async function parseFHIRJSON(response: Response): Promise<Bundle> {
   /* Grab the JSON. */
   return (await response.json()) as Bundle;
+}
+
+export function markdownToHTML(markdown: string): string {
+  const schema = Object.assign({}, defaultSchema);
+  schema.tagNames = (schema.tagNames || []).concat(["u"]);
+  return unified()
+    .use(remarkParse)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
+    .use(rehypeSanitize, schema)
+    .use(rehypeStringify)
+    .processSync(markdown)
+    .toString();
+  // see https://github.com/vfile/vfile/issues/45
 }
