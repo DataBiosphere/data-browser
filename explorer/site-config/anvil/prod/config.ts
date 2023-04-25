@@ -14,6 +14,7 @@ const config: SiteConfig = {
 if (config.analytics) {
   const analytics = { ...config.analytics };
   analytics.gtmAuth = "IgbX8s-NCGg81Z0eWB6KAQ";
+  analytics.gtmPreview = "env-1";
   config.analytics = analytics;
 }
 

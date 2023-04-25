@@ -22,6 +22,7 @@ const config: SiteConfig = {
   analytics: {
     gtmAuth: "hQW1TUjhQSW9j0XTXzshYA", // GTM environment-specific
     gtmId: "GTM-55VGZN8",
+    gtmPreview: "env-3",
   },
   authentication: undefined,
   categoryConfigs: [

@@ -7,6 +7,7 @@ const config: SiteConfig = { ...anvilCatalogDevConfig };
 if (config.analytics) {
   const analytics = { ...config.analytics };
   analytics.gtmAuth = "foHZB1OikGzRdcl1gkapNw";
+  analytics.gtmPreview = "env-1";
   config.analytics = analytics;
 }
 

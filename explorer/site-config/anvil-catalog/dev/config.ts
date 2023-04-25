@@ -30,6 +30,7 @@ const config: SiteConfig = {
   analytics: {
     gtmAuth: "rrXpUu-I_wxMe0FRk_mnIg", // GTM environment-specific
     gtmId: "GTM-WCWXHT4",
+    gtmPreview: "env-4",
   },
   authentication: undefined,
   browserURL: BROWSER_URL,
