@@ -31,11 +31,7 @@ const LOGO: LogoProps = {
 };
 
 const config: SiteConfig = {
-  analytics: {
-    gtmAuth: "dn4W-jqWUyNBj6ON0Ic_wA", // GTM environment-specific
-    gtmId: "GTM-KMGCR8F",
-    gtmPreview: "env-65",
-  },
+  analytics: undefined,
   authentication: authenticationConfig,
   browserURL: BROWSER_URL,
   categoryConfigs: [
