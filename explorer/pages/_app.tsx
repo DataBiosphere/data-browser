@@ -23,16 +23,16 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   // Set up the site configuration, layout and theme.
   const appConfig = config();
   const { analytics, layout, themeOptions } = appConfig;
-  const { gtmAuth, gtmId } = analytics || {};
+  const { gtmAuth, gtmId, gtmPreview } = analytics || {};
   const theme = createAppTheme(themeOptions);
   const { entityListType } = pageProps as AzulEntitiesStaticResponse;
 
   // Initialize Google Tag Manager.
   useEffect(() => {
     if (gtmId) {
-      TagManager.initialize({ auth: gtmAuth, gtmId });
+      TagManager.initialize({ auth: gtmAuth, gtmId, preview: gtmPreview });
     }
-  }, [gtmAuth, gtmId]);
+  }, [gtmAuth, gtmId, gtmPreview]);
 
   return (
     <EmotionThemeProvider theme={theme}>
