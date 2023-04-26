@@ -111,6 +111,16 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
         id: ANVIL_CATALOG_CATEGORY_KEY.PARTICIPANT_COUNT,
         width: { max: "1.16fr", min: "116px" },
       },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildBucketSize,
+        } as ComponentConfig<typeof Components.Cell>,
+        header: ANVIL_CATALOG_CATEGORY_LABEL.BUCKET_SIZE,
+        id: ANVIL_CATALOG_CATEGORY_KEY.BUCKET_SIZE,
+        width: "max-content",
+      },
     ],
     defaultSort: {
       desc: SORT_DIRECTION.ASCENDING,
