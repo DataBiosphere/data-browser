@@ -136,6 +136,16 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
         id: ANVIL_CATALOG_CATEGORY_KEY.PARTICIPANT_COUNT,
         width: { max: "1fr", min: "120px" },
       },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: Components.Cell,
+          viewBuilder: ViewBuilder.buildBucketSize,
+        } as ComponentConfig<typeof Components.Cell>,
+        header: ANVIL_CATALOG_CATEGORY_LABEL.BUCKET_SIZE,
+        id: ANVIL_CATALOG_CATEGORY_KEY.BUCKET_SIZE,
+        width: { max: "1.24fr", min: "124px" },
+      },
     ],
     defaultSort: {
       desc: SORT_DIRECTION.ASCENDING,

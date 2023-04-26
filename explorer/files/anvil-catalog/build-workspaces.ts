@@ -45,6 +45,7 @@ export function buildAnVILCatalogWorkspace(
   dbGapStudy: DbGapStudy | null
 ): AnVILCatalogWorkspace {
   const workspace: AnVILCatalogWorkspace = {
+    bucketSize: anVILCatalog.bucketSize,
     consentCode: anVILCatalog["library:dataUseRestriction"],
     consortium: anVILCatalog.consortium,
     dataType: anVILCatalog["library:datatype"],
