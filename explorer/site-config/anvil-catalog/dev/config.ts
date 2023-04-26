@@ -71,7 +71,7 @@ const config: SiteConfig = {
   dataSource: {
     url: "",
   },
-  entities: [studiesEntityConfig, workspaceEntityConfig, consortiaEntityConfig],
+  entities: [consortiaEntityConfig, studiesEntityConfig, workspaceEntityConfig],
   explorerTitle: "AnVIL Dataset Catalog",
   layout: {
     footer: {
@@ -163,7 +163,7 @@ const config: SiteConfig = {
       socials,
     },
   },
-  redirectRootToPath: "/studies",
+  redirectRootToPath: "/consortia",
   summaryConfig: undefined,
 };
 
