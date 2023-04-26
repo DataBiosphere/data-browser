@@ -1,7 +1,16 @@
-import { Error as CustomError } from "@clevercanary/data-explorer-ui/lib/components/Error/error";
-import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
+import { TempError as CustomError } from "@clevercanary/data-explorer-ui/lib/components/TempError";
+import { NextPage, NextPageContext } from "next";
 
-export default function Error(): JSX.Element {
-  const { config } = useConfig();
-  return <CustomError rootPath={config.redirectRootToPath} />;
+interface ErrorProps {
+  error?: Error | null;
 }
+
+const Error: NextPage<ErrorProps> = ({ error }: ErrorProps) => {
+  return error ? <CustomError error={error} /> : <></>;
+};
+
+Error.getInitialProps = ({ err }: NextPageContext): ErrorProps => {
+  return { error: err };
+};
+
+export default Error;
