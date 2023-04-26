@@ -119,7 +119,7 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
         } as ComponentConfig<typeof Components.Cell>,
         header: ANVIL_CATALOG_CATEGORY_LABEL.BUCKET_SIZE,
         id: ANVIL_CATALOG_CATEGORY_KEY.BUCKET_SIZE,
-        width: { max: "1.24fr", min: "124px" },
+        width: "max-content",
       },
     ],
     defaultSort: {
