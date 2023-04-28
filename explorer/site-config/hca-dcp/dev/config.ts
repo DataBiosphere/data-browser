@@ -21,7 +21,7 @@ import { summary } from "./index/summary";
 
 // Template constants
 const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";
-const CATALOG_DCP2 = "dcp2";
+const CATALOG_DCP25 = "dcp25";
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
 const PAGINATION_PAGE_SIZE = "25";
 export const PROJECTS_URL = "/projects";
@@ -118,16 +118,16 @@ const config: SiteConfig = {
   ],
   dataSource: {
     defaultDetailParams: {
-      catalog: CATALOG_DCP2,
+      catalog: CATALOG_DCP25,
     },
     defaultListParams: {
-      catalog: CATALOG_DCP2,
+      catalog: CATALOG_DCP25,
       size: PAGINATION_PAGE_SIZE,
     },
-    url: "https://service.dev.singlecell.gi.ucsc.edu/",
+    url: "https://service.azul.data.humancellatlas.org/",
   },
   entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
-  explorerTitle: "Explore Data: DCP 2.0 Data View",
+  explorerTitle: "Explore Data",
   export: exportConfig,
   exportToTerraUrl: "https://app.terra.bio/",
   layout: {
