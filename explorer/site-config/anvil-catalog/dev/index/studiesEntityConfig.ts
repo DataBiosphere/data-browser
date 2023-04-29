@@ -137,7 +137,6 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildBucketSize,

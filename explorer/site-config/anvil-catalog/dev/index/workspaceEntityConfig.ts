@@ -112,7 +112,6 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
         width: { max: "1.16fr", min: "116px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildBucketSize,
