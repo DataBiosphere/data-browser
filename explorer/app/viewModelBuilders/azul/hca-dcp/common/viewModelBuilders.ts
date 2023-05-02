@@ -38,6 +38,8 @@ import * as MDX from "../../../../content/hca-dcp";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
+import { DATA_SUMMARY_DISPLAY_TEXT } from "./dataSummaryMapper/constants";
+import { mapProjectDataSummary } from "./dataSummaryMapper/dataSummaryMapper";
 import { AnalysisPortal } from "./projectMapper/projectEdits/entities";
 import {
   mapProjectAnalysisPortals,
@@ -45,7 +47,6 @@ import {
   mapProjectContacts,
   mapProjectContributors,
   mapProjectDataCurators,
-  mapProjectDetails,
   mapProjectPublications,
   mapProjectSupplementaryLinks,
 } from "./projectMapper/projectMapper";
@@ -304,9 +305,12 @@ export const buildDescription = (
 export const buildDetails = (
   projectsResponse: ProjectsResponse
 ): React.ComponentProps<typeof C.Details> => {
-  const project = getProjectResponse(projectsResponse);
+  const keyValuePairs = new Map<Key, Value>();
+  for (const [key, value] of mapProjectDataSummary(projectsResponse)) {
+    keyValuePairs.set(DATA_SUMMARY_DISPLAY_TEXT[key], value);
+  }
   return {
-    keyValuePairs: mapProjectDetails(project),
+    keyValuePairs,
     title: "Project Details",
   };
 };

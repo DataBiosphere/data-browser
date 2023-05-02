@@ -1,9 +1,4 @@
 import {
-  Key,
-  KeyValues,
-  Value,
-} from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-import {
   CollaboratingOrganization,
   Contact,
   Contributor,
@@ -146,23 +141,6 @@ export function mapProjectDataCurators(
     return; // Caller is expecting undefined, not an empty array.
   }
   return dataCurators;
-}
-
-/**
- * Maps project data summary related information, included formatted display text from the given projects response.
- * TODO - resolve with the completion of mapping project detail.
- * @param projectResponse - Response model return from projects API.
- * @returns data summaries key-value pairs of data summary label and corresponding value.
- */
-export function mapProjectDetails(
-  projectResponse?: ProjectResponse
-): KeyValues | undefined {
-  if (!projectResponse) {
-    return;
-  }
-  const details = new Map<Key, Value>();
-  details.set("Project Label", projectResponse.projectShortname);
-  return details;
 }
 
 /**
