@@ -27,7 +27,11 @@ next_port = 8082
 default_service_system = None
 
 def authenticate(secret_name, service_params=ga_service_params):
-	scopes, service_name, service_version, param_subs, query_func = service_params
+	if len(service_params) == 4:
+		scopes, service_name, service_version, param_subs_or_alt_api = service_params
+		query_func = None
+	else:
+		scopes, service_name, service_version, param_subs_or_alt_api, query_func = service_params
 	
 	ANALYTICS_REPORTING_CLIENT_SECRET_PATH=os.getenv(secret_name)
 
@@ -41,7 +45,7 @@ def authenticate(secret_name, service_params=ga_service_params):
 	# Build the service object.
 	service = build(service_name, service_version, credentials=credentials)
 	
-	service_system = (service, query_func, param_subs, credentials)
+	service_system = (service, query_func, param_subs_or_alt_api, credentials)
 	
 	global default_service_system
 	if default_service_system is None:
@@ -50,17 +54,26 @@ def authenticate(secret_name, service_params=ga_service_params):
 	return service_system
 
 
-def get_metrics_by_dimensions(metrics, dimensions, property, start_date, end_date, filters=None, segment=None, property_prefix='ga:', service_system=None, max_results=1000, sort_results=None, **other_params):
-	
+def get_metrics_by_dimensions(metrics, dimensions, service_system=None, **other_params):
 	if service_system is None:
 		service_system = default_service_system
 	
-	service, query_func, param_subs = service_system[:3]
+	service, query_func, param_subs_or_alt_api = service_system[:3]
 	
-	if isinstance(metrics, list):
-		metrics = ",".join(metrics)
-	if isinstance(dimensions, list):
-		dimensions = ",".join(dimensions)
+	if isinstance(metrics, str):
+		metrics = [metrics]
+	if isinstance(dimensions, str):
+		dimensions = [dimensions]
+	
+	if query_func is None:
+		return param_subs_or_alt_api(service, metrics, dimensions, **other_params)
+	
+	return get_metrics_by_dimensions_v3_style(service, query_func, param_subs_or_alt_api, metrics, dimensions, **other_params)
+
+
+def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics, dimensions, property, start_date, end_date, filters=None, segment=None, property_prefix='ga:', max_results=1000, sort_results=None, **other_params):
+	metrics = ",".join(metrics)
+	dimensions = ",".join(dimensions)
 	
 	# Dimensions and Metrics... 
 	# Dimensions are atrributes, Metrics are quantitative measurements. e.g. city is a Dimension
