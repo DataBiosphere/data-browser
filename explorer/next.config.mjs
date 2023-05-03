@@ -61,6 +61,10 @@ export default withPlugins(
         process.cwd(),
         "node_modules/axios"
       );
+      config.resolve.alias["csv-stringify"] = path.resolve(
+        process.cwd(),
+        "node_modules/csv-stringify"
+      );
       config.resolve.alias["isomorphic-dompurify"] = path.resolve(
         process.cwd(),
         "node_modules/isomorphic-dompurify"
