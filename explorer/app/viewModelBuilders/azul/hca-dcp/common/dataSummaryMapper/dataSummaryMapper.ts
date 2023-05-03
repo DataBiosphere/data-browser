@@ -33,6 +33,6 @@ export function mapProjectDataSummary(
   details.set(
     DATA_SUMMARY.SAMPLE_ENTITY_TYPE,
     stringifyValues(sampleEntityType)
-  );
+  ); // Sample Type
   return details;
 }
