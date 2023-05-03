@@ -24,6 +24,10 @@ export function mapProjectDataSummary(
     projectsResponse.specimens,
     HCA_DCP_CATEGORY_KEY.ORGAN
   );
+  const organPart = processAggregatedOrArrayValue(
+    projectsResponse.specimens,
+    HCA_DCP_CATEGORY_KEY.ORGAN_PART
+  );
   const projectShortname = processEntityValue(
     projectsResponse.projects,
     "projectShortname"
@@ -39,5 +43,6 @@ export function mapProjectDataSummary(
     stringifyValues(sampleEntityType)
   ); // Sample Type
   details.set(DATA_SUMMARY.ORGAN, stringifyValues(organ)); // Anatomical Entity
+  details.set(DATA_SUMMARY.ORGAN_PART, stringifyValues(organPart)); // Organ Part
   return details;
 }
