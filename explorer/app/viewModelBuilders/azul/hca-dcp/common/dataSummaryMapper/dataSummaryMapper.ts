@@ -36,6 +36,10 @@ export function mapProjectDataSummary(
     projectsResponse.samples,
     HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE
   );
+  const selectedCellType = processAggregatedOrArrayValue(
+    projectsResponse.cellSuspensions,
+    HCA_DCP_CATEGORY_KEY.SELECTED_CELL_TYPE
+  );
   details.set(DATA_SUMMARY.PROJECT_SHORTNAME, projectShortname);
   details.set(DATA_SUMMARY.GENUS_SPECIES, stringifyValues(genusSpecies));
   details.set(
@@ -44,5 +48,9 @@ export function mapProjectDataSummary(
   ); // Sample Type
   details.set(DATA_SUMMARY.ORGAN, stringifyValues(organ)); // Anatomical Entity
   details.set(DATA_SUMMARY.ORGAN_PART, stringifyValues(organPart)); // Organ Part
+  details.set(
+    DATA_SUMMARY.SELECTED_CELL_TYPE,
+    stringifyValues(selectedCellType)
+  ); // Selected Cell Types
   return details;
 }
