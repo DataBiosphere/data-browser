@@ -4,6 +4,7 @@ import { HCA_DCP_CATEGORY_LABEL } from "../../../../../../site-config/hca-dcp/ca
  * Possible set of data summaries.
  */
 export const enum DATA_SUMMARY {
+  DEVELOPMENT_STAGE = "DEVELOPMENT_STAGE",
   DISEASE = "DISEASE",
   DONOR_DISEASE = "DONOR_DISEASE",
   GENUS_SPECIES = "GENUS_SPECIES",
@@ -18,6 +19,7 @@ export const enum DATA_SUMMARY {
  * Display text for project data summaries.
  */
 export const DATA_SUMMARY_DISPLAY_TEXT = {
+  [DATA_SUMMARY.DEVELOPMENT_STAGE]: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,
   [DATA_SUMMARY.DISEASE]: "Disease Status (Specimen)",
   [DATA_SUMMARY.DONOR_DISEASE]: "Disease Status (Donor)",
   [DATA_SUMMARY.GENUS_SPECIES]: "Species",
