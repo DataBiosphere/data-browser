@@ -24,7 +24,15 @@ export function mapProjectDataSummary(
     projectsResponse.projects,
     "projectShortname"
   );
+  const sampleEntityType = processAggregatedOrArrayValue(
+    projectsResponse.samples,
+    HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE
+  );
   details.set(DATA_SUMMARY.PROJECT_SHORTNAME, projectShortname);
   details.set(DATA_SUMMARY.GENUS_SPECIES, stringifyValues(genusSpecies));
+  details.set(
+    DATA_SUMMARY.SAMPLE_ENTITY_TYPE,
+    stringifyValues(sampleEntityType)
+  ); // Sample Type
   return details;
 }
