@@ -32,6 +32,10 @@ export function mapProjectDataSummary(
     projectsResponse.donorOrganisms,
     HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
   );
+  const nucleicAcidSource = processAggregatedOrArrayValue(
+    projectsResponse.protocols,
+    HCA_DCP_CATEGORY_KEY.NUCLEIC_ACID_SOURCE
+  );
   const organ = processAggregatedOrArrayValue(
     projectsResponse.specimens,
     HCA_DCP_CATEGORY_KEY.ORGAN
@@ -70,5 +74,9 @@ export function mapProjectDataSummary(
     DATA_SUMMARY.DEVELOPMENT_STAGE,
     stringifyValues(developmentStage)
   ); // Development Stage
+  details.set(
+    DATA_SUMMARY.NUCLEIC_ACID_SOURCE,
+    stringifyValues(nucleicAcidSource)
+  ); // Nucleic Acid Source
   return details;
 }
