@@ -1,6 +1,6 @@
 import * as fs from "fs";
+import { DbGapId } from "../../app/apis/catalog/ncpi-catalog/common/entities";
 import { Platform } from "./constants";
-import { DbGapId } from "./entities";
 import {
   getPlatformStudiesStudyIds,
   sourcePath,

@@ -1,8 +1,11 @@
 import { stringify } from "csv-stringify/sync";
 import fs from "fs";
+import {
+  DbGapId,
+  PlatformStudy,
+} from "../../app/apis/catalog/ncpi-catalog/common/entities";
 import { parseContentRows, readFile } from "../../app/utils/tsvParser";
 import { Platform, SOURCE_FIELD_KEY, SOURCE_FIELD_TYPE } from "./constants";
-import { DbGapId, PlatformStudy } from "./entities";
 
 export const sourcePath = "ncpi-catalog/files/dashboard-source-ncpi.tsv";
 
