@@ -16,6 +16,10 @@ export function mapProjectDataSummary(
   projectsResponse: ProjectsResponse
 ): Map<DATA_SUMMARY, string> {
   const details = new Map<DATA_SUMMARY, string>();
+  const disease = processAggregatedOrArrayValue(
+    projectsResponse.specimens,
+    "disease"
+  );
   const genusSpecies = processAggregatedOrArrayValue(
     projectsResponse.donorOrganisms,
     HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
@@ -52,5 +56,6 @@ export function mapProjectDataSummary(
     DATA_SUMMARY.SELECTED_CELL_TYPE,
     stringifyValues(selectedCellType)
   ); // Selected Cell Types
+  details.set(DATA_SUMMARY.DISEASE, stringifyValues(disease)); // Disease Status (Specimen)
   return details;
 }
