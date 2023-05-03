@@ -1,4 +1,8 @@
 import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
+import { Value } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
+import { Links } from "@clevercanary/data-explorer-ui/lib/components/Links/links";
+import { getConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
 import { HCA_DCP_CATEGORY_KEY } from "../../../../../../site-config/hca-dcp/category";
 import {
   processAggregatedOrArrayValue,
@@ -7,6 +11,32 @@ import {
 import { ProjectsResponse } from "../../../../../apis/azul/hca-dcp/common/responses";
 import { DATA_SUMMARY } from "./constants";
 
+const SMART_SEQ2 = "Smart-seq2";
+
+/**
+ * Returns library construction approach values, with "Smart-seq2" linked to a page in the Data Portal.
+ * @param values - Library construction approach values.
+ * @returns library construction approach values, with "Smart-seq2" value linkified.
+ */
+function getLibraryConstructionApproachValue(values: string[]): Value {
+  // Linkify Smart-seq2 value.
+  if (values.includes(SMART_SEQ2)) {
+    const url = `${getConfig().browserURL}/pipelines/smart-seq2-workflow`;
+    return Links({
+      divider: ", ",
+      links: values.map((v) => {
+        return {
+          label: v,
+          target: v === SMART_SEQ2 ? ANCHOR_TARGET.BLANK : undefined,
+          url: v === SMART_SEQ2 ? url : "",
+        };
+      }),
+    });
+  }
+  // Otherwise, return the values as a concatenated string.
+  return stringifyValues(values);
+}
+
 /**
  * Maps project data summary related information, included formatted display text from the given projects response.
  * @param projectsResponse - Response model return from projects API.
@@ -14,8 +44,8 @@ import { DATA_SUMMARY } from "./constants";
  */
 export function mapProjectDataSummary(
   projectsResponse: ProjectsResponse
-): Map<DATA_SUMMARY, string> {
-  const details = new Map<DATA_SUMMARY, string>();
+): Map<DATA_SUMMARY, Value> {
+  const details = new Map<DATA_SUMMARY, Value>();
   const developmentStage = processAggregatedOrArrayValue(
     projectsResponse.donorOrganisms,
     HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE
@@ -80,7 +110,7 @@ export function mapProjectDataSummary(
   ); // Development Stage
   details.set(
     DATA_SUMMARY.LIBRARY_CONSTRUCTION_APPROACH,
-    stringifyValues(libraryConstructionApproach)
+    getLibraryConstructionApproachValue(libraryConstructionApproach)
   ); // Library Construction Method
   details.set(
     DATA_SUMMARY.NUCLEIC_ACID_SOURCE,
