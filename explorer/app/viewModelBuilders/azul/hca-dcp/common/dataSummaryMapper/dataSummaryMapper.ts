@@ -9,9 +9,11 @@ import {
   processEntityValue,
 } from "../../../../../apis/azul/common/utils";
 import { ProjectsResponse } from "../../../../../apis/azul/hca-dcp/common/responses";
-import { DATA_SUMMARY } from "./constants";
-
-const SMART_SEQ2 = "Smart-seq2";
+import {
+  DATA_SUMMARY,
+  SMART_SEQ2,
+  SMART_SEQ2_WORKFLOW_PATH,
+} from "./constants";
 
 /**
  * Returns library construction approach values, with "Smart-seq2" linked to a page in the Data Portal.
@@ -21,14 +23,14 @@ const SMART_SEQ2 = "Smart-seq2";
 function getLibraryConstructionApproachValue(values: string[]): Value {
   // Linkify Smart-seq2 value.
   if (values.includes(SMART_SEQ2)) {
-    const url = `${getConfig().browserURL}/pipelines/smart-seq2-workflow`;
+    const url = `${getConfig().browserURL}${SMART_SEQ2_WORKFLOW_PATH}`;
     return Links({
       divider: ", ",
-      links: values.map((v) => {
+      links: values.map((value) => {
         return {
-          label: v,
-          target: v === SMART_SEQ2 ? ANCHOR_TARGET.BLANK : undefined,
-          url: v === SMART_SEQ2 ? url : "",
+          label: value,
+          target: value === SMART_SEQ2 ? ANCHOR_TARGET.BLANK : undefined,
+          url: value === SMART_SEQ2 ? url : "",
         };
       }),
     });
