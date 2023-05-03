@@ -32,6 +32,10 @@ export function mapProjectDataSummary(
     projectsResponse.donorOrganisms,
     HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
   );
+  const libraryConstructionApproach = processAggregatedOrArrayValue(
+    projectsResponse.protocols,
+    HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD
+  );
   const nucleicAcidSource = processAggregatedOrArrayValue(
     projectsResponse.protocols,
     HCA_DCP_CATEGORY_KEY.NUCLEIC_ACID_SOURCE
@@ -74,6 +78,10 @@ export function mapProjectDataSummary(
     DATA_SUMMARY.DEVELOPMENT_STAGE,
     stringifyValues(developmentStage)
   ); // Development Stage
+  details.set(
+    DATA_SUMMARY.LIBRARY_CONSTRUCTION_APPROACH,
+    stringifyValues(libraryConstructionApproach)
+  ); // Library Construction Method
   details.set(
     DATA_SUMMARY.NUCLEIC_ACID_SOURCE,
     stringifyValues(nucleicAcidSource)
