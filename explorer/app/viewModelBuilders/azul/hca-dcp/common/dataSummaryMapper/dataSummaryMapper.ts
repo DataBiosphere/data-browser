@@ -38,6 +38,6 @@ export function mapProjectDataSummary(
     DATA_SUMMARY.SAMPLE_ENTITY_TYPE,
     stringifyValues(sampleEntityType)
   ); // Sample Type
-  details.set(DATA_SUMMARY.ANATOMICAL_ENTITY, stringifyValues(organ));
+  details.set(DATA_SUMMARY.ORGAN, stringifyValues(organ)); // Anatomical Entity
   return details;
 }
