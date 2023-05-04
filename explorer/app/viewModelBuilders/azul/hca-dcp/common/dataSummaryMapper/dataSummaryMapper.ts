@@ -1,11 +1,43 @@
 import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
+import { Value } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
+import { Links } from "@clevercanary/data-explorer-ui/lib/components/Links/links";
+import { getConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
 import { HCA_DCP_CATEGORY_KEY } from "../../../../../../site-config/hca-dcp/category";
 import {
   processAggregatedOrArrayValue,
   processEntityValue,
 } from "../../../../../apis/azul/common/utils";
 import { ProjectsResponse } from "../../../../../apis/azul/hca-dcp/common/responses";
-import { DATA_SUMMARY } from "./constants";
+import {
+  DATA_SUMMARY,
+  SMART_SEQ2,
+  SMART_SEQ2_WORKFLOW_PATH,
+} from "./constants";
+
+/**
+ * Returns library construction approach values, with "Smart-seq2" linked to a page in the Data Portal.
+ * @param values - Library construction approach values.
+ * @returns library construction approach values, with "Smart-seq2" value linkified.
+ */
+function getLibraryConstructionApproachValue(values: string[]): Value {
+  // Linkify Smart-seq2 value.
+  if (values.includes(SMART_SEQ2)) {
+    const url = `${getConfig().browserURL}${SMART_SEQ2_WORKFLOW_PATH}`;
+    return Links({
+      divider: ", ",
+      links: values.map((value) => {
+        return {
+          label: value,
+          target: value === SMART_SEQ2 ? ANCHOR_TARGET.BLANK : undefined,
+          url: value === SMART_SEQ2 ? url : "",
+        };
+      }),
+    });
+  }
+  // Otherwise, return the values as a concatenated string.
+  return stringifyValues(values);
+}
 
 /**
  * Maps project data summary related information, included formatted display text from the given projects response.
@@ -14,8 +46,8 @@ import { DATA_SUMMARY } from "./constants";
  */
 export function mapProjectDataSummary(
   projectsResponse: ProjectsResponse
-): Map<DATA_SUMMARY, string> {
-  const details = new Map<DATA_SUMMARY, string>();
+): Map<DATA_SUMMARY, Value> {
+  const details = new Map<DATA_SUMMARY, Value>();
   const developmentStage = processAggregatedOrArrayValue(
     projectsResponse.donorOrganisms,
     HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE
@@ -31,6 +63,10 @@ export function mapProjectDataSummary(
   const genusSpecies = processAggregatedOrArrayValue(
     projectsResponse.donorOrganisms,
     HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
+  );
+  const libraryConstructionApproach = processAggregatedOrArrayValue(
+    projectsResponse.protocols,
+    HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD
   );
   const nucleicAcidSource = processAggregatedOrArrayValue(
     projectsResponse.protocols,
@@ -74,6 +110,10 @@ export function mapProjectDataSummary(
     DATA_SUMMARY.DEVELOPMENT_STAGE,
     stringifyValues(developmentStage)
   ); // Development Stage
+  details.set(
+    DATA_SUMMARY.LIBRARY_CONSTRUCTION_APPROACH,
+    getLibraryConstructionApproachValue(libraryConstructionApproach)
+  ); // Library Construction Method
   details.set(
     DATA_SUMMARY.NUCLEIC_ACID_SOURCE,
     stringifyValues(nucleicAcidSource)
