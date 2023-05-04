@@ -2,9 +2,11 @@ import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { make_config } from "../dev/config";
 
 const config: SiteConfig = {
-  ...make_config("https://anvil.gi.ucsc.edu"),
+  ...make_config("https://prod.anvil.gi.ucsc.edu"),
   exportToTerraUrl: "https://app.terra.bio/",
 };
+
+config.dataSource.url = "https://service.prod.anvil.gi.ucsc.edu/";
 
 // Update gtmAuth for the prod environment lookup.
 if (config.analytics) {
