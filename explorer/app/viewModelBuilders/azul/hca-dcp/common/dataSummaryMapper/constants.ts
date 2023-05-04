@@ -38,6 +38,13 @@ export const DATA_SUMMARY_DISPLAY_TEXT = {
   [DATA_SUMMARY.SELECTED_CELL_TYPE]: "Selected Cell Types",
 };
 
+/**
+ * Possible set of sample entity types.
+ */
+export enum SAMPLE_ENTITY_TYPE {
+  SPECIMENS = "specimens",
+}
+
 export const SMART_SEQ2 = "Smart-seq2";
 
 export const SMART_SEQ2_WORKFLOW_PATH = "/pipelines/smart-seq2-workflow";

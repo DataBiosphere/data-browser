@@ -11,6 +11,7 @@ import {
 import { ProjectsResponse } from "../../../../../apis/azul/hca-dcp/common/responses";
 import {
   DATA_SUMMARY,
+  SAMPLE_ENTITY_TYPE,
   SMART_SEQ2,
   SMART_SEQ2_WORKFLOW_PATH,
 } from "./constants";
@@ -45,7 +46,10 @@ function getLibraryConstructionApproachValue(values: string[]): Value {
  * @returns true if sample entity type is "specimens".
  */
 function isSampleEntityTypeSpecimens(sampleEntityTypes: string[]): boolean {
-  return sampleEntityTypes.length === 1 && sampleEntityTypes[0] === "specimens";
+  return (
+    sampleEntityTypes.length === 1 &&
+    sampleEntityTypes[0] === SAMPLE_ENTITY_TYPE.SPECIMENS
+  );
 }
 
 /**
