@@ -40,6 +40,15 @@ function getLibraryConstructionApproachValue(values: string[]): Value {
 }
 
 /**
+ * Returns true if sample entity type is "specimens".
+ * @param sampleEntityTypes - Sample entity types.
+ * @returns true if sample entity type is "specimens".
+ */
+function isSampleEntityTypeSpecimens(sampleEntityTypes: string[]): boolean {
+  return sampleEntityTypes.length === 1 && sampleEntityTypes[0] === "specimens";
+}
+
+/**
  * Maps project data summary related information, included formatted display text from the given projects response.
  * @param projectsResponse - Response model return from projects API.
  * @returns data summaries key-value pairs of data summary and corresponding value.
@@ -67,6 +76,10 @@ export function mapProjectDataSummary(
   const libraryConstructionApproach = processAggregatedOrArrayValue(
     projectsResponse.protocols,
     HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD
+  );
+  const modelOrgan = processAggregatedOrArrayValue(
+    projectsResponse.samples,
+    HCA_DCP_CATEGORY_KEY.MODEL_ORGAN
   );
   const nucleicAcidSource = processAggregatedOrArrayValue(
     projectsResponse.protocols,
@@ -104,6 +117,11 @@ export function mapProjectDataSummary(
     DATA_SUMMARY.SELECTED_CELL_TYPE,
     stringifyValues(selectedCellType)
   ); // Selected Cell Types
+  // Model organ should only display a value when sampleEntityType is cellLines or organoids i.e. "modelOrgan" will
+  // not display if the sampleEntityType is "specimens".
+  if (!isSampleEntityTypeSpecimens(sampleEntityType)) {
+    details.set(DATA_SUMMARY.MODEL_ORGAN, stringifyValues(modelOrgan)); // Model Organ
+  }
   details.set(DATA_SUMMARY.DISEASE, stringifyValues(disease)); // Disease Status (Specimen)
   details.set(DATA_SUMMARY.DONOR_DISEASE, stringifyValues(donorDisease)); // Disease Status (Donor)
   details.set(
