@@ -16,6 +16,10 @@ export function mapProjectDataSummary(
   projectsResponse: ProjectsResponse
 ): Map<DATA_SUMMARY, string> {
   const details = new Map<DATA_SUMMARY, string>();
+  const developmentStage = processAggregatedOrArrayValue(
+    projectsResponse.donorOrganisms,
+    HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE
+  );
   const disease = processAggregatedOrArrayValue(
     projectsResponse.specimens,
     "disease"
@@ -62,5 +66,9 @@ export function mapProjectDataSummary(
   ); // Selected Cell Types
   details.set(DATA_SUMMARY.DISEASE, stringifyValues(disease)); // Disease Status (Specimen)
   details.set(DATA_SUMMARY.DONOR_DISEASE, stringifyValues(donorDisease)); // Disease Status (Donor)
+  details.set(
+    DATA_SUMMARY.DEVELOPMENT_STAGE,
+    stringifyValues(developmentStage)
+  ); // Development Stage
   return details;
 }
