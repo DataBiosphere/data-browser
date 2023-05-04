@@ -38,7 +38,7 @@
     "@ngrx/effects": "^13.1.0",
     "@ngrx/store": "^13.1.0",
     "lodash-es": "^4.17.21",
-    "ngx-clipboard": "^15.1.0",
+    "ngx-clipboard": "^16.0.0",
     "ngx-device-detector": "^2.2.1",
     "rxjs": "^6.6.7",
     "save-dev": "0.0.1-security",
