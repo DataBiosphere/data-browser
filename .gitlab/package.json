@@ -1,0 +1,14 @@
+{
+    "private": "true",
+    "name": "dot-gitlab",
+    "version": "1.0.0",
+    "dependencies": {
+        "@types/node": "^18.15.11",
+        "deepmerge-json": "^1.5.0",
+        "typescript": "^5.0.4",
+        "yaml": "^2.2.0"
+    },
+    "devDependencies": {
+        "@tsconfig/node16": "^1.0.3"
+    }
+}

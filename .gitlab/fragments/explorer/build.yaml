@@ -1,0 +1,7 @@
+script:
+  - cd explorer
+  - (cd files && npm ci)
+  - npm ci
+  - rm -rf out
+  - npm run build:anvil-cmg
+  - tar -cvj -f ../.gitlab/distribution.tar.bz2 -C out explore
