@@ -11,6 +11,7 @@ import {
 import { ProjectsResponse } from "../../../../../apis/azul/hca-dcp/common/responses";
 import {
   DATA_SUMMARY,
+  SAMPLE_ENTITY_TYPE,
   SMART_SEQ2,
   SMART_SEQ2_WORKFLOW_PATH,
 } from "./constants";
@@ -37,6 +38,18 @@ function getLibraryConstructionApproachValue(values: string[]): Value {
   }
   // Otherwise, return the values as a concatenated string.
   return stringifyValues(values);
+}
+
+/**
+ * Returns true if sample entity type is "specimens".
+ * @param sampleEntityTypes - Sample entity types.
+ * @returns true if sample entity type is "specimens".
+ */
+function isSampleEntityTypeSpecimens(sampleEntityTypes: string[]): boolean {
+  return (
+    sampleEntityTypes.length === 1 &&
+    sampleEntityTypes[0] === SAMPLE_ENTITY_TYPE.SPECIMENS
+  );
 }
 
 /**
@@ -67,6 +80,10 @@ export function mapProjectDataSummary(
   const libraryConstructionApproach = processAggregatedOrArrayValue(
     projectsResponse.protocols,
     HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD
+  );
+  const modelOrgan = processAggregatedOrArrayValue(
+    projectsResponse.samples,
+    HCA_DCP_CATEGORY_KEY.MODEL_ORGAN
   );
   const nucleicAcidSource = processAggregatedOrArrayValue(
     projectsResponse.protocols,
@@ -104,6 +121,11 @@ export function mapProjectDataSummary(
     DATA_SUMMARY.SELECTED_CELL_TYPE,
     stringifyValues(selectedCellType)
   ); // Selected Cell Types
+  // Model organ should only display a value when sampleEntityType is cellLines or organoids i.e. "modelOrgan" will
+  // not display if the sampleEntityType is "specimens".
+  if (!isSampleEntityTypeSpecimens(sampleEntityType)) {
+    details.set(DATA_SUMMARY.MODEL_ORGAN, stringifyValues(modelOrgan)); // Model Organ
+  }
   details.set(DATA_SUMMARY.DISEASE, stringifyValues(disease)); // Disease Status (Specimen)
   details.set(DATA_SUMMARY.DONOR_DISEASE, stringifyValues(donorDisease)); // Disease Status (Donor)
   details.set(
