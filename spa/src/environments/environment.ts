@@ -2,7 +2,7 @@ export const environment = {
     production: false,
     atlas: "hca",
     dataURL: "https://service.dev.singlecell.gi.ucsc.edu",
-    defaultCatalog: "dcp2",
+    defaultCatalog: "dcp3",
     browserURL: "https://dev.singlecell.gi.ucsc.edu",
     googleOAuthClientId: "",
     portalURL: "https://dev.singlecell.gi.ucsc.edu",
