@@ -41,13 +41,13 @@ let client;
             credentials: fromIni({
                 profile: "platform-hca-dev",
                 mfaCodeProvider: async (mfaSerial) => {
-                    return "357505";
+                    return "864992";
                 },
             }),
         });
     } else {
         hcaApiUrl =
-            "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22fileFormat%22%3A%7B%22is%22%3A%5B%22zip%22%2C%22zip.gz%22%2C%22tar%22%2C%22tar.gz%22%5D%7D%7D&size=500&catalog=dcp25";
+            "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22fileFormat%22%3A%7B%22is%22%3A%5B%22zip%22%2C%22zip.gz%22%2C%22tar%22%2C%22tar.gz%22%5D%7D%7D&size=500&catalog=dcp26";
         if (env === "test") {
             bucketName = "cc-archive-preview-test";
             client = new S3Client({ region: "us-east-1" });
@@ -58,7 +58,7 @@ let client;
                 credentials: fromIni({
                     profile: "platform-hca-prod",
                     mfaCodeProvider: async (mfaSerial) => {
-                        return "272431";
+                        return "739388";
                     },
                 }),
             });
@@ -169,7 +169,6 @@ async function processFile(file) {
         const putCommand = new PutObjectCommand({
             Bucket: bucketName,
             Key: jsonName,
-            ACL: "public-read",
             Body: JSON.stringify(manifest), //await fsPromises.readFile(jsonPath)
         });
 
