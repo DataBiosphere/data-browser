@@ -41,9 +41,11 @@ export { Publications } from "@clevercanary/data-explorer-ui/lib/components/Proj
 export { SupplementaryLinks } from "@clevercanary/data-explorer-ui/lib/components/Project/components/SupplementaryLinks/supplementaryLinks";
 export { TitledText } from "@clevercanary/data-explorer-ui/lib/components/Project/components/TitledText/titledText";
 export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
+export { ConsentTooltip } from "./Detail/components/ConsentTooltip/consentTooltip";
 export { ConsortiumOverview } from "./Detail/components/Consortium/ConsortiumOverview/consortiumOverview";
 export { FileLocationArchivePreview } from "./Detail/components/GeneratedMatricesTables/components/FileLocationArchivePreview/fileLocationArchivePreview";
 export { FileLocationCopy } from "./Detail/components/GeneratedMatricesTables/components/FileLocationCopy/fileLocationCopy";
 export { FileLocationDownload } from "./Detail/components/GeneratedMatricesTables/components/FileLocationDownload/fileLocationDownload";
 export { FileNameCell } from "./Detail/components/GeneratedMatricesTables/components/FileNameCell/fileNameCell";
 export { GeneratedMatricesTables } from "./Detail/components/GeneratedMatricesTables/generatedMatricesTables";
+export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";

@@ -50,6 +50,10 @@ function buildNCPICatalogPlatform(
     ncpiCatalogPlatform.consentCode,
     ncpiStudy.consentCodes
   );
+  const consentLongName = accumulateValues(
+    ncpiCatalogPlatform.consentLongName,
+    ncpiStudy.consentLongNames
+  );
   const dataType = accumulateValues(
     ncpiCatalogPlatform.dataType,
     ncpiStudy.dataTypes
@@ -74,6 +78,7 @@ function buildNCPICatalogPlatform(
   );
   return {
     consentCode,
+    consentLongName,
     dataType,
     dbGapId,
     focus,

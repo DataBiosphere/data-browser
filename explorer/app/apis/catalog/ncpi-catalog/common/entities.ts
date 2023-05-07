@@ -6,6 +6,7 @@ export interface PlatformStudy {
 }
 
 export interface NCPIStudy extends DbGapStudy {
+  consentLongNames: string[];
   platforms: string[];
 }
 
@@ -15,6 +16,7 @@ export type NCPICatalogEntity = NCPICatalogPlatform | NCPICatalogStudy;
 
 export interface NCPICatalogPlatform {
   consentCode: string[];
+  consentLongName: string[];
   dataType: string[];
   dbGapId: string[];
   focus: string[];
@@ -27,6 +29,7 @@ export interface NCPICatalogPlatform {
 
 export interface NCPICatalogStudy {
   consentCode: string[];
+  consentLongName: string[];
   dataType: string[];
   dbGapId: string;
   focus: string;

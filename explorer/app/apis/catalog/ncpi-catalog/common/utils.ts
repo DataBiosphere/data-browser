@@ -7,6 +7,7 @@ import { NCPICatalogPlatform, NCPICatalogStudy, NCPIStudy } from "./entities";
 export function NCPIStudyInputMapper(ncpiStudy: NCPIStudy): NCPICatalogStudy {
   const ncpiCatalogStudy: NCPICatalogStudy = {
     consentCode: sanitizeStringArray(ncpiStudy.consentCodes),
+    consentLongName: sanitizeStringArray(ncpiStudy.consentLongNames),
     dataType: sanitizeStringArray(ncpiStudy.dataTypes),
     dbGapId: ncpiStudy.dbGapId,
     focus: sanitizeString(ncpiStudy.focus),
@@ -25,6 +26,7 @@ export function NCPIPlatformInputMapper(
 ): NCPICatalogPlatform {
   const ncpiCatalogPlatform: NCPICatalogPlatform = {
     consentCode: sanitizeStringArray(ncpiPlatform.consentCode),
+    consentLongName: sanitizeStringArray(ncpiPlatform.consentLongName),
     dataType: sanitizeStringArray(ncpiPlatform.dataType),
     dbGapId: sanitizeStringArray(ncpiPlatform.dbGapId),
     focus: sanitizeStringArray(ncpiPlatform.focus),
