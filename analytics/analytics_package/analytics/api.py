@@ -61,7 +61,7 @@ def build_service_system(service_params, credentials):
 	return service_system
 
 
-def get_metrics_by_dimensions(metrics, dimensions, service_system=None, **other_params):
+def get_metrics_by_dimensions(metrics, dimensions, service_system=None, sort_results=None, **other_params):
 	if service_system is None:
 		service_system = default_service_system
 	
@@ -69,16 +69,18 @@ def get_metrics_by_dimensions(metrics, dimensions, service_system=None, **other_
 	
 	metrics = normalize_id_list(metrics)
 	dimensions = normalize_id_list(dimensions)
+	sort_results = normalize_id_list(sort_results)
 	
 	if query_func is None:
-		return param_subs_or_alt_api(service, metrics, dimensions, **other_params)
+		return param_subs_or_alt_api(service, metrics, dimensions, sort_results=sort_results, **other_params)
 	
-	return get_metrics_by_dimensions_v3_style(service, query_func, param_subs_or_alt_api, metrics, dimensions, **other_params)
+	return get_metrics_by_dimensions_v3_style(service, query_func, param_subs_or_alt_api, metrics, dimensions, sort_results=sort_results, **other_params)
 
 
-def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics, dimensions, property, start_date, end_date, filters=None, segment=None, property_prefix='ga:', max_results=1000, sort_results=None, **other_params):
+def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics, dimensions, property, start_date, end_date, sort_results, filters=None, segment=None, property_prefix='ga:', max_results=1000, **other_params):
 	metrics = join_id_list(metrics)
 	dimensions = join_id_list(dimensions)
+	sort_results = join_id_list(sort_results)
 	
 	# Dimensions and Metrics... 
 	# Dimensions are atrributes, Metrics are quantitative measurements. e.g. city is a Dimension
@@ -120,7 +122,7 @@ def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics,
 
 
 def normalize_id_list(ids):
-	return ([ids] if isinstance(ids, str) else ids) if ids else []
+	return (ids.split(",") if isinstance(ids, str) else ids) if ids else []
 
 def join_id_list(ids):
 	return ",".join(ids) if len(ids) > 0 else None
