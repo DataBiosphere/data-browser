@@ -67,10 +67,8 @@ def get_metrics_by_dimensions(metrics, dimensions, service_system=None, **other_
 	
 	service, query_func, param_subs_or_alt_api = service_system[:3]
 	
-	if isinstance(metrics, str):
-		metrics = [metrics]
-	if isinstance(dimensions, str):
-		dimensions = [dimensions]
+	metrics = normalize_id_list(metrics)
+	dimensions = normalize_id_list(dimensions)
 	
 	if query_func is None:
 		return param_subs_or_alt_api(service, metrics, dimensions, **other_params)
@@ -79,8 +77,8 @@ def get_metrics_by_dimensions(metrics, dimensions, service_system=None, **other_
 
 
 def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics, dimensions, property, start_date, end_date, filters=None, segment=None, property_prefix='ga:', max_results=1000, sort_results=None, **other_params):
-	metrics = ",".join(metrics)
-	dimensions = ",".join(dimensions)
+	metrics = join_id_list(metrics)
+	dimensions = join_id_list(dimensions)
 	
 	# Dimensions and Metrics... 
 	# Dimensions are atrributes, Metrics are quantitative measurements. e.g. city is a Dimension
@@ -119,7 +117,14 @@ def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics,
 	df =  results_to_df(results)
 
 	return df
-	
+
+
+def normalize_id_list(ids):
+	return ([ids] if isinstance(ids, str) else ids) if ids else []
+
+def join_id_list(ids):
+	return ",".join(ids) if len(ids) > 0 else None
+
 
 def build_params(source, subs):
 	result = {}
