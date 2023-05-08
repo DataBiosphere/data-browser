@@ -26,21 +26,28 @@ yt_service_params = (
 next_port = 8082
 default_service_system = None
 
-def authenticate(secret_name, service_params=ga_service_params):
-	if len(service_params) == 4:
-		scopes, service_name, service_version, param_subs_or_alt_api = service_params
-		query_func = None
-	else:
-		scopes, service_name, service_version, param_subs_or_alt_api, query_func = service_params
-	
+def authenticate(secret_name, first_service_params=ga_service_params, *other_service_params):
+	service_param_sets = (first_service_params,) + other_service_params
+
+	all_scopes = {scope for service_params in service_param_sets for scope in service_params[0]}
+
 	ANALYTICS_REPORTING_CLIENT_SECRET_PATH=os.getenv(secret_name)
 
 	flow = InstalledAppFlow.from_client_secrets_file(ANALYTICS_REPORTING_CLIENT_SECRET_PATH,
-		scopes=scopes)
+		scopes=all_scopes)
 
 	global next_port
 	credentials = flow.run_local_server(port=next_port)
 	next_port += 1
+
+	return [build_service_system(service_params, credentials) for service_params in service_param_sets]
+
+def build_service_system(service_params, credentials):
+	if len(service_params) == 4:
+		service_name, service_version, param_subs_or_alt_api = service_params[1:]
+		query_func = None
+	else:
+		service_name, service_version, param_subs_or_alt_api, query_func = service_params[1:]
 	
 	# Build the service object.
 	service = build(service_name, service_version, credentials=credentials)
