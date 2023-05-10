@@ -1010,6 +1010,20 @@ export function getProjectBreadcrumbs(
 }
 
 /**
+ * Returns project file formats from the projects API response.
+ * @param projectsResponse - Response returned from projects API response.
+ * @returns project file formats.
+ */
+export function getProjectFileFormats(
+  projectsResponse: ProjectsResponse
+): string[] {
+  const fileFormats = projectsResponse.fileTypeSummaries
+    .map((fileTypeSummary) => fileTypeSummary.format)
+    .sort();
+  return [...new Set(fileFormats)];
+}
+
+/**
  * Returns the project value from the projects API response.
  * @param projectsResponse - Response returned from projects API response.
  * @returns The core project value from the API response.
