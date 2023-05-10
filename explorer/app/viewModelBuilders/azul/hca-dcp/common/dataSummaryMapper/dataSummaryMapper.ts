@@ -5,6 +5,7 @@ import { Links } from "@clevercanary/data-explorer-ui/lib/components/Links/links
 import { getConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
 import { HCA_DCP_CATEGORY_KEY } from "../../../../../../site-config/hca-dcp/category";
 import {
+  processAggregatedBooleanOrArrayValue,
   processAggregatedOrArrayValue,
   processEntityValue,
 } from "../../../../../apis/azul/common/utils";
@@ -97,6 +98,10 @@ export function mapProjectDataSummary(
     projectsResponse.specimens,
     HCA_DCP_CATEGORY_KEY.ORGAN_PART
   );
+  const pairedEnd = processAggregatedBooleanOrArrayValue(
+    projectsResponse.protocols,
+    HCA_DCP_CATEGORY_KEY.PAIRED_END
+  );
   const projectShortname = processEntityValue(
     projectsResponse.projects,
     "projectShortname"
@@ -140,5 +145,6 @@ export function mapProjectDataSummary(
     DATA_SUMMARY.NUCLEIC_ACID_SOURCE,
     stringifyValues(nucleicAcidSource)
   ); // Nucleic Acid Source
+  details.set(DATA_SUMMARY.PAIRED_END, stringifyValues(pairedEnd)); // Paired End
   return details;
 }
