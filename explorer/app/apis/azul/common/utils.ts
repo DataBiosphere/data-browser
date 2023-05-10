@@ -4,6 +4,18 @@
 import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 
 /**
+ * Type of possible boolean values returned in an aggregated value from Azul.
+ */
+type BooleanOrNullArray = (boolean | null)[] | undefined;
+
+/**
+ * Type that is a union of all keys of T that have a type of boolean or null array.
+ */
+type KeyOfTypeBooleanOrNullArray<T> = {
+  [K in keyof T]: T[K] extends BooleanOrNullArray ? K : never;
+}[keyof T];
+
+/**
  * Type that is a union of all keys of T that have a type of string or null.
  */
 type KeyOfTypeStringOrNull<T> = {
@@ -61,10 +73,37 @@ export function processAggregatedOrArrayValue<
   K extends KeyOfTypeStringOrNullArray<T>
 >(responseValues: T[], key: K): string[] {
   // Aggregate key values across response values.
-  const values = aggregateResponseValues(responseValues, key);
+  const values = aggregateResponseValues(
+    responseValues,
+    key
+  ) as StringOrNullArray;
 
   // Remove null values and convert empty arrays to ["Unspecified"] if necessary.
   return processNullElements(values);
+}
+
+/**
+ * Aggregate and process the boolean values of the given key across the given response values. The value with the given
+ * key can either be an array value on a "core" entity or an aggregated "inner" entity.
+ * @param responseValues - Array of values returned from the backend.
+ * @param key - The object key (of an array value containing boolean or null values) in each response value to aggregate.
+ * @returns All non-null values in the response values with the given key.
+ */
+export function processAggregatedBooleanOrArrayValue<
+  T,
+  K extends KeyOfTypeBooleanOrNullArray<T>
+>(responseValues: T[], key: K): string[] {
+  // Aggregate key values across response values.
+  const values = aggregateResponseValues(
+    responseValues,
+    key
+  ) as BooleanOrNullArray;
+
+  // Coerce boolean values to string values.
+  const stringValues: StringOrNullArray = values?.map(coerceBooleanToString);
+
+  // Remove null values and convert empty arrays to ["Unspecified"] if necessary.
+  return processNullElements(stringValues);
 }
 
 /**
@@ -176,14 +215,26 @@ function aggregateNumericalResponseValues<
  * @param key - The object key (of an array value) in each response value to aggregate.
  * @returns All values in the response values with the given key.
  */
-function aggregateResponseValues<T, K extends KeyOfTypeStringOrNullArray<T>>(
-  responseValues: T[],
-  key: K
-): StringOrNullArray {
+function aggregateResponseValues<
+  T,
+  K extends KeyOfTypeStringOrNullArray<T> | KeyOfTypeBooleanOrNullArray<T>
+>(responseValues: T[], key: K): StringOrNullArray | BooleanOrNullArray {
   return responseValues
     .filter((responseValue) => !!responseValue[key])
     .map((responseValue) => responseValue[key])
-    .flat() as unknown as StringOrNullArray; // TODO revisit type assertion here
+    .flat() as unknown as StringOrNullArray | BooleanOrNullArray; // TODO revisit type assertion here
+}
+
+/**
+ * Coerce the given boolean value to a string value.
+ * @param value - Boolean value.
+ * @returns boolean value as string value.
+ */
+function coerceBooleanToString(value: boolean | null): StringOrNull {
+  if (typeof value === "boolean") {
+    return String(value);
+  }
+  return value;
 }
 
 /**
