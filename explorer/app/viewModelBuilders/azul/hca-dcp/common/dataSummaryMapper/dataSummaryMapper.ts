@@ -6,6 +6,7 @@ import { getConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
 import { HCA_DCP_CATEGORY_KEY } from "../../../../../../site-config/hca-dcp/category";
 import {
   processAggregatedBooleanOrArrayValue,
+  processAggregatedNumberEntityValue,
   processAggregatedOrArrayValue,
   processEntityValue,
 } from "../../../../../apis/azul/common/utils";
@@ -74,6 +75,10 @@ export function mapProjectDataSummary(
   const disease = processAggregatedOrArrayValue(
     projectsResponse.specimens,
     "disease"
+  );
+  const donorCount = processAggregatedNumberEntityValue(
+    projectsResponse.donorOrganisms,
+    "donorCount"
   );
   const donorDisease = processAggregatedOrArrayValue(
     projectsResponse.donorOrganisms,
@@ -155,5 +160,6 @@ export function mapProjectDataSummary(
   details.set(DATA_SUMMARY.PAIRED_END, stringifyValues(pairedEnd)); // Paired End
   details.set(DATA_SUMMARY.FILE_FORMAT, stringifyValues(fileFormat)); // File Format
   details.set(DATA_SUMMARY.TOTAL_CELLS, totalCells); // Cell Count Estimate
+  details.set(DATA_SUMMARY.DONOR_COUNT, formatCountSize(donorCount)); // Donor Count
   return details;
 }
