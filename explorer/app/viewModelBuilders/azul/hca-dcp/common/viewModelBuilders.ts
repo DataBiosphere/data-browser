@@ -358,7 +358,7 @@ export const buildEstimateCellCount = (
   projectsResponse: ProjectsResponse
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: calculateEstimatedCellCount(projectsResponse),
+    value: getEstimatedCellCount(projectsResponse),
   };
 };
 
@@ -645,15 +645,15 @@ export const buildTripleColumnGrid = (): React.ComponentProps<
  */
 function calculateEstimatedCellCount(
   projectsResponse: ProjectsResponse
-): string {
+): number | null {
   const estimatedCellCount =
     getProjectResponse(projectsResponse).estimatedCellCount;
   // If there's an estimated cell count for the project, return it as the cell count.
   if (estimatedCellCount) {
-    return estimatedCellCount.toLocaleString();
+    return estimatedCellCount;
   }
   // Otherwise, return the cell suspension total count.
-  return getCellSuspensionTotalCells(projectsResponse);
+  return rollUpTotalCells(projectsResponse);
 }
 
 /**
@@ -818,6 +818,26 @@ function getDCPGeneratedMatricesTableColumns<T>(): ColumnDef<T>[] {
     getGeneratedMatricesLibraryConstructionMethodColumnDef(),
     getGeneratedMatricesFileSizeColumnDef(),
   ];
+}
+
+/**
+ * Returns formatted estimated cell count from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @param formatFn - Function to format count (optional, e.g. formatCountSize, default is locale string).
+ * @returns formatted estimated cell count.
+ */
+export function getEstimatedCellCount(
+  projectsResponse: ProjectsResponse,
+  formatFn?: (value: number) => string
+): string {
+  const estimatedCellCount = calculateEstimatedCellCount(projectsResponse);
+  if (!estimatedCellCount) {
+    return LABEL.UNSPECIFIED;
+  }
+  if (formatFn) {
+    return formatFn(estimatedCellCount);
+  }
+  return estimatedCellCount.toLocaleString();
 }
 
 /**
