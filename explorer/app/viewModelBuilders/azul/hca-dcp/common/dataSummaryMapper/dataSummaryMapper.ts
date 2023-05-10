@@ -10,6 +10,7 @@ import {
   processEntityValue,
 } from "../../../../../apis/azul/common/utils";
 import { ProjectsResponse } from "../../../../../apis/azul/hca-dcp/common/responses";
+import { getProjectFileFormats } from "../viewModelBuilders";
 import {
   DATA_SUMMARY,
   SAMPLE_ENTITY_TYPE,
@@ -74,6 +75,7 @@ export function mapProjectDataSummary(
     projectsResponse.donorOrganisms,
     "disease"
   );
+  const fileFormat = getProjectFileFormats(projectsResponse);
   const genusSpecies = processAggregatedOrArrayValue(
     projectsResponse.donorOrganisms,
     HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
@@ -146,5 +148,6 @@ export function mapProjectDataSummary(
     stringifyValues(nucleicAcidSource)
   ); // Nucleic Acid Source
   details.set(DATA_SUMMARY.PAIRED_END, stringifyValues(pairedEnd)); // Paired End
+  details.set(DATA_SUMMARY.FILE_FORMAT, stringifyValues(fileFormat)); // File format
   return details;
 }
