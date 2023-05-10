@@ -10,7 +10,11 @@ import {
   processEntityValue,
 } from "../../../../../apis/azul/common/utils";
 import { ProjectsResponse } from "../../../../../apis/azul/hca-dcp/common/responses";
-import { getProjectFileFormats } from "../viewModelBuilders";
+import { formatCountSize } from "../../../../../components/Index/common/utils";
+import {
+  getEstimatedCellCount,
+  getProjectFileFormats,
+} from "../viewModelBuilders";
 import {
   DATA_SUMMARY,
   SAMPLE_ENTITY_TYPE,
@@ -116,6 +120,7 @@ export function mapProjectDataSummary(
     projectsResponse.cellSuspensions,
     HCA_DCP_CATEGORY_KEY.SELECTED_CELL_TYPE
   );
+  const totalCells = getEstimatedCellCount(projectsResponse, formatCountSize);
   details.set(DATA_SUMMARY.PROJECT_SHORTNAME, projectShortname);
   details.set(DATA_SUMMARY.GENUS_SPECIES, stringifyValues(genusSpecies));
   details.set(
@@ -148,6 +153,7 @@ export function mapProjectDataSummary(
     stringifyValues(nucleicAcidSource)
   ); // Nucleic Acid Source
   details.set(DATA_SUMMARY.PAIRED_END, stringifyValues(pairedEnd)); // Paired End
-  details.set(DATA_SUMMARY.FILE_FORMAT, stringifyValues(fileFormat)); // File format
+  details.set(DATA_SUMMARY.FILE_FORMAT, stringifyValues(fileFormat)); // File Format
+  details.set(DATA_SUMMARY.TOTAL_CELLS, totalCells); // Cell Count Estimate
   return details;
 }
