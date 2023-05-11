@@ -21,7 +21,6 @@ import { summary } from "./index/summary";
 
 // Template constants
 const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";
-const CATALOG_DCP25 = "dcp25";
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
 const PAGINATION_PAGE_SIZE = "25";
 export const PROJECTS_URL = "/projects";
@@ -118,10 +117,10 @@ const config: SiteConfig = {
   ],
   dataSource: {
     defaultDetailParams: {
-      catalog: CATALOG_DCP25,
+      catalog: "dcp26",
     },
     defaultListParams: {
-      catalog: CATALOG_DCP25,
+      catalog: "dcp26",
       size: PAGINATION_PAGE_SIZE,
     },
     url: "https://service.azul.data.humancellatlas.org/",
