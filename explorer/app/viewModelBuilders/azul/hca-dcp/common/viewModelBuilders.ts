@@ -406,6 +406,29 @@ export const buildExportToTerraMetadata = (): React.ComponentProps<
 });
 
 /**
+ * Build props for the KeyValuePairs component for displaying project file counts from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the key value pairs component.
+ */
+export const buildFileCounts = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.KeyValuePairs> => {
+  return {
+    KeyValueElType: Fragment,
+    KeyValuesElType: (props) =>
+      C.Grid({
+        gridSx: {
+          alignSelf: "stretch",
+          gap: 2,
+          gridTemplateColumns: "1fr auto",
+        },
+        ...props,
+      }),
+    keyValuePairs: getFileCountsKeyValuePairs(projectsResponse),
+  };
+};
+
+/**
  * Build props for AzulFileDownload component from the given files response.
  * @param filesResponse - Response model return from files API.
  * @returns model to be used as props for the AzulFileDownload component.
@@ -841,6 +864,27 @@ export function getEstimatedCellCount(
 }
 
 /**
+ * Returns the key value pairs for the file counts component.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns key value pairs for the file counts component.
+ */
+function getFileCountsKeyValuePairs(
+  projectsResponse: ProjectsResponse
+): Map<Key, Value> {
+  // Grab the file type counts from the projects response.
+  const countsByFileType = mapFileTypeCounts(projectsResponse);
+  // Sort file types by alpha, descending.
+  const fileTypeCounts = [...countsByFileType].sort((a, b) =>
+    a[0].localeCompare(b[0])
+  );
+  const keyValuePairs = new Map<Key, Value>();
+  for (const [fileType, count] of fileTypeCounts) {
+    keyValuePairs.set(fileType, `${count.toLocaleString()} file(s)`);
+  }
+  return keyValuePairs;
+}
+
+/**
  * Returns generated matrices actions column def.
  * @returns actions column def.
  */
@@ -1064,6 +1108,30 @@ function getProjectTitleUrl(projectsResponse: ProjectsResponse): string {
     projectsResponse.projects,
     "projectId"
   )}`;
+}
+
+/**
+ * Sum counts for each file format.
+ * @param projectsResponse - Response returned from projects API response.
+ * @returns file counts keyed by file format.
+ */
+function mapFileTypeCounts(
+  projectsResponse: ProjectsResponse
+): Map<string, number> {
+  return (projectsResponse.fileTypeSummaries || []).reduce(
+    (acc, fileTypeSummary) => {
+      const count = fileTypeSummary.count || 0;
+      const fileType = fileTypeSummary.format;
+      if (acc.has(fileType)) {
+        const currentCount = acc.get(fileType);
+        acc.set(fileType, currentCount + count);
+      } else {
+        acc.set(fileType, count);
+      }
+      return acc;
+    },
+    new Map()
+  );
 }
 
 /**
