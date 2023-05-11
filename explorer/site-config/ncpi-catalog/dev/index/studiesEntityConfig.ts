@@ -120,6 +120,7 @@ export const studiesEntityConfig: EntityConfig<NCPICatalogStudy> = {
   } as ListConfig<NCPICatalogStudy>,
   listView: {
     disablePagination: true,
+    enableDownload: true,
   },
   route: "studies",
   staticEntityImportMapper: NCPIStudyInputMapper,

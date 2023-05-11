@@ -110,6 +110,7 @@ export const platformsEntityConfig: EntityConfig<NCPICatalogPlatform> = {
   } as ListConfig<NCPICatalogPlatform>,
   listView: {
     disablePagination: true,
+    enableDownload: true,
   },
   route: "platforms",
   staticEntityImportMapper: NCPIPlatformInputMapper,
