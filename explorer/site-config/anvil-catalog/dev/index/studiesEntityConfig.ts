@@ -153,6 +153,7 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
   } as ListConfig<AnVILCatalogStudy>,
   listView: {
     disablePagination: true,
+    enableDownload: true,
   },
   route: "studies",
   staticEntityImportMapper: anvilCatalogStudyInputMapper,
