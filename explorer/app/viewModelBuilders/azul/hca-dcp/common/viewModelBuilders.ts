@@ -6,6 +6,7 @@ import {
   Value,
 } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
+import { getConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
 import {
   TEXT_BODY_400,
   TEXT_BODY_400_2_LINES,
@@ -155,13 +156,15 @@ export const buildBatchCorrectionWarning = (): React.ComponentProps<
 export const buildCitation = (
   projectsResponse: ProjectsResponse
 ): React.ComponentProps<typeof C.Citation> => {
-  const projectPath = processEntityValue(
+  const { browserURL } = getConfig();
+  const projectId = processEntityValue(
     projectsResponse.projects,
     "projectId",
     LABEL.EMPTY
   );
   return {
-    projectPath: projectPath ? `/${projectPath}` : undefined,
+    projectPath: projectId ? projectId : undefined,
+    url: browserURL ? `${browserURL}/explore/projects/` : undefined,
   };
 };
 
