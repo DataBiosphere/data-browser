@@ -20,6 +20,7 @@ export const enum DATA_SUMMARY {
   SAMPLE_ENTITY_TYPE = "SAMPLE_ENTITY_TYPE",
   SELECTED_CELL_TYPE = "SELECTED_CELL_TYPE",
   TOTAL_CELLS = "TOTAL_CELLS", // cell count estimate
+  WORKFLOW = "WORKFLOW", // analysis protocol
 }
 
 /**
@@ -44,6 +45,15 @@ export const DATA_SUMMARY_DISPLAY_TEXT = {
   [DATA_SUMMARY.SAMPLE_ENTITY_TYPE]: HCA_DCP_CATEGORY_LABEL.SAMPLE_ENTITY_TYPE,
   [DATA_SUMMARY.SELECTED_CELL_TYPE]: "Selected Cell Types",
   [DATA_SUMMARY.TOTAL_CELLS]: HCA_DCP_CATEGORY_LABEL.EFFECTIVE_CELL_COUNT, // cell count estimate
+  [DATA_SUMMARY.WORKFLOW]: HCA_DCP_CATEGORY_LABEL.ANALYSIS_PROTOCOL, // analysis protocol
+};
+
+/**
+ * Data Portal pipeline path keyed by analysis protocol key.
+ */
+export const pipelineLinksByAnalysisProtocolKey: Record<string, string> = {
+  optimus: "/pipelines/optimus-workflow",
+  smartseq2: "/pipelines/smart-seq2-workflow",
 };
 
 /**
