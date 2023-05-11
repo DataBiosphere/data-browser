@@ -1,3 +1,4 @@
+import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
 import { Value } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
@@ -18,6 +19,7 @@ import {
 } from "../viewModelBuilders";
 import {
   DATA_SUMMARY,
+  pipelineLinksByAnalysisProtocolKey,
   SAMPLE_ENTITY_TYPE,
   SMART_SEQ2,
   SMART_SEQ2_WORKFLOW_PATH,
@@ -48,6 +50,41 @@ function getLibraryConstructionApproachValue(values: string[]): Value {
 }
 
 /**
+ * Returns the Data Portal pipeline page path for the given analysis protocol value.
+ * @param analysisProtocol - Analysis protocol.
+ * @returns Data Portal pipeline page path.
+ */
+function getPipelinePath(analysisProtocol: string): string | undefined {
+  const pipelineKey = Object.keys(pipelineLinksByAnalysisProtocolKey).find(
+    (key) => analysisProtocol.includes(key)
+  );
+  if (pipelineKey) {
+    return pipelineLinksByAnalysisProtocolKey[pipelineKey];
+  }
+}
+
+/**
+ * Returns analysis protocol values.
+ * Analysis protocols with a corresponding Data Portal pipeline page are linked to the page.
+ * @param analysisProtocols - Analysis protocols.
+ * @returns analysis protocols, linked to a corresponding Data Portal pipeline page.
+ */
+function getWorkflowValue(analysisProtocols: string[]): Value {
+  const url = getConfig().browserURL;
+  return Links({
+    divider: ", ",
+    links: analysisProtocols.map((analysisProtocol) => {
+      const path = getPipelinePath(analysisProtocol);
+      return {
+        label: analysisProtocol,
+        target: path ? ANCHOR_TARGET.BLANK : undefined,
+        url: path ? `${url}${path}` : "",
+      };
+    }),
+  });
+}
+
+/**
  * Returns true if sample entity type is "specimens".
  * @param sampleEntityTypes - Sample entity types.
  * @returns true if sample entity type is "specimens".
@@ -57,6 +94,15 @@ function isSampleEntityTypeSpecimens(sampleEntityTypes: string[]): boolean {
     sampleEntityTypes.length === 1 &&
     sampleEntityTypes[0] === SAMPLE_ENTITY_TYPE.SPECIMENS
   );
+}
+
+/**
+ * Returns true if workflow is specified i.e. an array with a single value of "Unspecified" is not considered specified.
+ * @param workflow - Workflow.
+ * @returns true if workflow is specified.
+ */
+function isWorkflowSpecified(workflow: string[]): boolean {
+  return !(workflow.length === 1 && workflow[0] === LABEL.UNSPECIFIED);
 }
 
 /**
@@ -126,6 +172,10 @@ export function mapProjectDataSummary(
     HCA_DCP_CATEGORY_KEY.SELECTED_CELL_TYPE
   );
   const totalCells = getEstimatedCellCount(projectsResponse, formatCountSize);
+  const workflow = processAggregatedOrArrayValue(
+    projectsResponse.protocols,
+    HCA_DCP_CATEGORY_KEY.WORKFLOW
+  );
   details.set(DATA_SUMMARY.PROJECT_SHORTNAME, projectShortname);
   details.set(DATA_SUMMARY.GENUS_SPECIES, stringifyValues(genusSpecies));
   details.set(
@@ -158,6 +208,10 @@ export function mapProjectDataSummary(
     stringifyValues(nucleicAcidSource)
   ); // Nucleic Acid Source
   details.set(DATA_SUMMARY.PAIRED_END, stringifyValues(pairedEnd)); // Paired End
+  // Workflow will not display if "Unspecified".
+  if (isWorkflowSpecified(workflow)) {
+    details.set(DATA_SUMMARY.WORKFLOW, getWorkflowValue(workflow)); // Analysis Protocol
+  }
   details.set(DATA_SUMMARY.FILE_FORMAT, stringifyValues(fileFormat)); // File Format
   details.set(DATA_SUMMARY.TOTAL_CELLS, totalCells); // Cell Count Estimate
   details.set(DATA_SUMMARY.DONOR_COUNT, formatCountSize(donorCount)); // Donor Count
