@@ -31,4 +31,17 @@ export const sideColumn = [
     component: C.Details,
     viewBuilder: V.buildDetails,
   } as ComponentConfig<typeof C.Details>,
+  {
+    children: [
+      {
+        component: C.KeyValuePairs,
+        viewBuilder: V.buildFileCounts,
+      } as ComponentConfig<typeof C.KeyValuePairs, ProjectsResponse>,
+    ],
+    component: C.CollapsableSection,
+    props: {
+      collapsable: true,
+      title: "File Counts",
+    },
+  } as ComponentConfig<typeof C.CollapsableSection>,
 ];
