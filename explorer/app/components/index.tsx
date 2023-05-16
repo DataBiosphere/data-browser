@@ -49,4 +49,5 @@ export { FileLocationCopy } from "./Detail/components/GeneratedMatricesTables/co
 export { FileLocationDownload } from "./Detail/components/GeneratedMatricesTables/components/FileLocationDownload/fileLocationDownload";
 export { FileNameCell } from "./Detail/components/GeneratedMatricesTables/components/FileNameCell/fileNameCell";
 export { GeneratedMatricesTables } from "./Detail/components/GeneratedMatricesTables/generatedMatricesTables";
+export { AccessStatusBadge } from "./Index/components/AccessStatusBadge/accessStatusBadge";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";

@@ -49,6 +49,15 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       },
       {
         componentConfig: {
+          component: Components.AccessStatusBadge,
+          viewBuilder: ViewBuilder.buildDatasetAccess,
+        } as ComponentConfig<typeof Components.AccessStatusBadge>,
+        header: "Access",
+        id: "datasets.accessible",
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
           component: Components.Cell,
           viewBuilder: ViewBuilder.buildRegisteredIdentifier,
         } as ComponentConfig<typeof Components.Cell>,
