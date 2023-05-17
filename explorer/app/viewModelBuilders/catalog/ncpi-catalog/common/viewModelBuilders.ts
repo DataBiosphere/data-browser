@@ -23,10 +23,11 @@ import { getPluralizedMetadataLabel } from "../../../../components/Index/common/
  */
 export const buildConsentCodes = (
   ncpiCatalogEntry: NCPICatalogEntity
-): React.ComponentProps<typeof C.NTagCell> => {
+): React.ComponentProps<typeof C.ConsentCodesCell> => {
   return {
+    consentCode: ncpiCatalogEntry.consentCode,
+    consentLongName: ncpiCatalogEntry.consentLongName,
     label: getPluralizedMetadataLabel(METADATA_KEY.CONSENT_CODE),
-    values: ncpiCatalogEntry.consentCode,
   };
 };
 
@@ -239,10 +240,25 @@ export const buildStudyHero = (
 export const buildStudySummary = (
   ncpiCatalogStudy: NCPICatalogStudy
 ): React.ComponentProps<typeof C.Details> => {
-  const { consentCode, dataType, focus, participantCount, studyDesign } =
-    ncpiCatalogStudy;
+  const {
+    consentCode,
+    consentLongName,
+    dataType,
+    focus,
+    participantCount,
+    studyDesign,
+  } = ncpiCatalogStudy;
   const keyValuePairs = new Map<Key, Value>();
-  keyValuePairs.set("Consent Codes", stringifyValues(consentCode));
+  keyValuePairs.set(
+    "Consent Codes",
+    consentCode.map((code, i) => [
+      i ? ", " : "",
+      C.ConsentTooltip({
+        consentCode: code,
+        consentLongName: consentLongName[i],
+      }),
+    ])
+  );
   keyValuePairs.set("Focus / Diseases", focus);
   keyValuePairs.set("Study Design", stringifyValues(studyDesign));
   keyValuePairs.set("Data Types", stringifyValues(dataType));

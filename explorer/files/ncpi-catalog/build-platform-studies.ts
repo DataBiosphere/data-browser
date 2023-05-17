@@ -3,6 +3,7 @@ import {
   NCPIStudy,
   PlatformStudy,
 } from "../../app/apis/catalog/ncpi-catalog/common/entities";
+import { generateConsentDescriptions } from "../common/consent-codes";
 import { getStudy } from "../common/dbGaP";
 
 /**
@@ -34,8 +35,17 @@ export async function buildNCPIPlatformStudies(
       continue;
     }
 
+    const consentLongNames = [];
+
+    for (const code of study.consentCodes) {
+      consentLongNames.push(
+        (await generateConsentDescriptions(code)).consentLongName
+      );
+    }
+
     const ncpiStudy = {
       ...study,
+      consentLongNames,
       platforms: [stub.platform],
     };
 

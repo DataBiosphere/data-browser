@@ -96,9 +96,9 @@ export const studiesEntityConfig: EntityConfig<NCPICatalogStudy> = {
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
+          component: Components.ConsentCodesCell,
           viewBuilder: ViewBuilder.buildConsentCodes,
-        } as ComponentConfig<typeof Components.NTagCell>,
+        } as ComponentConfig<typeof Components.ConsentCodesCell>,
         header: NCPI_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
         id: NCPI_CATALOG_CATEGORY_KEY.CONSENT_CODE,
         width: { max: "1.6fr", min: "160px" },
