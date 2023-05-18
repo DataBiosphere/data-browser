@@ -1,5 +1,6 @@
 import "@clevercanary/data-explorer-ui";
 import { AzulEntitiesStaticResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { Error } from "@clevercanary/data-explorer-ui/lib/components/Error/error";
 import { ErrorBoundary } from "@clevercanary/data-explorer-ui/lib/components/ErrorBoundary";
 import { Head } from "@clevercanary/data-explorer-ui/lib/components/Head/head";
 import { AppLayout } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/AppLayout/appLayout.styles";
@@ -7,12 +8,12 @@ import { Footer } from "@clevercanary/data-explorer-ui/lib/components/Layout/com
 import { Header } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/header";
 import { Main } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Main/main.styles";
 import { Support } from "@clevercanary/data-explorer-ui/lib/components/Support/support";
-import { TempError } from "@clevercanary/data-explorer-ui/lib/components/TempError";
 import { AuthProvider } from "@clevercanary/data-explorer-ui/lib/providers/authentication";
 import { ConfigProvider as DXConfigProvider } from "@clevercanary/data-explorer-ui/lib/providers/config";
 import { ExploreStateProvider } from "@clevercanary/data-explorer-ui/lib/providers/exploreState";
 import { FileManifestStateProvider } from "@clevercanary/data-explorer-ui/lib/providers/fileManifestState";
 import { createAppTheme } from "@clevercanary/data-explorer-ui/lib/theme/theme";
+import { DataExplorerError } from "@clevercanary/data-explorer-ui/lib/types/error";
 import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
@@ -26,7 +27,7 @@ const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   // Set up the site configuration, layout and theme.
   const appConfig = config();
-  const { analytics, layout, themeOptions } = appConfig;
+  const { analytics, layout, redirectRootToPath, themeOptions } = appConfig;
   const { gtmAuth, gtmId, gtmPreview } = analytics || {};
   const theme = createAppTheme(themeOptions);
   const { entityListType } = pageProps as AzulEntitiesStaticResponse;
@@ -51,8 +52,14 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                 <FileManifestStateProvider>
                   <Main>
                     <ErrorBoundary
-                      fallbackRender={(error): JSX.Element => (
-                        <TempError error={error} />
+                      fallbackRender={(
+                        error: DataExplorerError
+                      ): JSX.Element => (
+                        <Error
+                          errorMessage={error.message}
+                          requestUrlMessage={error.requestUrlMessage}
+                          rootPath={redirectRootToPath}
+                        />
                       )}
                     >
                       <Component {...pageProps} />
