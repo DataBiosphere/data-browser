@@ -35,12 +35,12 @@ export async function buildNCPIPlatformStudies(
       continue;
     }
 
-    const consentLongNames = [];
+    const consentLongNames: Record<string, string> = {};
 
     for (const code of study.consentCodes) {
-      consentLongNames.push(
-        (await generateConsentDescriptions(code)).consentLongName
-      );
+      consentLongNames[code] = (
+        await generateConsentDescriptions(code)
+      ).consentLongName;
     }
 
     const ncpiStudy = {
