@@ -72,9 +72,9 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
+          component: Components.ConsentCodesCell,
           viewBuilder: ViewBuilder.buildConsentCodes,
-        } as ComponentConfig<typeof Components.NTagCell>,
+        } as ComponentConfig<typeof Components.ConsentCodesCell>,
         header: "Consent Codes", // TODO revisit header
         id: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
         width: { max: "1fr", min: "120px" },

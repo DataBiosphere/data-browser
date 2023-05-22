@@ -45,9 +45,11 @@ export const buildBucketSize = (
  */
 export const buildConsentCode = (
   anvilCatalogWorkspace: AnVILCatalogWorkspace
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.ConsentCodesCell> => {
   return {
-    value: anvilCatalogWorkspace.consentCode,
+    consentCode: [anvilCatalogWorkspace.consentCode],
+    consentLongName: anvilCatalogWorkspace.consentLongName,
+    label: getPluralizedMetadataLabel(METADATA_KEY.CONSENT_CODE),
   };
 };
 
@@ -58,10 +60,11 @@ export const buildConsentCode = (
  */
 export const buildConsentCodes = (
   anvilCatalogEntity: Exclude<AnVILCatalogEntity, AnVILCatalogWorkspace>
-): React.ComponentProps<typeof C.NTagCell> => {
+): React.ComponentProps<typeof C.ConsentCodesCell> => {
   return {
+    consentCode: anvilCatalogEntity.consentCode,
+    consentLongName: anvilCatalogEntity.consentLongName,
     label: getPluralizedMetadataLabel(METADATA_KEY.CONSENT_CODE),
-    values: anvilCatalogEntity.consentCode,
   };
 };
 
@@ -137,10 +140,19 @@ export const buildConsortiumOverview = (
 export const buildConsortiumSummary = (
   anVILCatalogConsortium: AnVILCatalogConsortium
 ): React.ComponentProps<typeof C.Details> => {
-  const { consentCode, dataType, disease, participantCount, studyDesign } =
-    anVILCatalogConsortium;
+  const {
+    consentCode,
+    consentLongName,
+    dataType,
+    disease,
+    participantCount,
+    studyDesign,
+  } = anVILCatalogConsortium;
   const keyValuePairs = new Map<Key, Value>();
-  keyValuePairs.set("Consent Codes", stringifyValues(consentCode));
+  keyValuePairs.set(
+    "Consent Codes",
+    C.ConsentCodeList({ consentCode, consentLongName })
+  );
   keyValuePairs.set("Diseases", stringifyValues(disease));
   keyValuePairs.set("Study Design", stringifyValues(studyDesign));
   keyValuePairs.set("Data Types", stringifyValues(dataType));
@@ -386,10 +398,19 @@ export const buildStudyName = (
 export const buildStudySummary = (
   anVILCatalogStudy: AnVILCatalogStudy
 ): React.ComponentProps<typeof C.Details> => {
-  const { consentCode, dataType, disease, participantCount, studyDesign } =
-    anVILCatalogStudy;
+  const {
+    consentCode,
+    consentLongName,
+    dataType,
+    disease,
+    participantCount,
+    studyDesign,
+  } = anVILCatalogStudy;
   const keyValuePairs = new Map<Key, Value>();
-  keyValuePairs.set("Consent Codes", stringifyValues(consentCode));
+  keyValuePairs.set(
+    "Consent Codes",
+    C.ConsentCodeList({ consentCode, consentLongName })
+  );
   keyValuePairs.set("Diseases", stringifyValues(disease));
   keyValuePairs.set("Study Design", stringifyValues(studyDesign));
   keyValuePairs.set("Data Types", stringifyValues(dataType));

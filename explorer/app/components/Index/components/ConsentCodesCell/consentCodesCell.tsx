@@ -2,7 +2,7 @@ import { ConsentTooltip, NTagCell } from "app/components";
 
 interface ConsentCodesCellProps {
   consentCode: string[];
-  consentLongName: string[];
+  consentLongName: Record<string, string>;
   label: string;
 }
 
@@ -14,7 +14,7 @@ export const ConsentCodesCell = ({
   return consentCode.length === 1 ? (
     <ConsentTooltip
       consentCode={consentCode[0]}
-      consentLongName={consentLongName[0]}
+      consentLongName={consentLongName[consentCode[0]]}
     />
   ) : (
     <NTagCell label={label} values={consentCode} />

@@ -68,9 +68,9 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
       },
       {
         componentConfig: {
-          component: Components.Cell,
+          component: Components.ConsentCodesCell,
           viewBuilder: ViewBuilder.buildConsentCode,
-        } as ComponentConfig<typeof Components.Cell>,
+        } as ComponentConfig<typeof Components.ConsentCodesCell>,
         header: ANVIL_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
         id: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
         width: { max: "1.6fr", min: "160px" },

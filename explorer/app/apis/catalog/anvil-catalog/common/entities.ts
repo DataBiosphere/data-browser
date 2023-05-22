@@ -8,6 +8,7 @@ export type AnVILCatalogEntity =
 export interface AnVILCatalogConsortium {
   bucketSize: number;
   consentCode: string[];
+  consentLongName: Record<string, string>;
   consortium: string;
   consortiumOverview: MDXRemoteSerializeResult | null;
   dataType: string[];
@@ -25,6 +26,7 @@ export interface AnVILCatalogConsortium {
 export interface AnVILCatalogStudy {
   bucketSize: number;
   consentCode: string[];
+  consentLongName: Record<string, string>;
   consortium: string;
   dataType: string[];
   dbGapId: string;
@@ -48,6 +50,7 @@ export type AnVILCatalogStudyAny =
 export interface AnVILCatalogWorkspace {
   bucketSize: number;
   consentCode: string;
+  consentLongName: Record<string, string>;
   consortium: string;
   dataType: string[];
   dbGapId: string;
