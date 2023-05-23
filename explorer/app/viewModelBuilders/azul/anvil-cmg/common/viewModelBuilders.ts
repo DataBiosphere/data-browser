@@ -218,6 +218,19 @@ export const buildDataReleasePolicy = (): React.ComponentProps<
 };
 
 /**
+ * Build dataset access badge component from the given index/datasets response.
+ * @param response - Response model return from index/datasets API.
+ * @returns model to be used as props for the dataset access cell.
+ */
+export const buildDatasetAccess = (
+  response: DatasetsResponse
+): React.ComponentProps<typeof C.AccessStatusBadge> => {
+  return {
+    accessible: response.datasets[0].accessible,
+  };
+};
+
+/**
  * Build dataset name Cell component from the given index/datasets response.
  * @param response - Response model return from index/datasets API.
  * @returns model to be used as props for the dataset name cell.
