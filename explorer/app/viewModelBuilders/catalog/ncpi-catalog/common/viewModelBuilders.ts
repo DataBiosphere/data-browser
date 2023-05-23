@@ -251,13 +251,7 @@ export const buildStudySummary = (
   const keyValuePairs = new Map<Key, Value>();
   keyValuePairs.set(
     "Consent Codes",
-    consentCode.map((code, i) => [
-      i ? ", " : "",
-      C.ConsentTooltip({
-        consentCode: code,
-        consentLongName: consentLongName[i],
-      }),
-    ])
+    C.ConsentCodeList({ consentCode, consentLongName })
   );
   keyValuePairs.set("Focus / Diseases", focus);
   keyValuePairs.set("Study Design", stringifyValues(studyDesign));

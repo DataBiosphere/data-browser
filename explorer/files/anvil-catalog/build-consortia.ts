@@ -69,6 +69,11 @@ function buildAnVILCatalogConsortium(
     anvilCatalogConsortium.consentCode, // consentCodes - a list of consent codes.
     workspace.consentCode
   );
+  const consentLongNames = Object.assign(
+    {},
+    anvilCatalogConsortium.consentLongName,
+    workspace.consentLongName
+  );
   const consortium = workspace.consortium;
   const dataTypes = accumulateValues(
     anvilCatalogConsortium.dataType,
@@ -114,6 +119,7 @@ function buildAnVILCatalogConsortium(
   return {
     bucketSize,
     consentCode: consentCodes,
+    consentLongName: consentLongNames,
     consortium,
     consortiumOverview,
     dataType: dataTypes,

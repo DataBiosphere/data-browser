@@ -26,7 +26,7 @@ export function DugStudyInputMapper(dugStudy: DugStudy): DugCatalogStudy {
 function sanitizeStudy(dugStudy: DugStudy): DugCatalogStudy {
   return {
     consentCode: sanitizeStringArray(dugStudy.consentCodes),
-    consentLongName: sanitizeStringArray(dugStudy.consentLongNames),
+    consentLongName: dugStudy.consentLongNames,
     dataType: sanitizeStringArray(dugStudy.dataTypes),
     dbGapId: dugStudy.dbGapId,
     focus: sanitizeString(dugStudy.focus),

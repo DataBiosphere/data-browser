@@ -1,5 +1,6 @@
 import { AnVILCatalogWorkspace } from "../../app/apis/catalog/anvil-catalog/common/entities";
 import { DbGapStudy } from "../../app/apis/catalog/common/entities";
+import { generateConsentDescriptions } from "../common/consent-codes";
 import { getStudy } from "../common/dbGaP";
 
 export interface AnVILCatalog {
@@ -40,13 +41,18 @@ export interface AnVILCatalog {
  * @param dbGapStudy - from dbGap
  * @returns AnVIL catalog workspaces.
  */
-export function buildAnVILCatalogWorkspace(
+export async function buildAnVILCatalogWorkspace(
   anVILCatalog: AnVILCatalog,
   dbGapStudy: DbGapStudy | null
-): AnVILCatalogWorkspace {
+): Promise<AnVILCatalogWorkspace> {
+  const consentCode = anVILCatalog["library:dataUseRestriction"];
   const workspace: AnVILCatalogWorkspace = {
     bucketSize: anVILCatalog.bucketSize,
-    consentCode: anVILCatalog["library:dataUseRestriction"],
+    consentCode,
+    consentLongName: {
+      [consentCode]: (await generateConsentDescriptions(consentCode))
+        .consentLongName,
+    },
     consortium: anVILCatalog.consortium,
     dataType: anVILCatalog["library:datatype"],
     dbGapId: anVILCatalog.phsId,
@@ -68,7 +74,7 @@ export async function buildAnVILCatalogWorkspaces(
   // build workspaces
   for (const tsvWorkspace of tsvWorkspaces as AnVILCatalog[]) {
     const study = await getStudy(tsvWorkspace.phsId);
-    const anVILCatalogWorkspace = buildAnVILCatalogWorkspace(
+    const anVILCatalogWorkspace = await buildAnVILCatalogWorkspace(
       tsvWorkspace,
       study
     );

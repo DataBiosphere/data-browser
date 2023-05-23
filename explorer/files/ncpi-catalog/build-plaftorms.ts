@@ -50,7 +50,8 @@ function buildNCPICatalogPlatform(
     ncpiCatalogPlatform.consentCode,
     ncpiStudy.consentCodes
   );
-  const consentLongName = accumulateValues(
+  const consentLongName = Object.assign(
+    {},
     ncpiCatalogPlatform.consentLongName,
     ncpiStudy.consentLongNames
   );

@@ -47,6 +47,11 @@ export function buildAnVILCatalogStudy(
     study.consentCode, // consentCodes - a list of consent codes.
     workspace.consentCode
   );
+  const consentLongNames = Object.assign(
+    {},
+    study.consentLongName,
+    workspace.consentLongName
+  );
   const consortium = workspace.consortium;
   const dataTypes = accumulateValues(study.dataType, workspace.dataType);
   const dbGapId = workspace.dbGapId;
@@ -74,6 +79,7 @@ export function buildAnVILCatalogStudy(
   return {
     bucketSize,
     consentCode: consentCodes,
+    consentLongName: consentLongNames,
     consortium,
     dataType: dataTypes,
     dbGapId,
