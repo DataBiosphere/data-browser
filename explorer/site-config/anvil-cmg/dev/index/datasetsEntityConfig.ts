@@ -54,7 +54,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         } as ComponentConfig<typeof Components.AccessStatusBadge>,
         header: "Access",
         id: "datasets.accessible",
-        width: { max: "1fr", min: "200px" },
+        width: "max-content",
       },
       {
         componentConfig: {
