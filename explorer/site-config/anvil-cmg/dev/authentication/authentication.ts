@@ -1,4 +1,5 @@
 import { AuthenticationConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import * as MDX from "../../../../app/content/anvil-cmg";
 
 export const authenticationConfig: AuthenticationConfig = {
   googleGISAuthConfig: {
@@ -10,6 +11,8 @@ export const authenticationConfig: AuthenticationConfig = {
     terraProfileEndpoint:
       "https://sam.dsde-prod.broadinstitute.org/register/user/v1",
   },
-  text: "You need to create a terra account in order to view restricted access data",
+  termsOfService: MDX.RenderComponent({ Component: MDX.LoginTermsOfService }),
+  text: MDX.RenderComponent({ Component: MDX.LoginText }),
   title: "Sign in to your account",
+  warning: MDX.RenderComponent({ Component: MDX.LoginWarning }),
 };
