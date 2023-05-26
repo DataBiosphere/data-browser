@@ -58,7 +58,7 @@
     "@ngrx/store-devtools": "^13.1.0",
     "@types/gapi": "^0.0.41",
     "@types/gapi.auth2": "^0.0.56",
-    "@types/jasmine": "^4.0.2",
+    "@types/jasmine": "^4.3.2",
     "@types/jasminewd2": "2.0.10",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
