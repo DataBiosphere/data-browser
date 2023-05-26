@@ -47,7 +47,7 @@ let client;
         });
     } else {
         hcaApiUrl =
-            "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22fileFormat%22%3A%7B%22is%22%3A%5B%22zip%22%2C%22zip.gz%22%2C%22tar%22%2C%22tar.gz%22%5D%7D%7D&size=500&catalog=dcp26";
+            "https://service.azul.data.humancellatlas.org/index/files?filters=%7B%22fileFormat%22%3A%7B%22is%22%3A%5B%22zip%22%2C%22zip.gz%22%2C%22tar%22%2C%22tar.gz%22%5D%7D%7D&size=500&catalog=dcp27";
         if (env === "test") {
             bucketName = "cc-archive-preview-test";
             client = new S3Client({ region: "us-east-1" });
@@ -58,7 +58,7 @@ let client;
                 credentials: fromIni({
                     profile: "platform-hca-prod",
                     mfaCodeProvider: async (mfaSerial) => {
-                        return "739388";
+                        return "284558";
                     },
                 }),
             });
