@@ -10,10 +10,6 @@ export const authenticationConfig: AuthenticationConfig = {
     terraProfileEndpoint:
       "https://sam.dsde-prod.broadinstitute.org/register/user/v1",
   },
-  loginNotice: {
-    conditionsUrl: "https://example.com/conditions",
-    privacyUrl: "https://example.com/privacy",
-  },
   text: "You need to create a terra account in order to view restricted access data",
   title: "Sign in to your account",
 };
