@@ -186,7 +186,7 @@ def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_ind
 	
 	def make_row_code(index_runs, row, n, i):
 		row_class = "anaOdd" if n%2 else "anaEven"
-		return make_index_code(index_runs, i, row_class, n) + "".join([make_item_code(item, row_class, i, c) for c, item in row.iteritems()])
+		return make_index_code(index_runs, i, row_class, n) + "".join([make_item_code(item, row_class, i, c) for c, item in row.items()])
 	
 	def format_table_split(df, final):
 		index_runs = None
