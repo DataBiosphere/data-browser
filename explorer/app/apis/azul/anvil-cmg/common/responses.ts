@@ -3,6 +3,7 @@ import {
   AggregatedActivityResponse,
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
+  AggregatedDiagnosisResponse,
   AggregatedDonorResponse,
   AggregatedFileResponse,
   AggregatedLibraryResponse,
@@ -47,7 +48,8 @@ export type DatasetsResponse = AzulHit &
   AggregatedBioSampleResponse &
   AggregatedDonorResponse &
   AggregatedFileResponse &
-  AggregatedLibraryResponse;
+  AggregatedLibraryResponse &
+  AggregatedDiagnosisResponse;
 
 /**
  * Model of response returned from the /index/donors API endpoint.

@@ -1,6 +1,6 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "../../../../../app/components";
-import * as T from "../../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import * as T from "../../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
 export const sideColumn = [
   {

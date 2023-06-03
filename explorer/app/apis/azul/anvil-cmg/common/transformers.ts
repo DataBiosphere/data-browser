@@ -1,4 +1,5 @@
 import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
 import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
@@ -14,6 +15,7 @@ import {
   processNumberEntityValue,
 } from "../../common/utils";
 import {
+  AggregatedActivityResponse,
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
   AggregatedDiagnosisResponse,
@@ -126,7 +128,7 @@ export function getDatasetDescription(
  * @returns data summaries key-value pairs of data summary label and corresponding value.
  */
 export function getDatasetDetails(
-  response: DatasetEntityResponse
+  response: DatasetsResponse
 ): KeyValues | undefined {
   const datasetId = processEntityValue(
     response.datasets,
@@ -135,6 +137,24 @@ export function getDatasetDetails(
   );
   const details = new Map<Key, Value>();
   details.set("Dataset ID", datasetId);
+  details.set("Consent group", getConsentGroup(response));
+  details.set(
+    "Organism type",
+    stringifyValues(getAggregatedOrganismTypes(response))
+  );
+  details.set("Diagnosis", stringifyValues(getAggregatedDiagnoses(response)));
+  details.set(
+    "Data modality",
+    stringifyValues(getAggregatedActivityDataModalities(response))
+  );
+  details.set(
+    "Phenotypic sex",
+    stringifyValues(getAggregatedPhenotypicSexes(response))
+  );
+  details.set(
+    "Reported ethnicity",
+    stringifyValues(getAggregatedReportedEthnicities(response))
+  );
   return details;
 }
 
@@ -145,6 +165,17 @@ export function getDatasetDetails(
  */
 export function getActivityDataModalities(
   response: ActivityEntityResponse
+): MetadataValue[] {
+  return processAggregatedOrArrayValue(response.activities, "data_modality");
+}
+
+/**
+ * Maps data modalities from aggregated activities values returned from endpoints other than index/activities.
+ * @param response - Response model return from Azul that includes aggregated activities.
+ * @returns Data modalities.
+ */
+export function getAggregatedActivityDataModalities(
+  response: AggregatedActivityResponse
 ): MetadataValue[] {
   return processAggregatedOrArrayValue(response.activities, "data_modality");
 }
