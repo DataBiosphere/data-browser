@@ -36,6 +36,9 @@ import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { formatCountSize } from "../../../../components/Index/common/utils";
 import * as MDX from "../../../../content/hca-dcp";
+import { useExportEntityToTerraRequestParams } from "../../../../hooks/hca-dcp/useExportEntityToTerraRequestParams";
+import { useExportEntityToTerraRequestURL } from "../../../../hooks/hca-dcp/useExportEntityToTerraRequestURL";
+import { useExportEntityToTerraResponseURL } from "../../../../hooks/hca-dcp/useExportEntityToTerraResponseURL";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
@@ -362,6 +365,28 @@ export const buildEstimateCellCount = (
 ): React.ComponentProps<typeof C.Cell> => {
   return {
     value: getEstimatedCellCount(projectsResponse),
+  };
+};
+
+/**
+ * Build props for ExportEntityToTerra component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the ExportEntityToTerra component.
+ */
+export const buildExportEntityToTerra = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ExportEntityToTerra> => {
+  return {
+    ExportForm: (props) =>
+      C.ExportEntityToTerraForm({
+        ...getExportFormProps(projectsResponse),
+        ...props,
+      }),
+    ExportToTerra: MDX.ExportToTerra,
+    ExportToTerraSuccess: MDX.ExportToTerraSuccess,
+    useExportParams: useExportEntityToTerraRequestParams,
+    useExportRequestURL: useExportEntityToTerraRequestURL,
+    useExportResponseURL: useExportEntityToTerraResponseURL,
   };
 };
 
@@ -864,6 +889,24 @@ export function getEstimatedCellCount(
     return formatFn(estimatedCellCount);
   }
   return estimatedCellCount.toLocaleString();
+}
+
+/**
+ * Returns props for ExportEntityToTerraForm component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the ExportEntityToTerraForm component.
+ */
+export function getExportFormProps(
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ExportEntityToTerraForm> {
+  return {
+    fileFormats: getProjectFileFormats(projectsResponse),
+    genusSpecies: processAggregatedOrArrayValue(
+      projectsResponse.donorOrganisms,
+      HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
+    ),
+    projectId: processEntityValue(projectsResponse.projects, "projectId"),
+  };
 }
 
 /**
