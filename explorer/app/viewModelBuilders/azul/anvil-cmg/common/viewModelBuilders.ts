@@ -163,7 +163,7 @@ export const buildDatasetDescription = (
  * @returns model to be used as props for the Description component.
  */
 export const buildDatasetDetails = (
-  response: DatasetEntityResponse
+  response: DatasetsResponse
 ): React.ComponentProps<typeof C.Details> => {
   return {
     keyValuePairs: getDatasetDetails(response),
