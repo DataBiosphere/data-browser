@@ -19,6 +19,7 @@ import { summary } from "./index/summary";
 
 // Template constants
 const BROWSER_URL = "https://anvil.gi.ucsc.edu";
+const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 export const URL_DATASETS = "/datasets";
 const LOGO: LogoProps = {
@@ -164,6 +165,10 @@ const config: SiteConfig = {
           url: URL_DATASETS,
         },
         {
+          label: "Consortia",
+          url: `${PORTAL_URL}/consortia`,
+        },
+        {
           label: "News",
           url: `${BROWSER_URL}/news`,
         },
@@ -172,16 +177,22 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/events`,
         },
         {
-          label: "Team",
-          url: `${BROWSER_URL}/team`,
-        },
-        {
-          label: "FAQ",
-          url: `${BROWSER_URL}/faq`,
-        },
-        {
-          label: "Help",
-          url: `${BROWSER_URL}/help`,
+          label: "More",
+          menuItems: [
+            {
+              label: "Team",
+              url: `${BROWSER_URL}/team`,
+            },
+            {
+              label: "FAQ",
+              url: `${BROWSER_URL}/faq`,
+            },
+            {
+              label: "Help",
+              url: `${BROWSER_URL}/help`,
+            },
+          ],
+          url: "",
         },
       ],
       searchEnabled: true,
