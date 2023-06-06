@@ -20,6 +20,7 @@ export { Divider } from "@clevercanary/data-explorer-ui/lib/components/common/St
 export { Stack } from "@clevercanary/data-explorer-ui/lib/components/common/Stack/stack";
 export { StaticImage } from "@clevercanary/data-explorer-ui/lib/components/common/StaticImage/staticImage";
 export { DetailViewTable } from "@clevercanary/data-explorer-ui/lib/components/Detail/components/DetailViewTable/detailViewTable";
+export { ExportEntityToTerra } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportEntityToTerra/exportEntityToTerra";
 export { ExportMethod } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportMethod/exportMethod";
 export { AzulFileDownload } from "@clevercanary/data-explorer-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
 export { Cell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Cell/cell";
@@ -44,6 +45,7 @@ export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
 export { ConsentCodeList } from "./Detail/components/ConsentCodeList/consentCodeList";
 export { ConsentTooltip } from "./Detail/components/ConsentTooltip/consentTooltip";
 export { ConsortiumOverview } from "./Detail/components/Consortium/ConsortiumOverview/consortiumOverview";
+export { ExportEntityToTerraForm } from "./Detail/components/ExportEntityToTerra/components/ExportEntityToTerraForm/exportEntityToTerraForm";
 export { FileLocationArchivePreview } from "./Detail/components/GeneratedMatricesTables/components/FileLocationArchivePreview/fileLocationArchivePreview";
 export { FileLocationCopy } from "./Detail/components/GeneratedMatricesTables/components/FileLocationCopy/fileLocationCopy";
 export { FileLocationDownload } from "./Detail/components/GeneratedMatricesTables/components/FileLocationDownload/fileLocationDownload";

@@ -32,10 +32,18 @@ import {
   SamplesResponse,
 } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
+import { initExportEntityFilters } from "../../../../components/Detail/components/ExportEntityToTerra/common/utils";
+import {
+  ExportFilterKey,
+  ExportFilterKeyExportCategory,
+} from "../../../../components/Detail/components/ExportEntityToTerra/components/ExportEntityToTerraForm/exportEntityToTerraForm";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { formatCountSize } from "../../../../components/Index/common/utils";
 import * as MDX from "../../../../content/hca-dcp";
+import { useExportEntityToTerraRequestParams } from "../../../../hooks/azul/useExportEntityToTerraRequestParams";
+import { useExportEntityToTerraRequestURL } from "../../../../hooks/azul/useExportEntityToTerraRequestURL";
+import { useExportEntityToTerraResponseURL } from "../../../../hooks/azul/useExportEntityToTerraResponseURL";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
@@ -362,6 +370,28 @@ export const buildEstimateCellCount = (
 ): React.ComponentProps<typeof C.Cell> => {
   return {
     value: getEstimatedCellCount(projectsResponse),
+  };
+};
+
+/**
+ * Build props for ExportEntityToTerra component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the ExportEntityToTerra component.
+ */
+export const buildExportEntityToTerra = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ExportEntityToTerra> => {
+  return {
+    ExportForm: (props) =>
+      C.ExportEntityToTerraForm({
+        ...getExportFormProps(projectsResponse),
+        ...props,
+      }),
+    ExportToTerra: MDX.ExportToTerra,
+    ExportToTerraSuccess: MDX.ExportToTerraSuccess,
+    useExportParams: useExportEntityToTerraRequestParams,
+    useExportRequestURL: useExportEntityToTerraRequestURL,
+    useExportResponseURL: useExportEntityToTerraResponseURL,
   };
 };
 
@@ -864,6 +894,54 @@ export function getEstimatedCellCount(
     return formatFn(estimatedCellCount);
   }
   return estimatedCellCount.toLocaleString();
+}
+
+/**
+ * Returns the export filter key value pairs.
+ * The key-value pairs facilitate the functionality of an export filter form by enabling various
+ * options, such as selecting and choosing from a range of available categories such as genus species and file formats.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns export filter key value pairs.
+ */
+export function getExportFilterKeySelectCategory(
+  projectsResponse: ProjectsResponse
+): ExportFilterKeyExportCategory {
+  // Build the available export filter key value pairs.
+  const filterKeyValue: ExportFilterKeyExportCategory = new Map();
+  filterKeyValue.set(ExportFilterKey.ENTITY_ID, {
+    key: "projectId",
+    label: "Project",
+    values: [processEntityValue(projectsResponse.projects, "projectId")],
+  });
+  filterKeyValue.set(ExportFilterKey.GENUS_SPECIES, {
+    key: "genusSpecies",
+    label: "Species",
+    values: processAggregatedOrArrayValue(
+      projectsResponse.donorOrganisms,
+      HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
+    ),
+  });
+  filterKeyValue.set(ExportFilterKey.FILE_FORMAT, {
+    key: "fileFormat",
+    label: "File Type",
+    values: getProjectFileFormats(projectsResponse),
+  });
+  return filterKeyValue;
+}
+
+/**
+ * Returns props for ExportEntityToTerraForm component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the ExportEntityToTerraForm component.
+ */
+export function getExportFormProps(
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ExportEntityToTerraForm> {
+  const filterKeyValue = getExportFilterKeySelectCategory(projectsResponse);
+  return {
+    entityFilters: initExportEntityFilters(filterKeyValue),
+    filterKeyValue,
+  };
 }
 
 /**

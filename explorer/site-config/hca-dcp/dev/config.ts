@@ -128,7 +128,7 @@ const config: SiteConfig = {
   entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
   explorerTitle: "Explore Data",
   export: exportConfig,
-  exportToTerraUrl: "https://app.terra.bio/",
+  exportToTerraUrl: "https://app.terra.bio",
   layout: {
     footer: {
       feedbackForm: false, // TODO feedback form

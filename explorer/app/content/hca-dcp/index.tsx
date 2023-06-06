@@ -3,6 +3,8 @@ export {
   Section,
   SectionActions,
 } from "../../components/common/MDXMarkdown/components/Section/mdxSection.styles";
+export { default as ExportToTerra } from "../common/exportToTerra.mdx";
+export { default as ExportToTerraSuccess } from "../common/exportToTerraSuccess.mdx";
 export { default as BatchCorrectionWarning } from "./batchCorrectionWarning.mdx";
 export { default as ContributorGeneratedMatrices } from "./contributorGeneratedMatrices.mdx";
 export { default as DataReleasePolicy } from "./dataReleasePolicy.mdx";
