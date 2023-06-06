@@ -1,67 +1,40 @@
-import { Filters } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import {
+  Filters,
+  SelectCategory,
+} from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { useDetailState } from "@clevercanary/data-explorer-ui/lib/hooks/useDetailState";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
+
+export enum ExportFilterKey {
+  ENTITY_ID = "ENTITY_ID",
+  FILE_FORMAT = "FILE_FORMAT",
+  GENUS_SPECIES = "GENUS_SPECIES",
+}
+
+export interface ExportSelectCategory extends Omit<SelectCategory, "values"> {
+  values: string[];
+}
+
+export type ExportFilterKeyExportCategory = Map<
+  ExportFilterKey,
+  ExportSelectCategory
+>;
 
 export interface ExportEntityToTerraFormProps {
-  fileFormats: string[];
-  genusSpecies: string[];
-  projectId: string;
+  entityFilters?: Filters; // Initial filters for the entity.
+  filterKeyValue: ExportFilterKeyExportCategory;
 }
 
 export const ExportEntityToTerraForm = ({
-  fileFormats,
-  genusSpecies,
-  projectId,
+  entityFilters,
 }: ExportEntityToTerraFormProps): JSX.Element => {
   const { updateExportFilters } = useDetailState();
-  const [currentQueryId, setCurrentQueryId] = useState<string>();
-  const filters = useMemo(
-    () => buildExportFilters(projectId, genusSpecies, fileFormats),
-    [fileFormats, genusSpecies, projectId]
-  );
+  const [filters] = useState<Filters>(entityFilters || []);
 
+  // Set export filters with the entity id, and any selected filter categories.
   useEffect(() => {
-    if (currentQueryId) {
-      // Filters are already set when the currentQueryId is defined by the projectId.
-      return;
-    } else {
-      // Set currentQueryId to projectId.
-      // Set export filters with the project id, and all available genus species and file formats.
-      setCurrentQueryId(projectId);
-      updateExportFilters(filters);
-    }
-  }, [currentQueryId, filters, projectId, updateExportFilters]);
+    updateExportFilters(filters);
+  }, [filters, updateExportFilters]);
 
   return <>{/* Export entity form */}</>;
 };
-
-/**
- * Returns selected export filters for the given project.
- * @param projectId - Project identifier.
- * @param genusSpecies - Genus species.
- * @param fileFormats - File formats.
- * @returns selected export filters.
- */
-export function buildExportFilters(
-  projectId: string,
-  genusSpecies: string[],
-  fileFormats: string[]
-): Filters {
-  const filters: Filters = [];
-  /* projectId */
-  filters.push({
-    categoryKey: "projectId",
-    value: [projectId],
-  });
-  /* genusSpecies */
-  filters.push({
-    categoryKey: "genusSpecies",
-    value: genusSpecies,
-  });
-  /* fileFormat */
-  filters.push({
-    categoryKey: "fileFormat",
-    value: fileFormats,
-  });
-  return filters;
-}
