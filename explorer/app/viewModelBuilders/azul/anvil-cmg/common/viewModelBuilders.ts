@@ -644,6 +644,7 @@ export function getDatasetFileFormats(
   datasetsResponse: DatasetsResponse
 ): string[] {
   const fileFormats = datasetsResponse.files
+    // TODO revisit mapping multiple file formats here to prevent an array of arrays
     .map((file) => file.file_format)
     .sort();
   return [...new Set(fileFormats)];
@@ -662,15 +663,16 @@ export function getExportFilterKeySelectCategory(
   // Build the available export filter key value pairs.
   const filterKeyValue: ExportFilterKeyExportCategory = new Map();
   filterKeyValue.set(ExportFilterKey.ENTITY_ID, {
-    key: "dataset_id",
+    key: "entryId",
     label: "Dataset",
     values: [getDatasetId(datasetsResponse)],
   });
-  filterKeyValue.set(ExportFilterKey.FILE_FORMAT, {
-    key: "file_format",
-    label: "File Type",
-    values: getDatasetFileFormats(datasetsResponse),
-  });
+  // TODO re-enable file format when form is completed
+  // filterKeyValue.set(ExportFilterKey.FILE_FORMAT, {
+  //   key: "fileFormat",
+  //   label: "File Type",
+  //   values: getDatasetFileFormats(datasetsResponse),
+  // });
   return filterKeyValue;
 }
 
