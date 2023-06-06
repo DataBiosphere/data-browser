@@ -13,12 +13,8 @@ import { PROJECTS_LABEL } from "../constants";
 import { mainColumn as exportMainColumn } from "../detail/project/exportMainColumn";
 import { sideColumn as exportSideColumn } from "../detail/project/exportSideColumn";
 import { mainColumn as matricesMainColumn } from "../detail/project/matricesMainColumn";
-import { mainColumn as metadataMainColumn } from "../detail/project/metadataMainColumn";
-import { sideColumn as metadataSideColumn } from "../detail/project/metadataSideColumn";
 import { mainColumn as overviewMainColumn } from "../detail/project/overviewMainColumn";
 import { sideColumn as overviewSideColumn } from "../detail/project/overviewSideColumn";
-import { mainColumn as projectFilesMainColumn } from "../detail/project/projectFilesMainColumn";
-import { sideColumn as projectFilesSideColumn } from "../detail/project/projectFilesSideColumn";
 import { top } from "../detail/project/top";
 
 /**
@@ -36,23 +32,23 @@ export const projectsEntityConfig: EntityConfig = {
         route: "",
         sideColumn: overviewSideColumn,
       },
-      {
-        label: "Metadata",
-        mainColumn: metadataMainColumn,
-        route: "project-metadata",
-        sideColumn: metadataSideColumn,
-      },
+      // {
+      //   label: "Metadata",
+      //   mainColumn: metadataMainColumn,
+      //   route: "project-metadata",
+      //   sideColumn: metadataSideColumn,
+      // },
       {
         label: "Matrices",
         mainColumn: matricesMainColumn,
         route: "project-matrices",
       },
-      {
-        label: "Project Files",
-        mainColumn: projectFilesMainColumn,
-        route: "get-curl-command",
-        sideColumn: projectFilesSideColumn,
-      },
+      // {
+      //   label: "Project Files",
+      //   mainColumn: projectFilesMainColumn,
+      //   route: "get-curl-command",
+      //   sideColumn: projectFilesSideColumn,
+      // },
       {
         label: "Export",
         mainColumn: exportMainColumn,
