@@ -89,7 +89,7 @@ const config: SiteConfig = {
   ],
   explorerTitle: "Anvil Data Explorer",
   export: exportConfig,
-  exportToTerraUrl: "https://app.terra.bio/",
+  exportToTerraUrl: "https://app.terra.bio",
   layout: {
     footer: {
       logos: [

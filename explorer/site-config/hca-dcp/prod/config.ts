@@ -7,7 +7,7 @@ const BROWSER_URL = "https://data.humancellatlas.org";
 const config: SiteConfig = {
   ...devConfig,
   browserURL: BROWSER_URL,
-  exportToTerraUrl: "https://app.terra.bio/",
+  exportToTerraUrl: "https://app.terra.bio",
 };
 
 export default config;
