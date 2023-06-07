@@ -60,8 +60,17 @@ import {
   getReportedEthnicities,
 } from "../../../../apis/azul/anvil-cmg/common/transformers";
 import * as C from "../../../../components";
+import { initExportEntityFilters } from "../../../../components/Detail/components/ExportEntityToTerra/common/utils";
+import {
+  ExportFilterKey,
+  ExportFilterKeyExportCategory,
+} from "../../../../components/Detail/components/ExportEntityToTerra/components/ExportEntityToTerraForm/exportEntityToTerraForm";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import * as MDX from "../../../../content/anvil-cmg";
+import { useExportEntityToTerraRequestParams } from "../../../../hooks/azul/useExportEntityToTerraRequestParams";
+import { useExportEntityToTerraRequestURL } from "../../../../hooks/azul/useExportEntityToTerraRequestURL";
+import { useExportEntityToTerraResponseURL } from "../../../../hooks/azul/useExportEntityToTerraResponseURL";
 
 /**
  * Build props for activity type Cell component from the given activities response.
@@ -323,6 +332,28 @@ export const buildDocumentId = (
 ): React.ComponentProps<typeof C.Cell> => {
   return {
     value: getDocumentId(response),
+  };
+};
+
+/**
+ * Build props for ExportEntityToTerra component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ExportEntityToTerra component.
+ */
+export const buildExportEntityToTerra = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ExportEntityToTerra> => {
+  return {
+    ExportForm: (props) =>
+      C.ExportEntityToTerraForm({
+        ...getExportFormProps(datasetsResponse),
+        ...props,
+      }),
+    ExportToTerra: MDX.ExportToTerra,
+    ExportToTerraSuccess: MDX.ExportToTerraSuccess,
+    useExportParams: useExportEntityToTerraRequestParams,
+    useExportRequestURL: useExportEntityToTerraRequestURL,
+    useExportResponseURL: useExportEntityToTerraResponseURL,
   };
 };
 
@@ -601,5 +632,61 @@ function getDatasetCallToAction(
     label: "Request Access",
     target: ANCHOR_TARGET.BLANK,
     url: `https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=${registeredIdentifier}`,
+  };
+}
+
+/**
+ * Returns dataset file formats from the datasets API response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns dataset file formats.
+ */
+export function getDatasetFileFormats(
+  datasetsResponse: DatasetsResponse
+): string[] {
+  const fileFormats = datasetsResponse.files
+    // TODO revisit mapping multiple file formats here to prevent an array of arrays
+    .map((file) => file.file_format)
+    .sort();
+  return [...new Set(fileFormats)];
+}
+
+/**
+ * Returns the export filter key value pairs.
+ * The key-value pairs facilitate the functionality of an export filter form by enabling various
+ * options, such as selecting and choosing from a range of available categories such as file formats.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns export filter key value pairs.
+ */
+export function getExportFilterKeySelectCategory(
+  datasetsResponse: DatasetsResponse
+): ExportFilterKeyExportCategory {
+  // Build the available export filter key value pairs.
+  const filterKeyValue: ExportFilterKeyExportCategory = new Map();
+  filterKeyValue.set(ExportFilterKey.ENTITY_ID, {
+    key: "entryId",
+    label: "Dataset",
+    values: [getDatasetId(datasetsResponse)],
+  });
+  // TODO re-enable file format when form is completed
+  // filterKeyValue.set(ExportFilterKey.FILE_FORMAT, {
+  //   key: "fileFormat",
+  //   label: "File Type",
+  //   values: getDatasetFileFormats(datasetsResponse),
+  // });
+  return filterKeyValue;
+}
+
+/**
+ * Returns props for ExportEntityToTerraForm component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ExportEntityToTerraForm component.
+ */
+export function getExportFormProps(
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ExportEntityToTerraForm> {
+  const filterKeyValue = getExportFilterKeySelectCategory(datasetsResponse);
+  return {
+    entityFilters: initExportEntityFilters(filterKeyValue),
+    filterKeyValue,
   };
 }
