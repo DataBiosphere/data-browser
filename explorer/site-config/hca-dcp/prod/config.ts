@@ -10,4 +10,12 @@ const config: SiteConfig = {
   exportToTerraUrl: "https://app.terra.bio",
 };
 
+// Update gtmAuth for the prod environment lookup.
+if (config.analytics) {
+  const analytics = { ...config.analytics };
+  analytics.gtmAuth = "m3l-f2UHjXH1BiJGA3u0UA";
+  analytics.gtmPreview = "env-1";
+  config.analytics = analytics;
+}
+
 export default config;
