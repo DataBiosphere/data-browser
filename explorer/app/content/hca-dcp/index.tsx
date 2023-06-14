@@ -9,4 +9,6 @@ export { default as BatchCorrectionWarning } from "./batchCorrectionWarning.mdx"
 export { default as ContributorGeneratedMatrices } from "./contributorGeneratedMatrices.mdx";
 export { default as DataReleasePolicy } from "./dataReleasePolicy.mdx";
 export { default as DCPGeneratedMatrices } from "./dcpGeneratedMatrices.mdx";
+export { default as DownloadEntityCurlCommandStart } from "./downloadEntityCurlCommandStart.mdx";
+export { default as DownloadEntityCurlCommandSuccess } from "./downloadEntityCurlCommandSuccess.mdx";
 export { default as MatrixQuestionnaire } from "./matrixQuestionnaire.mdx";

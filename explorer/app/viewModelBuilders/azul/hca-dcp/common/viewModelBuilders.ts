@@ -32,18 +32,19 @@ import {
   SamplesResponse,
 } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
-import { initExportEntityFilters } from "../../../../components/Detail/components/ExportEntityToTerra/common/utils";
 import {
   ExportFilterKey,
   ExportFilterKeyExportCategory,
-} from "../../../../components/Detail/components/ExportEntityToTerra/components/ExportEntityToTerraForm/exportEntityToTerraForm";
+} from "../../../../components/Detail/components/Export/common/entities";
+import { initExportEntityFilters } from "../../../../components/Detail/components/Export/common/utils";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { formatCountSize } from "../../../../components/Index/common/utils";
 import * as MDX from "../../../../content/hca-dcp";
-import { useExportEntityToTerraRequestParams } from "../../../../hooks/azul/useExportEntityToTerraRequestParams";
-import { useExportEntityToTerraRequestURL } from "../../../../hooks/azul/useExportEntityToTerraRequestURL";
+import { useDownloadEntityCurlCommand } from "../../../../hooks/azul/useDownloadEntityCurlCommand";
 import { useExportEntityToTerraResponseURL } from "../../../../hooks/azul/useExportEntityToTerraResponseURL";
+import { useFileManifestRequestParams } from "../../../../hooks/azul/useFileManifestRequestParams";
+import { useFileManifestRequestURL } from "../../../../hooks/azul/useFileManifestRequestURL";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
@@ -361,6 +362,28 @@ export const buildDonorDisease = (
 };
 
 /**
+ * Build props for DownloadEntityCurlCommand component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the DownloadEntityCurlCommand component.
+ */
+export const buildDownloadEntityCurlCommand = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.DownloadEntityCurlCommand> => {
+  return {
+    DownloadCurlForm: (props) =>
+      C.DownloadEntityCurlCommandForm({
+        ...getExportFormProps(projectsResponse),
+        ...props,
+      }),
+    DownloadCurlStart: MDX.DownloadEntityCurlCommandStart,
+    DownloadCurlSuccess: MDX.DownloadEntityCurlCommandSuccess,
+    useDownloadCurlCommand: useDownloadEntityCurlCommand,
+    useExportParams: useFileManifestRequestParams,
+    useExportRequestURL: useFileManifestRequestURL,
+  };
+};
+
+/**
  * Build props for "Cell Count Estimate" Cell component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the "Cell Count Estimate" Cell component.
@@ -389,8 +412,8 @@ export const buildExportEntityToTerra = (
       }),
     ExportToTerra: MDX.ExportToTerra,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
-    useExportParams: useExportEntityToTerraRequestParams,
-    useExportRequestURL: useExportEntityToTerraRequestURL,
+    useExportParams: useFileManifestRequestParams,
+    useExportRequestURL: useFileManifestRequestURL,
     useExportResponseURL: useExportEntityToTerraResponseURL,
   };
 };
@@ -930,13 +953,15 @@ export function getExportFilterKeySelectCategory(
 }
 
 /**
- * Returns props for ExportEntityToTerraForm component from the given projects response.
+ * Returns props for ExportEntityToTerraForm or DownloadEntityCurlCommandForm component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the ExportEntityToTerraForm component.
+ * @returns model to be used as props for the ExportEntityToTerraForm or DownloadEntityCurlCommandForm component.
  */
 export function getExportFormProps(
   projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.ExportEntityToTerraForm> {
+): React.ComponentProps<
+  typeof C.ExportEntityToTerraForm | typeof C.DownloadEntityCurlCommandForm
+> {
   const filterKeyValue = getExportFilterKeySelectCategory(projectsResponse);
   return {
     entityFilters: initExportEntityFilters(filterKeyValue),

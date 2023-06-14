@@ -1,5 +1,5 @@
 import { Filters } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { ExportFilterKeyExportCategory } from "../components/ExportEntityToTerraForm/exportEntityToTerraForm";
+import { ExportFilterKeyExportCategory } from "./entities";
 
 /**
  * Returns initially selected export filters for the given entity.

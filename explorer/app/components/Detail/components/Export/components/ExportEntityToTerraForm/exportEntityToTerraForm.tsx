@@ -1,24 +1,7 @@
-import {
-  Filters,
-  SelectCategory,
-} from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { Filters } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { useDetailState } from "@clevercanary/data-explorer-ui/lib/hooks/useDetailState";
 import React, { useEffect, useState } from "react";
-
-export enum ExportFilterKey {
-  ENTITY_ID = "ENTITY_ID",
-  FILE_FORMAT = "FILE_FORMAT",
-  GENUS_SPECIES = "GENUS_SPECIES",
-}
-
-export interface ExportSelectCategory extends Omit<SelectCategory, "values"> {
-  values: string[];
-}
-
-export type ExportFilterKeyExportCategory = Map<
-  ExportFilterKey,
-  ExportSelectCategory
->;
+import { ExportFilterKeyExportCategory } from "../../common/entities";
 
 export interface ExportEntityToTerraFormProps {
   entityFilters?: Filters; // Initial filters for the entity.
