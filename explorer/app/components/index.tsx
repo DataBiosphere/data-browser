@@ -16,6 +16,7 @@ export { FluidPaper } from "@clevercanary/data-explorer-ui/lib/components/common
 export { CollapsableSection } from "@clevercanary/data-explorer-ui/lib/components/common/Section/components/CollapsableSection/collapsableSection";
 export { SectionTitle } from "@clevercanary/data-explorer-ui/lib/components/common/Section/components/SectionTitle/sectionTitle";
 export { GridPaperSection } from "@clevercanary/data-explorer-ui/lib/components/common/Section/section.styles";
+export { Sections } from "@clevercanary/data-explorer-ui/lib/components/common/Sections/sections";
 export { Divider } from "@clevercanary/data-explorer-ui/lib/components/common/Stack/components/Divider/divider";
 export { Stack } from "@clevercanary/data-explorer-ui/lib/components/common/Stack/stack";
 export { StaticImage } from "@clevercanary/data-explorer-ui/lib/components/common/StaticImage/staticImage";
@@ -48,6 +49,7 @@ export { ConsentCodeList } from "./Detail/components/ConsentCodeList/consentCode
 export { ConsentTooltip } from "./Detail/components/ConsentTooltip/consentTooltip";
 export { ConsortiumOverview } from "./Detail/components/Consortium/ConsortiumOverview/consortiumOverview";
 export { DownloadEntityCurlCommandForm } from "./Detail/components/Export/components/DownloadEntityCurlCommandForm/downloadEntityCurlCommandForm";
+export { ExportEntityCurrentQuery } from "./Detail/components/Export/components/ExportEntityCurrentQuery/exportEntityCurrentQuery";
 export { ExportEntityToTerraForm } from "./Detail/components/Export/components/ExportEntityToTerraForm/exportEntityToTerraForm";
 export { FileLocationArchivePreview } from "./Detail/components/GeneratedMatricesTables/components/FileLocationArchivePreview/fileLocationArchivePreview";
 export { FileLocationCopy } from "./Detail/components/GeneratedMatricesTables/components/FileLocationCopy/fileLocationCopy";
