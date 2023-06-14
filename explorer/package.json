@@ -18,7 +18,7 @@
     "dev:anvil-cmg": "./scripts/dev.sh anvil-cmg && next dev",
     "build:anvil-cmg": "./scripts/build.sh anvil-cmg && next build && next export -o out/explore && npm run postbuild",
     "dev:hca-dcp": "./scripts/dev.sh hca-dcp && next dev",
-    "build:hca-dcp": "./scripts/build.sh hca-dcp && next build && next export -o out/explore && npm run postbuild",
+    "build-dev:hca-dcp": "./scripts/build.sh hca-dcp dev && next build && next export -o out/explore && npm run postbuild",
     "postbuild": "next-sitemap --config next-sitemap.config.mjs",
     "start": "npx serve out",
     "lint": "next lint --dir .",
