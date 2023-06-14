@@ -1,17 +1,17 @@
 import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
 
 /**
- * Returns the export to Terra request URL for the given request params.
- * @param requestParams - Export to terra request params.
- * @returns export to Terra request URL.
+ * Returns file manifest URL for the integrations end point and given request params.
+ * @param requestParams - Request params.
+ * @returns file manifest URL.
  */
-export const useExportEntityToTerraRequestURL = (
+export const useFileManifestRequestURL = (
   requestParams: URLSearchParams
 ): string => {
   const { config } = useConfig();
   const { dataSource } = config;
   const { url } = dataSource;
 
-  // Build export to terra request URL
+  // Build file manifest URL
   return `${url}fetch/manifest/files?${requestParams.toString()}`;
 };

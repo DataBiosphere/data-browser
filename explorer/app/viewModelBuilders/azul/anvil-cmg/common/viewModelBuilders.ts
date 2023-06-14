@@ -60,17 +60,17 @@ import {
   getReportedEthnicities,
 } from "../../../../apis/azul/anvil-cmg/common/transformers";
 import * as C from "../../../../components";
-import { initExportEntityFilters } from "../../../../components/Detail/components/ExportEntityToTerra/common/utils";
 import {
   ExportFilterKey,
   ExportFilterKeyExportCategory,
-} from "../../../../components/Detail/components/ExportEntityToTerra/components/ExportEntityToTerraForm/exportEntityToTerraForm";
+} from "../../../../components/Detail/components/Export/common/entities";
+import { initExportEntityFilters } from "../../../../components/Detail/components/Export/common/utils";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import * as MDX from "../../../../content/anvil-cmg";
-import { useExportEntityToTerraRequestParams } from "../../../../hooks/azul/useExportEntityToTerraRequestParams";
-import { useExportEntityToTerraRequestURL } from "../../../../hooks/azul/useExportEntityToTerraRequestURL";
 import { useExportEntityToTerraResponseURL } from "../../../../hooks/azul/useExportEntityToTerraResponseURL";
+import { useFileManifestRequestParams } from "../../../../hooks/azul/useFileManifestRequestParams";
+import { useFileManifestRequestURL } from "../../../../hooks/azul/useFileManifestRequestURL";
 
 /**
  * Build props for activity type Cell component from the given activities response.
@@ -351,8 +351,8 @@ export const buildExportEntityToTerra = (
       }),
     ExportToTerra: MDX.ExportToTerra,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
-    useExportParams: useExportEntityToTerraRequestParams,
-    useExportRequestURL: useExportEntityToTerraRequestURL,
+    useExportParams: useFileManifestRequestParams,
+    useExportRequestURL: useFileManifestRequestURL,
     useExportResponseURL: useExportEntityToTerraResponseURL,
   };
 };
