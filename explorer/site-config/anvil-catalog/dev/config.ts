@@ -18,7 +18,6 @@ import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
 
 // Template constants
 const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
-const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 const LOGO: LogoProps = {
   alt: SLOGAN,
@@ -134,7 +133,7 @@ const config: SiteConfig = {
         },
         {
           label: "Consortia",
-          url: `${PORTAL_URL}/consortia`,
+          url: `${BROWSER_URL}/consortia`,
         },
         {
           label: "News",
