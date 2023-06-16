@@ -23,6 +23,10 @@ const config: SiteConfig = {
           url: `/`,
         },
         {
+          label: "Consortia",
+          url: `${BROWSER_URL}/consortia`,
+        },
+        {
           label: "News",
           url: `${BROWSER_URL}/news`,
         },
