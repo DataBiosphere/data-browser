@@ -19,7 +19,6 @@ import { summary } from "./index/summary";
 
 // Template constants
 const BROWSER_URL = "https://anvil.gi.ucsc.edu";
-const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 export const URL_DATASETS = "/datasets";
 const LOGO: LogoProps = {
@@ -168,10 +167,6 @@ const config: SiteConfig = {
         {
           label: "Datasets",
           url: URL_DATASETS,
-        },
-        {
-          label: "Consortia",
-          url: `${PORTAL_URL}/consortia`,
         },
         {
           label: "News",
