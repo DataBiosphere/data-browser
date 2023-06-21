@@ -41,7 +41,9 @@ def authenticate(secret_name, first_service_params=ga_service_params, *other_ser
 	credentials = flow.run_local_server(port=next_port)
 	next_port += 1
 
-	return [build_service_system(service_params, credentials) for service_params in service_param_sets]
+	built_systems = [build_service_system(service_params, credentials) for service_params in service_param_sets]
+
+	return built_systems if len(built_systems) > 1 else built_systems[0]
 
 def build_service_system(service_params, credentials):
 	if len(service_params) == 4:
