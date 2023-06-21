@@ -23,11 +23,6 @@ yt_service_params = (
 	},
 	lambda service, params: service.reports().query(**params).execute()
 )
-ga4_service_params = (
-	['https://www.googleapis.com/auth/analytics.readonly'],
-	'analyticsdata', 'v1beta',
-	lambda *params: get_metrics_by_dimensions_v4_style(*params)
-)
 
 next_port = 8082
 default_service_system = None
@@ -183,6 +178,12 @@ def v4_results_to_df(results, dimensions, metrics):
 		df = pd.concat([df, pd.DataFrame(data, columns = column_names)])
 
 	return df
+
+ga4_service_params = (
+	['https://www.googleapis.com/auth/analytics.readonly'],
+	'analyticsdata', 'v1beta',
+	get_metrics_by_dimensions_v4_style
+)
 
 filter_match_re = re.compile(r"^(\w+)(?:(==|>|<|>=|<=|=@|=~)|(!=|!@|!~))(.*)$")
 filter_escape_re = re.compile(r"\\([,;])")
