@@ -2,6 +2,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import os
 import pandas as pd
+import re
 
 
 ga_service_params = (
@@ -21,6 +22,11 @@ yt_service_params = (
 		'segment': None
 	},
 	lambda service, params: service.reports().query(**params).execute()
+)
+ga4_service_params = (
+	['https://www.googleapis.com/auth/analytics.readonly'],
+	'analyticsdata', 'v1beta',
+	lambda *params: get_metrics_by_dimensions_v4_style(*params)
 )
 
 next_port = 8082
@@ -119,6 +125,131 @@ def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics,
 	df =  results_to_df(results)
 
 	return df
+
+
+def get_metrics_by_dimensions_v4_style(service, metrics, dimensions, property, start_date, end_date, sort_results, metric_filter=None, dimension_filter=None, base_metric_filter=None, base_dimension_filter=None, property_prefix="properties/", max_results=1000, **other_params):
+	property = property_prefix + property
+	
+	params = {
+		"dateRanges": [{"startDate": start_date, "endDate": end_date}],
+		"metrics": [{"name": metric} for metric in metrics],
+		"dimensions": [{"name": dimension} for dimension in dimensions],
+		"metricFilter": parse_filter_expressions([base_metric_filter, metric_filter], True),
+		"dimensionFilter": parse_filter_expressions([base_dimension_filter, dimension_filter], False),
+		"orderBys": [({"dimension": {"dimensionName": field}} if field in dimensions else {"metric": {"metricName": field}}) for field in sort_results],
+		"limit": max_results
+	}
+
+	offset = 0
+	results = []
+	rows_left = None
+	has_more = True
+
+	while has_more:
+		result = service.properties().runReport(property=property, body=params).execute()
+		if rows_left is None:
+			rows_left = result.get("rowsCount", 0)
+		page_row_count = len(result["rows"]) if "rows" in result else 0
+		has_more = page_row_count > 0
+		if has_more:
+			results.append(result)
+			rows_left -= page_row_count
+			if rows_left <= 0:
+				has_more = False
+			else:
+				offset += max_results
+				params["offset"] = offset
+	
+	df =  v4_results_to_df(results, dimensions, metrics)
+
+	return df
+
+def v4_results_to_df(results, dimensions, metrics):
+	if (len(results) == 0):
+		return pd.DataFrame(columns=dimensions + metrics)
+
+	df = pd.DataFrame()
+	for result in results:  
+		# Collect column names 
+		column_names = [header["name"] for header in result.get("dimensionHeaders", [])] + [header["name"] for header in result.get("metricHeaders", [])]
+		
+		# Get data  
+		if "rows" in result:
+			data = [[cell["value"] for cell in row.get("dimensionValues", [])] + [cell["value"] for cell in row.get("metricValues", [])] for row in result["rows"]]
+		else:
+			data = None
+
+		# Crete the dataframe
+		df = pd.concat([df, pd.DataFrame(data, columns = column_names)])
+
+	return df
+
+filter_match_re = re.compile(r"^(\w+)(?:(==|>|<|>=|<=|=@|=~)|(!=|!@|!~))(.*)$")
+filter_escape_re = re.compile(r"\\([,;])")
+filter_and_re = re.compile(r"((?:[^\\;]|\\(?:\\\\)*.)+)(?:;|$)")
+filter_or_re = re.compile(r"((?:[^\\,]|\\(?:\\\\)*.)+)(?:,|$)")
+filter_op_names = {
+	"==": "EQUAL",
+	"!=": "EQUAL",
+	">": "GREATER_THAN",
+	"<": "LESS_THAN",
+	">=": "GREATER_THAN_OR_EQUAL",
+	"<=": "LESS_THAN_OR_EQUAL",
+	"=@": "CONTAINS",
+	"!@": "CONTAINS",
+	"=~": "PARTIAL_REGEXP",
+	"!~": "PARTIAL_REGEXP"
+}
+
+def parse_filter_expression(text, is_metric):
+	if not isinstance(text, str):
+		return text
+
+	def unescape(value):
+		return filter_escape_re.sub(r"\1", value)
+
+	def parse_match(text):
+		field_name, plain_op, inverted_op, value = filter_match_re.match(text).groups()
+		op_name = filter_op_names[plain_op or inverted_op]
+		if is_metric:
+			plain_expression = {
+				"filter": {
+					"fieldName": field_name,
+					"numericFilter": {
+						"operation": op_name,
+						"value": {
+							"int64Value": value
+						}
+					}
+				}
+			}
+		else:
+			plain_expression = {
+				"filter": {
+					"fieldName": field_name,
+					"stringFilter": {
+						"matchType": "EXACT" if op_name == "EQUAL" else op_name,
+						"value": unescape(value),
+						"caseSensitive": True
+					}
+				}
+			}
+		return plain_expression if plain_op else {"notExpression": plain_expression}
+
+	def parse_or(text):
+		or_terms = [parse_match(t) for t in filter_or_re.findall(text)]
+		return or_terms[0] if len(or_terms) == 1 else {"orGroup": {"expressions": or_terms}}
+
+	and_terms = [parse_or(t) for t in filter_and_re.findall(text)]
+	return and_terms[0] if len(and_terms) == 1 else {"andGroup": {"expressions": and_terms}}
+
+def parse_filter_expressions(filters, is_metric):
+	result = None
+	for filter in filters:
+		parsed = parse_filter_expression(filter, is_metric)
+		if parsed:
+			result = parsed if result is None else {"andGroup": {"expressions": [result, parsed]}}
+	return result
 
 
 def normalize_id_list(ids):
