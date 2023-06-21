@@ -24,10 +24,10 @@ yt_service_params = (
 	lambda service, params: service.reports().query(**params).execute()
 )
 
-next_port = 8082
+next_port = None
 default_service_system = None
 
-def authenticate(secret_name, first_service_params=ga_service_params, *other_service_params):
+def authenticate(secret_name, first_service_params=ga_service_params, *other_service_params, port=None):
 	service_param_sets = (first_service_params,) + other_service_params
 
 	all_scopes = {scope for service_params in service_param_sets for scope in service_params[0]}
@@ -36,10 +36,19 @@ def authenticate(secret_name, first_service_params=ga_service_params, *other_ser
 
 	flow = InstalledAppFlow.from_client_secrets_file(ANALYTICS_REPORTING_CLIENT_SECRET_PATH,
 		scopes=all_scopes)
-
+	
 	global next_port
-	credentials = flow.run_local_server(port=next_port)
-	next_port += 1
+
+	if port is None:
+		if next_port is None:
+			port = 8082
+		else:
+			port = next_port
+		next_port = port + 1
+	elif next_port is None:
+		next_port = port + 1
+	
+	credentials = flow.run_local_server(port=port)
 
 	built_systems = [build_service_system(service_params, credentials) for service_params in service_param_sets]
 
