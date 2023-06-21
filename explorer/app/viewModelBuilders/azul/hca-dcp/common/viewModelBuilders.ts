@@ -46,6 +46,7 @@ import { useExportEntityToTerraResponseURL } from "../../../../hooks/azul/useExp
 import { useFileManifestRequestParams } from "../../../../hooks/azul/useFileManifestRequestParams";
 import { useFileManifestRequestURL } from "../../../../hooks/azul/useFileManifestRequestURL";
 import { humanFileSize } from "../../../../utils/fileSize";
+import { mapCategoryKeyLabel } from "../../../common/utils";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
 import { DATA_SUMMARY_DISPLAY_TEXT } from "./dataSummaryMapper/constants";
@@ -393,6 +394,29 @@ export const buildEstimateCellCount = (
 ): React.ComponentProps<typeof C.Cell> => {
   return {
     value: getEstimatedCellCount(projectsResponse),
+  };
+};
+
+/**
+ * Build props for ExportEntityCurrentQuery component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the ExportEntityCurrentQuery component.
+ */
+export const buildExportEntityCurrentQuery = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ExportEntityCurrentQuery> => {
+  return {
+    categoryKeyLabel: mapCategoryKeyLabel(
+      HCA_DCP_CATEGORY_KEY,
+      HCA_DCP_CATEGORY_LABEL
+    ),
+    currentQuery: {
+      label: "Project",
+      values: [
+        processEntityValue(projectsResponse.projects, "projectShortname"),
+      ],
+    },
+    entityIdKey: "projectId",
   };
 };
 
@@ -937,7 +961,7 @@ export function getExportFilterKeySelectCategory(
     values: [processEntityValue(projectsResponse.projects, "projectId")],
   });
   filterKeyValue.set(ExportFilterKey.GENUS_SPECIES, {
-    key: "genusSpecies",
+    key: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
     label: "Species",
     values: processAggregatedOrArrayValue(
       projectsResponse.donorOrganisms,
@@ -945,7 +969,7 @@ export function getExportFilterKeySelectCategory(
     ),
   });
   filterKeyValue.set(ExportFilterKey.FILE_FORMAT, {
-    key: "fileFormat",
+    key: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     label: "File Type",
     values: getProjectFileFormats(projectsResponse),
   });
