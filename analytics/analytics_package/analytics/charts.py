@@ -36,6 +36,7 @@ row_symbols (supplanted in format_table_with_change, show_difference_table - aut
 
 Change over time tables:
 table_subindex
+pre_plot_df_processor
 
 Change between frames tables:
 show_symbols (supplanted in show_difference_table - determined based on rows_type)
@@ -49,6 +50,8 @@ rows_type
 authenticate_api = ga.authenticate
 
 authenticate_ga = ga.authenticate
+
+authenticate_ga4 = lambda secret_name: ga.authenticate(secret_name, ga.ga4_service_params)
 
 authenticate_yt = lambda secret_name: ga.authenticate(secret_name, ga.yt_service_params)
 
@@ -331,7 +334,7 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 	xlabels, metrics, dimensions = strings_to_lists(xlabels, metrics, dimensions)
 	
 	period = pd.Period(period)
-	prev_period = pd.Period(prev_period)
+	prev_period = prev_period and pd.Period(prev_period)
 	
 	shared_params = {
 		"metrics": metrics,
@@ -340,22 +343,34 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 		"num_keep_dimensions": len(ylabels) if isinstance(ylabels, list) else 1
 	}
 	df = get_top_ga_df(**shared_params, start_date=period.start_time.isoformat()[:10], end_date=period.end_time.isoformat()[:10], **other_params)
-	df_prev = get_top_ga_df(**shared_params, start_date=prev_period.start_time.isoformat()[:10], end_date=prev_period.end_time.isoformat()[:10], **other_params)
+	if prev_period is None:
+		all_frames = (df,)
+	else:
+		all_frames = (df, get_top_ga_df(**shared_params, start_date=prev_period.start_time.isoformat()[:10], end_date=prev_period.end_time.isoformat()[:10], **other_params))
 	
-	is_single_cell = df.shape[0] == 1 and df.shape[1] == 1 and df_prev.shape[0] == 1 and df_prev.shape[1] == 1
+	is_single_cell = all([f.shape[0] == 1 and f.shape[1] == 1 for f in all_frames])
 	
 	if is_single_cell and not dimensions:
-		df.index = pd.Index(xlabels)
-		df_prev.index = pd.Index(xlabels)
+		for f in all_frames:
+			f.index = pd.Index(xlabels)
 	else:
 		xlabels_dict = {col: xlabel for col, xlabel in zip(df.columns, xlabels)}
-		df.rename(columns=xlabels_dict, inplace=True)
-		df_prev.rename(columns=xlabels_dict, inplace=True)
-		if dimensions:
-			df.index.rename(ylabels, inplace=True)
-			df_prev.index.rename(ylabels, inplace=True)
+		for f in all_frames:
+			f.rename(columns=xlabels_dict, inplace=True)
+			if dimensions:
+				f.index.rename(ylabels, inplace=True)
 	
-	display(format_table_with_change(df, df_prev, show_symbols=(rows_type == "ordered" or rows_type == "unordered"), hide_index=not dimensions and not is_single_cell, hide_columns=is_single_cell, **other_params))
+	formatting_params = {
+		"hide_index": not dimensions and not is_single_cell,
+		"hide_columns": is_single_cell
+	}
+
+	if len(all_frames) == 2:
+		formatted = format_table_with_change(*all_frames, show_symbols=(rows_type == "ordered" or rows_type == "unordered"), **formatting_params, **other_params)
+	else:
+		formatted = format_table(df, **formatting_params, **other_params)
+
+	display(formatted)
 
 def make_month_filter(filter_cols):
 	def filter(df):
