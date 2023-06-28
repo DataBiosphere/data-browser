@@ -304,23 +304,26 @@ def get_top_ga_df(metrics, dimensions, ascending=True, rows_limit=30, **other_pa
 	return df
 
 def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix="_percentage", num_keep_dimensions=None, df_processor=None, **other_params):
-	df = ga.get_metrics_by_dimensions(metrics, dimensions, **other_params)
-	
-	if dimensions:
-		if len(dimensions) > 1 and not num_keep_dimensions is None:
-			df.drop(columns=dimensions[num_keep_dimensions:], inplace=True);
-		df.set_index(dimensions[:num_keep_dimensions], inplace=True)
-	for metric in metrics:
-		str_column = df[metric].astype(str)
-		try:
-			num_column = str_column.astype(int)
-		except ValueError:
-			num_column = str_column.astype(float)
-		df[metric] = num_column
-	
-	if percentage_metrics:
-		for metric in percentage_metrics:
-			df.insert(list(df.columns).index(metric) + 1, metric + percentage_suffix, df[metric] / df[metric].sum() * 100)
+	if metrics is None:
+		df = pd.DataFrame()
+	else:
+		df = ga.get_metrics_by_dimensions(metrics, dimensions, **other_params)
+		
+		if dimensions:
+			if len(dimensions) > 1 and not num_keep_dimensions is None:
+				df.drop(columns=dimensions[num_keep_dimensions:], inplace=True);
+			df.set_index(dimensions[:num_keep_dimensions], inplace=True)
+		for metric in metrics:
+			str_column = df[metric].astype(str)
+			try:
+				num_column = str_column.astype(int)
+			except ValueError:
+				num_column = str_column.astype(float)
+			df[metric] = num_column
+		
+		if percentage_metrics:
+			for metric in percentage_metrics:
+				df.insert(list(df.columns).index(metric) + 1, metric + percentage_suffix, df[metric] / df[metric].sum() * 100)
 	
 	if df_processor:
 		df = df_processor(df)
