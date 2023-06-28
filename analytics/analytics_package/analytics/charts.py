@@ -383,7 +383,7 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 	else:
 		formatted = format_table(
 			df,
-			column_defs=[("minmax(var(--value-width), min-content)", lambda v, i, c: str(v) if isinstance(v, int) else "{:.2f}".format(v))],
+			column_defs=[("minmax(calc(var(--value-width) + var(--percentage-width)), min-content)", lambda v, i, c: str(v) if isinstance(v, int) else "{:.2f}".format(v))],
 			**formatting_params,
 			**other_params
 		)
