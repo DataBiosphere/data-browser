@@ -96,6 +96,10 @@ def init_tables():
 			}
 			
 			.anaColName:not(.anaIndex) {
+				text-align: right;
+			}
+
+			.anaColName.anaMultiCol {
 				text-align: center;
 			}
 			
@@ -139,6 +143,12 @@ def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_ind
 	if not pre_render_processor is None:
 		df, column_defs = pre_render_processor(df, column_defs)
 	
+
+	def make_item_col_header_code(name):
+		num_subcols = len(column_defs[name if name in column_defs else None])
+		return '<div class="anaColName' + ("" if num_subcols == 1 else " anaMultiCol") + '" style="grid-column: span ' + str(num_subcols) + '">' + escape_html(str(name)) + '</div>'
+
+
 	header_text = 'grid-template-columns: '
 	
 	if not hide_index:
@@ -154,7 +164,7 @@ def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_ind
 				header_text += "".join(['<div class="anaIndex anaColName">' + escape_html(name) + '</div>' for name in df.index.names])
 			else:
 				header_text += '<div class="anaIndex anaColName">' + escape_html(df.index.name) + '</div>'
-		header_text += "".join(['<div class="anaColName" style="grid-column: span ' + str(len(column_defs[name if name in column_defs else None])) + '">' + escape_html(str(name)) + '</div>' for name in df.columns])
+		header_text += "".join([make_item_col_header_code(name) for name in df.columns])
 	
 	
 	def apply_formatter(formatter, val, *rest):
@@ -371,7 +381,12 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 	if len(all_frames) == 2:
 		formatted = format_table_with_change(*all_frames, show_symbols=(rows_type == "ordered" or rows_type == "unordered"), **formatting_params, **other_params)
 	else:
-		formatted = format_table(df, **formatting_params, **other_params)
+		formatted = format_table(
+			df,
+			column_defs=[("minmax(var(--value-width), min-content)", lambda v, i, c: str(v) if isinstance(v, int) else "{:.2f}".format(v))],
+			**formatting_params,
+			**other_params
+		)
 
 	display(formatted)
 
