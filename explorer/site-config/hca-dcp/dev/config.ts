@@ -118,10 +118,10 @@ const config: SiteConfig = {
   ],
   dataSource: {
     defaultDetailParams: {
-      catalog: "dcp28",
+      catalog: "dcp29",
     },
     defaultListParams: {
-      catalog: "dcp28",
+      catalog: "dcp29",
       size: PAGINATION_PAGE_SIZE,
     },
     url: "https://service.azul.data.humancellatlas.org/",
