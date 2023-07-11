@@ -101,7 +101,7 @@ export function make_config(browserUrl: string): SiteConfig {
       activitiesEntityConfig,
       filesEntityConfig,
     ],
-    explorerTitle: "AnVIL Data Explorer",
+    explorerTitle: "AnVIL Explorer",
     export: exportConfig,
     exportToTerraUrl: "https://app.terra.bio",
     layout: {
