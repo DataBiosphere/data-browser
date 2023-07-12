@@ -104,6 +104,10 @@ const config: SiteConfig = {
       label: HCA_DCP_CATEGORY_LABEL.PRESERVATION_METHOD,
     },
     {
+      key: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
+      label: HCA_DCP_CATEGORY_LABEL.PROJECT_TITLE,
+    },
+    {
       key: HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE,
       label: HCA_DCP_CATEGORY_LABEL.SAMPLE_ENTITY_TYPE,
     },
