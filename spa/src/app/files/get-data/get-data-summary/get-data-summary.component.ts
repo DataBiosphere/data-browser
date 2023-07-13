@@ -34,7 +34,10 @@ export class GetDataSummaryComponent {
      * @returns {Term[]}
      */
     public listSelectedDiseases(fileFacets: FileFacet[]): Term[] {
-        return this.listSelectedTermsOfFacet(fileFacets, FileFacetName.DISEASE);
+        return this.listSelectedTermsOfFacet(
+            fileFacets,
+            FileFacetName.SPECIMEN_DISEASE
+        );
     }
 
     /**
