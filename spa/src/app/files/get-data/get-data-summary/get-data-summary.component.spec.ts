@@ -29,7 +29,7 @@ describe("GetDataSummaryComponent", () => {
     // Search terms with file format selected
     const SEARCH_TERMS = [
         new SearchFacetTerm("fileFormat", "fastq", 123),
-        new SearchFacetTerm("disease", "ESRD", 8),
+        new SearchFacetTerm("specimenDisease", "ESRD", 8),
         new SearchFacetTerm("genusSpecies", "Homo sapiens", 20),
     ];
 
