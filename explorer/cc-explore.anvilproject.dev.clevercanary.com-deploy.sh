@@ -11,15 +11,16 @@ rm -rf ./build
 n 16.15.1
 npm ci
 
-mkdir -p build/explore
+mkdir -p build/explore/anvil-cmg
 
-# Build AnVIL
+# Build AnVIL Explorer
 rm -rf ./out
-npm run build-dev:hca-dcp
+npm run build-cc-dev:anvil-cmg
 mv out/explore/* build/explore
 
-export BUCKET=s3://wb8-explorer/
+
+export BUCKET=s3://explore.anvilproject.dev.clevercanary.com/
 export SRCDIR=build/
 
 aws s3 sync  $SRCDIR $BUCKET --delete --profile excira
-aws cloudfront create-invalidation --distribution-id E2SLGSHX4H0LO7 --paths "/*" --profile excira
+aws cloudfront create-invalidation --distribution-id E2FFANJTIILTKH --paths "/*" --profile excira

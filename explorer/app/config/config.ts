@@ -2,6 +2,7 @@ import { setConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import anvilCatalogDev from "../../site-config/anvil-catalog/dev/config";
 import anvilCatalogProd from "../../site-config/anvil-catalog/prod/config";
+import anvilCmgCCDev from "../../site-config/anvil-cmg/cc-dev/config";
 import anvilCmgDev from "../../site-config/anvil-cmg/dev/config";
 import anvilCmgProd from "../../site-config/anvil-cmg/prod/config";
 import anvilDev from "../../site-config/anvil/dev/config";
@@ -18,6 +19,7 @@ import ncpiMapProd from "../../site-config/ncpi-catalog/prod/config";
 const CONFIGS: { [k: string]: SiteConfig } = {
   "anvil-catalog-dev": anvilCatalogDev,
   "anvil-catalog-prod": anvilCatalogProd,
+  "anvil-cmg-cc-dev": anvilCmgCCDev,
   "anvil-cmg-dev": anvilCmgDev,
   "anvil-cmg-prod": anvilCmgProd,
   "anvil-dev": anvilDev,
