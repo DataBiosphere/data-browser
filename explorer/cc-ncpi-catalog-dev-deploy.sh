@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Set the script to exit immediately on error
+set -e
 
 echo \"Deleting ./out/\"
 rm -rf ./out
