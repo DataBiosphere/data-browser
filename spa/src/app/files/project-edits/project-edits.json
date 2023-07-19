@@ -401,6 +401,10 @@
             {
                 "name": "CELL_BROWSER",
                 "url": "https://human-cellular-landscape.cells.ucsc.edu"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/38833785-fac5-48fd-944a-0f62a4c23ed1"
             }
         ]
     },
@@ -577,10 +581,6 @@
         "entryId": "20037472-ea1d-4ddb-9cd3-56a11a6f0f76",
         "analysisPortals": [
             {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/e/3de0ad6d-4378-4f62-b37b-ec0b75a50d94.cxg/"
-            },
-            {
                 "name": "LGEA",
                 "url": "https://research.cchmc.org/pbge/lunggens/LM2/scrna_cellquery.html"
             },
@@ -629,10 +629,6 @@
         "entryId": "85a9263b-0887-48ed-ab1a-ddfa773727b6",
         "analysisPortals": [
             {
-                "name": "CELLXGENE",
-                "url": "https://www.covid19cellatlas.org/aldinger20"
-            },
-            {
                 "name": "CELL_BROWSER",
                 "url": "https://cbl-dev.cells.ucsc.edu"
             }
@@ -680,23 +676,6 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/83ed3be8-4cb9-43e6-9aaa-3fbbf5d1bd3a"
-            }
-        ]
-    },
-    {
-        "entryId": "c0518445-3b3b-49c6-b8fc-c41daa4eacba",
-        "analysisPortals": [
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/d/cellular_census_of_human_lungs_alveoli_and_parenchyma-15.cxg/"
-            },
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/d/cellular_census_of_human_lungs_bronchi-17.cxg/"
-            },
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/d/cellular_census_of_human_lungs_nasal-16.cxg/"
             }
         ]
     },
@@ -1018,6 +997,141 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/125eef58-0f61-4963-9b08-53e851ab65fb"
+            }
+        ]
+    },
+    {
+        "entryId": "575c0ad9-c78e-469b-9fdf-9a68dd881137",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/10bf5c50-8d85-4c5f-94b4-22c1363d9f31"
+            }
+        ]
+    },
+    {
+        "entryId": "12f32054-8f18-4dae-8959-bfce7e3108e7",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/3f50314f-bdc9-40c6-8e4a-b0901ebfbe4c"
+            }
+        ]
+    },
+    {
+        "entryId": "5f607e50-ba22-4598-b1e9-f3d9d7a35dcc",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/0a839c4b-10d0-4d64-9272-684c49a2c8ba"
+            }
+        ]
+    },
+    {
+        "entryId": "111d272b-c25a-49ac-9b25-e062b70d66e0",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/35d0b748-3eed-43a5-a1c4-1dade5ec5ca0"
+            }
+        ]
+    },
+    {
+        "entryId": "50154d1e-2308-44bf-9608-10c7afaa560b",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/a48f5033-3438-4550-8574-cdff3263fdfd"
+            }
+        ]
+    },
+    {
+        "entryId": "e090445c-6971-4212-bc5f-ae4ec3914102",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/939769a8-d8d2-4d01-abfc-55699893fd49"
+            }
+        ]
+    },
+    {
+        "entryId": "da74b507-60ee-4dd1-bd02-807bb051a337",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/6d203948-a779-4b69-9b3f-1ee1dadc3980"
+            }
+        ]
+    },
+    {
+        "entryId": "cae461de-ecbd-482f-a5d4-11d607fc12ba",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/5c868b6f-62c5-4532-9d7f-a346ad4b50a7"
+            }
+        ]
+    },
+    {
+        "entryId": "4f4f0193-ede8-4a82-8cb0-7a0a22f06e63",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/348da6dc-5bf6-435d-adc5-37747b9ae38a"
+            }
+        ]
+    },
+    {
+        "entryId": "07d5987e-7f9e-4f34-b0fb-a185a35504f5",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/1a486c4c-c115-4721-8c9f-f9f096e10857"
+            }
+        ]
+    },
+    {
+        "entryId": "3d49e5e5-976f-44cb-b6b9-079016c31c56",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/b3e2c6e3-9b05-4da9-8f42-da38a664b45b"
+            }
+        ]
+    },
+    {
+        "entryId": "30dc3964-1135-4b56-b393-ce2dcbc6e379",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/1d1c7275-476a-49e2-9022-ad1b1c793594"
+            }
+        ]
+    },
+    {
+        "entryId": "7c599029-7a3c-4b5c-8e79-e72c9a9a65fe",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/1df8c90d-d299-4b2e-a54d-a5a80f36e780"
+            }
+        ]
+    },
+    {
+        "entryId": "04e4292c-f62f-4098-ae9b-fd69ae002a90",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/62ef75e4-cbea-454e-a0ce-998ec40223d3"
+            }
+        ]
+    },
+    {
+        "entryId": "73011a86-4755-48ac-9f70-a28903b4ad77",
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/9d63fcf1-5ca0-4006-8d8f-872f3327dbe9"
             }
         ]
     }
