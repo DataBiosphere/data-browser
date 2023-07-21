@@ -8,9 +8,10 @@ export default withPlugins(
     [
       withOptimizedImages,
       {
-        optimizeImagesInDev: true,
         handleImages: ["jpeg", "png", "svg"],
         imagesFolder: "images",
+        inlineImageLimit: -1,
+        optimizeImagesInDev: true,
       },
     ],
     withMDX,
