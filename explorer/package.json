@@ -33,13 +33,13 @@
     "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts"
   },
   "dependencies": {
-    "@clevercanary/data-explorer-ui": "0.27.1",
-    "@emotion/react": "11.10.4",
-    "@emotion/styled": "11.10.4",
+    "@clevercanary/data-explorer-ui": "0.28.0",
+    "@emotion/react": "11.11.1",
+    "@emotion/styled": "11.11.0",
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
-    "@mui/icons-material": "5.8.0",
-    "@mui/material": "5.8.1",
+    "@mui/icons-material": "5.14.1",
+    "@mui/material": "5.14.1",
     "@next/mdx": "^13.1.6",
     "@tanstack/react-table": "^8.5.11",
     "@types/fhir": "^0.0.35",
@@ -60,6 +60,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-gtm-module": "2.0.11",
+    "react-window": "1.8.9",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
