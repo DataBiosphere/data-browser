@@ -46,8 +46,16 @@
         "entryId": "f83165c5-e2ea-4d15-a5cf-33f3550bffde",
         "analysisPortals": [
             {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/a9254216-6cd8-4186-b32c-349363777584"
+            },
+            {
                 "name": "CELL_BROWSER",
                 "url": "https://placenta-decidua.cells.ucsc.edu"
+            },
+            {
+                "name": "GENOME_BROWSER",
+                "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?db=hg38&g=placentaVentoTormo&position=default"
             }
         ],
         "publications": [
@@ -63,6 +71,12 @@
             {
                 "publicationTitle": "Single-cell transcriptomics of human T cells reveals tissue and activation signatures in health and disease",
                 "publicationUrl": "https://www.nature.com/articles/s41467-019-12464-3"
+            }
+        ],
+        "analysisPortals": [
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/24d42e5e-ce6d-45ff-a66b-a3b3b715deaf"
             }
         ]
     },
@@ -458,23 +472,6 @@
         ]
     },
     {
-        "entryId": "f83165c5-e2ea-4d15-a5cf-33f3550bffde",
-        "analysisPortals": [
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/collections/a9254216-6cd8-4186-b32c-349363777584"
-            },
-            {
-                "name": "CELL_BROWSER",
-                "url": "https://placenta-decidua.cells.ucsc.edu"
-            },
-            {
-                "name": "GENOME_BROWSER",
-                "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?db=hg38&g=placentaVentoTormo&position=default"
-            }
-        ]
-    },
-    {
         "entryId": "a9301beb-e9fa-42fe-b75c-84e8a460c733",
         "analysisPortals": [
             {
@@ -488,15 +485,6 @@
             {
                 "name": "GENOME_BROWSER",
                 "url": "https://genome.ucsc.edu/cgi-bin/hgTrackUi?hgsid=1280204515_ghYsRY4Rvd6xWbNT4JaYmq8NbAb3&db=hg38&c=chr12&g=fetalGeneAtlas"
-            }
-        ]
-    },
-    {
-        "entryId": "4a95101c-9ffc-4f30-a809-f04518a23803",
-        "analysisPortals": [
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/collections/24d42e5e-ce6d-45ff-a66b-a3b3b715deaf"
             }
         ]
     },
@@ -595,15 +583,6 @@
             {
                 "name": "TOPPCELL",
                 "url": "https://toppcell.cchmc.org/biosystems/go/index3/shred/single_cell_projects/Lung_development_from_XinSun/Output%20by%20Lineage%20by%20Cell%20type%20by%20age%20group%20by%20donor-2"
-            }
-        ]
-    },
-    {
-        "entryId": "2af52a13-65cb-4973-b513-39be38f2df3f",
-        "analysisPortals": [
-            {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/collections/9b02383a-9358-4f0f-9795-a891ec523bcc"
             }
         ]
     },
