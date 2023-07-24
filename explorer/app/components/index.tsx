@@ -26,6 +26,10 @@ export { DownloadCurlCommandForm } from "@clevercanary/data-explorer-ui/lib/comp
 export { DownloadCurlCommand } from "@clevercanary/data-explorer-ui/lib/components/Export/components/DownloadCurlCommand/downloadCurlCommand";
 export { ExportEntityToTerra } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportEntityToTerra/exportEntityToTerra";
 export { ExportMethod } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportMethod/exportMethod";
+export { ExportSelectedData } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSelectedData/exportSelectedData";
+export { ExportCurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
+export { ExportSelectedDataSummary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
+export { ExportSummary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/exportSummary";
 export { AzulFileDownload } from "@clevercanary/data-explorer-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
 export { Cell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Cell/cell";
 export { Summaries } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Hero/components/Summaries/summaries";
@@ -49,7 +53,6 @@ export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
 export { ConsentCodeList } from "./Detail/components/ConsentCodeList/consentCodeList";
 export { ConsentTooltip } from "./Detail/components/ConsentTooltip/consentTooltip";
 export { ConsortiumOverview } from "./Detail/components/Consortium/ConsortiumOverview/consortiumOverview";
-export { ExportEntityCurrentQuery } from "./Detail/components/Export/components/ExportEntityCurrentQuery/exportEntityCurrentQuery";
 export { ExportEntityToTerraForm } from "./Detail/components/Export/components/ExportEntityToTerraForm/exportEntityToTerraForm";
 export { FileLocationArchivePreview } from "./Detail/components/GeneratedMatricesTables/components/FileLocationArchivePreview/fileLocationArchivePreview";
 export { FileLocationCopy } from "./Detail/components/GeneratedMatricesTables/components/FileLocationCopy/fileLocationCopy";

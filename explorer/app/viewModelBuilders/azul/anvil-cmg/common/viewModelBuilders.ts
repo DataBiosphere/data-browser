@@ -606,16 +606,6 @@ export const buildExportToTerraMetadata = (): React.ComponentProps<
   title: "Export Study Data and Metadata to Terra Workspace",
 });
 
-export const buildExportToCavaticaMetadata = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => ({
-  buttonLabel: "Analyze in CAVATICA",
-  description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
-  disabled: false,
-  route: "/export",
-  title: "Export to CAVATICA",
-});
-
 /**
  * Returns the callToAction prop for the Hero component from the given datasets API.
  * @param datasetEntity - Response model return from datasets API.

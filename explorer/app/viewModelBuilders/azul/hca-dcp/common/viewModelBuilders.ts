@@ -1,17 +1,26 @@
 import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { Filters } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
   KeyValueFn,
   Value,
 } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { CurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
+import { Summary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { getConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
-import { FILE_MANIFEST_ACTION } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
+import {
+  FileFacet,
+  FileManifest,
+  FILE_MANIFEST_ACTION,
+} from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
 import {
   TEXT_BODY_400,
   TEXT_BODY_400_2_LINES,
 } from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
+import { formatCountSize } from "@clevercanary/data-explorer-ui/lib/utils/formatCountSize";
+import { mapCategoryKeyLabel } from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import React, { ElementType, Fragment, ReactElement } from "react";
 import {
@@ -40,17 +49,21 @@ import {
 import { initExportEntityFilters } from "../../../../components/Detail/components/Export/common/utils";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
-import { formatCountSize } from "../../../../components/Index/common/utils";
 import * as MDX from "../../../../content/hca-dcp";
 import { useExportEntityToTerraResponseURL } from "../../../../hooks/azul/useExportEntityToTerraResponseURL";
 import { useFileManifestRequestParams } from "../../../../hooks/azul/useFileManifestRequestParams";
 import { useFileManifestRequestURL } from "../../../../hooks/azul/useFileManifestRequestURL";
 import { humanFileSize } from "../../../../utils/fileSize";
-import { mapCategoryKeyLabel } from "../../../common/utils";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
-import { DATA_SUMMARY_DISPLAY_TEXT } from "./dataSummaryMapper/constants";
-import { mapProjectDataSummary } from "./dataSummaryMapper/dataSummaryMapper";
+import {
+  DATA_SUMMARY,
+  DATA_SUMMARY_DISPLAY_TEXT,
+} from "./dataSummaryMapper/constants";
+import {
+  mapExportSummary,
+  mapProjectDataSummary,
+} from "./dataSummaryMapper/dataSummaryMapper";
 import { AnalysisPortal } from "./projectMapper/projectEdits/entities";
 import {
   mapProjectAnalysisPortals,
@@ -397,25 +410,28 @@ export const buildEstimateCellCount = (
 };
 
 /**
- * Build props for ExportEntityCurrentQuery component from the given projects response.
- * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the ExportEntityCurrentQuery component.
+ * Build props for ExportCurrentQuery component.
+ * @returns model to be used as props for the ExportCurrentQuery component.
  */
-export const buildExportEntityCurrentQuery = (
-  projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.ExportEntityCurrentQuery> => {
+export const buildExportEntityCurrentQuery = (): React.ComponentProps<
+  typeof C.ExportCurrentQuery
+> => {
   return {
-    categoryKeyLabel: mapCategoryKeyLabel(
-      HCA_DCP_CATEGORY_KEY,
-      HCA_DCP_CATEGORY_LABEL
-    ),
-    currentQuery: {
-      label: "Project",
-      values: [
-        processEntityValue(projectsResponse.projects, "projectShortname"),
-      ],
-    },
-    entityIdKey: "projectId",
+    getExportCurrentQueries: (filters: Filters, filesFacets: FileFacet[]) =>
+      getExportCurrentQueries(filters, filesFacets, true),
+  };
+};
+
+/**
+ * Build props for ExportCurrentQuery component.
+ * @returns model to be used as props for the ExportCurrentQuery component.
+ */
+export const buildExportCurrentQuery = (): React.ComponentProps<
+  typeof C.ExportCurrentQuery
+> => {
+  return {
+    getExportCurrentQueries: (filters: Filters, filesFacets: FileFacet[]) =>
+      getExportCurrentQueries(filters, filesFacets, false),
   };
 };
 
@@ -442,18 +458,17 @@ export const buildExportEntityToTerra = (
 };
 
 /**
- * Build props for ExportMethod component for display of the export to cavatica metadata section.
- * @returns model to be used as props for the ExportMethod component.
+ * Build props for ExportSelectedDataSummary component.
+ * @returns model to be used as props for the ExportSelectedDataSummary component.
  */
-export const buildExportToCavaticaMetadata = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => ({
-  buttonLabel: "Analyze in CAVATICA",
-  description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
-  disabled: false,
-  route: "/export",
-  title: "Export to CAVATICA",
-});
+export const buildExportSelectedDataSummary = (): React.ComponentProps<
+  typeof C.ExportSelectedDataSummary
+> => {
+  return {
+    getExportSelectedDataSummary: (fileManifest: FileManifest) =>
+      getExportSelectedDataSummary(fileManifest),
+  };
+};
 
 /**
  * Build props for ExportMethod component for display of the export to curl command metadata section.
@@ -566,6 +581,20 @@ export const buildFileSize = (
     value: humanFileSize(processNumberEntityValue(filesResponse.files, "size")),
   };
 };
+
+/**
+ * Returns the export selected data summary for the given file manifest.
+ * @param fileManifest - File manifest.
+ * @returns export selected data summary.
+ */
+export function getExportSelectedDataSummary(
+  fileManifest: FileManifest
+): Summary[] {
+  return [...mapExportSummary(fileManifest)].map(([key, value]) => [
+    DATA_SUMMARY_DISPLAY_TEXT[key as DATA_SUMMARY] || key,
+    value,
+  ]);
+}
 
 /**
  * Build props for genus species NTagCell component from the given entity response.
@@ -943,6 +972,62 @@ export function getEstimatedCellCount(
 }
 
 /**
+ * Returns current queries from the given selected filters and file facets.
+ * @param filters - Selected filters.
+ * @param filesFacets - Files facets.
+ * @param isExportEntity - Query is entity related.
+ * @returns current queries.
+ */
+export function getExportCurrentQueries(
+  filters: Filters,
+  filesFacets: FileFacet[],
+  isExportEntity: boolean
+): CurrentQuery[] {
+  const categoryKeyLabel = mapCategoryKeyLabel(
+    HCA_DCP_CATEGORY_KEY,
+    HCA_DCP_CATEGORY_LABEL
+  );
+  // Grab all selected filters, omitting project id and title.
+  const queries: CurrentQuery[] = filters
+    .filter(
+      ({ categoryKey }) =>
+        categoryKey !== HCA_DCP_CATEGORY_KEY.PROJECT_ID &&
+        categoryKey !== HCA_DCP_CATEGORY_KEY.PROJECT_TITLE
+    )
+    .map(({ categoryKey, value: selectedTerms }) => [
+      categoryKeyLabel.get(categoryKey) || categoryKey,
+      selectedTerms,
+    ]);
+  // Add project facet to the query, if the project facet has terms.
+  const projectQuery = getExportCurrentProjectQuery(filesFacets);
+  if (projectQuery && (isExportEntity || isAnyProjectSelected(filesFacets))) {
+    queries.unshift(projectQuery);
+  }
+  return queries;
+}
+
+/**
+ * Returns current project query from the given file facets.
+ * @param filesFacets - Files facets.
+ * @returns current project query.
+ */
+export function getExportCurrentProjectQuery(
+  filesFacets: FileFacet[]
+): CurrentQuery | undefined {
+  // Grab the project facet.
+  const projectFacet = filesFacets.find(
+    (fileFacet) => fileFacet.name === HCA_DCP_CATEGORY_KEY.PROJECT
+  );
+  if (!projectFacet || projectFacet.terms.length === 0) {
+    return;
+  }
+  return [
+    HCA_DCP_CATEGORY_LABEL.PROJECT,
+    projectFacet.terms.map((term) => term.name),
+  ];
+}
+
+/**
  * Returns the export filter key value pairs.
  * The key-value pairs facilitate the functionality of an export filter form by enabling various
  * options, such as selecting and choosing from a range of available categories such as genus species and file formats.
@@ -1235,6 +1320,19 @@ function getProjectTitleUrl(projectsResponse: ProjectsResponse): string {
     projectsResponse.projects,
     "projectId"
   )}`;
+}
+
+/**
+ * Returns true if any of the selected filters are project related.
+ * @param filesFacets - Files facets.
+ * @returns true if any of the selected filters are project related.
+ */
+function isAnyProjectSelected(filesFacets: FileFacet[]): boolean {
+  return (
+    filesFacets.find(
+      (fileFacet) => fileFacet.name === HCA_DCP_CATEGORY_KEY.PROJECT_TITLE
+    )?.selected || false
+  );
 }
 
 /**
