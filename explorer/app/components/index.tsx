@@ -49,6 +49,7 @@ export { Details } from "@clevercanary/data-explorer-ui/lib/components/Project/c
 export { Publications } from "@clevercanary/data-explorer-ui/lib/components/Project/components/Publications/publications";
 export { SupplementaryLinks } from "@clevercanary/data-explorer-ui/lib/components/Project/components/SupplementaryLinks/supplementaryLinks";
 export { TitledText } from "@clevercanary/data-explorer-ui/lib/components/Project/components/TitledText/titledText";
+export { ExportMethodView } from "@clevercanary/data-explorer-ui/lib/views/ExportMethodView/exportMethodView";
 export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
 export { ConsentCodeList } from "./Detail/components/ConsentCodeList/consentCodeList";
 export { ConsentTooltip } from "./Detail/components/ConsentTooltip/consentTooltip";
