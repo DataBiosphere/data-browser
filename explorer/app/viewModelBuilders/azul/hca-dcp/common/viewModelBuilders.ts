@@ -494,7 +494,7 @@ export const buildExportSelectedDataSummary = (): React.ComponentProps<
 };
 
 /**
- * Build props for ExportMethod component for display of the export to curl command metadata section.
+ * Build props for ExportMethod component for display of the download to curl command metadata section.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportToCurlCommand = (): React.ComponentProps<
@@ -503,7 +503,7 @@ export const buildExportToCurlCommand = (): React.ComponentProps<
   buttonLabel: "Request curl Command",
   description: "Obtain a curl command for downloading the selected data.",
   disabled: false,
-  route: "/export",
+  route: "/export/get-curl-command",
   title: "Download Study Data and Metadata (Curl Command)",
 });
 
