@@ -10,6 +10,7 @@ import { TempError } from "@clevercanary/data-explorer-ui/lib/components/TempErr
 import { AuthProvider } from "@clevercanary/data-explorer-ui/lib/providers/authentication";
 import { ConfigProvider as DXConfigProvider } from "@clevercanary/data-explorer-ui/lib/providers/config";
 import { ExploreStateProvider } from "@clevercanary/data-explorer-ui/lib/providers/exploreState";
+import { FileManifestStateProvider } from "@clevercanary/data-explorer-ui/lib/providers/fileManifestState";
 import { createAppTheme } from "@clevercanary/data-explorer-ui/lib/theme/theme";
 import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
@@ -44,15 +45,17 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             <AppLayout>
               <Header {...layout.header} />
               <ExploreStateProvider entityListType={entityListType}>
-                <Main>
-                  <ErrorBoundary
-                    fallbackRender={(error): JSX.Element => (
-                      <TempError error={error} />
-                    )}
-                  >
-                    <Component {...pageProps} />
-                  </ErrorBoundary>
-                </Main>
+                <FileManifestStateProvider>
+                  <Main>
+                    <ErrorBoundary
+                      fallbackRender={(error): JSX.Element => (
+                        <TempError error={error} />
+                      )}
+                    >
+                      <Component {...pageProps} />
+                    </ErrorBoundary>
+                  </Main>
+                </FileManifestStateProvider>
               </ExploreStateProvider>
               <Footer {...layout.footer} />
             </AppLayout>

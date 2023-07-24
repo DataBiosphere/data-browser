@@ -1,5 +1,5 @@
 import { Filters } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { useDetailState } from "@clevercanary/data-explorer-ui/lib/hooks/useDetailState";
+import { useFileManifestState } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifestState";
 import React, { useEffect, useState } from "react";
 import { ExportFilterKeyExportCategory } from "../../common/entities";
 
@@ -11,13 +11,13 @@ export interface ExportEntityToTerraFormProps {
 export const ExportEntityToTerraForm = ({
   entityFilters,
 }: ExportEntityToTerraFormProps): JSX.Element => {
-  const { updateExportFilters } = useDetailState();
+  const { updateFilters } = useFileManifestState();
   const [filters] = useState<Filters>(entityFilters || []);
 
   // Set export filters with the entity id, and any selected filter categories.
   useEffect(() => {
-    updateExportFilters(filters);
-  }, [filters, updateExportFilters]);
+    updateFilters(filters);
+  }, [filters, updateFilters]);
 
   return <>{/* Export entity form */}</>;
 };
