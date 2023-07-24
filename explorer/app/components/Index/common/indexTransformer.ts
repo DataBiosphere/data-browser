@@ -1,12 +1,12 @@
 import { AzulSummaryResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { Summary } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Hero/components/Summaries/summaries";
+import { formatCountSize } from "@clevercanary/data-explorer-ui/lib/utils/formatCountSize";
 import {
   BIND_SUMMARY_RESPONSE,
   PLURALIZED_METADATA_LABEL,
   SUMMARY_LABEL,
 } from "./constants";
 import { METADATA_KEY, SUMMARY } from "./entities";
-import { formatCountSize } from "./utils";
 
 /**
  * Returns the pluralized metadata label for the specified metadata.

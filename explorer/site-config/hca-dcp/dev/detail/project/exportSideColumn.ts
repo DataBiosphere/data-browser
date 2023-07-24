@@ -1,5 +1,4 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import { ProjectsResponse } from "../../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../../app/components";
 import * as MDX from "../../../../../app/content/hca-dcp";
 import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
@@ -8,12 +7,16 @@ export const sideColumn: ComponentConfig[] = [
   {
     children: [
       {
-        component: C.ExportEntityCurrentQuery,
+        component: C.ExportCurrentQuery,
         viewBuilder: V.buildExportEntityCurrentQuery,
-      } as ComponentConfig<typeof C.ExportEntityCurrentQuery, ProjectsResponse>,
+      } as ComponentConfig<typeof C.ExportCurrentQuery>,
+      {
+        component: C.ExportSelectedDataSummary,
+        viewBuilder: V.buildExportSelectedDataSummary,
+      } as ComponentConfig<typeof C.ExportSelectedDataSummary>,
     ],
-    component: C.Sections,
-  } as ComponentConfig<typeof C.Sections>,
+    component: C.ExportSummary,
+  } as ComponentConfig<typeof C.ExportSummary>,
   {
     children: [
       {

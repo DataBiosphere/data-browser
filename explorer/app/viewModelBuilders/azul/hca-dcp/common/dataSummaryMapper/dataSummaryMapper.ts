@@ -1,10 +1,20 @@
 import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
 import { Value } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import {
+  displaySummaryTerms,
+  listSelectedTermsOfFacet,
+} from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/common/utils";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { Links } from "@clevercanary/data-explorer-ui/lib/components/Links/links";
 import { getConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
-import { HCA_DCP_CATEGORY_KEY } from "../../../../../../site-config/hca-dcp/category";
+import { FileManifest } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
+import { formatCountSize } from "@clevercanary/data-explorer-ui/lib/utils/formatCountSize";
+import { formatFileSize } from "@clevercanary/data-explorer-ui/lib/utils/formatFileSize";
+import {
+  HCA_DCP_CATEGORY_KEY,
+  HCA_DCP_CATEGORY_LABEL,
+} from "../../../../../../site-config/hca-dcp/category";
 import {
   processAggregatedBooleanOrArrayValue,
   processAggregatedNumberEntityValue,
@@ -12,7 +22,6 @@ import {
   processEntityValue,
 } from "../../../../../apis/azul/common/utils";
 import { ProjectsResponse } from "../../../../../apis/azul/hca-dcp/common/responses";
-import { formatCountSize } from "../../../../../components/Index/common/utils";
 import {
   getEstimatedCellCount,
   getProjectFileFormats,
@@ -216,4 +225,88 @@ export function mapProjectDataSummary(
   details.set(DATA_SUMMARY.TOTAL_CELLS, totalCells); // Cell Count Estimate
   details.set(DATA_SUMMARY.DONOR_COUNT, formatCountSize(donorCount)); // Donor Count
   return details;
+}
+
+/**
+ * Maps export summary related information, included formatted display text from the given file manifest.
+ * @param fileManifest - File manifest.
+ * @returns summaries key-value pairs of data summary and corresponding value.
+ */
+export function mapExportSummary(
+  fileManifest: FileManifest
+): Map<DATA_SUMMARY | string, string> {
+  const { filesFacets, fileSummary } = fileManifest;
+  // Grab summary values.
+  const donorCount = fileSummary.donorCount;
+  const donorDisease = listSelectedTermsOfFacet(
+    filesFacets,
+    HCA_DCP_CATEGORY_KEY.DONOR_DISEASE
+  );
+  const fileCount = fileSummary.fileCount;
+  const genusSpecies = listSelectedTermsOfFacet(
+    filesFacets,
+    HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
+  );
+  const libraryConstructionApproach = listSelectedTermsOfFacet(
+    filesFacets,
+    HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD
+  );
+  const organ = listSelectedTermsOfFacet(
+    filesFacets,
+    HCA_DCP_CATEGORY_KEY.ORGAN
+  );
+  const organPart = listSelectedTermsOfFacet(
+    filesFacets,
+    HCA_DCP_CATEGORY_KEY.ORGAN_PART
+  );
+  const pairedEnd = listSelectedTermsOfFacet(
+    filesFacets,
+    HCA_DCP_CATEGORY_KEY.PAIRED_END
+  );
+  const projectCount = fileSummary.projectCount;
+  const specimenCount = fileSummary.specimenCount;
+  const specimenDisease = listSelectedTermsOfFacet(
+    filesFacets,
+    HCA_DCP_CATEGORY_KEY.SPECIMEN_DISEASE
+  );
+  const totalCellCount = fileSummary.totalCellCount;
+  const totalFileSize = fileSummary.totalFileSize;
+
+  // Map summary by summary key or display text.
+  const summaryBySummaryKey = new Map<DATA_SUMMARY | string, string>();
+  summaryBySummaryKey.set("Estimated Cells", formatCountSize(totalCellCount));
+  summaryBySummaryKey.set(
+    HCA_DCP_CATEGORY_LABEL.FILE_SIZE,
+    formatFileSize(totalFileSize)
+  );
+  summaryBySummaryKey.set("Files", formatCountSize(fileCount));
+  summaryBySummaryKey.set("Projects", formatCountSize(projectCount));
+  summaryBySummaryKey.set(
+    DATA_SUMMARY.GENUS_SPECIES,
+    displaySummaryTerms(genusSpecies)
+  );
+  summaryBySummaryKey.set("Donors", formatCountSize(donorCount));
+  summaryBySummaryKey.set(
+    DATA_SUMMARY.DONOR_DISEASE,
+    displaySummaryTerms(donorDisease)
+  ); // Disease Status (Donor)
+  summaryBySummaryKey.set("Specimens", formatCountSize(specimenCount));
+  summaryBySummaryKey.set(
+    DATA_SUMMARY.DISEASE,
+    displaySummaryTerms(specimenDisease)
+  ); // Disease Status (Specimen)
+  summaryBySummaryKey.set(DATA_SUMMARY.ORGAN, displaySummaryTerms(organ)); // Anatomical Entity
+  summaryBySummaryKey.set(
+    DATA_SUMMARY.ORGAN_PART,
+    displaySummaryTerms(organPart)
+  );
+  summaryBySummaryKey.set(
+    DATA_SUMMARY.LIBRARY_CONSTRUCTION_APPROACH,
+    displaySummaryTerms(libraryConstructionApproach)
+  ); // Library Construction Method
+  summaryBySummaryKey.set(
+    DATA_SUMMARY.PAIRED_END,
+    displaySummaryTerms(pairedEnd)
+  ); // Paired End
+  return summaryBySummaryKey;
 }

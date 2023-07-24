@@ -20,10 +20,6 @@ export const exportConfig: BackPageConfig = {
           component: C.ExportMethod,
           viewBuilder: T.buildExportToTerraMetadata,
         } as ComponentConfig<typeof C.ExportMethod>,
-        {
-          component: C.ExportMethod,
-          viewBuilder: T.buildExportToCavaticaMetadata,
-        } as ComponentConfig<typeof C.ExportMethod>,
       ],
       route: "/export",
       sideColumn: [
