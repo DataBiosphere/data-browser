@@ -5,7 +5,7 @@ import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/vie
 
 export const mainColumn: ComponentConfig[] = [
   {
-    component: C.DownloadEntityCurlCommand,
+    component: C.DownloadCurlCommand,
     viewBuilder: V.buildDownloadEntityCurlCommand,
-  } as ComponentConfig<typeof C.DownloadEntityCurlCommand, ProjectsResponse>,
+  } as ComponentConfig<typeof C.DownloadCurlCommand, ProjectsResponse>,
 ];

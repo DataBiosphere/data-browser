@@ -1,7 +1,7 @@
 import { Filters } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { SectionTitle } from "@clevercanary/data-explorer-ui/lib/components/common/Section/components/SectionTitle/sectionTitle";
 import { GridPaperSection } from "@clevercanary/data-explorer-ui/lib/components/common/Section/section.styles";
-import { useDetailState } from "@clevercanary/data-explorer-ui/lib/hooks/useDetailState";
+import { useFileManifestState } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifestState";
 import React, { Fragment } from "react";
 import { CategoryKeyLabel } from "../../../../../../viewModelBuilders/common/utils";
 import { Label, Values } from "./exportEntityCurrentQuery.styles";
@@ -22,9 +22,9 @@ export const ExportEntityCurrentQuery = ({
   currentQuery,
   entityIdKey,
 }: ExportEntityCurrentQueryProps): JSX.Element => {
-  const { exportFilters } = useDetailState();
+  const { filters } = useFileManifestState();
   const queries = getCurrentQueries(
-    exportFilters,
+    filters,
     categoryKeyLabel,
     currentQuery,
     entityIdKey
