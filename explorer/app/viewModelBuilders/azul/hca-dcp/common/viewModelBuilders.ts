@@ -10,6 +10,7 @@ import { CurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Expo
 import { Summary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { getConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
+import { ViewContext } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import {
   FileFacet,
   FileManifest,
@@ -28,6 +29,7 @@ import {
   HCA_DCP_CATEGORY_LABEL,
 } from "../../../../../site-config/hca-dcp/category";
 import { PROJECTS_URL } from "../../../../../site-config/hca-dcp/dev/config";
+import { FORM_FACETS } from "../../../../../site-config/hca-dcp/dev/export/constants";
 import {
   processAggregatedOrArrayValue,
   processEntityArrayValue,
@@ -392,7 +394,7 @@ export const buildDownloadEntityCurlCommand = (
       processEntityValue(projectsResponse.projects, "projectId"),
     ],
     fileManifestAction: FILE_MANIFEST_ACTION.ENTITY_BULK_DOWNLOAD,
-    formFacets: [],
+    formFacets: FORM_FACETS,
   };
 };
 
@@ -456,6 +458,27 @@ export const buildExportEntityToTerra = (
     useExportResponseURL: useExportEntityToTerraResponseURL,
   };
 };
+
+/**
+ * Build props for export Hero component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the export Hero component.
+ */
+export function buildExportHero(
+  _: Record<string, never>,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.BackPageHero> {
+  const { exploreState } = viewContext;
+  const { tabValue } = exploreState || {};
+  return {
+    breadcrumbs: [
+      { path: `/${tabValue}`, text: "Explore" },
+      { path: "", text: "Export Selected Data" },
+    ],
+    title: "Choose Export Method",
+  };
+}
 
 /**
  * Build props for ExportSelectedDataSummary component.
