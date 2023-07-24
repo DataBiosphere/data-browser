@@ -57,7 +57,10 @@ export async function buildAnVILCatalogWorkspace(
     dataType: anVILCatalog["library:datatype"],
     dbGapId: anVILCatalog.phsId,
     disease: anVILCatalog["library:indication"],
-    participantCount: anVILCatalog.participantCount,
+    participantCount: Math.max(
+      anVILCatalog.participantCount,
+      anVILCatalog.subjectCount
+    ),
     studyAccession: dbGapStudy?.studyAccession ?? "",
     studyDesign: anVILCatalog["library:studyDesign"],
     studyName: dbGapStudy?.title ?? "",
