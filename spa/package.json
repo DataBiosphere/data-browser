@@ -42,7 +42,7 @@
     "ngx-device-detector": "^2.2.1",
     "rxjs": "^6.6.7",
     "save-dev": "0.0.1-security",
-    "tslib": "^2.0.0",
+    "tslib": "^2.6.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
