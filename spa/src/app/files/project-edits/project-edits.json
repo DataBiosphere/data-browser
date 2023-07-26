@@ -118,8 +118,7 @@
     {
         "entryId": "dd7ada84-3f14-4765-b7ce-9b64642bb3dc",
         "deprecated": true,
-        "projectShortname":
-        "Single-nucleus RNA-seq profiling of the human primary motor cortex in amyotrophic lateral sclerosis and frontotemporal lobar degeneration"
+        "projectShortname": "Single-nucleus RNA-seq profiling of the human primary motor cortex in amyotrophic lateral sclerosis and frontotemporal lobar degeneration"
     },
     {
         "entryId": "9bab0f03-a725-4a13-9ab1-196e46cd80ed",
@@ -178,16 +177,16 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/7681c7d7-0168-4892-a547-6f02a6430ace"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://microbial-immune-colon.cells.ucsc.edu"
             }
         ]
     },
     {
         "entryId": "8185730f-4113-40d3-9cc3-929271784c2b",
         "analysisPortals": [
-            {
-                "name": "CELL_BROWSER",
-                "url": "https://adult-retina.cells.ucsc.edu"
-            },
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/3472f32d-4a33-48e2-aad5-666d4631bf4c"
@@ -242,16 +241,16 @@
         "entryId": "cddab57b-6868-4be4-806f-395ed9dd635a",
         "analysisPortals": [
             {
-                "name": "CELL_BROWSER",
-                "url": "https://cells.ucsc.edu/?ds=adultPancreas"
-            },
-            {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/a238e9fa-2bdf-41df-8522-69046f99baff"
             },
             {
                 "name": "STEM_CELL_HUB",
                 "url": "https://cirm.ucsc.edu/cgi-bin/cdwGetFile/quakeAdultAgingPancreas1/summary/index.html"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://adultPancreas.cells.ucsc.edu"
             }
         ]
     },
@@ -348,15 +347,6 @@
             {
                 "name": "STEM_CELL_HUB",
                 "url": "https://cirm.ucsc.edu/cgi-bin/cdwGetFile/gompertsLungOrganoids/summary/index.html"
-            }
-        ]
-    },
-    {
-        "entryId": "4bec484d-ca7a-47b4-8d48-8830e06ad6db",
-        "analysisPortals": [
-            {
-                "name": "CELL_BROWSER",
-                "url": "https://human-fovea-periphery.cells.ucsc.edu"
             }
         ]
     },
@@ -592,6 +582,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/e2a4a67f-6a18-431a-ab9c-6e77dd31cc80"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://prostate-prostatic-urethra.cells.ucsc.edu"
             }
         ]
     },
@@ -628,6 +622,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/03f821b4-87be-4ff4-b65a-b5fc00061da7"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://covid19-infection-response.cells.ucsc.edu"
             }
         ]
     },
@@ -729,6 +727,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/a3ffde6c-7ad2-498a-903c-d58e732f7470"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://cross-tissue-maps.cells.ucsc.edu"
             }
         ]
     },
@@ -738,6 +740,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/33d19f34-87f5-455b-8ca5-9023a2e5453d"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://human-colon.cells.ucsc.edu"
             }
         ]
     },
@@ -747,6 +753,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/64b24fda-6591-4ce1-89e7-33eb6c43ad7b"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://intestine-epithelium.cells.ucsc.edu"
             }
         ]
     },
@@ -765,6 +775,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/2902f08c-f83c-470e-a541-e463e25e5058"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://ovarian-follicle-recon.cells.ucsc.edu"
             }
         ]
     },
@@ -774,6 +788,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/2f4c738f-e2f3-4553-9db2-0582a38ea4dc"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://roska-retina-atlas.cells.ucsc.edu"
             }
         ]
     },
@@ -801,6 +819,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/e33ffcd3-7cbf-4b8c-b0f4-85587ad5019a"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://intestine-fetal-adult.cells.ucsc.edu"
             }
         ]
     },
@@ -819,6 +841,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/6ff3401b-d72c-4940-a00c-3f0792397082"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://eils-lung.cells.ucsc.edu"
             }
         ]
     },
@@ -837,6 +863,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/b1a879f6-5638-48d3-8f64-f6592c1b1561"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://fetal-immune.cells.ucsc.edu"
             }
         ]
     },
@@ -895,6 +925,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/dde06e0f-ab3b-46be-96a2-a8082383c4a1"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://eqtl-autoimmune.cells.ucsc.edu"
             }
         ]
     },
@@ -904,6 +938,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/b0cf0afa-ec40-4d65-b570-ed4ceacc6813"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://multimodal-pbmc.cells.ucsc.edu"
             }
         ]
     },
@@ -912,7 +950,11 @@
         "analysisPortals": [
             {
                 "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/collections/8f126edf-5405-4731-8374-b5ce11f53e82 "
+                "url": "https://cellxgene.cziscience.com/collections/8f126edf-5405-4731-8374-b5ce11f53e82"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://covid19-blood-atlas.cells.ucsc.edu"
             }
         ]
     },
@@ -922,6 +964,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/ed9185e3-5b82-40c7-9824-b2141590c7f0"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://covid19-fatal.cells.ucsc.edu"
             }
         ]
     },
@@ -931,6 +977,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/e4c9ed14-e560-4900-a3bf-b0f8d2ce6a10"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://covid19-cellular-targets.cells.ucsc.edu"
             }
         ]
     },
@@ -1003,6 +1053,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/0a839c4b-10d0-4d64-9272-684c49a2c8ba"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://covid19-critical-immuno.cells.ucsc.edu"
             }
         ]
     },
@@ -1021,15 +1075,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/a48f5033-3438-4550-8574-cdff3263fdfd"
-            }
-        ]
-    },
-    {
-        "entryId": "e090445c-6971-4212-bc5f-ae4ec3914102",
-        "analysisPortals": [
+            },
             {
-                "name": "CELLXGENE",
-                "url": "https://cellxgene.cziscience.com/collections/939769a8-d8d2-4d01-abfc-55699893fd49"
+                "name": "CELL_BROWSER",
+                "url": "https://htan-vumc.cells.ucsc.edu"
             }
         ]
     },
@@ -1057,6 +1106,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/348da6dc-5bf6-435d-adc5-37747b9ae38a"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://chang-retina-atlas.cells.ucsc.edu"
             }
         ]
     },
@@ -1102,6 +1155,10 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/62ef75e4-cbea-454e-a0ce-998ec40223d3"
+            },
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://pan-immune.cells.ucsc.edu/"
             }
         ]
     },
@@ -1111,6 +1168,271 @@
             {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/9d63fcf1-5ca0-4006-8d8f-872f3327dbe9"
+            }
+        ]
+    },
+    {
+        "entryId": "ef1d9888-fa86-47a4-bb72-0ab0f20f7004",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://early-brain.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "9dd2d2a5-d8d3-4e61-a7f7-6ad82fbae140",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://lupus-pbmc.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "7e2c5b39-a60b-479f-be01-56fc9a6347fd",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://covid19-cytokine-storm.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "7ac8822c-4ef0-4194-adf0-74290611b1c6",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://covid-airways.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "769a08d1-b8a4-4f1e-95f7-6071a9827555",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://covid-hypertension.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "a27dd619-25ad-46a0-ae0c-5c4940a1139b",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://hca-lungmap-integrated.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "8fd1609b-cd2d-4b4d-bb96-49ae6b8ade2f",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://human-epidermis.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "5314e340-0e36-494f-8128-48aaf066ffce",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://head-neck.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "1b321ae8-f777-4108-a0a5-2e13e54b85ec",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://covid19-periph-immuno.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "7e20cf83-9c64-4e0f-b594-827fd098d818",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://autism.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "0aa3ed0d-1689-4e90-b4cd-94c9fc23bc50",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://adult-testis.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "6ba70c55-c35a-4767-b387-1305205800d0",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://human-intestine.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "6b9f70e2-1b1f-42e9-afe9-99bb25df32c8",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://cortex-dev.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "c5f46615-68de-4cf4-bbc2-a0ae10f08243",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://healthy-human-skin.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "379ed69e-be05-48bc-af5e-a7fc589709bf",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://endometrium-cycle.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "ef1e3497-515e-4bbe-8d4c-10161854b699",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://healthy-human-airway.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "6ac8e777-f9a0-4288-b5b0-446e8eba3078",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://human-cornea.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "77dedd59-1376-4887-9bca-dc42b56d5b7a",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://human-cortical-dev.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "34cba5e9-ecb1-4d81-bf08-48987cd63073",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://human-hippo-axis.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "b32a9915-c81b-4cbc-af53-3a66b5da3c9a",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://fetal-lung.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "3e329187-a9c4-48ec-90e3-cc45f7c2311c",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://organoids.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "6936da41-3692-46bb-bca1-cd0f507991e9",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://stanford-czb-hlca.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "8d566d35-d8d3-4975-a351-be5e25e9b2ea",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://lifespan-nasal-atlas.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "e4b2e4d9-2b9b-46cf-b0e0-bb23ff28030a",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://human-kidney-atac.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "34c9a62c-a610-4e31-b343-8fb7be676f8c",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://lung-smoking-effect.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "e090445c-6971-4212-bc5f-ae4ec3914102",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://hackney-retina-atlas.cells.ucsc.edu"
+            },
+            {
+                "name": "CELLXGENE",
+                "url": "https://cellxgene.cziscience.com/collections/939769a8-d8d2-4d01-abfc-55699893fd49"
+            }
+        ]
+    },
+    {
+        "entryId": "cd9d6360-ce38-4321-97df-f13c79e3cb84",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://cells.ucsc.edu/?ds=covid19-toppcell+schulte-schrepping"
+            }
+        ]
+    },
+    {
+        "entryId": "272b7602-66cd-4b02-a86b-2b7c9c51a9ea",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://healthy-bal.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
+        "entryId": "77c13c40-a598-4036-807f-be09209ec2dd",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://living-donor-kidney.cells.ucsc.edu"
             }
         ]
     }
