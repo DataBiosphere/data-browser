@@ -171,16 +171,8 @@
         "entryId": "83f5188e-3bf7-4956-9544-cea4f8997756",
         "analysisPortals": [
             {
-                "name": "CELL_BROWSER",
-                "url": "https://gut-cell-atlas.cells.ucsc.edu"
-            },
-            {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/7681c7d7-0168-4892-a547-6f02a6430ace"
-            },
-            {
-                "name": "CELL_BROWSER",
-                "url": "https://microbial-immune-colon.cells.ucsc.edu"
             }
         ]
     },
