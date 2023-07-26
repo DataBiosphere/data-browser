@@ -657,6 +657,15 @@
         ]
     },
     {
+        "entryId": "c0518445-3b3b-49c6-b8fc-c41daa4eacba",
+        "analysisPortals": [
+            {
+                "name": "CELL_BROWSER",
+                "url": "https://teichmann-asthma.cells.ucsc.edu"
+            }
+        ]
+    },
+    {
         "entryId": "10201832-7c73-4033-9b65-3ef13d81656a",
         "analysisPortals": [
             {
