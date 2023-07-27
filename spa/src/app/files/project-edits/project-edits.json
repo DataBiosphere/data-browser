@@ -184,10 +184,6 @@
         "entryId": "8185730f-4113-40d3-9cc3-929271784c2b",
         "analysisPortals": [
             {
-                "name": "CELL_BROWSER",
-                "url": "https://adult-retina.cells.ucsc.edu"
-            },
-            {
                 "name": "CELLXGENE",
                 "url": "https://cellxgene.cziscience.com/collections/3472f32d-4a33-48e2-aad5-666d4631bf4c"
             }
