@@ -9,8 +9,6 @@ import {
   TEXT_HEADING_SMALL,
   TEXT_HEADING_XLARGE,
 } from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
-import logoHca from "images/logoHca.png";
-import logoHumanCellAtlas from "images/logoHumanCellAtlas.png";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
 import { socials } from "./constants";
 import { exportConfig } from "./export/export";
@@ -18,6 +16,9 @@ import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { summary } from "./index/summary";
+
+const logoHca = "/images/logoHca.png";
+const logoHumanCellAtlas = "/images/logoHumanCellAtlas.png";
 
 // Template constants
 const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";

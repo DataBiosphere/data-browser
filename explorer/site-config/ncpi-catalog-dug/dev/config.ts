@@ -1,7 +1,8 @@
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import logoDug from "images/logoNcpiDug.svg";
 import ncpiDevConfig from "../../ncpi-catalog/dev/config";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
+
+const logoDug = "/images/logoNcpiDug.svg";
 
 const config: SiteConfig = {
   ...ncpiDevConfig,

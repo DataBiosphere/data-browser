@@ -1,11 +1,6 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import logoAnvil from "images/logoAnvil.png";
-import logoHhs from "images/logoHhs.svg";
-import logoNhgri from "images/logoNhgri.svg";
-import logoNih from "images/logoNih.svg";
-import logoUsagov from "images/logoUsagov.png";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil/common/constants";
 import { authenticationConfig } from "./authentication/authentication";
 import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "./category";
@@ -18,6 +13,12 @@ import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { librariesEntityConfig } from "./index/librariesEntityConfig";
 import { summary } from "./index/summary";
+
+const logoAnvil = "/images/logoAnvil.png";
+const logoHhs = "/images/logoHhs.svg";
+const logoNhgri = "/images/logoNhgri.svg";
+const logoNih = "/images/logoNih.svg";
+const logoUsagov = "/images/logoUsagov.png";
 
 // Template constants
 const BROWSER_URL = "https://anvil-portal.dev.clevercanary.com";

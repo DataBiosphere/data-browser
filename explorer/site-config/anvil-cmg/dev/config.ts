@@ -1,10 +1,5 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import logoAnvil from "images/logoAnvil.png";
-import logoHhs from "images/logoHhs.svg";
-import logoNhgri from "images/logoNhgri.svg";
-import logoNih from "images/logoNih.svg";
-import logoUsagov from "images/logoUsagov.png";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import { authenticationConfig } from "./authentication/authentication";
 import { socials } from "./constants";
@@ -15,6 +10,12 @@ import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { summary } from "./index/summary";
+
+const logoAnvil = "/images/logoAnvil.png";
+const logoHhs = "/images/logoHhs.svg";
+const logoNhgri = "/images/logoNhgri.svg";
+const logoNih = "/images/logoNih.svg";
+const logoUsagov = "/images/logoUsagov.png";
 
 // Template constants
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";

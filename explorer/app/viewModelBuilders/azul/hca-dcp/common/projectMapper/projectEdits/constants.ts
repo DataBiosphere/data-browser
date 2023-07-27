@@ -1,9 +1,10 @@
-import cellxgeneIcon from "images/icons/cellxgene.svg";
-import lungmapIcon from "images/icons/lungmap.svg";
-import stemCellHubIcon from "images/icons/stem.svg";
-import ucscCellBrowserIcon from "images/icons/ucsc-cell.svg";
-import genomeBrowserIcon from "images/icons/ucsc-genome.svg";
 import { AnalysisPortal, ANALYSIS_PORTAL, ProjectEdit } from "./entities";
+
+const cellxgeneIcon = "/images/icons/cellxgene.svg";
+const lungmapIcon = "/images/icons/lungmap.svg";
+const stemCellHubIcon = "/images/icons/stem.svg";
+const ucscCellBrowserIcon = "/images/icons/ucsc-cell.svg";
+const genomeBrowserIcon = "/images/icons/ucsc-genome.svg";
 
 /**
  * Cell By Gene analysis portal.

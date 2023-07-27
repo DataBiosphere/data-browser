@@ -1,11 +1,6 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import logoAnvil from "images/logoAnvil.png";
-import logoHhs from "images/logoHhs.svg";
-import logoNhgri from "images/logoNhgri.svg";
-import logoNih from "images/logoNih.svg";
-import logoUsagov from "images/logoUsagov.png";
 import anvilDevConfig from "../../anvil/dev/config";
 import { socials } from "../../anvil/dev/constants";
 import {
@@ -15,6 +10,12 @@ import {
 import { consortiaEntityConfig } from "./index/consortiaEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
+
+const logoAnvil = "/images/logoAnvil.png";
+const logoHhs = "/images/logoHhs.svg";
+const logoNhgri = "/images/logoNhgri.svg";
+const logoNih = "/images/logoNih.svg";
+const logoUsagov = "/images/logoUsagov.png";
 
 // Template constants
 const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";

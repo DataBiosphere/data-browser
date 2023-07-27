@@ -1,6 +1,5 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import logoNcpi from "images/logoNcpi.svg";
 import anvilConfig from "../../anvil/dev/config";
 import {
   NCPI_CATALOG_CATEGORY_KEY,
@@ -9,6 +8,8 @@ import {
 import { socials } from "./constants";
 import { platformsEntityConfig } from "./index/platformsEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
+
+const logoNcpi = "/images/logoNcpi.svg";
 
 // Template constants
 const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
