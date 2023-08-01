@@ -104,7 +104,7 @@ export function make_config(browserUrl: string): SiteConfig {
     ],
     explorerTitle: "AnVIL Explorer",
     export: exportConfig,
-  exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
+    exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
     layout: {
       footer: {
         logos: [
