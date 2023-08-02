@@ -24,7 +24,7 @@ const LOGO: LogoProps = {
 
 const config: SiteConfig = {
   browserURL: BROWSER_URL,
-  categoryConfigs: hcaConfig.categoryConfigs,
+  categoryGroupConfigs: hcaConfig.categoryGroupConfigs,
   dataSource: {
     defaultDetailParams: {
       catalog: CATALOG_LM2,
