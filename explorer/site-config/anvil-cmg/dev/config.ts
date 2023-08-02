@@ -30,58 +30,62 @@ export function make_config(browserUrl: string): SiteConfig {
     },
     authentication: authenticationConfig,
     browserURL: browserUrl,
-    categoryConfigs: [
+    categoryGroupConfigs: [
       {
-        key: "biosamples.anatomical_site",
-        label: "Anatomical Site",
-      },
-      {
-        key: "biosamples.biosample_type",
-        label: "BioSample Type",
-      },
-      {
-        key: "datasets.consent_group",
-        label: "Consent Group",
-      },
-      {
-        key: "activities.data_modality",
-        label: "Data Modality",
-      },
-      {
-        key: "datasets.title",
-        label: "Dataset",
-      },
-      {
-        key: "diagnoses.phenotype",
-        label: "Diagnosis",
-      },
-      {
-        key: "files.file_format",
-        label: "File Format",
-      },
-      {
-        key: "files.file_type",
-        label: "File Type",
-      },
-      {
-        key: "datasets.registered_identifier",
-        label: "Identifier",
-      },
-      {
-        key: "donors.organism_type",
-        label: "Organism Type",
-      },
-      {
-        key: "donors.phenotypic_sex",
-        label: "Phenotypic Sex",
-      },
-      {
-        key: "prep_material_name",
-        label: "Library Preparation",
-      },
-      {
-        key: "donors.reported_ethnicity",
-        label: "Reported Ethnicity",
+        categoryConfigs: [
+          {
+            key: "biosamples.anatomical_site",
+            label: "Anatomical Site",
+          },
+          {
+            key: "biosamples.biosample_type",
+            label: "BioSample Type",
+          },
+          {
+            key: "datasets.consent_group",
+            label: "Consent Group",
+          },
+          {
+            key: "activities.data_modality",
+            label: "Data Modality",
+          },
+          {
+            key: "datasets.title",
+            label: "Dataset",
+          },
+          {
+            key: "diagnoses.phenotype",
+            label: "Diagnosis",
+          },
+          {
+            key: "files.file_format",
+            label: "File Format",
+          },
+          {
+            key: "files.file_type",
+            label: "File Type",
+          },
+          {
+            key: "datasets.registered_identifier",
+            label: "Identifier",
+          },
+          {
+            key: "donors.organism_type",
+            label: "Organism Type",
+          },
+          {
+            key: "donors.phenotypic_sex",
+            label: "Phenotypic Sex",
+          },
+          {
+            key: "prep_material_name",
+            label: "Library Preparation",
+          },
+          {
+            key: "donors.reported_ethnicity",
+            label: "Reported Ethnicity",
+          },
+        ],
       },
     ],
     dataSource: {

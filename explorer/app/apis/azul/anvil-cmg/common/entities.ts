@@ -16,6 +16,14 @@ export interface ActivityEntityResponse {
 }
 
 /**
+ * Model of activity type returned from the /index/summary API endpoint.
+ */
+export interface ActivityType {
+  count: number;
+  type: string;
+}
+
+/**
  * Model of core biosample value returned from the /index/biosamples API endpoint.
  */
 export interface BioSampleEntity {
@@ -68,6 +76,14 @@ export interface DonorEntityResponse {
 }
 
 /**
+ * Model of donor species returned from the /index/summary API endpoint.
+ */
+export interface DonorSpecies {
+  count: number;
+  species: null; // TODO - when species type is known (currently returns null value).
+}
+
+/**
  * Model of core file value returned from the /index/files API endpoint.
  */
 export interface FileEntity {
@@ -96,6 +112,14 @@ export interface FileEntityResponse {
 export interface LibraryEntity {
   library_id: string;
   prep_material_name: string;
+}
+
+/**
+ * Model of file format returned from the /index/summary API endpoint.
+ */
+export interface FileFormat {
+  count: number;
+  format: string;
 }
 
 /**

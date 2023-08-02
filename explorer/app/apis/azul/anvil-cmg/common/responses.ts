@@ -10,10 +10,13 @@ import {
 } from "./aggregatedEntities";
 import {
   ActivityEntityResponse,
+  ActivityType,
   BioSampleEntityResponse,
   DatasetEntityResponse,
   DonorEntityResponse,
+  DonorSpecies,
   FileEntityResponse,
+  FileFormat,
   LibraryEntityResponse,
 } from "./entities";
 
@@ -83,3 +86,19 @@ export type LibrariesResponse = AzulHit &
   AggregatedDatasetResponse &
   AggregatedDonorResponse &
   AggregatedFileResponse;
+
+/**
+ * Model of response returned from /index/summary API endpoint.
+ */
+export type SummaryResponse = {
+  activityCount: number;
+  activityTypes: ActivityType[];
+  biosampleCount: number;
+  datasetCount: number;
+  donorCount: number;
+  donorDiagnosisDiseases: unknown[]; // TODO - when type is known.
+  donorDiagnosisPhenotypes: unknown[]; // TODO - when type is known.
+  donorSpecies: DonorSpecies[];
+  fileCount: number;
+  fileFormats: FileFormat[];
+};

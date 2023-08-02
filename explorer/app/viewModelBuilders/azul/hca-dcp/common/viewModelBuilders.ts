@@ -13,7 +13,6 @@ import { getConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
 import { ViewContext } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import {
   FileFacet,
-  FileManifest,
   FILE_MANIFEST_ACTION,
 } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
 import {
@@ -42,6 +41,7 @@ import {
   FilesResponse,
   ProjectsResponse,
   SamplesResponse,
+  SummaryResponse,
 } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
 import {
@@ -58,14 +58,8 @@ import { useFileManifestRequestURL } from "../../../../hooks/azul/useFileManifes
 import { humanFileSize } from "../../../../utils/fileSize";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
-import {
-  DATA_SUMMARY,
-  DATA_SUMMARY_DISPLAY_TEXT,
-} from "./dataSummaryMapper/constants";
-import {
-  mapExportSummary,
-  mapProjectDataSummary,
-} from "./dataSummaryMapper/dataSummaryMapper";
+import { DATA_SUMMARY_DISPLAY_TEXT } from "./dataSummaryMapper/constants";
+import { mapProjectDataSummary } from "./dataSummaryMapper/dataSummaryMapper";
 import { AnalysisPortal } from "./projectMapper/projectEdits/entities";
 import {
   mapProjectAnalysisPortals,
@@ -84,6 +78,9 @@ import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
 } from "./projectMatrixMapper/projectMatrixMapper";
+import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
+import { SUMMARY } from "./summaryMapper/entities";
+import { mapExportSummary } from "./summaryMapper/summaryMapper";
 
 /**
  * Build props for the KeyValuePairs component for displaying the project accessions.
@@ -488,8 +485,10 @@ export const buildExportSelectedDataSummary = (): React.ComponentProps<
   typeof C.ExportSelectedDataSummary
 > => {
   return {
-    getExportSelectedDataSummary: (fileManifest: FileManifest) =>
-      getExportSelectedDataSummary(fileManifest),
+    getExportSelectedDataSummary: (
+      filesFacets: FileFacet[],
+      summary?: SummaryResponse
+    ) => getExportSelectedDataSummary(filesFacets, summary),
   };
 };
 
@@ -607,14 +606,16 @@ export const buildFileSize = (
 
 /**
  * Returns the export selected data summary for the given file manifest.
- * @param fileManifest - File manifest.
+ * @param filesFacets - Files facets.
+ * @param summary - Response model return from summary API.
  * @returns export selected data summary.
  */
 export function getExportSelectedDataSummary(
-  fileManifest: FileManifest
+  filesFacets: FileFacet[],
+  summary?: SummaryResponse
 ): Summary[] {
-  return [...mapExportSummary(fileManifest)].map(([key, value]) => [
-    DATA_SUMMARY_DISPLAY_TEXT[key as DATA_SUMMARY] || key,
+  return [...mapExportSummary(filesFacets, summary)].map(([key, value]) => [
+    SUMMARY_DISPLAY_TEXT[key as SUMMARY] || key,
     value,
   ]);
 }

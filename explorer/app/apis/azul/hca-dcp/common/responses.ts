@@ -9,8 +9,11 @@ import {
   AggregatedSpecimensResponse,
 } from "./aggregatedEntities";
 import {
+  CellCountSummary,
   FilesEntityResponse,
+  FileTypeSummary,
   ProjectsEntityResponse,
+  ProjectSummary,
   SamplesEntityResponse,
 } from "./entities";
 
@@ -54,3 +57,20 @@ export type SamplesResponse = AzulHit &
   AggregatedProjectsResponse &
   AggregatedProtocolsResponse &
   AggregatedSpecimensResponse;
+
+/**
+ * Model of response returned from /index/summary API endpoint.
+ */
+export type SummaryResponse = {
+  cellCountSummaries: CellCountSummary[];
+  donorCount: number;
+  fileCount: number;
+  fileTypeSummaries: FileTypeSummary[];
+  labCount: number;
+  organTypes: string[];
+  projectCount: number;
+  projects: ProjectSummary[];
+  speciesCount: number;
+  specimenCount: number;
+  totalFileSize: number | string;
+};
