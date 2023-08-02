@@ -21,7 +21,10 @@ const logoUsagov = "/images/logoUsagov.png";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 export const URL_DATASETS = "/datasets";
 
-export function make_config(browserUrl: string): SiteConfig {
+export function make_config(
+  browserUrl: string,
+  catalog: string=CATALOG_DEFAULT
+): SiteConfig {
   return {
     analytics: {
       gtmAuth: "up3ucjProssPj7Iq59W45g", // GTM environment-specific
@@ -90,10 +93,10 @@ export function make_config(browserUrl: string): SiteConfig {
     ],
     dataSource: {
       defaultDetailParams: {
-        catalog: CATALOG_DEFAULT,
+        catalog: catalog,
       },
       defaultListParams: {
-        catalog: CATALOG_DEFAULT,
+        catalog: catalog,
         size: "25",
         sort: "entryId",
       },
