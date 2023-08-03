@@ -174,20 +174,6 @@ export const buildDataModality = (
 };
 
 /**
- * Build props for TitledText component for the display of the data release policy.
- * @returns model to be used as props for the TitledText component.
- */
-export const buildDataReleasePolicy = (): React.ComponentProps<
-  typeof C.TitledText
-> => {
-  return {
-    text: [
-      "Downloaded data is governed by the AnVIL Data Release Policy.  For more information please see our Data Use Agreement.",
-    ],
-  };
-};
-
-/**
  * Build dataset name Cell component from the given index/datasets response.
  * @param response - Response model return from index/datasets API.
  * @returns model to be used as props for the dataset name cell.
@@ -416,24 +402,3 @@ export const buildReportedEthnicities = (
     values: getAggregatedReportedEthnicities(response),
   };
 };
-
-export const buildExportToCurlCommand = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => ({
-  buttonLabel: "Request curl Command",
-  description: "Obtain a curl command for downloading the selected data.",
-  disabled: false,
-  route: "/export",
-  title: "Download Study Data and Metadata (Curl Command)",
-});
-
-export const buildExportToTerraMetadata = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => ({
-  buttonLabel: "Analyze in Terra",
-  description:
-    "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-  disabled: false,
-  route: "/export/export-to-terra",
-  title: "Export Study Data and Metadata to Terra Workspace",
-});

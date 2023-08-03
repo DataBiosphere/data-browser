@@ -5,11 +5,11 @@ import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/vie
 
 export const mainColumn: ComponentConfig[] = [
   {
-    component: C.Alert,
+    component: C.FluidAlert,
     viewBuilder: V.buildBatchCorrectionWarning,
-  } as ComponentConfig<typeof C.Alert>,
+  } as ComponentConfig<typeof C.FluidAlert>,
   {
-    component: C.ExportEntityToTerra,
+    component: C.ExportToTerra,
     viewBuilder: V.buildExportEntityToTerra,
-  } as ComponentConfig<typeof C.ExportEntityToTerra, ProjectsResponse>,
+  } as ComponentConfig<typeof C.ExportToTerra, ProjectsResponse>,
 ];

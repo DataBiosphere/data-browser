@@ -5,7 +5,7 @@ import * as V from "../../../../../app/viewModelBuilders/azul/anvil-cmg/common/v
 
 export const mainColumn: ComponentConfig[] = [
   {
-    component: C.ExportEntityToTerra,
+    component: C.ExportToTerra,
     viewBuilder: V.buildExportEntityToTerra,
-  } as ComponentConfig<typeof C.ExportEntityToTerra, DatasetsResponse>,
+  } as ComponentConfig<typeof C.ExportToTerra, DatasetsResponse>,
 ];

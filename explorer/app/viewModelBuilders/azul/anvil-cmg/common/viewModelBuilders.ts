@@ -1,7 +1,13 @@
 import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { CallToAction } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
+import { ViewContext } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { FILE_MANIFEST_TYPE } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
 import React from "react";
+import {
+  FORM_FACETS,
+  ROUTE_EXPORT_TO_TERRA,
+} from "../../../../../site-config/anvil-cmg/dev/export/constants";
 import { URL_DATASETS } from "../../../../../site-config/anvil/dev/config";
 import {
   AggregatedBioSampleResponse,
@@ -60,17 +66,9 @@ import {
   getReportedEthnicities,
 } from "../../../../apis/azul/anvil-cmg/common/transformers";
 import * as C from "../../../../components";
-import {
-  ExportFilterKey,
-  ExportFilterKeyExportCategory,
-} from "../../../../components/Detail/components/Export/common/entities";
-import { initExportEntityFilters } from "../../../../components/Detail/components/Export/common/utils";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import * as MDX from "../../../../content/anvil-cmg";
-import { useExportEntityToTerraResponseURL } from "../../../../hooks/azul/useExportEntityToTerraResponseURL";
-import { useFileManifestRequestParams } from "../../../../hooks/azul/useFileManifestRequestParams";
-import { useFileManifestRequestURL } from "../../../../hooks/azul/useFileManifestRequestURL";
 
 /**
  * Build props for activity type Cell component from the given activities response.
@@ -213,20 +211,6 @@ export const buildDataModality = (
 };
 
 /**
- * Build props for TitledText component for the display of the data release policy.
- * @returns model to be used as props for the TitledText component.
- */
-export const buildDataReleasePolicy = (): React.ComponentProps<
-  typeof C.TitledText
-> => {
-  return {
-    text: [
-      "Downloaded data is governed by the AnVIL Data Release Policy.  For more information please see our Data Use Agreement.",
-    ],
-  };
-};
-
-/**
  * Build dataset access badge component from the given index/datasets response.
  * @param response - Response model return from index/datasets API.
  * @returns model to be used as props for the dataset access cell.
@@ -336,24 +320,89 @@ export const buildDocumentId = (
 };
 
 /**
- * Build props for ExportEntityToTerra component from the given datasets response.
+ * Build props for ExportToTerra component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the ExportEntityToTerra component.
+ * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportEntityToTerra = (
   datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.ExportEntityToTerra> => {
+): React.ComponentProps<typeof C.ExportToTerra> => {
   return {
-    ExportForm: (props) =>
-      C.ExportEntityToTerraForm({
-        ...getExportFormProps(datasetsResponse),
-        ...props,
-      }),
-    ExportToTerra: MDX.ExportToTerra,
+    ExportForm: C.ExportToTerraForm,
+    ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
-    useExportParams: useFileManifestRequestParams,
-    useExportRequestURL: useFileManifestRequestURL,
-    useExportResponseURL: useExportEntityToTerraResponseURL,
+    entity: ["entryId", datasetsResponse.entryId],
+    fileManifestType: FILE_MANIFEST_TYPE.ENITY_EXPORT_TO_TERRA,
+    formFacets: FORM_FACETS,
+  };
+};
+
+/**
+ * Build props for export Hero component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Hero component.
+ */
+export function buildExportHero(
+  _: Record<string, never>,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.BackPageHero> {
+  const { exploreState } = viewContext;
+  const { tabValue } = exploreState || {};
+  return {
+    breadcrumbs: [
+      { path: `/${tabValue}`, text: "Explore" },
+      { path: "", text: "Export Selected Data" },
+    ],
+    title: "Choose Export Method",
+  };
+}
+
+/**
+ * Build props for export to terra Hero component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Hero component.
+ */
+export const buildExportMethodHeroTerra = (
+  _: Record<string, never>,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.BackPageHero> => {
+  const title = "Export to Terra";
+  const {
+    exploreState: { tabValue },
+  } = viewContext;
+  return getExportMethodHero(tabValue, title);
+};
+
+/**
+ * Build props for ExportMethod component for display of the export to terra metadata section.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportMethodTerra = (): React.ComponentProps<
+  typeof C.ExportMethod
+> => ({
+  buttonLabel: "Analyze in Terra",
+  description:
+    "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+  disabled: false,
+  route: ROUTE_EXPORT_TO_TERRA,
+  title: "Export Study Data and Metadata to Terra Workspace",
+});
+
+/**
+ * Build props for ExportToTerra component.
+ * @returns model to be used as props for the ExportToTerra component.
+ */
+export const buildExportToTerra = (): React.ComponentProps<
+  typeof C.ExportToTerra
+> => {
+  return {
+    ExportForm: C.ExportToTerraForm,
+    ExportToTerraStart: MDX.ExportToTerraStart,
+    ExportToTerraSuccess: MDX.ExportToTerraSuccess,
+    fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
+    formFacets: FORM_FACETS,
   };
 };
 
@@ -585,27 +634,6 @@ export const buildReportedEthnicities = (
   };
 };
 
-export const buildExportToCurlCommand = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => ({
-  buttonLabel: "Request curl Command",
-  description: "Obtain a curl command for downloading the selected data.",
-  disabled: false,
-  route: "/export",
-  title: "Download Study Data and Metadata (Curl Command)",
-});
-
-export const buildExportToTerraMetadata = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => ({
-  buttonLabel: "Analyze in Terra",
-  description:
-    "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-  disabled: false,
-  route: "/export/export-to-terra",
-  title: "Export Study Data and Metadata to Terra Workspace",
-});
-
 /**
  * Returns the callToAction prop for the Hero component from the given datasets API.
  * @param datasetEntity - Response model return from datasets API.
@@ -626,57 +654,21 @@ function getDatasetCallToAction(
 }
 
 /**
- * Returns dataset file formats from the datasets API response.
- * @param datasetsResponse - Response model return from datasets API.
- * @returns dataset file formats.
+ * Returns breadcrumbs and title for export method Hero component.
+ * @param explorePath - Explore path.
+ * @param title - Export method title.
+ * @returns model to be used as props for the Hero component.
  */
-export function getDatasetFileFormats(
-  datasetsResponse: DatasetsResponse
-): string[] {
-  const fileFormats = datasetsResponse.files
-    // TODO revisit mapping multiple file formats here to prevent an array of arrays
-    .map((file) => file.file_format)
-    .sort();
-  return [...new Set(fileFormats)];
-}
-
-/**
- * Returns the export filter key value pairs.
- * The key-value pairs facilitate the functionality of an export filter form by enabling various
- * options, such as selecting and choosing from a range of available categories such as file formats.
- * @param datasetsResponse - Response model return from datasets API.
- * @returns export filter key value pairs.
- */
-export function getExportFilterKeySelectCategory(
-  datasetsResponse: DatasetsResponse
-): ExportFilterKeyExportCategory {
-  // Build the available export filter key value pairs.
-  const filterKeyValue: ExportFilterKeyExportCategory = new Map();
-  filterKeyValue.set(ExportFilterKey.ENTITY_ID, {
-    key: "entryId",
-    label: "Dataset",
-    values: [getDatasetId(datasetsResponse)],
-  });
-  // TODO re-enable file format when form is completed
-  // filterKeyValue.set(ExportFilterKey.FILE_FORMAT, {
-  //   key: "fileFormat",
-  //   label: "File Type",
-  //   values: getDatasetFileFormats(datasetsResponse),
-  // });
-  return filterKeyValue;
-}
-
-/**
- * Returns props for ExportEntityToTerraForm component from the given datasets response.
- * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the ExportEntityToTerraForm component.
- */
-export function getExportFormProps(
-  datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.ExportEntityToTerraForm> {
-  const filterKeyValue = getExportFilterKeySelectCategory(datasetsResponse);
+function getExportMethodHero(
+  explorePath: string,
+  title: string
+): React.ComponentProps<typeof C.BackPageHero> {
   return {
-    entityFilters: initExportEntityFilters(filterKeyValue),
-    filterKeyValue,
+    breadcrumbs: [
+      { path: `/${explorePath}`, text: "Explore" },
+      { path: "/export", text: "Export Selected Data" },
+      { path: "", text: title },
+    ],
+    title: title,
   };
 }

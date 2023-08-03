@@ -1,12 +1,12 @@
-import { ExportToTerraView } from "@clevercanary/data-explorer-ui/lib/views/ExportToTerraView/exportToTerraView";
+import { ExportMethodView } from "@clevercanary/data-explorer-ui/lib/views/ExportMethodView/exportMethodView";
 import React from "react";
 
 /**
- * Export page.
- * @returns Element rendered as export page.
+ * Export method page.
+ * @returns export method view component.
  */
-const ExportToTerraPage = (): JSX.Element => {
-  return <ExportToTerraView />;
+const ExportMethodPage = (): JSX.Element => {
+  return <ExportMethodView />;
 };
 
-export default ExportToTerraPage;
+export default ExportMethodPage;
