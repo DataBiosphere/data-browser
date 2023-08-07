@@ -23,7 +23,7 @@ export const URL_DATASETS = "/datasets";
 
 export function make_config(
   browserUrl: string,
-  catalog: string=CATALOG_DEFAULT
+  catalog: string = CATALOG_DEFAULT
 ): SiteConfig {
   return {
     analytics: {

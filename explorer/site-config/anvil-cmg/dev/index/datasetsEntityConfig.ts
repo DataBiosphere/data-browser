@@ -60,6 +60,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
           component: Components.AccessStatusBadge,
           viewBuilder: ViewBuilder.buildDatasetAccess,
         } as ComponentConfig<typeof Components.AccessStatusBadge>,
+        disableSorting: true,
         header: "Access",
         id: "datasets.accessible",
         width: "max-content",
