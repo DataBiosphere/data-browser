@@ -1,9 +1,9 @@
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import { make_config } from "../dev/config";
+import { makeConfig } from "../dev/config";
 import { authenticationConfig } from "./authentication/authentication";
 
 const config: SiteConfig = {
-  ...make_config("https://anvilproject.dev.clevercanary.com"),
+  ...makeConfig("https://anvilproject.dev.clevercanary.com"),
   exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
 };
 

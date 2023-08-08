@@ -45,6 +45,19 @@ export const exportConfig: ExportConfig = {
         {
           children: [
             {
+              component: C.ExportCurrentQuery,
+              viewBuilder: V.buildExportCurrentQuery,
+            } as ComponentConfig<typeof C.ExportCurrentQuery>,
+            {
+              component: C.ExportSelectedDataSummary,
+              viewBuilder: V.buildExportSelectedDataSummary,
+            } as ComponentConfig<typeof C.ExportSelectedDataSummary>,
+          ],
+          component: C.ExportSummary,
+        } as ComponentConfig<typeof C.ExportSummary>,
+        {
+          children: [
+            {
               children: [
                 {
                   component: MDX.DataReleasePolicy,

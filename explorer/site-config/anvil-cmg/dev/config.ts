@@ -1,6 +1,7 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
+import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { authenticationConfig } from "./authentication/authentication";
 import { socials } from "./constants";
 import { exportConfig } from "./export/export";
@@ -21,7 +22,7 @@ const logoUsagov = "/images/logoUsagov.png";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 export const URL_DATASETS = "/datasets";
 
-export function make_config(
+export function makeConfig(
   browserUrl: string,
   catalog: string = CATALOG_DEFAULT
 ): SiteConfig {
@@ -37,56 +38,56 @@ export function make_config(
       {
         categoryConfigs: [
           {
-            key: "biosamples.anatomical_site",
-            label: "Anatomical Site",
+            key: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_ANATOMICAL_SITE,
+            label: ANVIL_CMG_CATEGORY_LABEL.BIOSAMPLE_ANATOMICAL_SITE,
           },
           {
-            key: "biosamples.biosample_type",
-            label: "BioSample Type",
+            key: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_TYPE,
+            label: ANVIL_CMG_CATEGORY_LABEL.BIOSAMPLE_BIOSAMPLE_TYPE,
           },
           {
-            key: "datasets.consent_group",
-            label: "Consent Group",
+            key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
+            label: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
           },
           {
-            key: "activities.data_modality",
-            label: "Data Modality",
+            key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
+            label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
           },
           {
-            key: "datasets.title",
-            label: "Dataset",
+            key: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+            label: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
           },
           {
-            key: "diagnoses.phenotype",
-            label: "Diagnosis",
+            key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
+            label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
           },
           {
-            key: "files.file_format",
-            label: "File Format",
+            key: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+            label: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT,
           },
           {
-            key: "files.file_type",
-            label: "File Type",
+            key: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_TYPE,
+            label: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_TYPE,
           },
           {
-            key: "datasets.registered_identifier",
-            label: "Identifier",
+            key: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
+            label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
           },
           {
-            key: "donors.organism_type",
-            label: "Organism Type",
+            key: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+            label: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
           },
           {
-            key: "donors.phenotypic_sex",
-            label: "Phenotypic Sex",
+            key: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
+            label: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
           },
           {
-            key: "prep_material_name",
-            label: "Library Preparation",
+            key: ANVIL_CMG_CATEGORY_KEY.PREP_MATERIAL_NAME,
+            label: ANVIL_CMG_CATEGORY_LABEL.PREP_MATERIAL_NAME,
           },
           {
-            key: "donors.reported_ethnicity",
-            label: "Reported Ethnicity",
+            key: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
+            label: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
           },
         ],
       },
@@ -223,6 +224,6 @@ export function make_config(
   };
 }
 
-const config: SiteConfig = make_config("https://anvil.gi.ucsc.edu");
+const config: SiteConfig = makeConfig("https://anvil.gi.ucsc.edu");
 
 export default config;

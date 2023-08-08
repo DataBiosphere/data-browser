@@ -6,9 +6,8 @@ import {
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { FilesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
-import * as Components from "../../../../app/components";
-import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import * as ViewBuilders from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import * as C from "../../../../app/components";
+import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
@@ -16,9 +15,9 @@ import {
 
 export const downloadColumn: ColumnConfig = {
   componentConfig: {
-    component: Components.AzulFileDownload,
-    viewBuilder: ViewBuilder.buildFileDownload,
-  } as ComponentConfig<typeof Components.AzulFileDownload>,
+    component: C.AzulFileDownload,
+    viewBuilder: V.buildFileDownload,
+  } as ComponentConfig<typeof C.AzulFileDownload>,
   disableHiding: true,
   disableSorting: true,
   header: ANVIL_CMG_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
@@ -43,101 +42,92 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       // downloadColumn,
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildFileName,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.FILE_NAME,
-        id: ANVIL_CMG_CATEGORY_KEY.FILE_NAME,
+          component: C.Cell,
+          viewBuilder: V.buildFileName,
+        } as ComponentConfig<typeof C.Cell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_NAME,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_NAME,
         width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildFileFormat,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Format",
-        id: "files.file_format",
+          component: C.Cell,
+          viewBuilder: V.buildFileFormat,
+        } as ComponentConfig<typeof C.Cell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT, // "Format"
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
         width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildFileSize,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Size",
-        id: "files.file_size",
+          component: C.Cell,
+          viewBuilder: V.buildFileSize,
+        } as ComponentConfig<typeof C.Cell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_SIZE,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_SIZE,
         width: { max: "1fr", min: "120px" },
       },
-      // { //TODO remove builders etc.
-      //   componentConfig: {
-      //     component: Components.Cell,
-      //     viewBuilder: ViewBuilder.buildFileType,
-      //   } as ComponentConfig<typeof Components.Cell>,
-      //   header: "File Type",
-      //   id: "files.file_type",
-      //   width: { max: "1fr", min: "120px" },
-      // },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildFileDataModality,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Data Modality",
-        id: "activities.data_modality",
+          component: C.NTagCell,
+          viewBuilder: V.buildFileDataModality,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
+        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
         width: { max: "1fr", min: "240px" },
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilders.buildOrganismTypes,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Organism Type",
-        id: "donors.organism_type",
+          component: C.NTagCell,
+          viewBuilder: V.buildOrganismTypes,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
         columnVisible: false,
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilders.buildPhenotypicSexes,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Phenotypic Sex",
-        id: "donors.phenotypic_sex",
+          component: C.NTagCell,
+          viewBuilder: V.buildPhenotypicSexes,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
+        id: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
         width: { max: "1fr", min: "200px" },
       },
       {
         columnVisible: false,
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildReportedEthnicity,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Reported Ethnicity",
-        id: "donors.reported_ethnicity",
+          component: C.NTagCell,
+          viewBuilder: V.buildReportedEthnicity,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
+        id: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
         width: { max: "1fr", min: "200px" },
       },
       {
         columnVisible: false,
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDiagnoses,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Diagnosis",
-        id: "diagnoses.phenotype",
+          component: C.NTagCell,
+          viewBuilder: V.buildDiagnoses,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDatasetTitles,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Dataset",
-        id: "datasets.title",
+          component: C.NTagCell,
+          viewBuilder: V.buildDatasetTitles,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
+        id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
         width: { max: "2fr", min: "240px" },
       },
     ],
     defaultSort: {
       desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CMG_CATEGORY_KEY.FILE_NAME,
+      id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_NAME,
     },
   } as ListConfig<FilesResponse>,
   route: "files",

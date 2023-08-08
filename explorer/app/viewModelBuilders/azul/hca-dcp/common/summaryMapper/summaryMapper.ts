@@ -38,7 +38,7 @@ function calculateSummaryTotalCellCount(
 }
 
 /**
- * Create a new file summary object (to trigger change detecting) from the file summary response, and fix erroneous
+ * Create a new file summary object from the file summary response, and fix erroneous
  * total file size count if applicable.
  * @param summaryResponse - Response model return from summary API.
  * @returns file summary.

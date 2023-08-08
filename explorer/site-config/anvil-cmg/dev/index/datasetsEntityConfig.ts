@@ -6,8 +6,8 @@ import {
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { DatasetsResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import { getDatasetEntryId } from "../../../../app/apis/azul/anvil-cmg/common/transformers";
-import * as Components from "../../../../app/components";
-import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import * as C from "../../../../app/components";
+import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
@@ -48,92 +48,92 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
     columns: [
       {
         componentConfig: {
-          component: Components.Link,
-          viewBuilder: ViewBuilder.buildDatasetTitle,
-        } as ComponentConfig<typeof Components.Link>,
-        header: ANVIL_CMG_CATEGORY_LABEL.DATASET,
-        id: ANVIL_CMG_CATEGORY_KEY.DATASET,
+          component: C.Link,
+          viewBuilder: V.buildDatasetTitle,
+        } as ComponentConfig<typeof C.Link>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
+        id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
         width: { max: "2fr", min: "280px" },
       },
       {
         componentConfig: {
-          component: Components.AccessStatusBadge,
-          viewBuilder: ViewBuilder.buildDatasetAccess,
-        } as ComponentConfig<typeof Components.AccessStatusBadge>,
+          component: C.AccessStatusBadge,
+          viewBuilder: V.buildDatasetAccess,
+        } as ComponentConfig<typeof C.AccessStatusBadge>,
         disableSorting: true,
-        header: "Access",
-        id: "datasets.accessible",
+        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_ACCESSIBLE,
+        id: ANVIL_CMG_CATEGORY_KEY.DATASET_ACCESSIBLE,
         width: "max-content",
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildRegisteredIdentifier,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Identifier",
-        id: "datasets.registered_identifier",
+          component: C.Cell,
+          viewBuilder: V.buildRegisteredIdentifier,
+        } as ComponentConfig<typeof C.Cell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
+        id: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildConsentGroup,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Consent Group",
-        id: "datasets.consent_group",
+          component: C.Cell,
+          viewBuilder: V.buildConsentGroup,
+        } as ComponentConfig<typeof C.Cell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
+        id: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildOrganismTypes,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Organism Type",
-        id: "donors.organism_type",
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        columnVisible: false,
-        componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildPhenotypicSexes,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Phenotypic Sex",
-        id: "donors.phenotypic_sex",
+          component: C.NTagCell,
+          viewBuilder: V.buildOrganismTypes,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
         columnVisible: false,
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildReportedEthnicities,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Reported Ethnicity",
-        id: "donors.reported_ethnicity",
+          component: C.NTagCell,
+          viewBuilder: V.buildPhenotypicSexes,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
+        id: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildReportedEthnicities,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
+        id: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDiagnoses,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Diagnosis",
-        id: "diagnoses.phenotype",
+          component: C.NTagCell,
+          viewBuilder: V.buildDiagnoses,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDataModality,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Data Modality",
-        id: "activities.data_modality",
+          component: C.NTagCell,
+          viewBuilder: V.buildDataModality,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
+        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
         width: { max: "1fr", min: "148px" },
       },
     ],
     defaultSort: {
       desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CMG_CATEGORY_KEY.DATASET,
+      id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
     },
   } as ListConfig<DatasetsResponse>,
   route: "datasets",
