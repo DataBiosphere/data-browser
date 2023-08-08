@@ -5,7 +5,6 @@ import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil/common/constants";
 import { authenticationConfig } from "./authentication/authentication";
 import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "./category";
 import { socials } from "./constants";
-import { exportConfig } from "./export/export";
 import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
 import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
 import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
@@ -93,8 +92,6 @@ const config: SiteConfig = {
     filesEntityConfig,
   ],
   explorerTitle: "Anvil Data Explorer",
-  export: exportConfig,
-  exportToTerraUrl: "https://app.terra.bio",
   layout: {
     footer: {
       logos: [

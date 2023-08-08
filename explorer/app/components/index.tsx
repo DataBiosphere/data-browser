@@ -1,4 +1,5 @@
 export { Alert } from "@clevercanary/data-explorer-ui/lib/components/common/Alert/alert";
+export { FluidAlert } from "@clevercanary/data-explorer-ui/lib/components/common/Alert/alert.styles";
 export { ButtonGroup } from "@clevercanary/data-explorer-ui/lib/components/common/ButtonGroup/buttonGroup";
 export {
   ContentCopyIconSmall,
@@ -24,12 +25,13 @@ export { TagWarning } from "@clevercanary/data-explorer-ui/lib/components/common
 export { DetailViewTable } from "@clevercanary/data-explorer-ui/lib/components/Detail/components/DetailViewTable/detailViewTable";
 export { DownloadCurlCommandForm } from "@clevercanary/data-explorer-ui/lib/components/Export/components/DownloadCurlCommand/components/DownloadCurlCommandForm/downloadCurlCommandForm";
 export { DownloadCurlCommand } from "@clevercanary/data-explorer-ui/lib/components/Export/components/DownloadCurlCommand/downloadCurlCommand";
-export { ExportEntityToTerra } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportEntityToTerra/exportEntityToTerra";
 export { ExportMethod } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportMethod/exportMethod";
 export { ExportSelectedData } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSelectedData/exportSelectedData";
 export { ExportCurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 export { ExportSelectedDataSummary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 export { ExportSummary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/exportSummary";
+export { ExportToTerraForm } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportToTerra/components/ExportToTerraForm/exportToTerraForm";
+export { ExportToTerra } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportToTerra/exportToTerra";
 export { AzulFileDownload } from "@clevercanary/data-explorer-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
 export { Cell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Cell/cell";
 export { Summaries } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Hero/components/Summaries/summaries";
@@ -54,7 +56,6 @@ export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
 export { ConsentCodeList } from "./Detail/components/ConsentCodeList/consentCodeList";
 export { ConsentTooltip } from "./Detail/components/ConsentTooltip/consentTooltip";
 export { ConsortiumOverview } from "./Detail/components/Consortium/ConsortiumOverview/consortiumOverview";
-export { ExportEntityToTerraForm } from "./Detail/components/Export/components/ExportEntityToTerraForm/exportEntityToTerraForm";
 export { FileLocationArchivePreview } from "./Detail/components/GeneratedMatricesTables/components/FileLocationArchivePreview/fileLocationArchivePreview";
 export { FileLocationCopy } from "./Detail/components/GeneratedMatricesTables/components/FileLocationCopy/fileLocationCopy";
 export { FileLocationDownload } from "./Detail/components/GeneratedMatricesTables/components/FileLocationDownload/fileLocationDownload";
