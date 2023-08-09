@@ -1,5 +1,8 @@
 import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
-import { Filters } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import {
+  Filters,
+  SelectedFilter,
+} from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { CallToAction } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
 import { CurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 import { Summary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
@@ -327,9 +330,9 @@ export const buildExportCurrentQuery = (): React.ComponentProps<
   typeof C.ExportCurrentQuery
 > => {
   return {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- filters is unused.
-    getExportCurrentQueries: (filters: Filters, filesFacets: FileFacet[]) =>
-      getExportCurrentQueries(filesFacets),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- filesFacets is unused.
+    getExportCurrentQueries: (filters: Filters) =>
+      getExportCurrentQueries(filters),
   };
 };
 
@@ -647,20 +650,16 @@ function getDatasetCallToAction(
 
 /**
  * Returns current queries from the given selected file facets.
- * @param filesFacets - Files facets.
+ * @param filters - filters.
  * @returns current queries.
  */
-export function getExportCurrentQueries(
-  filesFacets: FileFacet[]
-): CurrentQuery[] {
+export function getExportCurrentQueries(filters: Filters): CurrentQuery[] {
   const categoryKeyLabel = mapCategoryKeyLabel(
     ANVIL_CMG_CATEGORY_KEY,
     ANVIL_CMG_CATEGORY_LABEL
   );
-  // Return all selected facets, as a list of current queries.
-  return filesFacets
-    .filter(isFacetSelected)
-    .map((facet) => mapCurrentQuery(facet, categoryKeyLabel));
+  // Return all selected filters, as a list of current queries.
+  return filters.map((filter) => mapCurrentQuery(filter, categoryKeyLabel));
 }
 
 /**
@@ -700,27 +699,18 @@ export function getExportSelectedDataSummary(
 }
 
 /**
- * Returns true if the facet is selected.
- * @param facet - Facet.
- * @returns returns true if the facet is selected.
- */
-function isFacetSelected(facet: FileFacet): boolean {
-  return facet.selected;
-}
-
-/**
  * Returns current query for the given facet.
- * @param facet - File facet.
+ * @param filter - Selected filter.
  * @param categoryKeyLabel - Map of category key to category label.
  * @returns current query.
  */
 function mapCurrentQuery(
-  facet: FileFacet,
+  filter: SelectedFilter,
   categoryKeyLabel: CategoryKeyLabel
 ): CurrentQuery {
-  const { name, selectedTerms } = facet;
+  const { categoryKey, value: values } = filter;
   return [
-    categoryKeyLabel.get(name) || name,
-    selectedTerms.map(({ name }) => sanitizeString(name)),
+    categoryKeyLabel.get(categoryKey) || categoryKey,
+    values.map((value) => sanitizeString(value)),
   ];
 }

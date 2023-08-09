@@ -8,7 +8,7 @@ export const sideColumn: ComponentConfig[] = [
     children: [
       {
         component: C.ExportCurrentQuery,
-        viewBuilder: V.buildExportEntityCurrentQuery,
+        viewBuilder: V.buildExportCurrentQuery,
       } as ComponentConfig<typeof C.ExportCurrentQuery>,
       {
         component: C.ExportSelectedDataSummary,
