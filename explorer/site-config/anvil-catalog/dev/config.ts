@@ -110,11 +110,11 @@ const config: SiteConfig = {
       navLinks: [
         {
           label: "Help",
-          url: `${BROWSER_URL}/help`,
+          url: `${BROWSER_URL}help`,
         },
         {
           label: "Privacy",
-          url: `${BROWSER_URL}/privacy`,
+          url: `${BROWSER_URL}privacy`,
         },
       ],
       socials,
@@ -126,11 +126,11 @@ const config: SiteConfig = {
       navLinks: [
         {
           label: "Overview",
-          url: `${BROWSER_URL}/overview`,
+          url: `${BROWSER_URL}overview`,
         },
         {
           label: "Learn",
-          url: `${BROWSER_URL}/learn`,
+          url: `${BROWSER_URL}learn`,
         },
         {
           label: "Datasets",
@@ -138,37 +138,37 @@ const config: SiteConfig = {
         },
         {
           label: "Consortia",
-          url: `${BROWSER_URL}/consortia`,
+          url: `${BROWSER_URL}consortia`,
         },
         {
           label: "News",
-          url: `${BROWSER_URL}/news`,
+          url: `${BROWSER_URL}news`,
         },
         {
           label: "Events",
-          url: `${BROWSER_URL}/events`,
+          url: `${BROWSER_URL}events`,
         },
         {
           label: "More",
           menuItems: [
             {
               label: "Team",
-              url: `${BROWSER_URL}/team`,
+              url: `${BROWSER_URL}team`,
             },
             {
               label: "FAQ",
-              url: `${BROWSER_URL}/faq`,
+              url: `${BROWSER_URL}faq`,
             },
             {
               label: "Help",
-              url: `${BROWSER_URL}/help`,
+              url: `${BROWSER_URL}help`,
             },
           ],
           url: "",
         },
       ],
       searchEnabled: true,
-      searchURL: `${BROWSER_URL}/search`,
+      searchURL: `${BROWSER_URL}search`,
       slogan: SLOGAN,
       socials,
     },

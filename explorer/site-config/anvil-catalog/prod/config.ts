@@ -7,6 +7,19 @@ const config: SiteConfig = {
   ...anvilCatalogDevConfig,
   layout: {
     ...anvilCatalogDevConfig.layout,
+    footer: {
+      ...anvilCatalogDevConfig.layout.footer,
+      navLinks: [
+        {
+          label: "Help",
+          url: `${BROWSER_URL}/help`,
+        },
+        {
+          label: "Privacy",
+          url: `${BROWSER_URL}/privacy`,
+        },
+      ],
+    },
     header: {
       ...anvilCatalogDevConfig.layout.header,
       navLinks: [
@@ -53,6 +66,7 @@ const config: SiteConfig = {
           url: "",
         },
       ],
+      searchURL: `${BROWSER_URL}/search`,
     },
   },
 };
