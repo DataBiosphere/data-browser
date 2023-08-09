@@ -5,9 +5,8 @@ import {
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { BioSamplesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
-import * as Components from "../../../../app/components";
-import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import * as ViewBuilders from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import * as C from "../../../../app/components";
+import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
@@ -29,82 +28,82 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilders.buildBioSampleId,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.BIOSAMPLE_ID,
-        id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_ID,
+          component: C.Cell,
+          viewBuilder: V.buildBioSampleId,
+        } as ComponentConfig<typeof C.Cell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.BIOSAMPLE_BIOSAMPLE_ID,
+        id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_ID,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilders.buildAnatomicalSite,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "Anatomical Site",
-        id: "biosamples.anatomical_site",
+          component: C.Cell,
+          viewBuilder: V.buildAnatomicalSite,
+        } as ComponentConfig<typeof C.Cell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.BIOSAMPLE_ANATOMICAL_SITE,
+        id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_ANATOMICAL_SITE,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilders.buildBioSampleType,
-        } as ComponentConfig<typeof Components.Cell>,
-        header: "BioSample Type",
-        id: "biosamples.biosample_type",
+          component: C.Cell,
+          viewBuilder: V.buildBioSampleType,
+        } as ComponentConfig<typeof C.Cell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.BIOSAMPLE_BIOSAMPLE_TYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_TYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilders.buildOrganismTypes,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Organism Type",
-        id: "donors.organism_type",
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        columnVisible: false,
-        componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilders.buildPhenotypicSexes,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Phenotypic Sex",
-        id: "donors.phenotypic_sex",
+          component: C.NTagCell,
+          viewBuilder: V.buildOrganismTypes,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
         columnVisible: false,
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildReportedEthnicity,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Reported Ethnicity",
-        id: "donors.reported_ethnicity",
+          component: C.NTagCell,
+          viewBuilder: V.buildPhenotypicSexes,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
+        id: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildReportedEthnicity,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
+        id: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDiagnoses,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Diagnosis",
-        id: "diagnoses.phenotype",
+          component: C.NTagCell,
+          viewBuilder: V.buildDiagnoses,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilders.buildDatasetTitles,
-        } as ComponentConfig<typeof Components.NTagCell>,
-        header: "Dataset",
-        id: "datasets.title",
+          component: C.NTagCell,
+          viewBuilder: V.buildDatasetTitles,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
+        id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
         width: { max: "1fr", min: "200px" },
       },
     ],
     defaultSort: {
       desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_ID,
+      id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_ID,
     },
   } as ListConfig<BioSamplesResponse>,
   route: "biosamples",

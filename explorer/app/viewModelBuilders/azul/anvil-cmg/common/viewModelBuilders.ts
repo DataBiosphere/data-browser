@@ -1,9 +1,24 @@
 import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { Filters } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { CallToAction } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
+import { CurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
+import { Summary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { ViewContext } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import { FILE_MANIFEST_TYPE } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
+import {
+  FileFacet,
+  FILE_MANIFEST_TYPE,
+} from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
+import { CategoryKeyLabel } from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/entities";
+import {
+  mapCategoryKeyLabel,
+  sanitizeString,
+} from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/utils";
 import React from "react";
+import {
+  ANVIL_CMG_CATEGORY_KEY,
+  ANVIL_CMG_CATEGORY_LABEL,
+} from "../../../../../site-config/anvil-cmg/category";
 import {
   FORM_FACETS,
   ROUTE_EXPORT_TO_TERRA,
@@ -14,7 +29,6 @@ import {
   AggregatedDatasetResponse,
   AggregatedDiagnosisResponse,
   AggregatedDonorResponse,
-  AggregatedLibraryResponse,
 } from "../../../../apis/azul/anvil-cmg/common/aggregatedEntities";
 import {
   ActivityEntityResponse,
@@ -27,6 +41,7 @@ import {
 import {
   DatasetsResponse,
   FilesResponse,
+  SummaryResponse,
 } from "../../../../apis/azul/anvil-cmg/common/responses";
 import {
   getActivityDataModalities,
@@ -37,7 +52,6 @@ import {
   getAggregatedDiagnoses,
   getAggregatedOrganismTypes,
   getAggregatedPhenotypicSexes,
-  getAggregatedPrepMaterialNames,
   getAggregatedReportedEthnicities,
   getAnatomicalSite,
   getBioSampleId,
@@ -47,16 +61,13 @@ import {
   getDatasetDescription,
   getDatasetDetails,
   getDatasetEntryId,
-  getDatasetId,
   getDatasetTitle,
   getDocumentId,
   getDonorId,
   getFileDataModalities,
   getFileFormat,
-  getFileId,
   getFileName,
   getFileSize,
-  getFileType,
   getFileUrl,
   getLibraryId,
   getOrganismType,
@@ -65,10 +76,13 @@ import {
   getRegisteredIdentifier,
   getReportedEthnicities,
 } from "../../../../apis/azul/anvil-cmg/common/transformers";
+import { processEntityValue } from "../../../../apis/azul/common/utils";
 import * as C from "../../../../components";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import * as MDX from "../../../../content/anvil-cmg";
+import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
+import { mapExportSummary } from "./summaryMapper/summaryMapper";
 
 /**
  * Build props for activity type Cell component from the given activities response.
@@ -224,20 +238,6 @@ export const buildDatasetAccess = (
 };
 
 /**
- * Build dataset name Cell component from the given index/datasets response.
- * @param response - Response model return from index/datasets API.
- * @returns model to be used as props for the dataset name cell.
- */
-export const buildDatasetId = (
-  response: DatasetsResponse
-): React.ComponentProps<typeof C.Link> => {
-  return {
-    label: getDatasetId(response),
-    url: `/datasets/${getDatasetEntryId(response)}`,
-  };
-};
-
-/**
  * Build dataset ID Cell component from the given entity response.
  * @param response - Response model return from Azul that includes aggregated datasets.
  * @returns model to be used as props for the dataset ID cell.
@@ -320,6 +320,20 @@ export const buildDocumentId = (
 };
 
 /**
+ * Build props for ExportCurrentQuery component.
+ * @returns model to be used as props for the ExportCurrentQuery component.
+ */
+export const buildExportCurrentQuery = (): React.ComponentProps<
+  typeof C.ExportCurrentQuery
+> => {
+  return {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- filters is unused.
+    getExportCurrentQueries: (filters: Filters, filesFacets: FileFacet[]) =>
+      getExportCurrentQueries(filesFacets),
+  };
+};
+
+/**
  * Build props for ExportToTerra component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the ExportToTerra component.
@@ -331,7 +345,10 @@ export const buildExportEntityToTerra = (
     ExportForm: C.ExportToTerraForm,
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
-    entity: ["entryId", datasetsResponse.entryId],
+    entity: [
+      ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+      processEntityValue(datasetsResponse.datasets, "title"),
+    ],
     fileManifestType: FILE_MANIFEST_TYPE.ENITY_EXPORT_TO_TERRA,
     formFacets: FORM_FACETS,
   };
@@ -391,6 +408,21 @@ export const buildExportMethodTerra = (): React.ComponentProps<
 });
 
 /**
+ * Build props for ExportSelectedDataSummary component.
+ * @returns model to be used as props for the ExportSelectedDataSummary component.
+ */
+export const buildExportSelectedDataSummary = (): React.ComponentProps<
+  typeof C.ExportSelectedDataSummary
+> => {
+  return {
+    getExportSelectedDataSummary: (
+      filesFacets: FileFacet[],
+      summary?: SummaryResponse
+    ) => getExportSelectedDataSummary(filesFacets, summary),
+  };
+};
+
+/**
  * Build props for ExportToTerra component.
  * @returns model to be used as props for the ExportToTerra component.
  */
@@ -438,19 +470,6 @@ export const buildFileDownload = (
  * @param response - Response model return from index/files API endpoint.
  * @returns model to be used as props for the file ID cell.
  */
-export const buildFileId = (
-  response: FileEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
-  return {
-    value: getFileId(response),
-  };
-};
-
-/**
- * Build props for file ID Cell component from the given files response.
- * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the file ID cell.
- */
 export const buildFileName = (
   response: FileEntityResponse
 ): React.ComponentProps<typeof C.Cell> => {
@@ -482,19 +501,6 @@ export const buildFileSize = (
 ): React.ComponentProps<typeof C.Cell> => {
   return {
     value: getFileSize(response),
-  };
-};
-
-/**
- * Build props for file type Cell component from the given files response.
- * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the file type cell.
- */
-export const buildFileType = (
-  response: FileEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
-  return {
-    value: getFileType(response),
   };
 };
 
@@ -579,20 +585,6 @@ export const buildPrepMaterialName = (
 };
 
 /**
- * Build props for prep material name cell component from the given entity response.
- * @param response - Response model return from Azul that includes aggregated libraries.
- * @returns model to be used as props for the organism type cell.
- */
-export const buildPrepMaterialNames = (
-  response: AggregatedLibraryResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.LIBRARY_PREPARATION),
-    values: getAggregatedPrepMaterialNames(response),
-  };
-};
-
-/**
  * Build props for phenotypic sex cell component from the given donors response.
  * @param response - Response model return from index/donors API endpoint.
  * @returns model to be used as props for the phenotypic sex cell.
@@ -654,6 +646,24 @@ function getDatasetCallToAction(
 }
 
 /**
+ * Returns current queries from the given selected file facets.
+ * @param filesFacets - Files facets.
+ * @returns current queries.
+ */
+export function getExportCurrentQueries(
+  filesFacets: FileFacet[]
+): CurrentQuery[] {
+  const categoryKeyLabel = mapCategoryKeyLabel(
+    ANVIL_CMG_CATEGORY_KEY,
+    ANVIL_CMG_CATEGORY_LABEL
+  );
+  // Return all selected facets, as a list of current queries.
+  return filesFacets
+    .filter(isFacetSelected)
+    .map((facet) => mapCurrentQuery(facet, categoryKeyLabel));
+}
+
+/**
  * Returns breadcrumbs and title for export method Hero component.
  * @param explorePath - Explore path.
  * @param title - Export method title.
@@ -671,4 +681,46 @@ function getExportMethodHero(
     ],
     title: title,
   };
+}
+
+/**
+ * Returns the export selected data summary for the given file manifest.
+ * @param filesFacets - Files facets.
+ * @param summary - Response model return from summary API.
+ * @returns export selected data summary.
+ */
+export function getExportSelectedDataSummary(
+  filesFacets: FileFacet[],
+  summary?: SummaryResponse
+): Summary[] {
+  return [...mapExportSummary(filesFacets, summary)].map(([key, value]) => [
+    SUMMARY_DISPLAY_TEXT[key] || key,
+    value,
+  ]);
+}
+
+/**
+ * Returns true if the facet is selected.
+ * @param facet - Facet.
+ * @returns returns true if the facet is selected.
+ */
+function isFacetSelected(facet: FileFacet): boolean {
+  return facet.selected;
+}
+
+/**
+ * Returns current query for the given facet.
+ * @param facet - File facet.
+ * @param categoryKeyLabel - Map of category key to category label.
+ * @returns current query.
+ */
+function mapCurrentQuery(
+  facet: FileFacet,
+  categoryKeyLabel: CategoryKeyLabel
+): CurrentQuery {
+  const { name, selectedTerms } = facet;
+  return [
+    categoryKeyLabel.get(name) || name,
+    selectedTerms.map(({ name }) => sanitizeString(name)),
+  ];
 }

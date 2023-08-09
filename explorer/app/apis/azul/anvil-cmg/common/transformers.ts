@@ -20,7 +20,6 @@ import {
   AggregatedDatasetResponse,
   AggregatedDiagnosisResponse,
   AggregatedDonorResponse,
-  AggregatedLibraryResponse,
 } from "./aggregatedEntities";
 import {
   ActivityEntityResponse,
@@ -181,21 +180,12 @@ export function getAggregatedActivityDataModalities(
 }
 
 /**
- * Maps dataset Id from the core dataset entity returned from the index/datasets endpoint.
+ * Maps dataset id from the core dataset entity returned from the index/datasets endpoint.
  * @param response - Response model return from datasets or dataset API endpoints.
  * @returns Dataset ID.
  */
 export function getDatasetEntryId(response: DatasetsResponse): string {
   return response.entryId ?? ""; // TODO throw on no ID?
-}
-
-/**
- * Maps dataset ID from the core dataset entity returned from the index/datasets endpoint.
- * @param response - Response model return from datasets or dataset API endpoints.
- * @returns Dataset ID.
- */
-export function getDatasetId(response: DatasetEntityResponse): string {
-  return processEntityValue(response.datasets, "dataset_id", LABEL.NONE);
 }
 
 /**
@@ -261,15 +251,6 @@ export function getFileDataModalities(response: FileEntityResponse): string[] {
  * @param response - Response model return from index/files API endpoint.
  * @returns File ID.
  */
-export function getFileId(response: FileEntityResponse): string {
-  return processEntityValue(response.files, "file_id");
-}
-
-/**
- * Maps file ID from the core file value returned from the /index/files API response.
- * @param response - Response model return from index/files API endpoint.
- * @returns File ID.
- */
 export function getFileName(response: FileEntityResponse): string {
   return processEntityValue(response.files, "file_name");
 }
@@ -291,15 +272,6 @@ export function getFileFormat(response: FileEntityResponse): string {
 export function getFileSize(response: FileEntityResponse): string {
   const fileSize = processNumberEntityValue(response.files, "file_size");
   return humanFileSize(fileSize);
-}
-
-/**
- * Maps file type from the core file value returned from the /index/files API response.
- * @param response - Response model return from index/files API endpoint.
- * @returns File type.
- */
-export function getFileType(response: FileEntityResponse): string {
-  return processEntityValue(response.files, "file_type");
 }
 
 /**
@@ -358,20 +330,6 @@ export function getAggregatedDiagnoses(
  */
 export function getPrepMaterialName(response: LibraryEntityResponse): string {
   return processEntityValue(response.libraries, "prep_material_name");
-}
-
-/**
- * Maps prep material names from aggregated library values returned from endpoints other than index/libraries.
- * @param response - Response model return from Azul that includes aggregated libraries.
- * @returns Prep material names.
- */
-export function getAggregatedPrepMaterialNames(
-  response: AggregatedLibraryResponse
-): string[] {
-  return processAggregatedOrArrayValue(
-    response.libraries,
-    "prep_material_name"
-  );
 }
 
 /**

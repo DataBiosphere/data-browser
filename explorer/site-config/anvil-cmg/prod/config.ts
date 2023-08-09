@@ -2,12 +2,12 @@ import {
   EntityConfig,
   SiteConfig,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import { make_config } from "../dev/config";
+import { makeConfig } from "../dev/config";
 import { downloadColumn } from "../dev/index/filesEntityConfig";
 import { authenticationConfig } from "./authentication/authentication";
 
 const config: SiteConfig = {
-  ...make_config("https://prod.anvil.gi.ucsc.edu", "anvil1"),
+  ...makeConfig("https://prod.anvil.gi.ucsc.edu", "anvil1"),
   exportToTerraUrl: "https://app.terra.bio/",
 };
 
