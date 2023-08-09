@@ -1083,13 +1083,12 @@ export function getExportCurrentQueries(
     HCA_DCP_CATEGORY_LABEL
   );
   // Grab all selected facets.
-  // Replace selected project title facet for project facet.
-  // Entity related current queries should always return the project facet as a selected facet; instead of the
-  // project identifier (which is not a defined term facet).
+  // Entity related current queries should always return the project facet as a selected facet as there is no equivalent
+  // file facet for project id.
   return filesFacets
     .filter(isFacetSelected)
     .reduce((acc, facet) => {
-      acc.push(mapSelectedFacetCurrentQuery(facet, filesFacets));
+      acc.push(facet);
       return acc;
     }, facets)
     .map((facet) => mapCurrentQuery(facet, categoryKeyLabel));
@@ -1440,27 +1439,6 @@ function mapFileTypeCounts(
     },
     new Map()
   );
-}
-
-/**
- * Returns current query for the given facet.
- * If the given facet is the project title, return the project facet as the selected facet.
- * @param facet - Selected facet.
- * @param filesFacets - Files facets.
- * @returns current query for the given facet.
- */
-function mapSelectedFacetCurrentQuery(
-  facet: FileFacet,
-  filesFacets: FileFacet[]
-): FileFacet {
-  const { name } = facet;
-  if (name === HCA_DCP_CATEGORY_KEY.PROJECT_TITLE) {
-    const projectFacet = getSelectedProjectFacet(filesFacets);
-    if (projectFacet) {
-      return projectFacet;
-    }
-  }
-  return facet;
 }
 
 /**
