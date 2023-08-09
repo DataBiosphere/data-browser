@@ -1,5 +1,8 @@
 import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
-import { Filters } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import {
+  Filters,
+  SelectedFilter,
+} from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
@@ -425,27 +428,6 @@ export const buildEstimateCellCount = (
 };
 
 /**
- * Build props for entity related ExportCurrentQuery component.
- * @returns model to be used as props for the ExportCurrentQuery component.
- */
-export const buildExportEntityCurrentQuery = (): React.ComponentProps<
-  typeof C.ExportCurrentQuery
-> => {
-  return {
-    getExportCurrentQueries: (
-      filters: Filters,
-      filesFacets: FileFacet[]
-    ): CurrentQuery[] => {
-      // Grab the project facet.
-      const projectFacet = getSelectedProjectFacet(filesFacets);
-      // Initialize the selected facets with the project facet.
-      const facets = projectFacet ? [projectFacet] : [];
-      return getExportCurrentQueries(filesFacets, facets);
-    },
-  };
-};
-
-/**
  * Build props for ExportCurrentQuery component.
  * @returns model to be used as props for the ExportCurrentQuery component.
  */
@@ -454,7 +436,7 @@ export const buildExportCurrentQuery = (): React.ComponentProps<
 > => {
   return {
     getExportCurrentQueries: (filters: Filters, filesFacets: FileFacet[]) =>
-      getExportCurrentQueries(filesFacets),
+      getExportCurrentQueries(filters, filesFacets),
   };
 };
 
@@ -1070,28 +1052,23 @@ export function getEstimatedCellCount(
 
 /**
  * Returns current queries from the given selected file facets.
+ * @param filters - Filters.
  * @param filesFacets - Files facets.
- * @param facets - Selected facets i.e. for entity related queries.
  * @returns current queries.
  */
 export function getExportCurrentQueries(
-  filesFacets: FileFacet[],
-  facets: FileFacet[] = []
+  filters: Filters,
+  filesFacets: FileFacet[]
 ): CurrentQuery[] {
   const categoryKeyLabel = mapCategoryKeyLabel(
     HCA_DCP_CATEGORY_KEY,
     HCA_DCP_CATEGORY_LABEL
   );
-  // Grab all selected facets.
-  // Entity related current queries should always return the project facet as a selected facet as there is no equivalent
-  // file facet for project id.
-  return filesFacets
-    .filter(isFacetSelected)
-    .reduce((acc, facet) => {
-      acc.push(facet);
-      return acc;
-    }, facets)
-    .map((facet) => mapCurrentQuery(facet, categoryKeyLabel));
+  // Return all selected filters, as a list of current queries.
+  // Replace any selected filter projectIds with project facet terms.
+  return filters
+    .map((filter) => mapProjectIdToProject(filter, filesFacets))
+    .map((filter) => mapCurrentQuery(filter, categoryKeyLabel));
 }
 
 /**
@@ -1133,6 +1110,17 @@ function getExportMethodHero(
     ],
     title: title,
   };
+}
+
+/**
+ * Returns file facet term names.
+ * @param facet - File facet.
+ * @returns file facet term names.
+ */
+function getFacetTerms(facet: FileFacet | undefined): string[] {
+  return (
+    facet?.terms.map(({ name }) => sanitizeString(name)) || [LABEL.UNSPECIFIED]
+  );
 }
 
 /**
@@ -1325,27 +1313,6 @@ export function getProjectBreadcrumbs(
 }
 
 /**
- * Returns project facet as a selected facet, using the project terms as the selected terms.
- * @param filesFacets - Files facets.
- * @returns selected project facet.
- */
-function getSelectedProjectFacet(
-  filesFacets: FileFacet[]
-): FileFacet | undefined {
-  const projectFacet = findProjectFacet(filesFacets);
-  if (!projectFacet) {
-    return;
-  }
-  return {
-    ...projectFacet,
-    name: HCA_DCP_CATEGORY_KEY.PROJECT,
-    selected: true, // Forcing project facet to be selected.
-    selectedTermCount: projectFacet.terms.length, // Selected term count will be equal to the number of terms.
-    selectedTerms: projectFacet.terms, // Selected terms will equal all terms.
-  };
-}
-
-/**
  * Returns project file formats from the projects API response.
  * @param projectsResponse - Response returned from projects API response.
  * @returns project file formats.
@@ -1383,37 +1350,32 @@ function getProjectTitleUrl(projectsResponse: ProjectsResponse): string {
 }
 
 /**
- * Returns project file facet.
+ * Returns file facet for the given facet name.
+ * @param facetName - Facet name.
  * @param filesFacets - Files facets.
  * @returns project file facet.
  */
-function findProjectFacet(filesFacets: FileFacet[]): FileFacet | undefined {
-  return filesFacets.find(({ name }) => name === HCA_DCP_CATEGORY_KEY.PROJECT);
-}
-
-/**
- * Returns true if the facet is selected.
- * @param facet - Facet.
- * @returns returns true if the facet is selected.
- */
-function isFacetSelected(facet: FileFacet): boolean {
-  return facet.selected;
+function findFacet(
+  facetName: string,
+  filesFacets: FileFacet[]
+): FileFacet | undefined {
+  return filesFacets.find(({ name }) => name === facetName);
 }
 
 /**
  * Returns current query for the given facet.
- * @param facet - File facet.
+ * @param filter - Selected filter.
  * @param categoryKeyLabel - Map of category key to category label.
  * @returns current query.
  */
 function mapCurrentQuery(
-  facet: FileFacet,
+  filter: SelectedFilter,
   categoryKeyLabel: CategoryKeyLabel
 ): CurrentQuery {
-  const { name, selectedTerms } = facet;
+  const { categoryKey, value: values } = filter;
   return [
-    categoryKeyLabel.get(name) || name,
-    selectedTerms.map(({ name }) => sanitizeString(name)),
+    categoryKeyLabel.get(categoryKey) || categoryKey,
+    values.map((value) => sanitizeString(value)),
   ];
 }
 
@@ -1439,6 +1401,26 @@ function mapFileTypeCounts(
     },
     new Map()
   );
+}
+
+/**
+ * Returns the project facet name and terms as a selected filter in lieu of selected filter of category project id.
+ * @param filter - Selected filter.
+ * @param filesFacets - Files facets.
+ * @returns selected filter.
+ */
+function mapProjectIdToProject(
+  filter: SelectedFilter,
+  filesFacets: FileFacet[]
+): SelectedFilter {
+  if (filter.categoryKey === HCA_DCP_CATEGORY_KEY.PROJECT_ID) {
+    const projectFacet = findFacet(HCA_DCP_CATEGORY_KEY.PROJECT, filesFacets);
+    return {
+      categoryKey: HCA_DCP_CATEGORY_KEY.PROJECT,
+      value: getFacetTerms(projectFacet),
+    };
+  }
+  return filter;
 }
 
 /**
