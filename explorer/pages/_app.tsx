@@ -20,6 +20,8 @@ import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import TagManager from "react-gtm-module";
 
+const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
+
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   // Set up the site configuration, layout and theme.
   const appConfig = config();
@@ -41,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         <DXConfigProvider config={appConfig} entityListType={entityListType}>
           <Head />
           <CssBaseline />
-          <AuthProvider>
+          <AuthProvider sessionTimeout={SESSION_TIMEOUT}>
             <AppLayout>
               <Header {...layout.header} />
               <ExploreStateProvider entityListType={entityListType}>
