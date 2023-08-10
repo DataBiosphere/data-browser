@@ -57,9 +57,9 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       },
       {
         componentConfig: {
-          component: C.AccessStatusBadge,
+          component: C.StatusBadge,
           viewBuilder: V.buildDatasetAccess,
-        } as ComponentConfig<typeof C.AccessStatusBadge>,
+        } as ComponentConfig<typeof C.StatusBadge>,
         disableSorting: true,
         header: ANVIL_CMG_CATEGORY_LABEL.DATASET_ACCESSIBLE,
         id: ANVIL_CMG_CATEGORY_KEY.DATASET_ACCESSIBLE,

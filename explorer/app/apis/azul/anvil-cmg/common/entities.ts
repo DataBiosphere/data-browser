@@ -44,10 +44,9 @@ export interface BioSampleEntityResponse {
  */
 export interface DatasetEntity {
   accessible: boolean;
-  consent_group: string;
+  consent_group: (string | null)[];
   dataset_id: string;
-  entity_description: string;
-  registered_identifier: string;
+  registered_identifier: (string | null)[];
   title: string;
 }
 
