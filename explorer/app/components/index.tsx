@@ -23,7 +23,6 @@ export { Stack } from "@clevercanary/data-explorer-ui/lib/components/common/Stac
 export { StaticImage } from "@clevercanary/data-explorer-ui/lib/components/common/StaticImage/staticImage";
 export { StatusBadge } from "@clevercanary/data-explorer-ui/lib/components/common/StatusBadge/statusBadge";
 export { TagWarning } from "@clevercanary/data-explorer-ui/lib/components/common/Tag/tag.styles";
-export { ControlComponent } from "@clevercanary/data-explorer-ui/lib/components/ComponentCreator/components/ControlComponent/controlComponent";
 export { DetailViewTable } from "@clevercanary/data-explorer-ui/lib/components/Detail/components/DetailViewTable/detailViewTable";
 export { DownloadCurlCommandForm } from "@clevercanary/data-explorer-ui/lib/components/Export/components/DownloadCurlCommand/components/DownloadCurlCommandForm/downloadCurlCommandForm";
 export { DownloadCurlCommand } from "@clevercanary/data-explorer-ui/lib/components/Export/components/DownloadCurlCommand/downloadCurlCommand";
