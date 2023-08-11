@@ -11,6 +11,7 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
+import { listHero } from "../listView/listHero";
 
 /**
  * Entity config object responsible for config related to the /explore/biosamples route.
@@ -106,6 +107,9 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
       id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_ID,
     },
   } as ListConfig<BioSamplesResponse>,
+  listView: {
+    listHero,
+  },
   route: "biosamples",
   staticLoad: false,
 };

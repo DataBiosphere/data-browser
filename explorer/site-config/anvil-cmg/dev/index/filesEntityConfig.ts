@@ -12,6 +12,7 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
+import { listHero } from "../listView/listHero";
 
 export const downloadColumn: ColumnConfig = {
   componentConfig: {
@@ -130,6 +131,9 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_NAME,
     },
   } as ListConfig<FilesResponse>,
+  listView: {
+    listHero,
+  },
   route: "files",
   staticLoad: false,
 };

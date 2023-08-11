@@ -11,6 +11,7 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
+import { listHero } from "../listView/listHero";
 
 /**
  * Entity config object responsible for config related to the /explore/activities route.
@@ -116,6 +117,9 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DOCUMENT_ID,
     },
   } as ListConfig<ActivitiesResponse>,
+  listView: {
+    listHero,
+  },
   route: "activities",
   staticLoad: false,
 };

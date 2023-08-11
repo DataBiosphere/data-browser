@@ -11,6 +11,7 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
+import { listHero } from "../listView/listHero";
 
 /**
  * Entity config object responsible for config related to the /explore/donors route.
@@ -86,6 +87,9 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
       id: ANVIL_CMG_CATEGORY_KEY.DONOR_DONOR_ID,
     },
   } as ListConfig<DonorsResponse>,
+  listView: {
+    listHero,
+  },
   route: "donors",
   staticLoad: false,
 };

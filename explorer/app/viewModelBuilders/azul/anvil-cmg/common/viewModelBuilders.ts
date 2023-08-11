@@ -543,6 +543,26 @@ export const buildLibraryId = (
 };
 
 /**
+ * Build props for list view access warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildListWarning = (
+  _: Record<string, never>,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.Alert> => {
+  const {
+    entityConfig: { label },
+  } = viewContext;
+  return {
+    severity: "warning",
+    title: `For datasets with a 'Required' access status, ${label} are not listed.`,
+    variant: "banner",
+  };
+};
+
+/**
  * Build props for organism type cell component from the given donors response.
  * @param response - Response model return from index/donors API endpoint.
  * @returns model to be used as props for the organism type cell.
