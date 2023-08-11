@@ -5,7 +5,12 @@ import * as T from "../../../../../app/viewModelBuilders/catalog/anvil-catalog/c
 
 export const workspacesMainColumn = [
   {
-    component: C.DetailViewTable,
-    viewBuilder: T.buildConsortiumDetailViewWorkspacesTable,
-  } as ComponentConfig<typeof C.DetailViewTable, AnVILCatalogConsortium>,
+    children: [
+      {
+        component: C.DetailViewTable,
+        viewBuilder: T.buildConsortiumDetailViewWorkspacesTable,
+      } as ComponentConfig<typeof C.DetailViewTable, AnVILCatalogConsortium>,
+    ],
+    component: C.BackPageContentSingleColumn,
+  } as ComponentConfig<typeof C.BackPageContentSingleColumn>,
 ];

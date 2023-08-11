@@ -37,6 +37,11 @@ export { Cell } from "@clevercanary/data-explorer-ui/lib/components/Index/compon
 export { Summaries } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Hero/components/Summaries/summaries";
 export { NTagCell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/NTagCell/nTagCell";
 export { Tooltip } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Tooltip/tooltip";
+export {
+  BackPageContentMainColumn,
+  BackPageContentSideColumn,
+  BackPageContentSingleColumn,
+} from "@clevercanary/data-explorer-ui/lib/components/Layout/components/BackPage/backPageView.styles";
 export { BackPageHero } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/BackPage/components/BackPageHero/backPageHero";
 export { Link } from "@clevercanary/data-explorer-ui/lib/components/Links/components/Link/link";
 export { Links } from "@clevercanary/data-explorer-ui/lib/components/Links/links";

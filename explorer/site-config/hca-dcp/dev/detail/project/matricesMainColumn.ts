@@ -6,55 +6,28 @@ import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/vie
 
 export const mainColumn: ComponentConfig[] = [
   {
-    component: C.FluidAlert,
-    viewBuilder: V.buildBatchCorrectionWarning,
-  } as ComponentConfig<typeof C.FluidAlert>,
-  {
     children: [
       {
-        children: [
-          {
-            component: MDX.DCPGeneratedMatrices,
-          } as ComponentConfig<typeof MDX.DCPGeneratedMatrices>,
-        ],
-        component: MDX.Section,
-      } as ComponentConfig<typeof MDX.Section>,
-      {
-        component: C.GeneratedMatricesTables,
-        viewBuilder: V.buildDCPGeneratedMatricesTable,
-      } as ComponentConfig<typeof C.GeneratedMatricesTables, ProjectsResponse>,
-    ],
-    component: C.FluidPaper,
-  } as ComponentConfig<typeof C.FluidPaper>,
-  {
-    children: [
-      {
-        children: [
-          {
-            component: MDX.ContributorGeneratedMatrices,
-          } as ComponentConfig<typeof MDX.ContributorGeneratedMatrices>,
-        ],
-        component: MDX.Section,
-      } as ComponentConfig<typeof MDX.Section>,
-      {
-        component: C.GeneratedMatricesTables,
-        viewBuilder: V.buildContributorGeneratedMatricesTable,
-      } as ComponentConfig<typeof C.GeneratedMatricesTables, ProjectsResponse>,
-    ],
-    component: C.FluidPaper,
-  } as ComponentConfig<typeof C.FluidPaper>,
-  {
-    children: [
+        component: C.FluidAlert,
+        viewBuilder: V.buildBatchCorrectionWarning,
+      } as ComponentConfig<typeof C.FluidAlert>,
       {
         children: [
           {
             children: [
               {
-                component: MDX.MatrixQuestionnaire,
-              } as ComponentConfig<typeof MDX.MatrixQuestionnaire>,
+                component: MDX.DCPGeneratedMatrices,
+              } as ComponentConfig<typeof MDX.DCPGeneratedMatrices>,
             ],
             component: MDX.Section,
           } as ComponentConfig<typeof MDX.Section>,
+          {
+            component: C.GeneratedMatricesTables,
+            viewBuilder: V.buildDCPGeneratedMatricesTable,
+          } as ComponentConfig<
+            typeof C.GeneratedMatricesTables,
+            ProjectsResponse
+          >,
         ],
         component: C.FluidPaper,
       } as ComponentConfig<typeof C.FluidPaper>,
@@ -63,16 +36,54 @@ export const mainColumn: ComponentConfig[] = [
           {
             children: [
               {
-                component: MDX.DataReleasePolicy,
-              } as ComponentConfig<typeof MDX.DataReleasePolicy>,
+                component: MDX.ContributorGeneratedMatrices,
+              } as ComponentConfig<typeof MDX.ContributorGeneratedMatrices>,
             ],
             component: MDX.Section,
           } as ComponentConfig<typeof MDX.Section>,
+          {
+            component: C.GeneratedMatricesTables,
+            viewBuilder: V.buildContributorGeneratedMatricesTable,
+          } as ComponentConfig<
+            typeof C.GeneratedMatricesTables,
+            ProjectsResponse
+          >,
         ],
         component: C.FluidPaper,
       } as ComponentConfig<typeof C.FluidPaper>,
+      {
+        children: [
+          {
+            children: [
+              {
+                children: [
+                  {
+                    component: MDX.MatrixQuestionnaire,
+                  } as ComponentConfig<typeof MDX.MatrixQuestionnaire>,
+                ],
+                component: MDX.Section,
+              } as ComponentConfig<typeof MDX.Section>,
+            ],
+            component: C.FluidPaper,
+          } as ComponentConfig<typeof C.FluidPaper>,
+          {
+            children: [
+              {
+                children: [
+                  {
+                    component: MDX.DataReleasePolicy,
+                  } as ComponentConfig<typeof MDX.DataReleasePolicy>,
+                ],
+                component: MDX.Section,
+              } as ComponentConfig<typeof MDX.Section>,
+            ],
+            component: C.FluidPaper,
+          } as ComponentConfig<typeof C.FluidPaper>,
+        ],
+        component: C.Grid,
+        viewBuilder: V.buildTripleColumnGrid,
+      } as ComponentConfig<typeof C.Grid>,
     ],
-    component: C.Grid,
-    viewBuilder: V.buildTripleColumnGrid,
-  } as ComponentConfig<typeof C.Grid>,
+    component: C.BackPageContentSingleColumn,
+  } as ComponentConfig<typeof C.BackPageContentSingleColumn>,
 ];

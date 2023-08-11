@@ -702,7 +702,6 @@ export const buildHero = (
 ): React.ComponentProps<typeof C.BackPageHero> => {
   return {
     breadcrumbs: getProjectBreadcrumbs(projectsResponse),
-    status: undefined, // TODO status https://github.com/clevercanary/data-browser/issues/135
     title: processEntityValue(projectsResponse.projects, "projectTitle"),
   };
 };
