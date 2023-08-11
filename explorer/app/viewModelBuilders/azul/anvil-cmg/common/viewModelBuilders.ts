@@ -380,6 +380,29 @@ export const buildExportEntityToTerra = (
 };
 
 /**
+ * Build props for entity related export warning FluidAlert component.
+ * @param datasetsResponse - Response model return from datasets API (unused).
+ * @param viewContext - View context.
+ * @returns model to be used as props for the FluidAlert component.
+ */
+export const buildExportEntityWarning = (
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.FluidAlert> => {
+  const {
+    authState: { isAuthorized },
+  } = viewContext;
+  const title = isAuthorized
+    ? "To export this dataset, please request access."
+    : "To export this dataset, please sign in and, if necessary, request access.";
+  return {
+    severity: "warning",
+    title,
+    variant: "banner",
+  };
+};
+
+/**
  * Build props for export Hero component.
  * @param _ - Unused.
  * @param viewContext - View context.
@@ -803,6 +826,32 @@ function mapCurrentQuery(
     values.map((value) => sanitizeString(value)),
   ];
 }
+
+/**
+ * Renders entity related export when the given datasests response is accessible.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderExportEntity = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn: isDatasetAccessible(datasetsResponse),
+  };
+};
+
+/**
+ * Renders entity related export warning when the given datasests response is not accessible.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderExportEntityWarning = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn: !isDatasetAccessible(datasetsResponse),
+  };
+};
 
 /**
  * Returns value from a string array matching the given index.

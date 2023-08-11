@@ -13,7 +13,6 @@ import {
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
 import { mainColumn as exportMainColumn } from "../detail/dataset/exportMainColumn";
-import { sideColumn as exportSideColumn } from "../detail/dataset/exportSideColumn";
 import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
@@ -37,7 +36,6 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         label: "Export",
         mainColumn: exportMainColumn,
         route: "export-to-terra",
-        sideColumn: exportSideColumn,
       },
     ],
     top: top,
