@@ -343,7 +343,7 @@ def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix=
 def strings_to_lists(*vals):
 	return [[v] if isinstance(v, str) else v for v in vals]
 
-def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_period, rows_type="ordered", **other_params):
+def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_period, rows_type="ordered", prev_period_params={}, **other_params):
 	xlabels, metrics, dimensions = strings_to_lists(xlabels, metrics, dimensions)
 	
 	period = pd.Period(period)
@@ -359,7 +359,7 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 	if prev_period is None:
 		all_frames = (df,)
 	else:
-		all_frames = (df, get_top_ga_df(**shared_params, start_date=prev_period.start_time.isoformat()[:10], end_date=prev_period.end_time.isoformat()[:10], **other_params))
+		all_frames = (df, get_top_ga_df(**shared_params, start_date=prev_period.start_time.isoformat()[:10], end_date=prev_period.end_time.isoformat()[:10], **{**other_params, **prev_period_params}))
 	
 	is_single_cell = all([f.shape[0] == 1 and f.shape[1] == 1 for f in all_frames])
 	
