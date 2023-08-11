@@ -3,7 +3,9 @@ import {
   Filters,
   SelectedFilter,
 } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import { CallToAction } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
+import { STATUS_BADGE_COLOR } from "@clevercanary/data-explorer-ui/lib/components/common/StatusBadge/statusBadge";
 import { CurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 import { Summary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
@@ -36,7 +38,6 @@ import {
 import {
   ActivityEntityResponse,
   BioSampleEntityResponse,
-  DatasetEntityResponse,
   DonorEntityResponse,
   FileEntityResponse,
   LibraryEntityResponse,
@@ -60,11 +61,8 @@ import {
   getBioSampleId,
   getBioSampleType,
   getConsentGroup,
-  getDatasetBreadcrumbs,
-  getDatasetDescription,
   getDatasetDetails,
   getDatasetEntryId,
-  getDatasetTitle,
   getDocumentId,
   getDonorId,
   getFileDataModalities,
@@ -76,10 +74,12 @@ import {
   getOrganismType,
   getPhenotypicSex,
   getPrepMaterialName,
-  getRegisteredIdentifier,
   getReportedEthnicities,
 } from "../../../../apis/azul/anvil-cmg/common/transformers";
-import { processEntityValue } from "../../../../apis/azul/common/utils";
+import {
+  processEntityArrayValue,
+  processEntityValue,
+} from "../../../../apis/azul/common/utils";
 import * as C from "../../../../components";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
@@ -154,62 +154,15 @@ export const buildBioSampleTypes = (
 };
 
 /**
- * Build props for phenotypic sex cell component from the given donors response.
- * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the phenotypic sex cell.
+ * Build props for consent group Cell component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the Cell component.
  */
 export const buildConsentGroup = (
-  response: DatasetEntityResponse
+  datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getConsentGroup(response),
-  };
-};
-
-/**
- * Build props for Description component from the given entity response.
- * TODO revisit - separate from entity builder, generalize description component, revisit transformer
- * @param response - Response model return from datasets API.
- * @returns model to be used as props for the Description component.
- */
-export const buildDatasetDescription = (
-  response: DatasetEntityResponse
-): React.ComponentProps<typeof C.Description> => {
-  return {
-    projectDescription: getDatasetDescription(response) || "None",
-  };
-};
-
-/**
- * Build props for Details component from the given datasets index or detaset detail response.
- * TODO revisit - separate from entity builder, generalize modeling/component?, revisit transformer
- * @param response - Response model return from datasets or dataset API endpoints.
- * @returns model to be used as props for the Description component.
- */
-export const buildDatasetDetails = (
-  response: DatasetsResponse
-): React.ComponentProps<typeof C.Details> => {
-  return {
-    keyValuePairs: getDatasetDetails(response),
-    title: "Dataset Details",
-  };
-};
-
-/**
- * Build props for Hero component from the given datasets response.
- * TODO revisit - separate from entity builder, generalize modeling?, revisit transformer
- * @param response - Response model return from datasets API.
- * @returns model to be used as props for the BackPageHero component.
- */
-export const buildDatasetHero = (
-  response: DatasetEntityResponse
-): React.ComponentProps<typeof C.BackPageHero> => {
-  const firstCrumb = { path: URL_DATASETS, text: "Datasets" };
-  const callToAction = getDatasetCallToAction(response);
-  return {
-    breadcrumbs: getDatasetBreadcrumbs(firstCrumb, response),
-    callToAction,
-    title: getDatasetTitle(response),
+    value: getConsentGroup(datasetsResponse),
   };
 };
 
@@ -228,15 +181,64 @@ export const buildDataModality = (
 };
 
 /**
- * Build dataset access badge component from the given index/datasets response.
- * @param response - Response model return from index/datasets API.
- * @returns model to be used as props for the dataset access cell.
+ * Build dataset StatusBadge component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the StatusBadge component.
  */
 export const buildDatasetAccess = (
-  response: DatasetsResponse
-): React.ComponentProps<typeof C.AccessStatusBadge> => {
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.StatusBadge> => {
+  const isAccessGranted = isDatasetAccessible(datasetsResponse);
+  const color = isAccessGranted
+    ? STATUS_BADGE_COLOR.SUCCESS
+    : STATUS_BADGE_COLOR.WARNING;
+  const label = isAccessGranted ? "Granted" : "Required";
   return {
-    accessible: response.datasets[0].accessible,
+    color,
+    label,
+  };
+};
+
+/**
+ * Build props for Description component from the given entity response.
+ * TODO.
+ * @returns model to be used as props for the Description component.
+ */
+export const buildDatasetDescription = (): React.ComponentProps<
+  typeof C.Description
+> => {
+  return {
+    projectDescription: LABEL.NONE,
+  };
+};
+
+/**
+ * Build props for Details component from the given datasets response.
+ * TODO revisit - separate from entity builder, generalize modeling/component?, revisit transformer
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the Details component.
+ */
+export const buildDatasetDetails = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.Details> => {
+  return {
+    keyValuePairs: getDatasetDetails(datasetsResponse),
+    title: "Dataset Details",
+  };
+};
+
+/**
+ * Build props for BackPageHero component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildDatasetHero = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.BackPageHero> => {
+  return {
+    breadcrumbs: getDatasetBreadcrumbs(datasetsResponse),
+    callToAction: getDatasetCallToAction(datasetsResponse),
+    title: getDatasetTitle(datasetsResponse),
   };
 };
 
@@ -255,16 +257,36 @@ export const buildDatasetIds = (
 };
 
 /**
- * Build dataset name Cell component from the given index/datasets response.
- * @param response - Response model return from index/datasets API.
- * @returns model to be used as props for the dataset name cell.
+ * Build props for StatusBadge component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the StatusBadge component.
+ */
+export const buildDatasetStatus = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.StatusBadge> => {
+  const isAccessGranted = isDatasetAccessible(datasetsResponse);
+  const color = isAccessGranted
+    ? STATUS_BADGE_COLOR.SUCCESS
+    : STATUS_BADGE_COLOR.WARNING;
+  const label = isAccessGranted ? "Access Granted" : "Access Required";
+  return {
+    color,
+    label,
+    sx: { gridRow: { sm: "unset", xs: "2" }, marginTop: -2 },
+  };
+};
+
+/**
+ * Build dataset title Link component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the Link component.
  */
 export const buildDatasetTitle = (
-  response: DatasetsResponse
+  datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.Link> => {
   return {
-    label: getDatasetTitle(response),
-    url: `/datasets/${getDatasetEntryId(response)}`,
+    label: getDatasetTitle(datasetsResponse),
+    url: `/datasets/${getDatasetEntryId(datasetsResponse)}`,
   };
 };
 
@@ -350,7 +372,7 @@ export const buildExportEntityToTerra = (
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     entity: [
       ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
-      processEntityValue(datasetsResponse.datasets, "title"),
+      getDatasetTitle(datasetsResponse),
     ],
     fileManifestType: FILE_MANIFEST_TYPE.ENITY_EXPORT_TO_TERRA,
     formFacets: FORM_FACETS,
@@ -588,15 +610,15 @@ export const buildPrepMaterialName = (
 };
 
 /**
- * Build props for phenotypic sex cell component from the given donors response.
- * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the phenotypic sex cell.
+ * Build props for registered identifier Cell component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the Cell component.
  */
 export const buildRegisteredIdentifier = (
-  response: DatasetEntityResponse
+  datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.Cell> => {
   return {
-    value: getRegisteredIdentifier(response),
+    value: getDatasetRegisteredIdentifier(datasetsResponse),
   };
 };
 
@@ -616,29 +638,44 @@ export const buildReportedEthnicity = (
 };
 
 /**
- * Build reported ethnicities Cell component from the given entity response.
- * @param response - Response model return from Azul that includes aggregated donors.
- * @returns model to be used as props for the reported ethnicities cell.
+ * Build reported ethnicities NTagCell component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the NTagCell component.
  */
 export const buildReportedEthnicities = (
-  response: AggregatedDonorResponse
+  datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.REPORTED_ETHNICITY),
-    values: getAggregatedReportedEthnicities(response),
+    values: getAggregatedReportedEthnicities(datasetsResponse),
   };
 };
 
 /**
- * Returns the callToAction prop for the Hero component from the given datasets API.
- * @param datasetEntity - Response model return from datasets API.
+ * Returns dataset related breadcrumbs.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns dataset breadcrumbs.
+ */
+export function getDatasetBreadcrumbs(
+  datasetsResponse: DatasetsResponse
+): Breadcrumb[] {
+  return [
+    { path: URL_DATASETS, text: "Datasets" },
+    { path: "", text: getDatasetTitle(datasetsResponse) },
+  ];
+}
+
+/**
+ * Returns the callToAction prop for the Hero component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the CallToActionButton component.
  */
 function getDatasetCallToAction(
-  datasetEntity: DatasetEntityResponse
+  datasetsResponse: DatasetsResponse
 ): CallToAction | undefined {
-  const registeredIdentifier = getRegisteredIdentifier(datasetEntity);
-  if (registeredIdentifier === LABEL.UNSPECIFIED) {
+  const isAccessGranted = isDatasetAccessible(datasetsResponse);
+  const registeredIdentifier = getDatasetRegisteredIdentifier(datasetsResponse);
+  if (isAccessGranted || registeredIdentifier === LABEL.UNSPECIFIED) {
     return;
   }
   return {
@@ -646,6 +683,29 @@ function getDatasetCallToAction(
     target: ANCHOR_TARGET.BLANK,
     url: `https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=${registeredIdentifier}`,
   };
+}
+
+/**
+ * Returns dataset registered identifier from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns registered identifier.
+ */
+export function getDatasetRegisteredIdentifier(
+  datasetsResponse: DatasetsResponse
+): string {
+  return takeArrayValueAt(
+    processEntityArrayValue(datasetsResponse.datasets, "registered_identifier"),
+    0
+  );
+}
+
+/**
+ * Returns dataset title from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns dataset title.
+ */
+export function getDatasetTitle(datasetsResponse: DatasetsResponse): string {
+  return processEntityValue(datasetsResponse.datasets, "title", LABEL.NONE);
 }
 
 /**
@@ -699,6 +759,15 @@ export function getExportSelectedDataSummary(
 }
 
 /**
+ * Returns true if dataset is accessible.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns true if dataset is accessible.
+ */
+function isDatasetAccessible(datasetsResponse: DatasetsResponse): boolean {
+  return datasetsResponse.datasets[0].accessible;
+}
+
+/**
  * Returns current query for the given facet.
  * @param filter - Selected filter.
  * @param categoryKeyLabel - Map of category key to category label.
@@ -713,4 +782,14 @@ function mapCurrentQuery(
     categoryKeyLabel.get(categoryKey) || categoryKey,
     values.map((value) => sanitizeString(value)),
   ];
+}
+
+/**
+ * Returns value from a string array matching the given index.
+ * @param arr - String array.
+ * @param index - Zero-based index of the array element to be returned.
+ * @returns value in the array matching the given index.
+ */
+export function takeArrayValueAt(arr: string[], index = 0): string {
+  return arr.at(index) ?? "";
 }

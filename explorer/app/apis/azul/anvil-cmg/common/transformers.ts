@@ -1,13 +1,11 @@
 import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
-import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
   KeyValues,
   Value,
 } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
 import { MetadataValue } from "@clevercanary/data-explorer-ui/lib/components/Index/components/NTagCell/nTagCell";
-import { Description } from "@clevercanary/data-explorer-ui/lib/components/Project/common/entities";
 import { humanFileSize } from "../../../../utils/fileSize";
 import {
   processAggregatedOrArrayValue,
@@ -24,7 +22,6 @@ import {
 import {
   ActivityEntityResponse,
   BioSampleEntityResponse,
-  DatasetEntityResponse,
   DonorEntityResponse,
   FileEntityResponse,
   LibraryEntityResponse,
@@ -72,8 +69,8 @@ export function getBioSampleType(response: BioSampleEntityResponse): string {
  * @param response - Response model return from biosamples API.
  * @returns Biosample type.
  */
-export function getConsentGroup(response: DatasetEntityResponse): string {
-  return processEntityValue(response.datasets, "consent_group");
+export function getConsentGroup(response: DatasetsResponse): string[] {
+  return processAggregatedOrArrayValue(response.datasets, "consent_group");
 }
 
 /**
@@ -85,40 +82,6 @@ export function getAggregatedBioSampleTypes(
   response: AggregatedBioSampleResponse
 ): string[] {
   return processAggregatedOrArrayValue(response.biosamples, "biosample_type");
-}
-
-/**
- * Returns dataset related breadcrumbs.
- * TODO revisit location
- * @param firstCrumb - First breadcrumb.
- * @param response - Response model return from datasets or dataset API endpoints.
- * @returns dataset breadcrumbs.
- */
-export function getDatasetBreadcrumbs(
-  firstCrumb: Breadcrumb,
-  response: DatasetEntityResponse
-): Breadcrumb[] {
-  const datasetName = getDatasetTitle(response);
-  const breadcrumbs = [firstCrumb];
-  if (datasetName) {
-    breadcrumbs.push({ path: "", text: datasetName });
-  }
-  return breadcrumbs;
-}
-
-/**
- * Maps dataset description from API response.
- * @param response - Response model return from datasets or dataset API endpoints.
- * @returns string representation of dataset description.
- */
-export function getDatasetDescription(
-  response: DatasetEntityResponse
-): Description {
-  return processEntityValue(
-    response.datasets,
-    "entity_description",
-    LABEL.NONE
-  );
 }
 
 /**
@@ -186,15 +149,6 @@ export function getAggregatedActivityDataModalities(
  */
 export function getDatasetEntryId(response: DatasetsResponse): string {
   return response.entryId ?? ""; // TODO throw on no ID?
-}
-
-/**
- * Maps dataset title from the core dataset entity returned from the index/datasets endpoint.
- * @param response - Response model return from datasets or dataset API endpoints.
- * @returns Dataset title.
- */
-export function getDatasetTitle(response: DatasetEntityResponse): string {
-  return processEntityValue(response.datasets, "title", LABEL.NONE);
 }
 
 /**
@@ -350,17 +304,6 @@ export function getAggregatedPhenotypicSexes(
   response: AggregatedDonorResponse
 ): string[] {
   return processAggregatedOrArrayValue(response.donors, "phenotypic_sex");
-}
-
-/**
- * Maps registered identifier from the core dataset entity returned from the /index/datasets API response.
- * @param response - Response model return from index/datasets API endpoint.
- * @returns registered identifier.
- */
-export function getRegisteredIdentifier(
-  response: DatasetEntityResponse
-): string {
-  return processEntityValue(response.datasets, "registered_identifier");
 }
 
 /**
