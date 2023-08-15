@@ -8,7 +8,7 @@ import { authenticationConfig } from "./authentication/authentication";
 
 const config: SiteConfig = {
   ...makeConfig("https://prod.anvil.gi.ucsc.edu", "anvil1"),
-  exportToTerraUrl: "https://app.terra.bio/",
+  exportToTerraUrl: "https://anvil.terra.bio/",
 };
 
 config.dataSource.url = "https://service.prod.anvil.gi.ucsc.edu/";
