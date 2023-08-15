@@ -1,5 +1,8 @@
 import { AzulEntityStaticResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
-import { PARAMS_INDEX_UUID } from "@clevercanary/data-explorer-ui/lib/common/constants";
+import {
+  PARAMS_INDEX_TAB,
+  PARAMS_INDEX_UUID,
+} from "@clevercanary/data-explorer-ui/lib/common/constants";
 import { EntityConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { getEntityConfig } from "@clevercanary/data-explorer-ui/lib/config/utils";
 import { getEntityService } from "@clevercanary/data-explorer-ui/lib/hooks/useEntityService";
@@ -128,22 +131,25 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   }
 
   const props: EntityDetailPageProps = { entityListType: entityListType };
+
+  // If the entity detail view is to be "statically loaded", we need to seed the database (for retrieval of the entity), or
+  // fetch the entity detail from API.
   if (entityConfig.detail.staticLoad) {
     // Seed database.
-    if (
-      entityConfig &&
-      entityConfig.staticLoad &&
-      entityConfig.detail.staticLoad
-    ) {
+    if (entityConfig.staticLoad) {
       await seedDatabase(entityConfig.route, entityConfig);
     }
-
+    // Grab the entity detail, either from database or API.
     const { fetchEntityDetail, path } = getEntityService(entityConfig);
-    const data = await fetchEntityDetail(
+    // When the entity detail is to be fetched from API, we only do so for the first tab.
+    if (!entityConfig.staticLoad && params?.params?.[PARAMS_INDEX_TAB]) {
+      return { props };
+    }
+    props.data = await fetchEntityDetail(
       (params as PageUrl).params[PARAMS_INDEX_UUID],
-      path
+      path,
+      undefined
     );
-    props.data = data;
   }
   return {
     props,
