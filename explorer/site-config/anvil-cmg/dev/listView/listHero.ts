@@ -3,11 +3,11 @@ import {
   ComponentsConfig,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "../../../../app/components";
-import * as T from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
 export const listHero: ComponentsConfig = [
   {
     component: C.Alert,
-    viewBuilder: T.buildListWarning,
+    viewBuilder: V.buildListWarning,
   } as ComponentConfig<typeof C.Alert>,
 ];

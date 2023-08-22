@@ -16,6 +16,7 @@ import { mainColumn as exportMainColumn } from "../detail/dataset/exportMainColu
 import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
+import { listHero } from "../listView/datasetsListHero";
 
 /**
  * Entity config object responsible for config related to the /explore/datasets route.
@@ -134,6 +135,9 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
     },
   } as ListConfig<DatasetsResponse>,
+  listView: {
+    listHero,
+  },
   route: "datasets",
   staticLoad: false,
 };

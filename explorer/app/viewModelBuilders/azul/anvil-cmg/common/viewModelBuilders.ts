@@ -257,6 +257,21 @@ export const buildDatasetIds = (
 };
 
 /**
+ * Build dataset list view list hero warning.
+ * Warning serves as a reminder for users to log in.
+ * @returns model to be used as props for Alert component.
+ */
+export const buildDatasetListViewListHeroWarning = (): React.ComponentProps<
+  typeof C.Alert
+> => {
+  return {
+    severity: "warning",
+    title: MDX.RenderComponent({ Component: MDX.LoginReminder }),
+    variant: "banner",
+  };
+};
+
+/**
  * Build props for StatusBadge component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the StatusBadge component.
@@ -826,6 +841,24 @@ function mapCurrentQuery(
     values.map((value) => sanitizeString(value)),
   ];
 }
+
+/**
+ * Renders configuration component children when the given authentication state is not authorized.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderWhenUnAuthorized = (
+  _: DatasetsResponse,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  const {
+    authState: { isAuthorized },
+  } = viewContext;
+  return {
+    isIn: !isAuthorized,
+  };
+};
 
 /**
  * Renders entity related export when the given datasests response is accessible.
