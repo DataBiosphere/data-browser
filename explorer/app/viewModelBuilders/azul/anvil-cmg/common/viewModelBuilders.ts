@@ -259,12 +259,11 @@ export const buildDatasetIds = (
 /**
  * Build dataset list view list hero warning.
  * Warning serves as a reminder for users to log in.
- * @param _ - Unused.
  * @returns model to be used as props for Alert component.
  */
-export const buildDatasetListViewListHeroWarning = (
-  _: DatasetsResponse
-): React.ComponentProps<typeof C.Alert> => {
+export const buildDatasetListViewListHeroWarning = (): React.ComponentProps<
+  typeof C.Alert
+> => {
   return {
     severity: "warning",
     title: MDX.RenderComponent({ Component: MDX.LoginReminder }),
