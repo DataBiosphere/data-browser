@@ -1,4 +1,7 @@
-import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import {
+  LABEL,
+  RESPONSE_SOURCE,
+} from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import {
   Filters,
   SelectedFilter,
@@ -230,14 +233,16 @@ export const buildDatasetDetails = (
 /**
  * Build props for BackPageHero component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildDatasetHero = (
-  datasetsResponse: DatasetsResponse
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext
 ): React.ComponentProps<typeof C.BackPageHero> => {
   return {
     breadcrumbs: getDatasetBreadcrumbs(datasetsResponse),
-    callToAction: getDatasetCallToAction(datasetsResponse),
+    callToAction: getDatasetCallToAction(datasetsResponse, viewContext),
     title: getDatasetTitle(datasetsResponse),
   };
 };
@@ -710,6 +715,23 @@ export const buildReportedEthnicities = (
 };
 
 /**
+ * Returns transition relating to accessibility from the given datasets response and authorization state.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Fade component.
+ */
+export function getAccessibleTransition(
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext
+): Partial<React.ComponentProps<typeof C.Fade>> {
+  const isIn = isAccessibleTransitionIn(datasetsResponse, viewContext);
+  return {
+    in: isIn,
+    timeout: isIn ? 0 : 300,
+  };
+}
+
+/**
  * Returns dataset related breadcrumbs.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns dataset breadcrumbs.
@@ -726,14 +748,21 @@ export function getDatasetBreadcrumbs(
 /**
  * Returns the callToAction prop for the Hero component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
  * @returns model to be used as props for the CallToActionButton component.
  */
 function getDatasetCallToAction(
-  datasetsResponse: DatasetsResponse
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext
 ): CallToAction | undefined {
+  const isReady = isResponseReady(datasetsResponse, viewContext);
   const isAccessGranted = isDatasetAccessible(datasetsResponse);
   const registeredIdentifier = getDatasetRegisteredIdentifier(datasetsResponse);
-  if (isAccessGranted || registeredIdentifier === LABEL.UNSPECIFIED) {
+  if (
+    !isReady ||
+    isAccessGranted ||
+    registeredIdentifier === LABEL.UNSPECIFIED
+  ) {
     return;
   }
   return {
@@ -817,12 +846,48 @@ export function getExportSelectedDataSummary(
 }
 
 /**
+ * Returns true if the response is accessible, or the response source is appropriate for the authorization state.
+ * When a user is logged in, the component should only transition in when the client side request is available;
+ * a static request will not accurately reflect the accessibility of the given response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
+ * @returns true if the response is accessible, or the response source is appropriate for the authorization state.
+ */
+function isAccessibleTransitionIn(
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext
+): boolean {
+  const isAccessible = isDatasetAccessible(datasetsResponse);
+  return isAccessible || isResponseReady(datasetsResponse, viewContext);
+}
+
+/**
  * Returns true if dataset is accessible.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns true if dataset is accessible.
  */
 function isDatasetAccessible(datasetsResponse: DatasetsResponse): boolean {
   return datasetsResponse.datasets[0].accessible;
+}
+
+/**
+ * Returns true if the response is ready (for use) for the given authorization state.
+ * When a user is logged in, the component should only transition in when the client side request is available;
+ * a static request will not accurately reflect properties like "accessibility" of the given response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
+ * @returns true if the response is ready.
+ */
+function isResponseReady(
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext
+): boolean {
+  const {
+    authState: { isAuthorized },
+  } = viewContext;
+  const { responseSource } = datasetsResponse;
+  const isStatic = responseSource === RESPONSE_SOURCE.STATIC_GENERATION;
+  return !(isAuthorized && isStatic);
 }
 
 /**
@@ -841,6 +906,21 @@ function mapCurrentQuery(
     values.map((value) => sanitizeString(value)),
   ];
 }
+
+/**
+ * Renders entity related status badge (with transition).
+ * @param datasetsResponse - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Fade component.
+ */
+export const renderDatasetStatusBadge = (
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext
+): Partial<React.ComponentProps<typeof C.Fade>> => {
+  return {
+    ...getAccessibleTransition(datasetsResponse, viewContext),
+  };
+};
 
 /**
  * Renders configuration component children when the given authentication state is not authorized.

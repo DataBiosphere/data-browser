@@ -1,3 +1,4 @@
+import { RESPONSE_SOURCE } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { FileEntityResponse } from "../anvil/common/entities";
 import {
   ActivitiesResponse,
@@ -24,3 +25,10 @@ export type AzulEntitiesResponses =
   | DonorsResponse
   | FileEntityResponse
   | LibrariesResponse;
+
+/**
+ * Response source.
+ */
+export interface ResponseSource {
+  responseSource?: RESPONSE_SOURCE;
+}
