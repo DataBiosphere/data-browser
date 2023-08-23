@@ -12,6 +12,7 @@ import {
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
 import { listHero } from "../listView/listHero";
+import { subTitleHero } from "../listView/subTitleHero";
 
 /**
  * Entity config object responsible for config related to the /explore/biosamples route.
@@ -109,6 +110,7 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
   } as ListConfig<BioSamplesResponse>,
   listView: {
     listHero,
+    subTitleHero,
   },
   route: "biosamples",
   staticLoad: false,

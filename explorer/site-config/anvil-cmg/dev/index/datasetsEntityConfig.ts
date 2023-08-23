@@ -17,6 +17,7 @@ import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
 import { listHero } from "../listView/datasetsListHero";
+import { subTitleHero } from "../listView/subTitleHero";
 
 /**
  * Entity config object responsible for config related to the /explore/datasets route.
@@ -137,6 +138,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
   } as ListConfig<DatasetsResponse>,
   listView: {
     listHero,
+    subTitleHero,
   },
   route: "datasets",
   staticLoad: false,

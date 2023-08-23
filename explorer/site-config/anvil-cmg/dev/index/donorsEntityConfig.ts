@@ -12,6 +12,7 @@ import {
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
 import { listHero } from "../listView/listHero";
+import { subTitleHero } from "../listView/subTitleHero";
 
 /**
  * Entity config object responsible for config related to the /explore/donors route.
@@ -89,6 +90,7 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
   } as ListConfig<DonorsResponse>,
   listView: {
     listHero,
+    subTitleHero,
   },
   route: "donors",
   staticLoad: false,
