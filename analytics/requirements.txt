@@ -1,5 +1,5 @@
 alabaster==0.7.13
--e git+https://github.com/DataBiosphere/data-browser.git@5042e623bfe6ad8404be5f60e1ddb3c0e8e7d6b3#egg=analytics&subdirectory=analytics/hdgar-book/analytics_package
+-e "git+https://github.com/DataBiosphere/data-browser.git@f674ffb9feae3fc9419e6c98d2ae34aacdc10704#egg=analytics&subdirectory=analytics/analytics_package"
 anyio==3.6.2
 appdirs==1.4.4
 appnope==0.1.3

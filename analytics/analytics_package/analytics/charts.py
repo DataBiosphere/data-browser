@@ -36,6 +36,7 @@ row_symbols (supplanted in format_table_with_change, show_difference_table - aut
 
 Change over time tables:
 table_subindex
+pre_plot_df_processor
 
 Change between frames tables:
 show_symbols (supplanted in show_difference_table - determined based on rows_type)
@@ -49,6 +50,8 @@ rows_type
 authenticate_api = ga.authenticate
 
 authenticate_ga = ga.authenticate
+
+authenticate_ga4 = lambda secret_name: ga.authenticate(secret_name, ga.ga4_service_params)
 
 authenticate_yt = lambda secret_name: ga.authenticate(secret_name, ga.yt_service_params)
 
@@ -93,6 +96,10 @@ def init_tables():
 			}
 			
 			.anaColName:not(.anaIndex) {
+				text-align: right;
+			}
+
+			.anaColName.anaMultiCol {
 				text-align: center;
 			}
 			
@@ -136,6 +143,12 @@ def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_ind
 	if not pre_render_processor is None:
 		df, column_defs = pre_render_processor(df, column_defs)
 	
+
+	def make_item_col_header_code(name):
+		num_subcols = len(column_defs[name if name in column_defs else None])
+		return '<div class="anaColName' + ("" if num_subcols == 1 else " anaMultiCol") + '" style="grid-column: span ' + str(num_subcols) + '">' + escape_html(str(name)) + '</div>'
+
+
 	header_text = 'grid-template-columns: '
 	
 	if not hide_index:
@@ -151,7 +164,7 @@ def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_ind
 				header_text += "".join(['<div class="anaIndex anaColName">' + escape_html(name) + '</div>' for name in df.index.names])
 			else:
 				header_text += '<div class="anaIndex anaColName">' + escape_html(df.index.name) + '</div>'
-		header_text += "".join(['<div class="anaColName" style="grid-column: span ' + str(len(column_defs[name if name in column_defs else None])) + '">' + escape_html(str(name)) + '</div>' for name in df.columns])
+		header_text += "".join([make_item_col_header_code(name) for name in df.columns])
 	
 	
 	def apply_formatter(formatter, val, *rest):
@@ -186,7 +199,7 @@ def format_table(df, column_defs=["1fr"], index_key_formatter=None, collapse_ind
 	
 	def make_row_code(index_runs, row, n, i):
 		row_class = "anaOdd" if n%2 else "anaEven"
-		return make_index_code(index_runs, i, row_class, n) + "".join([make_item_code(item, row_class, i, c) for c, item in row.iteritems()])
+		return make_index_code(index_runs, i, row_class, n) + "".join([make_item_code(item, row_class, i, c) for c, item in row.items()])
 	
 	def format_table_split(df, final):
 		index_runs = None
@@ -301,23 +314,26 @@ def get_top_ga_df(metrics, dimensions, ascending=True, rows_limit=30, **other_pa
 	return df
 
 def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix="_percentage", num_keep_dimensions=None, df_processor=None, **other_params):
-	df = ga.get_metrics_by_dimensions(metrics, dimensions, **other_params)
-	
-	if dimensions:
-		if len(dimensions) > 1 and not num_keep_dimensions is None:
-			df.drop(columns=dimensions[num_keep_dimensions:], inplace=True);
-		df.set_index(dimensions[:num_keep_dimensions], inplace=True)
-	for metric in metrics:
-		str_column = df[metric].astype(str)
-		try:
-			num_column = str_column.astype(int)
-		except ValueError:
-			num_column = str_column.astype(float)
-		df[metric] = num_column
-	
-	if percentage_metrics:
-		for metric in percentage_metrics:
-			df.insert(list(df.columns).index(metric) + 1, metric + percentage_suffix, df[metric] / df[metric].sum() * 100)
+	if metrics is None:
+		df = pd.DataFrame()
+	else:
+		df = ga.get_metrics_by_dimensions(metrics, dimensions, **other_params)
+		
+		if dimensions:
+			if len(dimensions) > 1 and not num_keep_dimensions is None:
+				df.drop(columns=dimensions[num_keep_dimensions:], inplace=True);
+			df.set_index(dimensions[:num_keep_dimensions], inplace=True)
+		for metric in metrics:
+			str_column = df[metric].astype(str)
+			try:
+				num_column = str_column.astype(int)
+			except ValueError:
+				num_column = str_column.astype(float)
+			df[metric] = num_column
+		
+		if percentage_metrics:
+			for metric in percentage_metrics:
+				df.insert(list(df.columns).index(metric) + 1, metric + percentage_suffix, df[metric] / df[metric].sum() * 100)
 	
 	if df_processor:
 		df = df_processor(df)
@@ -327,11 +343,11 @@ def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix=
 def strings_to_lists(*vals):
 	return [[v] if isinstance(v, str) else v for v in vals]
 
-def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_period, rows_type="ordered", **other_params):
+def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_period, rows_type="ordered", prev_period_params={}, **other_params):
 	xlabels, metrics, dimensions = strings_to_lists(xlabels, metrics, dimensions)
 	
 	period = pd.Period(period)
-	prev_period = pd.Period(prev_period)
+	prev_period = prev_period and pd.Period(prev_period)
 	
 	shared_params = {
 		"metrics": metrics,
@@ -340,22 +356,39 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 		"num_keep_dimensions": len(ylabels) if isinstance(ylabels, list) else 1
 	}
 	df = get_top_ga_df(**shared_params, start_date=period.start_time.isoformat()[:10], end_date=period.end_time.isoformat()[:10], **other_params)
-	df_prev = get_top_ga_df(**shared_params, start_date=prev_period.start_time.isoformat()[:10], end_date=prev_period.end_time.isoformat()[:10], **other_params)
+	if prev_period is None:
+		all_frames = (df,)
+	else:
+		all_frames = (df, get_top_ga_df(**shared_params, start_date=prev_period.start_time.isoformat()[:10], end_date=prev_period.end_time.isoformat()[:10], **{**other_params, **prev_period_params}))
 	
-	is_single_cell = df.shape[0] == 1 and df.shape[1] == 1 and df_prev.shape[0] == 1 and df_prev.shape[1] == 1
+	is_single_cell = all([f.shape[0] == 1 and f.shape[1] == 1 for f in all_frames])
 	
 	if is_single_cell and not dimensions:
-		df.index = pd.Index(xlabels)
-		df_prev.index = pd.Index(xlabels)
+		for f in all_frames:
+			f.index = pd.Index(xlabels)
 	else:
 		xlabels_dict = {col: xlabel for col, xlabel in zip(df.columns, xlabels)}
-		df.rename(columns=xlabels_dict, inplace=True)
-		df_prev.rename(columns=xlabels_dict, inplace=True)
-		if dimensions:
-			df.index.rename(ylabels, inplace=True)
-			df_prev.index.rename(ylabels, inplace=True)
+		for f in all_frames:
+			f.rename(columns=xlabels_dict, inplace=True)
+			if dimensions:
+				f.index.rename(ylabels, inplace=True)
 	
-	display(format_table_with_change(df, df_prev, show_symbols=(rows_type == "ordered" or rows_type == "unordered"), hide_index=not dimensions and not is_single_cell, hide_columns=is_single_cell, **other_params))
+	formatting_params = {
+		"hide_index": not dimensions and not is_single_cell,
+		"hide_columns": is_single_cell
+	}
+
+	if len(all_frames) == 2:
+		formatted = format_table_with_change(*all_frames, show_symbols=(rows_type == "ordered" or rows_type == "unordered"), **formatting_params, **other_params)
+	else:
+		formatted = format_table(
+			df,
+			column_defs=[("minmax(calc(var(--value-width) + var(--percentage-width)), min-content)", lambda v, i, c: str(v) if isinstance(v, int) else "{:.2f}".format(v))],
+			**formatting_params,
+			**other_params
+		)
+
+	display(formatted)
 
 def make_month_filter(filter_cols):
 	def filter(df):
@@ -383,7 +416,7 @@ def show_plot(df, title, fontsize=16, **other_params):
 	fig.suptitle(title, fontsize=fontsize)
 	plt.show()
 
-def show_plot_over_time(titles, xlabels, metrics, dimensions="ga:date", format_table=True, df_filter=None, **other_params):
+def show_plot_over_time(titles, xlabels, metrics, dimensions="ga:date", format_table=True, df_filter=None, pre_plot_df_processor=None, **other_params):
 	titles, xlabels, metrics = strings_to_lists(titles, xlabels, metrics)
 	
 	df = get_data_df(metrics, dimensions, **other_params)
@@ -396,6 +429,9 @@ def show_plot_over_time(titles, xlabels, metrics, dimensions="ga:date", format_t
 
 	# Rename for display
 	df.rename(columns={name: xlabels[i] for i, name in enumerate(df.columns)}, inplace=True)
+
+	if (not pre_plot_df_processor is None):
+		df = pre_plot_df_processor(df)
 
 	if isinstance(titles[0], str):
 		show_plot(df, titles[0], **other_params)
