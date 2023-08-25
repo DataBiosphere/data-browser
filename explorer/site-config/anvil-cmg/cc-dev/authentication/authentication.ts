@@ -4,7 +4,7 @@ import * as MDX from "../../../../app/content/anvil-cmg";
 export const authenticationConfig: AuthenticationConfig = {
   googleGISAuthConfig: {
     clientId:
-      "89097066845-brrao60r5vdh08uptd5v4m4vf70pt4uk.apps.googleusercontent.com",
+      "561542988117-0o4oticvtp35n48q6o69pnd13chsnkie.apps.googleusercontent.com",
     googleProfileEndpoint: "https://www.googleapis.com/oauth2/v3/userinfo",
     scope:
       "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
