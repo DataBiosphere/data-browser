@@ -29,7 +29,7 @@
     "build-storybook": "storybook build",
     "test": "jest --watch",
     "test:e2e": "playwright test",
-    "test:anvil": "playwright test -c playwright_anvil.config.ts",
+    "test:anvil-cmg": "playwright test -c playwright_anvil.config.ts",
     "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts"
   },
   "dependencies": {
@@ -64,7 +64,7 @@
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
     "@next/eslint-plugin-next": "^12.1.6",
-    "@playwright/test": "^1.25.1",
+    "@playwright/test": "^1.37.1",
     "@storybook/addon-actions": "^7.0.7",
     "@storybook/addon-essentials": "^7.0.7",
     "@storybook/addon-interactions": "^7.0.7",

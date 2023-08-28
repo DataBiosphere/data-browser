@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
 test("Expect workspaces url to go to workspaces tab", async ({ page }) => {
-  await page.goto("/explore/workspaces");
+  await page.goto("/data/workspaces");
   await expect(
     page.locator("_react=Tabs >> button >> text='Workspaces'")
   ).toHaveAttribute("aria-selected", "true");
@@ -12,7 +12,7 @@ test("Expect workspaces url to go to workspaces tab", async ({ page }) => {
 });
 
 test("Expect studies url to go to studies tab", async ({ page }) => {
-  await page.goto("/explore/studies");
+  await page.goto("/data/studies");
   await expect(
     page.locator("_react=Tabs >> button >> text='Studies'")
   ).toHaveAttribute("aria-selected", "true");
@@ -20,7 +20,7 @@ test("Expect studies url to go to studies tab", async ({ page }) => {
 });
 
 test("Expect consortia url to go to consortia tab", async ({ page }) => {
-  await page.goto("/explore/consortia");
+  await page.goto("/data/consortia");
   await expect(
     page.locator("_react=Tabs >> button >> text='Consortia'")
   ).toHaveAttribute("aria-selected", "true");

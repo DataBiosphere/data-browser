@@ -4,16 +4,16 @@ const config: PlaywrightTestConfig = {
     timeout: 10 * 1000,
   },
   testDir: "e2e",
-  testMatch: /.*\/(general|anvil-catalog)\/.*\.spec\.ts/,
+  testMatch: /.*\/(anvil-catalog)\/.*\.spec\.ts/,
   use: {
-    baseURL: "http://localhost:3000/explore/",
+    baseURL: "http://localhost:3000/",
     screenshot: "only-on-failure",
   },
   webServer: {
     command: "npm run dev:anvil-catalog",
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
-    url: "http://localhost:3000/explore/",
+    url: "http://localhost:3000/data",
   },
 };
 export default config;
