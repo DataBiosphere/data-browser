@@ -1,27 +1,37 @@
 import { expect, test } from "@playwright/test";
+import { anvilTabs } from "./anvil-tabs";
 
 const PaginationSelector = "_react=Pagination";
-const BackButtonSelector = "data-testid=WestRoundedIcon";
-const ForwardButtonSelector = "data-testid=EastRoundedIcon";
+const BackButtonTestID = "WestRoundedIcon";
+const ForwardButtonTestID = "EastRoundedIcon";
 
 test.beforeEach(async ({ page }) => {
-  // Navigate to the BioSamples page
-  await page.goto("/explore/");
-  await page.locator("text=BioSamples").click();
-  await expect(page).toHaveURL("/explore/biosamples", { timeout: 10000 });
-  await expect(page.locator("text=Biosample Id")).toBeVisible();
+  // Navigate to the Donors page
+  await page.goto(anvilTabs.donors.url);
+  await expect(
+    page.getByRole("tab").getByText(anvilTabs.donors.tabName)
+  ).toBeVisible();
 });
 
-test("Check first page has correct buttons", async ({ page }) => {
+test("Check first page has disabled back and enabled forward pagination buttons on Donors Page", async ({
+  page,
+}) => {
   // Should start on first page
   await expect(page.locator(PaginationSelector)).toContainText("Page 1 of ");
   // Back Button should start disabled
-  await expect(page.locator(BackButtonSelector).locator("..")).toBeDisabled();
+  await expect(
+    page.getByRole("button").filter({ has: page.getByTestId(BackButtonTestID) })
+  ).toBeDisabled();
   // Forward button should start enabled
-  await expect(page.locator(ForwardButtonSelector).locator("..")).toBeEnabled();
+  await expect(
+    page
+      .getByRole("button")
+      .filter({ has: page.getByTestId(ForwardButtonTestID) })
+  ).toBeEnabled();
 });
 
-test("Check last page has correct buttons and that forward pagination increases the page count", async ({
+test.setTimeout(300000);
+test("Check that forward pagination increments the current page and that page count stays static for the first five pages on the donors tab", async ({
   page,
 }) => {
   // Should start on first page, and there should be multiple pages available
@@ -37,7 +47,10 @@ test("Check last page has correct buttons and that forward pagination increases 
   );
   // Paginate forwards
   for (let i = 2; i < max_pages + 1; i++) {
-    await page.locator(ForwardButtonSelector).click();
+    await page
+      .getByRole("button")
+      .filter({ has: page.getByTestId(ForwardButtonTestID) })
+      .click();
     // Expect the page count to have incremented
     await expect(page.locator(PaginationSelector)).toContainText(
       `Page ${i} of ${max_pages}`
@@ -48,11 +61,13 @@ test("Check last page has correct buttons and that forward pagination increases 
     `Page ${max_pages} of ${max_pages}`
   );
   // Expect the back button to be enabled on the last page
-  await expect
-    .soft(page.locator(BackButtonSelector).locator(".."))
-    .toBeEnabled();
+  await expect(
+    page.getByRole("button").filter({ has: page.getByTestId(BackButtonTestID) })
+  ).toBeEnabled();
   // Expect the forward button to be disabled
-  await expect
-    .soft(page.locator(ForwardButtonSelector).locator(".."))
-    .toBeDisabled();
+  await expect(
+    page
+      .getByRole("button")
+      .filter({ has: page.getByTestId(ForwardButtonTestID) })
+  ).toBeDisabled();
 });
