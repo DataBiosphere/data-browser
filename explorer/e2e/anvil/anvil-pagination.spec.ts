@@ -31,7 +31,7 @@ test("Check first page has disabled back and enabled forward pagination buttons 
 });
 
 test.setTimeout(300000);
-test("Check that forward pagination increases the page count for the first five pages on the donors tab", async ({
+test("Check that forward pagination increments the current page and that page count stays static for the first five pages on the donors tab", async ({
   page,
 }) => {
   // Should start on first page, and there should be multiple pages available
@@ -45,7 +45,6 @@ test("Check that forward pagination increases the page count for the first five 
   const max_pages = parseInt(
     SplitStartingPageText[SplitStartingPageText.length - 1]
   );
-  console.log(max_pages);
   // Paginate forwards
   for (let i = 2; i < max_pages + 1; i++) {
     await page

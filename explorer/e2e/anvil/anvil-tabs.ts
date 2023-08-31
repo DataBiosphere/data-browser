@@ -1,28 +1,10 @@
-export interface tabDescription {
-  emptyFirstColumn: boolean;
-  preselectedColumns: columnDescription[];
-  selectableColumns: columnDescription[];
-  tabName: string;
-  uniqueColumn: string;
-  url: string;
-}
-
-export interface tabCollection {
-  activities: tabDescription;
-  biosamples: tabDescription;
-  datasets: tabDescription;
-  donors: tabDescription;
-  files: tabDescription;
-}
-
-type tabCollectionKeys = keyof tabCollection;
-
-export interface columnDescription {
-  name: string;
-  sortable: boolean;
-}
-
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
+import {
+  AnvilCMGTabCollection,
+  TabCollectionKeys,
+  TabDescription,
+} from "../testInterfaces";
+
 export const filters: string[] = [
   "Anatomical Site",
   "BioSample Type",
@@ -37,7 +19,7 @@ export const filters: string[] = [
   "Reported Ethnicity",
 ];
 
-export const anvilTabs: tabCollection = {
+export const anvilTabs: AnvilCMGTabCollection = {
   activities: {
     emptyFirstColumn: false,
     preselectedColumns: [
@@ -54,7 +36,6 @@ export const anvilTabs: tabCollection = {
       { name: "Diagnosis", sortable: true },
     ],
     tabName: "Activities",
-    uniqueColumn: "Document Id",
     url: "/explore/activities",
   },
   biosamples: {
@@ -72,7 +53,6 @@ export const anvilTabs: tabCollection = {
       { name: "Reported Ethnicity", sortable: true },
     ],
     tabName: "BioSamples",
-    uniqueColumn: "BioSample Id",
     url: "/explore/biosamples",
   },
   datasets: {
@@ -91,7 +71,6 @@ export const anvilTabs: tabCollection = {
       { name: "Reported Ethnicity", sortable: true },
     ],
     tabName: "Datasets",
-    uniqueColumn: "Access",
     url: "/explore/datasets",
   },
   donors: {
@@ -106,7 +85,6 @@ export const anvilTabs: tabCollection = {
     ],
     selectableColumns: [],
     tabName: "Donors",
-    uniqueColumn: "Donor Id",
     url: "/explore/donors",
   },
   files: {
@@ -125,12 +103,19 @@ export const anvilTabs: tabCollection = {
       { name: "Diagnosis", sortable: true },
     ],
     tabName: "Files",
-    uniqueColumn: "Name",
     url: "/explore/files",
   },
 };
 
-export const anvilTabTestOrder: tabCollectionKeys[] = [
+export const anvilTabList: TabDescription[] = [
+  anvilTabs.activities,
+  anvilTabs.datasets,
+  anvilTabs.biosamples,
+  anvilTabs.donors,
+  anvilTabs.files,
+];
+
+export const anvilTabTestOrder: TabCollectionKeys[] = [
   "files",
   "datasets",
   "activities",

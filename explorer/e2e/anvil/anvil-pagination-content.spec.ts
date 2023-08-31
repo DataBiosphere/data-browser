@@ -5,7 +5,9 @@ const BackButtonTestID = "WestRoundedIcon";
 const ForwardButtonTestID = "EastRoundedIcon";
 
 test.setTimeout(90000);
-test("Check forward and backwards pagination causes the ", async ({ page }) => {
+test("Check forward and backwards pagination causes the page content to change", async ({
+  page,
+}) => {
   // Navigate to the BioSamples page
   await page.goto("/explore/biosamples");
   await expect(page.locator("text=Biosample Id")).toBeVisible();
