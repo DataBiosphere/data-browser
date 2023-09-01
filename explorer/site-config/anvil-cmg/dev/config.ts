@@ -38,6 +38,18 @@ export function makeConfig(
       {
         categoryConfigs: [
           {
+            key: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+            label: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
+          },
+          {
+            key: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
+            label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
+          },
+        ],
+      },
+      {
+        categoryConfigs: [
+          {
             key: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_ANATOMICAL_SITE,
             label: ANVIL_CMG_CATEGORY_LABEL.BIOSAMPLE_ANATOMICAL_SITE,
           },
@@ -54,10 +66,6 @@ export function makeConfig(
             label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
           },
           {
-            key: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
-            label: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
-          },
-          {
             key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
             label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
           },
@@ -68,10 +76,6 @@ export function makeConfig(
           {
             key: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_TYPE,
             label: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_TYPE,
-          },
-          {
-            key: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
-            label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
           },
           {
             key: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
