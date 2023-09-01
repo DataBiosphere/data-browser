@@ -410,9 +410,9 @@ export const buildExportEntityWarning = (
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.FluidAlert> => {
   const {
-    authState: { isAuthorized },
+    authState: { isAuthenticated },
   } = viewContext;
-  const title = isAuthorized
+  const title = isAuthenticated
     ? "To export this dataset, please request access."
     : "To export this dataset, please sign in and, if necessary, request access.";
   return {
@@ -883,11 +883,11 @@ function isResponseReady(
   viewContext: ViewContext
 ): boolean {
   const {
-    authState: { isAuthorized },
+    authState: { isAuthenticated },
   } = viewContext;
   const { responseSource } = datasetsResponse;
   const isStatic = responseSource === RESPONSE_SOURCE.STATIC_GENERATION;
-  return !(isAuthorized && isStatic);
+  return !(isAuthenticated && isStatic);
 }
 
 /**
@@ -933,10 +933,10 @@ export const renderWhenUnAuthorized = (
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   const {
-    authState: { isAuthorized },
+    authState: { isAuthenticated },
   } = viewContext;
   return {
-    isIn: !isAuthorized,
+    isIn: !isAuthenticated,
   };
 };
 
