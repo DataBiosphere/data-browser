@@ -110,7 +110,7 @@ export function makeConfig(
       activitiesEntityConfig,
       filesEntityConfig,
     ],
-    explorerTitle: "AnVIL Explorer",
+    explorerTitle: "AnVIL Data Explorer",
     export: exportConfig,
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
     layout: {
