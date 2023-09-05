@@ -128,4 +128,58 @@ export async function testSort(page: Page, tab: TabDescription): Promise<void> {
   }
 }
 
+export async function testSelectableColumns(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  await page.goto(tab.url);
+  await page.getByRole("button").getByText("Edit Columns").click();
+  await expect(page.getByRole("menu")).toBeVisible();
+  for (const column of tab.selectableColumns) {
+    const checkboxLocator = page
+      .getByRole("menu")
+      .locator("*")
+      //.getByText(column.name, {exact: true});
+      .filter({
+        has: page
+          .locator("*")
+          .filter({ has: page.getByText(column.name, { exact: true }) }),
+      })
+      .getByRole("checkbox");
+    //await checkboxLocator.click();
+    await expect(checkboxLocator).toBeEnabled();
+    await expect(checkboxLocator).not.toBeChecked();
+    await checkboxLocator.click();
+    await expect(checkboxLocator).toBeChecked();
+  }
+  await page.getByRole("document").click();
+  await expect(page.getByRole("menu")).not.toBeVisible();
+  await expect(page.getByRole("columnheader")).toContainText(
+    tab.selectableColumns.map((x) => x.name)
+  );
+}
+
+export async function testPreSelectedColumns(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  await page.goto(tab.url);
+  await page.getByRole("button").getByText("Edit Columns").click();
+  await expect(page.getByRole("menu")).toBeVisible();
+  for (const column of tab.preselectedColumns) {
+    const checkboxLocator = page
+      .getByRole("menu")
+      .locator("*")
+      //.getByText(column.name, {exact: true});
+      .filter({
+        has: page
+          .locator("*")
+          .filter({ has: page.getByText(column.name, { exact: true }) }),
+      })
+      .getByRole("checkbox");
+    await expect(checkboxLocator).toBeDisabled();
+    await expect(checkboxLocator).toBeChecked();
+  }
+}
+
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/
