@@ -415,7 +415,7 @@ export const buildExportEntityToTerra = (
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.ENITY_EXPORT_TO_TERRA,
-    fileTypeFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters,
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
@@ -545,7 +545,7 @@ export const buildExportToTerra = (
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
-    fileTypeFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters: filterState,
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
@@ -929,10 +929,10 @@ function getFileSummaryFacet(
 }
 
 /**
- * Returns the file type facet terms from the file summary.
+ * Returns the file summary facet terms from the file summary.
  * @param fileFormats - File formats.
  * @param fileFacet - File facet.
- * @returns file type facet terms.
+ * @returns file summary facet terms.
  */
 function getFileSummaryTerms(
   fileFormats: FileFormat[],
@@ -962,14 +962,14 @@ function getFormFacets(fileManifestState: FileManifestState): FormFacet {
     ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE
   );
   // Get the file summary facet.
-  const fileTypeFacet = getFileSummaryFacet(
+  const fileSummaryFacet = getFileSummaryFacet(
     findFacet(
       fileManifestState.filesFacets,
       ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT
     ),
     fileManifestState.fileSummary
   );
-  return { fileTypeFacet, speciesFacet };
+  return { fileSummaryFacet, speciesFacet };
 }
 
 /**

@@ -416,7 +416,7 @@ export const buildDownloadCurlCommand = (
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.BULK_DOWNLOAD,
-    fileTypeFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
+    fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters: filterState,
     formFacet,
   };
@@ -443,7 +443,7 @@ export const buildDownloadEntityCurlCommand = (
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.ENTITY_BULK_DOWNLOAD,
-    fileTypeFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
+    fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters,
     formFacet,
   };
@@ -502,7 +502,7 @@ export const buildExportEntityToTerra = (
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.ENITY_EXPORT_TO_TERRA,
-    fileTypeFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
+    fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters,
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
@@ -640,7 +640,7 @@ export const buildExportToTerra = (
     ExportToTerraSuccess: MDX.ExportToTerraSuccessWithWarning,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
-    fileTypeFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
+    fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters: filterState,
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
@@ -1231,10 +1231,10 @@ function getFileSummaryFacet(
 }
 
 /**
- * Returns the file type facet terms, where term size is generated from the file summary.
+ * Returns the file summary facet terms, where term size is generated from the file summary.
  * @param fileTypeSummaries - File type summaries.
  * @param fileFacet - File facet.
- * @returns file type facet terms.
+ * @returns file summary facet terms.
  */
 function getFileSummaryTerms(
   fileTypeSummaries: FileTypeSummary[],
@@ -1265,11 +1265,11 @@ function getFormFacets(fileManifestState: FileManifestState): FormFacet {
     HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
   );
   // Get the file summary facet.
-  const fileTypeFacet = getFileSummaryFacet(
+  const fileSummaryFacet = getFileSummaryFacet(
     findFacet(fileManifestState.filesFacets, HCA_DCP_CATEGORY_KEY.FILE_FORMAT),
     fileManifestState.fileSummary
   );
-  return { fileTypeFacet, speciesFacet };
+  return { fileSummaryFacet, speciesFacet };
 }
 
 /**
