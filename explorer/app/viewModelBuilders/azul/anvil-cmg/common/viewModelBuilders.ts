@@ -486,18 +486,25 @@ export const buildExportMethodHeroTerra = (
 
 /**
  * Build props for ExportMethod component for display of the export to terra metadata section.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
-export const buildExportMethodTerra = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => ({
-  buttonLabel: "Analyze in Terra",
-  description:
-    "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-  disabled: false,
-  route: ROUTE_EXPORT_TO_TERRA,
-  title: "Export Study Data and Metadata to Terra Workspace",
-});
+export const buildExportMethodTerra = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportMethod> => {
+  const { fileManifestState } = viewContext;
+  const isAccessible = isFileManifestAccessible(fileManifestState);
+  return {
+    buttonLabel: "Analyze in Terra",
+    description:
+      "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+    disabled: !isAccessible,
+    route: ROUTE_EXPORT_TO_TERRA,
+    title: "Export Study Data and Metadata to Terra Workspace",
+  };
+};
 
 /**
  * Build props for ExportSelectedDataSummary component.
@@ -995,6 +1002,19 @@ function isAccessibleTransitionIn(
  */
 function isDatasetAccessible(datasetsResponse: DatasetsResponse): boolean {
   return datasetsResponse.datasets[0].accessible;
+}
+
+/**
+ * Returns true if the "accessible" file facet has a term value of "true".
+ * @param fileManifestState - File manifest state.
+ * @returns true if the "accessible" file facet has a term value of "true".
+ */
+function isFileManifestAccessible(
+  fileManifestState: FileManifestState
+): boolean {
+  const { filesFacets } = fileManifestState;
+  const fileFacet = findFacet(filesFacets, "accessible");
+  return fileFacet?.termsByName.has("true") ?? false;
 }
 
 /**
