@@ -976,7 +976,20 @@ function getFormFacets(fileManifestState: FileManifestState): FormFacet {
     ),
     fileManifestState.fileSummary
   );
-  return { fileSummaryFacet, speciesFacet };
+  return {
+    fileSummaryFacet: fileSummaryFacet
+      ? {
+          ...fileSummaryFacet,
+          formLabel: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT,
+        }
+      : undefined,
+    speciesFacet: speciesFacet
+      ? {
+          ...speciesFacet,
+          formLabel: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
+        }
+      : undefined,
+  };
 }
 
 /**
