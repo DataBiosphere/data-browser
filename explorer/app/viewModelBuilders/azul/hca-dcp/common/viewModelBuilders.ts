@@ -1,4 +1,7 @@
-import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import {
+  LABEL,
+  MANIFEST_DOWNLOAD_FORMAT,
+} from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import {
   Filters,
   SelectedFilter,
@@ -9,6 +12,11 @@ import {
   KeyValueFn,
   Value,
 } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import {
+  FileSummaryFacet,
+  FileSummaryTerm,
+  FormFacet,
+} from "@clevercanary/data-explorer-ui/lib/components/Export/common/entities";
 import { CurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 import { Summary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
@@ -18,6 +26,12 @@ import {
   FileFacet,
   FILE_MANIFEST_TYPE,
 } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
+import {
+  findFacet,
+  isFacetTermSelected,
+  sortTerms,
+} from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/utils";
+import { FileManifestState } from "@clevercanary/data-explorer-ui/lib/providers/fileManifestState";
 import {
   TEXT_BODY_400,
   TEXT_BODY_400_2_LINES,
@@ -36,7 +50,6 @@ import {
 } from "../../../../../site-config/hca-dcp/category";
 import { PROJECTS_URL } from "../../../../../site-config/hca-dcp/dev/config";
 import {
-  FORM_FACETS,
   ROUTE_BULK_DOWNLOAD,
   ROUTE_EXPORT_TO_TERRA,
 } from "../../../../../site-config/hca-dcp/dev/export/constants";
@@ -59,6 +72,7 @@ import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import * as MDX from "../../../../content/hca-dcp";
 import { humanFileSize } from "../../../../utils/fileSize";
+import { Unused } from "../../../common/entities";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
 import { DATA_SUMMARY_DISPLAY_TEXT } from "./dataSummaryMapper/constants";
@@ -82,8 +96,11 @@ import {
   projectMatrixMapper,
 } from "./projectMatrixMapper/projectMatrixMapper";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
-import { SUMMARY } from "./summaryMapper/entities";
-import { mapExportSummary } from "./summaryMapper/summaryMapper";
+import { FileTypeSummary, SUMMARY } from "./summaryMapper/entities";
+import {
+  bindFileSummaryResponse,
+  mapExportSummary,
+} from "./summaryMapper/summaryMapper";
 
 /**
  * Build props for the KeyValuePairs component for displaying the project accessions.
@@ -379,38 +396,56 @@ export const buildDonorDisease = (
 
 /**
  * Build props for DownloadCurlCommand component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the DownloadCurlCommand component.
  */
-export const buildDownloadCurlCommand = (): React.ComponentProps<
-  typeof C.DownloadCurlCommand
-> => {
+export const buildDownloadCurlCommand = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.DownloadCurlCommand> => {
+  const {
+    exploreState: { filterState },
+    fileManifestState,
+  } = viewContext;
+  // Get the form facets.
+  const formFacet = getFormFacets(fileManifestState);
   return {
     DownloadCurlForm: C.DownloadCurlCommandForm,
     DownloadCurlStart: MDX.DownloadCurlCommandStart,
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
+    fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.BULK_DOWNLOAD,
-    formFacets: FORM_FACETS,
+    fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
+    filters: filterState,
+    formFacet,
   };
 };
 
 /**
  * Build props for DownloadCurlCommand component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
+ * @param viewContext - View context.
  * @returns model to be used as props for the DownloadCurlCommand component.
  */
 export const buildDownloadEntityCurlCommand = (
-  projectsResponse: ProjectsResponse
+  projectsResponse: ProjectsResponse,
+  viewContext: ViewContext
 ): React.ComponentProps<typeof C.DownloadCurlCommand> => {
+  const { fileManifestState } = viewContext;
+  // Get the initial filters.
+  const filters = getExportEntityFilters(projectsResponse);
+  // Get the form facets.
+  const formFacet = getFormFacets(fileManifestState);
   return {
     DownloadCurlForm: C.DownloadCurlCommandForm,
     DownloadCurlStart: MDX.DownloadCurlCommandStart,
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
-    entity: [
-      "projectId",
-      processEntityValue(projectsResponse.projects, "projectId"),
-    ],
+    fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.ENTITY_BULK_DOWNLOAD,
-    formFacets: FORM_FACETS,
+    fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
+    filters,
+    formFacet,
   };
 };
 
@@ -429,35 +464,49 @@ export const buildEstimateCellCount = (
 
 /**
  * Build props for ExportCurrentQuery component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportCurrentQuery component.
  */
-export const buildExportCurrentQuery = (): React.ComponentProps<
-  typeof C.ExportCurrentQuery
-> => {
+export const buildExportCurrentQuery = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportCurrentQuery> => {
+  const {
+    fileManifestState: { filesFacets, filters, isFacetsLoading },
+  } = viewContext;
   return {
-    getExportCurrentQueries: (filters: Filters, filesFacets: FileFacet[]) =>
-      getExportCurrentQueries(filters, filesFacets),
+    isLoading: isFacetsLoading,
+    queries: getExportCurrentQueries(filters, filesFacets),
   };
 };
 
 /**
  * Build props for ExportToTerra component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportEntityToTerra = (
-  projectsResponse: ProjectsResponse
+  projectsResponse: ProjectsResponse,
+  viewContext: ViewContext
 ): React.ComponentProps<typeof C.ExportToTerra> => {
+  const { fileManifestState } = viewContext;
+  // Get the initial filters.
+  const filters = getExportEntityFilters(projectsResponse);
+  // Get the form facets.
+  const formFacet = getFormFacets(fileManifestState);
   return {
     ExportForm: C.ExportToTerraForm,
     ExportToTerraStart: MDX.ExportToTerra,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
-    entity: [
-      "projectId",
-      processEntityValue(projectsResponse.projects, "projectId"),
-    ],
+    fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.ENITY_EXPORT_TO_TERRA,
-    formFacets: FORM_FACETS,
+    fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
+    filters,
+    formFacet,
+    manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
+    manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
   };
 };
 
@@ -468,7 +517,7 @@ export const buildExportEntityToTerra = (
  * @returns model to be used as props for the export Hero component.
  */
 export function buildExportHero(
-  _: Record<string, never>,
+  _: Unused,
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.BackPageHero> {
   const { exploreState } = viewContext;
@@ -503,7 +552,7 @@ export const buildExportMethodBulkDownload = (): React.ComponentProps<
  * @returns model to be used as props for the Hero component.
  */
 export const buildExportMethodHeroCurlCommand = (
-  _: Record<string, never>,
+  _: Unused,
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = 'Download Selected Data Using "curl"';
@@ -520,7 +569,7 @@ export const buildExportMethodHeroCurlCommand = (
  * @returns model to be used as props for the Hero component.
  */
 export const buildExportMethodHeroTerra = (
-  _: Record<string, never>,
+  _: Unused,
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Export to Terra";
@@ -547,32 +596,55 @@ export const buildExportMethodTerra = (): React.ComponentProps<
 
 /**
  * Build props for ExportSelectedDataSummary component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportSelectedDataSummary component.
  */
-export const buildExportSelectedDataSummary = (): React.ComponentProps<
-  typeof C.ExportSelectedDataSummary
-> => {
+export const buildExportSelectedDataSummary = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportSelectedDataSummary> => {
+  const {
+    fileManifestState: {
+      filesFacets,
+      isFacetsLoading,
+      isSummaryLoading,
+      summary,
+    },
+  } = viewContext;
   return {
-    getExportSelectedDataSummary: (
-      filesFacets: FileFacet[],
-      summary?: SummaryResponse
-    ) => getExportSelectedDataSummary(filesFacets, summary),
+    isLoading: isFacetsLoading || isSummaryLoading,
+    summaries: getExportSelectedDataSummary(filesFacets, summary),
   };
 };
 
 /**
  * Build props for ExportToTerra component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
-export const buildExportToTerra = (): React.ComponentProps<
-  typeof C.ExportToTerra
-> => {
+export const buildExportToTerra = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportToTerra> => {
+  const {
+    exploreState: { filterState },
+    fileManifestState,
+  } = viewContext;
+  // Get the form facets.
+  const formFacet = getFormFacets(fileManifestState);
   return {
     ExportForm: C.ExportToTerraForm,
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccessWithWarning,
+    fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
-    formFacets: FORM_FACETS,
+    fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
+    filters: filterState,
+    formFacet,
+    manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
+    manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
   };
 };
 
@@ -1092,6 +1164,20 @@ function getFileCountsKeyValuePairs(
 }
 
 /**
+ * Returns the export entity filters for the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns export entity filters.
+ */
+function getExportEntityFilters(projectsResponse: ProjectsResponse): Filters {
+  return [
+    {
+      categoryKey: "projectId",
+      value: [processEntityValue(projectsResponse.projects, "projectId")],
+    },
+  ];
+}
+
+/**
  * Returns breadcrumbs and title for export method Hero component.
  * @param explorePath - Explore path.
  * @param title - Export method title.
@@ -1120,6 +1206,70 @@ function getFacetTerms(facet: FileFacet | undefined): string[] {
   return (
     facet?.terms.map(({ name }) => sanitizeString(name)) || [LABEL.UNSPECIFIED]
   );
+}
+
+/**
+ * Returns the file summary facet, where facet terms are generated from the file summary to include term size.
+ * @param fileFacet - File facet.
+ * @param fileSummary - File summary.
+ * @returns file summary facet.
+ */
+function getFileSummaryFacet(
+  fileFacet?: FileFacet,
+  fileSummary?: SummaryResponse
+): FileSummaryFacet | undefined {
+  if (!fileFacet || !fileSummary) {
+    return;
+  }
+  // Clone the facet.
+  const clonedFacet = { ...fileFacet };
+  // Bind the file summary response.
+  const { fileTypeSummaries } = bindFileSummaryResponse(fileSummary);
+  // Grab the file summary facet terms, with total size from file summary.
+  clonedFacet.terms = getFileSummaryTerms(fileTypeSummaries, clonedFacet);
+  return clonedFacet;
+}
+
+/**
+ * Returns the file summary facet terms, where term size is generated from the file summary.
+ * @param fileTypeSummaries - File type summaries.
+ * @param fileFacet - File facet.
+ * @returns file summary facet terms.
+ */
+function getFileSummaryTerms(
+  fileTypeSummaries: FileTypeSummary[],
+  fileFacet: FileFacet
+): FileSummaryTerm[] {
+  return fileTypeSummaries
+    .map(({ count, fileType: name, totalSize: size }) => {
+      const selected = isFacetTermSelected(fileFacet, name);
+      return {
+        count,
+        name,
+        selected,
+        size,
+      };
+    })
+    .sort(sortTerms);
+}
+
+/**
+ * Returns the form facets for the given file manifest state.
+ * @param fileManifestState - File manifest state.
+ * @returns form facets.
+ */
+function getFormFacets(fileManifestState: FileManifestState): FormFacet {
+  // Find the species facet.
+  const speciesFacet = findFacet(
+    fileManifestState.filesFacets,
+    HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
+  );
+  // Get the file summary facet.
+  const fileSummaryFacet = getFileSummaryFacet(
+    findFacet(fileManifestState.filesFacets, HCA_DCP_CATEGORY_KEY.FILE_FORMAT),
+    fileManifestState.fileSummary
+  );
+  return { fileSummaryFacet, speciesFacet };
 }
 
 /**
@@ -1349,19 +1499,6 @@ function getProjectTitleUrl(projectsResponse: ProjectsResponse): string {
 }
 
 /**
- * Returns file facet for the given facet name.
- * @param facetName - Facet name.
- * @param filesFacets - Files facets.
- * @returns project file facet.
- */
-function findFacet(
-  facetName: string,
-  filesFacets: FileFacet[]
-): FileFacet | undefined {
-  return filesFacets.find(({ name }) => name === facetName);
-}
-
-/**
  * Returns current query for the given facet.
  * @param filter - Selected filter.
  * @param categoryKeyLabel - Map of category key to category label.
@@ -1413,7 +1550,7 @@ function mapProjectIdToProject(
   filesFacets: FileFacet[]
 ): SelectedFilter {
   if (filter.categoryKey === HCA_DCP_CATEGORY_KEY.PROJECT_ID) {
-    const projectFacet = findFacet(HCA_DCP_CATEGORY_KEY.PROJECT, filesFacets);
+    const projectFacet = findFacet(filesFacets, HCA_DCP_CATEGORY_KEY.PROJECT);
     return {
       categoryKey: HCA_DCP_CATEGORY_KEY.PROJECT,
       value: getFacetTerms(projectFacet),

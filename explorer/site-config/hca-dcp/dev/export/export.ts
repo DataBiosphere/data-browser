@@ -46,18 +46,13 @@ export const exportConfig: ExportConfig = {
       label: "Choose Export Method",
       mainColumn: [
         {
-          children: [
-            {
-              component: C.ExportMethod,
-              viewBuilder: V.buildExportMethodBulkDownload,
-            } as ComponentConfig<typeof C.ExportMethod>,
-            {
-              component: C.ExportMethod,
-              viewBuilder: V.buildExportMethodTerra,
-            } as ComponentConfig<typeof C.ExportMethod>,
-          ],
-          component: C.ExportSelectedData,
-        } as ComponentConfig<typeof C.ExportSelectedData>,
+          component: C.ExportMethod,
+          viewBuilder: V.buildExportMethodBulkDownload,
+        } as ComponentConfig<typeof C.ExportMethod>,
+        {
+          component: C.ExportMethod,
+          viewBuilder: V.buildExportMethodTerra,
+        } as ComponentConfig<typeof C.ExportMethod>,
       ],
       route: "/export",
       sideColumn: [

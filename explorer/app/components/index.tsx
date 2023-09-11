@@ -28,7 +28,6 @@ export { DetailViewTable } from "@clevercanary/data-explorer-ui/lib/components/D
 export { DownloadCurlCommandForm } from "@clevercanary/data-explorer-ui/lib/components/Export/components/DownloadCurlCommand/components/DownloadCurlCommandForm/downloadCurlCommandForm";
 export { DownloadCurlCommand } from "@clevercanary/data-explorer-ui/lib/components/Export/components/DownloadCurlCommand/downloadCurlCommand";
 export { ExportMethod } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportMethod/exportMethod";
-export { ExportSelectedData } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSelectedData/exportSelectedData";
 export { ExportCurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 export { ExportSelectedDataSummary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 export { ExportSummary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/exportSummary";

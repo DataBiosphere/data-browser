@@ -1,5 +1,6 @@
 import {
   LABEL,
+  MANIFEST_DOWNLOAD_FORMAT,
   RESPONSE_SOURCE,
 } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import {
@@ -9,6 +10,11 @@ import {
 import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import { CallToAction } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
 import { STATUS_BADGE_COLOR } from "@clevercanary/data-explorer-ui/lib/components/common/StatusBadge/statusBadge";
+import {
+  FileSummaryFacet,
+  FileSummaryTerm,
+  FormFacet,
+} from "@clevercanary/data-explorer-ui/lib/components/Export/common/entities";
 import { CurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 import { Summary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
@@ -17,6 +23,12 @@ import {
   FileFacet,
   FILE_MANIFEST_TYPE,
 } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
+import {
+  findFacet,
+  isFacetTermSelected,
+  sortTerms,
+} from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/utils";
+import { FileManifestState } from "@clevercanary/data-explorer-ui/lib/providers/fileManifestState";
 import { CategoryKeyLabel } from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/entities";
 import {
   mapCategoryKeyLabel,
@@ -27,10 +39,7 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../../../../site-config/anvil-cmg/category";
-import {
-  FORM_FACETS,
-  ROUTE_EXPORT_TO_TERRA,
-} from "../../../../../site-config/anvil-cmg/dev/export/constants";
+import { ROUTE_EXPORT_TO_TERRA } from "../../../../../site-config/anvil-cmg/dev/export/constants";
 import { URL_DATASETS } from "../../../../../site-config/anvil/dev/config";
 import {
   AggregatedBioSampleResponse,
@@ -43,6 +52,7 @@ import {
   BioSampleEntityResponse,
   DonorEntityResponse,
   FileEntityResponse,
+  FileFormat,
   LibraryEntityResponse,
 } from "../../../../apis/azul/anvil-cmg/common/entities";
 import {
@@ -87,6 +97,7 @@ import * as C from "../../../../components";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import * as MDX from "../../../../content/anvil-cmg";
+import { Unused } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
 
@@ -366,47 +377,60 @@ export const buildDocumentId = (
 
 /**
  * Build props for ExportCurrentQuery component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportCurrentQuery component.
  */
-export const buildExportCurrentQuery = (): React.ComponentProps<
-  typeof C.ExportCurrentQuery
-> => {
+export const buildExportCurrentQuery = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportCurrentQuery> => {
+  const {
+    fileManifestState: { filters, isFacetsLoading },
+  } = viewContext;
   return {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- filesFacets is unused.
-    getExportCurrentQueries: (filters: Filters) =>
-      getExportCurrentQueries(filters),
+    isLoading: isFacetsLoading,
+    queries: getExportCurrentQueries(filters),
   };
 };
 
 /**
  * Build props for ExportToTerra component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportEntityToTerra = (
-  datasetsResponse: DatasetsResponse
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext
 ): React.ComponentProps<typeof C.ExportToTerra> => {
+  const { fileManifestState } = viewContext;
+  // Get the initial filters.
+  const filters = getExportEntityFilters(datasetsResponse);
+  // Grab the form facet.
+  const formFacet = getFormFacets(fileManifestState);
   return {
     ExportForm: C.ExportToTerraForm,
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
-    entity: [
-      ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
-      getDatasetTitle(datasetsResponse),
-    ],
+    fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.ENITY_EXPORT_TO_TERRA,
-    formFacets: FORM_FACETS,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    filters,
+    formFacet,
+    manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
+    manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
   };
 };
 
 /**
  * Build props for entity related export warning FluidAlert component.
- * @param datasetsResponse - Response model return from datasets API (unused).
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the FluidAlert component.
  */
 export const buildExportEntityWarning = (
-  datasetsResponse: DatasetsResponse,
+  _: DatasetsResponse,
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.FluidAlert> => {
   const {
@@ -429,7 +453,7 @@ export const buildExportEntityWarning = (
  * @returns model to be used as props for the Hero component.
  */
 export function buildExportHero(
-  _: Record<string, never>,
+  _: Unused,
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.BackPageHero> {
   const { exploreState } = viewContext;
@@ -450,7 +474,7 @@ export function buildExportHero(
  * @returns model to be used as props for the Hero component.
  */
 export const buildExportMethodHeroTerra = (
-  _: Record<string, never>,
+  _: Unused,
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Export to Terra";
@@ -462,47 +486,77 @@ export const buildExportMethodHeroTerra = (
 
 /**
  * Build props for ExportMethod component for display of the export to terra metadata section.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
-export const buildExportMethodTerra = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => ({
-  buttonLabel: "Analyze in Terra",
-  description:
-    "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-  disabled: false,
-  route: ROUTE_EXPORT_TO_TERRA,
-  title: "Export Study Data and Metadata to Terra Workspace",
-});
+export const buildExportMethodTerra = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportMethod> => {
+  const { fileManifestState } = viewContext;
+  const isAccessible = isFileManifestAccessible(fileManifestState);
+  return {
+    buttonLabel: "Analyze in Terra",
+    description:
+      "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+    disabled: !isAccessible,
+    route: ROUTE_EXPORT_TO_TERRA,
+    title: "Export Study Data and Metadata to Terra Workspace",
+  };
+};
 
 /**
  * Build props for ExportSelectedDataSummary component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportSelectedDataSummary component.
  */
-export const buildExportSelectedDataSummary = (): React.ComponentProps<
-  typeof C.ExportSelectedDataSummary
-> => {
+export const buildExportSelectedDataSummary = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportSelectedDataSummary> => {
+  const {
+    fileManifestState: {
+      filesFacets,
+      isFacetsLoading,
+      isSummaryLoading,
+      summary,
+    },
+  } = viewContext;
   return {
-    getExportSelectedDataSummary: (
-      filesFacets: FileFacet[],
-      summary?: SummaryResponse
-    ) => getExportSelectedDataSummary(filesFacets, summary),
+    isLoading: isFacetsLoading || isSummaryLoading,
+    summaries: getExportSelectedDataSummary(filesFacets, summary),
   };
 };
 
 /**
  * Build props for ExportToTerra component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
-export const buildExportToTerra = (): React.ComponentProps<
-  typeof C.ExportToTerra
-> => {
+export const buildExportToTerra = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportToTerra> => {
+  const {
+    exploreState: { filterState },
+    fileManifestState,
+  } = viewContext;
+  // Grab the form facet.
+  const formFacet = getFormFacets(fileManifestState);
   return {
     ExportForm: C.ExportToTerraForm,
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
+    fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
-    formFacets: FORM_FACETS,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    filters: filterState,
+    formFacet,
+    manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
+    manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
   };
 };
 
@@ -592,7 +646,7 @@ export const buildLibraryId = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildListWarning = (
-  _: Record<string, never>,
+  _: DatasetsResponse,
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.Alert> => {
   const {
@@ -810,6 +864,20 @@ export function getExportCurrentQueries(filters: Filters): CurrentQuery[] {
 }
 
 /**
+ * Returns the export entity filters for the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns export entity filters.
+ */
+function getExportEntityFilters(datasetsResponse: DatasetsResponse): Filters {
+  return [
+    {
+      categoryKey: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+      value: [getDatasetTitle(datasetsResponse)],
+    },
+  ];
+}
+
+/**
  * Returns breadcrumbs and title for export method Hero component.
  * @param explorePath - Explore path.
  * @param title - Export method title.
@@ -846,6 +914,85 @@ export function getExportSelectedDataSummary(
 }
 
 /**
+ * Returns the file summary facet, where facet terms are generated from the file summary.
+ * @param fileFacet - File facet.
+ * @param fileSummary - File summary.
+ * @returns file summary facet.
+ */
+function getFileSummaryFacet(
+  fileFacet?: FileFacet,
+  fileSummary?: SummaryResponse
+): FileSummaryFacet | undefined {
+  if (!fileFacet || !fileSummary) {
+    return;
+  }
+  // Clone the file facet.
+  const clonedFacet = { ...fileFacet };
+  // Grab the file formats from the file summary.
+  const { fileFormats } = fileSummary;
+  // Grab the file summary facet terms from file summary.
+  clonedFacet.terms = getFileSummaryTerms(fileFormats, clonedFacet);
+  return clonedFacet;
+}
+
+/**
+ * Returns the file summary facet terms from the file summary.
+ * @param fileFormats - File formats.
+ * @param fileFacet - File facet.
+ * @returns file summary facet terms.
+ */
+function getFileSummaryTerms(
+  fileFormats: FileFormat[],
+  fileFacet: FileFacet
+): FileSummaryTerm[] {
+  return fileFormats
+    .map(({ count, format: name }) => {
+      const selected = isFacetTermSelected(fileFacet, name);
+      return {
+        count,
+        name,
+        selected,
+      };
+    })
+    .sort(sortTerms);
+}
+
+/**
+ * Returns the form facets for the given file manifest state.
+ * @param fileManifestState - File manifest state.
+ * @returns form facets.
+ */
+function getFormFacets(fileManifestState: FileManifestState): FormFacet {
+  // Find the species facet.
+  const speciesFacet = findFacet(
+    fileManifestState.filesFacets,
+    ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE
+  );
+  // Get the file summary facet.
+  const fileSummaryFacet = getFileSummaryFacet(
+    findFacet(
+      fileManifestState.filesFacets,
+      ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT
+    ),
+    fileManifestState.fileSummary
+  );
+  return {
+    fileSummaryFacet: fileSummaryFacet
+      ? {
+          ...fileSummaryFacet,
+          formLabel: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT,
+        }
+      : undefined,
+    speciesFacet: speciesFacet
+      ? {
+          ...speciesFacet,
+          formLabel: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
+        }
+      : undefined,
+  };
+}
+
+/**
  * Returns true if the response is accessible, or the response source is appropriate for the authorization state.
  * When a user is logged in, the component should only transition in when the client side request is available;
  * a static request will not accurately reflect the accessibility of the given response.
@@ -868,6 +1015,19 @@ function isAccessibleTransitionIn(
  */
 function isDatasetAccessible(datasetsResponse: DatasetsResponse): boolean {
   return datasetsResponse.datasets[0].accessible;
+}
+
+/**
+ * Returns true if the "accessible" file facet has a term value of "true".
+ * @param fileManifestState - File manifest state.
+ * @returns true if the "accessible" file facet has a term value of "true".
+ */
+function isFileManifestAccessible(
+  fileManifestState: FileManifestState
+): boolean {
+  const { filesFacets } = fileManifestState;
+  const fileFacet = findFacet(filesFacets, "accessible");
+  return fileFacet?.termsByName.has("true") ?? false;
 }
 
 /**
