@@ -52,6 +52,7 @@ import { PROJECTS_URL } from "../../../../../site-config/hca-dcp/dev/config";
 import {
   ROUTE_BULK_DOWNLOAD,
   ROUTE_EXPORT_TO_TERRA,
+  ROUTE_MANIFEST_DOWNLOAD,
 } from "../../../../../site-config/hca-dcp/dev/export/constants";
 import {
   processAggregatedOrArrayValue,
@@ -563,6 +564,23 @@ export const buildExportMethodHeroCurlCommand = (
 };
 
 /**
+ * Build props for manifest download Hero component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Hero component.
+ */
+export const buildExportMethodHeroManifestDownload = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.BackPageHero> => {
+  const title = "Request File Manifest";
+  const {
+    exploreState: { tabValue },
+  } = viewContext;
+  return getExportMethodHero(tabValue, title);
+};
+
+/**
  * Build props for export to terra Hero component.
  * @param _ - Unused.
  * @param viewContext - View context.
@@ -578,6 +596,21 @@ export const buildExportMethodHeroTerra = (
   } = viewContext;
   return getExportMethodHero(tabValue, title);
 };
+
+/**
+ * Build props for ExportMethod component for display of the manifest download section.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportMethodManifestDownload = (): React.ComponentProps<
+  typeof C.ExportMethod
+> => ({
+  buttonLabel: "Request File Manifest",
+  description:
+    "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
+  disabled: false,
+  route: ROUTE_MANIFEST_DOWNLOAD,
+  title: "Download a File Manifest with Metadata for the Selected Data",
+});
 
 /**
  * Build props for ExportMethod component for display of the export to terra section.
@@ -794,6 +827,34 @@ export const buildLibraryConstructionApproach = (
       entityResponse.protocols,
       HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD
     ),
+  };
+};
+
+/**
+ * Build props for ManifestDownload component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ManifestDownload component.
+ */
+export const buildManifestDownload = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ManifestDownload> => {
+  const {
+    exploreState: { filterState },
+    fileManifestState,
+  } = viewContext;
+  // Get the form facets.
+  const formFacet = getFormFacets(fileManifestState);
+  return {
+    ManifestDownloadForm: C.ManifestDownloadForm,
+    ManifestDownloadStart: MDX.ManifestDownloadStart,
+    ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
+    fileManifestState,
+    fileManifestType: FILE_MANIFEST_TYPE.DOWNLOAD_MANIFEST,
+    fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
+    filters: filterState,
+    formFacet,
   };
 };
 
