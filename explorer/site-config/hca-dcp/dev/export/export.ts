@@ -5,7 +5,11 @@ import {
 import * as C from "app/components";
 import * as MDX from "../../../../app/content/hca-dcp";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { ROUTE_BULK_DOWNLOAD, ROUTE_EXPORT_TO_TERRA } from "./constants";
+import {
+  ROUTE_BULK_DOWNLOAD,
+  ROUTE_EXPORT_TO_TERRA,
+  ROUTE_MANIFEST_DOWNLOAD,
+} from "./constants";
 
 export const exportConfig: ExportConfig = {
   exportMethods: [
@@ -21,6 +25,21 @@ export const exportConfig: ExportConfig = {
         {
           component: C.BackPageHero,
           viewBuilder: V.buildExportMethodHeroCurlCommand,
+        } as ComponentConfig<typeof C.BackPageHero>,
+      ],
+    },
+    {
+      mainColumn: [
+        {
+          component: C.ManifestDownload,
+          viewBuilder: V.buildManifestDownload,
+        } as ComponentConfig<typeof C.ManifestDownload>,
+      ],
+      route: ROUTE_MANIFEST_DOWNLOAD,
+      top: [
+        {
+          component: C.BackPageHero,
+          viewBuilder: V.buildExportMethodHeroManifestDownload,
         } as ComponentConfig<typeof C.BackPageHero>,
       ],
     },
@@ -48,6 +67,10 @@ export const exportConfig: ExportConfig = {
         {
           component: C.ExportMethod,
           viewBuilder: V.buildExportMethodBulkDownload,
+        } as ComponentConfig<typeof C.ExportMethod>,
+        {
+          component: C.ExportMethod,
+          viewBuilder: V.buildExportMethodManifestDownload,
         } as ComponentConfig<typeof C.ExportMethod>,
         {
           component: C.ExportMethod,
