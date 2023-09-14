@@ -34,6 +34,7 @@ export { ExportSummary } from "@clevercanary/data-explorer-ui/lib/components/Exp
 export { ExportToTerraForm } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportToTerra/components/ExportToTerraForm/exportToTerraForm";
 export { TerraSetUpForm } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportToTerra/components/TerraSetUpForm/terraSetUpForm";
 export { ExportToTerra } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportToTerra/exportToTerra";
+export { ManifestDownloadEntity } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ManifestDownload/components/ManifestDownloadEntity/manifestDownloadEntity";
 export { ManifestDownloadForm } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ManifestDownload/components/ManifestDownloadForm/manifestDownloadForm";
 export { ManifestDownload } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ManifestDownload/manifestDownload";
 export { AzulFileDownload } from "@clevercanary/data-explorer-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
@@ -59,7 +60,6 @@ export { Description } from "@clevercanary/data-explorer-ui/lib/components/Proje
 export { Details } from "@clevercanary/data-explorer-ui/lib/components/Project/components/Details/details";
 export { Publications } from "@clevercanary/data-explorer-ui/lib/components/Project/components/Publications/publications";
 export { SupplementaryLinks } from "@clevercanary/data-explorer-ui/lib/components/Project/components/SupplementaryLinks/supplementaryLinks";
-export { TitledText } from "@clevercanary/data-explorer-ui/lib/components/Project/components/TitledText/titledText";
 export { ExportMethodView } from "@clevercanary/data-explorer-ui/lib/views/ExportMethodView/exportMethodView";
 export { Fade } from "./common/Fade/fade";
 export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
