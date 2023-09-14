@@ -1,9 +1,9 @@
 import { SUMMARY } from "app/components/Index/common/entities";
 
 // Template constants
-const { DONORS, FILE_FORMATS, SPECIES } = SUMMARY;
+const { BIOSAMPLES, DONORS, FILE_FORMATS } = SUMMARY;
 
 /**
  * Summary display order.
  */
-export const SUMMARIES = [SPECIES, DONORS, FILE_FORMATS];
+export const SUMMARIES = [BIOSAMPLES, DONORS, FILE_FORMATS];

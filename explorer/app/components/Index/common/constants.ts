@@ -31,13 +31,22 @@ const {
   STUDY_DESIGN,
   WORKSPACE_NAME,
 } = METADATA_KEY;
-const { DONORS, ESTIMATED_CELLS, FILE_FORMATS, FILES, SPECIES, SPECIMENS } =
-  SUMMARY;
+const {
+  BIOSAMPLES,
+  DONORS,
+  ESTIMATED_CELLS,
+  FILE_FORMATS,
+  FILES,
+  SPECIES,
+  SPECIMENS,
+} = SUMMARY;
 
 /**
  * Functions binding summary response API to summary count.
  */
 export const BIND_SUMMARY_RESPONSE = {
+  [BIOSAMPLES]: (r: AzulSummaryResponse): number =>
+    getSummaryCount(r, SUMMARY_KEY.BIOSAMPLES),
   [DONORS]: (r: AzulSummaryResponse): number =>
     getSummaryCount(r, SUMMARY_KEY.DONORS),
   [ESTIMATED_CELLS]: calculateSummaryTotalCellCount,
@@ -83,6 +92,7 @@ export const PLURALIZED_METADATA_LABEL = {
  * Set of possible summary keys.
  */
 export const SUMMARY_KEY = {
+  [BIOSAMPLES]: "biosampleCount",
   [DONORS]: "donorCount",
   [FILES]: "fileCount",
   [FILE_FORMATS]: "fileFormats",
@@ -94,6 +104,7 @@ export const SUMMARY_KEY = {
  * Set of possible summary labels.
  */
 export const SUMMARY_LABEL = {
+  [BIOSAMPLES]: "BioSamples",
   [DONORS]: "Donors",
   [ESTIMATED_CELLS]: "Estimated Cells",
   [FILES]: "Files",
