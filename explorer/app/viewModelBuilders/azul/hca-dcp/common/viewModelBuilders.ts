@@ -858,6 +858,25 @@ export const buildManifestDownload = (
   };
 };
 
+/*
+ * Build props for ManifestDownloadEntity component.
+ * @param projectsResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the ManifestDownloadEntity component.
+ */
+export const buildManifestDownloadEntity = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ManifestDownloadEntity> => {
+  // Get the initial filters.
+  const filters = getExportEntityFilters(projectsResponse);
+  // Get the metadata filters.
+  const metadataFilters = getMetadataFilters(filters);
+  return {
+    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_DOWNLOAD_MANIFEST,
+    filters,
+    metadataFilters,
+  };
+};
+
 /**
  * Build props for the project title Link component from the given entity response.
  * @param projectsResponse - Response model return from the entity response API.
@@ -1480,6 +1499,20 @@ export function getGeneratedMatricesMatrixCellCountColumnDef<
       formatMatrixCellCount(getValue() as unknown as number),
     header: HCA_DCP_CATEGORY_LABEL.MATRIX_CELL_COUNT,
   };
+}
+
+/**
+ * Returns the metadata filters.
+ * @param filters - Filters.
+ * @returns metadata filters.
+ */
+function getMetadataFilters(filters: Filters): Filters {
+  const metadataFilters = [...filters];
+  metadataFilters.push({
+    categoryKey: HCA_DCP_CATEGORY_KEY.CONTENT_DESCRIPTION,
+    value: ["Database entry metadata"],
+  });
+  return metadataFilters;
 }
 
 /**
