@@ -49,7 +49,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.Cell>,
         header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_NAME,
         id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_NAME,
-        width: { max: "1fr", min: "120px" },
+        width: { max: "1fr", min: "240px" },
       },
       {
         componentConfig: {
@@ -58,7 +58,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.Cell>,
         header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT, // "Format"
         id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
-        width: { max: "1fr", min: "120px" },
+        width: { max: "auto", min: "120px" },
       },
       {
         componentConfig: {
@@ -67,6 +67,16 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.Cell>,
         header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_SIZE,
         id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_SIZE,
+        width: { max: "auto", min: "120px" },
+      },
+      {
+        componentConfig: {
+          component: C.CopyCell,
+          viewBuilder: V.buildDRSURI,
+        } as ComponentConfig<typeof C.CopyCell>,
+        disableSorting: true,
+        header: "DRS URI",
+        id: "drs_uri",
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -76,7 +86,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
         id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-        width: { max: "1fr", min: "240px" },
+        width: { max: "1fr", min: "140px" },
       },
       {
         componentConfig: {
@@ -85,7 +95,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
-        width: { max: "1fr", min: "200px" },
+        width: { max: "1fr", min: "140px" },
       },
       {
         columnVisible: false,
@@ -124,7 +134,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
         id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
-        width: { max: "2fr", min: "240px" },
+        width: { max: "1fr", min: "240px" },
       },
     ],
     defaultSort: {

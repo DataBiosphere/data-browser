@@ -90,6 +90,7 @@ export interface FileEntity {
   data_modality: string[];
   date_created: string;
   document_id: string;
+  drs_uri: string;
   file_format: string;
   file_id: string;
   file_name: string;
