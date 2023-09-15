@@ -72,3 +72,4 @@ export { FileLocationDownload } from "./Detail/components/GeneratedMatricesTable
 export { FileNameCell } from "./Detail/components/GeneratedMatricesTables/components/FileNameCell/fileNameCell";
 export { GeneratedMatricesTables } from "./Detail/components/GeneratedMatricesTables/generatedMatricesTables";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
+export { CopyCell } from "./Index/components/CopyCell/copyCell";

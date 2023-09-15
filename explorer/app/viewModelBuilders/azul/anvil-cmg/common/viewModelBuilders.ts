@@ -376,6 +376,19 @@ export const buildDocumentId = (
 };
 
 /**
+ * Build props for DRS URI CopyCell component from the given files response.
+ * @param filesResponse - Response model return from index/files API endpoint.
+ * @returns model to be used as props for the CopyCell component.
+ */
+export const buildDRSURI = (
+  filesResponse: FilesResponse
+): React.ComponentProps<typeof C.CopyCell> => {
+  return {
+    value: processEntityValue(filesResponse.files, "drs_uri"),
+  };
+};
+
+/**
  * Build props for ExportCurrentQuery component.
  * @param _ - Unused.
  * @param viewContext - View context.
