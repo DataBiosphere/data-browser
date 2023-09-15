@@ -7,6 +7,10 @@ export const authenticationConfig: AuthenticationConfig = {
     googleProfileEndpoint: "https://www.googleapis.com/oauth2/v3/userinfo",
     scope:
       "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
+  },
+  terraAuthConfig: {
+    terraNIHProfileEndpoint:
+      "https://firecloud-orchestration.dsde-prod.broadinstitute.org/api/nih/status",
     terraProfileEndpoint:
       "https://sam.dsde-prod.broadinstitute.org/register/user/v1",
   },
