@@ -30,7 +30,7 @@ const config: PlaywrightTestConfig = {
   webServer: {
     command: "npm run build-cc-dev:anvil-cmg && npm start",
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
+    timeout: 240 * 1000,
     url: "http://localhost:3000/explore",
   },
   workers: "75%",
