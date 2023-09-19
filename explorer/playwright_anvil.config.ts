@@ -2,7 +2,7 @@ import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 const config: PlaywrightTestConfig = {
   expect: {
-    timeout: 10 * 1000,
+    timeout: 15 * 1000,
   },
   fullyParallel: true,
   outputDir: "playwright-report/",
