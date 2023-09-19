@@ -29,7 +29,7 @@
     "build-storybook": "storybook build",
     "test": "jest --watch",
     "test:e2e": "playwright test",
-    "test:anvil-cmg": "playwright test -c playwright_anvil.config.ts",
+    "test:anvil-cmg": "playwright test -c playwright_anvil.config.ts --trace retain-on-failure",
     "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts"
   },
   "dependencies": {
