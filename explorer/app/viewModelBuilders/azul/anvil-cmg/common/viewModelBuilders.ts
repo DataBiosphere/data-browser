@@ -508,12 +508,16 @@ export const buildExportMethodTerra = (
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.ExportMethod> => {
   const { fileManifestState } = viewContext;
+  const { isFacetsSuccess } = fileManifestState;
   const isAccessible = isFileManifestAccessible(fileManifestState);
   return {
     buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-    disabled: !isAccessible,
+    disabled: !isFacetsSuccess || !isAccessible,
+    disabledByLine: isFacetsSuccess
+      ? "You currently don’t have access to any files matching the query."
+      : undefined,
     route: ROUTE_EXPORT_TO_TERRA,
     title: "Export Study Data and Metadata to Terra Workspace",
   };
@@ -570,6 +574,29 @@ export const buildExportToTerra = (
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
+  };
+};
+
+/**
+ * Build props for export warning FluidAlert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the FluidAlert component.
+ */
+export const buildExportWarning = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.FluidAlert> => {
+  const {
+    authState: { isAuthenticated },
+  } = viewContext;
+  return {
+    children: isAuthenticated
+      ? undefined
+      : MDX.RenderComponent({ Component: MDX.ExportWarning }),
+    severity: "warning",
+    title:
+      'Files from datasets with access "required" will be excluded from this export.',
   };
 };
 
