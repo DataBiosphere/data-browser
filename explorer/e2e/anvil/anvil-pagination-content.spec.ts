@@ -6,7 +6,7 @@ const BackButtonTestID = "WestRoundedIcon";
 const ForwardButtonTestID = "EastRoundedIcon";
 
 test.setTimeout(90000);
-test("Check forward and backwards pagination causes the page content to change on the biosamples apge", async ({
+test("Check forward and backwards pagination causes the page content to change on the Biosamples page", async ({
   page,
 }) => {
   const tab = anvilTabs.biosamples;
@@ -33,6 +33,7 @@ test("Check forward and backwards pagination causes the page content to change o
 
   // Paginate forwards
   for (let i = 2; i < max_pages + 1; i++) {
+    await expect(firstElementTextLocator).not.toHaveText("");
     const OriginalFirstTableEntry = await firstElementTextLocator.innerText();
     // Click the next button
     await page

@@ -96,15 +96,14 @@ export async function testSortAzure(
         })
         .getByRole("button");
 
-      // Expect the first and last cells to be visible
+      // Expect the first and last cells to be visible and have text
       await expect(firstElementTextLocator).toBeVisible();
       await expect(lastElementTextLocator).toBeVisible();
+      await expect(firstElementTextLocator).not.toHaveText("");
+      await expect(lastElementTextLocator).not.toHaveText("");
       // Get the first cell text
       const firstElementTextNoClick = await firstElementTextLocator.innerText();
-      //console.log(
-      //  await firstElementTextLocator.getAttribute("aria-labelledby")
-      //);
-      // Sort may do nothing if the first and last element are equal, so skip testing here TODO: ideally this should happen after first click on catalogs
+      // Sort may do nothing if the first and last element are equal, so skip testing here
       if (
         (await lastElementTextLocator.innerText()) == firstElementTextNoClick
       ) {
@@ -118,14 +117,10 @@ export async function testSortAzure(
       // Click again
       await columnSortLocator.click();
       // Expect the first cell to have changed after clicking sort
-      //TODO: determine whether a tooltip appears or not
       await expect(secondElementTextLocator).toBeVisible();
       await expect(firstElementTextLocator).not.toHaveText(
         firstElementTextFirstClick
       );
-      //await expect(firstElementTextLocator).toBeLessThanOrEqual( TODO: make this work, even though this function only works on numbers
-      //  firstElementTextFirstClick
-      //);
 
       //const newFirstElementText = await getFirstElementText(workColumnPosition);
     }
