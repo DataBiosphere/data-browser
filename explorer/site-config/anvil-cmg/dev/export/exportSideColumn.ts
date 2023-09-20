@@ -1,4 +1,4 @@
-import { ComponentConfig } from "../../../../../../data-explorer/packages/data-explorer-ui/src/config/entities";
+import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "../../../../app/components";
 import * as MDX from "../../../../app/content/anvil-cmg";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
