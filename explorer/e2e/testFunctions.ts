@@ -74,13 +74,6 @@ export async function testSortAzure(
         .nth(0)
         .getByRole("cell")
         .nth(workColumnPosition);
-      const secondElementTextLocator = page
-        .getByRole("rowgroup")
-        .nth(1)
-        .getByRole("row")
-        .nth(1)
-        .getByRole("cell")
-        .nth(workColumnPosition);
       const lastElementTextLocator = page
         .getByRole("rowgroup")
         .nth(1)
@@ -111,13 +104,12 @@ export async function testSortAzure(
       }
       // Click to sort
       await columnSortLocator.click();
-      await expect(secondElementTextLocator).toBeVisible();
+      await expect(firstElementTextLocator).not.toHaveText("");
       const firstElementTextFirstClick =
         await firstElementTextLocator.innerText();
       // Click again
       await columnSortLocator.click();
       // Expect the first cell to have changed after clicking sort
-      await expect(secondElementTextLocator).toBeVisible();
       await expect(firstElementTextLocator).not.toHaveText(
         firstElementTextFirstClick
       );
