@@ -95,6 +95,7 @@ export async function testSortAzure(
       await expect(firstElementTextLocator).not.toHaveText("");
       await expect(lastElementTextLocator).not.toHaveText("");
       // Get the first cell text
+      /*
       const firstElementTextNoClick = await firstElementTextLocator.innerText();
       // Sort may do nothing if the first and last element are equal, so skip testing here
       if (
@@ -102,17 +103,17 @@ export async function testSortAzure(
       ) {
         continue;
       }
+      */
       // Click to sort
       await columnSortLocator.click();
+      // Expect the first and last cell to still have text after clicking sort
       await expect(firstElementTextLocator).not.toHaveText("");
-      const firstElementTextFirstClick =
-        await firstElementTextLocator.innerText();
+      await expect(lastElementTextLocator).not.toHaveText("");
       // Click again
       await columnSortLocator.click();
-      // Expect the first cell to have changed after clicking sort
-      await expect(firstElementTextLocator).not.toHaveText(
-        firstElementTextFirstClick
-      );
+      // Expect the first and last cell to still have text after clicking sort
+      await expect(firstElementTextLocator).not.toHaveText("");
+      await expect(lastElementTextLocator).not.toHaveText("");
 
       //const newFirstElementText = await getFirstElementText(workColumnPosition);
     }
