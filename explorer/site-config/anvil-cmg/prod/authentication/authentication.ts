@@ -14,7 +14,7 @@ export const authenticationConfig: AuthenticationConfig = {
     terraNIHProfileEndpoint:
       "https://firecloud-orchestration.dsde-prod.broadinstitute.org/api/nih/status",
     terraProfileEndpoint:
-      "https://sam.dsde-dev.broadinstitute.org/register/user/v1",
+      "https://sam.dsde-prod.broadinstitute.org/register/user/v1",
   },
   text: MDX.RenderComponent({ Component: MDX.LoginText }),
   title: "Sign in to your account",
