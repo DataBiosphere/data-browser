@@ -12,7 +12,7 @@ export const authenticationConfig: AuthenticationConfig = {
   termsOfService: MDX.RenderComponent({ Component: MDX.LoginTermsOfService }),
   terraAuthConfig: {
     terraNIHProfileEndpoint:
-      "https://firecloud-orchestration.dsde-dev.broadinstitute.org/api/nih/status",
+      "https://firecloud-orchestration.dsde-prod.broadinstitute.org/api/nih/status",
     terraProfileEndpoint:
       "https://sam.dsde-dev.broadinstitute.org/register/user/v1",
   },
