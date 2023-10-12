@@ -69,9 +69,9 @@ import {
   SummaryResponse,
 } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
+import * as MDX from "../../../../components/common/MDXContent/hca-dcp";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
-import * as MDX from "../../../../content/hca-dcp";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { Unused } from "../../../common/entities";
 import { mapAccessions } from "./accessionMapper/accessionMapper";

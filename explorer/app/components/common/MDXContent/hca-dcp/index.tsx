@@ -2,7 +2,7 @@ export { RenderComponent } from "@clevercanary/data-explorer-ui/lib/components/C
 export {
   Section,
   SectionActions,
-} from "../../components/common/MDXMarkdown/components/Section/mdxSection.styles";
+} from "../../MDXMarkdown/components/Section/mdxSection.styles";
 export { default as ExportToTerra } from "../common/exportToTerraStart.mdx";
 export { default as ExportToTerraSuccess } from "../common/exportToTerraSuccess.mdx";
 export { default as BatchCorrectionWarning } from "./batchCorrectionWarning.mdx";

@@ -4,6 +4,7 @@ import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constan
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { authenticationConfig } from "./authentication/authentication";
 import { socials } from "./constants";
+import { contentThemeOptions } from "./content/contentThemeOptions";
 import { exportConfig } from "./export/export";
 import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
 import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
@@ -96,6 +97,8 @@ export function makeConfig(
         ],
       },
     ],
+    contentDir: "anvil-cmg",
+    contentThemeOptionsFn: contentThemeOptions,
     dataSource: {
       defaultDetailParams: {
         catalog: catalog,

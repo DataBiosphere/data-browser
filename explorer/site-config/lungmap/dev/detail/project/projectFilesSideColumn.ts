@@ -1,6 +1,6 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "../../../../../app/components";
-import * as MDX from "../../../../../app/content/lungmap";
+import * as MDX from "../../../../../app/components/common/MDXContent/lungmap";
 
 export const sideColumn: ComponentConfig[] = [
   {

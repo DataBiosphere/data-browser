@@ -1,7 +1,7 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { DatasetsResponse } from "../../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../../app/components";
-import * as MDX from "../../../../../app/content/anvil-cmg";
+import * as MDX from "../../../../../app/components/common/MDXContent/anvil-cmg";
 import * as V from "../../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
 export const mainColumn: ComponentConfig[] = [
