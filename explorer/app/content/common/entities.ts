@@ -10,5 +10,3 @@ export interface ContentProps {
 export interface Frontmatter {
   layoutStyle?: LayoutStyle;
 }
-
-export type SlugByFilePath = Map<string, string[]>;
