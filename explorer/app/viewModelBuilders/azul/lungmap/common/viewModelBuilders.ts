@@ -6,7 +6,7 @@ import {
 } from "../../../../../site-config/hca-dcp/category";
 import { ProjectsResponse } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
-import * as MDX from "../../../../content/lungmap";
+import * as MDX from "../../../../components/common/MDXContent/lungmap";
 import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,

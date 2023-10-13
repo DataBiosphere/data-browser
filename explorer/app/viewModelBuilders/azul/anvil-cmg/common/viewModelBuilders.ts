@@ -94,9 +94,9 @@ import {
   processEntityValue,
 } from "../../../../apis/azul/common/utils";
 import * as C from "../../../../components";
+import * as MDX from "../../../../components/common/MDXContent/anvil-cmg";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
-import * as MDX from "../../../../content/anvil-cmg";
 import { Unused } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";

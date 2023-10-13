@@ -1,7 +1,7 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { ProjectsResponse } from "../../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../../app/components";
-import * as MDX from "../../../../../app/content/lungmap";
+import * as MDX from "../../../../../app/components/common/MDXContent/lungmap";
 import * as T from "../../../../../app/viewModelBuilders/azul/lungmap/common/viewModelBuilders";
 
 export const mainColumn: ComponentConfig[] = [
