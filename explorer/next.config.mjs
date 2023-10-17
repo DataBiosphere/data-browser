@@ -48,6 +48,10 @@ export default withPlugins([withMDX], {
       process.cwd(),
       "node_modules/axios"
     );
+    config.resolve.alias["react-dropzone"] = path.resolve(
+      process.cwd(),
+      "node_modules/react-dropzone"
+    );
     config.resolve.alias["isomorphic-dompurify"] = path.resolve(
       process.cwd(),
       "node_modules/isomorphic-dompurify"
@@ -79,6 +83,10 @@ export default withPlugins([withMDX], {
     config.resolve.alias["uuid"] = path.resolve(
       process.cwd(),
       "node_modules/uuid"
+    );
+    config.resolve.alias["validate.js"] = path.resolve(
+      process.cwd(),
+      "node_modules/validate.js"
     );
     return config;
   },

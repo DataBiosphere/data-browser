@@ -16,6 +16,7 @@ import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { summary } from "./index/summary";
+import { supportConfig } from "./support/support";
 
 const logoHca = "/images/logoHca.png";
 const logoHumanCellAtlas = "/images/logoHumanCellAtlas.png";
@@ -206,6 +207,7 @@ const config: SiteConfig = {
       slogan: undefined,
       socials,
     },
+    support: supportConfig,
   },
   redirectRootToPath: PROJECTS_URL,
   summaryConfig: {
