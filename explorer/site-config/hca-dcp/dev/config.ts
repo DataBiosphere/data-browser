@@ -16,6 +16,7 @@ import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { summary } from "./index/summary";
+import { supportConfig } from "./support/support";
 
 const logoHca = "/images/logoHca.png";
 const logoHumanCellAtlas = "/images/logoHumanCellAtlas.png";
@@ -141,7 +142,6 @@ const config: SiteConfig = {
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
     footer: {
-      feedbackForm: false, // TODO feedback form
       logos: [{ ...LOGO, height: 38, src: logoHumanCellAtlas }],
       navLinks: [
         {
@@ -206,6 +206,7 @@ const config: SiteConfig = {
       slogan: undefined,
       socials,
     },
+    support: supportConfig,
   },
   redirectRootToPath: PROJECTS_URL,
   summaryConfig: {
