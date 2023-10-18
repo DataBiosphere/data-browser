@@ -142,7 +142,6 @@ const config: SiteConfig = {
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
     footer: {
-      feedbackForm: false, // TODO feedback form
       logos: [{ ...LOGO, height: 38, src: logoHumanCellAtlas }],
       navLinks: [
         {
