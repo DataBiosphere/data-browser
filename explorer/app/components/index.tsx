@@ -6,6 +6,8 @@ export {
   DownloadIconSmall,
   InventoryIconSmall,
 } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/common/constants";
+export { OpenInNewIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
+export { CustomIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/customIcon";
 export { GridItem } from "@clevercanary/data-explorer-ui/lib/components/common/Grid/components/GridItem/gridItem";
 export { Grid } from "@clevercanary/data-explorer-ui/lib/components/common/Grid/grid";
 export { KeyElType } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/components/KeyElType/keyElType";
@@ -48,6 +50,7 @@ export {
   BackPageContentSingleColumn,
 } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/BackPage/backPageView.styles";
 export { BackPageHero } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/BackPage/components/BackPageHero/backPageHero";
+export { Logo } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
 export { Link } from "@clevercanary/data-explorer-ui/lib/components/Links/components/Link/link";
 export { Links } from "@clevercanary/data-explorer-ui/lib/components/Links/links";
 export { Citation } from "@clevercanary/data-explorer-ui/lib/components/Project/components/Citation/citation";
@@ -76,3 +79,5 @@ export { FileNameCell } from "./Detail/components/GeneratedMatricesTables/compon
 export { GeneratedMatricesTables } from "./Detail/components/GeneratedMatricesTables/generatedMatricesTables";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
 export { CopyCell } from "./Index/components/CopyCell/copyCell";
+export { LogoExplorer } from "./Layout/components/Header/components/Content/components/Logo/components/LogoExplorer/logoExplorer";
+export { Social } from "./Layout/components/Header/components/Content/components/Navigation/components/NavigationMenuItems/components/Social/social";

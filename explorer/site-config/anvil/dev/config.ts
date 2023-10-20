@@ -1,7 +1,8 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
+import { HEADER_NAVIGATION_LABEL } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/common/constants";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil/common/constants";
+import * as C from "../../../app/components/index";
 import { authenticationConfig } from "./authentication/authentication";
 import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "./category";
 import { socials } from "./constants";
@@ -21,18 +22,14 @@ const logoNih = "/images/logoNih.svg";
 const logoUsagov = "/images/logoUsagov.png";
 
 // Template constants
+const APP_TITLE = "Anvil Data Explorer";
 const BROWSER_URL = "https://anvil-portal.dev.clevercanary.com";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 export const URL_DATASETS = "/datasets";
-const LOGO: LogoProps = {
-  alt: SLOGAN,
-  height: 40,
-  link: BROWSER_URL,
-  src: logoAnvil,
-};
 
 const config: SiteConfig = {
   analytics: undefined,
+  appTitle: APP_TITLE,
   authentication: authenticationConfig,
   browserURL: BROWSER_URL,
   categoryGroupConfigs: [
@@ -92,7 +89,7 @@ const config: SiteConfig = {
     activitiesEntityConfig,
     filesEntityConfig,
   ],
-  explorerTitle: "Anvil Data Explorer",
+  explorerTitle: APP_TITLE,
   export: exportConfig,
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
@@ -136,8 +133,13 @@ const config: SiteConfig = {
       socials,
     },
     header: {
+      Logo: C.Logo({
+        alt: APP_TITLE,
+        height: 40,
+        link: BROWSER_URL,
+        src: logoAnvil,
+      }),
       authenticationEnabled: true,
-      logo: LOGO,
       navAlignment: ELEMENT_ALIGNMENT.CENTER,
       navLinks: [
         {
@@ -161,7 +163,7 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/events`,
         },
         {
-          label: "More",
+          label: HEADER_NAVIGATION_LABEL.MORE,
           menuItems: [
             {
               label: "Team",

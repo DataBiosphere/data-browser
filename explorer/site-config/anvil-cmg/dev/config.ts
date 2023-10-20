@@ -1,9 +1,9 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
+import * as C from "../../../app/components/index";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { authenticationConfig } from "./authentication/authentication";
-import { socials } from "./constants";
 import { contentThemeOptions } from "./content/contentThemeOptions";
 import { exportConfig } from "./export/export";
 import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
@@ -20,8 +20,8 @@ const logoNih = "/images/logoNih.svg";
 const logoUsagov = "/images/logoUsagov.png";
 
 // Template constants
+const APP_TITLE = "AnVIL Data Explorer";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
-export const URL_DATASETS = "/datasets";
 
 export function makeConfig(
   browserUrl: string,
@@ -33,6 +33,7 @@ export function makeConfig(
       gtmId: "GTM-KDZF5XS",
       gtmPreview: "env-3",
     },
+    appTitle: APP_TITLE,
     authentication: authenticationConfig,
     browserURL: browserUrl,
     categoryGroupConfigs: [
@@ -117,7 +118,7 @@ export function makeConfig(
       activitiesEntityConfig,
       filesEntityConfig,
     ],
-    explorerTitle: "AnVIL Data Explorer",
+    explorerTitle: APP_TITLE,
     export: exportConfig,
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
     layout: {
@@ -158,52 +159,28 @@ export function makeConfig(
             url: `${browserUrl}/privacy`,
           },
         ],
-        socials,
       },
       header: {
-        authenticationEnabled: true,
-        logo: {
+        Logo: C.LogoExplorer({
           alt: SLOGAN,
           height: 40,
           link: `${browserUrl}/`,
           src: logoAnvil,
-        },
-        navAlignment: ELEMENT_ALIGNMENT.CENTER,
+        }),
+        authenticationEnabled: true,
+        navAlignment: ELEMENT_ALIGNMENT.RIGHT,
         navLinks: [
           {
-            label: "Overview",
-            url: `${browserUrl}/overview`,
-          },
-          {
-            label: "Learn",
-            url: `${browserUrl}/learn`,
-          },
-          {
-            label: "Datasets",
-            url: URL_DATASETS,
-          },
-          {
-            label: "News",
-            url: `${browserUrl}/news`,
-          },
-          {
-            label: "Events",
-            url: `${browserUrl}/events`,
-          },
-          {
-            label: "More",
+            flatten: true,
+            label: "Help & Documentation",
             menuItems: [
               {
-                label: "Team",
-                url: `${browserUrl}/team`,
+                label: "Guides",
+                url: "/guides",
               },
               {
-                label: "FAQ",
-                url: `${browserUrl}/faq`,
-              },
-              {
-                label: "Help",
-                url: `${browserUrl}/help`,
+                label: "Terms of service",
+                url: "/terms-of-service",
               },
             ],
             url: "",
@@ -211,8 +188,6 @@ export function makeConfig(
         ],
         searchEnabled: true,
         searchURL: `${browserUrl}/search`,
-        slogan: SLOGAN,
-        socials,
       },
     },
     redirectRootToPath: "/datasets",

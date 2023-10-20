@@ -1,6 +1,7 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
+import { HEADER_NAVIGATION_LABEL } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/common/constants";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import * as C from "../../../app/components/index";
 import anvilDevConfig from "../../anvil/dev/config";
 import { socials } from "../../anvil/dev/constants";
 import {
@@ -18,14 +19,9 @@ const logoNih = "/images/logoNih.svg";
 const logoUsagov = "/images/logoUsagov.png";
 
 // Template constants
+const APP_TITLE = "AnVIL Dataset Catalog";
 const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
-const LOGO: LogoProps = {
-  alt: SLOGAN,
-  height: 40,
-  link: BROWSER_URL,
-  src: logoAnvil,
-};
 
 const config: SiteConfig = {
   ...anvilDevConfig,
@@ -34,6 +30,7 @@ const config: SiteConfig = {
     gtmId: "GTM-WCWXHT4",
     gtmPreview: "env-4",
   },
+  appTitle: APP_TITLE,
   authentication: undefined,
   browserURL: BROWSER_URL,
   categoryGroupConfigs: [
@@ -78,7 +75,7 @@ const config: SiteConfig = {
     url: "",
   },
   entities: [consortiaEntityConfig, studiesEntityConfig, workspaceEntityConfig],
-  explorerTitle: "AnVIL Dataset Catalog",
+  explorerTitle: APP_TITLE,
   layout: {
     footer: {
       logos: [
@@ -120,8 +117,13 @@ const config: SiteConfig = {
       socials,
     },
     header: {
+      Logo: C.Logo({
+        alt: SLOGAN,
+        height: 40,
+        link: BROWSER_URL,
+        src: logoAnvil,
+      }),
       authenticationEnabled: false,
-      logo: LOGO,
       navAlignment: ELEMENT_ALIGNMENT.CENTER,
       navLinks: [
         {
@@ -149,7 +151,7 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}events`,
         },
         {
-          label: "More",
+          label: HEADER_NAVIGATION_LABEL.MORE,
           menuItems: [
             {
               label: "Team",
