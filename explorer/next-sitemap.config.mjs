@@ -1,5 +1,5 @@
 /** @type {import('next-sitemap').IConfig} */
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/explore";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 const SEPARATOR = ",";
 
