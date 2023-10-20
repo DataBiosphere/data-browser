@@ -1,5 +1,4 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { tabletUp } from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
 import {
@@ -9,6 +8,7 @@ import {
   TEXT_HEADING_SMALL,
   TEXT_HEADING_XLARGE,
 } from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
+import * as C from "../../../app/components/index";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
 import { socials } from "./constants";
 import { exportConfig } from "./export/export";
@@ -22,16 +22,13 @@ const logoHca = "/images/logoHca.png";
 const logoHumanCellAtlas = "/images/logoHumanCellAtlas.png";
 
 // Template constants
+const APP_TITLE = "HCA Data Explorer";
 const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
+const HCA_DATA_COORDINATION_PLATFORM =
+  "Human Cell Atlas Data Coordination Platform";
 const PAGINATION_PAGE_SIZE = "25";
 export const PROJECTS_URL = "/projects";
-const LOGO: LogoProps = {
-  alt: "Human Cell Atlas Data Coordination Platform",
-  height: 32,
-  link: BROWSER_URL,
-  src: logoHca,
-};
 
 const config: SiteConfig = {
   analytics: {
@@ -39,6 +36,7 @@ const config: SiteConfig = {
     gtmId: "GTM-M2J5NTJ",
     gtmPreview: "env-186",
   },
+  appTitle: APP_TITLE,
   browserURL: BROWSER_URL,
   categoryGroupConfigs: [
     {
@@ -142,7 +140,14 @@ const config: SiteConfig = {
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
     footer: {
-      logos: [{ ...LOGO, height: 38, src: logoHumanCellAtlas }],
+      logos: [
+        {
+          alt: HCA_DATA_COORDINATION_PLATFORM,
+          height: 38,
+          link: BROWSER_URL,
+          src: logoHumanCellAtlas,
+        },
+      ],
       navLinks: [
         {
           label: "About",
@@ -164,8 +169,13 @@ const config: SiteConfig = {
       socials,
     },
     header: {
+      Logo: C.Logo({
+        alt: HCA_DATA_COORDINATION_PLATFORM,
+        height: 32,
+        link: BROWSER_URL,
+        src: logoHca,
+      }),
       authenticationEnabled: false,
-      logo: LOGO,
       navAlignment: ELEMENT_ALIGNMENT.LEFT,
       navLinks: [
         {
