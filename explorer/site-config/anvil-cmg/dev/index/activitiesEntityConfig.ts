@@ -16,7 +16,7 @@ import { listHero } from "../listView/listHero";
 import { subTitleHero } from "../listView/subTitleHero";
 
 /**
- * Entity config object responsible for config related to the /explore/activities route.
+ * Entity config object responsible for config related to the /activities route.
  */
 export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
   apiPath: "index/activities",

@@ -11,7 +11,7 @@ import * as ViewBuilders from "../../../../app/viewModelBuilders/azul/anvil/comm
 import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "../category";
 
 /**
- * Entity config object responsible for config related to the /explore/biosamples route.
+ * Entity config object responsible for config related to the /biosamples route.
  */
 export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
   apiPath: "index/biosamples",

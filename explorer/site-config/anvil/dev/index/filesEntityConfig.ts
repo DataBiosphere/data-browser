@@ -11,7 +11,7 @@ import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/commo
 import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "../category";
 
 /**
- * Entity config object responsible for config related to the /explore/files route.
+ * Entity config object responsible for config related to the /files route.
  */
 export const filesEntityConfig: EntityConfig<FilesResponse> = {
   apiPath: "index/files",

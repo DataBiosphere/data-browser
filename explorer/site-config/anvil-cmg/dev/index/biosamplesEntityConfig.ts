@@ -16,7 +16,7 @@ import { listHero } from "../listView/listHero";
 import { subTitleHero } from "../listView/subTitleHero";
 
 /**
- * Entity config object responsible for config related to the /explore/biosamples route.
+ * Entity config object responsible for config related to the /biosamples route.
  */
 export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
   apiPath: "index/biosamples",

@@ -18,7 +18,7 @@ import {
 } from "../../category";
 
 /**
- * Entity config object responsible for config related to the /explore/platforms route.
+ * Entity config object responsible for config related to the /platforms route.
  */
 export const platformsEntityConfig: EntityConfig<NCPICatalogPlatform> = {
   detail: {

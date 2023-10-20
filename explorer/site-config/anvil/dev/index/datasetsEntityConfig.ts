@@ -15,7 +15,7 @@ import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
 
 /**
- * Entity config object responsible for config related to the /explore/datasets route.
+ * Entity config object responsible for config related to the /datasets route.
  */
 export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
   apiPath: "index/datasets",

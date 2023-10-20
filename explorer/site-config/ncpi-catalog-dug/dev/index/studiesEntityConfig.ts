@@ -8,7 +8,7 @@ import { relatedStudiesMainColumn } from "../detail/study/relatedStudiesMainColu
 import { fetchRelatedStudies } from "./common/utils";
 
 /**
- * Entity config object responsible for config related to the /explore/studies route.
+ * Entity config object responsible for config related to the /studies route.
  */
 export const studiesEntityConfig: EntityConfig<DugCatalogStudy> = {
   ...ncpiStudiesEntityConfig,

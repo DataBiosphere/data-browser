@@ -11,7 +11,7 @@ import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewMo
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../../category";
 
 /**
- * Entity config object responsible to config anything related to the /explore/samples route.
+ * Entity config object responsible to config anything related to the /samples route.
  */
 export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
   apiPath: "index/samples",
