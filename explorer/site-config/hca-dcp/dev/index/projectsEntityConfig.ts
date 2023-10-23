@@ -9,7 +9,6 @@ import { getProjectId } from "../../../../app/apis/azul/hca-dcp/common/utils";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../../category";
-import { PROJECTS_LABEL } from "../constants";
 import { mainColumn as exportMainColumn } from "../detail/project/exportMainColumn";
 import { sideColumn as exportSideColumn } from "../detail/project/exportSideColumn";
 import { mainColumn as matricesMainColumn } from "../detail/project/matricesMainColumn";
@@ -63,7 +62,7 @@ export const projectsEntityConfig: EntityConfig = {
     top: top,
   },
   getId: getProjectId,
-  label: PROJECTS_LABEL,
+  label: "Projects",
   list: {
     columns: [
       {
