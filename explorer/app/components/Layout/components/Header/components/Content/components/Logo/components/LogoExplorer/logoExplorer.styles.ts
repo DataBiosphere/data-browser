@@ -1,4 +1,8 @@
 import { mediaDesktopSmallUp } from "@clevercanary/data-explorer-ui/lib/styles/common/mixins/breakpoints";
+import {
+  DESKTOP_SM,
+  MOBILE,
+} from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
 import styled from "@emotion/styled";
 
 export const ExplorerWithLogo = styled.div`
@@ -6,18 +10,14 @@ export const ExplorerWithLogo = styled.div`
   display: flex;
   gap: 12px;
 
-  img {
-    height: 32px;
-  }
-
   .MuiDivider-root {
     margin-top: 7px;
     max-height: 29px;
   }
 
-  ${mediaDesktopSmallUp} {
+  ${({ theme }) => theme.breakpoints.between(MOBILE, DESKTOP_SM)} { {
     img {
-      height: 40px;
+      height: 32px;
     }
   }
 `;

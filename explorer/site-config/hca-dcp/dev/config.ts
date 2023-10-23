@@ -10,7 +10,7 @@ import {
 } from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
 import * as C from "../../../app/components/index";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
-import { socials } from "./constants";
+import { contentThemeOptions } from "./content/contentThemeOptions";
 import { exportConfig } from "./export/export";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
@@ -124,6 +124,8 @@ const config: SiteConfig = {
       ],
     },
   ],
+  contentDir: "hca-dcp",
+  contentThemeOptionsFn: contentThemeOptions,
   dataSource: {
     defaultDetailParams: {
       catalog: "dcp31",
@@ -166,55 +168,35 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/contact`,
         },
       ],
-      socials,
     },
     header: {
-      Logo: C.Logo({
+      Logo: C.LogoExplorer({
         alt: HCA_DATA_COORDINATION_PLATFORM,
         height: 32,
         link: BROWSER_URL,
         src: logoHca,
       }),
       authenticationEnabled: false,
-      navAlignment: ELEMENT_ALIGNMENT.LEFT,
+      navAlignment: ELEMENT_ALIGNMENT.RIGHT,
       navLinks: [
         {
-          label: "Explore",
-          url: PROJECTS_URL,
-        },
-        {
-          label: "Guides",
-          url: `${BROWSER_URL}/guides`,
-        },
-        {
-          label: "Metadata",
-          url: `${BROWSER_URL}/metadata`,
-        },
-        {
-          label: "Pipelines",
-          url: `${BROWSER_URL}/pipelines`,
-        },
-        {
-          label: "Analysis Tools",
-          url: `${BROWSER_URL}/analyze`,
-        },
-        {
-          label: "Contribute",
-          url: `${BROWSER_URL}/contribute`,
-        },
-        {
-          label: "APIs",
-          url: `${BROWSER_URL}/apis`,
-        },
-        {
-          label: "Updates",
-          url: `${BROWSER_URL}/dcp-updates`,
+          flatten: true,
+          label: "Help & Documentation",
+          menuItems: [
+            {
+              label: "Guides",
+              url: "/guides",
+            },
+            {
+              label: "Terms of service",
+              url: "/terms-of-service",
+            },
+          ],
+          url: "",
         },
       ],
       searchEnabled: true,
       searchURL: `${BROWSER_URL}/search`,
-      slogan: undefined,
-      socials,
     },
     support: supportConfig,
   },
