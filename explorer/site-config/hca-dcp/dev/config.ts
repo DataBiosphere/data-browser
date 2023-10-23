@@ -42,6 +42,22 @@ const config: SiteConfig = {
     {
       categoryConfigs: [
         {
+          key: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
+          label: HCA_DCP_CATEGORY_LABEL.PROJECT_TITLE,
+        },
+        {
+          key: HCA_DCP_CATEGORY_KEY.CONTACT_NAME,
+          label: HCA_DCP_CATEGORY_LABEL.CONTACT_NAME,
+        },
+        {
+          key: HCA_DCP_CATEGORY_KEY.INSTITUTION,
+          label: HCA_DCP_CATEGORY_LABEL.INSTITUTION,
+        },
+      ],
+    },
+    {
+      categoryConfigs: [
+        {
           key: HCA_DCP_CATEGORY_KEY.ANALYSIS_PROTOCOL, // workflow
           label: HCA_DCP_CATEGORY_LABEL.ANALYSIS_PROTOCOL,
         },
@@ -104,10 +120,6 @@ const config: SiteConfig = {
         {
           key: HCA_DCP_CATEGORY_KEY.PRESERVATION_METHOD,
           label: HCA_DCP_CATEGORY_LABEL.PRESERVATION_METHOD,
-        },
-        {
-          key: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
-          label: HCA_DCP_CATEGORY_LABEL.PROJECT_TITLE,
         },
         {
           key: HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE,

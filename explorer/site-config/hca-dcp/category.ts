@@ -45,7 +45,7 @@ export const HCA_DCP_CATEGORY_LABEL = {
   AZUL_FILE_DOWNLOAD: " ",
   BIOLOGICAL_SEX: "Biological Sex",
   CELL_COUNT: "Cell Count Estimate",
-  CONTACT_NAME: "Contact Name",
+  CONTACT_NAME: "Contributor Name",
   CONTENT_DESCRIPTION: "Content Description",
   DEVELOPMENT_STAGE: "Development Stage",
   DONOR_DISEASE: "Donor Disease",
