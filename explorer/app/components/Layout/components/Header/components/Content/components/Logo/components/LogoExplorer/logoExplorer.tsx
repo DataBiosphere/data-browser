@@ -35,7 +35,7 @@ export const LogoExplorer = ({
       <Divider flexItem orientation="vertical" />
       <ExplorerText>
         <Typography component="div" color="primary">
-          Explorer
+          Data Explorer
         </Typography>
       </ExplorerText>
     </ExplorerWithLogo>
