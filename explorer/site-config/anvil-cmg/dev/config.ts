@@ -118,7 +118,7 @@ export function makeConfig(
       activitiesEntityConfig,
       filesEntityConfig,
     ],
-    explorerTitle: APP_TITLE,
+    explorerTitle: null,
     export: exportConfig,
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
     layout: {
