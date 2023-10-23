@@ -149,7 +149,7 @@ const config: SiteConfig = {
     url: "https://service.azul.data.humancellatlas.org/",
   },
   entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
-  explorerTitle: "Explore Data",
+  explorerTitle: null,
   export: exportConfig,
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
