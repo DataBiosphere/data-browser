@@ -18,7 +18,7 @@ import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { summary } from "./index/summary";
 import { supportConfig } from "./support/support";
 
-const logoHca = "/images/logoHca.png";
+const hcaExplorer = "/images/hcaExplorer.png";
 const logoHumanCellAtlas = "/images/logoHumanCellAtlas.png";
 
 // Template constants
@@ -149,7 +149,7 @@ const config: SiteConfig = {
     url: "https://service.azul.data.humancellatlas.org/",
   },
   entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
-  explorerTitle: null,
+  explorerTitle: "Explore Data",
   export: exportConfig,
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
@@ -182,11 +182,11 @@ const config: SiteConfig = {
       ],
     },
     header: {
-      Logo: C.LogoExplorer({
+      Logo: C.Logo({
         alt: HCA_DATA_COORDINATION_PLATFORM,
         height: 32,
         link: BROWSER_URL,
-        src: logoHca,
+        src: hcaExplorer,
       }),
       authenticationEnabled: false,
       navAlignment: ELEMENT_ALIGNMENT.RIGHT,
