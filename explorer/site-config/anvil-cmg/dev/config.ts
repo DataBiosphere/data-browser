@@ -13,7 +13,6 @@ import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { summary } from "./index/summary";
 
-const logoAnvil = "/images/logoAnvil.png";
 const logoHhs = "/images/logoHhs.svg";
 const logoNhgri = "/images/logoNhgri.svg";
 const logoNih = "/images/logoNih.svg";
@@ -21,7 +20,6 @@ const logoUsagov = "/images/logoUsagov.png";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
-const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 
 export function makeConfig(
   browserUrl: string,
@@ -118,7 +116,7 @@ export function makeConfig(
       activitiesEntityConfig,
       filesEntityConfig,
     ],
-    explorerTitle: null,
+    explorerTitle: "Explore Data",
     export: exportConfig,
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
     layout: {
@@ -161,12 +159,7 @@ export function makeConfig(
         ],
       },
       header: {
-        Logo: C.LogoExplorer({
-          alt: SLOGAN,
-          height: 40,
-          link: `${browserUrl}/`,
-          src: logoAnvil,
-        }),
+        Logo: C.ANVILExplorer({ url: browserUrl }),
         authenticationEnabled: true,
         navAlignment: ELEMENT_ALIGNMENT.RIGHT,
         navLinks: [
