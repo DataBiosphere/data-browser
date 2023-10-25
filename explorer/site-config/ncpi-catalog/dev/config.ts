@@ -1,5 +1,7 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { HEADER_NAVIGATION_LABEL } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/common/constants";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import * as C from "../../../app/components/index";
 import anvilConfig from "../../anvil/dev/config";
 import {
   NCPI_CATALOG_CATEGORY_KEY,
@@ -12,6 +14,7 @@ import { studiesEntityConfig } from "./index/studiesEntityConfig";
 const logoNcpi = "/images/logoNcpi.svg";
 
 // Template constants
+const APP_TITLE = "NCPI Dataset Catalog";
 const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
 const SLOGAN = "NIH Cloud Platform Interoperability Effort";
 
@@ -25,6 +28,7 @@ const config: SiteConfig = {
     gtmId: "GTM-55VGZN8",
     gtmPreview: "env-3",
   },
+  appTitle: APP_TITLE,
   authentication: undefined,
   categoryGroupConfigs: [
     {
@@ -65,13 +69,13 @@ const config: SiteConfig = {
   layout: {
     footer: anvilConfig.layout.footer,
     header: {
-      authenticationEnabled: false,
-      logo: {
-        alt: SLOGAN,
+      Logo: C.Logo({
+        alt: APP_TITLE,
         height: 40,
         link: `${BROWSER_URL}/ncpi`,
         src: logoNcpi,
-      },
+      }),
+      authenticationEnabled: false,
       navAlignment: ELEMENT_ALIGNMENT.CENTER,
       navLinks: [
         {
@@ -91,7 +95,7 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/ncpi/data`,
         },
         {
-          label: "More",
+          label: HEADER_NAVIGATION_LABEL.MORE,
           menuItems: [
             {
               label: "Demonstration Projects",

@@ -1,7 +1,7 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import hcaConfig from "site-config/hca-dcp/dev/config";
+import * as C from "../../../app/components/index";
 import { filesEntityConfig as hcaFilesEntityConfig } from "../../hca-dcp/dev/index/filesEntityConfig";
 import { samplesEntityConfig as hcaSamplesEntityConfig } from "../../hca-dcp/dev/index/samplesEntityConfig";
 import { socials } from "./constants";
@@ -12,17 +12,13 @@ import { summary } from "./index/summary";
 const logoLungmap = "/images/logoLungmap.png";
 
 // Template constants
+const APP_TITLE = "LungMAP Data Explorer";
 const BROWSER_URL = "https://data-browser.dev.lungmap.net";
 const CATALOG_LM2 = "lm2";
 const PROJECTS_URL = "/projects";
-const LOGO: LogoProps = {
-  alt: "LungMAP Data Browser",
-  height: 32,
-  link: PROJECTS_URL,
-  src: logoLungmap,
-};
 
 const config: SiteConfig = {
+  appTitle: APP_TITLE,
   browserURL: BROWSER_URL,
   categoryGroupConfigs: hcaConfig.categoryGroupConfigs,
   dataSource: {
@@ -45,7 +41,14 @@ const config: SiteConfig = {
   exportToTerraUrl: hcaConfig.exportToTerraUrl,
   layout: {
     footer: {
-      logos: [LOGO],
+      logos: [
+        {
+          alt: APP_TITLE,
+          height: 32,
+          link: PROJECTS_URL,
+          src: logoLungmap,
+        },
+      ],
       navLinks: [
         {
           label: "Privacy",
@@ -55,8 +58,13 @@ const config: SiteConfig = {
       socials,
     },
     header: {
+      Logo: C.Logo({
+        alt: APP_TITLE,
+        height: 32,
+        link: PROJECTS_URL,
+        src: logoLungmap,
+      }),
       authenticationEnabled: false,
-      logo: LOGO,
       navAlignment: ELEMENT_ALIGNMENT.LEFT,
       navLinks: [
         {

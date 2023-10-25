@@ -1,3 +1,4 @@
+import { HEADER_NAVIGATION_LABEL } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/common/constants";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import anvilCatalogDevConfig from "../dev/config";
 
@@ -48,7 +49,7 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/events`,
         },
         {
-          label: "More",
+          label: HEADER_NAVIGATION_LABEL.MORE,
           menuItems: [
             {
               label: "Team",

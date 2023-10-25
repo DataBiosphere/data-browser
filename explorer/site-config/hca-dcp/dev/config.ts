@@ -1,5 +1,4 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { LogoProps } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Logo/logo";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { tabletUp } from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
 import {
@@ -9,28 +8,27 @@ import {
   TEXT_HEADING_SMALL,
   TEXT_HEADING_XLARGE,
 } from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
+import * as C from "../../../app/components/index";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
-import { socials } from "./constants";
+import { contentThemeOptions } from "./content/contentThemeOptions";
 import { exportConfig } from "./export/export";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { summary } from "./index/summary";
+import { supportConfig } from "./support/support";
 
-const logoHca = "/images/logoHca.png";
+const hcaExplorer = "/images/hcaExplorer.png";
 const logoHumanCellAtlas = "/images/logoHumanCellAtlas.png";
 
 // Template constants
+const APP_TITLE = "HCA Data Explorer";
 const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
+const HCA_DATA_COORDINATION_PLATFORM =
+  "Human Cell Atlas Data Coordination Platform";
 const PAGINATION_PAGE_SIZE = "25";
 export const PROJECTS_URL = "/projects";
-const LOGO: LogoProps = {
-  alt: "Human Cell Atlas Data Coordination Platform",
-  height: 32,
-  link: BROWSER_URL,
-  src: logoHca,
-};
 
 const config: SiteConfig = {
   analytics: {
@@ -38,8 +36,25 @@ const config: SiteConfig = {
     gtmId: "GTM-M2J5NTJ",
     gtmPreview: "env-186",
   },
+  appTitle: APP_TITLE,
   browserURL: BROWSER_URL,
   categoryGroupConfigs: [
+    {
+      categoryConfigs: [
+        {
+          key: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
+          label: HCA_DCP_CATEGORY_LABEL.PROJECT_TITLE,
+        },
+        {
+          key: HCA_DCP_CATEGORY_KEY.CONTACT_NAME,
+          label: HCA_DCP_CATEGORY_LABEL.CONTACT_NAME,
+        },
+        {
+          key: HCA_DCP_CATEGORY_KEY.INSTITUTION,
+          label: HCA_DCP_CATEGORY_LABEL.INSTITUTION,
+        },
+      ],
+    },
     {
       categoryConfigs: [
         {
@@ -107,10 +122,6 @@ const config: SiteConfig = {
           label: HCA_DCP_CATEGORY_LABEL.PRESERVATION_METHOD,
         },
         {
-          key: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
-          label: HCA_DCP_CATEGORY_LABEL.PROJECT_TITLE,
-        },
-        {
           key: HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE,
           label: HCA_DCP_CATEGORY_LABEL.SAMPLE_ENTITY_TYPE,
         },
@@ -125,6 +136,8 @@ const config: SiteConfig = {
       ],
     },
   ],
+  contentDir: "hca-dcp",
+  contentThemeOptionsFn: contentThemeOptions,
   dataSource: {
     defaultDetailParams: {
       catalog: "dcp31",
@@ -141,8 +154,14 @@ const config: SiteConfig = {
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
     footer: {
-      feedbackForm: false, // TODO feedback form
-      logos: [{ ...LOGO, height: 38, src: logoHumanCellAtlas }],
+      logos: [
+        {
+          alt: HCA_DATA_COORDINATION_PLATFORM,
+          height: 38,
+          link: BROWSER_URL,
+          src: logoHumanCellAtlas,
+        },
+      ],
       navLinks: [
         {
           label: "About",
@@ -161,51 +180,37 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/contact`,
         },
       ],
-      socials,
     },
     header: {
+      Logo: C.Logo({
+        alt: HCA_DATA_COORDINATION_PLATFORM,
+        height: 32,
+        link: BROWSER_URL,
+        src: hcaExplorer,
+      }),
       authenticationEnabled: false,
-      logo: LOGO,
-      navAlignment: ELEMENT_ALIGNMENT.LEFT,
+      navAlignment: ELEMENT_ALIGNMENT.RIGHT,
       navLinks: [
         {
-          label: "Explore",
-          url: PROJECTS_URL,
-        },
-        {
-          label: "Guides",
-          url: `${BROWSER_URL}/guides`,
-        },
-        {
-          label: "Metadata",
-          url: `${BROWSER_URL}/metadata`,
-        },
-        {
-          label: "Pipelines",
-          url: `${BROWSER_URL}/pipelines`,
-        },
-        {
-          label: "Analysis Tools",
-          url: `${BROWSER_URL}/analyze`,
-        },
-        {
-          label: "Contribute",
-          url: `${BROWSER_URL}/contribute`,
-        },
-        {
-          label: "APIs",
-          url: `${BROWSER_URL}/apis`,
-        },
-        {
-          label: "Updates",
-          url: `${BROWSER_URL}/dcp-updates`,
+          flatten: true,
+          label: "Help & Documentation",
+          menuItems: [
+            {
+              label: "Guides",
+              url: "/guides",
+            },
+            {
+              label: "Terms of service",
+              url: "/terms-of-service",
+            },
+          ],
+          url: "",
         },
       ],
       searchEnabled: true,
       searchURL: `${BROWSER_URL}/search`,
-      slogan: undefined,
-      socials,
     },
+    support: supportConfig,
   },
   redirectRootToPath: PROJECTS_URL,
   summaryConfig: {
