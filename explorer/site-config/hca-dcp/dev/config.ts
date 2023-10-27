@@ -23,7 +23,7 @@ const logoHumanCellAtlas = "/images/logoHumanCellAtlas.png";
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
-const BROWSER_URL = "https://dev.singlecell.gi.ucsc.edu";
+const BROWSER_URL = "https://data.humancellatlas.dev.clevercanary.com";
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
 const HCA_DATA_COORDINATION_PLATFORM =
   "Human Cell Atlas Data Coordination Platform";
