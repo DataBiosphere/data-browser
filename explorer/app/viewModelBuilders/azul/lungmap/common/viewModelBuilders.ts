@@ -83,5 +83,8 @@ function getGeneratedMatricesFileNameColumnDef<T>(): ColumnDef<T> {
     cell: ({ getValue }) =>
       C.FileNameCell({ fileName: getValue() as unknown as string }),
     header: HCA_DCP_CATEGORY_LABEL.FILE_NAME,
+    meta: {
+      columnPinned: true,
+    },
   };
 }

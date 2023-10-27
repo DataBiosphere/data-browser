@@ -43,6 +43,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     columns: [
       // downloadColumn,
       {
+        columnPinned: true,
         componentConfig: {
           component: C.Cell,
           viewBuilder: V.buildFileName,

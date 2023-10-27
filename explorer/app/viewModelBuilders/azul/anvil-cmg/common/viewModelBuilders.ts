@@ -278,7 +278,7 @@ export const buildDatasetIds = (
  * @returns model to be used as props for Alert component.
  */
 export const buildDatasetListViewListHeroWarning = (): React.ComponentProps<
-  typeof C.Alert
+  typeof C.FluidAlert
 > => {
   return {
     severity: "warning",
@@ -688,7 +688,7 @@ export const buildLibraryId = (
 export const buildListWarning = (
   _: DatasetsResponse,
   viewContext: ViewContext
-): React.ComponentProps<typeof C.Alert> => {
+): React.ComponentProps<typeof C.FluidAlert> => {
   const {
     entityConfig: { label },
   } = viewContext;
