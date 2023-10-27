@@ -1,4 +1,4 @@
-import { Cell, CopyToClipboard } from "./copyCell.styles";
+import { Cell, CellText, CopyToClipboard } from "./copyCell.styles";
 
 interface CopyCellProps {
   value: string;
@@ -6,9 +6,9 @@ interface CopyCellProps {
 
 export const CopyCell = ({ value }: CopyCellProps): JSX.Element => {
   return (
-    <>
-      <Cell>{value}</Cell>
+    <Cell>
+      <CellText>{value}</CellText>
       <CopyToClipboard copyStr={value} />
-    </>
+    </Cell>
   );
 };

@@ -40,6 +40,7 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
         width: { max: "1fr", min: "120px" },
       },
       {
+        columnPinned: true,
         componentConfig: {
           component: Components.Link,
           viewBuilder: ViewBuilder.buildTerraWorkspaceName,

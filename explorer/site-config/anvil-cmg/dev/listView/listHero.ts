@@ -7,7 +7,7 @@ import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/view
 
 export const listHero: ComponentsConfig = [
   {
-    component: C.Alert,
+    component: C.FluidAlert,
     viewBuilder: V.buildListWarning,
-  } as ComponentConfig<typeof C.Alert>,
+  } as ComponentConfig<typeof C.FluidAlert>,
 ];

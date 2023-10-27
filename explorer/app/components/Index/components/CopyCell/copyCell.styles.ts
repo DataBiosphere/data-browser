@@ -1,7 +1,11 @@
 import { CopyToClipboard as DXCopyToClipboard } from "@clevercanary/data-explorer-ui/lib/components/common/CopyToClipboard/copyToClipboard";
 import styled from "@emotion/styled";
 
-export const Cell = styled("span")`
+export const Cell = styled.div`
+  display: flex;
+`;
+
+export const CellText = styled("span")`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
