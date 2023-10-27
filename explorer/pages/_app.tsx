@@ -19,6 +19,7 @@ import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { config } from "app/config/config";
 import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import TagManager from "react-gtm-module";
 
@@ -27,6 +28,7 @@ const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   // Set up the site configuration, layout and theme.
   const appConfig = config();
+  const { asPath } = useRouter();
   const { analytics, layout, redirectRootToPath, themeOptions } = appConfig;
   const { gtmAuth, gtmId, gtmPreview } = analytics || {};
   const theme = createAppTheme(themeOptions);
@@ -52,6 +54,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                 <FileManifestStateProvider>
                   <Main>
                     <ErrorBoundary
+                      key={asPath}
                       fallbackRender={(
                         error: DataExplorerError
                       ): JSX.Element => (
