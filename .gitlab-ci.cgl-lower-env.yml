@@ -61,7 +61,7 @@ build_cgl-dev:
     - npm run build-cgl-dev
     - cd ..
     - cd scripts
-    - npm run update-sitemap -- catalog=dcp31
+    - npm run update-sitemap -- catalog=dcp32
   only:
     - main
 build_cgl-ux-dev:

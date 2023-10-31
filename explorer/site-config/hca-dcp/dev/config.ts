@@ -140,10 +140,10 @@ const config: SiteConfig = {
   contentThemeOptionsFn: contentThemeOptions,
   dataSource: {
     defaultDetailParams: {
-      catalog: "dcp31",
+      catalog: "dcp32",
     },
     defaultListParams: {
-      catalog: "dcp31",
+      catalog: "dcp32",
       size: PAGINATION_PAGE_SIZE,
     },
     url: "https://service.azul.data.humancellatlas.org/",
