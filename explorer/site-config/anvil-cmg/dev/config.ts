@@ -179,7 +179,7 @@ export function makeConfig(
             url: "",
           },
         ],
-        searchEnabled: true,
+        searchEnabled: false,
         searchURL: `${browserUrl}/search`,
       },
     },

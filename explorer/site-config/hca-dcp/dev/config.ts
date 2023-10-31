@@ -207,7 +207,7 @@ const config: SiteConfig = {
           url: "",
         },
       ],
-      searchEnabled: true,
+      searchEnabled: false,
       searchURL: `${BROWSER_URL}/search`,
     },
     support: supportConfig,
