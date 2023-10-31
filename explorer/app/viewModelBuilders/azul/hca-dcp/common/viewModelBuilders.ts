@@ -1431,6 +1431,9 @@ export function getGeneratedMatricesFileNameColumnDef<T>(): ColumnDef<T> {
         fileName: getValue() as unknown as string,
       }),
     header: HCA_DCP_CATEGORY_LABEL.FILE_NAME,
+    meta: {
+      columnPinned: true,
+    },
   };
 }
 

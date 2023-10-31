@@ -50,6 +50,7 @@ export const studiesEntityConfig: EntityConfig<NCPICatalogStudy> = {
         width: { max: "1fr", min: "100px" },
       },
       {
+        columnPinned: true,
         componentConfig: {
           component: Components.Link,
           viewBuilder: ViewBuilder.buildStudyTitle,
