@@ -185,7 +185,7 @@ const config: SiteConfig = {
       Logo: C.Logo({
         alt: HCA_DATA_COORDINATION_PLATFORM,
         height: 32.5,
-        link: BROWSER_URL,
+        link: "/projects",
         src: hcaExplorer,
       }),
       authenticationEnabled: false,
