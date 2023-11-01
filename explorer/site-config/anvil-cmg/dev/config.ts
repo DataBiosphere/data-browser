@@ -159,7 +159,7 @@ export function makeConfig(
         ],
       },
       header: {
-        Logo: C.ANVILExplorer({ url: browserUrl }),
+        Logo: C.ANVILExplorer({ url: "/datasets" }),
         authenticationEnabled: true,
         navAlignment: ELEMENT_ALIGNMENT.RIGHT,
         navLinks: [
