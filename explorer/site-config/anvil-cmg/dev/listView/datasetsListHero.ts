@@ -10,9 +10,9 @@ export const listHero: ComponentsConfig = [
   {
     children: [
       {
-        component: C.Alert,
+        component: C.FluidAlert,
         viewBuilder: V.buildDatasetListViewListHeroWarning,
-      } as ComponentConfig<typeof C.Alert>,
+      } as ComponentConfig<typeof C.FluidAlert>,
     ],
     component: C.ConditionalComponent,
     viewBuilder: V.renderWhenUnAuthorized,

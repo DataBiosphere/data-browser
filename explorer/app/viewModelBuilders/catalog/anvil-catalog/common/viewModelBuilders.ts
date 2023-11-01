@@ -94,6 +94,7 @@ export const buildConsortiumDetailViewStudiesTable = (
 ): React.ComponentProps<typeof C.DetailViewTable> => {
   const { studies } = anVILCatalogConsortium;
   return {
+    Paper: C.FluidPaper,
     columns: buildConsortiumStudiesTableColumns(),
     gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr 1fr auto",
     items: studies,
@@ -111,6 +112,7 @@ export const buildConsortiumDetailViewWorkspacesTable = (
 ): React.ComponentProps<typeof C.DetailViewTable> => {
   const { workspaces } = anVILCatalogConsortium;
   return {
+    Paper: C.FluidPaper,
     columns: buildConsortiumWorkspacesTableColumns(),
     gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr auto",
     items: workspaces,
@@ -309,6 +311,7 @@ export const buildStudyDetailViewWorkspacesTable = (
 ): React.ComponentProps<typeof C.DetailViewTable> => {
   const { workspaces } = anVILCatalogStudy;
   return {
+    Paper: C.FluidPaper,
     columns: buildStudyWorkspacesTableColumns(),
     gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr auto",
     items: workspaces,
@@ -606,6 +609,7 @@ function buildWorkspaceNameTableColumn<T>(): ColumnDef<T> {
         buildTerraWorkspaceName(original as unknown as AnVILCatalogWorkspace) // TODO revisit type assertion here
       ),
     header: "Terra Workspace",
+    meta: { columnPinned: true },
   };
 }
 

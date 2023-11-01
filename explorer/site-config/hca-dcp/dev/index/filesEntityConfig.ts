@@ -35,6 +35,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         width: { max: "auto", min: "76px" },
       },
       {
+        columnPinned: true,
         componentConfig: {
           component: C.Cell,
           viewBuilder: V.buildFileName,
