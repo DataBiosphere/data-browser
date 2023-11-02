@@ -20,9 +20,10 @@ import { supportConfig } from "./support/support";
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
-const BROWSER_URL = "https://data.humancellatlas.dev.clevercanary.com";
 const ORG_URL = "https://www.humancellatlas.org";
 const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
+const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
+
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
 const PAGINATION_PAGE_SIZE = "25";
 export const PROJECTS_URL = "/projects";

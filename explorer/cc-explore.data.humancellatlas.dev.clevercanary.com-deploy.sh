@@ -16,10 +16,10 @@ mkdir -p build/explore
 # Build AnVIL
 rm -rf ./out
 npm run build-dev:hca-dcp
-mv out/explore/* build/explore
+mv out/* build
 
-export BUCKET=s3://wb8-explorer/
+export BUCKET=s3://tha-explore.data.humancellatlas.dev/
 export SRCDIR=build/
 
 aws s3 sync  $SRCDIR $BUCKET --delete --profile excira
-aws cloudfront create-invalidation --distribution-id E2SLGSHX4H0LO7 --paths "/*" --profile excira
+aws cloudfront create-invalidation --distribution-id E3Q3S6QTTZHFMI --paths "/*" --profile excira

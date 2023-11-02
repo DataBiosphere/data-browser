@@ -4,9 +4,11 @@ import * as C from "../../../app/components";
 import devConfig from "../dev/config";
 
 // Template constants
-const BROWSER_URL = "https://data.humancellatlas.org";
+
 const ORG_URL = "https://www.humancellatlas.org";
+
 const PORTAL_URL = "https://data.humancellatlas.org";
+const BROWSER_URL = "https://explore.data.humancellatlas.org";
 
 const config: SiteConfig = {
   ...devConfig,
