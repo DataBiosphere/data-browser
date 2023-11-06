@@ -2,10 +2,11 @@ import { textBody400 } from "@clevercanary/data-explorer-ui/lib/styles/common/mi
 import styled from "@emotion/styled";
 
 export const Figure = styled.figure`
-  margin: 16px 0;
+  margin: 32px 0;
 
   img {
     margin: 0 auto;
+    max-width: 100%;
   }
 
   figcaption {
