@@ -1,4 +1,5 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { tabletUp } from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
 import {
@@ -158,8 +159,9 @@ const config: SiteConfig = {
         {
           alt: HCA_DATA_COORDINATION_PLATFORM,
           height: 38,
-          link: BROWSER_URL,
+          link: "https://www.humancellatlas.org",
           src: logoHumanCellAtlas,
+          target: ANCHOR_TARGET.BLANK,
         },
       ],
       navLinks: [
