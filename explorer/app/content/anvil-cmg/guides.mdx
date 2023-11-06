@@ -1,3 +1,14 @@
+---
+layoutStyle: "DEFAULT"
+---
+
+<Breadcrumbs
+  breadcrumbs={[
+    { path: "/", text: "AnVIL Data Explorer" },
+    { path: "", text: "Guides" },
+  ]}
+/>
+
 # Introducing The AnVIL Data Explorer (Alpha Release)
 
 We are excited to introduce users of the [AnVIL Portal](https://anvilproject.org/) to the [AnVIL Data Explorer](https://prod.anvil.gi.ucsc.edu/explore/datasets) — the AnVIL Data Explorer’s faceted search feature that allows you to create cohorts across datasets based on your sample-level needs.
@@ -139,13 +150,13 @@ Once you’ve completed this step, your workspace will spin up and you can go to
 
 The data you now see in your workspace is incomplete - to retrieve the complete data, you’ll need to run a Jupyter Notebook created for this purpose called \*get_non_findability_subset_data_v7.ipynb\*. We’ve published this notebook in a [public workspace](https://app.terra.bio/#workspaces/anvil-datastorage/AnVIL_Explorer_FSS_Tool) for your convenience. To complete the import process, all you need to do is copy the notebook from the public workspace into the workspace to which you’ve imported your data, and run the notebook from within that workspace.
 
-###### Copy the Notebook
+##### Copy the Notebook
 
 Go to the public workspace containing the AnVIL FSS tool notebook, navigate to the Analyses section, and use the three-dot menu to the right of the notebook name to find the option to copy the notebook to another workspace:
 
 <Figure alt="Copy the Notebook" src="/guides/copy-notebook.png" />
 
-###### Run the Notebook
+##### Run the Notebook
 
 Once the notebook is in the same workspace as the data, set up a Clou open the notebook in edit mode (the default environment is sufficient), and select “Run All” from the Cell menu:
 
