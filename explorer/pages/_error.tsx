@@ -1,4 +1,5 @@
-import { TempError as CustomError } from "@clevercanary/data-explorer-ui/lib/components/TempError";
+import { Error as ErrorComponent } from "@clevercanary/data-explorer-ui/lib/components/Error/error";
+import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
 import { NextPage, NextPageContext } from "next";
 
 interface ErrorProps {
@@ -6,7 +7,13 @@ interface ErrorProps {
 }
 
 const Error: NextPage<ErrorProps> = ({ error }: ErrorProps) => {
-  return error ? <CustomError error={error} /> : <></>;
+  const { config } = useConfig();
+
+  return error ? (
+    <ErrorComponent rootPath={config.redirectRootToPath} />
+  ) : (
+    <></>
+  );
 };
 
 Error.getInitialProps = ({ err }: NextPageContext): ErrorProps => {
