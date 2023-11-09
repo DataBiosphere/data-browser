@@ -52,8 +52,8 @@ export const DATA_SUMMARY_DISPLAY_TEXT = {
  * Data Portal pipeline path keyed by analysis protocol key.
  */
 export const pipelineLinksByAnalysisProtocolKey: Record<string, string> = {
-  optimus: "/pipelines/optimus-workflow",
-  smartseq2: "/pipelines/smart-seq2-workflow",
+  optimus:
+    "https://broadinstitute.github.io/warp/docs/Pipelines/Optimus_Pipeline/README/",
 };
 
 /**
@@ -62,7 +62,3 @@ export const pipelineLinksByAnalysisProtocolKey: Record<string, string> = {
 export enum SAMPLE_ENTITY_TYPE {
   SPECIMENS = "specimens",
 }
-
-export const SMART_SEQ2 = "Smart-seq2";
-
-export const SMART_SEQ2_WORKFLOW_PATH = "/pipelines/smart-seq2-workflow";
