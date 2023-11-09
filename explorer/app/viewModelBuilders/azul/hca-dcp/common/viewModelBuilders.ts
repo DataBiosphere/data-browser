@@ -1070,6 +1070,7 @@ function getAnalysisPortalKey(analysisPortal: AnalysisPortal): ReactElement {
   return C.StaticImage({
     alt: label,
     src: icon,
+    width: 20,
   });
 }
 
