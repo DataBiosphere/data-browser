@@ -1,5 +1,4 @@
 import {
-  SectionActions as DXSectionActions,
   sectionMargin,
   sectionMarginSm,
 } from "@clevercanary/data-explorer-ui/lib/components/common/Section/section.styles";
@@ -39,8 +38,4 @@ export const Section = styled("div")`
   > *:last-child {
     margin-bottom: 0;
   }
-`;
-
-export const SectionActions = styled(DXSectionActions)`
-  margin: 16px 0;
 `;

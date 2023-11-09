@@ -1,8 +1,5 @@
 export { RenderComponent } from "@clevercanary/data-explorer-ui/lib/components/ComponentCreator/components/RenderComponent/renderComponent";
-export {
-  Section,
-  SectionActions,
-} from "../../MDXMarkdown/components/Section/mdxSection.styles";
+export { Section } from "../../MDXMarkdown/components/Section/mdxSection.styles";
 export { default as ExportToTerra } from "../common/exportToTerraStart.mdx";
 export { default as ExportToTerraSuccess } from "../common/exportToTerraSuccess.mdx";
 export { default as BatchCorrectionWarning } from "./batchCorrectionWarning.mdx";
@@ -15,4 +12,3 @@ export { default as ExportToTerraStart } from "./exportToTerraStart.mdx";
 export { default as ExportToTerraSuccessWithWarning } from "./exportToTerraSuccessWithWarning.mdx";
 export { default as ManifestDownloadStart } from "./manifestDownloadStart.mdx";
 export { default as ManifestDownloadSuccess } from "./manifestDownloadSuccess.mdx";
-export { default as MatrixQuestionnaire } from "./matrixQuestionnaire.mdx";
