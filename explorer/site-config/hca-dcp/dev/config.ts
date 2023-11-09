@@ -11,7 +11,6 @@ import {
 } from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
 import * as C from "../../../app/components/index";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
-import { contentThemeOptions } from "./content/contentThemeOptions";
 import { exportConfig } from "./export/export";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
@@ -25,9 +24,8 @@ const logoHumanCellAtlas = "/images/logoHumanCellAtlas.png";
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
 const BROWSER_URL = "https://data.humancellatlas.dev.clevercanary.com";
+const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
-const HCA_DATA_COORDINATION_PLATFORM =
-  "Human Cell Atlas Data Coordination Platform";
 const PAGINATION_PAGE_SIZE = "25";
 export const PROJECTS_URL = "/projects";
 
@@ -137,8 +135,6 @@ const config: SiteConfig = {
       ],
     },
   ],
-  contentDir: "hca-dcp",
-  contentThemeOptionsFn: contentThemeOptions,
   dataSource: {
     defaultDetailParams: {
       catalog: "dcp32",
@@ -157,7 +153,7 @@ const config: SiteConfig = {
     footer: {
       logos: [
         {
-          alt: HCA_DATA_COORDINATION_PLATFORM,
+          alt: APP_TITLE,
           height: 38,
           link: "https://www.humancellatlas.org",
           src: logoHumanCellAtlas,
@@ -185,7 +181,7 @@ const config: SiteConfig = {
     },
     header: {
       Logo: C.Logo({
-        alt: HCA_DATA_COORDINATION_PLATFORM,
+        alt: APP_TITLE,
         height: 32.5,
         link: "/projects",
         src: hcaExplorer,
@@ -198,12 +194,14 @@ const config: SiteConfig = {
           label: "Help & Documentation",
           menuItems: [
             {
-              label: "Guides",
-              url: "/guides",
+              label: C.LabelIconMenuItem({ label: "Guides" }),
+              target: ANCHOR_TARGET.BLANK,
+              url: `${PORTAL_URL}/guides`,
             },
             {
-              label: "Terms of service",
-              url: "/terms-of-service",
+              label: C.LabelIconMenuItem({ label: "Privacy" }),
+              target: ANCHOR_TARGET.BLANK,
+              url: `${PORTAL_URL}/privacy`,
             },
           ],
           url: "",

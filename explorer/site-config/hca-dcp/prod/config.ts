@@ -1,13 +1,41 @@
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import * as C from "../../../app/components";
 import devConfig from "../dev/config";
 
 // Template constants
 const BROWSER_URL = "https://data.humancellatlas.org";
+const PORTAL_URL = "https://data.humancellatlas.prod.clevercanary.com";
 
 const config: SiteConfig = {
   ...devConfig,
   browserURL: BROWSER_URL,
   exportToTerraUrl: "https://app.terra.bio",
+  layout: {
+    ...devConfig.layout,
+    header: {
+      ...devConfig.layout.header,
+      navLinks: [
+        {
+          flatten: true,
+          label: "Help & Documentation",
+          menuItems: [
+            {
+              label: C.LabelIconMenuItem({ label: "Guides" }),
+              target: ANCHOR_TARGET.BLANK,
+              url: `${PORTAL_URL}/guides`,
+            },
+            {
+              label: C.LabelIconMenuItem({ label: "Privacy" }),
+              target: ANCHOR_TARGET.BLANK,
+              url: `${PORTAL_URL}/privacy`,
+            },
+          ],
+          url: "",
+        },
+      ],
+    },
+  },
 };
 
 // Update gtmAuth for the prod environment lookup.
