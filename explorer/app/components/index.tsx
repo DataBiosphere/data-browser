@@ -81,4 +81,5 @@ export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCod
 export { CopyCell } from "./Index/components/CopyCell/copyCell";
 export { ANVILExplorer } from "./Layout/components/Header/components/Content/components/Logo/components/LogoExplorer/components/ANVILExplorer/ANVILExplorer";
 export { LogoExplorer } from "./Layout/components/Header/components/Content/components/Logo/components/LogoExplorer/logoExplorer";
+export { LabelIconMenuItem } from "./Layout/components/Header/components/Content/components/Navigation/components/NavigationMenuItems/components/LabelIconMenuItem/labelIconMenuItem";
 export { Social } from "./Layout/components/Header/components/Content/components/Navigation/components/NavigationMenuItems/components/Social/social";
