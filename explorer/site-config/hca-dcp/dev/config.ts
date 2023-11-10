@@ -18,12 +18,10 @@ import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { summary } from "./index/summary";
 import { supportConfig } from "./support/support";
 
-const hcaExplorer = "/images/hcaExplorer.png";
-const logoHumanCellAtlas = "/images/logoHumanCellAtlas.png";
-
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
 const BROWSER_URL = "https://data.humancellatlas.dev.clevercanary.com";
+const ORG_URL = "https://www.humancellatlas.org";
 const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
 const PAGINATION_PAGE_SIZE = "25";
@@ -136,12 +134,11 @@ const config: SiteConfig = {
     },
   ],
   dataSource: {
-    defaultDetailParams: {
-      catalog: "dcp32",
-    },
     defaultListParams: {
-      catalog: "dcp32",
       size: PAGINATION_PAGE_SIZE,
+    },
+    defaultParams: {
+      catalog: "dcp32",
     },
     url: "https://service.azul.data.humancellatlas.org/",
   },
@@ -151,15 +148,10 @@ const config: SiteConfig = {
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
     footer: {
-      logos: [
-        {
-          alt: APP_TITLE,
-          height: 38,
-          link: "https://www.humancellatlas.org",
-          src: logoHumanCellAtlas,
-          target: ANCHOR_TARGET.BLANK,
-        },
-      ],
+      Branding: C.HCABranding({
+        orgURL: ORG_URL,
+        portalURL: PORTAL_URL,
+      }),
       navLinks: [
         {
           label: "About",
@@ -184,7 +176,7 @@ const config: SiteConfig = {
         alt: APP_TITLE,
         height: 32.5,
         link: "/projects",
-        src: hcaExplorer,
+        src: "/images/hcaExplorer.png",
       }),
       authenticationEnabled: false,
       navAlignment: ELEMENT_ALIGNMENT.RIGHT,

@@ -22,10 +22,7 @@ const config: SiteConfig = {
   browserURL: BROWSER_URL,
   categoryGroupConfigs: hcaConfig.categoryGroupConfigs,
   dataSource: {
-    defaultDetailParams: {
-      catalog: CATALOG_LM2,
-    },
-    defaultListParams: {
+    defaultParams: {
       catalog: CATALOG_LM2,
     },
     // url: "https://service.dev.singlecell.gi.ucsc.edu/",
@@ -41,14 +38,12 @@ const config: SiteConfig = {
   exportToTerraUrl: hcaConfig.exportToTerraUrl,
   layout: {
     footer: {
-      logos: [
-        {
-          alt: APP_TITLE,
-          height: 32,
-          link: PROJECTS_URL,
-          src: logoLungmap,
-        },
-      ],
+      Branding: C.Logo({
+        alt: APP_TITLE,
+        height: 32,
+        link: PROJECTS_URL,
+        src: logoLungmap,
+      }),
       navLinks: [
         {
           label: "Privacy",

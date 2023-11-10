@@ -5,6 +5,7 @@ import devConfig from "../dev/config";
 
 // Template constants
 const BROWSER_URL = "https://data.humancellatlas.org";
+const ORG_URL = "https://www.humancellatlas.org";
 const PORTAL_URL = "https://data.humancellatlas.prod.clevercanary.com";
 
 const config: SiteConfig = {
@@ -13,6 +14,13 @@ const config: SiteConfig = {
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
     ...devConfig.layout,
+    footer: {
+      ...devConfig.layout.footer,
+      Branding: C.HCABranding({
+        orgURL: ORG_URL,
+        portalURL: PORTAL_URL,
+      }),
+    },
     header: {
       ...devConfig.layout.header,
       navLinks: [

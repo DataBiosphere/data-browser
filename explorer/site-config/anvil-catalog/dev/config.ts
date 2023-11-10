@@ -12,12 +12,6 @@ import { consortiaEntityConfig } from "./index/consortiaEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
 
-const logoAnvil = "/images/logoAnvil.png";
-const logoHhs = "/images/logoHhs.svg";
-const logoNhgri = "/images/logoNhgri.svg";
-const logoNih = "/images/logoNih.svg";
-const logoUsagov = "/images/logoUsagov.png";
-
 // Template constants
 const APP_TITLE = "AnVIL Dataset Catalog";
 const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
@@ -78,32 +72,7 @@ const config: SiteConfig = {
   explorerTitle: APP_TITLE,
   layout: {
     footer: {
-      logos: [
-        {
-          alt: "nhgri",
-          height: 24,
-          link: "https://www.genome.gov/",
-          src: logoNhgri,
-        },
-        {
-          alt: "nih",
-          height: 24,
-          link: "https://www.nih.gov/",
-          src: logoNih,
-        },
-        {
-          alt: "hhs",
-          height: 32,
-          link: "https://www.hhs.gov/",
-          src: logoHhs,
-        },
-        {
-          alt: "hhs",
-          height: 32,
-          link: "https://www.usa.gov/",
-          src: logoUsagov,
-        },
-      ],
+      Branding: C.ANVILBranding({ portalURL: undefined }),
       navLinks: [
         {
           label: "Help",
@@ -121,7 +90,7 @@ const config: SiteConfig = {
         alt: SLOGAN,
         height: 40,
         link: BROWSER_URL,
-        src: logoAnvil,
+        src: "/images/logoAnvil.png",
       }),
       authenticationEnabled: false,
       navAlignment: ELEMENT_ALIGNMENT.CENTER,
