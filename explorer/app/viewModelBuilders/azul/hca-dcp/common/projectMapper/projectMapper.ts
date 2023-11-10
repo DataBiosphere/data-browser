@@ -72,9 +72,7 @@ export function mapProjectContacts(
     return;
   }
   const contacts: Contact[] = projectResponse.contributors
-    .filter(
-      (contributorResponse) => contributorResponse.correspondingContributor
-    )
+    .filter(({ correspondingContributor }) => correspondingContributor)
     .map(({ contactName, email, institution }) => {
       return {
         email: email ? email : undefined,
@@ -99,11 +97,15 @@ export function mapProjectContributors(
   if (!projectResponse) {
     return;
   }
-  const contributors = mapContributors(projectResponse.contributors);
-  // Filter for project contributors (contributors without the "data curator" role).
-  const projectContributors = filterContributorsWithProjectContributors(
-    projectResponse.contributors
+  // If there are contributors listed in the updated project (loaded from the project edits JSON), use it to
+  // update the project's contributors. Otherwise, use the contributor data return from server.
+  const contributors = mapContributors(
+    projectResponse.contributors,
+    projectResponse.projectId
   );
+  // Filter for project contributors (contributors without the "data curator" role).
+  const projectContributors =
+    filterContributorsWithProjectContributors(contributors);
   if (projectContributors.length === 0) {
     return; // Caller is expecting undefined, not an empty array.
   }
@@ -280,15 +282,43 @@ function isValidUrl(testUrl: string): boolean {
   }
 }
 
+/**
+ * Determine the set of contributors for the project being mapped. If there are project edits for this project, we
+ * must overwrite contributor data as specified in the project edits. For contributor edits, we only overwrite the
+ * values of the contributors that are specified in the project edits JSON (and not the entire contributor list).
+ * @param contributorsResponse - Project contributor response model return from API.
+ * @param projectId - Project id.
+ * @returns project contributors from project edits or from project contributors from API.
+ */
 function mapContributors(
   contributorsResponse: ContributorResponse[],
   projectId: string
-) {
+): ContributorResponse[] {
   const updatedProject = getProjectEdit(projectId);
-  console.log(updatedProject);
-  if (updatedProject && updatedProject.contributors) {
-    return updatedProject.contributors;
+  if (
+    updatedProject &&
+    updatedProject.contributors &&
+    updatedProject.contributors.length > 0
+  ) {
+    // Updates have been specified for this project's contributors list; update according to the project edits.
+    const updatedContributorsByName = updatedProject.contributors.reduce(
+      (accum, contributor) => {
+        if (contributor.contactName) {
+          accum.set(contributor.contactName, contributor);
+        }
+        return accum;
+      },
+      new Map<string, Partial<ContributorResponse>>()
+    );
+    // Return the contributors with the updated project contributors.
+    return contributorsResponse.reduce((accum, contributor) => {
+      const updatedContributor =
+        updatedContributorsByName.get(contributor.contactName) || {};
+      accum.push(Object.assign({}, contributor, updatedContributor));
+      return accum;
+    }, [] as ContributorResponse[]);
   }
+  return contributorsResponse;
 }
 
 /**
