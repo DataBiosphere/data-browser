@@ -99,6 +99,7 @@ export function mapProjectContributors(
   if (!projectResponse) {
     return;
   }
+  const contributors = mapContributors(projectResponse.contributors);
   // Filter for project contributors (contributors without the "data curator" role).
   const projectContributors = filterContributorsWithProjectContributors(
     projectResponse.contributors
@@ -276,6 +277,17 @@ function isValidUrl(testUrl: string): boolean {
     return Boolean(new URL(testUrl));
   } catch (e) {
     return false;
+  }
+}
+
+function mapContributors(
+  contributorsResponse: ContributorResponse[],
+  projectId: string
+) {
+  const updatedProject = getProjectEdit(projectId);
+  console.log(updatedProject);
+  if (updatedProject && updatedProject.contributors) {
+    return updatedProject.contributors;
   }
 }
 
