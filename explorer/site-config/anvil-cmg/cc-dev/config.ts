@@ -3,7 +3,10 @@ import { makeConfig } from "../dev/config";
 import { authenticationConfig } from "./authentication/authentication";
 
 const config: SiteConfig = {
-  ...makeConfig("https://anvilproject.dev.clevercanary.com"),
+  ...makeConfig(
+    "https://anvilproject.dev.clevercanary.com",
+    "https://anvilproject.dev.clevercanary.com"
+  ),
   exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
 };
 

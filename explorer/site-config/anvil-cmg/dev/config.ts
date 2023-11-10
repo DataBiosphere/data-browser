@@ -13,16 +13,12 @@ import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { summary } from "./index/summary";
 
-const logoHhs = "/images/logoHhs.svg";
-const logoNhgri = "/images/logoNhgri.svg";
-const logoNih = "/images/logoNih.svg";
-const logoUsagov = "/images/logoUsagov.png";
-
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
 
 export function makeConfig(
   browserUrl: string,
+  portalUrl: string,
   catalog: string = CATALOG_DEFAULT
 ): SiteConfig {
   return {
@@ -99,13 +95,12 @@ export function makeConfig(
     contentDir: "anvil-cmg",
     contentThemeOptionsFn: contentThemeOptions,
     dataSource: {
-      defaultDetailParams: {
-        catalog: catalog,
-      },
       defaultListParams: {
-        catalog: catalog,
         size: "25",
         sort: "entryId",
+      },
+      defaultParams: {
+        catalog,
       },
       url: "https://service.anvil.gi.ucsc.edu/",
     },
@@ -121,32 +116,7 @@ export function makeConfig(
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
     layout: {
       footer: {
-        logos: [
-          {
-            alt: "nhgri",
-            height: 24,
-            link: "https://www.genome.gov/",
-            src: logoNhgri,
-          },
-          {
-            alt: "nih",
-            height: 24,
-            link: "https://www.nih.gov/",
-            src: logoNih,
-          },
-          {
-            alt: "hhs",
-            height: 32,
-            link: "https://www.hhs.gov/",
-            src: logoHhs,
-          },
-          {
-            alt: "hhs",
-            height: 32,
-            link: "https://www.usa.gov/",
-            src: logoUsagov,
-          },
-        ],
+        Branding: C.ANVILBranding({ portalURL: portalUrl }),
         navLinks: [
           {
             label: "Help",
@@ -199,6 +169,9 @@ export function makeConfig(
   };
 }
 
-const config: SiteConfig = makeConfig("https://anvil.gi.ucsc.edu");
+const config: SiteConfig = makeConfig(
+  "https://anvil.gi.ucsc.edu",
+  "https://anvilproject.dev.clevercanary.com"
+);
 
 export default config;

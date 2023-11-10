@@ -79,6 +79,8 @@ export { FileNameCell } from "./Detail/components/GeneratedMatricesTables/compon
 export { GeneratedMatricesTables } from "./Detail/components/GeneratedMatricesTables/generatedMatricesTables";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
 export { CopyCell } from "./Index/components/CopyCell/copyCell";
+export { ANVILBranding } from "./Layout/components/Footer/components/Branding/components/ANVILBranding/anvilBranding";
+export { HCABranding } from "./Layout/components/Footer/components/Branding/components/HCABranding/hcaBranding";
 export { ANVILExplorer } from "./Layout/components/Header/components/Content/components/Logo/components/LogoExplorer/components/ANVILExplorer/ANVILExplorer";
 export { LogoExplorer } from "./Layout/components/Header/components/Content/components/Logo/components/LogoExplorer/logoExplorer";
 export { LabelIconMenuItem } from "./Layout/components/Header/components/Content/components/Navigation/components/NavigationMenuItems/components/LabelIconMenuItem/labelIconMenuItem";

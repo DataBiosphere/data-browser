@@ -64,10 +64,10 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                     >
                       <Component {...pageProps} />
                     </ErrorBoundary>
+                    {layout.support && <Support {...layout.support} />}
                   </Main>
                 </FileManifestStateProvider>
               </ExploreStateProvider>
-              {layout.support && <Support {...layout.support} />}
               <Footer {...layout.footer} />
             </AppLayout>
           </AuthProvider>

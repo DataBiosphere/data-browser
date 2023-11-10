@@ -15,12 +15,6 @@ import { filesEntityConfig } from "./index/filesEntityConfig";
 import { librariesEntityConfig } from "./index/librariesEntityConfig";
 import { summary } from "./index/summary";
 
-const logoAnvil = "/images/logoAnvil.png";
-const logoHhs = "/images/logoHhs.svg";
-const logoNhgri = "/images/logoNhgri.svg";
-const logoNih = "/images/logoNih.svg";
-const logoUsagov = "/images/logoUsagov.png";
-
 // Template constants
 const APP_TITLE = "Anvil Data Explorer";
 const BROWSER_URL = "https://anvil-portal.dev.clevercanary.com";
@@ -71,13 +65,12 @@ const config: SiteConfig = {
     },
   ],
   dataSource: {
-    defaultDetailParams: {
-      catalog: CATALOG_DEFAULT,
-    },
     defaultListParams: {
-      catalog: CATALOG_DEFAULT,
       size: "25",
       sort: "entryId",
+    },
+    defaultParams: {
+      catalog: CATALOG_DEFAULT,
     },
     url: "https://service.nadove2.dev.singlecell.gi.ucsc.edu/",
   },
@@ -94,32 +87,7 @@ const config: SiteConfig = {
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
     footer: {
-      logos: [
-        {
-          alt: "nhgri",
-          height: 24,
-          link: "https://www.genome.gov/",
-          src: logoNhgri,
-        },
-        {
-          alt: "nih",
-          height: 24,
-          link: "https://www.nih.gov/",
-          src: logoNih,
-        },
-        {
-          alt: "hhs",
-          height: 32,
-          link: "https://www.hhs.gov/",
-          src: logoHhs,
-        },
-        {
-          alt: "hhs",
-          height: 32,
-          link: "https://www.usa.gov/",
-          src: logoUsagov,
-        },
-      ],
+      Branding: C.ANVILBranding({ portalURL: undefined }),
       navLinks: [
         {
           label: "Help",
@@ -137,7 +105,7 @@ const config: SiteConfig = {
         alt: APP_TITLE,
         height: 40,
         link: BROWSER_URL,
-        src: logoAnvil,
+        src: "/images/logoAnvil.png",
       }),
       authenticationEnabled: true,
       navAlignment: ELEMENT_ALIGNMENT.CENTER,

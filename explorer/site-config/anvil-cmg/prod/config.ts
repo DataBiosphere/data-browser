@@ -7,7 +7,11 @@ import { downloadColumn } from "../dev/index/filesEntityConfig";
 import { authenticationConfig } from "./authentication/authentication";
 
 const config: SiteConfig = {
-  ...makeConfig("https://prod.anvil.gi.ucsc.edu", "anvil3"),
+  ...makeConfig(
+    "https://prod.anvil.gi.ucsc.edu",
+    "https://prod.anvil.gi.ucsc.edu",
+    "anvil3"
+  ),
   exportToTerraUrl: "https://anvil.terra.bio/",
 };
 
