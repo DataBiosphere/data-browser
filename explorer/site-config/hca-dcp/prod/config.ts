@@ -6,7 +6,7 @@ import devConfig from "../dev/config";
 // Template constants
 const BROWSER_URL = "https://data.humancellatlas.org";
 const ORG_URL = "https://www.humancellatlas.org";
-const PORTAL_URL = "https://data.humancellatlas.prod.clevercanary.com";
+const PORTAL_URL = "https://data.humancellatlas.org";
 
 const config: SiteConfig = {
   ...devConfig,
@@ -15,11 +15,32 @@ const config: SiteConfig = {
   layout: {
     ...devConfig.layout,
     footer: {
-      ...devConfig.layout.footer,
       Branding: C.HCABranding({
         orgURL: ORG_URL,
         portalURL: PORTAL_URL,
       }),
+      navLinks: [
+        {
+          label: "About",
+          target: ANCHOR_TARGET.BLANK,
+          url: `${PORTAL_URL}/about`,
+        },
+        {
+          label: "Help",
+          target: ANCHOR_TARGET.BLANK,
+          url: `${PORTAL_URL}/help`,
+        },
+        {
+          label: "Privacy",
+          target: ANCHOR_TARGET.BLANK,
+          url: `${PORTAL_URL}/privacy`,
+        },
+        {
+          label: "Contact",
+          target: ANCHOR_TARGET.BLANK,
+          url: `${PORTAL_URL}/contact`,
+        },
+      ],
     },
     header: {
       ...devConfig.layout.header,
