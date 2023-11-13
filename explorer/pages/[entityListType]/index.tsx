@@ -93,7 +93,7 @@ export const getStaticProps: GetStaticProps<
   const { entities } = appConfig;
   const entityConfig = getEntityConfig(entities, entityListType);
   const { staticLoad } = entityConfig;
-  const { fetchAllEntities } = getEntityService(entityConfig); // Determine the type of fetch, either from an API endpoint or a TSV.
+  const { fetchAllEntities } = getEntityService(entityConfig, undefined); // Determine the type of fetch, either from an API endpoint or a TSV.
 
   // Seed database.
   if (entityConfig && staticLoad) {

@@ -84,7 +84,10 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
 
       const resultParams: { params: PageUrl }[] = [];
       if (entityConfig.detail.staticLoad && entityConfig.getId) {
-        const { fetchAllEntities, path } = getEntityService(entityConfig);
+        const { fetchAllEntities, path } = getEntityService(
+          entityConfig,
+          undefined
+        );
         const data = await fetchAllEntities(path);
         const tabs = entityConfig.detail?.tabs.map((tab) => tab.route) ?? [];
 
@@ -140,7 +143,10 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
       await seedDatabase(entityConfig.route, entityConfig);
     }
     // Grab the entity detail, either from database or API.
-    const { fetchEntityDetail, path } = getEntityService(entityConfig);
+    const { fetchEntityDetail, path } = getEntityService(
+      entityConfig,
+      undefined
+    );
     // When the entity detail is to be fetched from API, we only do so for the first tab.
     if (!entityConfig.staticLoad && params?.params?.[PARAMS_INDEX_TAB]) {
       return { props };
@@ -148,6 +154,7 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
     props.data = await fetchEntityDetail(
       (params as PageUrl).params[PARAMS_INDEX_UUID],
       path,
+      undefined,
       undefined
     );
   }
