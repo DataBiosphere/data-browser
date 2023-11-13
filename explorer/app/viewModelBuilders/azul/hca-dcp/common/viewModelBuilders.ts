@@ -148,7 +148,7 @@ export const buildAggregatedProjectTitle = (
         HCA_DCP_CATEGORY_KEY.PROJECT_TITLE
       )
     ),
-    url: "", //getAggregatedProjectTitleUrl(entityResponse),
+    url: getAggregatedProjectTitleUrl(entityResponse),
   };
 };
 
