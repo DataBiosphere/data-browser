@@ -155,19 +155,23 @@ const config: SiteConfig = {
       navLinks: [
         {
           label: "About",
-          url: `${BROWSER_URL}/about`,
+          target: ANCHOR_TARGET.BLANK,
+          url: `${PORTAL_URL}/about`,
         },
         {
           label: "Help",
-          url: `${BROWSER_URL}/help`,
+          target: ANCHOR_TARGET.BLANK,
+          url: `${PORTAL_URL}/help`,
         },
         {
           label: "Privacy",
-          url: `${BROWSER_URL}/privacy`,
+          target: ANCHOR_TARGET.BLANK,
+          url: `${PORTAL_URL}/privacy`,
         },
         {
           label: "Contact",
-          url: `${BROWSER_URL}/contact`,
+          target: ANCHOR_TARGET.BLANK,
+          url: `${PORTAL_URL}/contact`,
         },
       ],
     },
@@ -200,7 +204,7 @@ const config: SiteConfig = {
         },
       ],
       searchEnabled: false,
-      searchURL: `${BROWSER_URL}/search`,
+      searchURL: `${PORTAL_URL}/search`,
     },
     support: supportConfig,
   },
