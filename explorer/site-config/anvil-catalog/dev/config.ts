@@ -1,9 +1,10 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { HEADER_NAVIGATION_LABEL } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/common/constants";
-import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import * as C from "../../../app/components/index";
 import anvilDevConfig from "../../anvil/dev/config";
 import { socials } from "../../anvil/dev/constants";
+import { SiteConfig } from "../../common/entities";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,
   ANVIL_CATALOG_CATEGORY_LABEL,
@@ -14,7 +15,10 @@ import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
 
 // Template constants
 const APP_TITLE = "AnVIL Dataset Catalog";
+const EXPLORER_URL = "https://explore.anvilproject.dev.clevercanary.com";
 const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
+const PORTAL_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
+const ROOT_PATH = "/consortia";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 
 const config: SiteConfig = {
@@ -76,11 +80,11 @@ const config: SiteConfig = {
       navLinks: [
         {
           label: "Help",
-          url: `${BROWSER_URL}help`,
+          url: `${PORTAL_URL}help`,
         },
         {
           label: "Privacy",
-          url: `${BROWSER_URL}privacy`,
+          url: `${PORTAL_URL}privacy`,
         },
       ],
       socials,
@@ -89,7 +93,7 @@ const config: SiteConfig = {
       Logo: C.Logo({
         alt: SLOGAN,
         height: 40,
-        link: BROWSER_URL,
+        link: PORTAL_URL,
         src: "/images/logoAnvil.png",
       }),
       authenticationEnabled: false,
@@ -97,54 +101,78 @@ const config: SiteConfig = {
       navLinks: [
         {
           label: "Overview",
-          url: `${BROWSER_URL}overview`,
+          url: `${PORTAL_URL}overview`,
         },
         {
           label: "Learn",
-          url: `${BROWSER_URL}learn`,
+          url: `${PORTAL_URL}learn`,
         },
         {
+          featureFlag: false,
           label: "Datasets",
-          url: `/`,
+          url: ROOT_PATH,
+        },
+        {
+          featureFlag: true,
+          label: "Datasets",
+          menuItems: [
+            {
+              description:
+                "An open-access view of studies, workspaces, and consortia.",
+              label: "Catalog",
+              url: ROOT_PATH,
+            },
+            {
+              description:
+                "Build, download, and export cross-study cohorts of open and managed access data.",
+              label: C.LabelIconMenuItem({
+                iconFontSize: "small",
+                label: "Explorer",
+              }),
+              target: ANCHOR_TARGET.BLANK,
+              url: `${EXPLORER_URL}/datasets`,
+            },
+          ],
+          url: "",
         },
         {
           label: "Consortia",
-          url: `${BROWSER_URL}consortia`,
+          url: `${PORTAL_URL}consortia`,
         },
         {
           label: "News",
-          url: `${BROWSER_URL}news`,
+          url: `${PORTAL_URL}news`,
         },
         {
           label: "Events",
-          url: `${BROWSER_URL}events`,
+          url: `${PORTAL_URL}events`,
         },
         {
           label: HEADER_NAVIGATION_LABEL.MORE,
           menuItems: [
             {
               label: "Team",
-              url: `${BROWSER_URL}team`,
+              url: `${PORTAL_URL}team`,
             },
             {
               label: "FAQ",
-              url: `${BROWSER_URL}faq`,
+              url: `${PORTAL_URL}faq`,
             },
             {
               label: "Help",
-              url: `${BROWSER_URL}help`,
+              url: `${PORTAL_URL}help`,
             },
           ],
           url: "",
         },
       ],
       searchEnabled: true,
-      searchURL: `${BROWSER_URL}search`,
+      searchURL: `${PORTAL_URL}search`,
       slogan: SLOGAN,
       socials,
     },
   },
-  redirectRootToPath: "/consortia",
+  redirectRootToPath: ROOT_PATH,
   summaryConfig: undefined,
 };
 

@@ -21,12 +21,21 @@ import { config } from "app/config/config";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import TagManager from "react-gtm-module";
+import { FEATURES } from "../app/hooks/useFeatureFlag/common/entities";
+import { setFeatureFlags } from "../app/hooks/useFeatureFlag/common/utils";
+import { useFeatureFlag } from "../app/hooks/useFeatureFlag/useFeatureFlag";
+import { getFeatureFlagHeader } from "../app/shared/utils";
+import { SiteConfig } from "../site-config/common/entities";
 
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
 
+setFeatureFlags();
+
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+  const isFeatureFlag = useFeatureFlag(FEATURES.HEADER);
   // Set up the site configuration, layout and theme.
   const appConfig = config();
+  const header = getFeatureFlagHeader(appConfig as SiteConfig, isFeatureFlag);
   const { analytics, layout, redirectRootToPath, themeOptions } = appConfig;
   const { gtmAuth, gtmId, gtmPreview } = analytics || {};
   const theme = createAppTheme(themeOptions);
@@ -47,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           <CssBaseline />
           <AuthProvider sessionTimeout={SESSION_TIMEOUT}>
             <AppLayout>
-              <Header {...layout.header} />
+              <Header {...header} />
               <ExploreStateProvider entityListType={entityListType}>
                 <FileManifestStateProvider>
                   <Main>
