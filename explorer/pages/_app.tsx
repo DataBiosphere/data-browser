@@ -19,10 +19,16 @@ import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { config } from "app/config/config";
 import type { AppProps } from "next/app";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import TagManager from "react-gtm-module";
+import { FEATURES } from "../app/hooks/useFeatureFlag/common/entities";
+import { setFeatureFlags } from "../app/hooks/useFeatureFlag/common/utils";
+import { useFeatureFlag } from "../app/hooks/useFeatureFlag/useFeatureFlag";
+import { configureHeader } from "../app/shared/utils";
 
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
+
+setFeatureFlags();
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   // Set up the site configuration, layout and theme.
@@ -31,6 +37,11 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const { gtmAuth, gtmId, gtmPreview } = analytics || {};
   const theme = createAppTheme(themeOptions);
   const { entityListType } = pageProps as AzulEntitiesStaticResponse;
+  const isFeatureFlag = useFeatureFlag(FEATURES.HEADER);
+  const configuredHeaderProps = useMemo(
+    () => configureHeader(appConfig, isFeatureFlag),
+    [appConfig, isFeatureFlag]
+  ); // Configure header.
 
   // Initialize Google Tag Manager.
   useEffect(() => {
@@ -47,7 +58,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           <CssBaseline />
           <AuthProvider sessionTimeout={SESSION_TIMEOUT}>
             <AppLayout>
-              <Header {...layout.header} />
+              <Header {...configuredHeaderProps} />
               <ExploreStateProvider entityListType={entityListType}>
                 <FileManifestStateProvider>
                   <Main>
