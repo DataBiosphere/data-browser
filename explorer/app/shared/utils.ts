@@ -8,13 +8,10 @@ import { NavLinkItem, SiteConfig } from "../../site-config/common/entities";
  * @param isFeatureFlag - Flag indicating if feature is available to user.
  * @returns header properties.
  */
-export function getFeatureFlagHeader(
+export function configureHeader(
   siteConfig: SiteConfig,
   isFeatureFlag: boolean
 ): DXHeader {
-  if (!isFeatureFlag) {
-    return siteConfig.layout.header;
-  }
   const header = siteConfig.layout.header;
   const navLinks = filterFeatureFlagNavigation(header.navLinks, isFeatureFlag);
   return {
@@ -33,13 +30,8 @@ function filterFeatureFlagNavigation(
   navLinks: NavLinkItem[],
   isFeatureFlag: boolean
 ): DXNavLinkItem[] {
-  return navLinks
-    .filter(
-      ({ featureFlag }) =>
-        featureFlag === undefined || featureFlag === isFeatureFlag
-    )
-    .map((navLink) => {
-      delete navLink.featureFlag;
-      return navLink;
-    });
+  return navLinks.filter(
+    ({ featureFlag }) =>
+      featureFlag === undefined || featureFlag === isFeatureFlag
+  );
 }

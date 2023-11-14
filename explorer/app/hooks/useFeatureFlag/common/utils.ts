@@ -1,5 +1,7 @@
 import { FEATURES } from "./entities";
 
+const setOfFeatureFlags = new Set(Object.values(FEATURES) as string[]);
+
 /**
  * Set feature flags from URL.
  */
@@ -7,19 +9,11 @@ export function setFeatureFlags(): void {
   if (typeof window === "undefined") return;
   // Grab the search params from the URL.
   const params = new URLSearchParams(window.location.search);
-  const features = Object.values(FEATURES) as string[];
   for (const [key, value] of params) {
-    if (features.includes(key)) {
+    if (setOfFeatureFlags.has(key)) {
       setLocalStorage(key, value);
     }
   }
-}
-
-/**
- * Clear all values from the storage.
- */
-export function clearLocalStorage(): void {
-  window?.localStorage?.clear();
 }
 
 /**
@@ -28,7 +22,8 @@ export function clearLocalStorage(): void {
  * @returns value.
  */
 export function getLocalStorage(key: string): string | null {
-  return window?.localStorage?.getItem(key);
+  if (typeof window === "undefined") return null;
+  return window?.localStorage?.getItem(key) ?? null;
 }
 
 /**
@@ -37,5 +32,6 @@ export function getLocalStorage(key: string): string | null {
  * @param value - Value.
  */
 export function setLocalStorage(key: string, value: string): void {
+  if (typeof window === "undefined") return;
   window?.localStorage?.setItem(key, value);
 }

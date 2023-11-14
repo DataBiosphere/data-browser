@@ -15,8 +15,8 @@ import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
 
 // Template constants
 const APP_TITLE = "AnVIL Dataset Catalog";
-const EXPLORER_URL = "https://explore.anvilproject.dev.clevercanary.com";
 const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
+const EXPLORER_URL = "https://explore.anvilproject.dev.clevercanary.com";
 const PORTAL_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
 const ROOT_PATH = "/consortia";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
