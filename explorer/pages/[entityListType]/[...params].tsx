@@ -81,7 +81,10 @@ function findOverride(
  */
 function isOverride(override: Override): boolean {
   return Boolean(
-    override.deprecated || override.supersededBy || override.withdrawn
+    override.deprecated ||
+      override.duplicateOf ||
+      override.supersededBy ||
+      override.withdrawn
   );
 }
 
@@ -210,6 +213,9 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
     );
     if (override && isOverride(override)) {
       props.override = override;
+      if (override.duplicateOf) {
+        props.override.duplicateOf = `/${entityListType}/${override.duplicateOf}`;
+      }
       return {
         props,
       };
