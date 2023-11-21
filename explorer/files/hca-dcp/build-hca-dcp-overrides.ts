@@ -6,7 +6,7 @@ export {};
 
 async function buildOverrides(): Promise<void> {
   await writeAsJSON(
-    "hca-dcp/out/overrides.json",
+    "hca-dcp/overrides.json",
     Object.fromEntries(projectEdits.entries())
   );
 }
