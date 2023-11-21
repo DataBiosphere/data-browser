@@ -12,7 +12,9 @@ import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
+import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { readFile } from "../../app/utils/tsvParser";
+import { Override } from "../../app/viewModelBuilders/common/entities";
 
 interface PageUrl extends ParsedUrlQuery {
   entityListType: string;
@@ -21,6 +23,7 @@ interface PageUrl extends ParsedUrlQuery {
 
 export interface EntityDetailPageProps extends AzulEntityStaticResponse {
   entityListType: string;
+  override?: Override;
 }
 
 /**
@@ -31,8 +34,56 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  */
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   if (!props.entityListType) return <></>;
+  if (props.override) return <EntityGuard override={props.override} />;
   return <EntityDetailView {...props} />;
 };
+
+/**
+ * Returns a list of overrides from the override file.
+ * @param entityConfig - Entity config.
+ * @returns a list of overrides.
+ */
+const getOverrides = async function getOverrides(
+  entityConfig: EntityConfig
+): Promise<Override[]> {
+  const { overrideFile } = entityConfig;
+  if (!overrideFile) {
+    return [];
+  }
+  const rawData = await readFile(overrideFile);
+  if (!rawData) {
+    return [];
+  }
+  const overrides = JSON.parse(rawData.toString());
+  return (Object.values(overrides) || []) as unknown as Override[];
+};
+
+/**
+ * Returns the override for the given entity ID.
+ * @param overrides - Overrides.
+ * @param entityId - Entity ID.
+ * @returns returns the override for the given entity ID.
+ */
+function findOverride(
+  overrides: Override[],
+  entityId?: string
+): Override | undefined {
+  if (!entityId) {
+    return;
+  }
+  return overrides.find(({ entryId }) => entryId === entityId);
+}
+
+/**
+ * Returns true if the entity is a special case e.g. an "override".
+ * @param override - Override.
+ * @returns true if the entity is an override.
+ */
+function isOverride(override: Override): boolean {
+  return Boolean(
+    override.deprecated || override.supersededBy || override.withdrawn
+  );
+}
 
 /**
  * Seed database.
@@ -105,6 +156,21 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
           });
         });
       }
+
+      // process entity overrides
+      if (entityConfig.overrideFile) {
+        const overrides = await getOverrides(entityConfig);
+        for (const override of overrides) {
+          if (isOverride(override)) {
+            resultParams.push({
+              params: {
+                entityListType: entityConfig.route,
+                params: [override.entryId],
+              },
+            });
+          }
+        }
+      }
       return resultParams;
     })
   );
@@ -134,6 +200,21 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   }
 
   const props: EntityDetailPageProps = { entityListType: entityListType };
+
+  // If there is a corresponding override for the given page, grab the override values from the override file and return as props.
+  if (entityConfig.overrideFile) {
+    const overrides = await getOverrides(entityConfig);
+    const override = findOverride(
+      overrides,
+      params?.params?.[PARAMS_INDEX_UUID]
+    );
+    if (override && isOverride(override)) {
+      props.override = override;
+      return {
+        props,
+      };
+    }
+  }
 
   // If the entity detail view is to be "statically loaded", we need to seed the database (for retrieval of the entity), or
   // fetch the entity detail from API.

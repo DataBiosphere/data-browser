@@ -1,0 +1,9 @@
+/**
+ * Set of entity status.
+ */
+export enum ENTITY_STATUS {
+  DEPRECATED = "DEPRECATED",
+  INGEST_IN_PROGRESS = "INGEST_IN_PROGRESS",
+  LIVE = "LIVE",
+  WITHDRAWN = "WITHDRAWN",
+}

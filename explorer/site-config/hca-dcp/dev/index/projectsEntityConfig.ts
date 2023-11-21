@@ -135,6 +135,7 @@ export const projectsEntityConfig: EntityConfig = {
       id: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
     },
   } as ListConfig<ProjectsResponse>,
+  overrideFile: "files/hca-dcp/out/overrides.json",
   route: "projects",
   staticLoad: false,
 };

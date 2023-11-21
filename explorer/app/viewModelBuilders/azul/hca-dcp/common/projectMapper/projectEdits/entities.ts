@@ -3,6 +3,7 @@ import {
   ContributorResponse,
   PublicationResponse,
 } from "../../../../../../apis/azul/hca-dcp/common/entities";
+import { Override } from "../../../../../common/entities";
 
 /**
  * Set of analysis portal names.
@@ -25,18 +26,12 @@ export interface AnalysisPortal {
   url: string;
 }
 
-export interface ProjectEdit {
+export interface ProjectEdit extends Override {
   analysisPortals?: AnalysisPortal[];
   contributors?: Partial<ContributorResponse>[];
-  deprecated?: boolean;
-  duplicateOf?: string;
-  entryId: string;
   projectShortname?: string;
   publications?: Pick<
     PublicationResponse,
     "publicationTitle" | "publicationUrl"
   >[];
-  redirectUrl?: string;
-  supersededBy?: string;
-  withdrawn?: boolean;
 }

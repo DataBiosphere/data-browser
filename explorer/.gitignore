@@ -50,5 +50,6 @@ _templates
 /public/favicons/*
 
 /files/anvil-catalog/out/
+/files/hca-dcp/out/
 /files/ncpi-catalog/out/
 /files/ncpi-catalog-dug/out/
