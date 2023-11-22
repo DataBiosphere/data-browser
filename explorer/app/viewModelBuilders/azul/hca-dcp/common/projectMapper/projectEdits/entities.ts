@@ -1,9 +1,9 @@
 import { StaticImageProps } from "@clevercanary/data-explorer-ui/lib/components/common/StaticImage/staticImage";
+import { Override } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import {
   ContributorResponse,
   PublicationResponse,
 } from "../../../../../../apis/azul/hca-dcp/common/entities";
-import { Override } from "../../../../../common/entities";
 
 /**
  * Set of analysis portal names.

@@ -3,7 +3,10 @@ import {
   PARAMS_INDEX_TAB,
   PARAMS_INDEX_UUID,
 } from "@clevercanary/data-explorer-ui/lib/common/constants";
-import { EntityConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import {
+  EntityConfig,
+  Override,
+} from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { getEntityConfig } from "@clevercanary/data-explorer-ui/lib/config/utils";
 import { getEntityService } from "@clevercanary/data-explorer-ui/lib/hooks/useEntityService";
 import { database } from "@clevercanary/data-explorer-ui/lib/utils/database";
@@ -14,7 +17,6 @@ import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { readFile } from "../../app/utils/tsvParser";
-import { Override } from "../../app/viewModelBuilders/common/entities";
 
 interface PageUrl extends ParsedUrlQuery {
   entityListType: string;
@@ -36,26 +38,6 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
   return <EntityDetailView {...props} />;
-};
-
-/**
- * Returns a list of overrides from the override file.
- * @param entityConfig - Entity config.
- * @returns a list of overrides.
- */
-const getOverrides = async function getOverrides(
-  entityConfig: EntityConfig
-): Promise<Override[]> {
-  const { overrideFile } = entityConfig;
-  if (!overrideFile) {
-    return [];
-  }
-  const rawData = await readFile(overrideFile);
-  if (!rawData) {
-    return [];
-  }
-  const overrides = JSON.parse(rawData.toString());
-  return (Object.values(overrides) || []) as unknown as Override[];
 };
 
 /**
@@ -161,9 +143,8 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
       }
 
       // process entity overrides
-      if (entityConfig.overrideFile) {
-        const overrides = await getOverrides(entityConfig);
-        for (const override of overrides) {
+      if (entityConfig.overrides) {
+        for (const override of entityConfig.overrides) {
           if (isOverride(override)) {
             resultParams.push({
               params: {
@@ -205,10 +186,9 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   const props: EntityDetailPageProps = { entityListType: entityListType };
 
   // If there is a corresponding override for the given page, grab the override values from the override file and return as props.
-  if (entityConfig.overrideFile) {
-    const overrides = await getOverrides(entityConfig);
+  if (entityConfig.overrides) {
     const override = findOverride(
-      overrides,
+      entityConfig.overrides,
       params?.params?.[PARAMS_INDEX_UUID]
     );
     if (override && isOverride(override)) {

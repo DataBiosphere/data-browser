@@ -7,6 +7,7 @@ import {
 import { ProjectsResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import { getProjectId } from "../../../../app/apis/azul/hca-dcp/common/utils";
 import * as C from "../../../../app/components";
+import { projectEdits } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/projectMapper/projectEdits/constants";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../../category";
 import { mainColumn as exportMainColumn } from "../detail/project/exportMainColumn";
@@ -135,7 +136,7 @@ export const projectsEntityConfig: EntityConfig = {
       id: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
     },
   } as ListConfig<ProjectsResponse>,
-  overrideFile: "files/hca-dcp/overrides.json",
+  overrides: projectEdits,
   route: "projects",
   staticLoad: false,
 };

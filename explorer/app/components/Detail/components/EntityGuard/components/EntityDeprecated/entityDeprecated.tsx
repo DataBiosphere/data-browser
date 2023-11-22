@@ -5,6 +5,7 @@ import {
   PRIORITY,
   StatusIcon,
 } from "@clevercanary/data-explorer-ui/lib/components/common/StatusIcon/statusIcon";
+import { Override } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import {
   TEXT_BODY_LARGE_400,
   TEXT_HEADING_XLARGE,
@@ -13,7 +14,6 @@ import { Link as MLink, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { Override } from "../../../../../../viewModelBuilders/common/entities";
 import { Notice, Section, SectionContent } from "../../entityGuard.styles";
 
 interface EntityDeprecatedProps {
