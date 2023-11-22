@@ -114,6 +114,10 @@ export const buildAccessions = (
   const project = getProjectResponse(projectsResponse);
   const accessionsByLabel = mapAccessions(project?.accessions);
   const keyValuePairs = new Map<Key, Value>();
+  if (!accessionsByLabel.size) {
+    keyValuePairs.set(null, "None");
+    return { keyValuePairs };
+  }
   for (const [label, accessions] of accessionsByLabel) {
     keyValuePairs.set(`${label}:`, getAccessionsKeyValue(accessions));
   }
