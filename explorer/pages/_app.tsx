@@ -63,13 +63,18 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                 <FileManifestStateProvider>
                   <Main>
                     <ErrorBoundary
-                      fallbackRender={(
-                        error: DataExplorerError
-                      ): JSX.Element => (
+                      fallbackRender={({
+                        error,
+                        reset,
+                      }: {
+                        error: DataExplorerError;
+                        reset: () => void;
+                      }): JSX.Element => (
                         <Error
                           errorMessage={error.message}
                           requestUrlMessage={error.requestUrlMessage}
                           rootPath={redirectRootToPath}
+                          onReset={reset}
                         />
                       )}
                     >
