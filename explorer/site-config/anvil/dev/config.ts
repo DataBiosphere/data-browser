@@ -5,7 +5,6 @@ import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil/common/constants";
 import * as C from "../../../app/components/index";
 import { authenticationConfig } from "./authentication/authentication";
 import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "./category";
-import { socials } from "./constants";
 import { exportConfig } from "./export/export";
 import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
 import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
@@ -14,6 +13,7 @@ import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { librariesEntityConfig } from "./index/librariesEntityConfig";
 import { summary } from "./index/summary";
+import { socialMedia } from "./socialMedia";
 
 // Template constants
 const APP_TITLE = "Anvil Data Explorer";
@@ -98,7 +98,7 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/privacy`,
         },
       ],
-      socials,
+      socials: socialMedia.socials,
     },
     header: {
       Logo: C.Logo({
@@ -152,7 +152,7 @@ const config: SiteConfig = {
       searchEnabled: true,
       searchURL: `${BROWSER_URL}/search`,
       slogan: SLOGAN,
-      socials,
+      socialMedia,
     },
   },
   redirectRootToPath: "/datasets",

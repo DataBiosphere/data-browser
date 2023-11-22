@@ -6,8 +6,12 @@ export {
   DownloadIconSmall,
   InventoryIconSmall,
 } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/common/constants";
+export { DiscourseIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/DiscourseIcon/discourseIcon";
+export { GitHubIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/GitHubIcon/gitHubIcon";
 export { OpenInNewIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
-export { CustomIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/customIcon";
+export { SlackIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/SlackIcon/slackIcon";
+export { XIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/XIcon/xIcon";
+export { YouTubeIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/YouTubeIcon/youTubeIcon";
 export { GridItem } from "@clevercanary/data-explorer-ui/lib/components/common/Grid/components/GridItem/gridItem";
 export { Grid } from "@clevercanary/data-explorer-ui/lib/components/common/Grid/grid";
 export { KeyElType } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/components/KeyElType/keyElType";
@@ -84,4 +88,3 @@ export { HCABranding } from "./Layout/components/Footer/components/Branding/comp
 export { ANVILExplorer } from "./Layout/components/Header/components/Content/components/Logo/components/LogoExplorer/components/ANVILExplorer/ANVILExplorer";
 export { LogoExplorer } from "./Layout/components/Header/components/Content/components/Logo/components/LogoExplorer/logoExplorer";
 export { LabelIconMenuItem } from "./Layout/components/Header/components/Content/components/Navigation/components/NavigationMenuItems/components/LabelIconMenuItem/labelIconMenuItem";
-export { Social } from "./Layout/components/Header/components/Content/components/Navigation/components/NavigationMenuItems/components/Social/social";

@@ -3,7 +3,7 @@ import { HEADER_NAVIGATION_LABEL } from "@clevercanary/data-explorer-ui/lib/comp
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import * as C from "../../../app/components/index";
 import anvilDevConfig from "../../anvil/dev/config";
-import { socials } from "../../anvil/dev/constants";
+import { socialMedia } from "../../anvil/dev/socialMedia";
 import { SiteConfig } from "../../common/entities";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,
@@ -87,7 +87,7 @@ const config: SiteConfig = {
           url: `${PORTAL_URL}privacy`,
         },
       ],
-      socials,
+      socials: socialMedia.socials,
     },
     header: {
       Logo: C.Logo({
@@ -169,7 +169,7 @@ const config: SiteConfig = {
       searchEnabled: true,
       searchURL: `${PORTAL_URL}search`,
       slogan: SLOGAN,
-      socials,
+      socialMedia,
     },
   },
   redirectRootToPath: ROOT_PATH,
