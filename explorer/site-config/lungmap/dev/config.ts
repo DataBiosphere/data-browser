@@ -4,10 +4,10 @@ import hcaConfig from "site-config/hca-dcp/dev/config";
 import * as C from "../../../app/components/index";
 import { filesEntityConfig as hcaFilesEntityConfig } from "../../hca-dcp/dev/index/filesEntityConfig";
 import { samplesEntityConfig as hcaSamplesEntityConfig } from "../../hca-dcp/dev/index/samplesEntityConfig";
-import { socials } from "./constants";
 import { exportConfig } from "./export/exportConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { summary } from "./index/summary";
+import { socialMedia } from "./socialMedia";
 
 const logoLungmap = "/images/logoLungmap.png";
 
@@ -50,7 +50,7 @@ const config: SiteConfig = {
           url: `${BROWSER_URL}/lungmap-privacy`,
         },
       ],
-      socials,
+      socials: socialMedia.socials,
     },
     header: {
       Logo: C.Logo({
@@ -77,7 +77,7 @@ const config: SiteConfig = {
       ],
       searchEnabled: false,
       slogan: undefined,
-      socials,
+      socialMedia,
     },
   },
   redirectRootToPath: PROJECTS_URL,

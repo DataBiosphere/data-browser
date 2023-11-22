@@ -7,9 +7,9 @@ import {
   NCPI_CATALOG_CATEGORY_KEY,
   NCPI_CATALOG_CATEGORY_LABEL,
 } from "../category";
-import { socials } from "./constants";
 import { platformsEntityConfig } from "./index/platformsEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
+import { socialMedia } from "./socialMedia";
 
 const logoNcpi = "/images/logoNcpi.svg";
 
@@ -67,7 +67,7 @@ const config: SiteConfig = {
   entities: [studiesEntityConfig, platformsEntityConfig],
   explorerTitle: "NCPI Dataset Catalog",
   layout: {
-    footer: anvilConfig.layout.footer,
+    footer: { ...anvilConfig.layout.footer, socials: socialMedia.socials },
     header: {
       Logo: C.Logo({
         alt: APP_TITLE,
@@ -116,7 +116,7 @@ const config: SiteConfig = {
       searchEnabled: true,
       searchURL: `${BROWSER_URL}/ncpi/search`,
       slogan: SLOGAN,
-      socials,
+      socialMedia,
     },
   },
   redirectRootToPath: "/studies",
