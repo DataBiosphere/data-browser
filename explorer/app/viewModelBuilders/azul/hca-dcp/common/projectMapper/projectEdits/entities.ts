@@ -9,7 +9,7 @@ import {
  * Set of analysis portal names.
  */
 export enum ANALYSIS_PORTAL {
-  CELLXGENE = "CELLXGENE",
+  CZ_CELLXGENE = "CZ_CELLXGENE",
   GENOME_BROWSER = "GENOME_BROWSER",
   LGEA = "LGEA",
   LUNGMAP_APPS = "LUNGMAP_APPS",
@@ -22,7 +22,7 @@ export enum ANALYSIS_PORTAL {
 export interface AnalysisPortal {
   icon: StaticImageProps["src"];
   label: string;
-  name: string;
+  name: ANALYSIS_PORTAL;
   url: string;
 }
 
