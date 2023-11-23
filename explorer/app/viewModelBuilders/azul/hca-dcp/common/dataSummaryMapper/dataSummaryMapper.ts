@@ -1,4 +1,5 @@
 import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
 import { Value } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
 import { NTagCell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/NTagCell/nTagCell";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
@@ -234,13 +235,7 @@ export function mapProjectDataSummary(
       values: nucleicAcidSource,
     })
   ); // Nucleic Acid Source
-  details.set(
-    DATA_SUMMARY.PAIRED_END,
-    NTagCell({
-      label: getPluralizedMetadataLabel(METADATA_KEY.PAIRED_END),
-      values: pairedEnd,
-    })
-  ); // Paired End
+  details.set(DATA_SUMMARY.PAIRED_END, stringifyValues(pairedEnd)); // Paired End
   // Workflow will not display if "Unspecified".
   if (isWorkflowSpecified(workflow)) {
     details.set(DATA_SUMMARY.WORKFLOW, getWorkflowValue(workflow)); // Analysis Protocol
