@@ -116,7 +116,12 @@ export const buildAccessions = (
   const keyValuePairs = new Map<Key, Value>();
   if (!accessionsByLabel.size) {
     keyValuePairs.set(null, "None");
-    return { keyValuePairs };
+    return {
+      KeyElType: Fragment,
+      KeyValueElType: Fragment,
+      KeyValuesElType: Fragment,
+      keyValuePairs,
+    };
   }
   for (const [label, accessions] of accessionsByLabel) {
     keyValuePairs.set(`${label}:`, getAccessionsKeyValue(accessions));
