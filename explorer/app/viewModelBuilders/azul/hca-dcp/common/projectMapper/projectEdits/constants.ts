@@ -1,6 +1,6 @@
 import { AnalysisPortal, ANALYSIS_PORTAL, ProjectEdit } from "./entities";
 
-const cellxgeneIcon = "/images/icons/cellxgene.svg";
+const cxgIcon = "/images/icons/cxg.png";
 const lgeaIcon = "/images/icons/lgea.png";
 const lungmapIcon = "/images/icons/lungmap.svg";
 const shinyIcon = "/images/icons/shiny.png";
@@ -10,12 +10,12 @@ const ucscCellBrowserIcon = "/images/icons/ucsc-cell.svg";
 const genomeBrowserIcon = "/images/icons/ucsc-genome.svg";
 
 /**
- * Cell By Gene analysis portal.
+ * CZ CELLxGENE analysis portal.
  */
-const CELLXGENE: Omit<AnalysisPortal, "url"> = {
-  icon: cellxgeneIcon,
-  label: "CELLxGENE",
-  name: ANALYSIS_PORTAL.CELLXGENE,
+const CZ_CELLXGENE: Omit<AnalysisPortal, "url"> = {
+  icon: cxgIcon,
+  label: "CZ CELLxGENE",
+  name: ANALYSIS_PORTAL.CZ_CELLXGENE,
 };
 
 /**
@@ -109,7 +109,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/4d74781b-8186-4c9a-b659-ff4dc4601d91",
       },
       {
@@ -136,7 +136,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/a9254216-6cd8-4186-b32c-349363777584",
       },
       {
@@ -160,7 +160,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/24d42e5e-ce6d-45ff-a66b-a3b3b715deaf",
       },
     ],
@@ -176,7 +176,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/bd5230f4-cd76-4d35-9ee5-89b3e7475659",
       },
       {
@@ -226,7 +226,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/2b02dff7-e427-4cdc-96fb-c0f354c099aa",
       },
       {
@@ -248,7 +248,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/120e86b4-1195-48c5-845b-b98054105eec",
       },
       {
@@ -265,7 +265,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/7681c7d7-0168-4892-a547-6f02a6430ace",
       },
       {
@@ -278,7 +278,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/3472f32d-4a33-48e2-aad5-666d4631bf4c",
       },
     ],
@@ -305,7 +305,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/b52eb423-5d0d-4645-b217-e1c6d38b2e72",
       },
       {
@@ -331,7 +331,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/a238e9fa-2bdf-41df-8522-69046f99baff",
       },
       {
@@ -392,7 +392,7 @@ export const projectEdits: ProjectEdit[] = [
         url: "https://covid19-influenza-response.cells.ucsc.edu",
       },
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/4f889ffc-d4bc-4748-905b-8eb9db47a2ed",
       },
     ],
@@ -401,7 +401,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/de13e3e2-23b6-40ed-a413-e9e12d7d3910",
       },
       {
@@ -414,7 +414,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/558385a4-b7b7-4eca-af0c-9e54d010e8dc",
       },
       {
@@ -427,7 +427,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/cdfb9ead-cb58-4a53-879d-5e4ed5329e73",
       },
       {
@@ -493,7 +493,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/38833785-fac5-48fd-944a-0f62a4c23ed1",
       },
       {
@@ -524,7 +524,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/c9706a92-0e5f-46c1-96d8-20e42467f287",
       },
     ],
@@ -533,7 +533,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/db468083-041c-41ca-8f6f-bf991a070adf",
       },
     ],
@@ -542,7 +542,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/f8057c47-fcd8-4fcf-88b0-e2f930080f6e",
       },
       {
@@ -555,7 +555,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/c114c20f-1ef4-49a5-9c2e-d965787fb90c",
       },
       {
@@ -572,7 +572,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/af893e86-8e9f-41f1-a474-ef05359b1fb7",
       },
       {
@@ -585,7 +585,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/8191c283-0816-424b-9b61-c3e1d6258a77",
       },
     ],
@@ -594,7 +594,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/48d354f5-a5ca-4f35-a3bb-fa3687502252",
       },
       {
@@ -615,7 +615,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/6e067060-f7e4-466c-86f3-ec3dd33c0381",
       },
       {
@@ -670,7 +670,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/e2a4a67f-6a18-431a-ab9c-6e77dd31cc80",
       },
       {
@@ -683,7 +683,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/9b02383a-9358-4f0f-9795-a891ec523bcc",
       },
     ],
@@ -692,7 +692,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/1b014f39-f202-45ae-bb7d-9286bddd8d8b",
       },
       {
@@ -714,7 +714,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/03f821b4-87be-4ff4-b65a-b5fc00061da7",
       },
       {
@@ -727,7 +727,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/44531dd9-1388-4416-a117-af0a99de2294",
       },
     ],
@@ -736,7 +736,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/436154da-bcf1-4130-9c8b-120ff9a888f2",
       },
     ],
@@ -745,7 +745,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/83ed3be8-4cb9-43e6-9aaa-3fbbf5d1bd3a",
       },
     ],
@@ -763,7 +763,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/e5f58829-1a66-40b5-a624-9046778e74f5",
       },
       {
@@ -789,7 +789,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/c353707f-09a4-4f12-92a0-cb741e57e5f0",
       },
       {
@@ -815,7 +815,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/ddfad306-714d-4cc0-9985-d9072820c530",
       },
       {
@@ -828,7 +828,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/a3ffde6c-7ad2-498a-903c-d58e732f7470",
       },
       {
@@ -841,7 +841,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/33d19f34-87f5-455b-8ca5-9023a2e5453d",
       },
       {
@@ -854,7 +854,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/64b24fda-6591-4ce1-89e7-33eb6c43ad7b",
       },
       {
@@ -867,7 +867,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/fc77d2ae-247d-44d7-aa24-3f4859254c2c",
       },
     ],
@@ -876,7 +876,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/2902f08c-f83c-470e-a541-e463e25e5058",
       },
       {
@@ -889,7 +889,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/2f4c738f-e2f3-4553-9db2-0582a38ea4dc",
       },
       {
@@ -902,7 +902,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/32f2fd23-ec74-486f-9544-e5b2f41725f5",
       },
     ],
@@ -911,7 +911,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/793fdaec-5067-428a-a9db-ecefe135c945",
       },
     ],
@@ -920,7 +920,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/e33ffcd3-7cbf-4b8c-b0f4-85587ad5019a",
       },
       {
@@ -933,7 +933,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/60358420-6055-411d-ba4f-e8ac80682a2e",
       },
     ],
@@ -942,7 +942,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/6ff3401b-d72c-4940-a00c-3f0792397082",
       },
       {
@@ -955,7 +955,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/a261413d-835b-4f1e-ab0c-dada55ea6afd",
       },
     ],
@@ -964,7 +964,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/b1a879f6-5638-48d3-8f64-f6592c1b1561",
       },
       {
@@ -977,7 +977,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/a98b828a-622a-483a-80e0-15703678befd",
       },
     ],
@@ -995,7 +995,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/eb735cc9-d0a7-48fa-b255-db726bf365af",
       },
       {
@@ -1008,7 +1008,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/63d03351-06be-478e-a0db-f7a653b6b19b",
       },
     ],
@@ -1017,7 +1017,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/3a2af25b-2338-4266-aad3-aa8d07473f50",
       },
     ],
@@ -1026,7 +1026,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/dde06e0f-ab3b-46be-96a2-a8082383c4a1",
       },
       {
@@ -1039,7 +1039,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/b0cf0afa-ec40-4d65-b570-ed4ceacc6813",
       },
       {
@@ -1052,7 +1052,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/8f126edf-5405-4731-8374-b5ce11f53e82",
       },
       {
@@ -1065,7 +1065,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/ed9185e3-5b82-40c7-9824-b2141590c7f0",
       },
       {
@@ -1078,7 +1078,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/e4c9ed14-e560-4900-a3bf-b0f8d2ce6a10",
       },
       {
@@ -1091,7 +1091,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/dfc09a93-bce0-4c77-893d-e153d1b7f9fa",
       },
     ],
@@ -1100,7 +1100,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/ced320a1-29f3-47c1-a735-513c7084d508",
       },
     ],
@@ -1109,7 +1109,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/74e10dc4-cbb2-4605-a189-8a1cd8e44d8c",
       },
     ],
@@ -1118,7 +1118,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/2a0b02c0-fea6-47bd-92b9-9b03f5d2580c",
       },
     ],
@@ -1127,7 +1127,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/125eef58-0f61-4963-9b08-53e851ab65fb",
       },
     ],
@@ -1136,7 +1136,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/10bf5c50-8d85-4c5f-94b4-22c1363d9f31",
       },
     ],
@@ -1145,7 +1145,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/3f50314f-bdc9-40c6-8e4a-b0901ebfbe4c",
       },
     ],
@@ -1154,7 +1154,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/0a839c4b-10d0-4d64-9272-684c49a2c8ba",
       },
       {
@@ -1167,7 +1167,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/35d0b748-3eed-43a5-a1c4-1dade5ec5ca0",
       },
     ],
@@ -1176,7 +1176,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/a48f5033-3438-4550-8574-cdff3263fdfd",
       },
       {
@@ -1189,7 +1189,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/6d203948-a779-4b69-9b3f-1ee1dadc3980",
       },
     ],
@@ -1198,7 +1198,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/5c868b6f-62c5-4532-9d7f-a346ad4b50a7",
       },
     ],
@@ -1207,7 +1207,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/348da6dc-5bf6-435d-adc5-37747b9ae38a",
       },
       {
@@ -1220,7 +1220,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/1a486c4c-c115-4721-8c9f-f9f096e10857",
       },
     ],
@@ -1229,7 +1229,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/b3e2c6e3-9b05-4da9-8f42-da38a664b45b",
       },
     ],
@@ -1238,7 +1238,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/1d1c7275-476a-49e2-9022-ad1b1c793594",
       },
     ],
@@ -1247,7 +1247,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/1df8c90d-d299-4b2e-a54d-a5a80f36e780",
       },
     ],
@@ -1256,7 +1256,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/62ef75e4-cbea-454e-a0ce-998ec40223d3",
       },
       {
@@ -1269,7 +1269,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/9d63fcf1-5ca0-4006-8d8f-872f3327dbe9",
       },
     ],
@@ -1444,7 +1444,7 @@ export const projectEdits: ProjectEdit[] = [
         url: "https://human-hippo-axis.cells.ucsc.edu",
       },
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/f17b9205-f61f-4a0f-a65a-73ba91c50ade",
       },
     ],
@@ -1475,7 +1475,7 @@ export const projectEdits: ProjectEdit[] = [
         url: "https://stanford-czb-hlca.cells.ucsc.edu",
       },
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/5d445965-6f1a-4b68-ba3a-b8f765155d3a",
       },
     ],
@@ -1511,7 +1511,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/939769a8-d8d2-4d01-abfc-55699893fd49",
       },
       {
@@ -1551,7 +1551,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/7edef704-f63a-462c-8636-4bc86a9472bd",
       },
       {
@@ -1564,7 +1564,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/03cdc7f4-bd08-49d0-a395-4487c0e5a168",
       },
     ],
@@ -1573,7 +1573,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/180bff9c-c8a5-4539-b13b-ddbc00d643e6",
       },
     ],
@@ -1582,7 +1582,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/99f1515b-46a2-4bc4-94c3-f62659dc1eb4",
       },
     ],
@@ -1591,7 +1591,7 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...CELLXGENE,
+        ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/f7cecffa-00b4-4560-a29a-8ad626b8ee08",
       },
     ],

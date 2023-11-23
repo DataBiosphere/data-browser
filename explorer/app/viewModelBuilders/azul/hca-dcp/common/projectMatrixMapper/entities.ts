@@ -1,11 +1,10 @@
-import { GenusSpecies, ProjectAnalysisPortalName } from "./constants";
+import { AnalysisPortal } from "../projectMapper/projectEdits/entities";
+import { GenusSpecies } from "./constants";
 
 /**
  * Model of a project-level analysis portal.
  */
-export interface ProjectAnalysisPortal {
-  name: ProjectAnalysisPortalName;
-  url: string;
+export interface ProjectAnalysisPortal extends AnalysisPortal {
   uuid: string;
 }
 
@@ -24,6 +23,7 @@ export interface ProjectMatrixTableView {
 export interface ProjectMatrixView {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- TODO - revisit type for meta
   [key: string]: any;
+
   // Populated from project edits JSON.
   analysisPortals?: ProjectAnalysisPortal[];
   // Allow additional meta e.g. library construction approach, species.
