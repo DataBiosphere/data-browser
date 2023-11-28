@@ -13,5 +13,6 @@ export enum CatalogDisplayName {
     "dcp30" = "",
     "dcp31" = "",
     "dcp32" = "",
+    "dcp33" = "",
     "dcp2ebi" = "DCP2EBI",
 }
