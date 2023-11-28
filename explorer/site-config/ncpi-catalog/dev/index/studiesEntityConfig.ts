@@ -21,7 +21,7 @@ import { sideColumn } from "../detail/study/overviewSideColumn";
 import { top } from "../detail/study/top";
 
 /**
- * Entity config object responsible for config related to the /explore/studies route.
+ * Entity config object responsible for config related to the /studies route.
  */
 export const studiesEntityConfig: EntityConfig<NCPICatalogStudy> = {
   detail: {

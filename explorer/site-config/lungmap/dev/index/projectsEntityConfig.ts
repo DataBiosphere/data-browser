@@ -12,7 +12,7 @@ import { sideColumn as metadataSideColumn } from "../detail/project/metadataSide
 import { sideColumn as projectFilesSideColumn } from "../detail/project/projectFilesSideColumn";
 
 /**
- * Entity config object responsible to config anything related to the /explore/projects route.
+ * Entity config object responsible to config anything related to the /projects route.
  */
 export const projectsEntityConfig: EntityConfig = {
   ...hcaProjectsEntity,

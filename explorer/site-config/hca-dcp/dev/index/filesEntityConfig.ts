@@ -11,7 +11,7 @@ import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewMo
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../../category";
 
 /**
- * Entity config object responsible to config anything related to the /explore/files route.
+ * Entity config object responsible to config anything related to the /files route.
  */
 export const filesEntityConfig: EntityConfig<FilesResponse> = {
   apiPath: "index/files",

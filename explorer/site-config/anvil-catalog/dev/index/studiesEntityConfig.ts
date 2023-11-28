@@ -22,7 +22,7 @@ import { top } from "../detail/study/top";
 import { workspacesMainColumn } from "../detail/study/workspacesMainColumn";
 
 /**
- * Entity config object responsible to config anything related to the /explore/studies route.
+ * Entity config object responsible to config anything related to the /studies route.
  */
 export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
   detail: {

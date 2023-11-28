@@ -23,7 +23,7 @@ import { top } from "../detail/consortium/top";
 import { workspacesMainColumn } from "../detail/consortium/workspacesMainColumn";
 
 /**
- * Entity config object responsible to config anything related to the /explore/consortia route.
+ * Entity config object responsible to config anything related to the /consortia route.
  */
 export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
   detail: {

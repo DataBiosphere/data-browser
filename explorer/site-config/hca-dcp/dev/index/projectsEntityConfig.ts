@@ -23,7 +23,7 @@ import { sideColumn as projectFilesSideColumn } from "../detail/project/projectF
 import { top } from "../detail/project/top";
 
 /**
- * Entity config object responsible to config anything related to the /explore/projects route.
+ * Entity config object responsible to config anything related to the /projects route.
  */
 export const projectsEntityConfig: EntityConfig = {
   apiPath: "index/projects",

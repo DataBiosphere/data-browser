@@ -11,7 +11,7 @@ import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/commo
 import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "../category";
 
 /**
- * Entity config object responsible for config related to the /explore/libraries route.
+ * Entity config object responsible for config related to the /libraries route.
  */
 export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
   apiPath: "index/libraries",

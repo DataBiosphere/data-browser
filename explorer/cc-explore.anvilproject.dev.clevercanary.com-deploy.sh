@@ -16,7 +16,7 @@ mkdir -p build/explore/anvil-cmg
 # Build AnVIL Explorer
 rm -rf ./out
 npm run build-cc-dev:anvil-cmg
-mv out/explore/* build/explore
+mv out/* build
 
 
 export BUCKET=s3://explore.anvilproject.dev.clevercanary.com/

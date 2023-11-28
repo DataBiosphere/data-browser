@@ -16,7 +16,7 @@ import { listHero } from "../listView/listHero";
 import { subTitleHero } from "../listView/subTitleHero";
 
 /**
- * Entity config object responsible for config related to the /explore/donors route.
+ * Entity config object responsible for config related to the /donors route.
  */
 export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
   apiPath: "index/donors",

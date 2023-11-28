@@ -21,7 +21,7 @@ import { listHero } from "../listView/datasetsListHero";
 import { subTitleHero } from "../listView/subTitleHero";
 
 /**
- * Entity config object responsible for config related to the /explore/datasets route.
+ * Entity config object responsible for config related to the /datasets route.
  */
 export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
   apiPath: "index/datasets",

@@ -29,7 +29,7 @@ export const downloadColumn: ColumnConfig = {
 };
 
 /**
- * Entity config object responsible for config related to the /explore/files route.
+ * Entity config object responsible for config related to the /files route.
  */
 export const filesEntityConfig: EntityConfig<FilesResponse> = {
   apiPath: "index/files",

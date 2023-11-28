@@ -18,7 +18,7 @@ import {
 } from "../../category";
 
 /**
- * Entity config object responsible to config anything related to the /explore/workspaces route.
+ * Entity config object responsible to config anything related to the /workspaces route.
  */
 export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
   detail: {
