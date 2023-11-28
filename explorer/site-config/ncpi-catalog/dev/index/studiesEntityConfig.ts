@@ -4,6 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { NCPICatalogStudy } from "../../../../app/apis/catalog/ncpi-catalog/common/entities";
 import {
   getStudyId,
@@ -36,6 +37,8 @@ export const studiesEntityConfig: EntityConfig<NCPICatalogStudy> = {
     ],
     top: top,
   },
+  entityMapper: NCPIStudyInputMapper,
+  exploreMode: EXPLORE_MODE.CS_FETCH_CS_FILTERING,
   getId: getStudyId,
   label: "Studies",
   list: {
@@ -124,7 +127,5 @@ export const studiesEntityConfig: EntityConfig<NCPICatalogStudy> = {
     enableDownload: true,
   },
   route: "studies",
-  staticEntityImportMapper: NCPIStudyInputMapper,
-  staticLoad: true,
   staticLoadFile: "files/ncpi-catalog/out/ncpi-platform-studies.json",
 };

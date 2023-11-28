@@ -4,6 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { SamplesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
@@ -20,6 +21,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
     tabs: [],
     top: [],
   },
+  exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
   label: "Samples",
   list: {
     columns: [
@@ -113,5 +115,4 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
     },
   } as ListConfig<SamplesResponse>,
   route: "samples",
-  staticLoad: false,
 };

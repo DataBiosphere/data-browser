@@ -4,6 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { NCPICatalogPlatform } from "../../../../app/apis/catalog/ncpi-catalog/common/entities";
 import {
   getPlatformId,
@@ -26,6 +27,8 @@ export const platformsEntityConfig: EntityConfig<NCPICatalogPlatform> = {
     tabs: [],
     top: [],
   },
+  entityMapper: NCPIPlatformInputMapper,
+  exploreMode: EXPLORE_MODE.CS_FETCH_CS_FILTERING,
   getId: getPlatformId,
   label: "Platforms",
   list: {
@@ -113,7 +116,5 @@ export const platformsEntityConfig: EntityConfig<NCPICatalogPlatform> = {
     enableDownload: true,
   },
   route: "platforms",
-  staticEntityImportMapper: NCPIPlatformInputMapper,
-  staticLoad: true,
   staticLoadFile: "files/ncpi-catalog/out/ncpi-platforms.json",
 };

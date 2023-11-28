@@ -1,8 +1,8 @@
 import { AzulEntitiesStaticResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { EntityConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { getEntityConfig } from "@clevercanary/data-explorer-ui/lib/config/utils";
-import { EMPTY_PAGE } from "@clevercanary/data-explorer-ui/lib/entity/api/constants";
 import { getEntityService } from "@clevercanary/data-explorer-ui/lib/hooks/useEntityService";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { database } from "@clevercanary/data-explorer-ui/lib/utils/database";
 import { ExploreView } from "@clevercanary/data-explorer-ui/lib/views/ExploreView/exploreView";
 import { config } from "app/config/config";
@@ -28,7 +28,7 @@ const seedDatabase = async function seedDatabase( // TODO get rid of this duplic
   entityListType: string,
   entityConfig: EntityConfig
 ): Promise<void> {
-  const { label, staticEntityImportMapper, staticLoadFile } = entityConfig;
+  const { entityMapper, label, staticLoadFile } = entityConfig;
 
   if (!staticLoadFile) {
     throw new Error(`staticLoadFile not found for entity entity ${label}`);
@@ -42,8 +42,8 @@ const seedDatabase = async function seedDatabase( // TODO get rid of this duplic
   }
 
   const object = JSON.parse(rawData.toString());
-  const entities = staticEntityImportMapper
-    ? Object.values(object).map(staticEntityImportMapper)
+  const entities = entityMapper
+    ? Object.values(object).map(entityMapper)
     : Object.values(object);
 
   // Seed entities.
@@ -92,24 +92,24 @@ export const getStaticProps: GetStaticProps<
   const { entityListType } = context.params as PageUrl;
   const { entities } = appConfig;
   const entityConfig = getEntityConfig(entities, entityListType);
-  const { staticLoad } = entityConfig;
+  const { exploreMode } = entityConfig;
   const { fetchAllEntities } = getEntityService(entityConfig, undefined); // Determine the type of fetch, either from an API endpoint or a TSV.
 
+  const props: AzulEntitiesStaticResponse = { entityListType };
+
   // Seed database.
-  if (entityConfig && staticLoad) {
+  if (exploreMode === EXPLORE_MODE.CS_FETCH_CS_FILTERING) {
     await seedDatabase(entityListType, entityConfig);
+  } else {
+    // Entities are fetched server-side.
+    return { props };
   }
 
-  // Fetch the result set from either a configured API endpoint or from a local database seeded from a configured TSV.
-  const resultList = entityConfig.staticLoad
-    ? await fetchAllEntities(entityListType)
-    : EMPTY_PAGE;
+  // Entities are client-side fetched from a local database seeded from a configured TSV.
+  props.data = await fetchAllEntities(entityListType);
 
   return {
-    props: {
-      data: resultList,
-      entityListType: entityListType,
-    },
+    props,
   };
 };
 

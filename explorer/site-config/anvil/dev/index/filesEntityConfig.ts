@@ -4,6 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { FilesResponse } from "../../../../app/apis/azul/anvil/common/responses";
 import * as Components from "../../../../app/components";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
@@ -20,6 +21,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     tabs: [],
     top: [],
   },
+  exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
   label: "Files",
   list: {
     columns: [
@@ -75,5 +77,4 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     },
   } as ListConfig<FilesResponse>,
   route: "files",
-  staticLoad: false,
 };

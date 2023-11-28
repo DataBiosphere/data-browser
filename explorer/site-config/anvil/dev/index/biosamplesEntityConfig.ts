@@ -4,6 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { BioSamplesResponse } from "../../../../app/apis/azul/anvil/common/responses";
 import * as Components from "../../../../app/components";
 import * as ViewBuilders from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
@@ -20,6 +21,7 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
     tabs: [],
     top: [],
   },
+  exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
   label: "BioSamples",
   list: {
     columns: [
@@ -84,5 +86,4 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
     },
   } as ListConfig<BioSamplesResponse>,
   route: "biosamples",
-  staticLoad: false,
 };
