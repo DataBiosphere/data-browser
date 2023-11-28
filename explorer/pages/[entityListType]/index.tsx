@@ -28,7 +28,7 @@ const seedDatabase = async function seedDatabase( // TODO get rid of this duplic
   entityListType: string,
   entityConfig: EntityConfig
 ): Promise<void> {
-  const { entityMapper, label, staticLoadFile } = entityConfig;
+  const { label, staticLoadFile } = entityConfig;
 
   if (!staticLoadFile) {
     throw new Error(`staticLoadFile not found for entity entity ${label}`);
@@ -42,9 +42,7 @@ const seedDatabase = async function seedDatabase( // TODO get rid of this duplic
   }
 
   const object = JSON.parse(rawData.toString());
-  const entities = entityMapper
-    ? Object.values(object).map(entityMapper)
-    : Object.values(object);
+  const entities = Object.values(object); // Client-side fetched entities are mapped prior to dispatch to explore state.
 
   // Seed entities.
   database.get().seed(entityListType, entities);
