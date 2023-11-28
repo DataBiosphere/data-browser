@@ -139,7 +139,7 @@ const config: SiteConfig = {
       size: PAGINATION_PAGE_SIZE,
     },
     defaultParams: {
-      catalog: "dcp32",
+      catalog: "dcp33",
     },
     url: "https://service.azul.data.humancellatlas.org/",
   },
