@@ -4,6 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { AnVILCatalogWorkspace } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
 import {
   anvilCatalogWorkspaceInputMapper,
@@ -26,6 +27,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
     tabs: [],
     top: [],
   },
+  entityMapper: anvilCatalogWorkspaceInputMapper,
+  exploreMode: EXPLORE_MODE.CS_FETCH_CS_FILTERING,
   getId: getWorkspaceId,
   label: "Workspaces",
   list: {
@@ -132,7 +135,5 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
     enableDownload: true,
   },
   route: "workspaces",
-  staticEntityImportMapper: anvilCatalogWorkspaceInputMapper,
-  staticLoad: true,
   staticLoadFile: "files/anvil-catalog/out/anvil-workspaces.json",
 };

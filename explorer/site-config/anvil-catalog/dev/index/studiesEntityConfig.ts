@@ -4,6 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { AnVILCatalogStudy } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
 import {
   anvilCatalogStudyInputMapper,
@@ -42,6 +43,8 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
     ],
     top: top,
   },
+  entityMapper: anvilCatalogStudyInputMapper,
+  exploreMode: EXPLORE_MODE.CS_FETCH_CS_FILTERING,
   getId: getStudyId,
   label: "Studies",
   list: {
@@ -156,7 +159,5 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
     enableDownload: true,
   },
   route: "studies",
-  staticEntityImportMapper: anvilCatalogStudyInputMapper,
-  staticLoad: true,
   staticLoadFile: "files/anvil-catalog/out/anvil-studies.json",
 };

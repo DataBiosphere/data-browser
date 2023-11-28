@@ -4,6 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { AnVILCatalogConsortium } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
 import {
   anvilCatalogConsortiumInputMapper,
@@ -48,6 +49,8 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
     ],
     top: top,
   },
+  entityMapper: anvilCatalogConsortiumInputMapper,
+  exploreMode: EXPLORE_MODE.CS_FETCH_CS_FILTERING,
   getId: getConsortiumId,
   label: "Consortia",
   list: {
@@ -155,7 +158,5 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
     enableDownload: true,
   },
   route: "consortia",
-  staticEntityImportMapper: anvilCatalogConsortiumInputMapper,
-  staticLoad: true,
   staticLoadFile: "files/anvil-catalog/out/anvil-consortia.json",
 };

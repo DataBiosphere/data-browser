@@ -4,6 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { ProjectsResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import { getProjectId } from "../../../../app/apis/azul/hca-dcp/common/utils";
 import * as C from "../../../../app/components";
@@ -62,6 +63,7 @@ export const projectsEntityConfig: EntityConfig = {
     ],
     top: top,
   },
+  exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
   getId: getProjectId,
   label: "Projects",
   list: {
@@ -138,5 +140,4 @@ export const projectsEntityConfig: EntityConfig = {
   } as ListConfig<ProjectsResponse>,
   overrides: projectEdits,
   route: "projects",
-  staticLoad: false,
 };

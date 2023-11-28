@@ -9,6 +9,7 @@ import {
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { getEntityConfig } from "@clevercanary/data-explorer-ui/lib/config/utils";
 import { getEntityService } from "@clevercanary/data-explorer-ui/lib/hooks/useEntityService";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { database } from "@clevercanary/data-explorer-ui/lib/utils/database";
 import { EntityDetailView } from "@clevercanary/data-explorer-ui/lib/views/EntityDetailView/entityDetailView";
 import { config } from "app/config/config";
@@ -79,7 +80,7 @@ const seedDatabase = async function seedDatabase(
   entityListType: string,
   entityConfig: EntityConfig
 ): Promise<void> {
-  const { label, staticEntityImportMapper, staticLoadFile } = entityConfig;
+  const { entityMapper, label, staticLoadFile } = entityConfig;
 
   if (!staticLoadFile) {
     throw new Error(`staticLoadFile not found for entity entity ${label}`);
@@ -93,8 +94,8 @@ const seedDatabase = async function seedDatabase(
   }
 
   const object = JSON.parse(rawData.toString());
-  const entities = staticEntityImportMapper
-    ? Object.values(object).map(staticEntityImportMapper)
+  const entities = entityMapper
+    ? Object.values(object).map(entityMapper)
     : Object.values(object);
 
   // Seed entities.
@@ -109,21 +110,24 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   const { entities } = appConfig;
   const paths = await Promise.all(
     entities.map(async (entityConfig) => {
+      const { exploreMode } = entityConfig;
       // Seed database.
       if (
-        entityConfig &&
-        entityConfig.staticLoad &&
+        exploreMode === EXPLORE_MODE.CS_FETCH_CS_FILTERING &&
         entityConfig.detail.staticLoad
       ) {
         await seedDatabase(entityConfig.route, entityConfig);
       }
 
       const resultParams: { params: PageUrl }[] = [];
-      if (entityConfig.detail.staticLoad && entityConfig.getId) {
-        const { fetchAllEntities, path } = getEntityService(
+
+      // Fetch entity data.
+      if (entityConfig.detail.staticLoad) {
+        const { fetchAllEntities, getId, path } = getEntityService(
           entityConfig,
           undefined
         );
+
         const data = await fetchAllEntities(path);
         const tabs = entityConfig.detail?.tabs.map((tab) => tab.route) ?? [];
 
@@ -135,7 +139,7 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
             resultParams.push({
               params: {
                 entityListType: entityConfig.route,
-                params: [entityConfig.getId?.(hit) ?? "", tab],
+                params: [getId?.(hit) ?? "", tab],
               },
             });
           });
@@ -161,7 +165,7 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
 
   const result = paths
     .reduce((prev, curr) => [...prev, ...curr], [])
-    .filter(({ params }) => !!params); // TODO why is this filter needed?
+    .filter(({ params }) => !!params);
 
   return {
     fallback: false, // others e.g. true, blocking are not supported with next export
@@ -171,11 +175,13 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
 
 export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   params,
-}: GetStaticPropsContext) => {
+}: // eslint-disable-next-line sonarjs/cognitive-complexity -- ignore for now.
+GetStaticPropsContext) => {
   const appConfig = config();
   const { entityListType } = params as PageUrl;
   const { entities } = appConfig;
   const entityConfig = getEntityConfig(entities, entityListType);
+  const { exploreMode } = entityConfig;
 
   if (!entityConfig) {
     return {
@@ -206,25 +212,39 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   // fetch the entity detail from API.
   if (entityConfig.detail.staticLoad) {
     // Seed database.
-    if (entityConfig.staticLoad) {
+    if (exploreMode === EXPLORE_MODE.CS_FETCH_CS_FILTERING) {
       await seedDatabase(entityConfig.route, entityConfig);
     }
     // Grab the entity detail, either from database or API.
-    const { fetchEntityDetail, path } = getEntityService(
-      entityConfig,
-      undefined
-    );
+    const { entityMapper, fetchEntity, fetchEntityDetail, getId, path } =
+      getEntityService(entityConfig, undefined);
     // When the entity detail is to be fetched from API, we only do so for the first tab.
-    if (!entityConfig.staticLoad && params?.params?.[PARAMS_INDEX_TAB]) {
+    if (
+      exploreMode === EXPLORE_MODE.SS_FETCH_SS_FILTERING &&
+      params?.params?.[PARAMS_INDEX_TAB]
+    ) {
       return { props };
     }
-    props.data = await fetchEntityDetail(
-      (params as PageUrl).params[PARAMS_INDEX_UUID],
-      path,
-      undefined,
-      undefined
-    );
+
+    if (exploreMode === EXPLORE_MODE.SS_FETCH_CS_FILTERING) {
+      if (getId && fetchEntity) {
+        props.data = await fetchEntity(
+          (params as PageUrl).params[PARAMS_INDEX_UUID],
+          path,
+          getId,
+          entityMapper
+        );
+      }
+    } else {
+      props.data = await fetchEntityDetail(
+        (params as PageUrl).params[PARAMS_INDEX_UUID],
+        path,
+        undefined,
+        undefined
+      );
+    }
   }
+
   return {
     props,
   };

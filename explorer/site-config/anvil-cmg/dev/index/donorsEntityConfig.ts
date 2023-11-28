@@ -4,6 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { DonorsResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
@@ -25,6 +26,7 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
     tabs: [],
     top: [],
   },
+  exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
   label: "Donors",
   list: {
     columns: [
@@ -93,5 +95,4 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
     subTitleHero,
   },
   route: "donors",
-  staticLoad: false,
 };

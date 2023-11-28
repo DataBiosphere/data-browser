@@ -24,6 +24,7 @@ export const studiesEntityConfig: EntityConfig<DugCatalogStudy> = {
     ],
     top: top,
   },
+  entityMapper: DugStudyInputMapper,
   listView: {
     disablePagination: true,
     relatedView: {
@@ -32,6 +33,5 @@ export const studiesEntityConfig: EntityConfig<DugCatalogStudy> = {
       searchKey: NCPI_CATALOG_CATEGORY_KEY.FOCUS,
     },
   },
-  staticEntityImportMapper: DugStudyInputMapper,
   staticLoadFile: "files/ncpi-catalog-dug/out/ncpi-dug-studies.json",
 };
