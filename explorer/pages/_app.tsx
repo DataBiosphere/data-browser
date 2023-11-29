@@ -12,6 +12,7 @@ import { AuthProvider } from "@clevercanary/data-explorer-ui/lib/providers/authe
 import { ConfigProvider as DXConfigProvider } from "@clevercanary/data-explorer-ui/lib/providers/config";
 import { ExploreStateProvider } from "@clevercanary/data-explorer-ui/lib/providers/exploreState";
 import { FileManifestStateProvider } from "@clevercanary/data-explorer-ui/lib/providers/fileManifestState";
+import { SystemStatusProvider } from "@clevercanary/data-explorer-ui/lib/providers/systemStatus";
 import { createAppTheme } from "@clevercanary/data-explorer-ui/lib/theme/theme";
 import { DataExplorerError } from "@clevercanary/data-explorer-ui/lib/types/error";
 import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
@@ -56,37 +57,39 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         <DXConfigProvider config={appConfig} entityListType={entityListType}>
           <Head />
           <CssBaseline />
-          <AuthProvider sessionTimeout={SESSION_TIMEOUT}>
-            <AppLayout>
-              <Header {...configuredHeaderProps} />
-              <ExploreStateProvider entityListType={entityListType}>
-                <FileManifestStateProvider>
-                  <Main>
-                    <ErrorBoundary
-                      fallbackRender={({
-                        error,
-                        reset,
-                      }: {
-                        error: DataExplorerError;
-                        reset: () => void;
-                      }): JSX.Element => (
-                        <Error
-                          errorMessage={error.message}
-                          requestUrlMessage={error.requestUrlMessage}
-                          rootPath={redirectRootToPath}
-                          onReset={reset}
-                        />
-                      )}
-                    >
-                      <Component {...pageProps} />
-                    </ErrorBoundary>
-                    {layout.support && <Support {...layout.support} />}
-                  </Main>
-                </FileManifestStateProvider>
-              </ExploreStateProvider>
-              <Footer {...layout.footer} />
-            </AppLayout>
-          </AuthProvider>
+          <SystemStatusProvider>
+            <AuthProvider sessionTimeout={SESSION_TIMEOUT}>
+              <AppLayout>
+                <Header {...configuredHeaderProps} />
+                <ExploreStateProvider entityListType={entityListType}>
+                  <FileManifestStateProvider>
+                    <Main>
+                      <ErrorBoundary
+                        fallbackRender={({
+                          error,
+                          reset,
+                        }: {
+                          error: DataExplorerError;
+                          reset: () => void;
+                        }): JSX.Element => (
+                          <Error
+                            errorMessage={error.message}
+                            requestUrlMessage={error.requestUrlMessage}
+                            rootPath={redirectRootToPath}
+                            onReset={reset}
+                          />
+                        )}
+                      >
+                        <Component {...pageProps} />
+                      </ErrorBoundary>
+                      {layout.support && <Support {...layout.support} />}
+                    </Main>
+                  </FileManifestStateProvider>
+                </ExploreStateProvider>
+                <Footer {...layout.footer} />
+              </AppLayout>
+            </AuthProvider>
+          </SystemStatusProvider>
         </DXConfigProvider>
       </ThemeProvider>
     </EmotionThemeProvider>
