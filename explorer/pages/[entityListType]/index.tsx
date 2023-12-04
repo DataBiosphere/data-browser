@@ -1,4 +1,5 @@
 import { AzulEntitiesStaticResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { Main as DXMain } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Main/main.styles";
 import { EntityConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { getEntityConfig } from "@clevercanary/data-explorer-ui/lib/config/utils";
 import { getEntityService } from "@clevercanary/data-explorer-ui/lib/hooks/useEntityService";
@@ -110,5 +111,7 @@ export const getStaticProps: GetStaticProps<
     props,
   };
 };
+
+IndexPage.Main = DXMain;
 
 export default IndexPage;
