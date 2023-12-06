@@ -514,10 +514,12 @@ export const buildExportMethodTerra = (
     buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-    disabled: !isFacetsSuccess || !isAccessible,
-    disabledByLine: isFacetsSuccess
-      ? "You currently don’t have access to any files matching the query."
-      : undefined,
+    footnote: isFacetsSuccess
+      ? isAccessible
+        ? null
+        : "You currently don’t have access to any files matching the query."
+      : null,
+    isAccessible: isFacetsSuccess && isAccessible,
     route: ROUTE_EXPORT_TO_TERRA,
     title: "Export Study Data and Metadata to Terra Workspace",
   };

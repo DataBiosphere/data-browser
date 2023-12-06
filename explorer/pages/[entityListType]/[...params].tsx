@@ -123,7 +123,7 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
 
       // Fetch entity data.
       if (entityConfig.detail.staticLoad) {
-        const { fetchAllEntities, getId, path } = getEntityService(
+        const { fetchAllEntities, path } = getEntityService(
           entityConfig,
           undefined
         );
@@ -139,7 +139,7 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
             resultParams.push({
               params: {
                 entityListType: entityConfig.route,
-                params: [getId?.(hit) ?? "", tab],
+                params: [entityConfig.getId?.(hit) ?? "", tab],
               },
             });
           });
@@ -216,7 +216,7 @@ GetStaticPropsContext) => {
       await seedDatabase(entityConfig.route, entityConfig);
     }
     // Grab the entity detail, either from database or API.
-    const { entityMapper, fetchEntity, fetchEntityDetail, getId, path } =
+    const { entityMapper, fetchEntity, fetchEntityDetail, path } =
       getEntityService(entityConfig, undefined);
     // When the entity detail is to be fetched from API, we only do so for the first tab.
     if (
@@ -227,11 +227,10 @@ GetStaticPropsContext) => {
     }
 
     if (exploreMode === EXPLORE_MODE.SS_FETCH_CS_FILTERING) {
-      if (getId && fetchEntity) {
+      if (fetchEntity) {
         props.data = await fetchEntity(
           (params as PageUrl).params[PARAMS_INDEX_UUID],
           path,
-          getId,
           entityMapper
         );
       }

@@ -547,13 +547,14 @@ export function buildExportHero(
  */
 export const buildExportMethodBulkDownload = (): React.ComponentProps<
   typeof C.ExportMethod
-> => ({
-  buttonLabel: "Request curl Command",
-  description: "Obtain a curl command for downloading the selected data.",
-  disabled: false,
-  route: ROUTE_BULK_DOWNLOAD,
-  title: "Download Study Data and Metadata (Curl Command)",
-});
+> => {
+  return {
+    buttonLabel: "Request curl Command",
+    description: "Obtain a curl command for downloading the selected data.",
+    route: ROUTE_BULK_DOWNLOAD,
+    title: "Download Study Data and Metadata (Curl Command)",
+  };
+};
 
 /**
  * Build props for download curl command Hero component.
@@ -612,14 +613,15 @@ export const buildExportMethodHeroTerra = (
  */
 export const buildExportMethodManifestDownload = (): React.ComponentProps<
   typeof C.ExportMethod
-> => ({
-  buttonLabel: "Request File Manifest",
-  description:
-    "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
-  disabled: false,
-  route: ROUTE_MANIFEST_DOWNLOAD,
-  title: "Download a File Manifest with Metadata for the Selected Data",
-});
+> => {
+  return {
+    buttonLabel: "Request File Manifest",
+    description:
+      "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
+    route: ROUTE_MANIFEST_DOWNLOAD,
+    title: "Download a File Manifest with Metadata for the Selected Data",
+  };
+};
 
 /**
  * Build props for ExportMethod component for display of the export to terra section.
@@ -627,14 +629,15 @@ export const buildExportMethodManifestDownload = (): React.ComponentProps<
  */
 export const buildExportMethodTerra = (): React.ComponentProps<
   typeof C.ExportMethod
-> => ({
-  buttonLabel: "Analyze in Terra",
-  description:
-    "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-  disabled: false,
-  route: ROUTE_EXPORT_TO_TERRA,
-  title: "Export Study Data and Metadata to Terra Workspace",
-});
+> => {
+  return {
+    buttonLabel: "Analyze in Terra",
+    description:
+      "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+    route: ROUTE_EXPORT_TO_TERRA,
+    title: "Export Study Data and Metadata to Terra Workspace",
+  };
+};
 
 /**
  * Build props for ExportSelectedDataSummary component.

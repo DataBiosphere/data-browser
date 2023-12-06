@@ -1,6 +1,10 @@
+import { APIEndpoints } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
-import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import {
+  SiteConfig,
+  SystemStatusBindResponseFn,
+} from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { tabletUp } from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
 import {
   TEXT_BODY_LARGE_500,
@@ -10,7 +14,9 @@ import {
   TEXT_HEADING_XLARGE,
 } from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
 import * as C from "../../../app/components/index";
+import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/hca-dcp/common/systemStatusMapper/systemStatusMapper";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
+import { announcements } from "./announcements/announcements";
 import { exportConfig } from "./export/export";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
@@ -20,9 +26,10 @@ import { supportConfig } from "./support/support";
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
+const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
+const DATA_URL = "https://service.azul.data.humancellatlas.org";
 const ORG_URL = "https://www.humancellatlas.org";
 const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
-const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
 
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
 const PAGINATION_PAGE_SIZE = "25";
@@ -141,7 +148,7 @@ const config: SiteConfig = {
     defaultParams: {
       catalog: "dcp33",
     },
-    url: "https://service.azul.data.humancellatlas.org/",
+    url: `${DATA_URL}/`,
   },
   entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
   explorerTitle: "Explore Data",
@@ -177,6 +184,7 @@ const config: SiteConfig = {
       ],
     },
     header: {
+      Announcements: C.RenderComponents({ components: announcements }),
       Logo: C.Logo({
         alt: APP_TITLE,
         height: 32.5,
@@ -213,6 +221,10 @@ const config: SiteConfig = {
   summaryConfig: {
     apiPath: "index/summary",
     components: summary,
+  },
+  systemStatus: {
+    apiPath: `${DATA_URL}${APIEndpoints.INDEX_STATUS}`,
+    bindResponse: <SystemStatusBindResponseFn>bindSystemStatusResponse,
   },
   themeOptions: {
     palette: {
