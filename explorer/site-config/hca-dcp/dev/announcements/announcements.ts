@@ -12,7 +12,7 @@ export const announcements: ComponentsConfig = [
     component: C.SystemStatus,
     props: {
       title:
-        "One or more of the systems composing the HCA DCP is currently unavailable.",
+        "One or more of the systems composing the HCA DCP are currently unavailable.",
     },
   } as ComponentConfig<typeof C.SystemStatus>,
 ];

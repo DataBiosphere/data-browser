@@ -417,7 +417,6 @@ export const buildDownloadCurlCommand = (
   const {
     exploreState: { filterState },
     fileManifestState,
-    systemStatus,
   } = viewContext;
   // Get the form facets.
   const formFacet = getFormFacets(fileManifestState);
@@ -425,7 +424,6 @@ export const buildDownloadCurlCommand = (
     DownloadCurlForm: C.DownloadCurlCommandForm,
     DownloadCurlStart: MDX.DownloadCurlCommandStart,
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
-    disabled: systemStatus.indexing,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.BULK_DOWNLOAD,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
@@ -444,7 +442,7 @@ export const buildDownloadEntityCurlCommand = (
   projectsResponse: ProjectsResponse,
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.DownloadCurlCommand> => {
-  const { fileManifestState, systemStatus } = viewContext;
+  const { fileManifestState } = viewContext;
   // Get the initial filters.
   const filters = getExportEntityFilters(projectsResponse);
   // Get the form facets.
@@ -453,7 +451,6 @@ export const buildDownloadEntityCurlCommand = (
     DownloadCurlForm: C.DownloadCurlCommandForm,
     DownloadCurlStart: MDX.DownloadCurlCommandStart,
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
-    disabled: systemStatus.indexing,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.ENTITY_BULK_DOWNLOAD,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
@@ -504,7 +501,7 @@ export const buildExportEntityToTerra = (
   projectsResponse: ProjectsResponse,
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.ExportToTerra> => {
-  const { fileManifestState, systemStatus } = viewContext;
+  const { fileManifestState } = viewContext;
   // Get the initial filters.
   const filters = getExportEntityFilters(projectsResponse);
   // Get the form facets.
@@ -513,7 +510,6 @@ export const buildExportEntityToTerra = (
     ExportForm: C.ExportToTerraForm,
     ExportToTerraStart: MDX.ExportToTerra,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
-    disabled: systemStatus.indexing,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.ENITY_EXPORT_TO_TERRA,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
@@ -547,19 +543,14 @@ export function buildExportHero(
 
 /**
  * Build props for ExportMethod component for display of the download to curl command section.
- * @param _ - Unused.
- * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
-export const buildExportMethodBulkDownload = (
-  _: Unused,
-  viewContext: ViewContext
-): React.ComponentProps<typeof C.ExportMethod> => {
-  const { systemStatus } = viewContext;
+export const buildExportMethodBulkDownload = (): React.ComponentProps<
+  typeof C.ExportMethod
+> => {
   return {
     buttonLabel: "Request curl Command",
     description: "Obtain a curl command for downloading the selected data.",
-    disabled: systemStatus.indexing,
     route: ROUTE_BULK_DOWNLOAD,
     title: "Download Study Data and Metadata (Curl Command)",
   };
@@ -618,20 +609,15 @@ export const buildExportMethodHeroTerra = (
 
 /**
  * Build props for ExportMethod component for display of the manifest download section.
- * @param _ - Unused.
- * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
-export const buildExportMethodManifestDownload = (
-  _: Unused,
-  viewContext: ViewContext
-): React.ComponentProps<typeof C.ExportMethod> => {
-  const { systemStatus } = viewContext;
+export const buildExportMethodManifestDownload = (): React.ComponentProps<
+  typeof C.ExportMethod
+> => {
   return {
     buttonLabel: "Request File Manifest",
     description:
       "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
-    disabled: systemStatus.indexing,
     route: ROUTE_MANIFEST_DOWNLOAD,
     title: "Download a File Manifest with Metadata for the Selected Data",
   };
@@ -639,20 +625,15 @@ export const buildExportMethodManifestDownload = (
 
 /**
  * Build props for ExportMethod component for display of the export to terra section.
- * @param _ - Unused.
- * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
-export const buildExportMethodTerra = (
-  _: Unused,
-  viewContext: ViewContext
-): React.ComponentProps<typeof C.ExportMethod> => {
-  const { systemStatus } = viewContext;
+export const buildExportMethodTerra = (): React.ComponentProps<
+  typeof C.ExportMethod
+> => {
   return {
     buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-    disabled: systemStatus.indexing,
     route: ROUTE_EXPORT_TO_TERRA,
     title: "Export Study Data and Metadata to Terra Workspace",
   };
@@ -695,7 +676,6 @@ export const buildExportToTerra = (
   const {
     exploreState: { filterState },
     fileManifestState,
-    systemStatus,
   } = viewContext;
   // Get the form facets.
   const formFacet = getFormFacets(fileManifestState);
@@ -703,7 +683,6 @@ export const buildExportToTerra = (
     ExportForm: C.ExportToTerraForm,
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccessWithWarning,
-    disabled: systemStatus.indexing,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
@@ -876,7 +855,6 @@ export const buildManifestDownload = (
   const {
     exploreState: { filterState },
     fileManifestState,
-    systemStatus,
   } = viewContext;
   // Get the form facets.
   const formFacet = getFormFacets(fileManifestState);
@@ -884,7 +862,6 @@ export const buildManifestDownload = (
     ManifestDownloadForm: C.ManifestDownloadForm,
     ManifestDownloadStart: MDX.ManifestDownloadStart,
     ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
-    disabled: systemStatus.indexing,
     fileManifestState,
     fileManifestType: FILE_MANIFEST_TYPE.DOWNLOAD_MANIFEST,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
@@ -896,21 +873,16 @@ export const buildManifestDownload = (
 /*
  * Build props for ManifestDownloadEntity component.
  * @param projectsResponse - Response model return from the entity response API.
- * @param viewContext - View context.
  * @returns model to be used as props for the ManifestDownloadEntity component.
  */
 export const buildManifestDownloadEntity = (
-  projectsResponse: ProjectsResponse,
-  viewContext: ViewContext
+  projectsResponse: ProjectsResponse
 ): React.ComponentProps<typeof C.ManifestDownloadEntity> => {
-  // Get the system status.
-  const { systemStatus } = viewContext;
   // Get the initial filters.
   const filters = getExportEntityFilters(projectsResponse);
   // Get the metadata filters.
   const metadataFilters = getMetadataFilters(filters);
   return {
-    disabled: systemStatus.indexing,
     fileManifestType: FILE_MANIFEST_TYPE.ENTITY_DOWNLOAD_MANIFEST,
     filters,
     metadataFilters,
