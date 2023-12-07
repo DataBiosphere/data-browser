@@ -46,6 +46,7 @@ export interface DatasetEntity {
   accessible: boolean;
   consent_group: (string | null)[];
   dataset_id: string;
+  description?: string;
   registered_identifier: (string | null)[];
   title: string;
 }
