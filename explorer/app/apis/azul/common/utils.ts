@@ -44,7 +44,7 @@ type NumberOrNull = number | null;
 /**
  * Type of possible string values returned in a core value from Azul.
  */
-type StringOrNull = string | null;
+type StringOrNull = string | null | undefined;
 
 /**
  * Type of possible values returned in an aggregated value from Azul.
@@ -230,7 +230,7 @@ function aggregateResponseValues<
  * @param value - Boolean value.
  * @returns boolean value as string value.
  */
-function coerceBooleanToString(value: boolean | null): StringOrNull {
+function coerceBooleanToString(value: boolean | null): string | null {
   if (typeof value === "boolean") {
     return String(value);
   }

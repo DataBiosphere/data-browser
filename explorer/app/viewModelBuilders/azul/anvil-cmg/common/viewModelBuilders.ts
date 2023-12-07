@@ -214,15 +214,19 @@ export const buildDatasetAccess = (
 };
 
 /**
- * Build props for Description component from the given entity response.
- * TODO.
- * @returns model to be used as props for the Description component.
+ * Build props for Markdown component from the given entity response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the Markdown component.
  */
-export const buildDatasetDescription = (): React.ComponentProps<
-  typeof C.Description
-> => {
+export const buildDatasetDescription = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.Markdown> => {
   return {
-    projectDescription: LABEL.NONE,
+    content: processEntityValue(
+      datasetsResponse.datasets,
+      "description",
+      LABEL.NONE
+    ),
   };
 };
 
