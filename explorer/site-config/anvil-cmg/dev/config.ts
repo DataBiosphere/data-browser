@@ -12,6 +12,7 @@ import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { summary } from "./index/summary";
+import { floating } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -115,6 +116,7 @@ export function makeConfig(
     export: exportConfig,
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
     layout: {
+      floating,
       footer: {
         Branding: C.ANVILBranding({ portalURL: portalUrl }),
         navLinks: [

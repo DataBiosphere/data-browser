@@ -69,8 +69,6 @@ export { Description } from "@clevercanary/data-explorer-ui/lib/components/Proje
 export { Details } from "@clevercanary/data-explorer-ui/lib/components/Project/components/Details/details";
 export { Publications } from "@clevercanary/data-explorer-ui/lib/components/Project/components/Publications/publications";
 export { SupplementaryLinks } from "@clevercanary/data-explorer-ui/lib/components/Project/components/SupplementaryLinks/supplementaryLinks";
-export { SupportRequestForm } from "@clevercanary/data-explorer-ui/lib/components/Support/components/SupportRequest/components/SupportRequestForm/supportRequestForm";
-export { SupportRequestSubmitted } from "@clevercanary/data-explorer-ui/lib/components/Support/components/SupportRequest/components/SupportRequestSubmitted/supportRequestSubmitted";
 export { SupportRequest } from "@clevercanary/data-explorer-ui/lib/components/Support/components/SupportRequest/supportRequest";
 export { ExportMethodView } from "@clevercanary/data-explorer-ui/lib/views/ExportMethodView/exportMethodView";
 export { Fade } from "./common/Fade/fade";
