@@ -4,10 +4,10 @@ import { Error } from "@clevercanary/data-explorer-ui/lib/components/Error/error
 import { ErrorBoundary } from "@clevercanary/data-explorer-ui/lib/components/ErrorBoundary";
 import { Head } from "@clevercanary/data-explorer-ui/lib/components/Head/head";
 import { AppLayout } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/AppLayout/appLayout.styles";
+import { Floating } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Floating/floating";
 import { Footer } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Footer/footer";
 import { Header } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/header";
 import { Main as DXMain } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Main/main";
-import { Support } from "@clevercanary/data-explorer-ui/lib/components/Support/support";
 import { AuthProvider } from "@clevercanary/data-explorer-ui/lib/providers/authentication";
 import { ConfigProvider as DXConfigProvider } from "@clevercanary/data-explorer-ui/lib/providers/config";
 import { ExploreStateProvider } from "@clevercanary/data-explorer-ui/lib/providers/exploreState";
@@ -46,6 +46,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
   const appConfig = config();
   const { analytics, layout, redirectRootToPath, themeOptions } = appConfig;
   const { gtmAuth, gtmId, gtmPreview } = analytics || {};
+  const { floating, footer } = layout || {};
   const theme = createAppTheme(themeOptions);
   const { entityListType } = pageProps as AzulEntitiesStaticResponse;
   const isFeatureFlag = useFeatureFlag(FEATURES.HEADER);
@@ -93,12 +94,12 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
                           )}
                         >
                           <Component {...pageProps} />
+                          <Floating {...floating} />
                         </ErrorBoundary>
-                        {layout.support && <Support {...layout.support} />}
                       </Main>
                     </FileManifestStateProvider>
                   </ExploreStateProvider>
-                  <Footer {...layout.footer} />
+                  <Footer {...footer} />
                 </AppLayout>
               </LayoutStateProvider>
             </AuthProvider>

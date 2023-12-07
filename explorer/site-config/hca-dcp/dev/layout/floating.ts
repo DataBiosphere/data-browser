@@ -1,0 +1,31 @@
+import { REQUEST_FIELD_ID } from "@clevercanary/data-explorer-ui/lib/components/Support/components/SupportRequest/components/SupportRequestForm/common/entities";
+import {
+  ComponentConfig,
+  FloatingConfig,
+} from "@clevercanary/data-explorer-ui/lib/config/entities";
+import * as C from "app/components";
+
+const ZENDESK_FIELD_ID: Record<REQUEST_FIELD_ID, number> = {
+  DESCRIPTION: 360007369412,
+  EMAIL: 360012782111,
+  SUBJECT: 360007369392,
+  TICKET_FORM_ID: 360000932232,
+  TYPE: 360012744452,
+};
+const ZENDESK_REQUEST_URL = "https://support.terra.bio/api/v2/requests.json";
+const ZENDESK_UPLOAD_URL = "https://support.terra.bio/api/v2/uploads";
+
+export const floating: FloatingConfig = {
+  components: [
+    {
+      component: C.SupportRequest,
+      props: {
+        supportRequest: {
+          FIELD_ID: ZENDESK_FIELD_ID,
+          requestURL: ZENDESK_REQUEST_URL,
+          uploadURL: ZENDESK_UPLOAD_URL,
+        },
+      },
+    } as ComponentConfig<typeof C.SupportRequest>,
+  ],
+};

@@ -22,7 +22,7 @@ import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { summary } from "./index/summary";
-import { supportConfig } from "./support/support";
+import { floating } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
@@ -155,6 +155,7 @@ const config: SiteConfig = {
   export: exportConfig,
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
+    floating,
     footer: {
       Branding: C.HCABranding({
         orgURL: ORG_URL,
@@ -215,7 +216,6 @@ const config: SiteConfig = {
       searchEnabled: false,
       searchURL: `${PORTAL_URL}/search`,
     },
-    support: supportConfig,
   },
   redirectRootToPath: PROJECTS_URL,
   summaryConfig: {
