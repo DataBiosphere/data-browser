@@ -216,7 +216,7 @@ export const buildCitation = (
   );
   return {
     projectPath: projectId ? projectId : undefined,
-    url: browserURL ? `${browserURL}/explore/projects/` : undefined,
+    url: browserURL ? `${browserURL}/projects/` : undefined,
   };
 };
 
