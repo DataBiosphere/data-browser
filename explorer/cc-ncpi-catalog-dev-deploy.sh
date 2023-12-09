@@ -9,7 +9,6 @@ n 16.15.1
 npm ci
 
 # Build
-rm -rf ./out
 npm run build-dev:ncpi-catalog
 
 export BUCKET=s3://g78-ncpi-data.humancellatlas.dev/
