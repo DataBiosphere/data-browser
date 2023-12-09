@@ -1,5 +1,4 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { HEADER_NAVIGATION_LABEL } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/common/constants";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "../../../app/components/index";
 import anvilConfig from "../../anvil/dev/config";
@@ -15,7 +14,6 @@ const logoNcpi = "/images/logoNcpi.svg";
 
 // Template constants
 const APP_TITLE = "NCPI Dataset Catalog";
-const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
 const SLOGAN = "NIH Cloud Platform Interoperability Effort";
 
 // Remove the summary from the AnVIL config.
