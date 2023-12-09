@@ -2,25 +2,17 @@
 # Set the script to exit immediately on error
 set -e
 
+echo \"Deleting ./out/\"
 rm -rf ./out
-
-echo \"Deleting ./build/\"
-rm -rf ./build
 
 n 16.15.1
 npm ci
-export NEXT_PUBLIC_BASE_PATH="/ncpi/data"
-#./insert-gtm-snippet.sh
 
-mkdir -p build/ncpi/data
-
-# Build AnVIL
-rm -rf ./out
+# Build
 npm run build-prod:ncpi-catalog
-mv out/ncpi/data/* build/ncpi/data
 
-export BUCKET=s3://ptm-anvilproject.org.ncpi.data/
-export SRCDIR=build/
+export BUCKET=s3://TODO/
+export SRCDIR=out/a
 
 aws s3 sync  $SRCDIR $BUCKET --delete  --profile platform-anvil-portal
-aws cloudfront create-invalidation --distribution-id E3PPAMUU6T4255 --paths "/*" --profile platform-anvil-portal
+aws cloudfront create-invalidation --distribution-id TODO --paths "/*" --profile platform-anvil-portal

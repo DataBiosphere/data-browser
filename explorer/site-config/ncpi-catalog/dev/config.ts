@@ -1,5 +1,4 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { HEADER_NAVIGATION_LABEL } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/common/constants";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "../../../app/components/index";
 import anvilConfig from "../../anvil/dev/config";
@@ -15,7 +14,6 @@ const logoNcpi = "/images/logoNcpi.svg";
 
 // Template constants
 const APP_TITLE = "NCPI Dataset Catalog";
-const BROWSER_URL = process.env.NEXT_PUBLIC_SITEMAP_DOMAIN || "";
 const SLOGAN = "NIH Cloud Platform Interoperability Effort";
 
 // Remove the summary from the AnVIL config.
@@ -64,62 +62,31 @@ const config: SiteConfig = {
       ],
     },
   ],
-  entities: [studiesEntityConfig, platformsEntityConfig],
+  entities: [platformsEntityConfig, studiesEntityConfig],
   explorerTitle: "NCPI Dataset Catalog",
   layout: {
-    footer: { ...anvilConfig.layout.footer, socials: socialMedia.socials },
+    footer: {
+      Branding: C.ANVILBranding({ portalURL: undefined }),
+      navLinks: [],
+      socials: socialMedia.socials,
+    },
     header: {
       Logo: C.Logo({
         alt: APP_TITLE,
         height: 40,
-        link: `${BROWSER_URL}/ncpi`,
+        link: `ncpi-acc.org`,
         src: logoNcpi,
       }),
       authenticationEnabled: false,
-      navAlignment: ELEMENT_ALIGNMENT.CENTER,
-      navLinks: [
-        {
-          label: "Overview",
-          url: `${BROWSER_URL}/ncpi`,
-        },
-        {
-          label: "Platforms",
-          url: `${BROWSER_URL}/ncpi/platforms`,
-        },
-        {
-          label: "Technologies",
-          url: `${BROWSER_URL}/ncpi/technologies`,
-        },
-        {
-          label: "Datasets",
-          url: `${BROWSER_URL}/ncpi/data`,
-        },
-        {
-          label: HEADER_NAVIGATION_LABEL.MORE,
-          menuItems: [
-            {
-              label: "Demonstration Projects",
-              url: `${BROWSER_URL}/ncpi/demonstration-projects`,
-            },
-            {
-              label: "Training",
-              url: `${BROWSER_URL}/ncpi/training`,
-            },
-            {
-              label: "Updates",
-              url: `${BROWSER_URL}/ncpi/progress-updates`,
-            },
-          ],
-          url: "",
-        },
-      ],
-      searchEnabled: true,
-      searchURL: `${BROWSER_URL}/ncpi/search`,
+      navAlignment: ELEMENT_ALIGNMENT.RIGHT,
+      navLinks: [],
+      searchEnabled: false,
+      searchURL: ``,
       slogan: SLOGAN,
       socialMedia,
     },
   },
-  redirectRootToPath: "/studies",
+  redirectRootToPath: "/platforms",
 };
 
 export default config;
