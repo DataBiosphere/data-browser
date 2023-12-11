@@ -10,7 +10,7 @@ import {
 import { platformsEntityConfig } from "./index/platformsEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 
-const logoNcpi = "/images/logoNcpi.png";
+const logoNcpi = "/images/logoNCPI.png";
 
 // Template constants
 const APP_TITLE = "NCPI Dataset Catalog";
