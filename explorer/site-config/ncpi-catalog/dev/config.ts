@@ -1,4 +1,5 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "../../../app/components/index";
 import anvilConfig from "../../anvil/dev/config";
@@ -8,12 +9,12 @@ import {
 } from "../category";
 import { platformsEntityConfig } from "./index/platformsEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
-import { socialMedia } from "./socialMedia";
 
-const logoNcpi = "/images/logoNcpi.svg";
+const logoNcpi = "/images/logoNcpi.png";
 
 // Template constants
 const APP_TITLE = "NCPI Dataset Catalog";
+const PORTAL_URL = "https://ncpi-acc.org"; // https://www.ncpi-acc.org/
 const SLOGAN = "NIH Cloud Platform Interoperability Effort";
 
 // Remove the summary from the AnVIL config.
@@ -66,24 +67,34 @@ const config: SiteConfig = {
   explorerTitle: "NCPI Dataset Catalog",
   layout: {
     footer: {
-      Branding: C.ANVILBranding({ portalURL: undefined }),
+      Branding: C.Logo({
+        alt: APP_TITLE,
+        height: 36,
+        link: PORTAL_URL,
+        src: logoNcpi,
+        target: ANCHOR_TARGET.BLANK,
+      }),
       navLinks: [],
-      socials: socialMedia.socials,
     },
     header: {
       Logo: C.Logo({
         alt: APP_TITLE,
-        height: 40,
-        link: `ncpi-acc.org`,
+        height: 36,
+        link: "/platforms",
         src: logoNcpi,
       }),
       authenticationEnabled: false,
       navAlignment: ELEMENT_ALIGNMENT.RIGHT,
-      navLinks: [],
+      navLinks: [
+        {
+          label: C.LabelIconMenuItem({ label: "Visit ncpi-acc.org" }),
+          target: ANCHOR_TARGET.BLANK,
+          url: PORTAL_URL,
+        },
+      ],
       searchEnabled: false,
       searchURL: ``,
       slogan: SLOGAN,
-      socialMedia,
     },
   },
   redirectRootToPath: "/platforms",
