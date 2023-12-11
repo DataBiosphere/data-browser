@@ -21,6 +21,8 @@
     "dev:hca-dcp": "./scripts/dev.sh hca-dcp && next dev",
     "build-dev:hca-dcp": "./scripts/common-build.sh  hca-dcp dev && next build && next export -o out && npm run postbuild",
     "build-cc-ma-dev:hca-dcp": "./scripts/common-build.sh  hca-dcp cc-ma-dev && next build && next export -o out && npm run postbuild",
+    "build-ma-dev:hca-dcp": "./scripts/common-build.sh  hca-dcp ma-dev && next build && next export -o out && npm run postbuild",
+    "build-ma-prod:hca-dcp": "./scripts/common-build.sh  hca-dcp ma-prod && next build && next export -o out && npm run postbuild",
     "build-prod:hca-dcp": "./scripts/build.sh hca-dcp prod && next build && next export -o out && npm run postbuild",
     "postbuild": "next-sitemap --config next-sitemap.config.mjs",
     "start": "npx serve out",
