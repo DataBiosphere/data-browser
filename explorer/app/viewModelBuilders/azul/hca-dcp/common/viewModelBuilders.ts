@@ -48,7 +48,6 @@ import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
 } from "../../../../../site-config/hca-dcp/category";
-import { PROJECTS_URL } from "../../../../../site-config/hca-dcp/dev/config";
 import {
   ROUTE_BULK_DOWNLOAD,
   ROUTE_EXPORT_TO_TERRA,
@@ -812,13 +811,15 @@ export const buildGenusSpecies = (
 /**
  * Build props for project Hero component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
+ * @param viewContext - View context.
  * @returns model to be used as props for the project Hero component.
  */
 export const buildHero = (
-  projectsResponse: ProjectsResponse
+  projectsResponse: ProjectsResponse,
+  viewContext: ViewContext
 ): React.ComponentProps<typeof C.BackPageHero> => {
   return {
-    breadcrumbs: getProjectBreadcrumbs(projectsResponse),
+    breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
     title: processEntityValue(projectsResponse.projects, "projectTitle"),
   };
 };
@@ -1554,12 +1555,16 @@ function getNTagCellProps(
 /**
  * Returns project related breadcrumbs.
  * @param projectsResponse - Response model return from projects API.
+ * @param viewContext - View context.
  * @returns project breadcrumbs.
  */
 export function getProjectBreadcrumbs(
-  projectsResponse: ProjectsResponse
+  projectsResponse: ProjectsResponse,
+  viewContext?: ViewContext
 ): Breadcrumb[] {
-  const firstCrumb = { path: PROJECTS_URL, text: "Explore" };
+  const { exploreState } = viewContext || {};
+  const { tabValue } = exploreState || {};
+  const firstCrumb = { path: `/${tabValue}`, text: "Explore" };
   const projectTitle = processEntityValue(
     projectsResponse.projects,
     "projectTitle"

@@ -3,7 +3,7 @@ import { makeConfig } from "../dev/config";
 
 // Template constants
 const PORTAL_URL = "https://data.humancellatlas.org";
-const BROWSER_URL = "https://explore.data.humancellatlas.org";
+const BROWSER_URL = "https://ma-pilot.explore.data.humancellatlas.org";
 
 const config: SiteConfig = {
   ...makeConfig(BROWSER_URL, PORTAL_URL),
