@@ -5,3 +5,7 @@ export const Label = styled.div`
   display: flex;
   gap: 4px;
 `;
+
+export const Text = styled.div`
+  text-transform: none;
+`;

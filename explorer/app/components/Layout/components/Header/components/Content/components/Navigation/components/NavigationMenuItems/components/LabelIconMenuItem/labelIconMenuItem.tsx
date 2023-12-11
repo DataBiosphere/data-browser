@@ -1,6 +1,6 @@
 import { OpenInNewIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
 import React, { ElementType } from "react";
-import { Label } from "./labelIconMenuItem.styles";
+import { Label, Text } from "./labelIconMenuItem.styles";
 
 export interface LabelIconMenuItemProps {
   Icon?: ElementType;
@@ -15,7 +15,7 @@ export const LabelIconMenuItem = ({
 }: LabelIconMenuItemProps): JSX.Element => {
   return (
     <Label>
-      <div>{label}</div>
+      <Text>{label}</Text>
       <Icon color="inkLight" fontSize={iconFontSize} />
     </Label>
   );
