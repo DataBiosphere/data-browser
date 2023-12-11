@@ -14,6 +14,7 @@ const config: SiteConfig = {
   authentication: authenticationConfig,
 };
 
+// Adding authentication to the header.
 const header = { ...config.layout.header };
 config.layout.header = { ...header, authenticationEnabled: true };
 
