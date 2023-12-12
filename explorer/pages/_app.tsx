@@ -8,6 +8,8 @@ import { Floating } from "@clevercanary/data-explorer-ui/lib/components/Layout/c
 import { Footer } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Footer/footer";
 import { Header } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/header";
 import { Main as DXMain } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Main/main";
+import { setFeatureFlags } from "@clevercanary/data-explorer-ui/lib/hooks/useFeatureFlag/common/utils";
+import { useFeatureFlag } from "@clevercanary/data-explorer-ui/lib/hooks/useFeatureFlag/useFeatureFlag";
 import { AuthProvider } from "@clevercanary/data-explorer-ui/lib/providers/authentication";
 import { ConfigProvider as DXConfigProvider } from "@clevercanary/data-explorer-ui/lib/providers/config";
 import { ExploreStateProvider } from "@clevercanary/data-explorer-ui/lib/providers/exploreState";
@@ -20,15 +22,14 @@ import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { config } from "app/config/config";
+import { FEATURES } from "app/shared/entities";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { useEffect, useMemo } from "react";
 import TagManager from "react-gtm-module";
-import { FEATURES } from "../app/hooks/useFeatureFlag/common/entities";
-import { setFeatureFlags } from "../app/hooks/useFeatureFlag/common/utils";
-import { useFeatureFlag } from "../app/hooks/useFeatureFlag/useFeatureFlag";
 import { configureHeader } from "../app/shared/utils";
 
+const FEATURE_FLAGS = Object.values(FEATURES);
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
 
 export type NextPageWithComponent = NextPage & {
@@ -39,7 +40,7 @@ export type AppPropsWithComponent = AppProps & {
   Component: NextPageWithComponent;
 };
 
-setFeatureFlags();
+setFeatureFlags(FEATURE_FLAGS);
 
 function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
   // Set up the site configuration, layout and theme.
