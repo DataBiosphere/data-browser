@@ -39,6 +39,7 @@ const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
 export function makeConfig(
   browserUrl: string,
   portalUrl: string,
+  dataUrl: string,
   catalog: string = CATALOG
 ): SiteConfig {
   return {
@@ -48,6 +49,7 @@ export function makeConfig(
       gtmPreview: "env-186",
     },
     appTitle: APP_TITLE,
+    authentication: undefined,
     browserURL: browserUrl,
     categoryGroupConfigs: [
       {
@@ -154,7 +156,7 @@ export function makeConfig(
       defaultParams: {
         catalog,
       },
-      url: `${DATA_URL}/`,
+      url: `${dataUrl}/`,
     },
     entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
     explorerTitle: "Explore Data",
@@ -229,7 +231,7 @@ export function makeConfig(
       components: summary,
     },
     systemStatus: {
-      apiPath: `${DATA_URL}${APIEndpoints.INDEX_STATUS}`,
+      apiPath: `${dataUrl}${APIEndpoints.INDEX_STATUS}`,
       bindResponse: <SystemStatusBindResponseFn>bindSystemStatusResponse,
     },
     themeOptions: {
@@ -291,6 +293,6 @@ export function makeConfig(
   };
 }
 
-const config: SiteConfig = makeConfig(BROWSER_URL, PORTAL_URL);
+const config: SiteConfig = makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL);
 
 export default config;

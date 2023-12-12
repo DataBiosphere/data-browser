@@ -1,13 +1,20 @@
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { makeConfig } from "../dev/config";
+import { authenticationConfig } from "./authentication/authentication";
 
 // Template constants
-const PORTAL_URL = "https://data.humancellatlas.org";
 const BROWSER_URL = "https://ma-pilot.explore.data.humancellatlas.org";
+const DATA_URL = "https://service.azul.data.humancellatlas.org";
+const PORTAL_URL = "https://data.humancellatlas.org";
 
 const config: SiteConfig = {
-  ...makeConfig(BROWSER_URL, PORTAL_URL),
+  ...makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL),
+  authentication: authenticationConfig,
 };
+
+// Adding authentication to the header.
+const header = { ...config.layout.header };
+config.layout.header = { ...header, authenticationEnabled: true };
 
 // Update gtmAuth for the prod environment lookup.
 if (config.analytics) {

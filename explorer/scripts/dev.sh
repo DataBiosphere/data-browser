@@ -4,7 +4,7 @@ DIR="./site-config/$1/images/favicons/"
 PUBLIC_DIR="./public/favicons/"
 # init
 
-cp ./site-config/$1/dev/.env .env.development
+cp ./site-config/$1/$2/.env .env.development
 
 # check if PUBLIC_DIR does not exists
 if [ ! -d "$PUBLIC_DIR" ]; then

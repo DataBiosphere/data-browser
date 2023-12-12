@@ -21,6 +21,7 @@ import { sideColumn as overviewSideColumn } from "../detail/project/overviewSide
 import { mainColumn as projectFilesMainColumn } from "../detail/project/projectFilesMainColumn";
 import { sideColumn as projectFilesSideColumn } from "../detail/project/projectFilesSideColumn";
 import { top } from "../detail/project/top";
+import { subTitleHero } from "../listView/subTitleHero";
 
 /**
  * Entity config object responsible to config anything related to the /projects route.
@@ -138,6 +139,9 @@ export const projectsEntityConfig: EntityConfig = {
       id: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
     },
   } as ListConfig<ProjectsResponse>,
+  listView: {
+    subTitleHero,
+  },
   overrides: projectEdits,
   route: "projects",
 };
