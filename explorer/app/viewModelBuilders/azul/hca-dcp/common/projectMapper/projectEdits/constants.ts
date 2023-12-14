@@ -379,6 +379,10 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/16c1e722-96ae-4bf6-b408-cd7f8918484f",
+      },
+      {
         ...UCSC_CELL_BROWSER,
         url: "https://oligodendrocyte-ms.cells.ucsc.edu",
       },
@@ -1596,5 +1600,23 @@ export const projectEdits: ProjectEdit[] = [
       },
     ],
     entryId: "8f1f653d-3ea1-4d8e-b4a7-b97dc852c2b1",
+  },
+  {
+    analysisPortals: [
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/4195ab4c-20bd-4cd3-8b3d-65601277e731",
+      },
+    ],
+    entryId: "1ffa2223-28a6-4133-a5a4-badd00faf4bc",
+  },
+  {
+    analysisPortals: [
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/b0f0b447-ac37-45b0-b1bf-5c0b7d871120",
+      },
+    ],
+    entryId: "c412be53-cf95-47c7-980c-c0a0caa2d3a0",
   },
 ];
