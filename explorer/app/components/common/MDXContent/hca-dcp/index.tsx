@@ -10,6 +10,8 @@ export { default as DownloadCurlCommandStart } from "./downloadCurlCommandStart.
 export { default as DownloadCurlCommandSuccess } from "./downloadCurlCommandSuccess.mdx";
 export { default as ExportToTerraStart } from "./exportToTerraStart.mdx";
 export { default as ExportToTerraSuccessWithWarning } from "./exportToTerraSuccessWithWarning.mdx";
+export { default as ExportWarning } from "./exportWarning.mdx";
+export { default as LoginReminder } from "./loginReminder.mdx";
 export { default as LoginTermsOfService } from "./loginTermsOfService.mdx";
 export { default as LoginText } from "./loginText.mdx";
 export { default as ManifestDownloadStart } from "./manifestDownloadStart.mdx";

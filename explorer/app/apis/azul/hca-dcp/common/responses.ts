@@ -1,4 +1,4 @@
-import { AzulHit } from "../../common/entities";
+import { AzulHit, ResponseStatus } from "../../common/entities";
 import {
   AggregatedCellSuspensionsResponse,
   AggregatedDonorOrganismsResponse,
@@ -44,7 +44,8 @@ export type ProjectsResponse = AzulHit &
   AggregatedFileTypeSummariesResponse &
   AggregatedProtocolsResponse &
   AggregatedSamplesResponse &
-  AggregatedSpecimensResponse;
+  AggregatedSpecimensResponse &
+  ResponseStatus;
 
 /**
  * Model of response returned from /index/samples API endpoint.

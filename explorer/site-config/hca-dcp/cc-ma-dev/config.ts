@@ -1,6 +1,8 @@
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { makeConfig } from "../dev/config";
 import { authenticationConfig } from "./authentication/authentication";
+import { getMAExportConfig } from "./export/export";
+import { getMAEntitiesConfig } from "./index/projectsEntityConfig";
 
 // Template constants
 const BROWSER_URL =
@@ -17,5 +19,15 @@ const config: SiteConfig = {
 // Adding authentication to the header.
 const header = { ...config.layout.header };
 config.layout.header = { ...header, authenticationEnabled: true };
+
+// Update entities.
+const entities = [...config.entities];
+config.entities = getMAEntitiesConfig(entities);
+
+// Update export.
+if (config.export) {
+  const exportConfig = { ...config.export };
+  config.export = getMAExportConfig(exportConfig);
+}
 
 export default config;
