@@ -45,25 +45,28 @@ export function getMAEntitiesConfig(
 export function getMAProjectsEntityConfig(
   entitiesConfig: EntityConfig[]
 ): EntityConfig {
-  const entityConfig = { ...entitiesConfig[0] };
-  // Update list.
-  const list = { ...entityConfig.list };
-  const columns = [...list.columns];
-  columns.splice(1, 0, COLUMN_ACCESS); // Accessible column.
-  list.columns = columns;
-  entityConfig.list = list;
+  // Clone project entity.
+  const cloneEntity = { ...entitiesConfig[0] };
+  // Clone list.
+  const cloneList = { ...cloneEntity.list };
+  // Clone columns.
+  const cloneColumns = [...cloneList.columns];
+  // Add accessible column.
+  cloneColumns.splice(1, 0, COLUMN_ACCESS); // Accessible column.
+  cloneList.columns = cloneColumns;
+  cloneEntity.list = cloneList;
   // Update list view.
-  entityConfig.listView = {
-    ...entityConfig.listView,
+  cloneEntity.listView = {
+    ...cloneEntity.listView,
     listHero,
   };
   // Clone detail.
-  const detail = { ...entityConfig.detail };
+  const cloneDetail = { ...cloneEntity.detail };
   // Update detail top.
-  detail.top = getMAProjectDetailTop(detail.top as ComponentConfig[]);
+  cloneDetail.top = getMAProjectDetailTop(cloneDetail.top as ComponentConfig[]);
   // Update detail tabs.
-  detail.tabs = getMAProjectDetailTabs(detail.tabs);
+  cloneDetail.tabs = getMAProjectDetailTabs(cloneDetail.tabs);
   // Update detail.
-  entityConfig.detail = detail;
-  return entityConfig;
+  cloneEntity.detail = cloneDetail;
+  return cloneEntity;
 }

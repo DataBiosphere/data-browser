@@ -41,9 +41,10 @@ export function getMAProjectDetailTabs(
     ) {
       return tab;
     }
-    tab.mainColumn = getMADetailMainColumn(tab);
-    tab.sideColumn = undefined;
-    return tab;
+    const cloneTab = { ...tab };
+    cloneTab.mainColumn = getMADetailMainColumn(tab);
+    cloneTab.sideColumn = undefined;
+    return cloneTab;
   });
 }
 

@@ -26,11 +26,13 @@ const MAIN_COLUMN_WARNING = [
  * @returns managed access export config.
  */
 export function getMAExportConfig(exportConfig: ExportConfig): ExportConfig {
+  // Clone export config.
+  const cloneExportConfig = { ...exportConfig };
   // Update export methods.
-  exportConfig.exportMethods = getMAExportMethods(exportConfig);
+  cloneExportConfig.exportMethods = getMAExportMethods(exportConfig);
   // Update tabs.
-  exportConfig.tabs = getMAExportTabs(exportConfig.tabs);
-  return exportConfig;
+  cloneExportConfig.tabs = getMAExportTabs(exportConfig.tabs);
+  return cloneExportConfig;
 }
 
 /**
@@ -67,11 +69,12 @@ function getMAExportMethodMainColumn(
 function getMAExportMethods(exportConfig: ExportConfig): ExportMethodConfig[] {
   // Return managed access export methods.
   return [...exportConfig.exportMethods].map((exportMethod) => {
-    exportMethod.mainColumn = getMAExportMethodMainColumn(
+    const cloneExportMethod = { ...exportMethod };
+    cloneExportMethod.mainColumn = getMAExportMethodMainColumn(
       exportConfig,
       exportMethod
     );
-    return exportMethod;
+    return cloneExportMethod;
   });
 }
 
@@ -104,10 +107,11 @@ function getMAExportTab(tab: BackPageTabConfig): ComponentConfig[] {
  */
 function getMAExportTabs(tabs: BackPageTabConfig[]): BackPageTabConfig[] {
   return [...tabs].map((tab) => {
+    const cloneTab = { ...tab };
     // Update tab main column.
-    tab.mainColumn = getMAExportTab(tab);
+    cloneTab.mainColumn = getMAExportTab(tab);
     // Remove side column from tab.
-    tab.sideColumn = undefined;
-    return tab;
+    cloneTab.sideColumn = undefined;
+    return cloneTab;
   });
 }
