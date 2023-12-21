@@ -32,9 +32,12 @@ const COLUMN_ACCESS: ColumnConfig = {
 export function getMAEntitiesConfig(
   entities: SiteConfig["entities"]
 ): SiteConfig["entities"] {
-  const projectsEntityConfig = getMAProjectsEntityConfig(entities);
-  entities.splice(0, 1, projectsEntityConfig);
-  return entities;
+  return [...entities].map((entity) => {
+    if (entity.route !== "projects") {
+      return entity;
+    }
+    return getMAProjectsEntityConfig(entity);
+  });
 }
 
 /**
@@ -43,10 +46,10 @@ export function getMAEntitiesConfig(
  * @returns entity config for managed access projects.
  */
 export function getMAProjectsEntityConfig(
-  entitiesConfig: EntityConfig[]
+  entitiesConfig: EntityConfig
 ): EntityConfig {
   // Clone project entity.
-  const cloneEntity = { ...entitiesConfig[0] };
+  const cloneEntity = { ...entitiesConfig };
   // Clone list.
   const cloneList = { ...cloneEntity.list };
   // Clone columns.
