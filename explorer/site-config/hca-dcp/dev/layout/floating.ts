@@ -4,6 +4,7 @@ import {
   FloatingConfig,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "app/components";
+import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 
 const ZENDESK_FIELD_ID: Record<REQUEST_FIELD_ID, number> = {
   DESCRIPTION: 360007369412,
@@ -17,6 +18,10 @@ const ZENDESK_UPLOAD_URL = "https://support.terra.bio/api/v2/uploads";
 
 export const floating: FloatingConfig = {
   components: [
+    {
+      component: C.CookieBanner,
+      viewBuilder: V.buildCookieBanner,
+    } as ComponentConfig<typeof C.CookieBanner>,
     {
       component: C.SupportRequest,
       props: {

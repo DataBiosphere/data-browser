@@ -306,6 +306,28 @@ export const buildContributors = (
 };
 
 /**
+ * Build props for CookieBanner component.
+ * @returns model to be used as props for the CookieBanner component.
+ */
+export const buildCookieBanner = (): React.ComponentProps<
+  typeof C.CookieBanner
+> => {
+  return {
+    localStorageKey: "privacy-accepted",
+    message:
+      "This website uses cookies for security and analytics purposes. By using this site, you agree to these uses.",
+    secondaryAction: C.ButtonOutline({
+      children: "Learn More",
+      onClick: () =>
+        window.open(
+          "https://data.humancellatlas.org/privacy",
+          ANCHOR_TARGET.BLANK
+        ),
+    }),
+  };
+};
+
+/**
  * Build props for project data curators component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the project data curators component.

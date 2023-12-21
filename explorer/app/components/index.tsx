@@ -1,5 +1,6 @@
 export { Alert } from "@clevercanary/data-explorer-ui/lib/components/common/Alert/alert";
 export { FluidAlert } from "@clevercanary/data-explorer-ui/lib/components/common/Alert/alert.styles";
+export { CookieBanner } from "@clevercanary/data-explorer-ui/lib/components/common/Banner/components/CookieBanner/cookieBanner";
 export { SessionTimeout } from "@clevercanary/data-explorer-ui/lib/components/common/Banner/components/SessionTimeout/sessionTimeout";
 export { SystemIndexing } from "@clevercanary/data-explorer-ui/lib/components/common/Banner/components/SystemIndexing/systemIndexing";
 export { SystemStatus } from "@clevercanary/data-explorer-ui/lib/components/common/Banner/components/SystemStatus/systemStatus";
@@ -72,6 +73,7 @@ export { Publications } from "@clevercanary/data-explorer-ui/lib/components/Proj
 export { SupplementaryLinks } from "@clevercanary/data-explorer-ui/lib/components/Project/components/SupplementaryLinks/supplementaryLinks";
 export { SupportRequest } from "@clevercanary/data-explorer-ui/lib/components/Support/components/SupportRequest/supportRequest";
 export { ExportMethodView } from "@clevercanary/data-explorer-ui/lib/views/ExportMethodView/exportMethodView";
+export { ButtonOutline } from "./common/Button/components/ButtonOutline/buttonOutline";
 export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
 export { RenderComponents } from "./common/RenderComponents/renderComponents";
 export { AccessibilityBadge } from "./Detail/components/AccessibilityBadge/accessibilityBadge";
