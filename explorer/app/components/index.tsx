@@ -49,7 +49,6 @@ export { AzulFileDownload } from "@clevercanary/data-explorer-ui/lib/components/
 export { Cell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Cell/cell";
 export { Summaries } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Hero/components/Summaries/summaries";
 export { NTagCell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/NTagCell/nTagCell";
-export { Tooltip } from "@clevercanary/data-explorer-ui/lib/components/Index/components/Tooltip/tooltip";
 export {
   BackPageContentMainColumn,
   BackPageContentSideColumn,
