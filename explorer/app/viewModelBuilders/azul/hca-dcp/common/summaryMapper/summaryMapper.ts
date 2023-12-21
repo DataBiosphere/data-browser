@@ -1,12 +1,20 @@
+import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import {
   displaySummaryTerms,
   listSelectedTermsOfFacet,
 } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/common/utils";
-import { FileFacet } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
+import { SummaryValue } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
+import { NTagCell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/NTagCell/nTagCell";
+import {
+  FileFacet,
+  Term,
+} from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
 import { formatCountSize } from "@clevercanary/data-explorer-ui/lib/utils/formatCountSize";
 import { formatFileSize } from "@clevercanary/data-explorer-ui/lib/utils/formatFileSize";
 import { HCA_DCP_CATEGORY_KEY } from "../../../../../../site-config/hca-dcp/category";
 import { SummaryResponse } from "../../../../../apis/azul/hca-dcp/common/responses";
+import { METADATA_KEY } from "../../../../../components/Index/common/entities";
+import { getPluralizedMetadataLabel } from "../../../../../components/Index/common/indexTransformer";
 import { DEFAULT_SUMMARY } from "./constants";
 import { FileSummary, SUMMARY } from "./entities";
 
@@ -85,7 +93,7 @@ export function bindFileSummaryResponse(
 export function mapExportSummary(
   filesFacets: FileFacet[],
   summary: SummaryResponse | undefined
-): Map<SUMMARY | string, string> {
+): Map<SUMMARY | string, SummaryValue> {
   const fileSummary = bindFileSummaryResponse(summary);
   // Grab summary values.
   const donorCount = fileSummary.donorCount;
@@ -124,7 +132,7 @@ export function mapExportSummary(
   const totalFileSize = fileSummary.totalFileSize;
 
   // Map summary by summary key or display text.
-  const summaryBySummaryKey = new Map<SUMMARY | string, string>();
+  const summaryBySummaryKey = new Map<SUMMARY | string, SummaryValue>();
   summaryBySummaryKey.set(
     SUMMARY.TOTAL_CELL_COUNT,
     formatCountSize(totalCellCount)
@@ -137,12 +145,18 @@ export function mapExportSummary(
   summaryBySummaryKey.set(SUMMARY.PROJECT_COUNT, formatCountSize(projectCount));
   summaryBySummaryKey.set(
     SUMMARY.GENUS_SPECIES,
-    displaySummaryTerms(genusSpecies)
+    NTagCell({
+      label: getPluralizedMetadataLabel(METADATA_KEY.SPECIES),
+      values: getTermValues(genusSpecies),
+    })
   );
   summaryBySummaryKey.set(SUMMARY.DONOR_COUNT, formatCountSize(donorCount));
   summaryBySummaryKey.set(
     SUMMARY.DONOR_DISEASE,
-    displaySummaryTerms(donorDisease)
+    NTagCell({
+      label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_STATUS_DONOR),
+      values: getTermValues(donorDisease),
+    })
   ); // Disease Status (Donor)
   summaryBySummaryKey.set(
     SUMMARY.SPECIMEN_COUNT,
@@ -150,14 +164,46 @@ export function mapExportSummary(
   );
   summaryBySummaryKey.set(
     SUMMARY.SPECIMEN_DISEASE,
-    displaySummaryTerms(specimenDisease)
+    NTagCell({
+      label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_STATUS_SPECIMEN),
+      values: getTermValues(specimenDisease),
+    })
   ); // Disease Status (Specimen)
-  summaryBySummaryKey.set(SUMMARY.ORGAN, displaySummaryTerms(organ)); // Anatomical Entity
-  summaryBySummaryKey.set(SUMMARY.ORGAN_PART, displaySummaryTerms(organPart));
+  summaryBySummaryKey.set(
+    SUMMARY.ORGAN,
+    NTagCell({
+      label: getPluralizedMetadataLabel(METADATA_KEY.ANATOMICAL_ENTITY),
+      values: getTermValues(organ),
+    })
+  ); // Anatomical Entity
+  summaryBySummaryKey.set(
+    SUMMARY.ORGAN_PART,
+    NTagCell({
+      label: getPluralizedMetadataLabel(METADATA_KEY.ORGAN_PART),
+      values: getTermValues(organPart),
+    })
+  );
   summaryBySummaryKey.set(
     SUMMARY.LIBRARY_CONSTRUCTION_APPROACH,
-    displaySummaryTerms(libraryConstructionApproach)
+    NTagCell({
+      label: getPluralizedMetadataLabel(
+        METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
+      ),
+      values: getTermValues(libraryConstructionApproach),
+    })
   ); // Library Construction Method
   summaryBySummaryKey.set(SUMMARY.PAIRED_END, displaySummaryTerms(pairedEnd)); // Paired End
   return summaryBySummaryKey;
+}
+
+/**
+ * Returns term values from the given terms.
+ * @param terms - Terms.
+ * @returns term values.
+ */
+function getTermValues(terms: Term[]): string[] {
+  if (!terms || !terms.length) {
+    return [LABEL.UNSPECIFIED];
+  }
+  return terms.map(({ name }) => name.trim());
 }
