@@ -40,6 +40,7 @@ export { ExportCurrentQuery } from "@clevercanary/data-explorer-ui/lib/component
 export { ExportSelectedDataSummary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 export { ExportSummary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/exportSummary";
 export { ExportToTerraForm } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportToTerra/components/ExportToTerraForm/exportToTerraForm";
+export { NIHAccountExpiryWarning } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportToTerra/components/TerraSetUpForm/components/NIHAccountExpiryWarning/nihAccountExpiryWarning";
 export { TerraSetUpForm } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportToTerra/components/TerraSetUpForm/terraSetUpForm";
 export { ExportToTerra } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportToTerra/exportToTerra";
 export { ManifestDownloadEntity } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ManifestDownload/components/ManifestDownloadEntity/manifestDownloadEntity";
