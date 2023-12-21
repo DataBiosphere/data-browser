@@ -3,6 +3,7 @@ import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
+import { announcements } from "./announcements/announcements";
 import { authenticationConfig } from "./authentication/authentication";
 import { contentThemeOptions } from "./content/contentThemeOptions";
 import { exportConfig } from "./export/export";
@@ -131,6 +132,7 @@ export function makeConfig(
         ],
       },
       header: {
+        Announcements: C.RenderComponents({ components: announcements }),
         Logo: C.ANVILExplorer({ url: "/datasets" }),
         authenticationEnabled: true,
         navAlignment: ELEMENT_ALIGNMENT.RIGHT,

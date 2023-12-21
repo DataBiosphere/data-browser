@@ -1,5 +1,6 @@
 export { Alert } from "@clevercanary/data-explorer-ui/lib/components/common/Alert/alert";
 export { FluidAlert } from "@clevercanary/data-explorer-ui/lib/components/common/Alert/alert.styles";
+export { SessionTimeout } from "@clevercanary/data-explorer-ui/lib/components/common/Banner/components/SessionTimeout/sessionTimeout";
 export { SystemIndexing } from "@clevercanary/data-explorer-ui/lib/components/common/Banner/components/SystemIndexing/systemIndexing";
 export { SystemStatus } from "@clevercanary/data-explorer-ui/lib/components/common/Banner/components/SystemStatus/systemStatus";
 export { ButtonGroup } from "@clevercanary/data-explorer-ui/lib/components/common/ButtonGroup/buttonGroup";
