@@ -16,7 +16,7 @@ export function getMAProjectDetailTop(
   top: ComponentConfig[]
 ): ComponentConfig[] {
   const cloneTop = [...top];
-  const topHero = cloneTop[0];
-  topHero.children = [TOP_ACCESSIBILITY_BADGE];
-  return cloneTop;
+  const newTop = { ...(cloneTop[0] as ComponentConfig) };
+  newTop.children = [TOP_ACCESSIBILITY_BADGE];
+  return [newTop];
 }

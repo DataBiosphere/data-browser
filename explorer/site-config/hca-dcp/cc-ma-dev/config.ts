@@ -24,20 +24,22 @@ const config: SiteConfig = {
  * @returns managed access config.
  */
 export function makeManagedAccessConfig(config: SiteConfig): SiteConfig {
+  // Clone config.
+  const cloneConfig = { ...config };
+
   // Adding authentication to the header.
-  const header = { ...config.layout.header };
-  config.layout.header = { ...header, authenticationEnabled: true };
+  const header = { ...cloneConfig.layout.header };
+  cloneConfig.layout.header = { ...header, authenticationEnabled: true };
 
   // Update entities.
-  const entities = [...config.entities];
-  config.entities = getMAEntitiesConfig(entities);
+  cloneConfig.entities = getMAEntitiesConfig(cloneConfig.entities);
 
   // Update export.
-  if (config.export) {
-    const exportConfig = { ...config.export };
-    config.export = getMAExportConfig(exportConfig);
+  if (cloneConfig.export) {
+    cloneConfig.export = getMAExportConfig(cloneConfig.export);
   }
-  return config;
+
+  return cloneConfig;
 }
 
 export default config;
