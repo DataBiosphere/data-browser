@@ -1,12 +1,16 @@
-import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
+import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { listSelectedTermsOfFacet } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/common/utils";
+import { SummaryValue } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
+import { NTagCell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/NTagCell/nTagCell";
 import {
-  displaySummaryTerms,
-  listSelectedTermsOfFacet,
-} from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/common/utils";
-import { FileFacet } from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
+  FileFacet,
+  Term,
+} from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
 import { formatCountSize } from "@clevercanary/data-explorer-ui/lib/utils/formatCountSize";
 import { ANVIL_CMG_CATEGORY_KEY } from "../../../../../../site-config/anvil-cmg/category";
 import { SummaryResponse } from "../../../../../apis/azul/anvil-cmg/common/responses";
+import { METADATA_KEY } from "../../../../../components/Index/common/entities";
+import { getPluralizedMetadataLabel } from "../../../../../components/Index/common/indexTransformer";
 import { DEFAULT_SUMMARY } from "./constants";
 import { FileSummary, SUMMARY } from "./entities";
 
@@ -52,7 +56,7 @@ export function bindFileSummaryResponse(
 export function mapExportSummary(
   filesFacets: FileFacet[],
   summary: SummaryResponse | undefined
-): Map<SUMMARY, string> {
+): Map<SUMMARY, SummaryValue> {
   const fileSummary = bindFileSummaryResponse(summary);
   // Grab summary values.
   const biosampleCount = fileSummary.biosampleCount;
@@ -64,7 +68,7 @@ export function mapExportSummary(
     ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE
   );
   // Map summary by summary key or display text.
-  const summaryBySummaryKey = new Map<SUMMARY, string>();
+  const summaryBySummaryKey = new Map<SUMMARY, SummaryValue>();
   summaryBySummaryKey.set(
     SUMMARY.BIOSAMPLE_COUNT,
     formatCountSize(biosampleCount)
@@ -72,9 +76,30 @@ export function mapExportSummary(
   summaryBySummaryKey.set(SUMMARY.DONOR_COUNT, formatCountSize(donorCount)); // Donors
   summaryBySummaryKey.set(
     SUMMARY.ORGANISM_TYPE,
-    displaySummaryTerms(organismType)
+    NTagCell({
+      label: getPluralizedMetadataLabel(METADATA_KEY.ORGANISM_TYPE),
+      values: getTermValues(organismType),
+    })
   ); // Organism Types
   summaryBySummaryKey.set(SUMMARY.FILE_COUNT, formatCountSize(fileCount)); // Files
-  summaryBySummaryKey.set(SUMMARY.FILE_FORMATS, stringifyValues(fileFormats)); // Formats
+  summaryBySummaryKey.set(
+    SUMMARY.FILE_FORMATS,
+    NTagCell({
+      label: getPluralizedMetadataLabel(METADATA_KEY.FILE_FORMAT),
+      values: fileFormats,
+    })
+  ); // Formats
   return summaryBySummaryKey;
+}
+
+/**
+ * Returns term values from the given terms.
+ * @param terms - Terms.
+ * @returns term values.
+ */
+function getTermValues(terms: Term[]): string[] {
+  if (!terms || !terms.length) {
+    return [LABEL.UNSPECIFIED];
+  }
+  return terms.map(({ name }) => name.trim());
 }
