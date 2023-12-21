@@ -1,4 +1,5 @@
 export const HCA_DCP_CATEGORY_KEY = {
+  ACCESSIBLE: "accessible",
   ANALYSIS_PROTOCOL: "workflow",
   ANATOMICAL_ENTITY: "specimenOrgan",
   AZUL_FILE_DOWNLOAD: "azulFileDownload",
@@ -40,6 +41,7 @@ export const HCA_DCP_CATEGORY_KEY = {
 } as const;
 
 export const HCA_DCP_CATEGORY_LABEL = {
+  ACCESSIBLE: "Access",
   ANALYSIS_PROTOCOL: "Analysis Protocol",
   ANATOMICAL_ENTITY: "Anatomical Entity",
   AZUL_FILE_DOWNLOAD: " ",

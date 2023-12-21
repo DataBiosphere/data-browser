@@ -10,15 +10,9 @@ export const top: ComponentsConfig = [
   {
     children: [
       {
-        children: [
-          {
-            component: C.StatusBadge,
-            viewBuilder: V.buildDatasetStatus,
-          } as ComponentConfig<typeof C.StatusBadge, DatasetsResponse>,
-        ],
-        component: C.Fade,
-        viewBuilder: V.renderDatasetStatusBadge,
-      } as ComponentConfig<typeof C.Fade>,
+        component: C.AccessibilityBadge,
+        viewBuilder: V.buildDatasetAccessibilityBadge,
+      } as ComponentConfig<typeof C.AccessibilityBadge>,
     ],
     component: C.BackPageHero,
     viewBuilder: V.buildDatasetHero,

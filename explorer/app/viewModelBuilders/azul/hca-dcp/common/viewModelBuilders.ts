@@ -12,6 +12,7 @@ import {
   KeyValueFn,
   Value,
 } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { STATUS_BADGE_COLOR } from "@clevercanary/data-explorer-ui/lib/components/common/StatusBadge/statusBadge";
 import {
   FileSummaryFacet,
   FileSummaryTerm,
@@ -42,6 +43,10 @@ import {
   mapCategoryKeyLabel,
   sanitizeString,
 } from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/utils";
+import {
+  ChipProps as MChipProps,
+  FadeProps as MFadeProps,
+} from "@mui/material";
 import { ColumnDef } from "@tanstack/react-table";
 import React, { ElementType, Fragment, ReactElement } from "react";
 import {
@@ -520,6 +525,29 @@ export const buildExportEntityToTerra = (
 };
 
 /**
+ * Build props for entity related export warning FluidAlert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the FluidAlert component.
+ */
+export const buildExportEntityWarning = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.FluidAlert> => {
+  const {
+    authState: { isAuthenticated },
+  } = viewContext;
+  const title = isAuthenticated
+    ? "To export this project, please request access."
+    : "To export this project, please sign in and, if necessary, request access.";
+  return {
+    severity: "warning",
+    title,
+    variant: "banner",
+  };
+};
+
+/**
  * Build props for export Hero component.
  * @param _ - Unused.
  * @param viewContext - View context.
@@ -542,12 +570,16 @@ export function buildExportHero(
 
 /**
  * Build props for ExportMethod component for display of the download to curl command section.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
-export const buildExportMethodBulkDownload = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => {
+export const buildExportMethodBulkDownload = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportMethod> => {
   return {
+    ...getExportMethodAccessibility(viewContext),
     buttonLabel: "Request curl Command",
     description: "Obtain a curl command for downloading the selected data.",
     route: ROUTE_BULK_DOWNLOAD,
@@ -608,12 +640,16 @@ export const buildExportMethodHeroTerra = (
 
 /**
  * Build props for ExportMethod component for display of the manifest download section.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
-export const buildExportMethodManifestDownload = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => {
+export const buildExportMethodManifestDownload = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportMethod> => {
   return {
+    ...getExportMethodAccessibility(viewContext),
     buttonLabel: "Request File Manifest",
     description:
       "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
@@ -624,12 +660,16 @@ export const buildExportMethodManifestDownload = (): React.ComponentProps<
 
 /**
  * Build props for ExportMethod component for display of the export to terra section.
+ * @param _ - Unused.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
-export const buildExportMethodTerra = (): React.ComponentProps<
-  typeof C.ExportMethod
-> => {
+export const buildExportMethodTerra = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ExportMethod> => {
   return {
+    ...getExportMethodAccessibility(viewContext),
     buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
@@ -689,6 +729,29 @@ export const buildExportToTerra = (
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
+  };
+};
+
+/**
+ * Build props for export warning FluidAlert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the FluidAlert component.
+ */
+export const buildExportWarning = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.FluidAlert> => {
+  const {
+    authState: { isAuthenticated },
+  } = viewContext;
+  return {
+    children: isAuthenticated
+      ? undefined
+      : MDX.RenderComponent({ Component: MDX.ExportWarning }),
+    severity: "warning",
+    title:
+      'Files from projects with access "required" will be excluded from this export.',
   };
 };
 
@@ -891,6 +954,56 @@ export const buildManifestDownloadEntity = (
 };
 
 /**
+ * Build dataset StatusBadge component from the given entity response.
+ * @param projectsResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the StatusBadge component.
+ */
+export const buildProjectAccess = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.StatusBadge> => {
+  const isAccessGranted = isProjectAccessible(projectsResponse);
+  const color = isAccessGranted
+    ? STATUS_BADGE_COLOR.SUCCESS
+    : STATUS_BADGE_COLOR.WARNING;
+  const label = isAccessGranted ? "Granted" : "Required";
+  return {
+    color,
+    label,
+  };
+};
+
+/**
+ * Returns AccessibilityBadge component from the given projects response.
+ * @param projectResponse - Response model return from projects API.
+ * @returns model to be used as props for the AccessibilityBadge component.
+ */
+export function buildProjectAccessibilityBadge(
+  projectResponse: ProjectsResponse
+): React.ComponentProps<typeof C.AccessibilityBadge> {
+  const badgeProps = getProjectStatusBadge(projectResponse);
+  const fadeProps = getAccessibleTransition(projectResponse);
+  return {
+    badgeProps,
+    fadeProps,
+  };
+}
+
+/**
+ * Build project list view list hero warning.
+ * Warning serves as a reminder for users to log in.
+ * @returns model to be used as props for Alert component.
+ */
+export const buildProjectListViewListHeroWarning = (): React.ComponentProps<
+  typeof C.FluidAlert
+> => {
+  return {
+    severity: "warning",
+    title: MDX.RenderComponent({ Component: MDX.LoginReminder }),
+    variant: "banner",
+  };
+};
+
+/**
  * Build props for the project title Link component from the given entity response.
  * @param projectsResponse - Response model return from the entity response API.
  * @returns model to be used as props for the project title Link component.
@@ -1039,6 +1152,22 @@ function formatMatrixCellCount(matrixCellCount?: number): string {
   return matrixCellCount || matrixCellCount === 0
     ? formatCountSize(matrixCellCount)
     : "-";
+}
+
+/**
+ * Returns transition props relating to accessibility from the given projects response and authorization state.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns Fade component props.
+ */
+function getAccessibleTransition(
+  projectsResponse: ProjectsResponse
+): Partial<MFadeProps> {
+  const isIn = isAccessibleTransitionIn(projectsResponse);
+  return {
+    appear: false,
+    in: isIn,
+    timeout: 300,
+  };
 }
 
 /**
@@ -1269,6 +1398,27 @@ function getExportEntityFilters(projectsResponse: ProjectsResponse): Filters {
       value: [processEntityValue(projectsResponse.projects, "projectId")],
     },
   ];
+}
+
+/**
+ * Returns the export method accessibility.
+ * @param viewContext - View context.
+ * @returns export method accessibility.
+ */
+function getExportMethodAccessibility(
+  viewContext: ViewContext
+): Partial<typeof C.ExportMethod> {
+  const { fileManifestState } = viewContext;
+  const { isFacetsSuccess } = fileManifestState;
+  const isAccessible = isFileManifestAccessible(fileManifestState);
+  return {
+    footnote: isFacetsSuccess
+      ? isAccessible
+        ? null
+        : "You currently don’t have access to any files matching the query."
+      : null,
+    isAccessible: isFacetsSuccess && isAccessible,
+  };
 }
 
 /**
@@ -1602,6 +1752,25 @@ export function getProjectResponse(
 }
 
 /**
+ * Returns StatusBadge component props from the given projects response.
+ * @param projectsResponse - Response model return from the entity response API.
+ * @returns StatusBadge component props.
+ */
+function getProjectStatusBadge(
+  projectsResponse: ProjectsResponse
+): Partial<MChipProps> {
+  const isAccessGranted = isProjectAccessible(projectsResponse);
+  const color = isAccessGranted
+    ? STATUS_BADGE_COLOR.SUCCESS
+    : STATUS_BADGE_COLOR.WARNING;
+  const label = isAccessGranted ? "Access Granted" : "Access Required";
+  return {
+    color,
+    label,
+  };
+}
+
+/**
  * Returns the project detailed page url.
  * @param projectsResponse - Response model return from entity API.
  * @returns project detail page url.
@@ -1611,6 +1780,50 @@ function getProjectTitleUrl(projectsResponse: ProjectsResponse): string {
     projectsResponse.projects,
     "projectId"
   )}`;
+}
+
+/**
+ * Returns true if the response is accessible, or when the response is ready.
+ * @param projectsResponse - Response model return from entity API.
+ * @returns true if the response is accessible, or when the response is ready.
+ */
+function isAccessibleTransitionIn(projectsResponse: ProjectsResponse): boolean {
+  const isAccessible = isProjectAccessible(projectsResponse);
+  const isReady = isResponseReady(projectsResponse);
+  return isAccessible || isReady;
+}
+
+/**
+ * Returns true if the "accessible" file facet has a term value of "true".
+ * @param fileManifestState - File manifest state.
+ * @returns true if the "accessible" file facet has a term value of "true".
+ */
+function isFileManifestAccessible(
+  fileManifestState: FileManifestState
+): boolean {
+  const { filesFacets } = fileManifestState;
+  const fileFacet = findFacet(filesFacets, "accessible");
+  return fileFacet?.termsByName.has("true") ?? false;
+}
+
+/**
+ * Returns true if project is accessible.
+ * @param projectsResponse - Response model return from entity API.
+ * @returns true if project is accessible.
+ */
+function isProjectAccessible(projectsResponse: ProjectsResponse): boolean {
+  return projectsResponse.projects[0].accessible;
+}
+
+/**
+ * Returns true if the response is ready (for use) for the given authorization state.
+ * The response is ready when the response is no longer loading (loading is false).
+ * @param projectsResponse - Response model return from entity API.
+ * @returns true if the response is ready.
+ */
+function isResponseReady(projectsResponse: ProjectsResponse): boolean {
+  const { isLoading } = projectsResponse;
+  return !isLoading;
 }
 
 /**
@@ -1673,6 +1886,50 @@ function mapProjectIdToProject(
   }
   return filter;
 }
+
+/**
+ * Renders entity related export when the given projects response is accessible.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderExportEntity = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn: isProjectAccessible(projectsResponse),
+  };
+};
+
+/**
+ * Renders entity related export warning when the given projects response is not accessible.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderExportEntityWarning = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn: !isProjectAccessible(projectsResponse),
+  };
+};
+
+/**
+ * Renders configuration component children when the given authentication state is not authorized.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderWhenUnAuthorized = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  const {
+    authState: { isAuthenticated },
+  } = viewContext;
+  return {
+    isIn: !isAuthenticated,
+  };
+};
 
 /**
  * Returns the aggregated total cells from cellSuspensions for the given entity response.

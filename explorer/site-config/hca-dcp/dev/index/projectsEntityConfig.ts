@@ -23,6 +23,14 @@ import { sideColumn as projectFilesSideColumn } from "../detail/project/projectF
 import { top } from "../detail/project/top";
 import { subTitleHero } from "../listView/subTitleHero";
 
+export const PROJECT_ENTITY_ROUTE = {
+  EXPORT_TO_TERRA: "export-to-terra",
+  GET_CURL_COMMAND: "get-curl-command",
+  OVERVIEW: "",
+  PROJECT_MATRICES: "project-matrices",
+  PROJECT_METADATA: "project-metadata",
+};
+
 /**
  * Entity config object responsible to config anything related to the /projects route.
  */
@@ -35,30 +43,30 @@ export const projectsEntityConfig: EntityConfig = {
       {
         label: "Overview",
         mainColumn: overviewMainColumn,
-        route: "",
+        route: PROJECT_ENTITY_ROUTE.OVERVIEW,
         sideColumn: overviewSideColumn,
       },
       {
         label: "Metadata",
         mainColumn: metadataMainColumn,
-        route: "project-metadata",
+        route: PROJECT_ENTITY_ROUTE.PROJECT_METADATA,
         sideColumn: metadataSideColumn,
       },
       {
         label: "Matrices",
         mainColumn: matricesMainColumn,
-        route: "project-matrices",
+        route: PROJECT_ENTITY_ROUTE.PROJECT_MATRICES,
       },
       {
         label: "Project Files",
         mainColumn: projectFilesMainColumn,
-        route: "get-curl-command",
+        route: PROJECT_ENTITY_ROUTE.GET_CURL_COMMAND,
         sideColumn: projectFilesSideColumn,
       },
       {
         label: "Export",
         mainColumn: exportMainColumn,
-        route: "export-to-terra",
+        route: PROJECT_ENTITY_ROUTE.EXPORT_TO_TERRA,
         sideColumn: exportSideColumn,
       },
     ],
