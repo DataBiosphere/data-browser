@@ -19,8 +19,8 @@ npm run build-cc-dev:anvil-cmg
 mv out/* build
 
 
-export BUCKET=s3://explore.anvilproject.dev.clevercanary.com/
+export BUCKET=s3://yvq-exploretf.anvilproject.dev/
 export SRCDIR=build/
 
 aws s3 sync  $SRCDIR $BUCKET --delete --profile excira
-aws cloudfront create-invalidation --distribution-id E2FFANJTIILTKH --paths "/*" --profile excira
+aws cloudfront create-invalidation --distribution-id E3BL97L4R44ZBX --paths "/*" --profile excira
