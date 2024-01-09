@@ -14,7 +14,7 @@
     "dev:anvil": "./scripts/dev.sh anvil dev && next dev",
     "build:anvil": "./scripts/build.sh anvil && next build && next export -o out/explore && npm run postbuild",
     "dev:anvil-cmg": "./scripts/dev.sh anvil-cmg dev && next dev",
-    "build:anvil-cmg": "./scripts/build.sh anvil-cmg && next build && next export -o out/explore && npm run postbuild",
+    "build:anvil-cmg": "./scripts/build.sh anvil-cmg && next build && next export -o out && npm run postbuild",
     "build-cc-dev:anvil-cmg": "./scripts/common-build.sh anvil-cmg cc-dev && next build && next export -o out && npm run postbuild",
     "dev:hca-dcp": "./scripts/dev.sh hca-dcp dev && next dev",
     "dev:cc-ma-dev:hca-dcp": "./scripts/dev.sh hca-dcp cc-ma-dev && next dev",
