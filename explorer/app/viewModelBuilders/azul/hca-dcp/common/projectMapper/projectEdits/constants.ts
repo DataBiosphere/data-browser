@@ -1399,6 +1399,10 @@ export const projectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/73f82ac8-15cc-4fcd-87f8-5683723fce7f",
+      },
+      {
         ...UCSC_CELL_BROWSER,
         url: "https://healthy-human-skin.cells.ucsc.edu",
       },
@@ -1618,5 +1622,41 @@ export const projectEdits: ProjectEdit[] = [
       },
     ],
     entryId: "c412be53-cf95-47c7-980c-c0a0caa2d3a0",
+  },
+  {
+    analysisPortals: [
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/e1fa9900-3fc9-4b57-9dce-c95724c88716",
+      },
+    ],
+    entryId: "421bc6cd-bbb4-4398-ac60-a32ea94f02ae",
+  },
+  {
+    analysisPortals: [
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/5900dda8-2dc3-4770-b604-084eac1c2c82",
+      },
+    ],
+    entryId: "581de139-461f-4875-b408-56453a9082c7",
+  },
+  {
+    analysisPortals: [
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/6e8c5415-302c-492a-a5f9-f29c57ff18fb",
+      },
+    ],
+    entryId: "894ae6ac-5b48-41a8-a72f-315a9b60a62e",
+  },
+  {
+    analysisPortals: [
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/3116d060-0a8e-4767-99bb-e866badea1ed",
+      },
+    ],
+    entryId: "925f9a4c-cac0-444a-ad2c-612656ab3a85",
   },
 ];
