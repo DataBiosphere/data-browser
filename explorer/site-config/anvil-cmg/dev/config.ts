@@ -149,6 +149,10 @@ export function makeConfig(
                 label: "Terms of service",
                 url: "/terms-of-service",
               },
+              {
+                label: "Privacy Policy",
+                url: "/privacy",
+              },
             ],
             url: "",
           },
