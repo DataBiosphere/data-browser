@@ -4,4 +4,4 @@ script:
   - npm ci
   - rm -rf out
   - npm run build:anvil-cmg
-  - tar -cvj -f ../.gitlab/distribution.tar.bz2 --strip-components 1 out
+  - tar -cvj -f ../.gitlab/distribution.tar.bz2 out
