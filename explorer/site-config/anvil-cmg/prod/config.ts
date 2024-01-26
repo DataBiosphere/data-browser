@@ -8,14 +8,14 @@ import { authenticationConfig } from "./authentication/authentication";
 
 const config: SiteConfig = {
   ...makeConfig(
-    "https://prod.anvil.gi.ucsc.edu",
-    "https://prod.anvil.gi.ucsc.edu",
+    "https://explore.anvilproject.org",
+    "https://anvilproject.org",
     "anvil3"
   ),
   exportToTerraUrl: "https://anvil.terra.bio/",
 };
 
-config.dataSource.url = "https://service.prod.anvil.gi.ucsc.edu/";
+config.dataSource.url = "https://service.explore.anvilproject.org/";
 config.authentication = authenticationConfig;
 
 const filesEntityConfig = config.entities.find(
