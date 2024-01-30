@@ -10,7 +10,7 @@ const config: SiteConfig = {
   ...makeConfig(
     "https://explore.anvilproject.org",
     "https://anvilproject.org",
-    "anvil3"
+    "anvil4"
   ),
   exportToTerraUrl: "https://anvil.terra.bio/",
 };
