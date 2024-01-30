@@ -4,6 +4,7 @@ import requests
 import pandas as pd
 
 def create_catalog(access_token):
+  # TODO: is there a better way of identifying anvil datasets?
   rows = [create_catalog_row(dataset) for dataset in get_duos_datasets(access_token) if dataset["name"][:6].lower() == "anvil_"]
   catalog_df = pd.DataFrame(rows)
   catalog_df.set_index("name", inplace=True)
@@ -12,10 +13,11 @@ def create_catalog(access_token):
 
 def create_catalog_row(dataset):
   study = dataset["study"]
+  # TODO: make use of dataUse
   return {
     "name": dataset["name"],
     "status": None,
-    "consortium": ", ".join(get_study_property(study, "collaboratingSites")),
+    "consortium": ", ".join(get_study_property(study, "collaboratingSites")), #TODO: how should the array be handled?
     "phsId": get_study_property(study, "dbGaPPhsID"),
     "library:dataUseRestriction": None,
     "library:indication": get_study_property(study, "phenotypeIndication"),
