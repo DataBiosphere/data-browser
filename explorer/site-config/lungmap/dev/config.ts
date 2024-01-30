@@ -14,7 +14,7 @@ const logoLungmap = "/images/logoLungmap.png";
 // Template constants
 const APP_TITLE = "LungMAP Data Explorer";
 const BROWSER_URL = "https://data-browser.dev.lungmap.net";
-const CATALOG_LM2 = "lm2";
+const CATALOG_LM2 = "lm4";
 const PROJECTS_URL = "/projects";
 
 const config: SiteConfig = {
