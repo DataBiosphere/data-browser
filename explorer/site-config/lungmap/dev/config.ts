@@ -14,7 +14,7 @@ const logoLungmap = "/images/logoLungmap.png";
 // Template constants
 const APP_TITLE = "LungMAP Data Explorer";
 const BROWSER_URL = "https://data-browser.dev.lungmap.net";
-const CATALOG_LM2 = "lm2";
+const CATALOG_LM4 = "lm4";
 const PROJECTS_URL = "/projects";
 
 const config: SiteConfig = {
@@ -23,7 +23,7 @@ const config: SiteConfig = {
   categoryGroupConfigs: hcaConfig.categoryGroupConfigs,
   dataSource: {
     defaultParams: {
-      catalog: CATALOG_LM2,
+      catalog: CATALOG_LM4,
     },
     // url: "https://service.dev.singlecell.gi.ucsc.edu/",
     url: "https://service.azul.data.humancellatlas.org/",
