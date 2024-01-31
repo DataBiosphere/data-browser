@@ -21,6 +21,7 @@ const config: SiteConfig = {
   appTitle: APP_TITLE,
   browserURL: BROWSER_URL,
   categoryGroupConfigs: hcaConfig.categoryGroupConfigs,
+  contentDir: "lungmap",
   dataSource: {
     defaultParams: {
       catalog: CATALOG_LM4,
@@ -60,7 +61,7 @@ const config: SiteConfig = {
         src: logoLungmap,
       }),
       authenticationEnabled: false,
-      navAlignment: ELEMENT_ALIGNMENT.LEFT,
+      navAlignment: ELEMENT_ALIGNMENT.RIGHT,
       navLinks: [
         {
           label: "Explore",
@@ -73,6 +74,17 @@ const config: SiteConfig = {
         {
           label: "APIs",
           url: `${BROWSER_URL}/apis`,
+        },
+        {
+          flatten: true,
+          label: "Help & Documentation",
+          menuItems: [
+            {
+              label: "Privacy",
+              url: "/privacy",
+            },
+          ],
+          url: "",
         },
       ],
       searchEnabled: false,
