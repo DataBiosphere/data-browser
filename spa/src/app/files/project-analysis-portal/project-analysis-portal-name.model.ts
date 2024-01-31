@@ -12,6 +12,7 @@ export enum ProjectAnalysisPortalName {
     "LGEA" = "LGEA",
     "LUNGMAP_APPS" = "LungMAP Apps",
     "SHINY" = "Shiny",
+    "SINGLE_CELL" = "Single Cell Portal",
     "STEM_CELL_HUB" = "The Stem Cell Hub",
     "TOPPCELL" = "ToppCell",
 }
