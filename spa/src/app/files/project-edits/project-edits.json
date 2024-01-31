@@ -1497,5 +1497,14 @@
                 "url": "https://cellxgene.cziscience.com/collections/f7cecffa-00b4-4560-a29a-8ad626b8ee08"
             }
         ]
+    },
+    {
+        "entryId": "4ae8c5c9-1520-4371-9827-6935661f6c84",
+        "analysisPortals": [
+            {
+                "name": "SINGLE_CELL",
+                "url": "https://singlecell.broadinstitute.org/single_cell/study/SCP1157/bronchiolitis-obliterans-syndrome-lungmap"
+            }
+        ]
     }
 ]

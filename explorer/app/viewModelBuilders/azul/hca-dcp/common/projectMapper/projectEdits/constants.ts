@@ -1,13 +1,14 @@
 import { AnalysisPortal, ANALYSIS_PORTAL, ProjectEdit } from "./entities";
 
 const cxgIcon = "/images/icons/cxg.png";
+const genomeBrowserIcon = "/images/icons/ucsc-genome.svg";
 const lgeaIcon = "/images/icons/lgea.png";
 const lungmapIcon = "/images/icons/lungmap.svg";
 const shinyIcon = "/images/icons/shiny.png";
+const singleCellIcon = "/images/icons/single-cell.png";
 const stemCellHubIcon = "/images/icons/stem.svg";
 const toppCellIcon = "/images/icons/toppcell.png";
 const ucscCellBrowserIcon = "/images/icons/ucsc-cell.svg";
-const genomeBrowserIcon = "/images/icons/ucsc-genome.svg";
 
 /**
  * CZ CELLxGENE analysis portal.
@@ -52,6 +53,15 @@ const SHINY: Omit<AnalysisPortal, "url"> = {
   icon: shinyIcon,
   label: "Shiny",
   name: ANALYSIS_PORTAL.SHINY,
+};
+
+/**
+ * Single Cell analysis portal.
+ */
+const SINGLE_CELL: Omit<AnalysisPortal, "url"> = {
+  icon: singleCellIcon,
+  label: "Single Cell Portal",
+  name: ANALYSIS_PORTAL.SINGLE_CELL,
 };
 
 /**
@@ -1658,5 +1668,14 @@ export const projectEdits: ProjectEdit[] = [
       },
     ],
     entryId: "925f9a4c-cac0-444a-ad2c-612656ab3a85",
+  },
+  {
+    analysisPortals: [
+      {
+        ...SINGLE_CELL,
+        url: "https://singlecell.broadinstitute.org/single_cell/study/SCP1157/bronchiolitis-obliterans-syndrome-lungmap",
+      },
+    ],
+    entryId: "4ae8c5c9-1520-4371-9827-6935661f6c84",
   },
 ];
