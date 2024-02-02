@@ -1,4 +1,5 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import hcaConfig, {
   DATA_URL as HCA_DATA_URL,
@@ -75,17 +76,14 @@ export function makeConfig(
         navAlignment: ELEMENT_ALIGNMENT.RIGHT,
         navLinks: [
           {
-            label: "Explore",
-            url: HOME_PAGE_PATH,
-          },
-          {
-            label: "Metadata",
-            url: `${portalUrl}/metadata`,
-          },
-          {
             flatten: true,
             label: "Help & Documentation",
             menuItems: [
+              {
+                label: "Metadata",
+                target: ANCHOR_TARGET.BLANK,
+                url: `${portalUrl}/metadata`,
+              },
               {
                 label: "APIs",
                 url: "/apis",
