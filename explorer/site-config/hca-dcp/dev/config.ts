@@ -28,13 +28,13 @@ import { floating } from "./layout/floating";
 const APP_TITLE = "HCA Data Explorer";
 const CATALOG = "dcp34";
 const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
-const DATA_URL = "https://service.azul.data.humancellatlas.org";
-const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
+export const DATA_URL = "https://service.azul.data.humancellatlas.org";
+export const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
 const HOME_PAGE_PATH = "/projects";
 const ORG_URL = "https://www.humancellatlas.org";
 const PAGINATION_PAGE_SIZE = "25";
-const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
+export const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
 
 export function makeConfig(
   browserUrl: string,

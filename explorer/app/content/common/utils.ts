@@ -1,3 +1,4 @@
+import fs from "fs";
 import { GetStaticPropsContext } from "next";
 import pathTool from "path";
 import { config } from "../../config/config";
@@ -36,4 +37,21 @@ export function getSlug(context: GetStaticPropsContext): string[] | undefined {
     return;
   }
   return Array.isArray(slug) ? slug : [slug];
+}
+
+/**
+ * Returns true if the content exists.
+ * @param dirPath - Directory path.
+ * @param slug - Slug.
+ * @returns true if the content exists.
+ */
+export function isContentPathnameExists(
+  dirPath?: string,
+  slug?: string[]
+): boolean {
+  if (!dirPath || !slug) {
+    return false;
+  }
+  const markdownPathname = getMarkdownPathname(dirPath, slug);
+  return fs.existsSync(markdownPathname);
 }
