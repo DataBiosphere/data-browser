@@ -83,13 +83,13 @@ export function makeConfig(
             url: `${portalUrl}/metadata`,
           },
           {
-            label: "APIs",
-            url: `${portalUrl}/apis`,
-          },
-          {
             flatten: true,
             label: "Help & Documentation",
             menuItems: [
+              {
+                label: "APIs",
+                url: "/apis",
+              },
               {
                 label: "Privacy",
                 url: "/privacy",
