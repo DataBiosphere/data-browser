@@ -1,4 +1,4 @@
-import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { SiteConfig } from "../../common/entities";
 import {
   DATA_URL as HCA_DATA_URL,
   PORTAL_URL as HCA_PORTAL_URL,

@@ -18,4 +18,5 @@ export interface NavLinkItem extends DXNavLinkItem {
 
 export interface SiteConfig extends Omit<DXSiteConfig, "layout"> {
   layout: Layout;
+  portalURL?: string;
 }
