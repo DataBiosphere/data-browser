@@ -1,11 +1,11 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import hcaConfig, {
   DATA_URL as HCA_DATA_URL,
   EXPORT_TO_TERRA_URL as HCA_EXPORT_TO_TERRA_URL,
   PORTAL_URL as HCA_PORTAL_URL,
 } from "site-config/hca-dcp/dev/config";
 import * as C from "../../../app/components/index";
+import { SiteConfig } from "../../common/entities";
 import { filesEntityConfig as hcaFilesEntityConfig } from "../../hca-dcp/dev/index/filesEntityConfig";
 import { samplesEntityConfig as hcaSamplesEntityConfig } from "../../hca-dcp/dev/index/samplesEntityConfig";
 import { contentThemeOptions } from "./content/contentThemeOptions";
@@ -101,6 +101,7 @@ export function makeConfig(
         socialMedia,
       },
     },
+    portalURL: portalUrl,
     redirectRootToPath: HOME_PAGE_PATH,
     summaryConfig: {
       apiPath: "index/summary",

@@ -51,13 +51,6 @@ export const contentThemeOptions = (theme: Theme): ThemeOptions => {
           },
         },
       },
-      MuiLink: {
-        styleOverrides: {
-          root: {
-            backgroundColor: "pink",
-          },
-        },
-      },
     },
   };
 };
