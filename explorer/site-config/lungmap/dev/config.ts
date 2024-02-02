@@ -1,5 +1,4 @@
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import hcaConfig, {
   DATA_URL as HCA_DATA_URL,
@@ -9,6 +8,7 @@ import hcaConfig, {
 import * as C from "../../../app/components/index";
 import { filesEntityConfig as hcaFilesEntityConfig } from "../../hca-dcp/dev/index/filesEntityConfig";
 import { samplesEntityConfig as hcaSamplesEntityConfig } from "../../hca-dcp/dev/index/samplesEntityConfig";
+import { contentThemeOptions } from "./content/contentThemeOptions";
 import { exportConfig } from "./export/exportConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { summary } from "./index/summary";
@@ -35,6 +35,7 @@ export function makeConfig(
     browserURL: browserUrl,
     categoryGroupConfigs: hcaConfig.categoryGroupConfigs,
     contentDir: "lungmap",
+    contentThemeOptionsFn: contentThemeOptions,
     dataSource: {
       defaultParams: {
         catalog,
@@ -80,9 +81,8 @@ export function makeConfig(
             label: "Help & Documentation",
             menuItems: [
               {
-                label: "Metadata",
-                target: ANCHOR_TARGET.BLANK,
-                url: `${portalUrl}/metadata`,
+                label: "Metadata Dictionary",
+                url: "/metadata",
               },
               {
                 label: "APIs",
