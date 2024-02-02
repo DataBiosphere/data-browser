@@ -15,6 +15,7 @@ const logoLungmap = "/images/logoLungmap.png";
 const APP_TITLE = "LungMAP Data Explorer";
 const BROWSER_URL = "https://data-browser.dev.lungmap.net";
 const CATALOG_LM4 = "lm4";
+const PORTAL_URL = "https://data-browser.dev.lungmap.net";
 const PROJECTS_URL = "/projects";
 
 const config: SiteConfig = {
@@ -48,7 +49,7 @@ const config: SiteConfig = {
       navLinks: [
         {
           label: "Privacy",
-          url: `${BROWSER_URL}/lungmap-privacy`,
+          url: "/privacy",
         },
       ],
       socials: socialMedia.socials,
@@ -68,17 +69,17 @@ const config: SiteConfig = {
           url: PROJECTS_URL,
         },
         {
-          label: "Metadata",
-          url: `${BROWSER_URL}/metadata`,
-        },
-        {
           label: "APIs",
-          url: `${BROWSER_URL}/apis`,
+          url: `${PORTAL_URL}/apis`,
         },
         {
           flatten: true,
           label: "Help & Documentation",
           menuItems: [
+            {
+              label: "Metadata Dictionary",
+              url: `${PORTAL_URL}/metadata`,
+            },
             {
               label: "Privacy",
               url: "/privacy",
