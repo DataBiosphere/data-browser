@@ -12,8 +12,8 @@ import {
   PublicationResponse,
 } from "../../../../../apis/azul/hca-dcp/common/entities";
 import { CONTRIBUTOR_ROLE } from "./constants";
-import { projectEdits } from "./projectEdits/constants";
 import { AnalysisPortal, ProjectEdit } from "./projectEdits/entities";
+import { projectEdits } from "./projectEdits/projectEdits";
 
 /**
  * Maps project analysis portals from the project edits and given projects response.
