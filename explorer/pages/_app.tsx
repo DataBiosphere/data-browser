@@ -9,7 +9,6 @@ import { Footer } from "@clevercanary/data-explorer-ui/lib/components/Layout/com
 import { Header } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/header";
 import { Main as DXMain } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Main/main";
 import { setFeatureFlags } from "@clevercanary/data-explorer-ui/lib/hooks/useFeatureFlag/common/utils";
-import { useFeatureFlag } from "@clevercanary/data-explorer-ui/lib/hooks/useFeatureFlag/useFeatureFlag";
 import { AuthProvider } from "@clevercanary/data-explorer-ui/lib/providers/authentication";
 import { ConfigProvider as DXConfigProvider } from "@clevercanary/data-explorer-ui/lib/providers/config";
 import { ExploreStateProvider } from "@clevercanary/data-explorer-ui/lib/providers/exploreState";
@@ -25,9 +24,8 @@ import { config } from "app/config/config";
 import { FEATURES } from "app/shared/entities";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import TagManager from "react-gtm-module";
-import { configureHeader } from "../app/shared/utils";
 
 const FEATURE_FLAGS = Object.values(FEATURES);
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
@@ -47,14 +45,9 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
   const appConfig = config();
   const { analytics, layout, redirectRootToPath, themeOptions } = appConfig;
   const { gtmAuth, gtmId, gtmPreview } = analytics || {};
-  const { floating, footer } = layout || {};
+  const { floating, footer, header } = layout || {};
   const theme = createAppTheme(themeOptions);
   const { entityListType } = pageProps as AzulEntitiesStaticResponse;
-  const isFeatureFlag = useFeatureFlag(FEATURES.HEADER);
-  const configuredHeaderProps = useMemo(
-    () => configureHeader(appConfig, isFeatureFlag),
-    [appConfig, isFeatureFlag]
-  ); // Configure header.
   const Main = Component.Main || DXMain;
 
   // Initialize Google Tag Manager.
@@ -74,7 +67,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
             <AuthProvider sessionTimeout={SESSION_TIMEOUT}>
               <LayoutStateProvider>
                 <AppLayout>
-                  <Header {...configuredHeaderProps} />
+                  <Header {...header} />
                   <ExploreStateProvider entityListType={entityListType}>
                     <FileManifestStateProvider>
                       <Main>
