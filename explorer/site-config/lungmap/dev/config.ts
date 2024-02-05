@@ -98,7 +98,6 @@ export function makeConfig(
         ],
         searchEnabled: false,
         slogan: undefined,
-        socialMedia,
       },
     },
     portalURL: portalUrl,
