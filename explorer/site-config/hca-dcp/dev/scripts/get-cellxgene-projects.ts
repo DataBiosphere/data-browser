@@ -1,17 +1,14 @@
 import fsp from "fs/promises";
 import got from "got";
+import { CellxGeneProjectMapping } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/projectMapper/projectEdits/entities";
 
 interface CellxGeneCollection {
   collection_id: string;
   links: { link_url: string }[];
 }
 
-interface CellxGeneProjectMapping {
-  cellxgeneId: string;
-  hcaProjectId: string;
-}
-
-const cellxgeneProjectsFilePath = "./scripts/out/cellxgene-projects.json";
+const cellxgeneProjectsFilePath =
+  "./site-config/hca-dcp/dev/scripts/out/cellxgene-projects.json";
 
 getCellxGeneProjects();
 

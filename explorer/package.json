@@ -34,7 +34,8 @@
     "test": "jest --watch",
     "test:e2e": "playwright test",
     "test:anvil-cmg": "playwright test -c playwright_anvil.config.ts",
-    "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts"
+    "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts",
+    "get-cellxgene-projects-hca": "esrun ./site-config/hca-dcp/dev/scripts/get-cellxgene-projects.ts"
   },
   "dependencies": {
     "@clevercanary/data-explorer-ui": "66.0.0",
@@ -70,6 +71,7 @@
     "@babel/core": "^7.17.10",
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
+    "@digitak/esrun": "^3.2.26",
     "@next/eslint-plugin-next": "^12.1.6",
     "@playwright/test": "^1.37.1",
     "@storybook/addon-actions": "^7.0.7",
