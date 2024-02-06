@@ -92,7 +92,7 @@ const UCSC_CELL_BROWSER: Omit<AnalysisPortal, "url"> = {
 };
 
 /**
- * Base project edits.
+ * Project edits to be used as a basis when generating the full list of project edits.
  */
 export const baseProjectEdits: ProjectEdit[] = [
   {
