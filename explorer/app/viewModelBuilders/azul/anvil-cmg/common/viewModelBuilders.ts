@@ -238,11 +238,12 @@ export const buildDatasetDescription = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.Markdown> => {
   return {
-    content: processEntityValue(
-      datasetsResponse.datasets,
-      "description",
-      LABEL.NONE
-    ),
+    content:
+      processEntityValue(
+        datasetsResponse.datasets,
+        "description",
+        LABEL.EMPTY
+      ) || "To be provided.",
   };
 };
 
