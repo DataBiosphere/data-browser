@@ -1,4 +1,4 @@
-import cellxgeneProjects from "./cellxgene-projects.json";
+import cellxgeneProjects from "../../../../../../../site-config/hca-dcp/dev/scripts/out/cellxgene-projects.json";
 import { baseProjectEdits, CZ_CELLXGENE } from "./constants";
 import { CellxGeneProjectMapping, ProjectEdit } from "./entities";
 
