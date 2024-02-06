@@ -24,7 +24,7 @@ const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 export function makeConfig(
   browserUrl: string,
   portalUrl: string,
-  explorerURL: string
+  explorerUrl: string
 ): SiteConfig {
   return {
     analytics: {
@@ -133,7 +133,7 @@ export function makeConfig(
                   label: "Explorer",
                 }),
                 target: ANCHOR_TARGET.BLANK,
-                url: `${explorerURL}/datasets`,
+                url: `${explorerUrl}/datasets`,
               },
             ],
             url: "",
