@@ -8,7 +8,7 @@ const siteMapConfig = {
   exclude: (process.env.SITEMAP_EXCLUDE ?? "").split(SEPARATOR),
   generateIndexSitemap: false,
   outDir: `./out${basePath}`,
-  siteUrl: `${process.env.NEXT_PUBLIC_SITEMAP_DOMAIN}${basePath}`, // TODO(cc) where is this being used? Should there be a slash between NEXT_PUBLIC_SITEMAP_DOMAIN and basePath?
+  siteUrl: `${process.env.NEXT_PUBLIC_SITEMAP_DOMAIN}${basePath}`,
 };
 
 export default siteMapConfig;
