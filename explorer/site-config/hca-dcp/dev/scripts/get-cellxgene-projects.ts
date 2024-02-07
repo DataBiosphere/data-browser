@@ -2,6 +2,11 @@ import fsp from "fs/promises";
 import got from "got";
 import { CellxGeneProjectMapping } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/projectMapper/projectEdits/entities";
 
+/**
+ * Generates a list of CELLxGENE collection IDs with corresponding HCA project IDs, and saves it to ./out/cellxgene-projects.json to be used by the explorer.
+ * Usage: `npm run get-cellxgene-projects-hca`
+ */
+
 interface CellxGeneCollection {
   collection_id: string;
   links: { link_url: string }[];
