@@ -1,6 +1,5 @@
 export const SOURCE_FIELD_KEY = {
   BUCKET_NAME: "bucketName",
-  BUCKET_SIZE: "bucketSize",
   COL: "COL",
   CONSENT_LONG_NAME: "consentLongName",
   CONSENT_TITLE: "consentTitle",

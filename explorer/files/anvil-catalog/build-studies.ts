@@ -42,7 +42,6 @@ export function buildAnVILCatalogStudy(
   dbGapStudy: DbGapStudy | null,
   study: AnVILCatalogStudy
 ): AnVILCatalogStudy {
-  const bucketSize = sumValues([study.bucketSize, workspace.bucketSize]);
   const consentCodes = accumulateValue(
     study.consentCode, // consentCodes - a list of consent codes.
     workspace.consentCode
@@ -77,7 +76,6 @@ export function buildAnVILCatalogStudy(
     "workspaceName"
   );
   return {
-    bucketSize,
     consentCode: consentCodes,
     consentLongName: consentLongNames,
     consortium,

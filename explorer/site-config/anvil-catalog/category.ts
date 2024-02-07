@@ -1,5 +1,4 @@
 export const ANVIL_CATALOG_CATEGORY_KEY = {
-  BUCKET_SIZE: "bucketSize",
   CONSENT_CODE: "consentCode",
   CONSORTIUM: "consortium",
   DATA_TYPE: "dataType",
@@ -13,7 +12,6 @@ export const ANVIL_CATALOG_CATEGORY_KEY = {
 };
 
 export const ANVIL_CATALOG_CATEGORY_LABEL = {
-  BUCKET_SIZE: "Size (TB)",
   CONSENT_CODE: "Consent Code",
   CONSORTIUM: "Consortium",
   DATA_TYPE: "Data Type",

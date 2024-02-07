@@ -5,7 +5,6 @@ import { getStudy } from "../common/dbGaP";
 
 export interface AnVILCatalog {
   bucketName: string;
-  bucketSize: number;
   COL: string;
   consentLongName: string;
   consentTitle: string;
@@ -47,7 +46,6 @@ export async function buildAnVILCatalogWorkspace(
 ): Promise<AnVILCatalogWorkspace> {
   const consentCode = anVILCatalog["library:dataUseRestriction"];
   const workspace: AnVILCatalogWorkspace = {
-    bucketSize: anVILCatalog.bucketSize,
     consentCode,
     consentLongName: {
       [consentCode]: (await generateConsentDescriptions(consentCode))

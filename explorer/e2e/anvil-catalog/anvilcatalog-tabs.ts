@@ -13,7 +13,6 @@ export const anvilcatalogTabs: AnvilCatalogTabCollection = {
       { name: "Data Type", sortable: true },
       { name: "Study Design", sortable: true },
       { name: "Participants", sortable: true },
-      { name: "Size (TB)", sortable: true },
     ],
     selectableColumns: [
       { name: "Study", sortable: true },
