@@ -60,7 +60,7 @@ export async function buildAnVILCatalogWorkspace(
       anVILCatalog.subjectCount
     ),
     studyAccession: dbGapStudy?.studyAccession ?? "",
-    studyDesign: anVILCatalog["library:studyDesign"],
+    studyDesign: dbGapStudy?.studyDesigns ?? [],
     studyName: dbGapStudy?.title ?? "",
     workspaceName: anVILCatalog.name,
   };
