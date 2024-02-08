@@ -23,6 +23,20 @@ import {
 import * as C from "../../../../components";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import { formatSizeToTB } from "../../../../utils/fileSize";
+
+/**
+ * Build props for bucket size cell component from the given AnVIL entity.
+ * @param anvilCatalogEntity - AnVIL catalog entity.
+ * @returns Model to be used as props for the bucket size cell.
+ */
+export const buildBucketSize = (
+  anvilCatalogEntity: AnVILCatalogEntity
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: formatSizeToTB(anvilCatalogEntity.bucketSize),
+  };
+};
 
 /**
  * Build props for consent code cell component from the given AnVIL workspace.

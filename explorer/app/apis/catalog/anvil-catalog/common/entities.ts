@@ -6,6 +6,7 @@ export type AnVILCatalogEntity =
   | AnVILCatalogConsortium;
 
 export interface AnVILCatalogConsortium {
+  bucketSize: number;
   consentCode: string[];
   consentLongName: Record<string, string>;
   consortium: string;
@@ -23,6 +24,7 @@ export interface AnVILCatalogConsortium {
 }
 
 export interface AnVILCatalogStudy {
+  bucketSize: number;
   consentCode: string[];
   consentLongName: Record<string, string>;
   consortium: string;
@@ -46,6 +48,7 @@ export type AnVILCatalogStudyAny =
   | AnVILCatalogConsortiumStudy;
 
 export interface AnVILCatalogWorkspace {
+  bucketSize: number;
   consentCode: string;
   consentLongName: Record<string, string>;
   consortium: string;

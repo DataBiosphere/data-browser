@@ -33,6 +33,7 @@ def create_catalog_row(dataset):
     "participantCount": get_dataset_property(dataset, "numberOfParticipants"),
     "familyCount": None,
     "discoveryCount": None,
+    "bucketSize": None,
     "requestorPays": None,
     "NRES": None,
     "GRU": None,

@@ -61,6 +61,10 @@ function buildAnVILCatalogConsortium(
   anvilCatalogConsortium: AnVILCatalogConsortium,
   consortiumOverview: MDXRemoteSerializeResult | null
 ): AnVILCatalogConsortium {
+  const bucketSize = sumValues([
+    anvilCatalogConsortium.bucketSize,
+    workspace.bucketSize,
+  ]);
   const consentCodes = accumulateValue(
     anvilCatalogConsortium.consentCode, // consentCodes - a list of consent codes.
     workspace.consentCode
@@ -113,6 +117,7 @@ function buildAnVILCatalogConsortium(
     "workspaceName"
   );
   return {
+    bucketSize,
     consentCode: consentCodes,
     consentLongName: consentLongNames,
     consortium,
