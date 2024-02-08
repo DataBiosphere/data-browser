@@ -3,6 +3,10 @@ from datetime import datetime
 import requests
 import pandas as pd
 
+"""
+Usage: `python create-catalog.py "$(gcloud auth print-access-token --scopes='openid')"
+"""
+
 def create_catalog(access_token):
   # TODO: is there a better way of identifying anvil datasets?
   rows = [create_catalog_row(dataset) for dataset in get_duos_datasets(access_token) if dataset["name"][:6].lower() == "anvil_"]
