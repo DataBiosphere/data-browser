@@ -1,19 +1,28 @@
 import sys
 from datetime import datetime
+import re
 import requests
 import pandas as pd
 
 """
-Usage: `python create-catalog.py "$(gcloud auth print-access-token --scopes='openid')"
+Usage: `python create-catalog.py "$(gcloud auth print-access-token --scopes='openid')"`
 """
 
+sourceAnvilRe = re.compile("(?:^|\\W)Platform:\\s*AnVIL(?:\\W|$)", re.I)
+
 def create_catalog(access_token):
-  # TODO: is there a better way of identifying anvil datasets?
-  rows = [create_catalog_row(dataset) for dataset in get_duos_datasets(access_token) if dataset["name"][:6].lower() == "anvil_"]
+  rows = [create_catalog_row(dataset) for dataset in get_duos_datasets(access_token) if is_anvil_dataset(dataset)]
   catalog_df = pd.DataFrame(rows)
   catalog_df.set_index("name", inplace=True)
   file_name = "./files/dashboard-source-anvil.tsv"
   catalog_df.to_csv(file_name, sep="\t")
+  print("Done")
+
+def is_anvil_dataset(dataset):
+  study = dataset["study"]
+  if not "description" in study:
+    return False
+  return sourceAnvilRe.search(study["description"])
 
 def create_catalog_row(dataset):
   study = dataset["study"]
