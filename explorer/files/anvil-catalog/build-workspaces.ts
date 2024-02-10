@@ -2,6 +2,7 @@ import { AnVILCatalogWorkspace } from "../../app/apis/catalog/anvil-catalog/comm
 import { DbGapStudy } from "../../app/apis/catalog/common/entities";
 import { generateConsentDescriptions } from "../common/consent-codes";
 import { getStudy } from "../common/dbGaP";
+import { workspaceEdits } from "./constants";
 
 export interface AnVILCatalog {
   bucketName: string;
@@ -46,6 +47,9 @@ export async function buildAnVILCatalogWorkspace(
   dbGapStudy: DbGapStudy | null
 ): Promise<AnVILCatalogWorkspace> {
   const consentCode = anVILCatalog["library:dataUseRestriction"];
+  const edits = workspaceEdits.find(
+    (e) => e.workspaceName === anVILCatalog.name
+  );
   const workspace: AnVILCatalogWorkspace = {
     bucketSize: anVILCatalog.bucketSize,
     consentCode,
@@ -65,6 +69,7 @@ export async function buildAnVILCatalogWorkspace(
     studyDesign: anVILCatalog["library:studyDesign"],
     studyName: dbGapStudy?.title ?? "",
     workspaceName: anVILCatalog.name,
+    ...edits,
   };
   return workspace;
 }
