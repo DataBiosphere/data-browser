@@ -1,35 +1,35 @@
 import { test } from "@playwright/test";
-import { testSort } from "../testFunctions";
+import { testSortAzure } from "../testFunctions";
 import { anvilTabs } from "./anvil-tabs";
 
 test.describe.configure({ mode: "parallel" });
 
-test("Expect clicking the column header to change the first displayed entry in each column on the datasets tab, except where all tabs have the same values", async ({
+test("Expect clicking each column header three times to keep the first text element visible on the Datasets tab", async ({
   page,
 }) => {
-  await testSort(page, anvilTabs.datasets);
+  await testSortAzure(page, anvilTabs.datasets);
 });
 
-test("Expect clicking the column header to change the first displayed entry in each column on the donors tab, except where all tabs have the same values", async ({
+test("Expect clicking each column header three times to keep the first text element visible on the Donors tab", async ({
   page,
 }) => {
-  await testSort(page, anvilTabs.donors);
+  await testSortAzure(page, anvilTabs.donors);
 });
 
-test("Expect clicking the column header to change the first displayed entry in each column on the biosamples tab, except where all tabs have the same values", async ({
+test("Expect clicking each column header of each tab three times to keep the first text element visible on the BioSamples tab", async ({
   page,
 }) => {
-  await testSort(page, anvilTabs.biosamples);
+  await testSortAzure(page, anvilTabs.biosamples);
 });
 
-test("Expect clicking the column header to change the first displayed entry in each column on the activities tab, except where all tabs have the same values", async ({
+test("Expect clicking each column header three times to keep the first text element visible on the Activities tab", async ({
   page,
 }) => {
-  await testSort(page, anvilTabs.activities);
+  await testSortAzure(page, anvilTabs.activities);
 });
 
-test("Expect clicking the column header to change the first displayed entry in each column on the files tab, except where all tabs have the same values", async ({
+test("Expect clicking each column header three times to keep the first text element visible on the Files tab", async ({
   page,
 }) => {
-  await testSort(page, anvilTabs.files);
+  await testSortAzure(page, anvilTabs.files);
 });

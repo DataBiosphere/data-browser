@@ -93,6 +93,7 @@ export const anvilTabs: AnvilCMGTabCollection = {
       { name: "Name", sortable: true },
       { name: "File Format", sortable: true },
       { name: "Size", sortable: true },
+      { name: "DRS URI", sortable: false },
       { name: "Data Modality", sortable: true },
       { name: "Organism Type", sortable: true },
       { name: "Dataset", sortable: true },
