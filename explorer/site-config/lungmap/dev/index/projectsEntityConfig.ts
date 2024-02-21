@@ -38,7 +38,7 @@ export const projectsEntityConfig: EntityConfig = {
         sideColumn: matricesSideColumn,
       },
       {
-        label: "Project Files",
+        label: "Download",
         mainColumn: hcaProjectFilesMainColumn,
         route: "get-curl-command",
         sideColumn: projectFilesSideColumn,

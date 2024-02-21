@@ -58,7 +58,7 @@ export const projectsEntityConfig: EntityConfig = {
         route: PROJECT_ENTITY_ROUTE.PROJECT_MATRICES,
       },
       {
-        label: "Project Files",
+        label: "Download",
         mainColumn: projectFilesMainColumn,
         route: PROJECT_ENTITY_ROUTE.GET_CURL_COMMAND,
         sideColumn: projectFilesSideColumn,
