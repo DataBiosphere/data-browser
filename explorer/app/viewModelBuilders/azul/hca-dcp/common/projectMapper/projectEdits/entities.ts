@@ -36,3 +36,8 @@ export interface ProjectEdit extends Override {
     "publicationTitle" | "publicationUrl"
   >[];
 }
+
+export interface CellxGeneProjectMapping {
+  cellxgeneId: string;
+  hcaProjectId: string;
+}

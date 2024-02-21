@@ -16,7 +16,8 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "images/*": ["images/*"]
+      "images/*": ["images/*"],
+      "got": ["./node_modules/got/dist/source"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

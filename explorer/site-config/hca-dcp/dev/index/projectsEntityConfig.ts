@@ -8,7 +8,7 @@ import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExplor
 import { ProjectsResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import { getProjectId } from "../../../../app/apis/azul/hca-dcp/common/utils";
 import * as C from "../../../../app/components";
-import { projectEdits } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/projectMapper/projectEdits/constants";
+import { projectEdits } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/projectMapper/projectEdits/projectEdits";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../../category";
 import { mainColumn as exportMainColumn } from "../detail/project/exportMainColumn";
