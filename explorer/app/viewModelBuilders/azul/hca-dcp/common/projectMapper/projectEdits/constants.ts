@@ -13,7 +13,7 @@ const ucscCellBrowserIcon = "/images/icons/ucsc-cell.svg";
 /**
  * CZ CELLxGENE analysis portal.
  */
-const CZ_CELLXGENE: Omit<AnalysisPortal, "url"> = {
+export const CZ_CELLXGENE: Omit<AnalysisPortal, "url"> = {
   icon: cxgIcon,
   label: "CZ CELLxGENE",
   name: ANALYSIS_PORTAL.CZ_CELLXGENE,
@@ -92,9 +92,9 @@ const UCSC_CELL_BROWSER: Omit<AnalysisPortal, "url"> = {
 };
 
 /**
- * Project edits.
+ * Project edits to be used as a basis when generating the full list of project edits.
  */
-export const projectEdits: ProjectEdit[] = [
+export const baseProjectEdits: ProjectEdit[] = [
   {
     entryId: "f8aa201c-4ff1-45a4-890e-840d63459ca2",
     publications: [
