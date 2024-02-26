@@ -17,7 +17,7 @@ mkdir -p build/data
 # Build AnVIL
 rm -rf ./out
 npm run build-prod:anvil-catalog
-mv out/data/* build/data
+mv out/* build/data
 
 export BUCKET=s3://ptm-anvilproject.org.data/
 export SRCDIR=build/
