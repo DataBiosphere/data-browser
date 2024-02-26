@@ -1,5 +1,4 @@
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
-import React from "react";
 import {
   Brands,
   HHSLogo,

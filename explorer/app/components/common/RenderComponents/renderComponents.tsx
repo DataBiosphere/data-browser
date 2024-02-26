@@ -1,6 +1,6 @@
 import { ComponentCreator } from "@clevercanary/data-explorer-ui/lib/components/ComponentCreator/ComponentCreator";
 import { ComponentsConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 
 export interface RenderComponentsProps {
   components?: ComponentsConfig;

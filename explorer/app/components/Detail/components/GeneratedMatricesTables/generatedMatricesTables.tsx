@@ -2,7 +2,7 @@ import { GridPaper } from "@clevercanary/data-explorer-ui/lib/components/common/
 import { Table } from "@clevercanary/data-explorer-ui/lib/components/Detail/components/Table/table";
 import { Divider } from "@mui/material";
 import { ColumnDef } from "@tanstack/react-table";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { GenusSpecies } from "../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/constants";
 import { ProjectMatrixTableView } from "../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 import { Alert, SectionTitle } from "./generatedMatricesTables.styles";

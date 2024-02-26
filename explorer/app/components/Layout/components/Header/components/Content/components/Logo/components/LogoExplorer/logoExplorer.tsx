@@ -5,7 +5,6 @@ import {
   useBreakpointHelper,
 } from "@clevercanary/data-explorer-ui/lib/hooks/useBreakpointHelper";
 import { DESKTOP_SM } from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
-import React from "react";
 
 export interface LogoExplorerProps {
   alt: string;

@@ -1,6 +1,5 @@
 import { Redirect } from "@clevercanary/data-explorer-ui/lib/components/Redirect/redirect";
 import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
-import React from "react";
 
 const HomePage = (): JSX.Element => {
   const { config } = useConfig();

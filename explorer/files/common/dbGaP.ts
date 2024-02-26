@@ -27,7 +27,6 @@ const studyBuddy = new Map<string, DbGapStudy>();
 
 /**
  * Fetches FHIR page specified by URL and returns corresponding raw JSON.
- *
  * @param dbGapId - the id of the study
  * @returns {Promise.<*>} - promise with response
  */
@@ -56,7 +55,6 @@ async function fetchFHIRJSON(dbGapId: string): Promise<Bundle | null> {
 
 /**
  * Returns the study description in markdown formatted text.
- *
  * @param resource - the dbGaP FHIR resource.
  * @returns description form the FHIR response with embedded html for links.
  */
@@ -81,8 +79,9 @@ function getStudyDescription(resource: ResearchStudy): string {
 }
 
 /**
- * Return the dbGaP study from local cache or go get it from dbGap
+ * Returns the dbGaP study from local cache or go get it from dbGap.
  * @param phsId - of the study
+ * @returns the study from the local cache or dbGap.
  */
 export async function getStudy(phsId: string): Promise<DbGapStudy | null> {
   if (!phsId.startsWith("phs")) {
@@ -128,9 +127,8 @@ export async function getStudy(phsId: string): Promise<DbGapStudy | null> {
 /**
  * Returns the study name associated with the first entry.
  * Any subsequent entries are ignored.
- *
- * @returns the study accession.
  * @param resource - the dbGaP FHIR resource.
+ * @returns the study name associated with the first entry.
  */
 function getStudyIdentifier(resource: ResearchStudy): string {
   /* Grab the first entry's resource property. */
@@ -148,7 +146,6 @@ function getStudyIdentifier(resource: ResearchStudy): string {
 
 /**
  * Returns the consent codes for the study.
- *
  * param resource - the FHIR resource
  * @param resource - the dbGaP FHIR resource.
  * @returns An array of consent codes for the given resource.
@@ -185,7 +182,6 @@ function rollUpConsentCodes(resource: ResearchStudy): string[] {
 
 /**
  * Returns the molecular data types for the study.
- *
  * @param resource - the dbGaP FHIR resource.
  * @returns An array of datatypes for the given resource.
  */
@@ -222,7 +218,6 @@ function rollUpDataTypes(resource: ResearchStudy): string[] {
 
 /**
  * Returns the study designs for the study.
- *
  * @param resource - the FHIR ResearchStudy
  * @returns An array of study designs.
  */
@@ -255,7 +250,6 @@ function rollUpStudyDesigns(resource: ResearchStudy): string[] {
 
 /**
  * Returns a list of system design codes belonging to the specified system type.
- *
  * @param coding - an array of cooding objects from the resource.
  * @param systemType - the coding sytem the code belogns to.
  * @returns An array of study design code for the given resource.
@@ -277,7 +271,6 @@ function getDesignCodes(coding: Coding[], systemType: string): string[] {
 
 /**
  * Returns the molecular data types.
- *
  * @param coding - array of codes for this resource
  * @returns An array of molecular codes
  */
@@ -296,7 +289,6 @@ function getMolecularCodes(coding: Coding[]): string[] {
 
 /**
  * Returns true if the specified search string partially matches the specified string.
- *
  * @param str - the string to search.
  * @param searchStr - the string to match.
  * @returns True of the given search term matches the given string.
@@ -313,9 +305,8 @@ function isStrPartialMatch(str: string, searchStr: string): boolean {
 /**
  * Returns the study name associated with the first entry.
  * Any subsequent entries are ignored.
- *
- * @returns the name of the study.
  * @param resource - the FHIR resource
+ * @returns the study name associated with the first entry.
  */
 function getStudyName(resource: ResearchStudy): string {
   if (resource) {
@@ -332,7 +323,6 @@ function getStudyName(resource: ResearchStudy): string {
 
 /**
  * Returns the focuses (diseases), rolled up from focus field's text field.
- *
  * @param resource - the dbGaP FHIR resource.
  * @returns The study focus or "" if the focus does not exist.
  */
@@ -420,7 +410,6 @@ function findExtensionType(
 
 /**
  * Returns parsed FHIR JSON.
- *
  * @param response - the response returned from the FHIR API call
  * @returns {Promise<{entry}|*>} - resolved when resonse.json() is complete.
  */

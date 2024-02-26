@@ -1,7 +1,7 @@
 import { GridPaper } from "@clevercanary/data-explorer-ui/lib/components/common/Paper/paper.styles";
 import { Table } from "@clevercanary/data-explorer-ui/lib/components/Detail/components/Table/table";
 import { ColumnDef } from "@tanstack/react-table";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,

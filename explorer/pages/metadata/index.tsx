@@ -2,7 +2,6 @@ import { LAYOUT_STYLE } from "@clevercanary/data-explorer-ui/lib/components/Layo
 import { ContentView } from "@clevercanary/data-explorer-ui/lib/views/ContentView/contentView";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { MDXRemote } from "next-mdx-remote";
-import React from "react";
 import { ContentTheme } from "../../app/components/common/Content/components/ContentTheme/contentTheme";
 import { MDX_COMPONENTS, MDX_SCOPE } from "../../app/content/common/constants";
 import { getContentStaticProps } from "../../app/content/common/contentPages";

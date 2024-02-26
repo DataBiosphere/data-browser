@@ -58,9 +58,9 @@ export const readDir = async function readDir(
 
 /**
  * Returns the file content for the specified file.
- *
  * @param file - file's path
  * @param options - file's options
+ * @returns the file content for the specified file.
  */
 export const readFile = async function readFile(
   file: string,
@@ -116,7 +116,6 @@ function formatDatumAsNumber(datum: string): number {
 
 /**
  * Returns the datum formatted as a string.
- *
  * @param datum - CSV data
  * @returns string value
  */
@@ -130,7 +129,6 @@ function formatDatumAsString(datum: string): string {
 
 /**
  * Returns the datum formatted as a boolean.
- *
  * @param datum - CSV data
  * @returns boolean value
  */
@@ -145,7 +143,6 @@ function formatDatumAsBoolean(datum: string): boolean {
 /**
  * Returns the datum, corrected for type.
  * i.e. will return a number as Number, instead of a string.
- *
  * @param datum - CSV data
  * @param fieldType - field type
  * @returns formatted data

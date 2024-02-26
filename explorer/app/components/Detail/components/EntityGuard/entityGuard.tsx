@@ -1,6 +1,6 @@
 import { Override } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import Router from "next/router";
-import React, { Fragment, useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { ENTITY_STATUS } from "./common/entities";
 import { EntityDeprecated } from "./components/EntityDeprecated/entityDeprecated";
 import { EntityWithdrawn } from "./components/EntityWithdrawn/entityWithdrawn";
