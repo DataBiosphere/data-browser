@@ -1,3 +1,3 @@
-FROM node:16.15.1-bullseye
+FROM node:20.10.0-bullseye
 
 RUN apt-get update && apt-get install -y curl
