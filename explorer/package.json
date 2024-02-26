@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev:ncpi-catalog": "./scripts/dev.sh ncpi-catalog dev && next dev",
-    "build-dev:ncpi-catalog": "scripts/common-build.sh ncpi-catalog dev && next build out && npm run postbuild",
+    "build-dev:ncpi-catalog": "scripts/common-build.sh ncpi-catalog dev && next build && npm run postbuild",
     "build-prod:ncpi-catalog": "./scripts/common-build.sh ncpi-catalog prod && next build && npm run postbuild",
     "dev:anvil-catalog": "./scripts/dev.sh anvil-catalog dev && next dev",
     "build-dev:anvil-catalog": "scripts/common-build.sh anvil-catalog dev && next build  && npm run postbuild",
-    "build-prod:anvil-catalog": "./scripts/common-build.sh anvil-catalog prod && next build && next export -o out/data && npm run postbuild",
+    "build-prod:anvil-catalog": "./scripts/common-build.sh anvil-catalog prod && next build && npm run postbuild",
     "dev:lungmap": "./scripts/dev.sh lungmap dev && next dev",
     "build-dev:lungmap": "./scripts/common-build.sh lungmap dev && next build && npm run postbuild",
     "build-prod:lungmap": "./scripts/common-build.sh lungmap prod && next build && npm run postbuild",
