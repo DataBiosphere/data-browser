@@ -7,6 +7,7 @@ export default withPlugins([withMDX], {
   images: {
     unoptimized: true,
   },
+  output: "export",
   reactStrictMode: true,
   webpack: (config) => {
     config.module = {
