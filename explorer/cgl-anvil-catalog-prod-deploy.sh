@@ -8,7 +8,7 @@ rm -rf ./out
 echo \"Deleting ./build/\"
 rm -rf ./build
 
-n 16.15.1
+n 20.10.0
 npm ci
 export NEXT_PUBLIC_BASE_PATH="/data"
 

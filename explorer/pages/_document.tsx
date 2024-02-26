@@ -1,5 +1,4 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
-import Script from "next/script";
 
 class MyDocument extends Document {
   render(): JSX.Element {
@@ -12,10 +11,7 @@ class MyDocument extends Document {
           an a later version. */}
           {/* TODO self host fonts */}
           {/* TODO only load fonts required for the app being built */}
-          <Script
-            src="https://accounts.google.com/gsi/client"
-            strategy="beforeInteractive"
-          ></Script>
+          <script src="https://accounts.google.com/gsi/client" defer></script>
           <link rel="stylesheet" href="https://use.typekit.net/qhb0geh.css" />
           <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Roboto+Mono&display=swap"
