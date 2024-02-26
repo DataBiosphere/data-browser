@@ -5,7 +5,7 @@ import {
   ThemeProvider,
   useTheme,
 } from "@mui/material";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 export interface ContentThemeProps {
   children: ReactNode;

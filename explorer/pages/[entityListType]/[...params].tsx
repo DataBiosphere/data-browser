@@ -15,7 +15,6 @@ import { EntityDetailView } from "@clevercanary/data-explorer-ui/lib/views/Entit
 import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
-import React from "react";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { readFile } from "../../app/utils/tsvParser";
 
@@ -75,6 +74,7 @@ function isOverride(override: Override): boolean {
  * Seed database.
  * @param entityListType - Entity list type.
  * @param entityConfig - Entity config.
+ * @returns Promise<void>.
  */
 const seedDatabase = async function seedDatabase(
   entityListType: string,
@@ -104,6 +104,7 @@ const seedDatabase = async function seedDatabase(
 
 /**
  * getStaticPaths - return the list of paths to prerender for each entity type and its tabs.
+ * @returns Promise<GetStaticPaths<PageUrl>>.
  */
 export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   const appConfig = config();

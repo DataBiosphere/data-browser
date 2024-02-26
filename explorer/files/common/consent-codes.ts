@@ -74,7 +74,7 @@ interface ParsedConsentCode {
   secondary: SecondaryConsentSymbolGroup[];
 }
 
-type BoolFieldSymbolName = typeof boolFieldConsentSymbols[number];
+type BoolFieldSymbolName = (typeof boolFieldConsentSymbols)[number];
 
 interface ConsentDescriptions {
   boolFieldSymbols: Partial<Record<BoolFieldSymbolName, boolean>>;

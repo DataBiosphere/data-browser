@@ -1,5 +1,5 @@
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 export type MDXSerializeResult = MDXRemoteSerializeResult | null;
 

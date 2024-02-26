@@ -13,7 +13,6 @@ import {
 import { Link as MLink, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 import { Notice, Section, SectionContent } from "../../entityGuard.styles";
 
 interface EntityDeprecatedProps {
@@ -59,7 +58,7 @@ export const EntityDeprecated = ({
           </Typography>
         </SectionContent>
         <SectionActions>
-          <Link href="/" passHref>
+          <Link href="/" legacyBehavior passHref>
             <ButtonPrimary href="passHref">To Homepage</ButtonPrimary>
           </Link>
         </SectionActions>

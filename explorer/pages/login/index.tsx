@@ -1,5 +1,4 @@
 import { LoginView } from "@clevercanary/data-explorer-ui/lib/views/LoginView/loginView";
-import React from "react";
 
 /**
  * Login page.

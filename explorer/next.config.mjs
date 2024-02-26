@@ -8,7 +8,7 @@ export default withPlugins([withMDX], {
     unoptimized: true,
   },
   reactStrictMode: true,
-  webpack: (config, { buildId, defaultLoaders, dev, isServer, webpack }) => {
+  webpack: (config) => {
     config.module = {
       ...config.module,
       rules: [

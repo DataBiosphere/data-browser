@@ -1,5 +1,5 @@
 import { OpenInNewIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
-import React, { ElementType } from "react";
+import { ElementType } from "react";
 import { Label, Text } from "./labelIconMenuItem.styles";
 
 export interface LabelIconMenuItemProps {

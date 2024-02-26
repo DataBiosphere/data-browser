@@ -9,7 +9,6 @@ import { ExploreView } from "@clevercanary/data-explorer-ui/lib/views/ExploreVie
 import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
-import React from "react";
 import { readFile } from "../../app/utils/tsvParser";
 
 interface PageUrl extends ParsedUrlQuery {
@@ -24,6 +23,7 @@ interface ListPageProps extends AzulEntitiesStaticResponse {
  * Seed database.
  * @param entityListType - Entity list type.
  * @param entityConfig - Entity config.
+ * @returns Promise<void>.
  */
 const seedDatabase = async function seedDatabase( // TODO get rid of this duplicated code
   entityListType: string,
@@ -65,6 +65,7 @@ const IndexPage = ({
 
 /**
  * Build the list of paths to be built statically.
+ * @returns static paths.
  */
 export const getStaticPaths: GetStaticPaths = async () => {
   const appConfig = config();
@@ -83,6 +84,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 /**
  * Build the set of props for pre-rendering of page.
  * @param context - Object containing values related to the current context.
+ * @returns static props.
  */
 export const getStaticProps: GetStaticProps<
   AzulEntitiesStaticResponse

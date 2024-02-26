@@ -1,5 +1,4 @@
 import { ExportMethodView } from "@clevercanary/data-explorer-ui/lib/views/ExportMethodView/exportMethodView";
-import React from "react";
 
 /**
  * Export method page.

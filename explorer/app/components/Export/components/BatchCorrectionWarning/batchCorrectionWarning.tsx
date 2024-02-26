@@ -3,7 +3,6 @@ import {
   Link,
   LinkProps,
 } from "@clevercanary/data-explorer-ui/lib/components/Links/components/Link/link";
-import React from "react";
 
 export const BatchCorrectionWarning = ({
   label,

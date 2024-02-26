@@ -1,6 +1,5 @@
 import { Link } from "@clevercanary/data-explorer-ui/lib/components/Links/components/Link/link";
 import { useRouter } from "next/router";
-import React from "react";
 
 export const ConsortiumOverview = (): JSX.Element => {
   const { asPath } = useRouter();

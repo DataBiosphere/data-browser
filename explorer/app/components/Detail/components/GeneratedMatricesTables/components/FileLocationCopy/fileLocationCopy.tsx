@@ -2,7 +2,7 @@ import { ButtonGroupButton } from "@clevercanary/data-explorer-ui/lib/components
 import { ContentCopyIconSmall } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/common/constants";
 import { useFileLocation } from "@clevercanary/data-explorer-ui/lib/hooks/useFileLocation";
 import copy from "copy-to-clipboard";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 
 export interface FileLocationCopyProps {
