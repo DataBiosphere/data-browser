@@ -56,3 +56,16 @@ export const getPlatformId = (
 //TODO dbGaP is is not unique if the study has no ID.
 export const getStudyId = (ncpiCatalogStudy: NCPICatalogStudy): string =>
   ncpiCatalogStudy.dbGapId ?? "";
+
+/**
+ * Returns the study title from the given API response.
+ * Facilitates setting within the `<Head>` element of the page.
+ * @param ncpiCatalogStudy - Response model return from entity API.
+ * @returns study title.
+ */
+export const getTitle = (
+  ncpiCatalogStudy?: NCPICatalogStudy
+): string | undefined => {
+  if (!ncpiCatalogStudy) return;
+  return ncpiCatalogStudy.title;
+};

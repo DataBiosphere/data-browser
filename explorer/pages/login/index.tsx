@@ -1,4 +1,11 @@
 import { LoginView } from "@clevercanary/data-explorer-ui/lib/views/LoginView/loginView";
+import { GetStaticProps } from "next";
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: { pageTitle: "Login" },
+  };
+};
 
 /**
  * Login page.

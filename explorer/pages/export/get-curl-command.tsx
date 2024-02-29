@@ -1,4 +1,13 @@
 import { ExportMethodView } from "@clevercanary/data-explorer-ui/lib/views/ExportMethodView/exportMethodView";
+import { GetStaticProps } from "next";
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {
+      pageTitle: 'Download Selected Data Using "curl"',
+    },
+  };
+};
 
 /**
  * Download curl command page.

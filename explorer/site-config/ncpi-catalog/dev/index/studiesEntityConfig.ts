@@ -8,6 +8,7 @@ import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExplor
 import { NCPICatalogStudy } from "../../../../app/apis/catalog/ncpi-catalog/common/entities";
 import {
   getStudyId,
+  getTitle,
   NCPIStudyInputMapper,
 } from "../../../../app/apis/catalog/ncpi-catalog/common/utils";
 import * as Components from "../../../../app/components";
@@ -40,6 +41,7 @@ export const studiesEntityConfig: EntityConfig<NCPICatalogStudy> = {
   entityMapper: NCPIStudyInputMapper,
   exploreMode: EXPLORE_MODE.CS_FETCH_CS_FILTERING,
   getId: getStudyId,
+  getTitle: getTitle,
   label: "Studies",
   list: {
     columns: [
