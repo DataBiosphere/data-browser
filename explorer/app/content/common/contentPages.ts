@@ -12,7 +12,8 @@ import {
 } from "./utils";
 
 export async function getContentStaticProps(
-  context: GetStaticPropsContext
+  context: GetStaticPropsContext,
+  pageTitle: string
 ): Promise<GetStaticPropsResult<ContentProps>> {
   const slug = getSlug(context);
   const contentPathname = getContentPathname();
@@ -25,6 +26,7 @@ export async function getContentStaticProps(
       props: {
         frontmatter: null,
         mdxSource: null,
+        pageTitle,
         slug: null,
       },
     };
@@ -44,6 +46,7 @@ export async function getContentStaticProps(
     props: {
       frontmatter,
       mdxSource,
+      pageTitle,
       slug,
     },
   };

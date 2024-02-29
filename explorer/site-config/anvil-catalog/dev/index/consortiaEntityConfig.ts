@@ -9,6 +9,7 @@ import { AnVILCatalogConsortium } from "../../../../app/apis/catalog/anvil-catal
 import {
   anvilCatalogConsortiumInputMapper,
   getConsortiumId,
+  getConsortiumTitle,
 } from "../../../../app/apis/catalog/anvil-catalog/common/utils";
 import * as Components from "../../../../app/components";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
@@ -52,6 +53,7 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
   entityMapper: anvilCatalogConsortiumInputMapper,
   exploreMode: EXPLORE_MODE.CS_FETCH_CS_FILTERING,
   getId: getConsortiumId,
+  getTitle: getConsortiumTitle,
   label: "Consortia",
   list: {
     columns: [

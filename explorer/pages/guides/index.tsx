@@ -10,7 +10,7 @@ import NotFoundPage from "../404";
 const slug = ["guides"];
 
 export const getStaticProps: GetStaticProps = async () => {
-  return getContentStaticProps({ params: { slug } });
+  return getContentStaticProps({ params: { slug } }, "Guides");
 };
 
 const Page = ({

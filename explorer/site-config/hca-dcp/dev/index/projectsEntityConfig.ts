@@ -6,7 +6,10 @@ import {
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { ProjectsResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
-import { getProjectId } from "../../../../app/apis/azul/hca-dcp/common/utils";
+import {
+  getProjectId,
+  getTitle,
+} from "../../../../app/apis/azul/hca-dcp/common/utils";
 import * as C from "../../../../app/components";
 import { projectEdits } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/projectMapper/projectEdits/projectEdits";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
@@ -74,6 +77,7 @@ export const projectsEntityConfig: EntityConfig = {
   },
   exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
   getId: getProjectId,
+  getTitle: getTitle,
   label: "Projects",
   list: {
     columns: [

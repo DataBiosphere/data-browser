@@ -7,6 +7,7 @@ import {
 import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
 import { DatasetsResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import { getDatasetEntryId } from "../../../../app/apis/azul/anvil-cmg/common/transformers";
+import { getTitle } from "../../../../app/apis/azul/anvil-cmg/common/utils";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import {
@@ -45,6 +46,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
   },
   exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
   getId: getDatasetEntryId,
+  getTitle: getTitle,
   label: "Datasets",
   list: {
     columns: [

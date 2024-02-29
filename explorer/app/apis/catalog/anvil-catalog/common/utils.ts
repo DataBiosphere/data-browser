@@ -19,6 +19,18 @@ export const getStudyId = (anvilCatalogStudy: AnVILCatalogStudy): string =>
   anvilCatalogStudy.dbGapId || "";
 
 /**
+ * Returns the study name from the given API response.
+ * Facilitates setting title within the `<Head>` element of the page.
+ * @param anvilCatalogStudy - Response model return from entity API.
+ * @returns study name.
+ */
+export const getStudyTitle = (
+  anvilCatalogStudy?: AnVILCatalogStudy
+): string | undefined => {
+  return anvilCatalogStudy?.studyName;
+};
+
+/**
  * Returns the terra workspace name.
  * @param anvilCatalogWorkspace - AnVIL catalog workspace.
  * @returns String value of terra workspace name.
@@ -35,6 +47,18 @@ export const getWorkspaceId = (
 export const getConsortiumId = (
   anvilCatalogEntity: AnVILCatalogEntity
 ): string => anvilCatalogEntity.consortium ?? "";
+
+/**
+ * Returns the consortium from the given API response.
+ * Facilitates setting title within the `<Head>` element of the page.
+ * @param anvilCatalogEntity - Response model return from entity API.
+ * @returns consortium.
+ */
+export const getConsortiumTitle = (
+  anvilCatalogEntity?: AnVILCatalogEntity
+): string | undefined => {
+  return anvilCatalogEntity?.consortium;
+};
 
 export const anvilCatalogStudyInputMapper = <
   StudyType extends AnVILCatalogStudyAny

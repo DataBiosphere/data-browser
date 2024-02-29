@@ -4,6 +4,7 @@ import { MDXRemoteSerializeResult } from "next-mdx-remote";
 export interface ContentProps {
   frontmatter: Frontmatter | null;
   mdxSource: MDXRemoteSerializeResult | null;
+  pageTitle: string;
   slug: string[] | null;
 }
 

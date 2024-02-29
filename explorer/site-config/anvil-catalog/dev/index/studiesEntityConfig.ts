@@ -9,6 +9,7 @@ import { AnVILCatalogStudy } from "../../../../app/apis/catalog/anvil-catalog/co
 import {
   anvilCatalogStudyInputMapper,
   getStudyId,
+  getStudyTitle,
 } from "../../../../app/apis/catalog/anvil-catalog/common/utils";
 import * as Components from "../../../../app/components";
 import * as ViewBuilder from "../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
@@ -46,6 +47,7 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
   entityMapper: anvilCatalogStudyInputMapper,
   exploreMode: EXPLORE_MODE.CS_FETCH_CS_FILTERING,
   getId: getStudyId,
+  getTitle: getStudyTitle,
   label: "Studies",
   list: {
     columns: [

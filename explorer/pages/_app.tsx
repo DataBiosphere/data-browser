@@ -30,6 +30,10 @@ import TagManager from "react-gtm-module";
 const FEATURE_FLAGS = Object.values(FEATURES);
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
 
+export interface PageProps extends AzulEntitiesStaticResponse {
+  pageTitle?: string;
+}
+
 export type NextPageWithComponent = NextPage & {
   Main?: typeof DXMain;
 };
@@ -47,7 +51,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
   const { gtmAuth, gtmId, gtmPreview } = analytics || {};
   const { floating, footer, header } = layout || {};
   const theme = createAppTheme(themeOptions);
-  const { entityListType } = pageProps as AzulEntitiesStaticResponse;
+  const { entityListType, pageTitle } = pageProps as PageProps;
   const Main = Component.Main || DXMain;
 
   // Initialize Google Tag Manager.
@@ -61,7 +65,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
     <EmotionThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <DXConfigProvider config={appConfig} entityListType={entityListType}>
-          <Head />
+          <Head pageTitle={pageTitle} />
           <CssBaseline />
           <SystemStatusProvider>
             <AuthProvider sessionTimeout={SESSION_TIMEOUT}>
