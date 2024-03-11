@@ -3,6 +3,7 @@ import pandas as pd
 import json
 import re
 from html import escape as escape_html
+from datetime import date
 
 users_over_time_file_name = "users_over_time_history.json"
 
@@ -44,10 +45,15 @@ def plot_users_over_time(load_json=True, use_api=True, **other_params):
 		["activeUsers", "screenPageViews"] if use_api else None,
 		dimensions="yearMonth",
 		sort_results=["yearMonth"],
-		df_processor=(lambda df: df.set_index(df.index + "01")[-2::-1]) if use_api else None,
+		df_processor=process_users_over_time_df if use_api else None,
 		pre_plot_df_processor=None if old_data is None else (lambda df: df.add(old_data, fill_value=0).astype("int")[::-1]) if use_api else (lambda df: old_data),
 		format_table=False,
 		**other_params
 	)
 	return ac.format_change_over_time_table(df, change_dir=-1, **other_params)
+
+def process_users_over_time_df(df):
+	if df.index[-1] == date.today().strftime("%Y%m"):
+		return df.set_index(df.index + "01")[-2::-1]
+	return df.set_index(df.index + "01")[-1::-1]
 
