@@ -1,3 +1,4 @@
+import { LAYOUT_STYLE_NO_CONTRAST_LIGHT } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/ContentLayout/common/constants";
 import fs from "fs";
 import matter from "gray-matter";
 import { GetStaticPropsContext, GetStaticPropsResult } from "next";
@@ -24,7 +25,6 @@ export async function getContentStaticProps(
   ) {
     return {
       props: {
-        frontmatter: null,
         mdxSource: null,
         pageTitle,
         slug: null,
@@ -33,7 +33,7 @@ export async function getContentStaticProps(
   }
   const markdownPathname = getMarkdownPathname(contentPathname, slug);
   const markdownWithMeta = fs.readFileSync(markdownPathname, "utf-8");
-  const { content, data: frontmatter } = matter(markdownWithMeta);
+  const { content } = matter(markdownWithMeta);
   const mdxSource = await serialize(content, {
     mdxOptions: {
       development: false, // See https://github.com/hashicorp/next-mdx-remote/issues/307#issuecomment-1363415249 and https://github.com/hashicorp/next-mdx-remote/issues/307#issuecomment-1378362096.
@@ -44,7 +44,7 @@ export async function getContentStaticProps(
   });
   return {
     props: {
-      frontmatter,
+      layoutStyle: LAYOUT_STYLE_NO_CONTRAST_LIGHT,
       mdxSource,
       pageTitle,
       slug,
