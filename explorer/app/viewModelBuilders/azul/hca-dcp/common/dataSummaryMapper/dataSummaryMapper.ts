@@ -15,6 +15,7 @@ import {
   processEntityValue,
 } from "../../../../../apis/azul/common/utils";
 import { ProjectsResponse } from "../../../../../apis/azul/hca-dcp/common/responses";
+import * as C from "../../../../../components/index";
 import {
   getEstimatedCellCount,
   getProjectFileFormats,
@@ -151,7 +152,10 @@ export function mapProjectDataSummary(
     projectsResponse.protocols,
     HCA_DCP_CATEGORY_KEY.WORKFLOW
   );
-  details.set(DATA_SUMMARY.PROJECT_SHORTNAME, projectShortname);
+  details.set(
+    DATA_SUMMARY.PROJECT_SHORTNAME,
+    C.TypographyWordBreak({ children: projectShortname })
+  );
   details.set(
     DATA_SUMMARY.GENUS_SPECIES,
     NTagCell({

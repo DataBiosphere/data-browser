@@ -1,6 +1,6 @@
 import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { makeConfig } from "../dev/config";
-import { authenticationConfig } from "./authentication/authentication";
+import { getAuthenticationConfig } from "./authentication/authentication";
 import { getMAExportConfig } from "./export/export";
 import { getMAEntitiesConfig } from "./index/projectsEntityConfig";
 
@@ -15,7 +15,7 @@ const config: SiteConfig = {
   ...makeManagedAccessConfig(
     makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, CATALOG)
   ),
-  authentication: authenticationConfig,
+  authentication: getAuthenticationConfig(PORTAL_URL),
 };
 
 /**

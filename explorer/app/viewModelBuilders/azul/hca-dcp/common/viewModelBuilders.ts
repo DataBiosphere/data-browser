@@ -7,6 +7,7 @@ import {
   SelectedFilter,
 } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
+import { CallToAction } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
 import {
   Key,
   KeyValueFn,
@@ -905,6 +906,7 @@ export const buildHero = (
 ): React.ComponentProps<typeof C.BackPageHero> => {
   return {
     breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
+    callToAction: getProjectCallToAction(projectsResponse),
     title: processEntityValue(projectsResponse.projects, "projectTitle"),
   };
 };
@@ -1746,6 +1748,26 @@ export function getProjectBreadcrumbs(
     breadcrumbs.push({ path: "", text: projectTitle });
   }
   return breadcrumbs;
+}
+
+/**
+ * Returns the callToAction prop for the Hero component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the CallToActionButton component.
+ */
+function getProjectCallToAction(
+  projectsResponse: ProjectsResponse
+): CallToAction | undefined {
+  const isReady = isResponseReady(projectsResponse);
+  const isAccessGranted = isProjectAccessible(projectsResponse);
+  if (!isReady || isAccessGranted) {
+    return;
+  }
+  return {
+    label: "Request Access",
+    target: ANCHOR_TARGET.BLANK,
+    url: "https://duos.org/datalibrary/HCA",
+  };
 }
 
 /**

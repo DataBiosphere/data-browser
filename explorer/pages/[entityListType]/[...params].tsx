@@ -129,7 +129,7 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
           undefined
         );
 
-        const data = await fetchAllEntities(path);
+        const data = await fetchAllEntities(path, undefined);
         const tabs = entityConfig.detail?.tabs.map((tab) => tab.route) ?? [];
 
         // process all hits

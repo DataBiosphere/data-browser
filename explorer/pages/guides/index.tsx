@@ -1,4 +1,4 @@
-import { LAYOUT_STYLE } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/ContentLayout/contentLayout";
+import { Main } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/ContentLayout/components/Main/main";
 import { ContentView } from "@clevercanary/data-explorer-ui/lib/views/ContentView/contentView";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { MDXRemote } from "next-mdx-remote";
@@ -14,10 +14,9 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const Page = ({
-  frontmatter,
+  layoutStyle,
   mdxSource,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
-  const { layoutStyle } = frontmatter || {};
   if (!mdxSource) return <NotFoundPage />;
   return (
     <ContentView
@@ -26,9 +25,11 @@ const Page = ({
           <MDXRemote {...mdxSource} components={MDX_COMPONENTS} />
         </ContentTheme>
       }
-      layoutStyle={layoutStyle ?? LAYOUT_STYLE.CONTRAST}
+      layoutStyle={layoutStyle ?? undefined}
     />
   );
 };
+
+Page.Main = Main;
 
 export default Page;

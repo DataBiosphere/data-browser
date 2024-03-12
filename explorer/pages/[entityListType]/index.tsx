@@ -113,7 +113,7 @@ export const getStaticProps: GetStaticProps<
   }
 
   // Entities are client-side fetched from a local database seeded from a configured TSV.
-  props.data = await fetchAllEntities(entityListType);
+  props.data = await fetchAllEntities(entityListType, undefined);
 
   return {
     props,
