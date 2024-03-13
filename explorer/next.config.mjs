@@ -9,6 +9,7 @@ export default withPlugins([withMDX], {
   },
   output: "export",
   reactStrictMode: true,
+  staticPageGenerationTimeout: 120,
   webpack: (config) => {
     config.module = {
       ...config.module,
