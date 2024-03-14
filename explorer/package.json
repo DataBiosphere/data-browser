@@ -36,7 +36,7 @@
     "get-cellxgene-projects-hca": "esrun ./site-config/hca-dcp/dev/scripts/get-cellxgene-projects.ts"
   },
   "dependencies": {
-    "@clevercanary/data-explorer-ui": "70.0.0",
+    "@clevercanary/data-explorer-ui": "71.0.0",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
     "@mdx-js/loader": "^3.0.1",
