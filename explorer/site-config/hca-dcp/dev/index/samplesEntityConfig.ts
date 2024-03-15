@@ -47,7 +47,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildGenusSpecies,
+          viewBuilder: V.buildAggregatedDonorGenusSpecies,
         } as ComponentConfig<typeof C.NTagCell, SamplesResponse>,
         header: "Species", // TODO review header
         id: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
@@ -65,7 +65,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildLibraryConstructionApproach,
+          viewBuilder: V.buildAggregatedProtocolLibraryConstructionApproach,
         } as ComponentConfig<typeof C.NTagCell, SamplesResponse>,
         header: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
         id: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
@@ -74,7 +74,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildSpecimenOrgan,
+          viewBuilder: V.buildAggregatedSpecimenOrgan,
         } as ComponentConfig<typeof C.NTagCell, SamplesResponse>,
         header: HCA_DCP_CATEGORY_LABEL.ANATOMICAL_ENTITY,
         id: HCA_DCP_CATEGORY_KEY.ANATOMICAL_ENTITY,
@@ -83,7 +83,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildDonorDisease,
+          viewBuilder: V.buildAggregatedDonorDisease,
         } as ComponentConfig<typeof C.NTagCell, SamplesResponse>,
         header: "Disease (Donor)", // TODO confirm header
         id: HCA_DCP_CATEGORY_KEY.DONOR_DISEASE,
@@ -102,7 +102,7 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         columnVisible: false,
         componentConfig: {
           component: C.Cell,
-          viewBuilder: V.buildDevelopmentStages,
+          viewBuilder: V.buildAggregatedDonorDevelopmentStage,
         } as ComponentConfig<typeof C.Cell, SamplesResponse>,
         disableSorting: true,
         header: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,

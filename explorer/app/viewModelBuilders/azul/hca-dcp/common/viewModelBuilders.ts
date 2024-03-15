@@ -6,6 +6,7 @@ import {
   Filters,
   SelectedFilter,
 } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
 import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import { CallToAction } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
 import {
@@ -60,6 +61,7 @@ import {
   ROUTE_MANIFEST_DOWNLOAD,
 } from "../../../../../site-config/hca-dcp/dev/export/constants";
 import {
+  processAggregatedBooleanOrArrayValue,
   processAggregatedOrArrayValue,
   processEntityArrayValue,
   processEntityValue,
@@ -149,6 +151,23 @@ export const buildAccessions = (
 };
 
 /**
+ * Build props for the aggregated selected cell type NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedCellSuspensionSelectedCellType = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.SELECTED_CELL_TYPE),
+    values: processAggregatedOrArrayValue(
+      entityResponse.cellSuspensions,
+      HCA_DCP_CATEGORY_KEY.SELECTED_CELL_TYPE
+    ),
+  };
+};
+
+/**
  * Build props for the last modified date SubTitle component from the given project response.
  * @param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the SubTitle component.
@@ -160,6 +179,75 @@ export const buildAggregatedDateLastModifiedDate = (
     subTitle: getProjectAggregateLastModifiedDate(projectsResponse),
   };
 };
+
+/**
+ * Build props for donor count Cell component from the given entity response.
+ * @param entityResponse - Response model return from entity API.
+ * @returns model to be used as props for the Cell component.
+ */
+export const buildAggregatedDonorCount = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.Cell> => {
+  const donorCount = processNumberEntityValue(
+    entityResponse.donorOrganisms,
+    HCA_DCP_CATEGORY_KEY.DONOR_COUNT
+  );
+  return {
+    value: donorCount ? donorCount.toLocaleString() : LABEL.UNSPECIFIED,
+  };
+};
+
+/**
+ * Build props for development stage NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from the given entity API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedDonorDevelopmentStage = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DEVELOPMENT_STAGE),
+    values: processAggregatedOrArrayValue(
+      entityResponse.donorOrganisms,
+      HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE
+    ),
+  };
+};
+
+/**
+ * Build props for the donor disease "Disease (Donor)" NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from entity API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedDonorDisease = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_DONOR),
+    values: processAggregatedOrArrayValue(
+      entityResponse.donorOrganisms,
+      "disease"
+    ),
+  };
+};
+
+/**
+ * Build props for aggregated genus species NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from entity API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedDonorGenusSpecies = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.SPECIES),
+    values: processAggregatedOrArrayValue(
+      entityResponse.donorOrganisms,
+      HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
+    ),
+  };
+};
+
 /**
  * Build props for the project title Link component from the given entity response.
  * @param entityResponse - Response model return from the entity response API.
@@ -177,6 +265,189 @@ export const buildAggregatedProjectTitle = (
       )
     ),
     url: getAggregatedProjectTitleUrl(entityResponse),
+  };
+};
+
+/**
+ * Build props for the library construction approach NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from entity API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedProtocolLibraryConstructionApproach = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(
+      METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
+    ),
+    values: processAggregatedOrArrayValue(
+      entityResponse.protocols,
+      HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD
+    ),
+  };
+};
+
+/**
+ * Build props for the aggregated nucleic acid source NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedProtocolNucleicAcidSource = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.NUCLEIC_ACID_SOURCE),
+    values: processAggregatedOrArrayValue(
+      entityResponse.protocols,
+      HCA_DCP_CATEGORY_KEY.NUCLEIC_ACID_SOURCE
+    ),
+  };
+};
+
+/**
+ * Build props for the aggregated paired end Cell component from the given entity response.
+ * @param entityResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the Cell component.
+ */
+export const buildAggregatedProtocolPairedEnd = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: stringifyValues(
+      processAggregatedBooleanOrArrayValue(
+        entityResponse.protocols,
+        HCA_DCP_CATEGORY_KEY.PAIRED_END
+      )
+    ),
+  };
+};
+
+/**
+ * Build props for the aggregated workflow NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedProtocolWorkflow = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.WORKFLOW),
+    values: processAggregatedOrArrayValue(
+      entityResponse.protocols,
+      HCA_DCP_CATEGORY_KEY.WORKFLOW
+    ),
+  };
+};
+
+/**
+ * Build props for the aggregated sample entity type NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedSampleEntityType = (
+  entityResponse: ProjectsResponse | FilesResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.SAMPLE_TYPE),
+    values: processAggregatedOrArrayValue(
+      entityResponse.samples,
+      HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE
+    ),
+  };
+};
+
+/**
+ * Build props for the aggregated model organ NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedSampleModelOrgan = (
+  entityResponse: ProjectsResponse | FilesResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.MODEL_ORGAN),
+    values: processAggregatedOrArrayValue(
+      entityResponse.samples,
+      HCA_DCP_CATEGORY_KEY.MODEL_ORGAN
+    ),
+  };
+};
+
+/**
+ * Build props for the aggregated specimen disease NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedSpecimenDisease = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_SPECIMEN),
+    values: processAggregatedOrArrayValue(entityResponse.specimens, "disease"),
+  };
+};
+
+/**
+ * Build props for the aggregated specimen organ "Anatomical Entity" NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from entity API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedSpecimenOrgan = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.ANATOMICAL_ENTITY),
+    values: processAggregatedOrArrayValue(
+      entityResponse.specimens,
+      HCA_DCP_CATEGORY_KEY.ORGAN
+    ),
+  };
+};
+
+/**
+ * Build props for the aggregated organ part NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedSpecimenOrganPart = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.ORGAN_PART),
+    values: processAggregatedOrArrayValue(
+      entityResponse.specimens,
+      HCA_DCP_CATEGORY_KEY.ORGAN_PART
+    ),
+  };
+};
+
+/**
+ * Build props for the aggregate last modified date Cell component from the given projects response.
+ * @param projectsResponse - Response model return from the projects API.
+ * @returns model to be used as props for the Cell component.
+ */
+export const buildAggregateLastModifiedDate = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: formatAggregatedDate(
+      processEntityValue(projectsResponse.dates, "aggregateLastModifiedDate")
+    ),
+  };
+};
+
+/**
+ * Build props for the aggregate submission date Cell component from the given projects response.
+ * @param projectsResponse - Response model return from the projects API.
+ * @returns model to be used as props for the Cell component.
+ */
+export const buildAggregateSubmissionDate = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: formatAggregatedDate(
+      processEntityValue(projectsResponse.dates, "aggregateSubmissionDate")
+    ),
   };
 };
 
@@ -408,40 +679,6 @@ export const buildDetails = (
   return {
     keyValuePairs,
     title: "Project Details",
-  };
-};
-
-/**
- * Build props for development stage NTagCell component from the given entity response.
- * @param entityResponse - Response model return from the given entity API.
- * @returns model to be used as props for the development stage NTagCell component.
- */
-export const buildDevelopmentStages = (
-  entityResponse: EntityResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.DEVELOPMENT_STAGE),
-    values: processAggregatedOrArrayValue(
-      entityResponse.donorOrganisms,
-      HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE
-    ),
-  };
-};
-
-/**
- * Build props for the donor disease "Disease (Donor)" NTagCell component from the given entity response.
- * @param entityResponse - Response model return from entity API.
- * @returns model to be used as props for the donor disease "Disease (Donor)" NTagCell component.
- */
-export const buildDonorDisease = (
-  entityResponse: EntityResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.DISEASE_DONOR),
-    values: processAggregatedOrArrayValue(
-      entityResponse.donorOrganisms,
-      "disease"
-    ),
   };
 };
 
@@ -892,23 +1129,6 @@ export function getExportSelectedDataSummary(
 }
 
 /**
- * Build props for genus species NTagCell component from the given entity response.
- * @param entityResponse - Response model return from entity API.
- * @returns model to be used as props for the genus species NTagCell component.
- */
-export const buildGenusSpecies = (
-  entityResponse: EntityResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.SPECIES),
-    values: processAggregatedOrArrayValue(
-      entityResponse.donorOrganisms,
-      HCA_DCP_CATEGORY_KEY.GENUS_SPECIES
-    ),
-  };
-};
-
-/**
  * Build props for project Hero component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
  * @param viewContext - View context.
@@ -923,25 +1143,6 @@ export const buildHero = (
     callToAction: getProjectCallToAction(projectsResponse),
     subTitle: getProjectAggregateLastModifiedDate(projectsResponse),
     title: processEntityValue(projectsResponse.projects, "projectTitle"),
-  };
-};
-
-/**
- * Build props for the library construction approach NTagCell component from the given entity response.
- * @param entityResponse - Response model return from entity API.
- * @returns model to be used as props for the library construction cell approach NTagCell component.
- */
-export const buildLibraryConstructionApproach = (
-  entityResponse: EntityResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  return {
-    label: getPluralizedMetadataLabel(
-      METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
-    ),
-    values: processAggregatedOrArrayValue(
-      entityResponse.protocols,
-      HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD
-    ),
   };
 };
 
@@ -1060,9 +1261,9 @@ export const buildProjectListViewListHeroWarning = (): React.ComponentProps<
 };
 
 /**
- * Build props for the project title Link component from the given entity response.
- * @param projectsResponse - Response model return from the entity response API.
- * @returns model to be used as props for the project title Link component.
+ * Build props for the project title Link component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the Link component.
  */
 export const buildProjectTitle = (
   projectsResponse: ProjectsResponse
@@ -1113,23 +1314,6 @@ export const buildSampleId = (
 ): React.ComponentProps<typeof C.Cell> => {
   return {
     value: processEntityValue(samplesResponse.samples, "id"),
-  };
-};
-
-/**
- * Build props for the specimen organ "Anatomical Entity" NTagCell component from the given entity response.
- * @param entityResponse - Response model return from entity API.
- * @returns model to be used as props for the specimen organ "Anatomical Entity" NTagCell component.
- */
-export const buildSpecimenOrgan = (
-  entityResponse: EntityResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.ANATOMICAL_ENTITY),
-    values: processAggregatedOrArrayValue(
-      entityResponse.specimens,
-      HCA_DCP_CATEGORY_KEY.ORGAN
-    ),
   };
 };
 
@@ -1197,6 +1381,21 @@ function calculateEstimatedCellCount(
   }
   // Otherwise, return the cell suspension total count.
   return rollUpTotalCells(projectsResponse);
+}
+
+/**
+ * Returns aggregated date formatted into "yyyy-MM-dd HH:mm 'GMT'" format.
+ * @param dateString - Aggregated date string.
+ * @returns formatted date.
+ */
+function formatAggregatedDate(dateString: string): string {
+  // Remove milliseconds from date string.
+  const [dateTimeString] = dateString.split(".");
+  // Split date and time.
+  const [date, time] = dateTimeString.split("T");
+  // Split time into hour, minutes, seconds.
+  const [hh, mm] = time.split(":");
+  return `${date} ${hh}:${mm} GMT`;
 }
 
 /**

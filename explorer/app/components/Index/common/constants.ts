@@ -20,6 +20,7 @@ const {
   DIAGNOSIS,
   DISEASE_DONOR,
   DISEASE_INDICATION,
+  DISEASE_SPECIMEN,
   DISEASE_STATUS_DONOR,
   DISEASE_STATUS_SPECIMEN,
   FILE_FORMAT,
@@ -37,6 +38,7 @@ const {
   SELECTED_CELL_TYPE,
   STUDY,
   STUDY_DESIGN,
+  WORKFLOW,
   WORKSPACE_NAME,
 } = METADATA_KEY;
 const {
@@ -83,6 +85,7 @@ export const PLURALIZED_METADATA_LABEL = {
   [DIAGNOSIS]: "diagnoses",
   [DISEASE_DONOR]: "diseases",
   [DISEASE_INDICATION]: "diseases",
+  [DISEASE_SPECIMEN]: "diseases",
   [DISEASE_STATUS_DONOR]: "disease statuses",
   [DISEASE_STATUS_SPECIMEN]: "disease statuses",
   [FILE_FORMAT]: "file formats",
@@ -101,6 +104,7 @@ export const PLURALIZED_METADATA_LABEL = {
   [STUDY]: "studies",
   [STUDY_DESIGN]: "study designs",
   [METADATA_KEY.SPECIES]: "species",
+  [WORKFLOW]: "workflows",
   [WORKSPACE_NAME]: "workspaces",
 };
 
