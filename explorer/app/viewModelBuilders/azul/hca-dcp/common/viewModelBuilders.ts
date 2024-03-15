@@ -78,7 +78,9 @@ import * as MDX from "../../../../components/common/MDXContent/hca-dcp";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { humanFileSize } from "../../../../utils/fileSize";
+import { DATE_TIME_FORMAT_OPTIONS } from "../../../common/contants";
 import { Unused } from "../../../common/entities";
+import { formatDate } from "../../../common/utils";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
 import { DATA_SUMMARY_DISPLAY_TEXT } from "./dataSummaryMapper/constants";
@@ -907,6 +909,7 @@ export const buildHero = (
   return {
     breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
     callToAction: getProjectCallToAction(projectsResponse),
+    subTitle: getProjectAggregateLastModifiedDate(projectsResponse),
     title: processEntityValue(projectsResponse.projects, "projectTitle"),
   };
 };
@@ -1724,6 +1727,25 @@ function getNTagCellProps(
       key as keyof ProjectMatrixTableView
     ] as string[],
   };
+}
+
+/**
+ * Returns project last modified date from the projects API response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns project last modified date.
+ */
+export function getProjectAggregateLastModifiedDate(
+  projectsResponse: ProjectsResponse
+): string {
+  const aggregateLastModifiedDate = processEntityValue(
+    projectsResponse.dates,
+    "aggregateLastModifiedDate"
+  );
+  const formattedDate = formatDate(
+    aggregateLastModifiedDate,
+    DATE_TIME_FORMAT_OPTIONS
+  );
+  return `Updated ${formattedDate}`;
 }
 
 /**

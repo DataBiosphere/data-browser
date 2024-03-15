@@ -14,6 +14,25 @@ export interface AggregatedCellSuspensionsResponse {
 }
 
 /**
+ * Model of date value in the response from index/{entity_type} API endpoint.
+ */
+export interface AggregatedDateResponse {
+  aggregateLastModifiedDate: string;
+  aggregateSubmissionDate: string;
+  aggregateUpdateDate: string;
+  lastModifiedDate: string;
+  submissionDate: string;
+  updateDate: string;
+}
+
+/**
+ * Model of dates in the response from index/{entity_type} API endpoint.
+ */
+export interface AggregatedDatesResponse {
+  dates: AggregatedDateResponse[];
+}
+
+/**
  * Model of donor organism value in the response from index/{entity_type} API endpoint.
  */
 export interface AggregatedDonorOrganismResponse {
