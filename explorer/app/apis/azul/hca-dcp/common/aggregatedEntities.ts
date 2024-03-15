@@ -13,6 +13,9 @@ export interface AggregatedCellSuspensionsResponse {
   cellSuspensions: AggregatedCellSuspensionResponse[];
 }
 
+/**
+ * Model of date value in the response from index/{entity_type} API endpoint.
+ */
 export interface AggregatedDateResponse {
   aggregateLastModifiedDate: string;
   aggregateSubmissionDate: string;
