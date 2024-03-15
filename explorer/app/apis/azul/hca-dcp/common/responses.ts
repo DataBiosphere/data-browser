@@ -1,6 +1,7 @@
 import { AzulHit, ResponseStatus } from "../../common/entities";
 import {
   AggregatedCellSuspensionsResponse,
+  AggregatedDatesResponse,
   AggregatedDonorOrganismsResponse,
   AggregatedFileTypeSummariesResponse,
   AggregatedProjectsResponse,
@@ -40,6 +41,7 @@ export type FilesResponse = AzulHit &
 export type ProjectsResponse = AzulHit &
   ProjectsEntityResponse &
   AggregatedCellSuspensionsResponse &
+  AggregatedDatesResponse &
   AggregatedDonorOrganismsResponse &
   AggregatedFileTypeSummariesResponse &
   AggregatedProtocolsResponse &
