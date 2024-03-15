@@ -1730,6 +1730,25 @@ function getNTagCellProps(
 }
 
 /**
+ * Returns project last modified date from the projects API response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns project last modified date.
+ */
+export function getProjectAggregateLastModifiedDate(
+  projectsResponse: ProjectsResponse
+): string {
+  const aggregateLastModifiedDate = processEntityValue(
+    projectsResponse.dates,
+    "aggregateLastModifiedDate"
+  );
+  const formattedDate = formatDate(
+    aggregateLastModifiedDate,
+    DATE_TIME_FORMAT_OPTIONS
+  );
+  return `Updated ${formattedDate}`;
+}
+
+/**
  * Returns project related breadcrumbs.
  * @param projectsResponse - Response model return from projects API.
  * @param viewContext - View context.
@@ -1771,25 +1790,6 @@ function getProjectCallToAction(
     target: ANCHOR_TARGET.BLANK,
     url: "https://duos.org/datalibrary/HCA",
   };
-}
-
-/**
- * Returns project last modified date from the projects API response.
- * @param projectsResponse - Response model return from projects API.
- * @returns project last modified date.
- */
-export function getProjectAggregateLastModifiedDate(
-  projectsResponse: ProjectsResponse
-): string {
-  const aggregateLastModifiedDate = processEntityValue(
-    projectsResponse.dates,
-    "aggregateLastModifiedDate"
-  );
-  const formattedDate = formatDate(
-    aggregateLastModifiedDate,
-    DATE_TIME_FORMAT_OPTIONS
-  );
-  return `Updated ${formattedDate}`;
 }
 
 /**
