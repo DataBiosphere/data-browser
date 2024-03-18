@@ -49,7 +49,7 @@ type StringOrNull = string | null | undefined;
 /**
  * Type of possible values returned in an aggregated value from Azul.
  */
-type StringOrNullArray = (string | null)[] | undefined;
+type StringOrNullArray = (string | null)[] | null | undefined;
 
 /**
  * Returns true if the value null/undefined.
@@ -251,7 +251,7 @@ function filterDefinedValues(values?: StringOrNullArray): string[] | undefined {
  * @param values - Array to remove null elements from.
  * @returns Array with null elements removed.
  */
-function processNullElements(values: StringOrNullArray): string[] {
+export function processNullElements(values: StringOrNullArray): string[] {
   // Remove any nulls from given array
   const filteredValues = filterDefinedValues(values); // Handle possible [null] values
 

@@ -141,11 +141,11 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: true,
+        columnVisible: false,
         componentConfig: {
-          component: C.Cell,
+          component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorOrganismAge,
-        } as ComponentConfig<typeof C.Cell, SamplesResponse>,
+        } as ComponentConfig<typeof C.NTagCell, SamplesResponse>,
         header: HCA_DCP_CATEGORY_LABEL.ORGANISM_AGE,
         id: HCA_DCP_CATEGORY_KEY.ORGANISM_AGE,
         width: { max: "1fr", min: "124px" },
@@ -185,7 +185,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorDevelopmentStage,
         } as ComponentConfig<typeof C.NTagCell, SamplesResponse>,
-        disableSorting: true,
         header: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,
         id: HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE,
         width: { max: "1fr", min: "148px" },

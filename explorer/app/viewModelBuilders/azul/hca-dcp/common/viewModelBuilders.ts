@@ -65,6 +65,7 @@ import {
   processAggregatedOrArrayValue,
   processEntityArrayValue,
   processEntityValue,
+  processNullElements,
   processNumberEntityValue,
 } from "../../../../apis/azul/common/utils";
 import { AggregatedDonorOrganismResponse } from "../../../../apis/azul/hca-dcp/common/aggregatedEntities";
@@ -268,15 +269,16 @@ export const buildAggregatedDonorGenusSpecies = (
 };
 
 /**
- * Build props for organism age Cell component from the given entity response.
+ * Build props for organism age NTagCell component from the given entity response.
  * @param entityResponse - Response model return from entity API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the NTagCell component.
  */
 export const buildAggregatedDonorOrganismAge = (
   entityResponse: EntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    value: flattenDonorOrganismAge(entityResponse.donorOrganisms),
+    label: getPluralizedMetadataLabel(METADATA_KEY.ORGANISM_AGE),
+    values: processDonorOrganismAge(entityResponse.donorOrganisms),
   };
 };
 
@@ -385,6 +387,20 @@ export const buildAggregatedSampleEntityType = (
       entityResponse.samples,
       HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE
     ),
+  };
+};
+
+/**
+ * Build props for the aggregated sample ID NTagCell component from the given entity response.
+ * @param entityResponse - Response model return from the entity response API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedSampleId = (
+  entityResponse: ProjectsResponse | FilesResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.SAMPLE_ID),
+    values: processAggregatedOrArrayValue(entityResponse.samples, "id"),
   };
 };
 
@@ -567,25 +583,6 @@ export const buildContacts = (
   const project = getProjectResponse(projectsResponse);
   return {
     contacts: mapProjectContacts(project),
-  };
-};
-
-/**
- * Build props for content description NTagCell component from the given files response.
- * @param filesResponse - Response model return from files API.
- * @returns model to be used as props for the content description NTagCell component.
- */
-export const buildContentDescriptions = (
-  filesResponse: FilesResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  // Always take the first value in the files array.
-  // This is a summary value and there should only ever be single value here.
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.CONTENT_DESCRIPTION),
-    values: processEntityArrayValue(
-      filesResponse.files,
-      HCA_DCP_CATEGORY_KEY.CONTENT_DESCRIPTION
-    ),
   };
 };
 
@@ -1062,6 +1059,25 @@ export const buildExportWarning = (
 };
 
 /**
+ * Build props for content description NTagCell component from the given files response.
+ * @param filesResponse - Response model return from files API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildFileContentDescriptions = (
+  filesResponse: FilesResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  // Always take the first value in the files array.
+  // This is a summary value and there should only ever be single value here.
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.CONTENT_DESCRIPTION),
+    values: processEntityArrayValue(
+      filesResponse.files,
+      HCA_DCP_CATEGORY_KEY.CONTENT_DESCRIPTION
+    ),
+  };
+};
+
+/**
  * Build props for the KeyValuePairs component for displaying project file counts from the given projects response.
  * @param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the key value pairs component.
@@ -1102,7 +1118,7 @@ export const buildFileDownload = (
 /**
  * Build props for file format Cell component from the given files response.
  * @param filesResponse - Response model return from files API.
- * @returns model to be used as props for the file format Cell component.
+ * @returns model to be used as props for the Cell component.
  */
 export const buildFileFormat = (
   filesResponse: FilesResponse
@@ -1117,7 +1133,7 @@ export const buildFileFormat = (
 /**
  * Build props for file name Cell component from the given files response.
  * @param filesResponse - Response model return from files API.
- * @returns model to be used as props for the file name Cell component.
+ * @returns model to be used as props for the Cell component.
  */
 export const buildFileName = (
   filesResponse: FilesResponse
@@ -1132,7 +1148,7 @@ export const buildFileName = (
 /**
  * Build props for file size Cell component from the given files response.
  * @param filesResponse - Response model return from files API.
- * @returns model to be used as props for the file size Cell component.
+ * @returns model to be used as props for the Cell component.
  */
 export const buildFileSize = (
   filesResponse: FilesResponse
@@ -1141,6 +1157,22 @@ export const buildFileSize = (
   // This is a summary value and there should only ever be single value here.
   return {
     value: humanFileSize(processNumberEntityValue(filesResponse.files, "size")),
+  };
+};
+
+/**
+ * Build props for file source Cell component from the given files response.
+ * @param filesResponse - Response model return from files API.
+ * @returns model to be used as props for the Cell component.
+ */
+export const buildFileSource = (
+  filesResponse: FilesResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: processEntityValue(
+      filesResponse.files,
+      HCA_DCP_CATEGORY_KEY.FILE_SOURCE
+    ),
   };
 };
 
@@ -1432,34 +1464,29 @@ function calculateEstimatedCellCount(
 }
 
 /**
- * Returns flattened age and age unit object values into string values.
+ * Returns age and age unit object values.
  * @param donorOrganisms - Donor organisms.
- * @returns age and age unit values flattened into a string.
+ * @returns age and age unit values.
  */
-function flattenDonorOrganismAge(
+function processDonorOrganismAge(
   donorOrganisms: AggregatedDonorOrganismResponse[]
-): string {
-  if (donorOrganisms.length === 0) {
-    return LABEL.UNSPECIFIED;
-  }
-  return donorOrganisms
-    .reduce((acc, { organismAge }) => {
-      organismAge.forEach((age) => {
-        if (!age || !age.value) {
-          acc.push(LABEL.UNSPECIFIED);
-          return acc;
-        }
-        let formattedAge = age.value;
-        if (age.unit) {
+): string[] {
+  const organismAges = donorOrganisms
+    .map(({ organismAge }) => organismAge)
+    .flat()
+    .map((organismAge) => {
+      if (organismAge) {
+        let formattedAge = organismAge.value;
+        if (organismAge.unit) {
           // Only add unit if there is a value.
-          const truncatedUnit = age.unit.charAt(0); // For example, convert year to y.
+          const truncatedUnit = organismAge.unit.charAt(0); // For example, convert year to y.
           formattedAge += ` ${truncatedUnit}`;
         }
-        acc.push(formattedAge);
-      });
-      return acc;
-    }, [] as string[])
-    .join(", ");
+        return formattedAge;
+      }
+      return organismAge;
+    });
+  return processNullElements(organismAges);
 }
 
 /**
