@@ -67,6 +67,7 @@ import {
   processEntityValue,
   processNumberEntityValue,
 } from "../../../../apis/azul/common/utils";
+import { AggregatedDonorOrganismResponse } from "../../../../apis/azul/hca-dcp/common/aggregatedEntities";
 import { ProjectResponse } from "../../../../apis/azul/hca-dcp/common/entities";
 import {
   EntityResponse,
@@ -181,6 +182,24 @@ export const buildAggregatedDateLastModifiedDate = (
 };
 
 /**
+ * Build props for biological sex Cell component from the given entity response.
+ * @param entityResponse - Response model return from entity API.
+ * @returns model to be used as props for the Cell component.
+ */
+export const buildAggregatedDonorBiologicalSex = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: stringifyValues(
+      processAggregatedOrArrayValue(
+        entityResponse.donorOrganisms,
+        HCA_DCP_CATEGORY_KEY.BIOLOGICAL_SEX
+      )
+    ),
+  };
+};
+
+/**
  * Build props for donor count Cell component from the given entity response.
  * @param entityResponse - Response model return from entity API.
  * @returns model to be used as props for the Cell component.
@@ -249,9 +268,22 @@ export const buildAggregatedDonorGenusSpecies = (
 };
 
 /**
- * Build props for the project title Link component from the given entity response.
+ * Build props for organism age Cell component from the given entity response.
+ * @param entityResponse - Response model return from entity API.
+ * @returns model to be used as props for the Cell component.
+ */
+export const buildAggregatedDonorOrganismAge = (
+  entityResponse: EntityResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: flattenDonorOrganismAge(entityResponse.donorOrganisms),
+  };
+};
+
+/**
+ * Build props for the aggregated project title Link component from the given entity response.
  * @param entityResponse - Response model return from the entity response API.
- * @returns model to be used as props for the project title Link component.
+ * @returns model to be used as props for the Link component.
  */
 export const buildAggregatedProjectTitle = (
   entityResponse: FilesResponse | SamplesResponse
@@ -1294,7 +1326,7 @@ export const buildPublications = (
 /**
  * Build props for sample entity type Cell component from the given sample response.
  * @param samplesResponse - Response model return from samples API.
- * @returns model to be used as props for the sample entity type Cell component.
+ * @returns model to be used as props for the Cell component.
  */
 export const buildSampleEntityType = (
   samplesResponse: SamplesResponse
@@ -1307,13 +1339,29 @@ export const buildSampleEntityType = (
 /**
  * Build props for sample identifier Cell component from the given sample response.
  * @param samplesResponse - Response model return from samples API.
- * @returns model to be used as props for the sample identifier Cell component.
+ * @returns model to be used as props for the Cell component.
  */
 export const buildSampleId = (
   samplesResponse: SamplesResponse
 ): React.ComponentProps<typeof C.Cell> => {
   return {
     value: processEntityValue(samplesResponse.samples, "id"),
+  };
+};
+
+/**
+ * Build props for the model organ Cell component from the given samples response.
+ * @param samplesResponse - Response model return from the samples API.
+ * @returns model to be used as props for the Cell component.
+ */
+export const buildSampleModelOrgan = (
+  samplesResponse: SamplesResponse
+): React.ComponentProps<typeof C.Cell> => {
+  return {
+    value: processEntityValue(
+      samplesResponse.samples,
+      HCA_DCP_CATEGORY_KEY.MODEL_ORGAN
+    ),
   };
 };
 
@@ -1381,6 +1429,37 @@ function calculateEstimatedCellCount(
   }
   // Otherwise, return the cell suspension total count.
   return rollUpTotalCells(projectsResponse);
+}
+
+/**
+ * Returns flattened age and age unit object values into string values.
+ * @param donorOrganisms - Donor organisms.
+ * @returns age and age unit values flattened into a string.
+ */
+function flattenDonorOrganismAge(
+  donorOrganisms: AggregatedDonorOrganismResponse[]
+): string {
+  if (donorOrganisms.length === 0) {
+    return LABEL.UNSPECIFIED;
+  }
+  return donorOrganisms
+    .reduce((acc, { organismAge }) => {
+      organismAge.forEach((age) => {
+        if (!age || !age.value) {
+          acc.push(LABEL.UNSPECIFIED);
+          return acc;
+        }
+        let formattedAge = age.value;
+        if (age.unit) {
+          // Only add unit if there is a value.
+          const truncatedUnit = age.unit.charAt(0); // For example, convert year to y.
+          formattedAge += ` ${truncatedUnit}`;
+        }
+        acc.push(formattedAge);
+      });
+      return acc;
+    }, [] as string[])
+    .join(", ");
 }
 
 /**

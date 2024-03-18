@@ -246,7 +246,7 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "224px" },
       },
       {
-        columnVisible: true,
+        columnVisible: false,
         componentConfig: {
           component: C.Cell,
           viewBuilder: V.buildAggregateLastModifiedDate,

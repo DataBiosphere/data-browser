@@ -41,6 +41,7 @@ export interface AggregatedDonorOrganismResponse {
   disease: (string | null)[];
   donorCount: number;
   genusSpecies: string[];
+  organismAge: (DonorOrganismAge | null)[];
 }
 
 /**
@@ -155,4 +156,12 @@ export interface AggregatedSpecimenResponse {
  */
 export interface AggregatedSpecimensResponse {
   specimens: AggregatedSpecimenResponse[];
+}
+
+/**
+ * Model of donor organism age and age unit.
+ */
+export interface DonorOrganismAge {
+  unit: string;
+  value: string;
 }

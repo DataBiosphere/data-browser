@@ -104,7 +104,7 @@ export const PLURALIZED_METADATA_LABEL = {
   [STUDY]: "studies",
   [STUDY_DESIGN]: "study designs",
   [METADATA_KEY.SPECIES]: "species",
-  [WORKFLOW]: "workflows",
+  [WORKFLOW]: "analysis protocols",
   [WORKSPACE_NAME]: "workspaces",
 };
 
