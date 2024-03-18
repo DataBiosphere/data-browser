@@ -66,7 +66,7 @@ export function getMAProjectsEntityConfig(
   // Clone detail.
   const cloneDetail = { ...cloneEntity.detail };
   // Update detail top.
-  cloneDetail.top = getMAProjectDetailTop(cloneDetail.top as ComponentConfig[]);
+  cloneDetail.top = getMAProjectDetailTop();
   // Update detail tabs.
   cloneDetail.tabs = getMAProjectDetailTabs(cloneDetail.tabs);
   // Update detail.
