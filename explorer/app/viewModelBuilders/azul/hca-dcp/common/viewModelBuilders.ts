@@ -149,6 +149,18 @@ export const buildAccessions = (
 };
 
 /**
+ * Build props for the last modified date SubTitle component from the given project response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the SubTitle component.
+ */
+export const buildAggregatedDateLastModifiedDate = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.SubTitle> => {
+  return {
+    subTitle: getProjectAggregateLastModifiedDate(projectsResponse),
+  };
+};
+/**
  * Build props for the project title Link component from the given entity response.
  * @param entityResponse - Response model return from the entity response API.
  * @returns model to be used as props for the project title Link component.
@@ -930,6 +942,23 @@ export const buildLibraryConstructionApproach = (
       entityResponse.protocols,
       HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD
     ),
+  };
+};
+
+/**
+ * Build props for managed access Hero component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Hero component.
+ */
+export const buildMAHero = (
+  projectsResponse: ProjectsResponse,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.BackPageHero> => {
+  return {
+    breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
+    callToAction: getProjectCallToAction(projectsResponse),
+    title: processEntityValue(projectsResponse.projects, "projectTitle"),
   };
 };
 

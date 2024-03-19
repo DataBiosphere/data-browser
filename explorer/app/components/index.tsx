@@ -35,6 +35,7 @@ export { StatusBadge } from "@clevercanary/data-explorer-ui/lib/components/commo
 export { TagWarning } from "@clevercanary/data-explorer-ui/lib/components/common/Tag/tag.styles";
 export { TypographyWordBreak } from "@clevercanary/data-explorer-ui/lib/components/common/Typography/TypographyWordBreak/TypographyWordBreak";
 export { ConditionalComponent } from "@clevercanary/data-explorer-ui/lib/components/ComponentCreator/components/ConditionalComponent/conditionalComponent";
+export { AccessibilityBadge as DXAccessibilityBadge } from "@clevercanary/data-explorer-ui/lib/components/Detail/components/AccessibilityBadge/accessibilityBadge";
 export { DetailViewTable } from "@clevercanary/data-explorer-ui/lib/components/Detail/components/DetailViewTable/detailViewTable";
 export { DownloadCurlCommandForm } from "@clevercanary/data-explorer-ui/lib/components/Export/components/DownloadCurlCommand/components/DownloadCurlCommandForm/downloadCurlCommandForm";
 export { DownloadCurlCommand } from "@clevercanary/data-explorer-ui/lib/components/Export/components/DownloadCurlCommand/downloadCurlCommand";
@@ -59,6 +60,7 @@ export {
   BackPageContentSingleColumn,
 } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/BackPage/backPageView.styles";
 export { BackPageHero } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/BackPage/components/BackPageHero/backPageHero";
+export { SubTitle } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/BackPage/components/BackPageHero/components/SubTitle/subTitle";
 export { Logo } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
 export { Link } from "@clevercanary/data-explorer-ui/lib/components/Links/components/Link/link";
 export { Links } from "@clevercanary/data-explorer-ui/lib/components/Links/links";
