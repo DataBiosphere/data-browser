@@ -2,28 +2,42 @@ import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entit
 import { ProjectsResponse } from "../../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../../app/components";
 import * as MDX from "../../../../../app/components/common/MDXContent/lungmap";
-import * as T from "../../../../../app/viewModelBuilders/azul/lungmap/common/viewModelBuilders";
+import * as V from "../../../../../app/viewModelBuilders/azul/lungmap/common/viewModelBuilders";
+import { getExportDataReleasePolicy } from "../../export/sideColumn";
 
 export const mainColumn: ComponentConfig[] = [
   {
-    component: C.Alert,
-    viewBuilder: T.buildBatchCorrectionWarning,
-  } as ComponentConfig<typeof C.Alert>,
-  {
     children: [
+      {
+        component: C.FluidAlert,
+        viewBuilder: V.buildBatchCorrectionWarning,
+      } as ComponentConfig<typeof C.FluidAlert>,
       {
         children: [
           {
-            component: MDX.ContributorGeneratedMatrices,
-          } as ComponentConfig<typeof MDX.ContributorGeneratedMatrices>,
+            children: [
+              {
+                component: MDX.ContributorGeneratedMatrices,
+              } as ComponentConfig<typeof MDX.ContributorGeneratedMatrices>,
+            ],
+            component: MDX.Section,
+          } as ComponentConfig<typeof MDX.Section>,
+          {
+            component: C.GeneratedMatricesTables,
+            viewBuilder: V.buildContributorGeneratedMatricesTable,
+          } as ComponentConfig<
+            typeof C.GeneratedMatricesTables,
+            ProjectsResponse
+          >,
         ],
-        component: MDX.Section,
-      } as ComponentConfig<typeof MDX.Section>,
+        component: C.FluidPaper,
+      } as ComponentConfig<typeof C.FluidPaper>,
       {
-        component: C.GeneratedMatricesTables,
-        viewBuilder: T.buildContributorGeneratedMatricesTable,
-      } as ComponentConfig<typeof C.GeneratedMatricesTables, ProjectsResponse>,
+        children: getExportDataReleasePolicy(),
+        component: C.Grid,
+        viewBuilder: V.buildTripleColumnGrid,
+      } as ComponentConfig<typeof C.Grid>,
     ],
-    component: C.FluidPaper,
-  } as ComponentConfig<typeof C.FluidPaper>,
+    component: C.BackPageContentSingleColumn,
+  } as ComponentConfig<typeof C.BackPageContentSingleColumn>,
 ];

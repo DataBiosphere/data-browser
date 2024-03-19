@@ -74,6 +74,26 @@ function buildContributorGeneratedMatricesTableColumns<T>(): ColumnDef<T>[] {
 }
 
 /**
+ * Returns grid props for the Grid component.
+ * Views render as follows:
+ * - mobile view: grid component is ignored and children are rendered as direct children of the next ancestor.
+ * - tablet view: 2 columns.
+ * - desktop view: 3 columns.
+ * @returns model to be used as props for the Grid component.
+ */
+export const buildTripleColumnGrid = (): React.ComponentProps<
+  typeof C.Grid
+> => {
+  return {
+    gridSx: {
+      display: { sm: "grid", xs: "contents" },
+      gap: 4,
+      gridTemplateColumns: { md: "repeat(3, 1fr)", sm: "1fr 1fr" },
+    },
+  };
+};
+
+/**
  * Returns generated matrices file name column def.
  * @returns file name column def.
  */

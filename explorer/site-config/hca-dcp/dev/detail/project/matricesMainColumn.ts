@@ -3,6 +3,7 @@ import { ProjectsResponse } from "../../../../../app/apis/azul/hca-dcp/common/re
 import * as C from "../../../../../app/components";
 import * as MDX from "../../../../../app/components/common/MDXContent/hca-dcp";
 import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { getExportDataReleasePolicy } from "../../export/sideColumn";
 
 export const mainColumn: ComponentConfig[] = [
   {
@@ -52,21 +53,7 @@ export const mainColumn: ComponentConfig[] = [
         component: C.FluidPaper,
       } as ComponentConfig<typeof C.FluidPaper>,
       {
-        children: [
-          {
-            children: [
-              {
-                children: [
-                  {
-                    component: MDX.DataReleasePolicy,
-                  } as ComponentConfig<typeof MDX.DataReleasePolicy>,
-                ],
-                component: MDX.Section,
-              } as ComponentConfig<typeof MDX.Section>,
-            ],
-            component: C.FluidPaper,
-          } as ComponentConfig<typeof C.FluidPaper>,
-        ],
+        children: getExportDataReleasePolicy(),
         component: C.Grid,
         viewBuilder: V.buildTripleColumnGrid,
       } as ComponentConfig<typeof C.Grid>,
