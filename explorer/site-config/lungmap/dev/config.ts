@@ -21,6 +21,7 @@ const CATALOG = "lm4";
 const DATA_URL = HCA_DATA_URL;
 const EXPORT_TO_TERRA_URL = HCA_EXPORT_TO_TERRA_URL;
 const HOME_PAGE_PATH = "/projects";
+const PAGINATION_PAGE_SIZE = "25";
 const PORTAL_URL = HCA_PORTAL_URL;
 
 export function makeConfig(
@@ -37,6 +38,9 @@ export function makeConfig(
     contentDir: "lungmap",
     contentThemeOptionsFn: contentThemeOptions,
     dataSource: {
+      defaultListParams: {
+        size: PAGINATION_PAGE_SIZE,
+      },
       defaultParams: {
         catalog,
       },
