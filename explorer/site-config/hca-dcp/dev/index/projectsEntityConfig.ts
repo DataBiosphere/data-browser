@@ -93,38 +93,138 @@ export const projectsEntityConfig: EntityConfig = {
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildGenusSpecies,
+          viewBuilder: V.buildAggregatedDonorGenusSpecies,
         } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
         header: "Species", // TODO confirm header
         id: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
         width: { max: "1fr", min: "136px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildLibraryConstructionApproach,
+          viewBuilder: V.buildAggregatedSampleEntityType,
         } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
-        header: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
-        id: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
-        width: { max: "1fr", min: "126px" },
+        header: HCA_DCP_CATEGORY_LABEL.SAMPLE_ENTITY_TYPE,
+        id: HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE,
+        width: { max: "1fr", min: "148px" },
       },
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildSpecimenOrgan,
+          viewBuilder: V.buildAggregatedSpecimenOrgan,
         } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
         header: HCA_DCP_CATEGORY_LABEL.ANATOMICAL_ENTITY,
         id: HCA_DCP_CATEGORY_KEY.ANATOMICAL_ENTITY,
         width: { max: "1fr", min: "146px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildDonorDisease,
+          viewBuilder: V.buildAggregatedSpecimenOrganPart,
         } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
-        header: "Disease (Donor)", // TODO confirm header
+        header: HCA_DCP_CATEGORY_LABEL.ORGAN_PART,
+        id: HCA_DCP_CATEGORY_KEY.ORGAN_PART,
+        width: { max: "1fr", min: "146px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedSampleModelOrgan,
+        } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.MODEL_ORGAN,
+        id: HCA_DCP_CATEGORY_KEY.MODEL_ORGAN,
+        width: { max: "1fr", min: "146px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedCellSuspensionSelectedCellType,
+        } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.SELECTED_CELL_TYPE,
+        id: HCA_DCP_CATEGORY_KEY.SELECTED_CELL_TYPE,
+        width: { max: "1fr", min: "146px" },
+      },
+      {
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedProtocolLibraryConstructionApproach,
+        } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
+        id: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
+        width: { max: "1fr", min: "126px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedProtocolNucleicAcidSource,
+        } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.NUCLEIC_ACID_SOURCE,
+        id: HCA_DCP_CATEGORY_KEY.NUCLEIC_ACID_SOURCE,
+        width: { max: "1fr", min: "146px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.Cell,
+          viewBuilder: V.buildAggregatedProtocolPairedEnd,
+        } as ComponentConfig<typeof C.Cell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.PAIRED_END,
+        id: HCA_DCP_CATEGORY_KEY.PAIRED_END,
+        width: { max: "1fr", min: "146px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedProtocolWorkflow,
+        } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.WORKFLOW,
+        id: HCA_DCP_CATEGORY_KEY.WORKFLOW,
+        width: { max: "1fr", min: "146px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedSpecimenDisease,
+        } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
+        header: "Disease (Specimen)",
+        id: HCA_DCP_CATEGORY_KEY.SPECIMEN_DISEASE,
+        width: { max: "1fr", min: "146px" },
+      },
+      {
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedDonorDisease,
+        } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
+        header: "Disease (Donor)",
         id: HCA_DCP_CATEGORY_KEY.DONOR_DISEASE,
         width: { max: "1fr", min: "128px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedDonorDevelopmentStage,
+        } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,
+        id: HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE,
+        width: { max: "1fr", min: "148px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.Cell,
+          viewBuilder: V.buildAggregatedDonorCount,
+        } as ComponentConfig<typeof C.Cell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.DONOR_COUNT,
+        id: HCA_DCP_CATEGORY_KEY.DONOR_COUNT,
+        width: { max: "1fr", min: "124px" },
       },
       {
         componentConfig: {
@@ -138,12 +238,22 @@ export const projectsEntityConfig: EntityConfig = {
       {
         columnVisible: false,
         componentConfig: {
-          component: C.NTagCell,
-          viewBuilder: V.buildDevelopmentStages,
-        } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
-        header: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,
-        id: HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE,
-        width: { max: "1fr", min: "148px" },
+          component: C.Cell,
+          viewBuilder: V.buildAggregateSubmissionDate,
+        } as ComponentConfig<typeof C.Cell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.AGGREGATE_SUBMISSION_DATE,
+        id: HCA_DCP_CATEGORY_KEY.AGGREGATE_SUBMISSION_DATE,
+        width: { max: "1fr", min: "224px" },
+      },
+      {
+        columnVisible: false,
+        componentConfig: {
+          component: C.Cell,
+          viewBuilder: V.buildAggregateLastModifiedDate,
+        } as ComponentConfig<typeof C.Cell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.AGGREGATE_LAST_MODIFIED_DATE,
+        id: HCA_DCP_CATEGORY_KEY.AGGREGATE_LAST_MODIFIED_DATE,
+        width: { max: "1fr", min: "224px" },
       },
     ],
     defaultSort: {

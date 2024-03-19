@@ -1,5 +1,7 @@
 export const HCA_DCP_CATEGORY_KEY = {
   ACCESSIBLE: "accessible",
+  AGGREGATE_LAST_MODIFIED_DATE: "aggregateLastModifiedDate",
+  AGGREGATE_SUBMISSION_DATE: "aggregateSubmissionDate",
   ANALYSIS_PROTOCOL: "workflow",
   ANATOMICAL_ENTITY: "specimenOrgan",
   AZUL_FILE_DOWNLOAD: "azulFileDownload",
@@ -8,6 +10,7 @@ export const HCA_DCP_CATEGORY_KEY = {
   CONTACT_NAME: "contactName",
   CONTENT_DESCRIPTION: "contentDescription",
   DEVELOPMENT_STAGE: "developmentStage",
+  DONOR_COUNT: "donorCount",
   DONOR_DISEASE: "donorDisease",
   EFFECTIVE_CELL_COUNT: "effectiveCellCount",
   FILE_FORMAT: "fileFormat",
@@ -24,6 +27,7 @@ export const HCA_DCP_CATEGORY_KEY = {
   MODIFIED: "modified",
   NUCLEIC_ACID_SOURCE: "nucleicAcidSource",
   ORGAN: "organ",
+  ORGANISM_AGE: "organismAge",
   ORGAN_PART: "organPart",
   PAIRED_END: "pairedEnd",
   PRESERVATION_METHOD: "preservationMethod",
@@ -42,6 +46,8 @@ export const HCA_DCP_CATEGORY_KEY = {
 
 export const HCA_DCP_CATEGORY_LABEL = {
   ACCESSIBLE: "Access",
+  AGGREGATE_LAST_MODIFIED_DATE: "Update Date",
+  AGGREGATE_SUBMISSION_DATE: "Submission Date",
   ANALYSIS_PROTOCOL: "Analysis Protocol",
   ANATOMICAL_ENTITY: "Anatomical Entity",
   AZUL_FILE_DOWNLOAD: " ",
@@ -50,6 +56,7 @@ export const HCA_DCP_CATEGORY_LABEL = {
   CONTACT_NAME: "Contributor Name",
   CONTENT_DESCRIPTION: "Content Description",
   DEVELOPMENT_STAGE: "Development Stage",
+  DONOR_COUNT: "Donor Count",
   DONOR_DISEASE: "Donor Disease",
   EFFECTIVE_CELL_COUNT: "Cell Count Estimate",
   FILE_FORMAT: "File Format",
@@ -65,6 +72,7 @@ export const HCA_DCP_CATEGORY_LABEL = {
   MODEL_ORGAN: "Model Organ",
   MODIFIED: "Modified",
   NUCLEIC_ACID_SOURCE: "Nucleic Acid Source",
+  ORGANISM_AGE: "Age",
   ORGAN_PART: "Organ Part",
   PAIRED_END: "Paired End",
   PRESERVATION_METHOD: "Preservation Method",

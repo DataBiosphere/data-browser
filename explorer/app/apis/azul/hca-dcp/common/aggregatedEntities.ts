@@ -36,11 +36,12 @@ export interface AggregatedDatesResponse {
  * Model of donor organism value in the response from index/{entity_type} API endpoint.
  */
 export interface AggregatedDonorOrganismResponse {
-  biologicalSex: string[];
+  biologicalSex: string[] | null;
   developmentStage: string[];
-  disease: (string | null)[];
+  disease: (string | null)[] | null;
   donorCount: number;
   genusSpecies: string[];
+  organismAge: (DonorOrganismAge | null)[] | null;
 }
 
 /**
@@ -155,4 +156,12 @@ export interface AggregatedSpecimenResponse {
  */
 export interface AggregatedSpecimensResponse {
   specimens: AggregatedSpecimenResponse[];
+}
+
+/**
+ * Model of donor organism age and age unit.
+ */
+export interface DonorOrganismAge {
+  unit: string;
+  value: string;
 }
