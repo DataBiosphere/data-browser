@@ -10,7 +10,6 @@ const PORTAL_URL = "https://data.humancellatlas.org";
 
 const config: SiteConfig = {
   ...makeManagedAccessConfig(makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL)),
-  authentication: getAuthenticationConfig(PORTAL_URL),
 };
 
 // Update gtmAuth for the prod environment lookup.
@@ -19,6 +18,11 @@ if (config.analytics) {
   analytics.gtmAuth = "xm3qglWPEFim7Lb4AxXnsA";
   analytics.gtmPreview = "env-2";
   config.analytics = analytics;
+}
+
+// Update authentication for the prod environment.
+if (config.authentication) {
+  config.authentication = getAuthenticationConfig(config.authentication);
 }
 
 export default config;

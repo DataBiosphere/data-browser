@@ -1,10 +1,7 @@
 import { APIEndpoints } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
 import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
-import {
-  SiteConfig,
-  SystemStatusBindResponseFn,
-} from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { SystemStatusBindResponseFn } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { tabletUp } from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
 import {
   TEXT_BODY_LARGE_500,
@@ -15,6 +12,7 @@ import {
 } from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
 import * as C from "../../../app/components/index";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/hca-dcp/common/systemStatusMapper/systemStatusMapper";
+import { SiteConfig } from "../../common/entities";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
 import { exportConfig } from "./export/export";
@@ -225,6 +223,7 @@ export function makeConfig(
         searchURL: `${portalUrl}/search`,
       },
     },
+    portalURL: portalUrl,
     redirectRootToPath: HOME_PAGE_PATH,
     summaryConfig: {
       apiPath: "index/summary",
