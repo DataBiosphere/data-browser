@@ -1678,4 +1678,8 @@ export const baseProjectEdits: ProjectEdit[] = [
     ],
     entryId: "4ae8c5c9-1520-4371-9827-6935661f6c84",
   },
+  {
+    duplicateOf: "9c20a245-f2c0-43ae-82c9-2232ec6b594f",
+    entryId: "c3354786-c17c-4e53-b4d7-c7afbed5b208",
+  },
 ];

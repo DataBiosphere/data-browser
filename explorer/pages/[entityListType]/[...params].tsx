@@ -324,7 +324,7 @@ function processEntityOverrideProps(
   if (!overrides) return;
   const override = findOverride(overrides, entityId);
   if (override && isOverride(override)) {
-    props.override = override;
+    props.override = { ...override };
     if (override.duplicateOf) {
       props.override.duplicateOf = `/${entityListType}/${override.duplicateOf}`;
     }
