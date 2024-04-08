@@ -1,4 +1,2 @@
 format: jb-book
 root: user-analytics
-chapters:
-- file: data-analytics
