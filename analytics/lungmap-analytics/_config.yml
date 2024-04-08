@@ -10,3 +10,4 @@ sphinx:
   recursive_update: true
   config:
     execution_timeout: 120
+    html_show_copyright: false
