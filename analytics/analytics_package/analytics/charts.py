@@ -22,7 +22,7 @@ Exceptions to this rule are given in parentheses
 All tables:
 rows_limit
 df_processor
-num_keep_dimensions (supplanted in show_difference_table - determined based on ylabels)
+num_keep_dimensions (determined automatically based on ylabels if omitted for show_difference_table)
 index_key_formatter
 collapse_index (supplanted in format_change_over_time_table, show_plot_over_time - always True)
 hide_index (supplanted in show_difference_table - determined by data shape)
@@ -343,8 +343,8 @@ def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix=
 def strings_to_lists(*vals):
 	return [[v] if isinstance(v, str) else v for v in vals]
 
-def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_period, rows_type="ordered", prev_period_params={}, **other_params):
-	xlabels, metrics, dimensions = strings_to_lists(xlabels, metrics, dimensions)
+def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_period, rows_type="ordered", prev_period_params={}, num_keep_dimensions=None, **other_params):
+	xlabels, ylabels, metrics, dimensions = strings_to_lists(xlabels, ylabels, metrics, dimensions)
 	
 	period = pd.Period(period)
 	prev_period = prev_period and pd.Period(prev_period)
@@ -353,7 +353,7 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 		"metrics": metrics,
 		"dimensions": dimensions,
 		"ascending": False if rows_type == "ordered" else None,
-		"num_keep_dimensions": len(ylabels) if isinstance(ylabels, list) else 1
+		"num_keep_dimensions": (len(ylabels) if ylabels else 1) if num_keep_dimensions is None else num_keep_dimensions
 	}
 	df = get_top_ga_df(**shared_params, start_date=period.start_time.isoformat()[:10], end_date=period.end_time.isoformat()[:10], **other_params)
 	if prev_period is None:
@@ -363,18 +363,18 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 	
 	is_single_cell = all([f.shape[0] == 1 and f.shape[1] == 1 for f in all_frames])
 	
-	if is_single_cell and not dimensions:
+	if is_single_cell and not ylabels:
 		for f in all_frames:
 			f.index = pd.Index(xlabels)
 	else:
 		xlabels_dict = {col: xlabel for col, xlabel in zip(df.columns, xlabels)}
 		for f in all_frames:
 			f.rename(columns=xlabels_dict, inplace=True)
-			if dimensions:
-				f.index.rename(ylabels, inplace=True)
+			if ylabels:
+				f.index.rename(ylabels if len(ylabels) > 1 else ylabels[0], inplace=True)
 	
 	formatting_params = {
-		"hide_index": not dimensions and not is_single_cell,
+		"hide_index": not ylabels and not is_single_cell,
 		"hide_columns": is_single_cell
 	}
 
