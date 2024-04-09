@@ -371,7 +371,7 @@ def show_difference_table(xlabels, ylabels, metrics, dimensions, period, prev_pe
 		for f in all_frames:
 			f.rename(columns=xlabels_dict, inplace=True)
 			if ylabels:
-				f.index.rename(ylabels, inplace=True)
+				f.index.rename(ylabels if len(ylabels) > 1 else ylabels[0], inplace=True)
 	
 	formatting_params = {
 		"hide_index": not ylabels and not is_single_cell,
