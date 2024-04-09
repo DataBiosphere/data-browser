@@ -9,3 +9,5 @@ sphinx:
   config:
     execution_timeout: 120
     html_show_copyright: false
+
+exclude_patterns: [data-analytics.ipynb]
