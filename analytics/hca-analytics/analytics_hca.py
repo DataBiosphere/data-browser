@@ -32,18 +32,35 @@ def format_export_url_info(type, secondary_type, filter):
 
 def adjust_table_index_key(val):
 	if isinstance(val, str):
-		match = re.search("^\\/explore\\/(?:projects\\/([^\\/#?]+)|export\\/(export-to-terra|get-curl-command|download-manifest)(?:\\/(select-species))?\\?filter=(.+))", val)
-		if match:
-			if match.group(1):
-				return ('<a href="' + escape_html("https://data.humancellatlas.org" + val) + '">' + escape_html(get_project_name(match.group(1))) + '</a>', True)
-			else:
-				return format_export_url_info(match.group(2), match.group(3), match.group(4))
-		elif val[0] == "/":
-			return ('<a href="' + escape_html("https://data.humancellatlas.org" + val) + '">' + escape_html(val) + '</a>', True)
+		hca_url_match = re.search("^((?:explore\\.)?data\\.humancellatlas\\.org)(/.*)$", val)
+		if hca_url_match:
+			host = hca_url_match.group(1)
+			path = hca_url_match.group(2)
+			if host == "explore.data.humancellatlas.org":
+				match = re.search("^\\/(?:projects\\/([^\\/#?]+)|export\\/(export-to-terra|get-curl-command|download-manifest)(?:\\/(select-species))?\\?filter=(.+))", path)
+				if match:
+					if match.group(1):
+						return ('<a href="' + escape_html("https://" + val) + '">' + escape_html(get_project_name(match.group(1))) + '</a>', True)
+					else:
+						return format_export_url_info(match.group(2), match.group(3), match.group(4))
+			return ('<a href="' + escape_html("https://" + val) + '">' + escape_html(path) + '</a>', True)
 	return val
 
 def format_project_id_key(val):
 	return ('<a href="' + escape_html("https://data.humancellatlas.org/explore/projects/" + val) + '">' + escape_html(get_project_name(val)) + '</a>', True)
+
+def relative_url_index_processor(path_column_name, host_column_name):
+	def process(df):
+		df = df.copy(deep=True)
+		path_index = df.index.get_level_values(path_column_name)
+		host_index = df.index.get_level_values(host_column_name)
+		host_prefix_column = host_index.where(path_index.str.startswith("/"), "")
+		new_index = (host_prefix_column + path_index).set_names(path_column_name)
+		df.index = new_index
+		df = df.groupby(df.index).sum()
+		return df
+
+	return process
 
 def save_ga3_users_over_time_data(users_params, views_params, **other_params):
 	users_df = ac.get_data_df(["ga:30dayUsers"], ["ga:date"], df_processor=lambda df: df[::-1], **users_params, **other_params)
