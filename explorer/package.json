@@ -31,9 +31,9 @@
     "build-storybook": "storybook build",
     "test": "jest --watch",
     "test:e2e": "playwright test",
-    "get-cellxgene-projects-hca": "esrun ./site-config/hca-dcp/dev/scripts/get-cellxgene-projects.ts"
+    "get-cellxgene-projects-hca": "esrun ./site-config/hca-dcp/dev/scripts/get-cellxgene-projects.ts ",
     "test:anvil-cmg": "playwright test -c playwright_anvil.config.ts --trace retain-on-failure",
-    "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts"
+    "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts --trace retain-on-failure"
   },
   "dependencies": {
     "@clevercanary/data-explorer-ui": "71.0.0",

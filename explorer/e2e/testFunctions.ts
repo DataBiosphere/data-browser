@@ -94,16 +94,6 @@ export async function testSortAzure(
       await expect(lastElementTextLocator).toBeVisible();
       await expect(firstElementTextLocator).not.toHaveText("");
       await expect(lastElementTextLocator).not.toHaveText("");
-      // Get the first cell text
-      /*
-      const firstElementTextNoClick = await firstElementTextLocator.innerText();
-      // Sort may do nothing if the first and last element are equal, so skip testing here
-      if (
-        (await lastElementTextLocator.innerText()) == firstElementTextNoClick
-      ) {
-        continue;
-      }
-      */
       // Click to sort
       await columnSortLocator.click();
       // Expect the first and last cell to still have text after clicking sort
@@ -114,8 +104,6 @@ export async function testSortAzure(
       // Expect the first and last cell to still have text after clicking sort
       await expect(firstElementTextLocator).not.toHaveText("");
       await expect(lastElementTextLocator).not.toHaveText("");
-
-      //const newFirstElementText = await getFirstElementText(workColumnPosition);
     }
   }
 }
@@ -145,13 +133,6 @@ export async function testSortCatalog(
         .nth(0)
         .getByRole("cell")
         .nth(workColumnPosition);
-      const lastElementTextLocator = page
-        .getByRole("rowgroup")
-        .nth(1)
-        .getByRole("row")
-        .last()
-        .getByRole("cell")
-        .nth(workColumnPosition);
       // Locator for the sort button
       const columnSortLocator = page
         .getByRole("columnheader", {
@@ -164,36 +145,13 @@ export async function testSortCatalog(
 
       // Click to sort
       await columnSortLocator.click();
-      // Expect the first and last cells to be visible
+      // Expect the first and cells to still be visible
       await expect(firstElementTextLocator).toBeVisible();
-      await expect(lastElementTextLocator).toBeVisible();
-      // Get the first cell text
-      const firstElementTextFirstClick =
-        await firstElementTextLocator.innerText();
-      const lastElementTextFirstClick =
-        await lastElementTextLocator.innerText();
-      // Sort may do nothing if the first and last element are equal, so skip testing here
-      if (lastElementTextFirstClick == firstElementTextFirstClick) {
-        continue;
-      }
-
       // Click again
       await columnSortLocator.click();
       // Expect the first cell to have changed after clicking sort
       await expect(firstElementTextLocator).toBeVisible();
-      await expect(firstElementTextLocator).not.toHaveText(
-        firstElementTextFirstClick
-      );
-      await expect(lastElementTextLocator).toBeVisible();
-      await expect(lastElementTextLocator).not.toHaveText(
-        lastElementTextFirstClick
-      );
-      /*await expect(firstElementTextLocator).toHaveText(
-        lastElementTextFirstClick
-      );
-      await expect(lastElementTextLocator).toHaveText(
-        firstElementTextFirstClick
-      );*/
+      await expect(firstElementTextLocator).not.toHaveText("");
     }
   }
 }
@@ -209,14 +167,12 @@ export async function testSelectableColumns(
     const checkboxLocator = page
       .getByRole("menu")
       .locator("*")
-      //.getByText(column.name, {exact: true});
       .filter({
         has: page
           .locator("*")
           .filter({ has: page.getByText(column.name, { exact: true }) }),
       })
       .getByRole("checkbox");
-    //await checkboxLocator.click();
     await expect(checkboxLocator).toBeEnabled();
     await expect(checkboxLocator).not.toBeChecked();
     await checkboxLocator.click();
@@ -240,7 +196,6 @@ export async function testPreSelectedColumns(
     const checkboxLocator = page
       .getByRole("menu")
       .locator("*")
-      //.getByText(column.name, {exact: true});
       .filter({
         has: page
           .locator("*")

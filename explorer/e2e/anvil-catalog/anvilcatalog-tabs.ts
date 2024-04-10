@@ -50,7 +50,7 @@ export const anvilcatalogTabs: AnvilCatalogTabCollection = {
       { name: "Consent Code", sortable: true },
       { name: "Disease (indication)", sortable: true },
       { name: "Data Type", sortable: true },
-      { name: "Study Design", sortable: true },
+      { name: "Study Design", sortable: false },
       { name: "Participants", sortable: true },
       { name: "Size (TB)", sortable: true },
     ],

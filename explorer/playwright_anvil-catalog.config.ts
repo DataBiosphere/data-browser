@@ -1,8 +1,24 @@
 import type { PlaywrightTestConfig } from "@playwright/test";
+import { devices } from "@playwright/test";
+
 const config: PlaywrightTestConfig = {
   expect: {
     timeout: 10 * 1000,
   },
+  projects: [
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+    },
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
+    },
+  ],
   testDir: "e2e",
   testMatch: /.*\/(anvil-catalog)\/.*\.spec\.ts/,
   use: {
