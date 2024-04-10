@@ -40,7 +40,7 @@ export const ANVIL_CMG_CATEGORY_LABEL = {
   DATASET_REGISTERED_ID: "Identifier",
   DATASET_TITLE: "Dataset",
   DIAGNOSE_PHENOTYPE: "Diagnosis",
-  DONOR_DONOR_ID: "Donor Id",
+  DONOR_DONOR_ID: "Donor Id this is a test",
   DONOR_ORGANISM_TYPE: "Organism Type",
   DONOR_PHENOTYPIC_SEX: "Phenotypic Sex",
   DONOR_REPORTED_ETHNICITY: "Reported Ethnicity",
