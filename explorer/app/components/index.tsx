@@ -76,6 +76,7 @@ export { Publications } from "@clevercanary/data-explorer-ui/lib/components/Proj
 export { SupplementaryLinks } from "@clevercanary/data-explorer-ui/lib/components/Project/components/SupplementaryLinks/supplementaryLinks";
 export { SupportRequest } from "@clevercanary/data-explorer-ui/lib/components/Support/components/SupportRequest/supportRequest";
 export { ExportMethodView } from "@clevercanary/data-explorer-ui/lib/views/ExportMethodView/exportMethodView";
+export { Banner } from "./common/Banner/banner.styles";
 export { ButtonOutline } from "./common/Button/components/ButtonOutline/buttonOutline";
 export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
 export { RenderComponents } from "./common/RenderComponents/renderComponents";
