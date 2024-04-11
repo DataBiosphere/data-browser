@@ -11,7 +11,7 @@ import {
   TEXT_HEADING_XLARGE,
 } from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
 import * as C from "../../../app/components/index";
-import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/hca-dcp/common/systemStatusMapper/systemStatusMapper";
+import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
 import { SiteConfig } from "../../common/entities";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";

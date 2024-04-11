@@ -1,7 +1,12 @@
+import { APIEndpoints } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import {
+  SiteConfig,
+  SystemStatusBindResponseFn,
+} from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
+import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
 import { authenticationConfig } from "./authentication/authentication";
@@ -17,10 +22,14 @@ import { floating } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
+const DATA_URL = "https://service.anvil.gi.ucsc.edu";
+const BROWSER_URL = "https://explore.anvil.gi.ucsc.edu";
+const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 
 export function makeConfig(
   browserUrl: string,
   portalUrl: string,
+  dataUrl: string,
   catalog: string = CATALOG_DEFAULT
 ): SiteConfig {
   return {
@@ -104,7 +113,7 @@ export function makeConfig(
       defaultParams: {
         catalog,
       },
-      url: "https://service.anvil.gi.ucsc.edu/",
+      url: `${dataUrl}/`,
     },
     entities: [
       datasetsEntityConfig,
@@ -170,6 +179,10 @@ export function makeConfig(
       apiPath: "index/summary",
       components: summary,
     },
+    systemStatus: {
+      apiPath: `${dataUrl}${APIEndpoints.INDEX_STATUS}`,
+      bindResponse: <SystemStatusBindResponseFn>bindSystemStatusResponse,
+    },
     themeOptions: {
       palette: {
         primary: {
@@ -181,9 +194,6 @@ export function makeConfig(
   };
 }
 
-const config: SiteConfig = makeConfig(
-  "https://explore.anvil.gi.ucsc.edu",
-  "https://anvilproject.dev.clevercanary.com"
-);
+const config: SiteConfig = makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL);
 
 export default config;
