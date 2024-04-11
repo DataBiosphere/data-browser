@@ -8,44 +8,13 @@ node_modules_bak
 #Typescript
 typings
 
-# Elastic Beanstalk Files
-.elasticbeanstalk/
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
-
-# SPA
-boardwalk.zip/
-
-# compiled output
-spa/dist
-spa/tmp
-spa/out-tsc
-spa/.angular/cache
-
 # misc
-spa/connect.lock
-spa/coverage/*
-spa/libpeerconnection.log
-spa/npm-debug.log
-spa/testem.log
-spa/typings
 npm-debug.log
 downloads/*
-
-# e2e
-spa/e2e/*.js
-spa/e2e/*.map
 
 #System Files
 .DS_Store
 Thumbs.db
-
-#Dist
-dist
-dist-home
-boardwalk.zip
-
 
 #Python
 __pycache__/
