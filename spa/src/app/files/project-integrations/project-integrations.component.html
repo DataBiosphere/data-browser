@@ -1,9 +1,0 @@
-<ng-container *ngFor="let portal of integrations">
-    <ng-container *ngFor="let integration of portal.integrations">
-        <p class="fontsize-xs" ><a href="{{integration.portalUrl}}"
-                                   target="_blank"
-                                   (click)="onIntegrationClicked(portal, integration)">{{portal.portalName}}
-            ({{portal.organizationName}})</a>
-        </p>
-    </ng-container>
-</ng-container>
