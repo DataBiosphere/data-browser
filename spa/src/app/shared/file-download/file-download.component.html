@@ -1,7 +1,0 @@
-<a [href]="link.url" (click)="onLinkClicked(link)">
-    <img src="assets/images/icon/download-primary.png">
-    <span *ngIf="!!link.name">{{link.name}}</span>
-</a>
-<copy-to-clipboard *ngIf="!hideCopyToClipboard"
-                   [copyToClipboardLink]="link.url"
-                   (copyClicked)="onLinkCopiedToClipboard(link)"></copy-to-clipboard>

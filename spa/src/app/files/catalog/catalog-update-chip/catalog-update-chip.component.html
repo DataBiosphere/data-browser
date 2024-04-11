@@ -1,8 +1,0 @@
-<ng-container *ngIf="isProjectNew() || isProjectUpdated()">
-    <hca-tooltip [tooltipClass]="'hca-tooltip narrow'" 
-                 [tooltipContent]="getTooltipContent()"
-                 [tooltipDisabled]="false"
-                 [tooltipPosition]="'above'">
-        <span [class]="{'catalog-update-chip-new': isProjectNew(), 'catalog-update-chip-updated': isProjectUpdated()}"></span>
-    </hca-tooltip>
-</ng-container>

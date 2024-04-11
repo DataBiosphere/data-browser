@@ -1,6 +1,0 @@
-<ng-container *ngIf="state$ | async as state">
-    <ng-container [ngSwitch]="isErrorNotFound(state.statusCode)">
-        <not-found *ngSwitchCase="true"></not-found>
-        <error *ngSwitchDefault></error>
-    </ng-container>
-</ng-container>
