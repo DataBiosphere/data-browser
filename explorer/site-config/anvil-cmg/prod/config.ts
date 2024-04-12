@@ -10,12 +10,12 @@ const config: SiteConfig = {
   ...makeConfig(
     "https://explore.anvilproject.org",
     "https://anvilproject.org",
+    "https://service.explore.anvilproject.org",
     "anvil4"
   ),
   exportToTerraUrl: "https://anvil.terra.bio/",
 };
 
-config.dataSource.url = "https://service.explore.anvilproject.org/";
 config.authentication = authenticationConfig;
 
 const filesEntityConfig = config.entities.find(

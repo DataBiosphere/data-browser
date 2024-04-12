@@ -2,6 +2,7 @@ export { RenderComponent } from "@clevercanary/data-explorer-ui/lib/components/C
 export { Section } from "../../MDXMarkdown/components/Section/mdxSection.styles";
 export { default as ExportToTerraStart } from "../common/exportToTerraStart.mdx";
 export { default as ExportToTerraSuccess } from "../common/exportToTerraSuccess.mdx";
+export { default as BetaAnnouncement } from "./betaAnnouncement.mdx";
 export { default as DataReleasePolicy } from "./dataReleasePolicy.mdx";
 export { default as ExportWarning } from "./exportWarning.mdx";
 export { default as LoginReminder } from "./loginReminder.mdx";
