@@ -178,7 +178,7 @@ export function makeConfig(
 }
 
 const config: SiteConfig = makeConfig(
-  "https://explore.anvil.gi.ucsc.edu",
+  "https://explore.anvilproject.dev.clevercanary.com",
   "https://anvilproject.dev.clevercanary.com"
 );
 
