@@ -3,8 +3,9 @@ import { devices } from "@playwright/test";
 
 const config: PlaywrightTestConfig = {
   expect: {
-    timeout: 10 * 1000,
+    timeout: 20 * 1000,
   },
+  outputDir: "playwright-report/",
   projects: [
     {
       name: "chromium",

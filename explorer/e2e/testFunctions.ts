@@ -49,7 +49,7 @@ export async function testTab(page: Page, tab: TabDescription): Promise<void> {
   }
 }
 
-export async function testSortAzure(
+export async function testSortAzul(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
@@ -81,7 +81,7 @@ export async function testSortAzure(
         .last()
         .getByRole("cell")
         .nth(workColumnPosition);
-      // Locator for the sort button
+      // Locator for the sort buttonf
       const columnSortLocator = page
         .getByRole("columnheader", {
           exact: true,
