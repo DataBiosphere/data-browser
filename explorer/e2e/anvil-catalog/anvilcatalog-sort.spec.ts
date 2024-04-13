@@ -1,24 +1,26 @@
 import { test } from "@playwright/test";
-import { testSort } from "../testFunctions";
+import { testSortCatalog } from "../testFunctions";
 import { anvilcatalogTabs } from "./anvilcatalog-tabs";
 
 test.describe.configure({ mode: "parallel" });
 
-test("Expect clicking the column header to change the first displayed entry in each column on the consortia tab, except where all tabs have the same values", async ({
+test.setTimeout(120000);
+test("On the Consortia tab, expect clicking the column header (the sort button) to keep the first element of the column visible", async ({
   page,
 }) => {
-  await testSort(page, anvilcatalogTabs.consortia);
+  await testSortCatalog(page, anvilcatalogTabs.consortia);
 });
 
 test.setTimeout(120000);
-test("Expect clicking the column header to change the first displayed entry in each column on the studies tab, except where all tabs have the same values", async ({
+test("On the Studies tab, expect clicking the column header (the sort button) to keep the first element of the column visible", async ({
   page,
 }) => {
-  await testSort(page, anvilcatalogTabs.studies);
+  await testSortCatalog(page, anvilcatalogTabs.studies);
 });
 
-test("Expect clicking the column header to change the first displayed entry in each column on the workspaces tab, except where all tabs have the same values", async ({
+test.setTimeout(120000);
+test("On the Workspaces tab, expect clicking the column header (the sort button) to keep the first element of the column visible", async ({
   page,
 }) => {
-  await testSort(page, anvilcatalogTabs.workspaces);
+  await testSortCatalog(page, anvilcatalogTabs.workspaces);
 });

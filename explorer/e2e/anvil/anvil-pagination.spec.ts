@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { anvilTabs } from "./anvil-tabs";
 
-const PaginationSelector = "_react=Pagination";
+const pageCountRegex = /Page [0-9]+ of [0-9]+/;
 const BackButtonTestID = "WestRoundedIcon";
 const ForwardButtonTestID = "EastRoundedIcon";
 
@@ -17,17 +17,19 @@ test("Check first page has disabled back and enabled forward pagination buttons 
   page,
 }) => {
   // Should start on first page
-  await expect(page.locator(PaginationSelector)).toContainText("Page 1 of ");
-  // Back Button should start disabled
-  await expect(
-    page.getByRole("button").filter({ has: page.getByTestId(BackButtonTestID) })
-  ).toBeDisabled();
+  await expect(page.getByText(pageCountRegex, { exact: true })).toHaveText(
+    /Page 1 of [0-9]+/
+  );
   // Forward button should start enabled
   await expect(
     page
       .getByRole("button")
       .filter({ has: page.getByTestId(ForwardButtonTestID) })
   ).toBeEnabled();
+  // Back Button should start disabled
+  await expect(
+    page.getByRole("button").filter({ has: page.getByTestId(BackButtonTestID) })
+  ).toBeDisabled();
 });
 
 test.setTimeout(300000);
@@ -35,12 +37,16 @@ test("Check that forward pagination increments the current page and that page co
   page,
 }) => {
   // Should start on first page, and there should be multiple pages available
-  await expect(page.locator(PaginationSelector)).toContainText("Page 1 of ");
-  await expect(page.locator(PaginationSelector)).not.toHaveText("Page 1 of 1");
+  await expect(page.getByText(pageCountRegex, { exact: true })).toHaveText(
+    /Page 1 of [0-9]+/
+  );
+  await expect(page.getByText(pageCountRegex, { exact: true })).not.toHaveText(
+    "Page 1 of 1"
+  );
 
   // Detect number of pages
   const SplitStartingPageText = (
-    await page.locator(PaginationSelector).innerText()
+    await page.getByText(pageCountRegex, { exact: true }).innerText()
   ).split(" ");
   const max_pages = parseInt(
     SplitStartingPageText[SplitStartingPageText.length - 1]
@@ -52,12 +58,12 @@ test("Check that forward pagination increments the current page and that page co
       .filter({ has: page.getByTestId(ForwardButtonTestID) })
       .click();
     // Expect the page count to have incremented
-    await expect(page.locator(PaginationSelector)).toContainText(
+    await expect(page.getByText(pageCountRegex, { exact: true })).toHaveText(
       `Page ${i} of ${max_pages}`
     );
   }
   // Expect to be on the last page
-  await expect(page.locator(PaginationSelector)).toContainText(
+  await expect(page.getByText(pageCountRegex, { exact: true })).toContainText(
     `Page ${max_pages} of ${max_pages}`
   );
   // Expect the back button to be enabled on the last page

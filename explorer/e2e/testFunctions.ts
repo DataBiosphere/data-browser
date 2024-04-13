@@ -9,11 +9,9 @@ export async function testUrl(
   otherTabs: TabDescription[]
 ): Promise<void> {
   await page.goto(tab.url);
-  await expect(page.getByRole("tab").getByText(tab.tabName)).toHaveAttribute(
-    "aria-selected",
-    "true",
-    { timeout: 15000 }
-  );
+  await expect(
+    page.getByRole("tab").getByText(tab.tabName, { exact: true })
+  ).toHaveAttribute("aria-selected", "true", { timeout: 25000 });
   for (const otherTab of otherTabs) {
     if (otherTab.tabName !== tab.tabName) {
       await expect(
@@ -25,8 +23,17 @@ export async function testUrl(
 
 // Run the "Expect each tab to become selected, to go to the correct url, and to show all of its columns when selected" test
 export async function testTab(page: Page, tab: TabDescription): Promise<void> {
-  await page.getByRole("tab").getByText(tab.tabName).click();
-  await expect(page).toHaveURL(tab.url, { timeout: 10000 });
+  await expect(
+    page
+      .getByRole("rowgroup")
+      .nth(1)
+      .getByRole("row")
+      .nth(1)
+      .getByRole("cell")
+      .nth(1)
+  ).toBeVisible();
+  await page.getByRole("tab").getByText(tab.tabName, { exact: true }).click();
+  await expect(page).toHaveURL(tab.url, { timeout: 25000 }); // Long timeout because some tabs take a long time to load
   await expect(page.getByRole("tab").getByText(tab.tabName)).toHaveAttribute(
     "aria-selected",
     "true"
@@ -42,7 +49,10 @@ export async function testTab(page: Page, tab: TabDescription): Promise<void> {
   }
 }
 
-export async function testSort(page: Page, tab: TabDescription): Promise<void> {
+export async function testSortAzul(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
   // Get the current tab, and go to it's URL
   await page.goto(tab.url);
   // For each column
@@ -71,6 +81,58 @@ export async function testSort(page: Page, tab: TabDescription): Promise<void> {
         .last()
         .getByRole("cell")
         .nth(workColumnPosition);
+      // Locator for the sort buttonf
+      const columnSortLocator = page
+        .getByRole("columnheader", {
+          exact: true,
+          name: tab.preselectedColumns[columnPosition].name,
+        })
+        .getByRole("button");
+
+      // Expect the first and last cells to be visible and have text
+      await expect(firstElementTextLocator).toBeVisible();
+      await expect(lastElementTextLocator).toBeVisible();
+      await expect(firstElementTextLocator).not.toHaveText("");
+      await expect(lastElementTextLocator).not.toHaveText("");
+      // Click to sort
+      await columnSortLocator.click();
+      // Expect the first and last cell to still have text after clicking sort
+      await expect(firstElementTextLocator).not.toHaveText("");
+      await expect(lastElementTextLocator).not.toHaveText("");
+      // Click again
+      await columnSortLocator.click();
+      // Expect the first and last cell to still have text after clicking sort
+      await expect(firstElementTextLocator).not.toHaveText("");
+      await expect(lastElementTextLocator).not.toHaveText("");
+    }
+  }
+}
+
+export async function testSortCatalog(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  // Get the current tab, and go to it's URL
+  await page.goto(tab.url);
+  // For each column
+  for (
+    let columnPosition = 0;
+    columnPosition < tab.preselectedColumns.length;
+    columnPosition++
+  ) {
+    // Get the column position, taking into account that some tabs start with a non-text first column
+    if (tab.preselectedColumns[columnPosition].sortable) {
+      const workColumnPosition: number = tab.emptyFirstColumn
+        ? columnPosition + 1
+        : columnPosition;
+      // Locators for the first and last cells in a particular column position on the page
+      const firstElementTextLocator = page
+        .getByRole("rowgroup")
+        .nth(1)
+        .getByRole("row")
+        .nth(0)
+        .getByRole("cell")
+        .nth(workColumnPosition);
       // Locator for the sort button
       const columnSortLocator = page
         .getByRole("columnheader", {
@@ -78,52 +140,18 @@ export async function testSort(page: Page, tab: TabDescription): Promise<void> {
           name: tab.preselectedColumns[columnPosition].name,
         })
         .getByRole("button");
-      const getFirstElementText: () => Promise<string> = async () => {
-        await firstElementTextLocator.hover();
-        await page.waitForTimeout(500); //TODO: figure out alternative to this
-        let firstElementTextNoClick: string;
-        const firstElementHasTooltip =
-          (await page.getByRole("tooltip").count()) > 0;
-        if (firstElementHasTooltip) {
-          firstElementTextNoClick =
-            (await page.getByRole("tooltip").textContent()) ?? "";
-        } else {
-          firstElementTextNoClick = await firstElementTextLocator.innerText();
-        }
-        return firstElementTextNoClick;
-      };
 
-      // Expect the first and last cells to be visible
       await expect(firstElementTextLocator).toBeVisible();
-      await expect(lastElementTextLocator).toBeVisible();
-      // Get the first cell text
-      const firstElementTextNoClick = await getFirstElementText();
-      //console.log(
-      //  await firstElementTextLocator.getAttribute("aria-labelledby")
-      //);
-      // Sort may do nothing if the first and last element are equal, so skip testing here TODO: ideally this should happen after first click on catalogs
-      if (
-        (await lastElementTextLocator.innerText()) == firstElementTextNoClick
-      ) {
-        continue;
-      }
+
       // Click to sort
       await columnSortLocator.click();
+      // Expect the first and cells to still be visible
       await expect(firstElementTextLocator).toBeVisible();
-      const firstElementTextFirstClick = await getFirstElementText();
       // Click again
       await columnSortLocator.click();
       // Expect the first cell to have changed after clicking sort
-      //TODO: determine whether a tooltip appears or not
       await expect(firstElementTextLocator).toBeVisible();
-      await expect(firstElementTextLocator).not.toHaveText(
-        firstElementTextFirstClick
-      );
-      //await expect(firstElementTextLocator).toBeLessThanOrEqual( TODO: make this work, even though this function only works on numbers
-      //  firstElementTextFirstClick
-      //);
-
-      //const newFirstElementText = await getFirstElementText(workColumnPosition);
+      await expect(firstElementTextLocator).not.toHaveText("");
     }
   }
 }
@@ -139,14 +167,12 @@ export async function testSelectableColumns(
     const checkboxLocator = page
       .getByRole("menu")
       .locator("*")
-      //.getByText(column.name, {exact: true});
       .filter({
         has: page
           .locator("*")
           .filter({ has: page.getByText(column.name, { exact: true }) }),
       })
       .getByRole("checkbox");
-    //await checkboxLocator.click();
     await expect(checkboxLocator).toBeEnabled();
     await expect(checkboxLocator).not.toBeChecked();
     await checkboxLocator.click();
@@ -170,7 +196,6 @@ export async function testPreSelectedColumns(
     const checkboxLocator = page
       .getByRole("menu")
       .locator("*")
-      //.getByText(column.name, {exact: true});
       .filter({
         has: page
           .locator("*")

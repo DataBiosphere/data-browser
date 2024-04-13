@@ -36,7 +36,7 @@ export const anvilTabs: AnvilCMGTabCollection = {
       { name: "Diagnosis", sortable: true },
     ],
     tabName: "Activities",
-    url: "/explore/activities",
+    url: "/activities",
   },
   biosamples: {
     emptyFirstColumn: false,
@@ -53,7 +53,7 @@ export const anvilTabs: AnvilCMGTabCollection = {
       { name: "Reported Ethnicity", sortable: true },
     ],
     tabName: "BioSamples",
-    url: "/explore/biosamples",
+    url: "/biosamples",
   },
   datasets: {
     emptyFirstColumn: false,
@@ -71,7 +71,7 @@ export const anvilTabs: AnvilCMGTabCollection = {
       { name: "Reported Ethnicity", sortable: true },
     ],
     tabName: "Datasets",
-    url: "/explore/datasets",
+    url: "/datasets",
   },
   donors: {
     emptyFirstColumn: false,
@@ -85,7 +85,7 @@ export const anvilTabs: AnvilCMGTabCollection = {
     ],
     selectableColumns: [],
     tabName: "Donors",
-    url: "/explore/donors",
+    url: "/donors",
   },
   files: {
     emptyFirstColumn: true,
@@ -93,6 +93,7 @@ export const anvilTabs: AnvilCMGTabCollection = {
       { name: "Name", sortable: true },
       { name: "File Format", sortable: true },
       { name: "Size", sortable: true },
+      { name: "DRS URI", sortable: false },
       { name: "Data Modality", sortable: true },
       { name: "Organism Type", sortable: true },
       { name: "Dataset", sortable: true },
@@ -103,7 +104,7 @@ export const anvilTabs: AnvilCMGTabCollection = {
       { name: "Diagnosis", sortable: true },
     ],
     tabName: "Files",
-    url: "/explore/files",
+    url: "/files",
   },
 };
 

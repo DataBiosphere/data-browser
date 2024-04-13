@@ -49,3 +49,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## End-to-end tests
+
+This project has end-to-end tests powered by Playwright, currently only for the `anvil-cmg` configuration and in progress for `anvil-catalog`. To run tests, run `npm run test:anvil-cmg` from this folder. Tests will also run by default on pull request.
+
+When updating tabs and columns on the anvil-cmg configuration, please update `e2e/anvil/anvil-tabs.ts` to reflect the changes  
