@@ -1,6 +1,7 @@
 import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "app/components";
 import { ProjectsResponse } from "../../../../../app/apis/azul/hca-dcp/common/responses";
+import * as MDX from "../../../../../app/components/common/MDXContent/hca-dcp";
 import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 
 export const mainColumn = [
@@ -50,6 +51,15 @@ export const mainColumn = [
     },
   } as ComponentConfig<typeof C.CollapsableSection>,
   {
-    component: C.DataReleasePolicy,
-  } as ComponentConfig<typeof C.DataReleasePolicy>,
+    children: [
+      {
+        component: MDX.DataReleasePolicy,
+      } as ComponentConfig<typeof MDX.DataReleasePolicy>,
+    ],
+    component: C.CollapsableSection,
+    props: {
+      collapsable: false,
+      title: "Data Access Policy",
+    },
+  } as ComponentConfig<typeof C.CollapsableSection>,
 ];

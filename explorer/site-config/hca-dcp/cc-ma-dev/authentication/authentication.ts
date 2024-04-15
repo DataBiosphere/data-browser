@@ -1,12 +1,7 @@
 import { AuthenticationConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import {
-  LoginTermsOfService,
-  LoginText,
-} from "../../../../app/components/common/MDXContent/hca-dcp";
+import * as MDX from "../../../../app/components/common/MDXContent/hca-dcp";
 
-export function getAuthenticationConfig(
-  portalURL: string
-): AuthenticationConfig {
+export function getAuthenticationConfig(): AuthenticationConfig {
   return {
     googleGISAuthConfig: {
       clientId:
@@ -15,14 +10,14 @@ export function getAuthenticationConfig(
       scope:
         "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
     },
-    termsOfService: <LoginTermsOfService portalURL={portalURL} />,
+    termsOfService: MDX.LoginTermsOfService({}),
     terraAuthConfig: {
       termsOfServiceEndpoint:
         "https://sam.dsde-dev.broadinstitute.org/register/user/v2/self/termsOfServiceDetails",
       terraProfileEndpoint:
         "https://sam.dsde-dev.broadinstitute.org/register/user/v1",
     },
-    text: <LoginText portalURL={portalURL} />,
+    text: MDX.LoginText({}),
     title: "Sign in to your account",
   };
 }

@@ -9,7 +9,7 @@ export const authenticationConfig: AuthenticationConfig = {
     scope:
       "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
   },
-  termsOfService: MDX.RenderComponent({ Component: MDX.LoginTermsOfService }),
+  termsOfService: MDX.LoginTermsOfService({}),
   terraAuthConfig: {
     termsOfServiceEndpoint:
       "https://sam.dsde-dev.broadinstitute.org/register/user/v2/self/termsOfServiceDetails",
@@ -18,7 +18,7 @@ export const authenticationConfig: AuthenticationConfig = {
     terraProfileEndpoint:
       "https://sam.dsde-dev.broadinstitute.org/register/user/v1",
   },
-  text: MDX.RenderComponent({ Component: MDX.LoginText }),
+  text: MDX.LoginText({}),
   title: "Sign in to your account",
-  warning: MDX.RenderComponent({ Component: MDX.LoginWarning }),
+  warning: MDX.LoginWarning({}),
 };

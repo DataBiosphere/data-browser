@@ -175,6 +175,7 @@ export function makeConfig(
         socialMedia,
       },
     },
+    portalURL: portalUrl,
     redirectRootToPath: HOME_PAGE_PATH,
     summaryConfig: undefined,
     themeOptions: {

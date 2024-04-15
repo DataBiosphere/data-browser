@@ -6,7 +6,6 @@ import {
 } from "../../../../../site-config/hca-dcp/category";
 import { ProjectsResponse } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
-import * as MDX from "../../../../components/common/MDXContent/lungmap";
 import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
@@ -30,7 +29,6 @@ export const buildBatchCorrectionWarning = (): React.ComponentProps<
   typeof C.Alert
 > => {
   return {
-    children: MDX.RenderComponent({ Component: MDX.BatchCorrectionWarning }),
     severity: "warning",
     title: "Please note",
   };
