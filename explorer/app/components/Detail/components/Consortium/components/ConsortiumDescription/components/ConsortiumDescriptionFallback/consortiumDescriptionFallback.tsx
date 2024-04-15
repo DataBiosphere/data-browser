@@ -1,10 +1,11 @@
 import { Link } from "@clevercanary/data-explorer-ui/lib/components/Links/components/Link/link";
 import { useRouter } from "next/router";
+import { Fragment } from "react";
 
-export const ConsortiumOverview = (): JSX.Element => {
+export const ConsortiumDescriptionFallback = (): JSX.Element => {
   const { asPath } = useRouter();
   return (
-    <div>
+    <Fragment>
       <p>
         The description of this consortium is under development for additional
         information.
@@ -21,6 +22,6 @@ export const ConsortiumOverview = (): JSX.Element => {
         <Link label="studies" url={`${asPath}/studies`} /> and{" "}
         <Link label="workspaces" url={`${asPath}/workspaces`} />.
       </p>
-    </div>
+    </Fragment>
   );
 };

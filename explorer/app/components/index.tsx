@@ -83,7 +83,7 @@ export { RenderComponents } from "./common/RenderComponents/renderComponents";
 export { AccessibilityBadge } from "./Detail/components/AccessibilityBadge/accessibilityBadge";
 export { ConsentCodeList } from "./Detail/components/ConsentCodeList/consentCodeList";
 export { ConsentTooltip } from "./Detail/components/ConsentTooltip/consentTooltip";
-export { ConsortiumOverview } from "./Detail/components/Consortium/ConsortiumOverview/consortiumOverview";
+export { ConsortiumDescription } from "./Detail/components/Consortium/components/ConsortiumDescription/consortiumDescription";
 export { FileLocationArchivePreview } from "./Detail/components/GeneratedMatricesTables/components/FileLocationArchivePreview/fileLocationArchivePreview";
 export { FileLocationCopy } from "./Detail/components/GeneratedMatricesTables/components/FileLocationCopy/fileLocationCopy";
 export { FileLocationDownload } from "./Detail/components/GeneratedMatricesTables/components/FileLocationDownload/fileLocationDownload";
