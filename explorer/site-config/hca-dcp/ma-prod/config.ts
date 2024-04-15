@@ -1,4 +1,4 @@
-import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { SiteConfig } from "../../common/entities";
 import { makeManagedAccessConfig } from "../cc-ma-dev/config";
 import { makeConfig } from "../dev/config";
 import { getAuthenticationConfig } from "./authentication/authentication";

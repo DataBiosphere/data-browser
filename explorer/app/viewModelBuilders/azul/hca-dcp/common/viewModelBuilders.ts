@@ -532,7 +532,6 @@ export const buildBatchCorrectionWarning = (): React.ComponentProps<
   typeof C.FluidAlert
 > => {
   return {
-    children: MDX.RenderComponent({ Component: MDX.BatchCorrectionWarning }),
     severity: "warning",
     title: "Please note",
   };
@@ -1037,21 +1036,12 @@ export const buildExportToTerra = (
 
 /**
  * Build props for export warning FluidAlert component.
- * @param _ - Unused.
- * @param viewContext - View context.
  * @returns model to be used as props for the FluidAlert component.
  */
-export const buildExportWarning = (
-  _: Unused,
-  viewContext: ViewContext
-): React.ComponentProps<typeof C.FluidAlert> => {
-  const {
-    authState: { isAuthenticated },
-  } = viewContext;
+export const buildExportWarning = (): React.ComponentProps<
+  typeof C.FluidAlert
+> => {
   return {
-    children: isAuthenticated
-      ? undefined
-      : MDX.RenderComponent({ Component: MDX.ExportWarning }),
     severity: "warning",
     title:
       'Files from projects with access "required" will be excluded from this export.',
@@ -1319,7 +1309,7 @@ export const buildProjectListViewListHeroWarning = (): React.ComponentProps<
 > => {
   return {
     severity: "warning",
-    title: MDX.RenderComponent({ Component: MDX.LoginReminder }),
+    title: MDX.LoginReminder({}),
     variant: "banner",
   };
 };

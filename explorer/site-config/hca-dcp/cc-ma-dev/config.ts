@@ -27,9 +27,7 @@ export function makeManagedAccessConfig(config: SiteConfig): SiteConfig {
   const cloneConfig = { ...config };
 
   // Add authentication to the config.
-  if (cloneConfig.portalURL) {
-    cloneConfig.authentication = getAuthenticationConfig(cloneConfig.portalURL);
-  }
+  cloneConfig.authentication = getAuthenticationConfig();
 
   // Adding authentication to the header.
   const header = { ...cloneConfig.layout.header };

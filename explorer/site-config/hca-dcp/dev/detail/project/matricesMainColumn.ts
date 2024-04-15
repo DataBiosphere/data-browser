@@ -9,6 +9,11 @@ export const mainColumn: ComponentConfig[] = [
   {
     children: [
       {
+        children: [
+          {
+            component: MDX.BatchCorrectionWarning,
+          } as ComponentConfig<typeof MDX.BatchCorrectionWarning>,
+        ],
         component: C.FluidAlert,
         viewBuilder: V.buildBatchCorrectionWarning,
       } as ComponentConfig<typeof C.FluidAlert>,

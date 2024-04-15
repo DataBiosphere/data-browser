@@ -5,6 +5,7 @@ import {
   ExportMethodConfig,
 } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import * as C from "../../../../app/components";
+import * as MDX from "../../../../app/components/common/MDXContent/hca-dcp";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 
 const MAIN_COLUMN_WARNING = [
@@ -12,6 +13,17 @@ const MAIN_COLUMN_WARNING = [
   {
     children: [
       {
+        children: [
+          {
+            children: [
+              {
+                component: MDX.ExportWarning,
+              } as ComponentConfig<typeof MDX.ExportWarning>,
+            ],
+            component: C.ConditionalComponent,
+            viewBuilder: V.renderWhenUnAuthorized,
+          } as ComponentConfig<typeof C.ConditionalComponent>,
+        ],
         component: C.FluidAlert,
         viewBuilder: V.buildExportWarning,
       } as ComponentConfig<typeof C.FluidAlert>,

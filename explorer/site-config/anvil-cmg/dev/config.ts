@@ -1,12 +1,10 @@
 import { APIEndpoints } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
 import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import {
-  SiteConfig,
-  SystemStatusBindResponseFn,
-} from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { SystemStatusBindResponseFn } from "@clevercanary/data-explorer-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
+import { SiteConfig } from "../../common/entities";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
 import { authenticationConfig } from "./authentication/authentication";
@@ -174,6 +172,7 @@ export function makeConfig(
         searchURL: `${browserUrl}/search`,
       },
     },
+    portalURL: portalUrl,
     redirectRootToPath: "/datasets",
     summaryConfig: {
       apiPath: "index/summary",

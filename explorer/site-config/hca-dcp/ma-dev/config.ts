@@ -1,5 +1,4 @@
-import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
-import { getAuthenticationConfig } from "../cc-ma-dev/authentication/authentication";
+import { SiteConfig } from "../../common/entities";
 import { makeManagedAccessConfig } from "../cc-ma-dev/config";
 import { makeConfig } from "../dev/config";
 
@@ -13,7 +12,6 @@ const config: SiteConfig = {
   ...makeManagedAccessConfig(
     makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, CATALOG)
   ),
-  authentication: getAuthenticationConfig(PORTAL_URL),
 };
 
 // Removing analytics from the config.
