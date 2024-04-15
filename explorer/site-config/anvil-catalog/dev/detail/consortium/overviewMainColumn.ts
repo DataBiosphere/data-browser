@@ -7,9 +7,12 @@ export const mainColumn = [
   {
     children: [
       {
-        component: C.MdxMarkdown,
+        component: C.ConsortiumDescription,
         viewBuilder: V.buildConsortiumOverview,
-      } as ComponentConfig<typeof C.MdxMarkdown>,
+      } as ComponentConfig<
+        typeof C.ConsortiumDescription,
+        AnVILCatalogConsortium
+      >,
     ],
     component: C.CollapsableSection,
     props: {

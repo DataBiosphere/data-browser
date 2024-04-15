@@ -121,15 +121,14 @@ export const buildConsortiumDetailViewWorkspacesTable = (
 };
 
 /**
- * Build props for consortium overview component from the given AnVIL entity.
+ * Build props for ConsortiumDescription component from the given AnVIL entity.
  * @param anVILCatalogConsortium - AnVil catalog consortium.
- * @returns model to be used as props for the consortium overview component.
+ * @returns model to be used as props for the ConsortiumDescription component.
  */
 export const buildConsortiumOverview = (
   anVILCatalogConsortium: AnVILCatalogConsortium
-): React.ComponentProps<typeof C.MdxMarkdown> => {
+): React.ComponentProps<typeof C.ConsortiumDescription> => {
   return {
-    fallback: C.ConsortiumOverview(),
     source: anVILCatalogConsortium.consortiumOverview,
   };
 };
