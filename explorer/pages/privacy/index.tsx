@@ -1,5 +1,5 @@
-import { Main } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/ContentLayout/components/Main/main";
-import { ContentView } from "@clevercanary/data-explorer-ui/lib/views/ContentView/contentView";
+import { Main } from "@databiosphere/findable-ui/lib/components/Layout/components/ContentLayout/components/Main/main";
+import { ContentView } from "@databiosphere/findable-ui/lib/views/ContentView/contentView";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { MDXRemote } from "next-mdx-remote";
 import { ContentTheme } from "../../app/components/common/Content/components/ContentTheme/contentTheme";

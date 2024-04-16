@@ -1,11 +1,11 @@
-import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
-import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
+import { stringifyValues } from "@databiosphere/findable-ui/lib/common/utils";
+import { Breadcrumb } from "@databiosphere/findable-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
   Value,
-} from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
-import { ViewContext } from "@clevercanary/data-explorer-ui/lib/config/entities";
+} from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
+import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import React, { ReactElement } from "react";
 import {
   NCPICatalogEntity,

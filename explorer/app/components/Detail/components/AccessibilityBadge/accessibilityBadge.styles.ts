@@ -1,5 +1,5 @@
-import { AccessibilityBadge as DXAccessibilityBadge } from "@clevercanary/data-explorer-ui/lib/components/Detail/components/AccessibilityBadge/accessibilityBadge";
-import { mediaTabletUp } from "@clevercanary/data-explorer-ui/lib/styles/common/mixins/breakpoints";
+import { AccessibilityBadge as DXAccessibilityBadge } from "@databiosphere/findable-ui/lib/components/Detail/components/AccessibilityBadge/accessibilityBadge";
+import { mediaTabletUp } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
 import styled from "@emotion/styled";
 
 export const AccessibilityBadge = styled(DXAccessibilityBadge)`

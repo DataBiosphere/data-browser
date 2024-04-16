@@ -1,4 +1,4 @@
-import { SiteConfig as DXSiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { SiteConfig as DXSiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 
 export interface SiteConfig extends DXSiteConfig {
   portalURL?: string;

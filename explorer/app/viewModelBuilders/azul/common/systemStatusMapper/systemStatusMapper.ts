@@ -1,7 +1,7 @@
 import {
   INDEXING_STATUS,
   SystemStatusResponse,
-} from "@clevercanary/data-explorer-ui/lib/providers/systemStatus";
+} from "@databiosphere/findable-ui/lib/providers/systemStatus";
 import { IndexHttpResponse } from "./entities";
 
 /**

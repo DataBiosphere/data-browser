@@ -1,4 +1,4 @@
-import { TagWarning } from "@clevercanary/data-explorer-ui/lib/components/common/Tag/tag.styles";
+import { TagWarning } from "@databiosphere/findable-ui/lib/components/common/Tag/tag.styles";
 import { MDXComponents } from "mdx/types";
 import { HelpIconButton } from "./app/components/common/MDXContent/components/HelpIconButton/helpIconButton";
 import { Link } from "./app/components/common/MDXContent/components/Link/link";

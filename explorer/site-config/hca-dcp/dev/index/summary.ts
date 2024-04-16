@@ -1,5 +1,5 @@
-import { AzulSummaryResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
-import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { AzulSummaryResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
+import { ComponentConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import * as Components from "../../../../app/components";
 import * as ViewBuilder from "./summaryViewModelBuilder";
 

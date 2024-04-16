@@ -1,5 +1,5 @@
-import { Link as DXLink } from "@clevercanary/data-explorer-ui/lib/components/Links/components/Link/link";
-import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
+import { Link as DXLink } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { ReactNode } from "react";
 import { getURL } from "../../../../../../mdx-components";
 import { SiteConfig } from "../../../../../../site-config/common/entities";

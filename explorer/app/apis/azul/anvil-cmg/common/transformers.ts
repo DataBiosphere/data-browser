@@ -1,11 +1,11 @@
-import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
-import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
+import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
+import { stringifyValues } from "@databiosphere/findable-ui/lib/common/utils";
 import {
   Key,
   KeyValues,
   Value,
-} from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-import { MetadataValue } from "@clevercanary/data-explorer-ui/lib/components/Index/components/NTagCell/nTagCell";
+} from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { MetadataValue } from "@databiosphere/findable-ui/lib/components/Index/components/NTagCell/nTagCell";
 import { humanFileSize } from "../../../../utils/fileSize";
 import {
   processAggregatedOrArrayValue,

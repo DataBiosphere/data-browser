@@ -1,4 +1,4 @@
-import { AzulSummaryResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { AzulSummaryResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { FileFormat } from "../../../apis/azul/anvil-cmg/common/entities";
 import { ProjectSummary } from "../../../apis/azul/hca-dcp/common/entities";
 

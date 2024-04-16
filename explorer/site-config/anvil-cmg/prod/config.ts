@@ -1,4 +1,4 @@
-import { EntityConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EntityConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { SiteConfig } from "../../common/entities";
 import { makeConfig } from "../dev/config";
 import { downloadColumn } from "../dev/index/filesEntityConfig";

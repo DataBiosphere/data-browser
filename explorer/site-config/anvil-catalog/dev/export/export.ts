@@ -1,4 +1,4 @@
-import { ExportConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { ExportConfig } from "@databiosphere/findable-ui/lib/config/entities";
 
 export const exportConfig: ExportConfig = {
   exportMethods: [],

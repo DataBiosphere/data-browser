@@ -1,5 +1,5 @@
-import { Error as ErrorComponent } from "@clevercanary/data-explorer-ui/lib/components/Error/error";
-import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
+import { Error as ErrorComponent } from "@databiosphere/findable-ui/lib/components/Error/error";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { NextPage, NextPageContext } from "next";
 
 interface ErrorProps {

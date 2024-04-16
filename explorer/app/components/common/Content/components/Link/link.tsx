@@ -1,5 +1,5 @@
-import { LinkProps as DXLinkProps } from "@clevercanary/data-explorer-ui/lib/components/Links/components/Link/link";
-import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
+import { LinkProps as DXLinkProps } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { getURL } from "../../../../../../mdx-components";
 import { SiteConfig } from "../../../../../../site-config/common/entities";
 import { Link as ContentLink } from "./link.styles";

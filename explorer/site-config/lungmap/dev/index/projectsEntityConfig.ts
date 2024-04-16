@@ -1,4 +1,4 @@
-import { EntityConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { EntityConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { mainColumn as hcaMetadataMainColumn } from "../../../hca-dcp/dev/detail/project/metadataMainColumn";
 import { mainColumn as hcaOverviewMainColumn } from "../../../hca-dcp/dev/detail/project/overviewMainColumn";
 import { sideColumn as hcaOverviewSideColumn } from "../../../hca-dcp/dev/detail/project/overviewSideColumn";

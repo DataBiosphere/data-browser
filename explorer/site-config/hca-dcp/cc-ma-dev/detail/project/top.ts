@@ -1,4 +1,4 @@
-import { ComponentConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { ComponentConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { ProjectsResponse } from "../../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../../app/components";
 import { Stack } from "../../../../../app/components/Detail/components/AccessibilityBadge/components/Stack/stack";

@@ -1,6 +1,6 @@
-import { APIEndpoints } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
-import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { SystemStatusBindResponseFn } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
+import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
+import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";

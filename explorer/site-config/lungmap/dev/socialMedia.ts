@@ -1,5 +1,5 @@
-import { HEADER_NAVIGATION_LABEL } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/common/constants";
-import { SocialMedia } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/common/entities";
+import { HEADER_NAVIGATION_LABEL } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/common/constants";
+import { SocialMedia } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/common/entities";
 import * as C from "../../../app/components/index";
 
 export const socialMedia: SocialMedia = {

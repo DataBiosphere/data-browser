@@ -3,8 +3,8 @@ import {
   EntityConfig,
   ListConfig,
   SORT_DIRECTION,
-} from "@clevercanary/data-explorer-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
+} from "@databiosphere/findable-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
 import { DatasetsResponse } from "../../../../app/apis/azul/anvil/common/responses";
 import { getDatasetEntryId } from "../../../../app/apis/azul/anvil/common/transformers";
 import * as Components from "../../../../app/components";

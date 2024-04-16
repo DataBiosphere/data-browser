@@ -1,4 +1,4 @@
-import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import {
   createTheme,
   CssBaseline,

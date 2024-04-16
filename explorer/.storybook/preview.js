@@ -1,6 +1,6 @@
-import "@clevercanary/data-explorer-ui";
-import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
-import { createAppTheme } from "@clevercanary/data-explorer-ui/lib/theme/theme";
+import "@databiosphere/findable-ui";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
+import { createAppTheme } from "@databiosphere/findable-ui/lib/theme/theme";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { ThemeProvider as Emotion10ThemeProvider } from "emotion-theming";

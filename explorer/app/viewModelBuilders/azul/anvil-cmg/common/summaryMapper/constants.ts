@@ -1,4 +1,4 @@
-import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { FileSummary, SUMMARY } from "./entities";
 
 export const DEFAULT_SUMMARY: FileSummary = {

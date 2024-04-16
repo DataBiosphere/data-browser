@@ -1,7 +1,7 @@
 import {
   sanitizeString,
   sanitizeStringArray,
-} from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/utils";
+} from "@databiosphere/findable-ui/lib/viewModelBuilders/common/utils";
 import {
   AnVILCatalogConsortium,
   AnVILCatalogEntity,

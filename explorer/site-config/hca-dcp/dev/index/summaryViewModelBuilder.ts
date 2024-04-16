@@ -1,4 +1,4 @@
-import { AzulSummaryResponse } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { AzulSummaryResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import React from "react";
 import * as C from "../../../../app/components";
 import { getSummaries } from "../../../../app/components/Index/common/indexTransformer";

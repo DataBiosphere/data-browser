@@ -1,7 +1,7 @@
 import {
   sanitizeString,
   sanitizeStringArray,
-} from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/utils";
+} from "@databiosphere/findable-ui/lib/viewModelBuilders/common/utils";
 import { NCPICatalogPlatform, NCPICatalogStudy, NCPIStudy } from "./entities";
 
 export function NCPIStudyInputMapper(ncpiStudy: NCPIStudy): NCPICatalogStudy {

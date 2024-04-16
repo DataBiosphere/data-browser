@@ -1,5 +1,5 @@
-import { StaticImageProps } from "@clevercanary/data-explorer-ui/lib/components/common/StaticImage/staticImage";
-import { Override } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { StaticImageProps } from "@databiosphere/findable-ui/lib/components/common/StaticImage/staticImage";
+import { Override } from "@databiosphere/findable-ui/lib/config/entities";
 import {
   ContributorResponse,
   PublicationResponse,

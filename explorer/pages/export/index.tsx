@@ -1,4 +1,4 @@
-import { ExportView as ExportPageView } from "@clevercanary/data-explorer-ui/lib/views/ExportView/exportView";
+import { ExportView as ExportPageView } from "@databiosphere/findable-ui/lib/views/ExportView/exportView";
 import { GetStaticProps } from "next";
 
 export const getStaticProps: GetStaticProps = async () => {

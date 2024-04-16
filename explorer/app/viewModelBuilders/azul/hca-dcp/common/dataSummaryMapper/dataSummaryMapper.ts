@@ -1,10 +1,10 @@
-import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
-import { stringifyValues } from "@clevercanary/data-explorer-ui/lib/common/utils";
-import { Value } from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-import { NTagCell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/NTagCell/nTagCell";
-import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
-import { Links } from "@clevercanary/data-explorer-ui/lib/components/Links/links";
-import { formatCountSize } from "@clevercanary/data-explorer-ui/lib/utils/formatCountSize";
+import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
+import { stringifyValues } from "@databiosphere/findable-ui/lib/common/utils";
+import { Value } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { NTagCell } from "@databiosphere/findable-ui/lib/components/Index/components/NTagCell/nTagCell";
+import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
+import { Links } from "@databiosphere/findable-ui/lib/components/Links/links";
+import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
 import { METADATA_KEY } from "app/components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "app/components/Index/common/indexTransformer";
 import { HCA_DCP_CATEGORY_KEY } from "../../../../../../site-config/hca-dcp/category";

@@ -1,5 +1,5 @@
-import { setConfig } from "@clevercanary/data-explorer-ui/lib/config/config";
-import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { setConfig } from "@databiosphere/findable-ui/lib/config/config";
+import { SiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import anvilCatalogDev from "../../site-config/anvil-catalog/dev/config";
 import anvilCatalogProd from "../../site-config/anvil-catalog/prod/config";
 import anvilCmgCCDev from "../../site-config/anvil-cmg/cc-dev/config";

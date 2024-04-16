@@ -1,4 +1,4 @@
-import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
+import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
 import hcaConfig, {
   DATA_URL as HCA_DATA_URL,
   EXPORT_TO_TERRA_URL as HCA_EXPORT_TO_TERRA_URL,

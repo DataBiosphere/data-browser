@@ -1,4 +1,4 @@
-import { LayoutStyle } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/ContentLayout/common/entities";
+import { LayoutStyle } from "@databiosphere/findable-ui/lib/components/Layout/components/ContentLayout/common/entities";
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
 import { ReactNode } from "react";
 
