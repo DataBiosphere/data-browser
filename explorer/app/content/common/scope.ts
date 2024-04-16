@@ -4,6 +4,7 @@ import { config } from "../../config/config";
 interface ContentScope {
   browserURL: string;
   portalURL: string;
+  redirectRootToPath: string;
 }
 
 /**
@@ -11,8 +12,10 @@ interface ContentScope {
  * @returns content scope.
  */
 export function getContentScope(): ContentScope {
-  const siteConfig = config() as SiteConfig;
-  const browserURL = siteConfig.browserURL;
-  const portalURL = siteConfig.portalURL || "";
-  return { browserURL, portalURL };
+  const {
+    browserURL,
+    portalURL = "",
+    redirectRootToPath,
+  } = config() as SiteConfig;
+  return { browserURL, portalURL, redirectRootToPath };
 }
