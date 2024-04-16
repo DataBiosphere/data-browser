@@ -1,6 +1,6 @@
-import { ButtonGroupButton } from "@clevercanary/data-explorer-ui/lib/components/common/ButtonGroup/components/ButtonGroupButton/buttonGroupButton";
-import { ContentCopyIconSmall } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/common/constants";
-import { useFileLocation } from "@clevercanary/data-explorer-ui/lib/hooks/useFileLocation";
+import { ButtonGroupButton } from "@databiosphere/findable-ui/lib/components/common/ButtonGroup/components/ButtonGroupButton/buttonGroupButton";
+import { ContentCopyIconSmall } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/common/constants";
+import { useFileLocation } from "@databiosphere/findable-ui/lib/hooks/useFileLocation";
 import copy from "copy-to-clipboard";
 import { useEffect } from "react";
 import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";

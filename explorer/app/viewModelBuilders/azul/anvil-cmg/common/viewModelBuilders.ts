@@ -1,38 +1,38 @@
 import {
   LABEL,
   MANIFEST_DOWNLOAD_FORMAT,
-} from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+} from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import {
   Filters,
   SelectedFilter,
-} from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
-import { CallToAction } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
-import { STATUS_BADGE_COLOR } from "@clevercanary/data-explorer-ui/lib/components/common/StatusBadge/statusBadge";
+} from "@databiosphere/findable-ui/lib/common/entities";
+import { Breadcrumb } from "@databiosphere/findable-ui/lib/components/common/Breadcrumbs/breadcrumbs";
+import { CallToAction } from "@databiosphere/findable-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
+import { STATUS_BADGE_COLOR } from "@databiosphere/findable-ui/lib/components/common/StatusBadge/statusBadge";
 import {
   FileSummaryFacet,
   FileSummaryTerm,
   FormFacet,
-} from "@clevercanary/data-explorer-ui/lib/components/Export/common/entities";
-import { CurrentQuery } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
-import { Summary } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
-import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
-import { ViewContext } from "@clevercanary/data-explorer-ui/lib/config/entities";
+} from "@databiosphere/findable-ui/lib/components/Export/common/entities";
+import { CurrentQuery } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
+import { Summary } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
+import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
+import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import {
   FileFacet,
   FILE_MANIFEST_TYPE,
-} from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
+} from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import {
   findFacet,
   isFacetTermSelected,
   sortTerms,
-} from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/utils";
-import { FileManifestState } from "@clevercanary/data-explorer-ui/lib/providers/fileManifestState";
-import { CategoryKeyLabel } from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/entities";
+} from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/utils";
+import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
+import { CategoryKeyLabel } from "@databiosphere/findable-ui/lib/viewModelBuilders/common/entities";
 import {
   mapCategoryKeyLabel,
   sanitizeString,
-} from "@clevercanary/data-explorer-ui/lib/viewModelBuilders/common/utils";
+} from "@databiosphere/findable-ui/lib/viewModelBuilders/common/utils";
 import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,

@@ -1,4 +1,4 @@
-import { LoginView } from "@clevercanary/data-explorer-ui/lib/views/LoginView/loginView";
+import { LoginView } from "@databiosphere/findable-ui/lib/views/LoginView/loginView";
 import { GetStaticProps } from "next";
 
 export const getStaticProps: GetStaticProps = async () => {

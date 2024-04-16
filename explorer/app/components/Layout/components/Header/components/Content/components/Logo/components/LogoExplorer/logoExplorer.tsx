@@ -1,10 +1,10 @@
-import { ImageSrc } from "@clevercanary/data-explorer-ui/lib/components/common/StaticImage/staticImage";
-import { Logo } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
+import { ImageSrc } from "@databiosphere/findable-ui/lib/components/common/StaticImage/staticImage";
+import { Logo } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
 import {
   BREAKPOINT_FN_NAME,
   useBreakpointHelper,
-} from "@clevercanary/data-explorer-ui/lib/hooks/useBreakpointHelper";
-import { DESKTOP_SM } from "@clevercanary/data-explorer-ui/lib/theme/common/breakpoints";
+} from "@databiosphere/findable-ui/lib/hooks/useBreakpointHelper";
+import { DESKTOP_SM } from "@databiosphere/findable-ui/lib/theme/common/breakpoints";
 
 export interface LogoExplorerProps {
   alt: string;

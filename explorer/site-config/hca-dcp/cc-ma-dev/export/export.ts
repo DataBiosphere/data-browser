@@ -3,7 +3,7 @@ import {
   ComponentConfig,
   ExportConfig,
   ExportMethodConfig,
-} from "@clevercanary/data-explorer-ui/lib/config/entities";
+} from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
 import * as MDX from "../../../../app/components/common/MDXContent/hca-dcp";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";

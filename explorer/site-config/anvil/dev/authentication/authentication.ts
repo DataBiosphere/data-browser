@@ -1,4 +1,4 @@
-import { AuthenticationConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { AuthenticationConfig } from "@databiosphere/findable-ui/lib/config/entities";
 
 export const authenticationConfig: AuthenticationConfig = {
   googleGISAuthConfig: {

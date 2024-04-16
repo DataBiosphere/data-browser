@@ -1,7 +1,7 @@
 /**
  * Type that is a union of all keys of T that have a type of string or null.
  */
-import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 
 /**
  * Type of possible boolean values returned in an aggregated value from Azul.

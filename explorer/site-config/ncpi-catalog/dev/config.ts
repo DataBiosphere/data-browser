@@ -1,6 +1,6 @@
-import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
-import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
+import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
+import { SiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../app/components/index";
 import anvilConfig from "../../anvil/dev/config";
 import {

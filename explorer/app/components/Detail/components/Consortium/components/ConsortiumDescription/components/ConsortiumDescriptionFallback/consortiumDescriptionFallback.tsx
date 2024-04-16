@@ -1,4 +1,4 @@
-import { Link } from "@clevercanary/data-explorer-ui/lib/components/Links/components/Link/link";
+import { Link } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 

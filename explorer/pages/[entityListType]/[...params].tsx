@@ -3,22 +3,22 @@ import {
   AzulEntitiesResponse,
   AzulEntityStaticResponse,
   AzulListParams,
-} from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
+} from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import {
   PARAMS_INDEX_TAB,
   PARAMS_INDEX_UUID,
-} from "@clevercanary/data-explorer-ui/lib/common/constants";
+} from "@databiosphere/findable-ui/lib/common/constants";
 import {
   BackPageTabConfig,
   EntityConfig,
   Override,
-} from "@clevercanary/data-explorer-ui/lib/config/entities";
-import { getEntityConfig } from "@clevercanary/data-explorer-ui/lib/config/utils";
-import { fetchCatalog } from "@clevercanary/data-explorer-ui/lib/entity/api/service";
-import { getEntityService } from "@clevercanary/data-explorer-ui/lib/hooks/useEntityService";
-import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
-import { database } from "@clevercanary/data-explorer-ui/lib/utils/database";
-import { EntityDetailView } from "@clevercanary/data-explorer-ui/lib/views/EntityDetailView/entityDetailView";
+} from "@databiosphere/findable-ui/lib/config/entities";
+import { getEntityConfig } from "@databiosphere/findable-ui/lib/config/utils";
+import { fetchCatalog } from "@databiosphere/findable-ui/lib/entity/api/service";
+import { getEntityService } from "@databiosphere/findable-ui/lib/hooks/useEntityService";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { database } from "@databiosphere/findable-ui/lib/utils/database";
+import { EntityDetailView } from "@databiosphere/findable-ui/lib/views/EntityDetailView/entityDetailView";
 import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";

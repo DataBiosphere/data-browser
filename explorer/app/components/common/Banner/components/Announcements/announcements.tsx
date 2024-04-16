@@ -1,5 +1,5 @@
-import { useSessionTimeout } from "@clevercanary/data-explorer-ui/lib/hooks/useSessionTimeout";
-import { useSystemStatus } from "@clevercanary/data-explorer-ui/lib/hooks/useSystemStatus";
+import { useSessionTimeout } from "@databiosphere/findable-ui/lib/hooks/useSessionTimeout";
+import { useSystemStatus } from "@databiosphere/findable-ui/lib/hooks/useSystemStatus";
 import { ElementType, Fragment } from "react";
 import { SessionTimeout } from "./components/SessionTimeout/sessionTimeout";
 import { SystemIndexing as SystemIndexingBanner } from "./components/SystemIndexing/systemIndexing";

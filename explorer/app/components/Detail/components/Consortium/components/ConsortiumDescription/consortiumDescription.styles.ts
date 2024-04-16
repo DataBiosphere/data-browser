@@ -1,4 +1,4 @@
-import { SectionText as DXSectionText } from "@clevercanary/data-explorer-ui/lib/components/common/Section/section.styles";
+import { SectionText as DXSectionText } from "@databiosphere/findable-ui/lib/components/common/Section/section.styles";
 import styled from "@emotion/styled";
 import { Typography as MTypography } from "@mui/material";
 

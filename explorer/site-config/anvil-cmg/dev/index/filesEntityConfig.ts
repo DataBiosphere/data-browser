@@ -4,8 +4,8 @@ import {
   EntityConfig,
   ListConfig,
   SORT_DIRECTION,
-} from "@clevercanary/data-explorer-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
+} from "@databiosphere/findable-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
 import { FilesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";

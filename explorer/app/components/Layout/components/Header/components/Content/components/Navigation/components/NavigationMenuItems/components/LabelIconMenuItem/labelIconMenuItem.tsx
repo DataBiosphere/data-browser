@@ -1,4 +1,4 @@
-import { OpenInNewIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
+import { OpenInNewIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
 import { ElementType } from "react";
 import { Label, Text } from "./labelIconMenuItem.styles";
 

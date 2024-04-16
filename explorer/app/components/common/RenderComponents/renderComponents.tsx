@@ -1,5 +1,5 @@
-import { ComponentCreator } from "@clevercanary/data-explorer-ui/lib/components/ComponentCreator/ComponentCreator";
-import { ComponentsConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { ComponentCreator } from "@databiosphere/findable-ui/lib/components/ComponentCreator/ComponentCreator";
+import { ComponentsConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { Fragment } from "react";
 
 export interface RenderComponentsProps {

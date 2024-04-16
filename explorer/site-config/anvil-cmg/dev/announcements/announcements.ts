@@ -1,7 +1,7 @@
 import {
   ComponentConfig,
   ComponentsConfig,
-} from "@clevercanary/data-explorer-ui/lib/config/entities";
+} from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
 import { BetaAnnouncement } from "../../../../app/components/common/Banner/components/Announcements/components/BetaAnnouncement/betaAnnouncement";
 

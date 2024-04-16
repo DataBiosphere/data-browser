@@ -1,6 +1,6 @@
-import { ELEMENT_ALIGNMENT } from "@clevercanary/data-explorer-ui/lib/common/entities";
-import { HEADER_NAVIGATION_LABEL } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/common/constants";
-import { SiteConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
+import { HEADER_NAVIGATION_LABEL } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/common/constants";
+import { SiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil/common/constants";
 import * as C from "../../../app/components/index";
 import { authenticationConfig } from "./authentication/authentication";

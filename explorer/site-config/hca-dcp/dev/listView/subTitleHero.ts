@@ -1,7 +1,7 @@
 import {
   ComponentConfig,
   ComponentsConfig,
-} from "@clevercanary/data-explorer-ui/lib/config/entities";
+} from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
 
 export const subTitleHero: ComponentsConfig = [

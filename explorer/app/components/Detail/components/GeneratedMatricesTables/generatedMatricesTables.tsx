@@ -1,5 +1,5 @@
-import { GridPaper } from "@clevercanary/data-explorer-ui/lib/components/common/Paper/paper.styles";
-import { Table } from "@clevercanary/data-explorer-ui/lib/components/Detail/components/Table/table";
+import { GridPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/paper.styles";
+import { Table } from "@databiosphere/findable-ui/lib/components/Detail/components/Table/table";
 import { Divider } from "@mui/material";
 import { ColumnDef } from "@tanstack/react-table";
 import { Fragment } from "react";

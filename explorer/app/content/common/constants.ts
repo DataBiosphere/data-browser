@@ -1,4 +1,4 @@
-import { ANCHOR_TARGET } from "@clevercanary/data-explorer-ui/lib/components/Links/common/entities";
+import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { Breadcrumbs } from "../../components/common/Content/components/Breadcrumbs/breadcrumbs.styles";
 import { Link } from "../../components/common/Content/components/Link/link";
 import { Figure } from "../../components/common/Figure/figure";

@@ -1,7 +1,7 @@
-import { FileDownloadButton } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/FileDownloadButton/fileDownloadButton";
-import { ButtonGroupButton } from "@clevercanary/data-explorer-ui/lib/components/common/ButtonGroup/components/ButtonGroupButton/buttonGroupButton";
-import { DownloadIconSmall } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/common/constants";
-import { useFileLocation } from "@clevercanary/data-explorer-ui/lib/hooks/useFileLocation";
+import { FileDownloadButton } from "@databiosphere/findable-ui/lib/components/common/Button/components/FileDownloadButton/fileDownloadButton";
+import { ButtonGroupButton } from "@databiosphere/findable-ui/lib/components/common/ButtonGroup/components/ButtonGroupButton/buttonGroupButton";
+import { DownloadIconSmall } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/common/constants";
+import { useFileLocation } from "@databiosphere/findable-ui/lib/hooks/useFileLocation";
 import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 
 export interface FileLocationDownloadProps {

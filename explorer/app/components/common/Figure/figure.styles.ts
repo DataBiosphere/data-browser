@@ -1,5 +1,5 @@
-import { smokeMain } from "@clevercanary/data-explorer-ui/lib/styles/common/mixins/colors";
-import { textBody400 } from "@clevercanary/data-explorer-ui/lib/styles/common/mixins/fonts";
+import { smokeMain } from "@databiosphere/findable-ui/lib/styles/common/mixins/colors";
+import { textBody400 } from "@databiosphere/findable-ui/lib/styles/common/mixins/fonts";
 import styled from "@emotion/styled";
 
 export const Figure = styled.figure`

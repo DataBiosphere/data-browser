@@ -1,15 +1,15 @@
-import { ButtonPrimary } from "@clevercanary/data-explorer-ui/lib/components/common/Button/components/ButtonPrimary/buttonPrimary";
-import { AlertIcon } from "@clevercanary/data-explorer-ui/lib/components/common/CustomIcon/components/AlertIcon/alertIcon";
-import { SectionActions } from "@clevercanary/data-explorer-ui/lib/components/common/Section/section.styles";
+import { ButtonPrimary } from "@databiosphere/findable-ui/lib/components/common/Button/components/ButtonPrimary/buttonPrimary";
+import { AlertIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/AlertIcon/alertIcon";
+import { SectionActions } from "@databiosphere/findable-ui/lib/components/common/Section/section.styles";
 import {
   PRIORITY,
   StatusIcon,
-} from "@clevercanary/data-explorer-ui/lib/components/common/StatusIcon/statusIcon";
-import { Override } from "@clevercanary/data-explorer-ui/lib/config/entities";
+} from "@databiosphere/findable-ui/lib/components/common/StatusIcon/statusIcon";
+import { Override } from "@databiosphere/findable-ui/lib/config/entities";
 import {
   TEXT_BODY_LARGE_400,
   TEXT_HEADING_XLARGE,
-} from "@clevercanary/data-explorer-ui/lib/theme/common/typography";
+} from "@databiosphere/findable-ui/lib/theme/common/typography";
 import { Link as MLink, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";

@@ -1,7 +1,7 @@
 import {
   StaticImage,
   StaticImageProps,
-} from "@clevercanary/data-explorer-ui/lib/components/common/StaticImage/staticImage";
+} from "@databiosphere/findable-ui/lib/components/common/StaticImage/staticImage";
 import { Figure as FigureWithCaption } from "./figure.styles";
 
 export interface ImageProps extends StaticImageProps {

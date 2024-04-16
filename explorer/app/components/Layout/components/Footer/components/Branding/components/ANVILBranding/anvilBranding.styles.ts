@@ -1,5 +1,5 @@
-import { Logo } from "@clevercanary/data-explorer-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
-import { mediaTabletDown } from "@clevercanary/data-explorer-ui/lib/styles/common/mixins/breakpoints";
+import { Logo } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
+import { mediaTabletDown } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
 import styled from "@emotion/styled";
 
 export const Brands = styled.div`

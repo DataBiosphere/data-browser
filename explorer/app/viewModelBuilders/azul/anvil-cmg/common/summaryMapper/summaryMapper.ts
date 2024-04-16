@@ -1,12 +1,12 @@
-import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
-import { listSelectedTermsOfFacet } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/common/utils";
-import { SummaryValue } from "@clevercanary/data-explorer-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
-import { NTagCell } from "@clevercanary/data-explorer-ui/lib/components/Index/components/NTagCell/nTagCell";
+import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
+import { listSelectedTermsOfFacet } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/common/utils";
+import { SummaryValue } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
+import { NTagCell } from "@databiosphere/findable-ui/lib/components/Index/components/NTagCell/nTagCell";
 import {
   FileFacet,
   Term,
-} from "@clevercanary/data-explorer-ui/lib/hooks/useFileManifest/common/entities";
-import { formatCountSize } from "@clevercanary/data-explorer-ui/lib/utils/formatCountSize";
+} from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
+import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
 import { ANVIL_CMG_CATEGORY_KEY } from "../../../../../../site-config/anvil-cmg/category";
 import { SummaryResponse } from "../../../../../apis/azul/anvil-cmg/common/responses";
 import { METADATA_KEY } from "../../../../../components/Index/common/entities";

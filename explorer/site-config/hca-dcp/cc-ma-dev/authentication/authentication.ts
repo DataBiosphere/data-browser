@@ -1,4 +1,4 @@
-import { AuthenticationConfig } from "@clevercanary/data-explorer-ui/lib/config/entities";
+import { AuthenticationConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import * as MDX from "../../../../app/components/common/MDXContent/hca-dcp";
 
 export function getAuthenticationConfig(): AuthenticationConfig {

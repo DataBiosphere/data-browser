@@ -1,4 +1,4 @@
-import { BannerPrimary as DXBannerPrimary } from "@clevercanary/data-explorer-ui/lib/components/common/Banner/components/BannerPrimary/bannerPrimary";
+import { BannerPrimary as DXBannerPrimary } from "@databiosphere/findable-ui/lib/components/common/Banner/components/BannerPrimary/bannerPrimary";
 import styled from "@emotion/styled";
 
 export const Banner = styled(DXBannerPrimary)`

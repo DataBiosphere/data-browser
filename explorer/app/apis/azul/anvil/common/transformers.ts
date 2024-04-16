@@ -1,12 +1,12 @@
-import { LABEL } from "@clevercanary/data-explorer-ui/lib/apis/azul/common/entities";
-import { Breadcrumb } from "@clevercanary/data-explorer-ui/lib/components/common/Breadcrumbs/breadcrumbs";
+import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
+import { Breadcrumb } from "@databiosphere/findable-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
   KeyValues,
   Value,
-} from "@clevercanary/data-explorer-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-import { MetadataValue } from "@clevercanary/data-explorer-ui/lib/components/Index/components/NTagCell/nTagCell";
-import { Description } from "@clevercanary/data-explorer-ui/lib/components/Project/common/entities";
+} from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/keyValuePairs";
+import { MetadataValue } from "@databiosphere/findable-ui/lib/components/Index/components/NTagCell/nTagCell";
+import { Description } from "@databiosphere/findable-ui/lib/components/Project/common/entities";
 import {
   processAggregatedOrArrayValue,
   processEntityValue,

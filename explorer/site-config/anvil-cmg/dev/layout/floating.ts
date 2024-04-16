@@ -1,8 +1,8 @@
-import { REQUEST_FIELD_ID } from "@clevercanary/data-explorer-ui/lib/components/Support/components/SupportRequest/components/SupportRequestForm/common/entities";
+import { REQUEST_FIELD_ID } from "@databiosphere/findable-ui/lib/components/Support/components/SupportRequest/components/SupportRequestForm/common/entities";
 import {
   ComponentConfig,
   FloatingConfig,
-} from "@clevercanary/data-explorer-ui/lib/config/entities";
+} from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "app/components";
 
 const ZENDESK_FIELD_ID: Record<REQUEST_FIELD_ID, number> = {

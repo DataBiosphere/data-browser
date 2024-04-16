@@ -3,8 +3,8 @@ import {
   EntityConfig,
   ListConfig,
   SORT_DIRECTION,
-} from "@clevercanary/data-explorer-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@clevercanary/data-explorer-ui/lib/hooks/useExploreMode";
+} from "@databiosphere/findable-ui/lib/config/entities";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
 import { NCPICatalogPlatform } from "../../../../app/apis/catalog/ncpi-catalog/common/entities";
 import {
   getPlatformId,

@@ -1,4 +1,4 @@
-import { CopyToClipboard as DXCopyToClipboard } from "@clevercanary/data-explorer-ui/lib/components/common/CopyToClipboard/copyToClipboard";
+import { CopyToClipboard as DXCopyToClipboard } from "@databiosphere/findable-ui/lib/components/common/CopyToClipboard/copyToClipboard";
 import styled from "@emotion/styled";
 
 export const Cell = styled.div`

@@ -1,5 +1,5 @@
-import { Redirect } from "@clevercanary/data-explorer-ui/lib/components/Redirect/redirect";
-import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
+import { Redirect } from "@databiosphere/findable-ui/lib/components/Redirect/redirect";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 
 const HomePage = (): JSX.Element => {
   const { config } = useConfig();

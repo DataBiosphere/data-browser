@@ -1,5 +1,5 @@
-import { useAsync } from "@clevercanary/data-explorer-ui/lib/hooks/useAsync";
-import { useConfig } from "@clevercanary/data-explorer-ui/lib/hooks/useConfig";
+import { useAsync } from "@databiosphere/findable-ui/lib/hooks/useAsync";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { useEffect } from "react";
 import {
   ArchiveFile,

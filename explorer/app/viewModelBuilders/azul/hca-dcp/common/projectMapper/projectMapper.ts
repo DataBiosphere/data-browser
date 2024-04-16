@@ -5,7 +5,7 @@ import {
   DataCurator,
   Publication,
   SupplementaryLink,
-} from "@clevercanary/data-explorer-ui/lib/components/Project/common/entities";
+} from "@databiosphere/findable-ui/lib/components/Project/common/entities";
 import {
   ContributorResponse,
   ProjectResponse,
