@@ -32,6 +32,11 @@ export function makeConfig(
   catalog: string = CATALOG
 ): SiteConfig {
   return {
+    analytics: {
+      gtmAuth: "eQWri5eLUCDkm5SvLIv8eQ", // GTM environment-specific
+      gtmId: "GTM-M2J5NTJ",
+      gtmPreview: "env-186",
+    },
     appTitle: APP_TITLE,
     authentication: undefined,
     browserURL: browserUrl,
