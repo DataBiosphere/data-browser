@@ -1,3 +1,4 @@
+import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import {
@@ -6,11 +7,17 @@ import {
 } from "../../../../../site-config/hca-dcp/category";
 import { ProjectsResponse } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
+import * as MDX from "../../../../components/common/MDXContent/lungmap";
+import { Unused } from "../../../common/entities";
 import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
 } from "../../hca-dcp/common/projectMatrixMapper/projectMatrixMapper";
 import {
+  buildDownloadCurlCommand as buildHCADownloadCurlCommand,
+  buildDownloadEntityCurlCommand as buildHCADownloadEntityCurlCommand,
+  buildExportToTerra as buildHCAExportToTerra,
+  buildManifestDownload as buildHCAManifestDownload,
   getGeneratedMatricesActionsColumnDef,
   getGeneratedMatricesAnatomicalEntityColumnDef,
   getGeneratedMatricesContentDescriptionColumnDef,
@@ -70,6 +77,71 @@ function buildContributorGeneratedMatricesTableColumns<T>(): ColumnDef<T>[] {
     getGeneratedMatricesMatrixCellCountColumnDef(),
   ];
 }
+
+/**
+ * Build props for DownloadCurlCommand component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the DownloadCurlCommand component.
+ */
+export const buildDownloadCurlCommand = (
+  _: Unused,
+  viewContext?: ViewContext
+): React.ComponentProps<typeof C.DownloadCurlCommand> => {
+  return {
+    ...buildHCADownloadCurlCommand(_, viewContext as ViewContext),
+    DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
+  };
+};
+
+/**
+ * Build props for DownloadCurlCommand component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the DownloadCurlCommand component.
+ */
+export const buildDownloadEntityCurlCommand = (
+  projectsResponse: ProjectsResponse,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.DownloadCurlCommand> => {
+  return {
+    ...buildHCADownloadEntityCurlCommand(projectsResponse, viewContext),
+    DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
+  };
+};
+
+/**
+ * Build props for ExportToTerra component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ExportToTerra component.
+ */
+export const buildExportToTerra = (
+  _: Unused,
+  viewContext?: ViewContext
+): React.ComponentProps<typeof C.ExportToTerra> => {
+  return {
+    ...buildHCAExportToTerra(_, viewContext as ViewContext),
+    ExportToTerraStart: MDX.ExportToTerraStart,
+    ExportToTerraSuccess: MDX.ExportToTerraSuccessWithWarning,
+  };
+};
+
+/**
+ * Build props for ManifestDownload component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ManifestDownload component.
+ */
+export const buildManifestDownload = (
+  _: Unused,
+  viewContext?: ViewContext
+): React.ComponentProps<typeof C.ManifestDownload> => {
+  return {
+    ...buildHCAManifestDownload(_, viewContext as ViewContext),
+    ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
+  };
+};
 
 /**
  * Returns grid props for the Grid component.
