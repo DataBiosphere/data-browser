@@ -13,6 +13,8 @@ if ! grep -iqE "$commit_regex" "$1"; then
     exit 1
 fi
 
+cd explorer
+
 # Check for Conventional Commits format
 
-npx commitlint --config ./explorer/commitlint.config.js --edit $1
+npx commitlint --config ./commitlint.config.js --edit $1
