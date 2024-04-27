@@ -24,6 +24,7 @@ jobs:
       - name: Build AnVIL-catalog database
         run: |
             cd ./explorer/files
+            npm ci
             npm run build-anvil-db
             mkdir ./anvil-catalog/out
             cp ./anvil-catalog/data/* ./anvil-catalog/out
