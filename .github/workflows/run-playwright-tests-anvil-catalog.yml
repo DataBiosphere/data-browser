@@ -25,10 +25,8 @@ jobs:
         run: |
             cd ./explorer/files
             npm ci
+            mkdir ./anvil-catalog/out
             npm run build-anvil-db
-            mkdir ./anvil-catalog/data
-            cp ./anvil-catalog/out/* ./anvil-catalog/data
-            cd ../..
       - name: Run Playwright tests
         run: |
           cd explorer
