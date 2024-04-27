@@ -27,9 +27,10 @@ const config: PlaywrightTestConfig = {
     screenshot: "only-on-failure",
   },
   webServer: {
-    command: "npm run dev:anvil-catalog",
+    command:
+      "npm run build-dev:anvil-catalog && mv ./out/ ./out_temp && mkdir ./out && mv ./out_temp ./out/data && npm start",
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
+    timeout: 240 * 1000,
     url: "http://localhost:3000/data",
   },
 };
