@@ -15,7 +15,7 @@ export const ANVIL_CATALOG_CATEGORY_KEY = {
 export const ANVIL_CATALOG_CATEGORY_LABEL = {
   BUCKET_SIZE: "Size (TB)",
   CONSENT_CODE: "Consent Code",
-  CONSORTIUM: "Consortium",
+  CONSORTIUM: "I can't believe it's not Consortium!",
   DATA_TYPE: "Data Type",
   DB_GAP_ID: "dbGap Id",
   DISEASE: "Disease (indication)",
