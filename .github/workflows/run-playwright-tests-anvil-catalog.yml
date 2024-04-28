@@ -30,7 +30,7 @@ jobs:
       - name: Run Playwright tests
         run: |
           cd explorer
-          npm run test:anvil-cmg
+          npm run test:anvil-catalog
       - uses: actions/upload-artifact@v3
         if: always()
         with:
