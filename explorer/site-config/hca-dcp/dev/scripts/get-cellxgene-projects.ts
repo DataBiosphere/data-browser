@@ -36,6 +36,10 @@ async function getCellxGeneProjects(): Promise<void> {
         });
     }
   }
+  // Sort to create nicer diffs
+  cellxgeneProjects.sort((a, b) =>
+    a.hcaProjectId.localeCompare(b.hcaProjectId)
+  );
   await fsp.writeFile(
     cellxgeneProjectsFilePath,
     JSON.stringify(cellxgeneProjects, undefined, 2)
