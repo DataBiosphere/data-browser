@@ -5,3 +5,6 @@ export const DATE_TIME_FORMAT_OPTIONS: Intl.DateTimeFormatOptions = {
   year: "numeric",
 };
 export const DATE_TIME_LOCALES = "en-US";
+export const FEATURE_FLAGS = {
+  VERBATIM: "verbatim",
+};

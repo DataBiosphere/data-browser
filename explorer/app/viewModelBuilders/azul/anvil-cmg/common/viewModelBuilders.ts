@@ -1,5 +1,6 @@
 import {
   LABEL,
+  ManifestDownloadFormat,
   MANIFEST_DOWNLOAD_FORMAT,
 } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import {
@@ -100,6 +101,7 @@ import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/anvil-cmg";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import { FEATURE_FLAGS } from "../../../common/contants";
 import { Unused } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
@@ -430,8 +432,9 @@ export const buildExportEntityToTerra = (
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters,
     formFacet,
-    manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
-    manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
+    manifestDownloadFormat: getExportToTerraManifestDownloadFormat(viewContext),
+    manifestDownloadFormats:
+      getExportToTerraManifestDownloadFormats(viewContext),
   };
 };
 
@@ -573,8 +576,9 @@ export const buildExportToTerra = (
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters: filterState,
     formFacet,
-    manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
-    manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
+    manifestDownloadFormat: getExportToTerraManifestDownloadFormat(viewContext),
+    manifestDownloadFormats:
+      getExportToTerraManifestDownloadFormats(viewContext),
   };
 };
 
@@ -959,6 +963,38 @@ export function getExportSelectedDataSummary(
     SUMMARY_DISPLAY_TEXT[key] || key,
     value,
   ]);
+}
+
+/**
+ * Returns export to terra manifest download format.
+ * @param viewContext - View context.
+ * @returns manifest download format.
+ */
+function getExportToTerraManifestDownloadFormat(
+  viewContext: ViewContext
+): ManifestDownloadFormat | undefined {
+  const { exploreState } = viewContext;
+  const { featureFlagState } = exploreState;
+  if (featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)) {
+    return MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB;
+  }
+  return MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB;
+}
+
+/**
+ * Returns export to terra manifest download formats.
+ * @param viewContext - View context.
+ * @returns manifest download formats.
+ */
+function getExportToTerraManifestDownloadFormats(
+  viewContext: ViewContext
+): ManifestDownloadFormat[] {
+  const { exploreState } = viewContext;
+  const { featureFlagState } = exploreState;
+  if (featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)) {
+    return [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB];
+  }
+  return [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB];
 }
 
 /**
