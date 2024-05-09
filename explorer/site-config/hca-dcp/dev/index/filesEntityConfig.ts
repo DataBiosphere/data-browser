@@ -48,6 +48,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         width: { max: "2fr", min: "240px" },
       },
       {
+        columnVisible: false,
         componentConfig: {
           component: C.Cell,
           viewBuilder: V.buildFileFormat,
@@ -63,6 +64,15 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.Cell, FilesResponse>,
         header: HCA_DCP_CATEGORY_LABEL.FILE_SIZE,
         id: HCA_DCP_CATEGORY_KEY.FILE_SIZE,
+        width: { max: "1fr", min: "120px" },
+      },
+      {
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedProtocolWorkflow,
+        } as ComponentConfig<typeof C.NTagCell, FilesResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.WORKFLOW,
+        id: HCA_DCP_CATEGORY_KEY.WORKFLOW,
         width: { max: "1fr", min: "120px" },
       },
       {
@@ -191,16 +201,6 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.Cell, FilesResponse>,
         header: HCA_DCP_CATEGORY_LABEL.PAIRED_END,
         id: HCA_DCP_CATEGORY_KEY.PAIRED_END,
-        width: { max: "1fr", min: "120px" },
-      },
-      {
-        columnVisible: false,
-        componentConfig: {
-          component: C.NTagCell,
-          viewBuilder: V.buildAggregatedProtocolWorkflow,
-        } as ComponentConfig<typeof C.NTagCell, FilesResponse>,
-        header: HCA_DCP_CATEGORY_LABEL.WORKFLOW,
-        id: HCA_DCP_CATEGORY_KEY.WORKFLOW,
         width: { max: "1fr", min: "120px" },
       },
       {
