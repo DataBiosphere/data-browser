@@ -4,7 +4,7 @@ import {
 } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import { ROUTE_EXPORT_TO_TERRA } from "./constants";
+import { ROUTE_EXPORT_TO_TERRA, ROUTE_MANIFEST_DOWNLOAD } from "./constants";
 import { mainColumn as exportMainColumn } from "./exportMainColumn";
 import { sideColumn as exportSideColumn } from "./exportSideColumn";
 
@@ -35,6 +35,31 @@ export const exportConfig: ExportConfig = {
         } as ComponentConfig<typeof C.BackPageHero>,
       ],
     },
+    {
+      mainColumn: [
+        /* mainColumn - top section - warning - some datasets are not available */
+        ...exportMainColumn,
+        /* mainColumn */
+        {
+          children: [
+            {
+              component: C.AnVILManifestDownload, // TODO update component to ManifestDownload when feature flag is no longer required.
+              viewBuilder: V.buildManifestDownload,
+            } as ComponentConfig<typeof C.AnVILManifestDownload>,
+          ],
+          component: C.BackPageContentMainColumn,
+        } as ComponentConfig<typeof C.BackPageContentMainColumn>,
+        /* sideColumn */
+        ...exportSideColumn,
+      ],
+      route: ROUTE_MANIFEST_DOWNLOAD,
+      top: [
+        {
+          component: C.BackPageHero,
+          viewBuilder: V.buildExportMethodHeroManifestDownload,
+        } as ComponentConfig<typeof C.BackPageHero>,
+      ],
+    },
   ],
   staticLoad: true, //TODO is this correct?
   tabs: [
@@ -50,6 +75,10 @@ export const exportConfig: ExportConfig = {
               component: C.ExportMethod,
               viewBuilder: V.buildExportMethodTerra,
             } as ComponentConfig<typeof C.ExportMethod>,
+            {
+              component: C.AnVILExportMethod, // TODO update component to ExportMethod when feature flag is no longer required.
+              viewBuilder: V.buildExportMethodManifestDownload,
+            } as ComponentConfig<typeof C.AnVILExportMethod>,
           ],
           component: C.BackPageContentMainColumn,
         } as ComponentConfig<typeof C.BackPageContentMainColumn>,

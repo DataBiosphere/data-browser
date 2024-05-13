@@ -8,3 +8,5 @@ export { default as LoginReminder } from "./loginReminder.mdx";
 export { default as LoginTermsOfService } from "./loginTermsOfService.mdx";
 export { default as LoginText } from "./loginText.mdx";
 export { default as LoginWarning } from "./loginWarning.mdx";
+export { default as ManifestDownloadStart } from "./manifestDownloadStart.mdx";
+export { default as ManifestDownloadSuccess } from "./manifestDownloadSuccess.mdx";
