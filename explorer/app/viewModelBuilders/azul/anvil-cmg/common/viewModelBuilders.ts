@@ -43,7 +43,10 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../../../../site-config/anvil-cmg/category";
-import { ROUTE_EXPORT_TO_TERRA } from "../../../../../site-config/anvil-cmg/dev/export/constants";
+import {
+  ROUTE_EXPORT_TO_TERRA,
+  ROUTE_MANIFEST_DOWNLOAD,
+} from "../../../../../site-config/anvil-cmg/dev/export/constants";
 import { URL_DATASETS } from "../../../../../site-config/anvil/dev/config";
 import {
   AggregatedBioSampleResponse,
@@ -483,6 +486,23 @@ export function buildExportHero(
 }
 
 /**
+ * Build props for manifest download Hero component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Hero component.
+ */
+export const buildExportMethodHeroManifestDownload = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.BackPageHero> => {
+  const title = "Request File Manifest";
+  const {
+    exploreState: { tabValue },
+  } = viewContext;
+  return getExportMethodHero(tabValue, title);
+};
+
+/**
  * Build props for export to terra Hero component.
  * @param _ - Unused.
  * @param viewContext - View context.
@@ -500,6 +520,26 @@ export const buildExportMethodHeroTerra = (
 };
 
 /**
+ * Build props for ExportMethod component for display of the manifest download section.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportMethodManifestDownload = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.AnVILExportMethod> => {
+  return {
+    ...getExportMethodAccessibility(viewContext),
+    buttonLabel: "Request File Manifest",
+    description:
+      "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
+    route: ROUTE_MANIFEST_DOWNLOAD,
+    title: "Download a File Manifest with Metadata for the Selected Data",
+  };
+};
+
+/**
  * Build props for ExportMethod component for display of the export to terra metadata section.
  * @param _ - Unused.
  * @param viewContext - View context.
@@ -509,19 +549,11 @@ export const buildExportMethodTerra = (
   _: Unused,
   viewContext: ViewContext
 ): React.ComponentProps<typeof C.ExportMethod> => {
-  const { fileManifestState } = viewContext;
-  const { isFacetsSuccess } = fileManifestState;
-  const isAccessible = isFileManifestAccessible(fileManifestState);
   return {
+    ...getExportMethodAccessibility(viewContext),
     buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-    footnote: isFacetsSuccess
-      ? isAccessible
-        ? null
-        : "You currently don’t have access to any files matching the query."
-      : null,
-    isAccessible: isFacetsSuccess && isAccessible,
     route: ROUTE_EXPORT_TO_TERRA,
     title: "Export Study Data and Metadata to Terra Workspace",
   };
@@ -692,6 +724,34 @@ export const buildListWarning = (
     severity: "warning",
     title: `For datasets with a 'Required' access status, ${label} are not listed.`,
     variant: "banner",
+  };
+};
+
+/**
+ * Build props for ManifestDownload component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ManifestDownload component.
+ */
+export const buildManifestDownload = (
+  _: Unused,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.AnVILManifestDownload> => {
+  const {
+    exploreState: { filterState },
+    fileManifestState,
+  } = viewContext;
+  // Get the form facets.
+  const formFacet = getFormFacets(fileManifestState);
+  return {
+    ManifestDownloadForm: C.ManifestDownloadForm,
+    ManifestDownloadStart: MDX.ManifestDownloadStart,
+    ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
+    fileManifestState,
+    fileManifestType: FILE_MANIFEST_TYPE.DOWNLOAD_MANIFEST,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    filters: filterState,
+    formFacet,
   };
 };
 
@@ -927,6 +987,27 @@ function getExportEntityFilters(datasetsResponse: DatasetsResponse): Filters {
       value: [getDatasetTitle(datasetsResponse)],
     },
   ];
+}
+
+/**
+ * Returns the export method accessibility.
+ * @param viewContext - View context.
+ * @returns export method accessibility.
+ */
+function getExportMethodAccessibility(
+  viewContext: ViewContext
+): Partial<typeof C.ExportMethod> {
+  const { fileManifestState } = viewContext;
+  const { isFacetsSuccess } = fileManifestState;
+  const isAccessible = isFileManifestAccessible(fileManifestState);
+  return {
+    footnote: isFacetsSuccess
+      ? isAccessible
+        ? null
+        : "You currently don’t have access to any files matching the query."
+      : null,
+    isAccessible: isFacetsSuccess && isAccessible,
+  };
 }
 
 /**
