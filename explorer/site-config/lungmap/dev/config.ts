@@ -1,4 +1,5 @@
 import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
+import { CategoryGroupConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import hcaConfig, {
   DATA_URL as HCA_DATA_URL,
   EXPORT_TO_TERRA_URL as HCA_EXPORT_TO_TERRA_URL,
@@ -34,7 +35,10 @@ export function makeConfig(
     appTitle: APP_TITLE,
     authentication: undefined,
     browserURL: browserUrl,
-    categoryGroupConfigs: hcaConfig.categoryGroupConfigs,
+    categoryGroupConfig: {
+      ...(hcaConfig.categoryGroupConfig as CategoryGroupConfig),
+      key: "lungmap",
+    },
     contentDir: "lungmap",
     contentThemeOptionsFn: contentThemeOptions,
     dataSource: {

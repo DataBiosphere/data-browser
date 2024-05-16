@@ -29,40 +29,43 @@ const config: SiteConfig = {
   },
   appTitle: APP_TITLE,
   authentication: undefined,
-  categoryGroupConfigs: [
-    {
-      categoryConfigs: [
-        {
-          key: NCPI_CATALOG_CATEGORY_KEY.PLATFORM,
-          label: NCPI_CATALOG_CATEGORY_LABEL.PLATFORM,
-        },
-        {
-          key: NCPI_CATALOG_CATEGORY_KEY.TITLE,
-          label: NCPI_CATALOG_CATEGORY_LABEL.TITLE,
-        },
-        {
-          key: NCPI_CATALOG_CATEGORY_KEY.DB_GAP_ID,
-          label: NCPI_CATALOG_CATEGORY_LABEL.DB_GAP_ID,
-        },
-        {
-          key: NCPI_CATALOG_CATEGORY_KEY.FOCUS,
-          label: NCPI_CATALOG_CATEGORY_LABEL.FOCUS,
-        },
-        {
-          key: NCPI_CATALOG_CATEGORY_KEY.DATA_TYPE,
-          label: NCPI_CATALOG_CATEGORY_LABEL.DATA_TYPE,
-        },
-        {
-          key: NCPI_CATALOG_CATEGORY_KEY.STUDY_DESIGN,
-          label: NCPI_CATALOG_CATEGORY_LABEL.STUDY_DESIGN,
-        },
-        {
-          key: NCPI_CATALOG_CATEGORY_KEY.CONSENT_CODE,
-          label: NCPI_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
-        },
-      ],
-    },
-  ],
+  categoryGroupConfig: {
+    categoryGroups: [
+      {
+        categoryConfigs: [
+          {
+            key: NCPI_CATALOG_CATEGORY_KEY.PLATFORM,
+            label: NCPI_CATALOG_CATEGORY_LABEL.PLATFORM,
+          },
+          {
+            key: NCPI_CATALOG_CATEGORY_KEY.TITLE,
+            label: NCPI_CATALOG_CATEGORY_LABEL.TITLE,
+          },
+          {
+            key: NCPI_CATALOG_CATEGORY_KEY.DB_GAP_ID,
+            label: NCPI_CATALOG_CATEGORY_LABEL.DB_GAP_ID,
+          },
+          {
+            key: NCPI_CATALOG_CATEGORY_KEY.FOCUS,
+            label: NCPI_CATALOG_CATEGORY_LABEL.FOCUS,
+          },
+          {
+            key: NCPI_CATALOG_CATEGORY_KEY.DATA_TYPE,
+            label: NCPI_CATALOG_CATEGORY_LABEL.DATA_TYPE,
+          },
+          {
+            key: NCPI_CATALOG_CATEGORY_KEY.STUDY_DESIGN,
+            label: NCPI_CATALOG_CATEGORY_LABEL.STUDY_DESIGN,
+          },
+          {
+            key: NCPI_CATALOG_CATEGORY_KEY.CONSENT_CODE,
+            label: NCPI_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
+          },
+        ],
+      },
+    ],
+    key: "ncpi-catalog",
+  },
   entities: [platformsEntityConfig, studiesEntityConfig],
   explorerTitle: "NCPI Dataset Catalog",
   layout: {
