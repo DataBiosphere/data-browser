@@ -35,44 +35,47 @@ export function makeConfig(
     appTitle: APP_TITLE,
     authentication: undefined,
     browserURL: browserUrl,
-    categoryGroupConfigs: [
-      {
-        categoryConfigs: [
-          {
-            key: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
-            label: ANVIL_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
-          },
-          {
-            key: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
-            label: ANVIL_CATALOG_CATEGORY_LABEL.CONSORTIUM,
-          },
-          {
-            key: ANVIL_CATALOG_CATEGORY_KEY.DATA_TYPE,
-            label: ANVIL_CATALOG_CATEGORY_LABEL.DATA_TYPE,
-          },
-          {
-            key: ANVIL_CATALOG_CATEGORY_KEY.DB_GAP_ID,
-            label: ANVIL_CATALOG_CATEGORY_LABEL.DB_GAP_ID,
-          },
-          {
-            key: ANVIL_CATALOG_CATEGORY_KEY.DISEASE,
-            label: ANVIL_CATALOG_CATEGORY_LABEL.DISEASE,
-          },
-          {
-            key: ANVIL_CATALOG_CATEGORY_KEY.STUDY_DESIGN,
-            label: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_DESIGN,
-          },
-          {
-            key: ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME,
-            label: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_NAME,
-          },
-          {
-            key: ANVIL_CATALOG_CATEGORY_KEY.WORKSPACE_NAME,
-            label: "Terra Workspace Name", // TODO review label here and elsewhere
-          },
-        ],
-      },
-    ],
+    categoryGroupConfig: {
+      categoryGroups: [
+        {
+          categoryConfigs: [
+            {
+              key: ANVIL_CATALOG_CATEGORY_KEY.CONSENT_CODE,
+              label: ANVIL_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
+            },
+            {
+              key: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+              label: ANVIL_CATALOG_CATEGORY_LABEL.CONSORTIUM,
+            },
+            {
+              key: ANVIL_CATALOG_CATEGORY_KEY.DATA_TYPE,
+              label: ANVIL_CATALOG_CATEGORY_LABEL.DATA_TYPE,
+            },
+            {
+              key: ANVIL_CATALOG_CATEGORY_KEY.DB_GAP_ID,
+              label: ANVIL_CATALOG_CATEGORY_LABEL.DB_GAP_ID,
+            },
+            {
+              key: ANVIL_CATALOG_CATEGORY_KEY.DISEASE,
+              label: ANVIL_CATALOG_CATEGORY_LABEL.DISEASE,
+            },
+            {
+              key: ANVIL_CATALOG_CATEGORY_KEY.STUDY_DESIGN,
+              label: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_DESIGN,
+            },
+            {
+              key: ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME,
+              label: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_NAME,
+            },
+            {
+              key: ANVIL_CATALOG_CATEGORY_KEY.WORKSPACE_NAME,
+              label: "Terra Workspace Name", // TODO review label here and elsewhere
+            },
+          ],
+        },
+      ],
+      key: "anvil-catalog",
+    },
     dataSource: {
       url: "",
     },

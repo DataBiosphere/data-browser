@@ -26,44 +26,47 @@ const config: SiteConfig = {
   appTitle: APP_TITLE,
   authentication: authenticationConfig,
   browserURL: BROWSER_URL,
-  categoryGroupConfigs: [
-    {
-      categoryConfigs: [
-        {
-          key: ANVIL_CATEGORY_KEY.BIOSAMPLE_TYPE,
-          label: ANVIL_CATEGORY_LABEL.BIOSAMPLE_TYPE,
-        },
-        {
-          key: ANVIL_CATEGORY_KEY.DATA_MODALITY,
-          label: ANVIL_CATEGORY_LABEL.DATA_MODALITY,
-        },
-        {
-          key: ANVIL_CATEGORY_KEY.FILE_FORMAT,
-          label: ANVIL_CATEGORY_LABEL.FILE_FORMAT,
-        },
-        {
-          key: ANVIL_CATEGORY_KEY.FILE_TYPE,
-          label: ANVIL_CATEGORY_LABEL.FILE_TYPE,
-        },
-        {
-          key: ANVIL_CATEGORY_KEY.ORGANISM_TYPE,
-          label: ANVIL_CATEGORY_LABEL.ORGANISM_TYPE,
-        },
-        {
-          key: ANVIL_CATEGORY_KEY.PHENOTYPIC_SEX,
-          label: ANVIL_CATEGORY_LABEL.PHENOTYPIC_SEX,
-        },
-        {
-          key: ANVIL_CATEGORY_KEY.LIBRARY_PREPARATION,
-          label: ANVIL_CATEGORY_LABEL.LIBRARY_PREPARATION,
-        },
-        {
-          key: ANVIL_CATEGORY_KEY.REPORTED_ETHNICITY,
-          label: ANVIL_CATEGORY_LABEL.REPORTED_ETHNICITY,
-        },
-      ],
-    },
-  ],
+  categoryGroupConfig: {
+    categoryGroups: [
+      {
+        categoryConfigs: [
+          {
+            key: ANVIL_CATEGORY_KEY.BIOSAMPLE_TYPE,
+            label: ANVIL_CATEGORY_LABEL.BIOSAMPLE_TYPE,
+          },
+          {
+            key: ANVIL_CATEGORY_KEY.DATA_MODALITY,
+            label: ANVIL_CATEGORY_LABEL.DATA_MODALITY,
+          },
+          {
+            key: ANVIL_CATEGORY_KEY.FILE_FORMAT,
+            label: ANVIL_CATEGORY_LABEL.FILE_FORMAT,
+          },
+          {
+            key: ANVIL_CATEGORY_KEY.FILE_TYPE,
+            label: ANVIL_CATEGORY_LABEL.FILE_TYPE,
+          },
+          {
+            key: ANVIL_CATEGORY_KEY.ORGANISM_TYPE,
+            label: ANVIL_CATEGORY_LABEL.ORGANISM_TYPE,
+          },
+          {
+            key: ANVIL_CATEGORY_KEY.PHENOTYPIC_SEX,
+            label: ANVIL_CATEGORY_LABEL.PHENOTYPIC_SEX,
+          },
+          {
+            key: ANVIL_CATEGORY_KEY.LIBRARY_PREPARATION,
+            label: ANVIL_CATEGORY_LABEL.LIBRARY_PREPARATION,
+          },
+          {
+            key: ANVIL_CATEGORY_KEY.REPORTED_ETHNICITY,
+            label: ANVIL_CATEGORY_LABEL.REPORTED_ETHNICITY,
+          },
+        ],
+      },
+    ],
+    key: "anvil",
+  },
   dataSource: {
     defaultListParams: {
       size: "25",
