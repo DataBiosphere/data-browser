@@ -66,24 +66,13 @@ export function makeConfig(
               label: HCA_DCP_CATEGORY_LABEL.INSTITUTION,
             },
           ],
+          label: "Project",
         },
         {
           categoryConfigs: [
             {
-              key: HCA_DCP_CATEGORY_KEY.ANALYSIS_PROTOCOL, // workflow
-              label: HCA_DCP_CATEGORY_LABEL.ANALYSIS_PROTOCOL,
-            },
-            {
-              key: HCA_DCP_CATEGORY_KEY.ANATOMICAL_ENTITY, // specimenOrgan
-              label: HCA_DCP_CATEGORY_LABEL.ANATOMICAL_ENTITY,
-            },
-            {
               key: HCA_DCP_CATEGORY_KEY.BIOLOGICAL_SEX,
               label: HCA_DCP_CATEGORY_LABEL.BIOLOGICAL_SEX,
-            },
-            {
-              key: HCA_DCP_CATEGORY_KEY.CONTENT_DESCRIPTION,
-              label: HCA_DCP_CATEGORY_LABEL.CONTENT_DESCRIPTION,
             },
             {
               key: HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE,
@@ -94,44 +83,29 @@ export function makeConfig(
               label: HCA_DCP_CATEGORY_LABEL.DONOR_DISEASE,
             },
             {
-              key: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
-              label: HCA_DCP_CATEGORY_LABEL.FILE_FORMAT,
-            },
-            {
-              key: HCA_DCP_CATEGORY_KEY.FILE_SOURCE,
-              label: HCA_DCP_CATEGORY_LABEL.FILE_SOURCE,
-            },
-            {
               key: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
               label: HCA_DCP_CATEGORY_LABEL.GENUS_SPECIES,
             },
+          ],
+          label: "Donor",
+        },
+        {
+          categoryConfigs: [
             {
-              key: HCA_DCP_CATEGORY_KEY.INSTRUMENT_MANUFACTURER_MODEL,
-              label: HCA_DCP_CATEGORY_LABEL.INSTRUMENT_MANUFACTURER_MODEL,
-            },
-            {
-              key: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
-              label: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
-            },
-            {
-              key: HCA_DCP_CATEGORY_KEY.MODEL_ORGAN,
-              label: HCA_DCP_CATEGORY_LABEL.MODEL_ORGAN,
-            },
-            {
-              key: HCA_DCP_CATEGORY_KEY.NUCLEIC_ACID_SOURCE,
-              label: HCA_DCP_CATEGORY_LABEL.NUCLEIC_ACID_SOURCE,
+              key: HCA_DCP_CATEGORY_KEY.ANATOMICAL_ENTITY, // specimenOrgan
+              label: HCA_DCP_CATEGORY_LABEL.ANATOMICAL_ENTITY,
             },
             {
               key: HCA_DCP_CATEGORY_KEY.ORGAN_PART,
               label: HCA_DCP_CATEGORY_LABEL.ORGAN_PART,
             },
             {
-              key: HCA_DCP_CATEGORY_KEY.PAIRED_END,
-              label: HCA_DCP_CATEGORY_LABEL.PAIRED_END,
-            },
-            {
               key: HCA_DCP_CATEGORY_KEY.PRESERVATION_METHOD,
               label: HCA_DCP_CATEGORY_LABEL.PRESERVATION_METHOD,
+            },
+            {
+              key: HCA_DCP_CATEGORY_KEY.MODEL_ORGAN,
+              label: HCA_DCP_CATEGORY_LABEL.MODEL_ORGAN,
             },
             {
               key: HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE,
@@ -146,6 +120,49 @@ export function makeConfig(
               label: HCA_DCP_CATEGORY_LABEL.SPECIMEN_DISEASE,
             },
           ],
+          label: "Sample",
+        },
+        {
+          categoryConfigs: [
+            {
+              key: HCA_DCP_CATEGORY_KEY.ANALYSIS_PROTOCOL, // workflow
+              label: HCA_DCP_CATEGORY_LABEL.ANALYSIS_PROTOCOL,
+            },
+            {
+              key: HCA_DCP_CATEGORY_KEY.INSTRUMENT_MANUFACTURER_MODEL,
+              label: HCA_DCP_CATEGORY_LABEL.INSTRUMENT_MANUFACTURER_MODEL,
+            },
+            {
+              key: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
+              label: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
+            },
+            {
+              key: HCA_DCP_CATEGORY_KEY.NUCLEIC_ACID_SOURCE,
+              label: HCA_DCP_CATEGORY_LABEL.NUCLEIC_ACID_SOURCE,
+            },
+            {
+              key: HCA_DCP_CATEGORY_KEY.PAIRED_END,
+              label: HCA_DCP_CATEGORY_LABEL.PAIRED_END,
+            },
+          ],
+          label: "Protocol",
+        },
+        {
+          categoryConfigs: [
+            {
+              key: HCA_DCP_CATEGORY_KEY.CONTENT_DESCRIPTION,
+              label: HCA_DCP_CATEGORY_LABEL.CONTENT_DESCRIPTION,
+            },
+            {
+              key: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
+              label: HCA_DCP_CATEGORY_LABEL.FILE_FORMAT,
+            },
+            {
+              key: HCA_DCP_CATEGORY_KEY.FILE_SOURCE,
+              label: HCA_DCP_CATEGORY_LABEL.FILE_SOURCE,
+            },
+          ],
+          label: "File",
         },
       ],
       key: "hca-dcp",
