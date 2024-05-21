@@ -84,7 +84,7 @@ pytz==2024.1
 PyYAML==6.0.1
 pyzmq==25.1.2
 referencing==0.34.0
-requests==2.31.0
+requests==2.32.0
 requests-oauthlib==2.0.0
 rpds-py==0.18.0
 rsa==4.9
