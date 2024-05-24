@@ -1,0 +1,2 @@
+variables:
+  data_browser_build_env: tempdev
