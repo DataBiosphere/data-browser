@@ -118,7 +118,7 @@ typing_extensions==4.11.0
 tzdata==2024.1
 uc-micro-py==1.0.3
 uritemplate==4.1.1
-urllib3==1.26.18
+urllib3==1.26.19
 wcwidth==0.2.13
 websockets==10.4
 zipp==3.18.1
