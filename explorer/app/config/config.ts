@@ -5,6 +5,7 @@ import anvilCatalogProd from "../../site-config/anvil-catalog/prod/config";
 import anvilCmgCCDev from "../../site-config/anvil-cmg/cc-dev/config";
 import anvilCmgDev from "../../site-config/anvil-cmg/dev/config";
 import anvilCmgProd from "../../site-config/anvil-cmg/prod/config";
+import anvilCmgTempdev from "../../site-config/anvil-cmg/tempdev/config";
 import anvilDev from "../../site-config/anvil/dev/config";
 import anvilProd from "../../site-config/anvil/prod/config";
 import hcaDcpCCMaDev from "../../site-config/hca-dcp/cc-ma-dev/config";
@@ -23,6 +24,7 @@ const CONFIGS: { [k: string]: SiteConfig } = {
   "anvil-cmg-cc-dev": anvilCmgCCDev,
   "anvil-cmg-dev": anvilCmgDev,
   "anvil-cmg-prod": anvilCmgProd,
+  "anvil-cmg-tempdev": anvilCmgTempdev,
   "anvil-dev": anvilDev,
   "anvil-prod": anvilProd,
   "hca-dcp-cc-ma-dev": hcaDcpCCMaDev,
