@@ -24,7 +24,7 @@ import { floating } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
-const CATALOG = "dcp38";
+const CATALOG = "dcp39";
 const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
 export const DATA_URL = "https://service.azul.data.humancellatlas.org";
 export const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
