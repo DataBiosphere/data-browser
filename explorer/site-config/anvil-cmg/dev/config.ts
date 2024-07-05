@@ -51,7 +51,33 @@ export function makeConfig(
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
             },
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
+              label: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
+            },
           ],
+          label: "Dataset",
+        },
+        {
+          categoryConfigs: [
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
+              label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
+            },
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+              label: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
+            },
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
+              label: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
+            },
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
+              label: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
+            },
+          ],
+          label: "Donor",
         },
         {
           categoryConfigs: [
@@ -63,41 +89,31 @@ export function makeConfig(
               key: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_TYPE,
               label: ANVIL_CMG_CATEGORY_LABEL.BIOSAMPLE_BIOSAMPLE_TYPE,
             },
-            {
-              key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
-              label: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
-            },
-            {
-              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-            },
-            {
-              key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
-              label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
-            },
+          ],
+          label: "Biosample",
+        },
+        {
+          categoryConfigs: [
             {
               key: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
               label: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT,
+            },
+          ],
+          label: "File",
+        },
+        {
+          categoryConfigs: [
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
+              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
             },
             {
               key: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_TYPE,
               label: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_TYPE,
             },
             {
-              key: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
-              label: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
-            },
-            {
-              key: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
-              label: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
-            },
-            {
               key: ANVIL_CMG_CATEGORY_KEY.PREP_MATERIAL_NAME,
               label: ANVIL_CMG_CATEGORY_LABEL.PREP_MATERIAL_NAME,
-            },
-            {
-              key: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
-              label: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
             },
           ],
         },
