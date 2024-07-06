@@ -55,6 +55,10 @@ export function makeConfig(
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
             },
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
+              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
+            },
           ],
           label: "Dataset",
         },
@@ -103,10 +107,6 @@ export function makeConfig(
         },
         {
           categoryConfigs: [
-            {
-              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-            },
             {
               key: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_TYPE,
               label: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_TYPE,
