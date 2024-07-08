@@ -1,11 +1,11 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { anvilFilters, anvilTabs, anvilTabTestOrder } from "./anvil/anvil-tabs";
+import { anvilFilters } from "./anvil/anvil-tabs";
 import { TabDescription } from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 // Run the "Expect each tab to appear as selected when the corresponding url is accessed" test
 
-const getFirstElementTextLocator = (
+export const getFirstElementTextLocator = (
   page: Page,
   workColumnPosition: number
 ): Locator => {
@@ -82,13 +82,10 @@ export async function testSortAzul(
         ? columnPosition + 1
         : columnPosition;
       // Locators for the first and last cells in a particular column position on the page
-      const firstElementTextLocator = page
-        .getByRole("rowgroup")
-        .nth(1)
-        .getByRole("row")
-        .nth(0)
-        .getByRole("cell")
-        .nth(workColumnPosition);
+      const firstElementTextLocator = getFirstElementTextLocator(
+        page,
+        workColumnPosition
+      );
       const lastElementTextLocator = page
         .getByRole("rowgroup")
         .nth(1)
@@ -141,13 +138,10 @@ export async function testSortCatalog(
         ? columnPosition + 1
         : columnPosition;
       // Locators for the first and last cells in a particular column position on the page
-      const firstElementTextLocator = page
-        .getByRole("rowgroup")
-        .nth(1)
-        .getByRole("row")
-        .nth(0)
-        .getByRole("cell")
-        .nth(workColumnPosition);
+      const firstElementTextLocator = getFirstElementTextLocator(
+        page,
+        workColumnPosition
+      );
       // Locator for the sort button
       const columnSortLocator = page
         .getByRole("columnheader", {
@@ -222,7 +216,7 @@ export async function testPreSelectedColumns(
   }
 }
 
-const filter_regex = (filter: string): RegExp =>
+export const filter_regex = (filter: string): RegExp =>
   new RegExp(filter + "\\s+\\([0-9]+\\)\\s*");
 
 export async function testFilterPresence(
@@ -231,18 +225,9 @@ export async function testFilterPresence(
 ): Promise<void> {
   await page.goto(tab.url);
   await expect(page.getByRole("tab").getByText(tab.tabName)).toBeVisible();
-  await page.getByText(filter_regex(anvilFilters[3])).click(); // maybe should select a random one instead;
-  await expect(page.getByRole("checkbox").first()).not.toBeChecked();
-  await page.getByRole("checkbox").first().click();
-  await expect(page.getByRole("checkbox").first()).toBeChecked();
-  await page.locator("body").click();
-  for (const blah of anvilTabTestOrder) {
-    console.log(blah);
-    await page.getByRole("tab").getByText(anvilTabs[blah].tabName).click();
-    await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
-    await expect(page.getByText(filter_regex(anvilFilters[3]))).toBeVisible();
-    await page.getByText(filter_regex(anvilFilters[3])).click();
-    await expect(page.getByRole("checkbox").first()).toBeChecked();
+  for (const filter of anvilFilters) {
+    await page.getByText(filter_regex(filter)).click(); // maybe should select a random one instead;
+    await expect(page.getByRole("checkbox").first()).not.toBeChecked();
     await page.locator("body").click();
   }
 }
