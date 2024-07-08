@@ -1,8 +1,23 @@
-import { expect, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
+import { anvilFilters, anvilTabs, anvilTabTestOrder } from "./anvil/anvil-tabs";
 import { TabDescription } from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 // Run the "Expect each tab to appear as selected when the corresponding url is accessed" test
+
+const getFirstElementTextLocator = (
+  page: Page,
+  workColumnPosition: number
+): Locator => {
+  return page
+    .getByRole("rowgroup")
+    .nth(1)
+    .getByRole("row")
+    .nth(0)
+    .getByRole("cell")
+    .nth(workColumnPosition);
+};
+
 export async function testUrl(
   page: Page,
   tab: TabDescription,
@@ -204,6 +219,31 @@ export async function testPreSelectedColumns(
       .getByRole("checkbox");
     await expect(checkboxLocator).toBeDisabled();
     await expect(checkboxLocator).toBeChecked();
+  }
+}
+
+const filter_regex = (filter: string): RegExp =>
+  new RegExp(filter + "\\s+\\([0-9]+\\)\\s*");
+
+export async function testFilterPresence(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  await page.goto(tab.url);
+  await expect(page.getByRole("tab").getByText(tab.tabName)).toBeVisible();
+  await page.getByText(filter_regex(anvilFilters[3])).click(); // maybe should select a random one instead;
+  await expect(page.getByRole("checkbox").first()).not.toBeChecked();
+  await page.getByRole("checkbox").first().click();
+  await expect(page.getByRole("checkbox").first()).toBeChecked();
+  await page.locator("body").click();
+  for (const blah of anvilTabTestOrder) {
+    console.log(blah);
+    await page.getByRole("tab").getByText(anvilTabs[blah].tabName).click();
+    await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
+    await expect(page.getByText(filter_regex(anvilFilters[3]))).toBeVisible();
+    await page.getByText(filter_regex(anvilFilters[3])).click();
+    await expect(page.getByRole("checkbox").first()).toBeChecked();
+    await page.locator("body").click();
   }
 }
 
