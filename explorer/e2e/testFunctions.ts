@@ -223,12 +223,17 @@ export async function testFilterPresence(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
+  // Goto the selected tab
   await page.goto(tab.url);
   await expect(page.getByRole("tab").getByText(tab.tabName)).toBeVisible();
   for (const filter of anvilFilters) {
-    await page.getByText(filter_regex(filter)).click(); // maybe should select a random one instead;
+    // Check that each filter is visible and clickable
+    await expect(page.getByText(filter_regex(filter))).toBeVisible();
+    await page.getByText(filter_regex(filter)).click();
     await expect(page.getByRole("checkbox").first()).not.toBeChecked();
+    // Check that clicking out of the filter menu causes it to disappear
     await page.locator("body").click();
+    await expect(page.getByRole("checkbox")).toHaveCount(0);
   }
 }
 
