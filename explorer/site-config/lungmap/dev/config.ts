@@ -18,7 +18,7 @@ import { socialMedia } from "./socialMedia";
 // Template constants
 const APP_TITLE = "LungMAP Data Explorer";
 const BROWSER_URL = "https://data-browser.dev.lungmap.net";
-const CATALOG = "lm6";
+const CATALOG = "lm7";
 const DATA_URL = HCA_DATA_URL;
 const EXPORT_TO_TERRA_URL = HCA_EXPORT_TO_TERRA_URL;
 const HOME_PAGE_PATH = "/projects";
