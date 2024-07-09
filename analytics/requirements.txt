@@ -121,4 +121,4 @@ uritemplate==4.1.1
 urllib3==1.26.18
 wcwidth==0.2.13
 websockets==10.4
-zipp==3.18.1
+zipp==3.19.1
