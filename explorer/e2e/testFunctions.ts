@@ -1,5 +1,4 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { anvilFilters } from "./anvil/anvil-tabs";
 import { TabDescription } from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
@@ -216,20 +215,22 @@ export async function testPreSelectedColumns(
   }
 }
 
-export const filter_regex = (filter: string): RegExp =>
+export const filterRegex = (filter: string): RegExp =>
   new RegExp(filter + "\\s+\\([0-9]+\\)\\s*");
 
 export async function testFilterPresence(
   page: Page,
-  tab: TabDescription
+  tab: TabDescription,
+  filters: string[]
 ): Promise<void> {
   // Goto the selected tab
   await page.goto(tab.url);
   await expect(page.getByRole("tab").getByText(tab.tabName)).toBeVisible();
-  for (const filter of anvilFilters) {
+  for (const filter of filters) {
     // Check that each filter is visible and clickable
-    await expect(page.getByText(filter_regex(filter))).toBeVisible();
-    await page.getByText(filter_regex(filter)).click();
+    await expect(page.getByText(filterRegex(filter))).toBeVisible();
+    await page.getByText(filterRegex(filter)).click();
+    await expect(page.getByRole("checkbox").first()).toBeVisible();
     await expect(page.getByRole("checkbox").first()).not.toBeChecked();
     // Check that clicking out of the filter menu causes it to disappear
     await page.locator("body").click();
@@ -237,4 +238,105 @@ export async function testFilterPresence(
   }
 }
 
+export const getNamedFilterButton = (
+  page: Page,
+  filterName: string
+): Locator => {
+  return page
+    .getByRole("button")
+    .filter({ has: page.getByRole("checkbox"), hasText: filterName });
+};
+export const getFirstFilterButton = (page: Page): Locator => {
+  return page
+    .getByRole("button")
+    .filter({ has: page.getByRole("checkbox") })
+    .first();
+};
+
+export async function testFilterPersistence(
+  page: Page,
+  testFilter: string,
+  tabOrder: TabDescription[]
+): Promise<void> {
+  // Start on the first tab in the test order (should be files)
+  await page.goto(tabOrder[0].url);
+  // Select the first checkbox on the test filter
+  await page.getByText(filterRegex(testFilter)).click();
+  const to_select = await getFirstFilterButton(page);
+  await expect(to_select.getByRole("checkbox")).not.toBeChecked();
+  await to_select.getByRole("checkbox").setChecked(true);
+  const filterName = (await to_select.innerText()).split("\n")[0]; //MAY NEED TO ADD SOME CHECKING MECHANISM HERE
+  await expect(to_select.getByRole("checkbox")).toBeChecked();
+  await page.locator("body").click();
+  // Expect at least some text to still be visible
+  await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
+  // For each tab, check that the selected filter is still checked
+  for (const tab of tabOrder.slice(1)) {
+    await page.getByRole("tab").getByText(tab.tabName).click();
+    await expect(page.getByText(filterRegex(testFilter))).toBeVisible();
+    await page.getByText(filterRegex(testFilter)).click();
+    const previously_selected = getNamedFilterButton(page, filterName);
+    await expect(previously_selected.getByRole("checkbox")).toBeChecked();
+    await page.locator("body").click();
+  }
+  // Return to the start tab and confirm that the filter stays checked and that some content is visible
+  await page.getByRole("tab").getByText(tabOrder[0].tabName).click();
+  await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
+  await page.getByText(filterRegex(testFilter)).click();
+  const previously_selected = getFirstFilterButton(page);
+  await expect(previously_selected).toContainText(filterName, {
+    useInnerText: true,
+  });
+  await expect(previously_selected.getByRole("checkbox").first()).toBeChecked();
+}
+
+export async function testFilterCounts(
+  page: Page,
+  tab: TabDescription,
+  filters: string[],
+  elements_per_page: number
+): Promise<void> {
+  await page.goto(tab.url);
+  // For each arbitrarily selected filter
+  for (const filter of filters) {
+    // Select the filter
+    await page.getByText(filterRegex(filter)).click();
+    // Get the number associated with the first filter button, and select it
+    const filter_button = getFirstFilterButton(page);
+    const filterNumber = Number(
+      (await filter_button.innerText()).split("\n")[1]
+    );
+    await filter_button.getByRole("checkbox").setChecked(true);
+    //
+    await page.locator("body").click();
+    const firstNumber =
+      filterNumber <= elements_per_page ? filterNumber : elements_per_page;
+    await expect(
+      page.getByText("Results 1 - " + firstNumber + " of " + filterNumber)
+    ).toBeVisible();
+  }
+}
+
+export async function testFilterBubbles(
+  page: Page,
+  tab: TabDescription,
+  filters: string[]
+): Promise<void> {
+  page.goto(tab.url);
+  for (const filter of filters) {
+    await page.getByText(filterRegex(filter)).click();
+    const firstFilterButton = getFirstFilterButton(page);
+    const firstFilterName = (await firstFilterButton.innerText()).split(
+      "\n"
+    )[0];
+    await firstFilterButton.getByRole("checkbox").setChecked(true);
+    await page.locator("body").click();
+    const filterBlueButton = page
+      .getByRole("button")
+      .getByText(firstFilterName);
+    await expect(filterBlueButton).toBeVisible();
+    await filterBlueButton.click();
+    await expect(filterBlueButton).toHaveCount(0);
+  }
+}
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/
