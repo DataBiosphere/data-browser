@@ -1,41 +1,45 @@
 import { expect, test } from "@playwright/test";
 import {
-  filter_regex,
+  filterRegex,
   getFirstElementTextLocator,
+  testFilterBubbles,
+  testFilterCounts,
+  testFilterPersistence,
   testFilterPresence,
 } from "../testFunctions";
 import { anvilFilters, anvilTabs, anvilTabTestOrder } from "./anvil-tabs";
 
 test.describe.configure({ mode: "parallel" });
+const filter_index_list = [3, 4, 5, 7, 6, 2];
 
 test("Check that all filters exist on the Datasets tab and are clickable", async ({
   page,
 }) => {
-  await testFilterPresence(page, anvilTabs.datasets);
+  await testFilterPresence(page, anvilTabs.datasets, anvilFilters);
 });
 
 test("Check that all filters exist on the Donors tab and are clickable", async ({
   page,
 }) => {
-  await testFilterPresence(page, anvilTabs.donors);
+  await testFilterPresence(page, anvilTabs.donors, anvilFilters);
 });
 
 test("Check that all filters exist on the BioSamples tab and are clickable", async ({
   page,
 }) => {
-  await testFilterPresence(page, anvilTabs.biosamples);
+  await testFilterPresence(page, anvilTabs.biosamples, anvilFilters);
 });
 
 test("Check that all filters exist on the Activities tab and are clickable", async ({
   page,
 }) => {
-  await testFilterPresence(page, anvilTabs.activities);
+  await testFilterPresence(page, anvilTabs.activities, anvilFilters);
 });
 
 test("Check that all filters exist on the Files tab and are clickable", async ({
   page,
 }) => {
-  await testFilterPresence(page, anvilTabs.files);
+  await testFilterPresence(page, anvilTabs.files, anvilFilters);
 });
 
 test("Check that the first filter on the Datasets tab creates at least one checkbox, and that checking up to the first five does not cause an error and does not cause there to be no entries in the table", async ({
@@ -51,9 +55,7 @@ test("Check that the first filter on the Datasets tab creates at least one check
   await page
     .getByRole("button")
     .getByText(
-      filter_regex(
-        anvilFilters[Math.floor(Math.random() * anvilFilters.length)]
-      )
+      filterRegex(anvilFilters[Math.floor(Math.random() * anvilFilters.length)])
     )
     .click();
   // Expect all checkboxes to be unchecked initially and to work properly
@@ -70,39 +72,54 @@ test("Check that the first filter on the Datasets tab creates at least one check
   await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
 });
 
-test("Check that filter checkboxes are persistent across pages", async ({
+test("Check that filter checkboxes are persistent across pages on an arbitrary filter", async ({
   page,
 }) => {
-  // Randomly select a filter
-  const test_filter =
-    anvilFilters[Math.floor(Math.random() * anvilFilters.length)];
-  // Start on the first tab in the test order (should be files)
-  await page.goto(anvilTabs[anvilTabTestOrder[0]].url);
-  await expect(
-    page.getByRole("tab").getByText(anvilTabs.datasets.tabName)
-  ).toBeVisible();
-  // Select the first checkbox on the test filter
-  await page.getByText(filter_regex(test_filter)).click();
-  await expect(page.getByRole("checkbox").first()).not.toBeChecked();
-  await page.getByRole("checkbox").first().click();
-  await expect(page.getByRole("checkbox").first()).toBeChecked();
-  await page.locator("body").click();
-  // Expect at least some text to still be visible
-  await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
-  // For each tab, check that the selected filter is still checked
-  for (const tab of anvilTabTestOrder.slice(1)) {
-    await page.getByRole("tab").getByText(anvilTabs[tab].tabName).click();
-    await expect(page.getByText(filter_regex(test_filter))).toBeVisible();
-    await page.getByText(filter_regex(test_filter)).click();
-    await expect(page.getByRole("checkbox").first()).toBeChecked();
-    await page.locator("body").click();
-  }
-  // Return to the start tab and confirm that the filter stays checked and that some content is visible
-  await page
-    .getByRole("tab")
-    .getByText(anvilTabs[anvilTabTestOrder[0]].tabName)
-    .click();
-  await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
-  await page.getByText(filter_regex(test_filter)).click();
-  await expect(page.getByRole("checkbox").first()).toBeChecked();
+  await testFilterPersistence(
+    page,
+    anvilFilters[3],
+    anvilTabTestOrder.map((x) => anvilTabs[x])
+  );
+});
+
+test("Check that filter menu counts match actual counts on the Datasets tab", async ({
+  page,
+}) => {
+  await testFilterCounts(
+    page,
+    anvilTabs.datasets,
+    filter_index_list.map((x) => anvilFilters[x]),
+    25
+  );
+});
+
+test("Check that filter menu counts match actual counts on the Activities tab", async ({
+  page,
+}) => {
+  await testFilterCounts(
+    page,
+    anvilTabs.activities,
+    filter_index_list.map((x) => anvilFilters[x]),
+    25
+  );
+});
+
+test("Check that the blue filter bubbles match the selected filter for an arbitrary filter on the Files tab", async ({
+  page,
+}) => {
+  await testFilterBubbles(
+    page,
+    anvilTabs.files,
+    filter_index_list.map((x) => anvilFilters[x])
+  );
+});
+
+test("Check that the blue filter bubbles match the selected filter for an arbitrary filter on the BioSamples tab", async ({
+  page,
+}) => {
+  await testFilterBubbles(
+    page,
+    anvilTabs.biosamples,
+    filter_index_list.map((x) => anvilFilters[x])
+  );
 });
