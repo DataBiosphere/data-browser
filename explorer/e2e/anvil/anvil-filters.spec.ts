@@ -9,7 +9,7 @@ import {
 } from "../testFunctions";
 import { anvilFilters, anvilTabs, anvilTabTestOrder } from "./anvil-tabs";
 
-test.describe.configure({ mode: "parallel" });
+test.describe.configure({ mode: "parallel", timeout: 60 * 1000 });
 const filter_index_list = [3, 4, 5, 7, 6, 2];
 
 test("Check that all filters exist on the Datasets tab and are clickable", async ({
@@ -85,12 +85,15 @@ test("Check that filter checkboxes are persistent across pages on an arbitrary f
 test("Check that filter menu counts match actual counts on the Datasets tab", async ({
   page,
 }) => {
-  await testFilterCounts(
+  const result = await testFilterCounts(
     page,
     anvilTabs.datasets,
     filter_index_list.map((x) => anvilFilters[x]),
     25
   );
+  if (!result) {
+    test.fail();
+  }
 });
 
 test("Check that filter menu counts match actual counts on the Activities tab", async ({
