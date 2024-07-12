@@ -272,7 +272,7 @@ export async function testFilterPersistence(
   await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
   // For each tab, check that the selected filter is still checked
   for (const tab of tabOrder.slice(1)) {
-    await page.getByRole("tab").getByText(tab.tabName).click();
+    await page.getByRole("tab").getByText(tab.tabName, { exact: true }).click();
     await expect(page.getByText(filterRegex(testFilter))).toBeVisible();
     await page.getByText(filterRegex(testFilter)).click();
     const previously_selected = getNamedFilterButton(page, filterName);
@@ -280,7 +280,10 @@ export async function testFilterPersistence(
     await page.locator("body").click();
   }
   // Return to the start tab and confirm that the filter stays checked and that some content is visible
-  await page.getByRole("tab").getByText(tabOrder[0].tabName).click();
+  await page
+    .getByRole("tab")
+    .getByText(tabOrder[0].tabName, { exact: true })
+    .click();
   await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
   await page.getByText(filterRegex(testFilter)).click();
   const previously_selected = getFirstFilterButton(page);
@@ -295,7 +298,7 @@ export async function testFilterCounts(
   tab: TabDescription,
   filters: string[],
   elements_per_page: number
-): Promise<void> {
+): Promise<boolean> {
   await page.goto(tab.url);
   // For each arbitrarily selected filter
   for (const filter of filters) {
@@ -303,18 +306,24 @@ export async function testFilterCounts(
     await page.getByText(filterRegex(filter)).click();
     // Get the number associated with the first filter button, and select it
     const filter_button = getFirstFilterButton(page);
-    const filterNumber = Number(
-      (await filter_button.innerText()).split("\n")[1]
-    );
+    const filter_numbers = (await filter_button.innerText()).split("\n");
+    const filter_number =
+      filter_numbers.map((x) => Number(x)).find((x) => !isNaN(x)) ?? -1;
+    if (!filter_number) {
+      return false;
+    }
     await filter_button.getByRole("checkbox").setChecked(true);
-    //
     await page.locator("body").click();
+    await expect(page.getByRole("checkbox")).toHaveCount(0);
     const firstNumber =
-      filterNumber <= elements_per_page ? filterNumber : elements_per_page;
+      filter_number <= elements_per_page ? filter_number : elements_per_page;
+    console.log("Results 1 - " + firstNumber + " of " + filter_number);
+
     await expect(
-      page.getByText("Results 1 - " + firstNumber + " of " + filterNumber)
+      page.getByText("Results 1 - " + firstNumber + " of " + filter_number)
     ).toBeVisible();
   }
+  return true;
 }
 
 export async function testFilterBubbles(
@@ -326,15 +335,18 @@ export async function testFilterBubbles(
   for (const filter of filters) {
     await page.getByText(filterRegex(filter)).click();
     const firstFilterButton = getFirstFilterButton(page);
-    const firstFilterName = (await firstFilterButton.innerText()).split(
-      "\n"
-    )[0];
-    await firstFilterButton.getByRole("checkbox").setChecked(true);
-    await page.locator("body").click();
+    const firstFilterName =
+      (await firstFilterButton.innerText())
+        .split("\n")
+        .find((x) => x.length > 0) ?? "";
+    await firstFilterButton.getByRole("checkbox").click();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("checkbox")).toHaveCount(0);
     const filterBlueButton = page
-      .getByRole("button")
+      .locator("#sidebar-positioner")
       .getByText(firstFilterName);
     await expect(filterBlueButton).toBeVisible();
+    await filterBlueButton.scrollIntoViewIfNeeded();
     await filterBlueButton.click();
     await expect(filterBlueButton).toHaveCount(0);
   }
