@@ -272,11 +272,16 @@ export async function testFilterPersistence(
   await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
   // For each tab, check that the selected filter is still checked
   for (const tab of tabOrder.slice(1)) {
-    await page.getByRole("tab").getByText(tab.tabName, { exact: true }).click();
+    await page
+      .getByRole("tab")
+      .getByText(tab.tabName, { exact: true })
+      .dispatchEvent("click");
     await expect(page.getByText(filterRegex(testFilter))).toBeVisible();
-    await page.getByText(filterRegex(testFilter)).click();
+    await page.getByText(filterRegex(testFilter)).dispatchEvent("click");
+    await page.waitForLoadState("load");
     const previously_selected = getNamedFilterButton(page, filterName);
     await expect(previously_selected.getByRole("checkbox")).toBeChecked();
+    await page.waitForLoadState("load");
     await page.locator("body").click();
   }
   // Return to the start tab and confirm that the filter stays checked and that some content is visible
@@ -303,21 +308,24 @@ export async function testFilterCounts(
   // For each arbitrarily selected filter
   for (const filter of filters) {
     // Select the filter
-    await page.getByText(filterRegex(filter)).click();
+    await page.getByText(filterRegex(filter)).dispatchEvent("click");
     // Get the number associated with the first filter button, and select it
+    await page.waitForLoadState("load");
     const filter_button = getFirstFilterButton(page);
     const filter_numbers = (await filter_button.innerText()).split("\n");
     const filter_number =
-      filter_numbers.map((x) => Number(x)).find((x) => !isNaN(x)) ?? -1;
-    if (!filter_number) {
+      filter_numbers.map((x) => Number(x)).find((x) => !isNaN(x) && x !== 0) ??
+      -1;
+    if (filter_number < 0) {
+      console.log(filter_numbers.map((x) => Number(x)));
       return false;
     }
-    await filter_button.getByRole("checkbox").setChecked(true);
+    await filter_button.getByRole("checkbox").dispatchEvent("click");
+    await page.waitForLoadState("load");
     await page.locator("body").click();
     await expect(page.getByRole("checkbox")).toHaveCount(0);
     const firstNumber =
       filter_number <= elements_per_page ? filter_number : elements_per_page;
-    console.log("Results 1 - " + firstNumber + " of " + filter_number);
 
     await expect(
       page.getByText("Results 1 - " + firstNumber + " of " + filter_number)
@@ -333,13 +341,16 @@ export async function testFilterBubbles(
 ): Promise<void> {
   page.goto(tab.url);
   for (const filter of filters) {
-    await page.getByText(filterRegex(filter)).click();
+    await page.getByText(filterRegex(filter)).dispatchEvent("click");
+    //await page.waitForTimeout(500);
+    await page.waitForLoadState("load");
     const firstFilterButton = getFirstFilterButton(page);
     const firstFilterName =
       (await firstFilterButton.innerText())
         .split("\n")
         .find((x) => x.length > 0) ?? "";
     await firstFilterButton.getByRole("checkbox").click();
+    await page.waitForLoadState("load");
     await page.keyboard.press("Escape");
     await expect(page.getByRole("checkbox")).toHaveCount(0);
     const filterBlueButton = page
@@ -347,7 +358,7 @@ export async function testFilterBubbles(
       .getByText(firstFilterName);
     await expect(filterBlueButton).toBeVisible();
     await filterBlueButton.scrollIntoViewIfNeeded();
-    await filterBlueButton.click();
+    await filterBlueButton.dispatchEvent("click");
     await expect(filterBlueButton).toHaveCount(0);
   }
 }
