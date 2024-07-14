@@ -264,7 +264,7 @@ export async function testFilterPersistence(
   await page.getByText(filterRegex(testFilter)).click();
   const to_select = await getFirstFilterButton(page);
   await expect(to_select.getByRole("checkbox")).not.toBeChecked();
-  await to_select.getByRole("checkbox").setChecked(true);
+  await to_select.getByRole("checkbox").click;
   const filterName = (await to_select.innerText()).split("\n")[0]; //MAY NEED TO ADD SOME CHECKING MECHANISM HERE
   await expect(to_select.getByRole("checkbox")).toBeChecked();
   await page.locator("body").click();
