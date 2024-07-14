@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import {
   filterRegex,
   getFirstElementTextLocator,
+  testClearAll,
   testFilterBubbles,
   testFilterCounts,
   testFilterPersistence,
@@ -123,6 +124,16 @@ test("Check that the blue filter bubbles match the selected filter for an arbitr
   await testFilterBubbles(
     page,
     anvilTabs.biosamples,
+    filter_index_list.map((x) => anvilFilters[x])
+  );
+});
+
+test("Check that the clear all button functions on the files tab", async ({
+  page,
+}) => {
+  await testClearAll(
+    page,
+    anvilTabs.files,
     filter_index_list.map((x) => anvilFilters[x])
   );
 });

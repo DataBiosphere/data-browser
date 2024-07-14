@@ -264,7 +264,7 @@ export async function testFilterPersistence(
   await page.getByText(filterRegex(testFilter)).click();
   const to_select = await getFirstFilterButton(page);
   await expect(to_select.getByRole("checkbox")).not.toBeChecked();
-  await to_select.getByRole("checkbox").click;
+  await to_select.getByRole("checkbox").click();
   const filterName = (await to_select.innerText()).split("\n")[0]; //MAY NEED TO ADD SOME CHECKING MECHANISM HERE
   await expect(to_select.getByRole("checkbox")).toBeChecked();
   await page.locator("body").click();
@@ -320,13 +320,15 @@ export async function testFilterCounts(
       console.log(filter_numbers.map((x) => Number(x)));
       return false;
     }
+    // Check the filter
     await filter_button.getByRole("checkbox").dispatchEvent("click");
     await page.waitForLoadState("load");
+    // Exit the filter menu
     await page.locator("body").click();
     await expect(page.getByRole("checkbox")).toHaveCount(0);
+    // Expect the displayed count of elements to be 0
     const firstNumber =
       filter_number <= elements_per_page ? filter_number : elements_per_page;
-
     await expect(
       page.getByText("Results 1 - " + firstNumber + " of " + filter_number)
     ).toBeVisible();
@@ -341,25 +343,68 @@ export async function testFilterBubbles(
 ): Promise<void> {
   page.goto(tab.url);
   for (const filter of filters) {
+    // Select a filter
     await page.getByText(filterRegex(filter)).dispatchEvent("click");
-    //await page.waitForTimeout(500);
     await page.waitForLoadState("load");
     const firstFilterButton = getFirstFilterButton(page);
+    // Get the name of the selected filter
     const firstFilterName =
       (await firstFilterButton.innerText())
         .split("\n")
         .find((x) => x.length > 0) ?? "";
+    // Click the selected filter and exit the filter menu
     await firstFilterButton.getByRole("checkbox").click();
     await page.waitForLoadState("load");
-    await page.keyboard.press("Escape");
+    await page.locator("body").click();
     await expect(page.getByRole("checkbox")).toHaveCount(0);
+    // Click the blue button
     const filterBlueButton = page
       .locator("#sidebar-positioner")
       .getByText(firstFilterName);
     await expect(filterBlueButton).toBeVisible();
     await filterBlueButton.scrollIntoViewIfNeeded();
     await filterBlueButton.dispatchEvent("click");
+    // Expect the blue button to disappear when clicked
     await expect(filterBlueButton).toHaveCount(0);
+    // Expect the filter to be deselected in the filter menu
+    await page.getByText(filterRegex(filter)).dispatchEvent("click");
+    await expect(firstFilterButton.getByRole("checkbox")).not.toBeChecked();
+    await page.locator("body").click();
+  }
+}
+
+export async function testClearAll(
+  page: Page,
+  tab: TabDescription,
+  filters: string[]
+): Promise<void> {
+  await page.goto(tab.url);
+  const selected_filter_list = [];
+  for (const filter of filters) {
+    await page.getByText(filterRegex(filter)).dispatchEvent("click");
+    await getFirstFilterButton(page).getByRole("checkbox").click();
+    await expect(
+      getFirstFilterButton(page).getByRole("checkbox")
+    ).toBeChecked();
+    selected_filter_list.push(
+      (await getFirstFilterButton(page).innerText())
+        .split("\n")
+        .find((x) => x.length > 0) ?? ""
+    );
+    await page.locator("body").click();
+  }
+  await page.getByText("Clear All").dispatchEvent("click");
+  for (const filter of selected_filter_list) {
+    await expect(
+      page.locator("#sidebar-positioner").getByText(filter)
+    ).toHaveCount(0);
+  }
+  for (let i = 0; i < filters.length; i++) {
+    await page.getByText(filterRegex(filters[i])).dispatchEvent("click");
+    await expect(
+      getNamedFilterButton(page, selected_filter_list[i]).getByRole("checkbox")
+    ).not.toBeChecked();
+    await page.locator("body").click();
   }
 }
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/
