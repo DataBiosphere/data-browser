@@ -48,6 +48,25 @@ export const getFirstRowNthColumnCellLocator = (
 };
 
 /**
+ * Get a locator to the cell in the first row's nth column
+ * @param page - a Playwright page object
+ * @param columnIndex - the zero-indexed column to return
+ * @returns a Playwright locator object to the selected cell
+ **/
+export const getLastRowNthColumnTextLocator = (
+  page: Page,
+  columnIndex: number
+): Locator => {
+  return page
+    .getByRole("rowgroup")
+    .nth(1)
+    .getByRole("row")
+    .last()
+    .getByRole("cell")
+    .nth(columnIndex);
+};
+
+/**
  * Tests that the tab url goes to a valid page and that the correct tab (and only
  * the correct tab) appears selected
  * @param page - a Playwright page object
@@ -59,7 +78,9 @@ export async function testUrl(
   tab: TabDescription,
   otherTabs: TabDescription[]
 ): Promise<void> {
+  // Go to the selected tab
   await page.goto(tab.url);
+  // Check that the selected tab appears selected and the other tabs appear deselected
   await expect(
     page.getByRole("tab").getByText(tab.tabName, { exact: true })
   ).toHaveAttribute("aria-selected", "true", { timeout: 25000 });
@@ -72,35 +93,36 @@ export async function testUrl(
   }
 }
 
-// Run the "Expect each tab to become selected, to go to the correct url, and to show all of its columns when selected" test
 /**
  * Checks that all preselected columns listed in the tab object are visible in the correct order
  * @param page - a Playwright page object
- * @param tab - the tab object to test
+ * @param startTab - the tab object to start testing on
+ * @param endTab - the tab to select during the test
  */
-export async function testTab(page: Page, tab: TabDescription): Promise<void> {
-  await expect(
-    page
-      .getByRole("rowgroup")
-      .nth(1)
-      .getByRole("row")
-      .nth(1)
-      .getByRole("cell")
-      .nth(1)
-  ).toBeVisible();
-  await page.getByRole("tab").getByText(tab.tabName, { exact: true }).click();
-  await expect(page).toHaveURL(tab.url, { timeout: 25000 }); // Long timeout because some tabs take a long time to load
-  await expect(page.getByRole("tab").getByText(tab.tabName)).toHaveAttribute(
+export async function testTab(
+  page: Page,
+  startTab: TabDescription,
+  endTab: TabDescription
+): Promise<void> {
+  // Run the "Expect each tab to become selected, to go to the correct url, and to show all of its columns when selected" test
+  await page.goto(startTab.url);
+  await expect(getFirstRowNthColumnCellLocator(page, 1)).toBeVisible();
+  await page
+    .getByRole("tab")
+    .getByText(endTab.tabName, { exact: true })
+    .click();
+  await expect(page).toHaveURL(endTab.url, { timeout: 25000 }); // Long timeout because some tabs take a long time to load
+  await expect(page.getByRole("tab").getByText(endTab.tabName)).toHaveAttribute(
     "aria-selected",
     "true"
   );
-  if (tab.emptyFirstColumn) {
+  if (endTab.emptyFirstColumn) {
     await expect(page.getByRole("columnheader")).toHaveText(
-      [" "].concat(tab.preselectedColumns.map((x) => x.name))
+      [" "].concat(endTab.preselectedColumns.map((x) => x.name))
     );
   } else {
     await expect(page.getByRole("columnheader")).toHaveText(
-      tab.preselectedColumns.map((x) => x.name)
+      endTab.preselectedColumns.map((x) => x.name)
     );
   }
 }
@@ -135,21 +157,17 @@ export async function testSortAzul(
         page,
         columnIndex
       );
-      const lastElementTextLocator = page
-        .getByRole("rowgroup")
-        .nth(1)
-        .getByRole("row")
-        .last()
-        .getByRole("cell")
-        .nth(columnIndex);
-      // Locator for the sort button for the tab
+      const lastElementTextLocator = getLastRowNthColumnTextLocator(
+        page,
+        columnIndex
+      );
+      // Locator for the sort button
       const columnSortLocator = page
         .getByRole("columnheader", {
           exact: true,
           name: tab.preselectedColumns[columnPosition].name,
         })
         .getByRole("button");
-
       // Expect the first and last cells to be visible and have text
       await expect(firstElementTextLocator).toBeVisible();
       await expect(lastElementTextLocator).toBeVisible();
@@ -183,7 +201,6 @@ export async function testSortCatalog(
 ): Promise<void> {
   // Get the current tab, and go to it's URL
   await page.goto(tab.url);
-  // For each column
   for (
     let columnPosition = 0;
     columnPosition < tab.preselectedColumns.length;
@@ -231,10 +248,14 @@ export async function testSelectableColumns(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
+  // Navigate to the tab
   await page.goto(tab.url);
+  // Select the "Edit Columns" menu
   await page.getByRole("button").getByText("Edit Columns").click();
   await expect(page.getByRole("menu")).toBeVisible();
+  // Enable each selectable tab
   for (const column of tab.selectableColumns) {
+    // Locate the checkbox for each column
     const checkboxLocator = page
       .getByRole("menu")
       .locator("*")
@@ -244,13 +265,16 @@ export async function testSelectableColumns(
           .filter({ has: page.getByText(column.name, { exact: true }) }),
       })
       .getByRole("checkbox");
+    // Expect each column to be enabled and unchecked for selectable tabs
     await expect(checkboxLocator).toBeEnabled();
     await expect(checkboxLocator).not.toBeChecked();
+    // Expect clicking the checkbox to function
     await checkboxLocator.click();
     await expect(checkboxLocator).toBeChecked();
   }
   await page.getByRole("document").click();
   await expect(page.getByRole("menu")).not.toBeVisible();
+  // Expect all selectable tabs to be enabled
   await expect(page.getByRole("columnheader")).toContainText(
     tab.selectableColumns.map((x) => x.name)
   );
@@ -516,8 +540,8 @@ export async function testClearAll(
 ): Promise<void> {
   await page.goto(tab.url);
   const selectedFilterNamesList = [];
+  // Select each filter and get the names of the actual filter text
   for (const filterName of filterNames) {
-    // Select the passed filter names
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await getFirstFilterButtonLocator(page).getByRole("checkbox").click();
     await expect(
@@ -537,6 +561,7 @@ export async function testClearAll(
       page.locator("#sidebar-positioner").getByText(filterName)
     ).toHaveCount(0);
   }
+  // Ensure that the filters still show as unchecked
   for (let i = 0; i < filterNames.length; i++) {
     await page.getByText(filterRegex(filterNames[i])).dispatchEvent("click");
     await expect(
