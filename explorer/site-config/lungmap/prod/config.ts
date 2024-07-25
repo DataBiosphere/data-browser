@@ -14,4 +14,12 @@ const config: SiteConfig = {
   ...makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL),
 };
 
+// Update gtmAuth for the prod environment lookup.
+if (config.analytics) {
+  const analytics = { ...config.analytics };
+  analytics.gtmAuth = "WB1d2Aoi1q3GOmQMSGMsZA";
+  analytics.gtmPreview = "env-150";
+  config.analytics = analytics;
+}
+
 export default config;
