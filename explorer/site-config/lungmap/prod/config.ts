@@ -17,8 +17,8 @@ const config: SiteConfig = {
 // Update gtmAuth for the prod environment lookup.
 if (config.analytics) {
   const analytics = { ...config.analytics };
-  analytics.gtmAuth = "xm3qglWPEFim7Lb4AxXnsA";
-  analytics.gtmPreview = "env-2";
+  analytics.gtmAuth = "WB1d2Aoi1q3GOmQMSGMsZA";
+  analytics.gtmPreview = "env-150";
   config.analytics = analytics;
 }
 

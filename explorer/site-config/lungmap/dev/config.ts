@@ -33,9 +33,9 @@ export function makeConfig(
 ): SiteConfig {
   return {
     analytics: {
-      gtmAuth: "eQWri5eLUCDkm5SvLIv8eQ", // GTM environment-specific
+      gtmAuth: "XOKAlpBSltsrm1PKGR-fow", // GTM environment-specific
       gtmId: "GTM-M2J5NTJ",
-      gtmPreview: "env-186",
+      gtmPreview: "env-149",
     },
     appTitle: APP_TITLE,
     authentication: undefined,
