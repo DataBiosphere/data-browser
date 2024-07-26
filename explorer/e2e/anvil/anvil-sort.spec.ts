@@ -2,8 +2,6 @@ import { test } from "@playwright/test";
 import { testSortAzul } from "../testFunctions";
 import { anvilTabs } from "./anvil-tabs";
 
-test.describe.configure({ mode: "parallel" });
-
 test("Expect clicking each column header three times to keep the first text element visible on the Datasets tab", async ({
   page,
 }) => {
