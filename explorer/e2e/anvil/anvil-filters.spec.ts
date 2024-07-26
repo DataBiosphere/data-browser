@@ -10,7 +10,6 @@ import {
 } from "../testFunctions";
 import { anvilFilters, anvilTabs, anvilTabTestOrder } from "./anvil-tabs";
 
-test.describe.configure({ mode: "parallel", timeout: 60 * 1000 });
 const filter_index_list = [3, 4, 5, 10, 6, 2];
 const filter_index_list_short = [1, 10, 3];
 test("Check that all filters exist on the Datasets tab and are clickable", async ({
