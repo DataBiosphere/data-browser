@@ -10,7 +10,6 @@ import {
 } from "../testFunctions";
 import { anvilFilters, anvilTabs, anvilTabTestOrder } from "./anvil-tabs";
 
-test.describe.configure({ mode: "parallel", timeout: 60 * 1000 });
 const filter_index_list = [3, 4, 5, 10, 6, 2];
 const filter_index_list_short = [1, 10, 3];
 test("Check that all filters exist on the Datasets tab and are clickable", async ({
@@ -108,10 +107,10 @@ test("Check that filter menu counts match actual counts on the Activities tab", 
   );
 });
 
-test.setTimeout(120000);
 test("Check that the blue filter bubbles match the selected filter for an arbitrary filter on the Files tab", async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testFilterBubbles(
     page,
     anvilTabs.files,
@@ -119,10 +118,10 @@ test("Check that the blue filter bubbles match the selected filter for an arbitr
   );
 });
 
-test.setTimeout(120000);
 test("Check that the blue filter bubbles match the selected filter for an arbitrary filter on the BioSamples tab", async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testFilterBubbles(
     page,
     anvilTabs.biosamples,
@@ -130,10 +129,10 @@ test("Check that the blue filter bubbles match the selected filter for an arbitr
   );
 });
 
-test.setTimeout(120000);
 test("Check that the clear all button functions on the files tab", async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testClearAll(
     page,
     anvilTabs.files,
