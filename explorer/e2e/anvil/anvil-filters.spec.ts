@@ -10,8 +10,8 @@ import {
 } from "../testFunctions";
 import { anvilFilters, anvilTabs, anvilTabTestOrder } from "./anvil-tabs";
 
-const filter_index_list = [3, 4, 5, 10, 6, 2];
-const filter_index_list_short = [1, 10, 3];
+const filterIndexList = [3, 4, 5, 10, 6, 2];
+const filterIndexListShort = [1, 10, 3];
 test("Check that all filters exist on the Datasets tab and are clickable", async ({
   page,
 }) => {
@@ -60,9 +60,9 @@ test("Check that the first filter on the Datasets tab creates at least one check
     .click();
   // Expect all checkboxes to be unchecked initially and to work properly
   await expect(page.getByRole("checkbox").first()).toBeVisible();
-  const all_checkboxes = await page.getByRole("checkbox").all();
-  for (let i = 0; i < all_checkboxes.length && i < 5; i++) {
-    const checkbox = all_checkboxes[i];
+  const allCheckboxes = await page.getByRole("checkbox").all();
+  for (let i = 0; i < allCheckboxes.length && i < 5; i++) {
+    const checkbox = allCheckboxes[i];
     await checkbox.scrollIntoViewIfNeeded();
     await expect(checkbox).not.toBeChecked();
     await checkbox.click();
@@ -88,7 +88,7 @@ test("Check that filter menu counts match actual counts on the Datasets tab", as
   const result = await testFilterCounts(
     page,
     anvilTabs.datasets,
-    filter_index_list.map((x) => anvilFilters[x]),
+    filterIndexList.map((x) => anvilFilters[x]),
     25
   );
   if (!result) {
@@ -102,7 +102,7 @@ test("Check that filter menu counts match actual counts on the Activities tab", 
   await testFilterCounts(
     page,
     anvilTabs.activities,
-    filter_index_list.map((x) => anvilFilters[x]),
+    filterIndexList.map((x) => anvilFilters[x]),
     25
   );
 });
@@ -114,7 +114,7 @@ test("Check that the blue filter bubbles match the selected filter for an arbitr
   await testFilterBubbles(
     page,
     anvilTabs.files,
-    filter_index_list_short.map((x) => anvilFilters[x])
+    filterIndexListShort.map((x) => anvilFilters[x])
   );
 });
 
@@ -125,7 +125,7 @@ test("Check that the blue filter bubbles match the selected filter for an arbitr
   await testFilterBubbles(
     page,
     anvilTabs.biosamples,
-    filter_index_list_short.map((x) => anvilFilters[x])
+    filterIndexListShort.map((x) => anvilFilters[x])
   );
 });
 
@@ -136,6 +136,6 @@ test("Check that the clear all button functions on the files tab", async ({
   await testClearAll(
     page,
     anvilTabs.files,
-    filter_index_list_short.map((x) => anvilFilters[x])
+    filterIndexListShort.map((x) => anvilFilters[x])
   );
 });
