@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
-
 import { AnvilCatalogTabCollection, TabDescription } from "../testInterfaces";
 
 export const anvilcatalogTabs: AnvilCatalogTabCollection = {
