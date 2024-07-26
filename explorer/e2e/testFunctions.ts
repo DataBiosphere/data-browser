@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { BrowserContext, expect, Locator, Page } from "@playwright/test";
 import { TabDescription } from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
@@ -431,4 +431,64 @@ export async function testClearAll(
     await page.locator("body").click();
   }
 }
+
+// Backpages tests
+export async function testExportBackpage(
+  context: BrowserContext,
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  // Goto the specified tab
+  await page.goto(tab.url);
+  await expect(getFirstElementTextLocator(page, 1)).toBeVisible();
+  // Expect to find row with a granted status indicator
+  const granted_row_locator = await page
+    .getByRole("row")
+    .filter({ has: page.getByRole("cell", { name: "Granted" }) })
+    .first()
+    .getByRole("cell")
+    .first();
+  await expect(granted_row_locator).toBeVisible();
+  // Click into the selected row
+  await granted_row_locator.click();
+  // Click the "Export" tab
+  await page.getByText("Export", { exact: true }).click();
+  await expect(page).toHaveURL(/\.*\/export-to-terra/);
+  await expect(page.getByRole("checkbox").first()).toBeVisible();
+  const requestLinkButtonLocator = page.getByRole("button", {
+    name: "Request Link",
+  });
+  await expect(requestLinkButtonLocator).toBeEnabled();
+  // Select all checkboxes on the page
+  const checkboxes = await page.getByRole("checkbox").all();
+  console.log(checkboxes);
+  for (const checkbox of checkboxes) {
+    console.log(checkbox);
+    if (!(await checkbox.isChecked())) {
+      await checkbox.click();
+      await expect(checkbox).toBeChecked();
+      await expect(checkbox).toBeEnabled({ timeout: 10000 });
+    }
+  }
+  // Click the "Request Link" button
+  await expect(requestLinkButtonLocator).toBeEnabled({ timeout: 10000 });
+  await requestLinkButtonLocator.click();
+  await expect(
+    page.getByText("Your link will be ready shortly...", { exact: true })
+  ).toBeVisible();
+  await expect(
+    page.getByText("Your Terra Workspace Link is Ready", { exact: true })
+  ).toBeVisible({ timeout: 30000 });
+  const openTerraButton = page.getByRole("button", { name: "Open Terra" });
+  await expect(openTerraButton).toBeEnabled();
+  // Click the "Open Terra" Button and await a new browser tab
+  const pagePromise = context.waitForEvent("page");
+  await openTerraButton.click();
+  const newPage = await pagePromise;
+  // Expect the new browser tab to look like the Terra page
+  await expect(
+    newPage.getByText("Welcome to Terra Community Workbench")
+  ).toBeVisible();
+}
+
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/
