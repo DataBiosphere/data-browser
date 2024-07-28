@@ -19,6 +19,20 @@ export const anvilFilters: string[] = [
   "Reported Ethnicity",
 ];
 
+const anvilDatasetsPreselectedColumns = [
+  { name: "Dataset", sortable: true },
+  { name: "Access", sortable: false },
+  { name: "Identifier", sortable: true },
+  { name: "Consent Group", sortable: true },
+  { name: "Organism Type", sortable: true },
+  { name: "Diagnosis", sortable: true },
+  { name: "Data Modality", sortable: true },
+];
+const anvilDatasetsSelectableColumns = [
+  { name: "Phenotypic Sex", sortable: true },
+  { name: "Reported Ethnicity", sortable: true },
+];
+
 export const anvilTabs: AnvilCMGTabCollection = {
   activities: {
     emptyFirstColumn: false,
@@ -56,20 +70,38 @@ export const anvilTabs: AnvilCMGTabCollection = {
     url: "/biosamples",
   },
   datasets: {
+    backpageHeaders: [
+      {
+        name: "Dataset ID",
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[3],
+        name: "Consent group",
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[4],
+        name: "Organism type",
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[5],
+        name: "Diagnosis",
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[6],
+        name: "Data modality",
+      },
+      {
+        correspondingColumn: anvilDatasetsSelectableColumns[0],
+        name: "Phenotypic sex",
+      },
+      {
+        correspondingColumn: anvilDatasetsSelectableColumns[1],
+        name: "Reported ethnicity",
+      },
+    ],
     emptyFirstColumn: false,
-    preselectedColumns: [
-      { name: "Dataset", sortable: true },
-      { name: "Access", sortable: false },
-      { name: "Identifier", sortable: true },
-      { name: "Consent Group", sortable: true },
-      { name: "Organism Type", sortable: true },
-      { name: "Diagnosis", sortable: true },
-      { name: "Data Modality", sortable: true },
-    ],
-    selectableColumns: [
-      { name: "Phenotypic Sex", sortable: true },
-      { name: "Reported Ethnicity", sortable: true },
-    ],
+    preselectedColumns: anvilDatasetsPreselectedColumns,
+    selectableColumns: anvilDatasetsSelectableColumns,
     tabName: "Datasets",
     url: "/datasets",
   },

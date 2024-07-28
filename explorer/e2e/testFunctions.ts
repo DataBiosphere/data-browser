@@ -1,5 +1,5 @@
 import { BrowserContext, expect, Locator, Page } from "@playwright/test";
-import { TabDescription } from "./testInterfaces";
+import { backpageHeader, TabDescription } from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
@@ -432,6 +432,14 @@ export async function testClearAll(
   }
 }
 
+const getRowLocatorByAccess = (page: Page, access: string): Locator =>
+  page
+    .getByRole("row")
+    .filter({ has: page.getByRole("cell", { name: access }) })
+    .first()
+    .getByRole("cell")
+    .first();
+
 // Backpages tests
 export async function testExportBackpage(
   context: BrowserContext,
@@ -442,12 +450,7 @@ export async function testExportBackpage(
   await page.goto(tab.url);
   await expect(getFirstElementTextLocator(page, 1)).toBeVisible();
   // Expect to find row with a granted status indicator
-  const granted_row_locator = await page
-    .getByRole("row")
-    .filter({ has: page.getByRole("cell", { name: "Granted" }) })
-    .first()
-    .getByRole("cell")
-    .first();
+  const granted_row_locator = getRowLocatorByAccess(page, "Granted");
   await expect(granted_row_locator).toBeVisible();
   // Click into the selected row
   await granted_row_locator.click();
@@ -478,7 +481,7 @@ export async function testExportBackpage(
   ).toBeVisible();
   await expect(
     page.getByText("Your Terra Workspace Link is Ready", { exact: true })
-  ).toBeVisible({ timeout: 30000 });
+  ).toBeVisible({ timeout: 60000 });
   const openTerraButton = page.getByRole("button", { name: "Open Terra" });
   await expect(openTerraButton).toBeEnabled();
   // Click the "Open Terra" Button and await a new browser tab
@@ -487,8 +490,97 @@ export async function testExportBackpage(
   const newPage = await pagePromise;
   // Expect the new browser tab to look like the Terra page
   await expect(
-    newPage.getByText("Welcome to Terra Community Workbench")
+    newPage.getByText(
+      "If you are a new user or returning user, click sign in to continue."
+    )
   ).toBeVisible();
+}
+
+export async function testBackpageAccess(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  // Goto the specified tab
+  await page.goto(tab.url);
+  // Check that the first "Granted" tab has access granted
+  const grantedRowLocator = getRowLocatorByAccess(page, "Granted");
+  await expect(grantedRowLocator).toBeVisible();
+  await grantedRowLocator.click();
+  await expect(page.getByText("Access Granted")).toBeVisible();
+  await page.getByText("Export", { exact: true }).click();
+  await expect(page).toHaveURL(/\.*\/export-to-terra/);
+  await expect(page.getByRole("checkbox").first()).toBeVisible();
+  const requestLinkButtonLocator = page.getByRole("button", {
+    name: "Request Link",
+  });
+  await expect(requestLinkButtonLocator).toBeEnabled();
+  // Go back to the table page
+  await page.getByRole("link", { name: "Datasets" }).click();
+  // Check that the first "Required" tab does not have access granted
+  const requiredRowLocator = getRowLocatorByAccess(page, "Required");
+  await expect(requiredRowLocator).toBeVisible();
+  await requiredRowLocator.click();
+  await expect(page.getByText("Access Required")).toBeVisible();
+  await page.getByText("Export", { exact: true }).click();
+  await expect(page).toHaveURL(/\.*\/export-to-terra/);
+  await expect(
+    page.getByText(
+      "To export this dataset, please sign in and, if necessary, request access.",
+      { exact: true }
+    )
+  ).toBeVisible();
+}
+
+export async function testBackpageDetails(
+  page: Page,
+  tab: TabDescription
+): Promise<boolean> {
+  if (tab?.backpageHeaders === undefined) {
+    return false;
+  }
+  await page.goto(tab.url);
+  // Enable test columns
+  await testSelectableColumns(page, tab); //TODO: check if this funtion breaks if selectable columns don't load in order
+  const headers: { header: string; value: string }[] = [];
+  const combinedColumns = tab.preselectedColumns.concat(tab.selectableColumns);
+  const filterString = (x: string | undefined): x is string => x !== undefined;
+  const headerCorrespondingColumns: string[] = tab.backpageHeaders
+    .map((header) => header?.correspondingColumn?.name)
+    .filter(filterString)
+    .map((x) => x.trim());
+  console.log(headerCorrespondingColumns);
+  for (let i = 0; i < combinedColumns.length; i++) {
+    const headerColumnText = (
+      await page.getByRole("columnheader").nth(i).innerText()
+    ).trim();
+    if (headerCorrespondingColumns.includes(headerColumnText)) {
+      const headerEntryText = await getNthElementTextLocator(
+        page,
+        2,
+        i
+      ).innerText();
+      const correspondingHeaderName = tab.backpageHeaders.find(
+        (header: backpageHeader) =>
+          header?.correspondingColumn?.name === headerColumnText
+      )?.name;
+      if (correspondingHeaderName === undefined) {
+        return false;
+      }
+      headers.push({ header: correspondingHeaderName, value: headerEntryText });
+    }
+  }
+  await getNthElementTextLocator(page, 2, 0).click();
+  await expect(page.getByText("Dataset Details")).toBeVisible();
+  for (const headerValue of headers) {
+    await expect(
+      page
+        .locator(
+          `:text('${headerValue.value}'):below(:text('${headerValue.header}'))`
+        )
+        .first()
+    ).toBeVisible();
+  }
+  return true;
 }
 
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/

@@ -1,4 +1,5 @@
 export interface TabDescription {
+  backpageHeaders?: backpageHeader[];
   emptyFirstColumn: boolean;
   preselectedColumns: columnDescription[];
   selectableColumns: columnDescription[];
@@ -25,4 +26,9 @@ export type TabCollectionKeys = keyof AnvilCMGTabCollection;
 export interface columnDescription {
   name: string;
   sortable: boolean;
+}
+
+export interface backpageHeader {
+  correspondingColumn?: columnDescription;
+  name: string;
 }
