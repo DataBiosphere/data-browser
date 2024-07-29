@@ -8,10 +8,33 @@ import {
   testFilterPersistence,
   testFilterPresence,
 } from "../testFunctions";
-import { anvilFilters, anvilTabs, anvilTabTestOrder } from "./anvil-tabs";
+import {
+  anvilFilters,
+  anvilTabs,
+  anvilTabTestOrder,
+  BIOSAMPLE_TYPE_INDEX,
+  CONSENT_GROUP_INDEX,
+  DATASET_INDEX,
+  DATA_MODALITY_INDEX,
+  DIAGNOSIS_INDEX,
+  FILE_FORMAT_INDEX,
+  REPORTED_ETHNICITY_INDEX,
+} from "./anvil-tabs";
 
-const filterIndexList = [3, 4, 5, 10, 6, 2];
-const filterIndexListShort = [1, 10, 3];
+const FILTER_INDEX_LIST = [
+  DATA_MODALITY_INDEX,
+  DATASET_INDEX,
+  DIAGNOSIS_INDEX,
+  REPORTED_ETHNICITY_INDEX,
+  FILE_FORMAT_INDEX,
+  CONSENT_GROUP_INDEX,
+];
+const FILTER_INDEX_LIST_SHORT = [
+  BIOSAMPLE_TYPE_INDEX,
+  FILE_FORMAT_INDEX,
+  DIAGNOSIS_INDEX,
+];
+
 test("Check that all filters exist on the Datasets tab and are clickable", async ({
   page,
 }) => {
@@ -77,7 +100,7 @@ test("Check that filter checkboxes are persistent across pages on an arbitrary f
 }) => {
   await testFilterPersistence(
     page,
-    anvilFilters[3],
+    anvilFilters[FILE_FORMAT_INDEX],
     anvilTabTestOrder.map((x) => anvilTabs[x])
   );
 });
@@ -88,8 +111,8 @@ test("Check that filter menu counts match actual counts on the Datasets tab", as
   const result = await testFilterCounts(
     page,
     anvilTabs.datasets,
-    filterIndexList.map((x) => anvilFilters[x]),
-    25
+    FILTER_INDEX_LIST.map((x) => anvilFilters[x]),
+    anvilTabs.datasets.maxPages ?? 0
   );
   if (!result) {
     test.fail();
@@ -102,8 +125,8 @@ test("Check that filter menu counts match actual counts on the Activities tab", 
   await testFilterCounts(
     page,
     anvilTabs.activities,
-    filterIndexList.map((x) => anvilFilters[x]),
-    25
+    FILTER_INDEX_LIST.map((x) => anvilFilters[x]),
+    anvilTabs.activities.maxPages ?? 0
   );
 });
 
@@ -114,7 +137,7 @@ test("Check that the blue filter bubbles match the selected filter for an arbitr
   await testFilterBubbles(
     page,
     anvilTabs.files,
-    filterIndexListShort.map((x) => anvilFilters[x])
+    FILTER_INDEX_LIST_SHORT.map((x) => anvilFilters[x])
   );
 });
 
@@ -125,7 +148,7 @@ test("Check that the blue filter bubbles match the selected filter for an arbitr
   await testFilterBubbles(
     page,
     anvilTabs.biosamples,
-    filterIndexListShort.map((x) => anvilFilters[x])
+    FILTER_INDEX_LIST_SHORT.map((x) => anvilFilters[x])
   );
 });
 
@@ -136,6 +159,6 @@ test("Check that the clear all button functions on the files tab", async ({
   await testClearAll(
     page,
     anvilTabs.files,
-    filterIndexListShort.map((x) => anvilFilters[x])
+    FILTER_INDEX_LIST_SHORT.map((x) => anvilFilters[x])
   );
 });

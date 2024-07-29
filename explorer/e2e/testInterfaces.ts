@@ -1,5 +1,6 @@
 export interface TabDescription {
   emptyFirstColumn: boolean;
+  maxPages?: number;
   preselectedColumns: columnDescription[];
   selectableColumns: columnDescription[];
   tabName: string;
