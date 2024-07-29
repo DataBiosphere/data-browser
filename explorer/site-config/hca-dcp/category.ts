@@ -46,8 +46,8 @@ export const HCA_DCP_CATEGORY_KEY = {
 
 export const HCA_DCP_CATEGORY_LABEL = {
   ACCESSIBLE: "Access",
-  AGGREGATE_LAST_MODIFIED_DATE: "Update Date",
-  AGGREGATE_SUBMISSION_DATE: "Submission Date",
+  AGGREGATE_LAST_MODIFIED_DATE: "Updated",
+  AGGREGATE_SUBMISSION_DATE: "Submitted",
   ANALYSIS_PROTOCOL: "Analysis Protocol",
   ANATOMICAL_ENTITY: "Anatomical Entity",
   AZUL_FILE_DOWNLOAD: " ",

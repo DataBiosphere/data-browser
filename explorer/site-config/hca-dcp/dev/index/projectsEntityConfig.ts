@@ -246,7 +246,7 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "224px" },
       },
       {
-        columnVisible: false,
+        columnVisible: true,
         componentConfig: {
           component: C.Cell,
           viewBuilder: V.buildAggregateLastModifiedDate,
@@ -257,8 +257,8 @@ export const projectsEntityConfig: EntityConfig = {
       },
     ],
     defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
+      desc: SORT_DIRECTION.DESCENDING,
+      id: HCA_DCP_CATEGORY_KEY.AGGREGATE_LAST_MODIFIED_DATE,
     },
   } as ListConfig<ProjectsResponse>,
   listView: {
