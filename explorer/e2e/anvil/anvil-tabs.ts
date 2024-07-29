@@ -70,6 +70,19 @@ export const anvilTabs: AnvilCMGTabCollection = {
     url: "/biosamples",
   },
   datasets: {
+    backpageExportButtons: {
+      accessNotGrantedMessage:
+        "To export this dataset, please sign in and, if necessary, request access.",
+      detailsName: "Dataset Details",
+      exportTabName: "Export",
+      exportUrl: /\.*\/export-to-terra/,
+      firstButtonName: "Request Link",
+      firstLoadingMessage: "Your link will be ready shortly...",
+      newTabMessage:
+        "If you are a new user or returning user, click sign in to continue.",
+      secondButtonName: "Open Terra",
+      secondLandingMessage: "Your Terra Workspace Link is Ready",
+    },
     backpageHeaders: [
       {
         name: "Dataset ID",

@@ -1,4 +1,5 @@
 export interface TabDescription {
+  backpageExportButtons?: backpageExportButtons;
   backpageHeaders?: backpageHeader[];
   emptyFirstColumn: boolean;
   preselectedColumns: columnDescription[];
@@ -31,4 +32,16 @@ export interface columnDescription {
 export interface backpageHeader {
   correspondingColumn?: columnDescription;
   name: string;
+}
+
+export interface backpageExportButtons {
+  accessNotGrantedMessage: string;
+  detailsName: string;
+  exportTabName: string;
+  exportUrl: RegExp;
+  firstButtonName: string;
+  firstLoadingMessage: string;
+  newTabMessage: string;
+  secondButtonName: string;
+  secondLandingMessage: string;
 }
