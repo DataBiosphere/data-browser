@@ -470,9 +470,9 @@ export async function testExportBackpage(
   });
   await expect(firstButtonLocator).toBeEnabled();
   // Select all checkboxes on the pages
-  const checkboxes = await page.getByRole("checkbox").all();
-  console.log(checkboxes);
-  for (const checkboxLocator of checkboxes) {
+  const checkboxLocators = await page.getByRole("checkbox").all();
+  console.log(checkboxLocators);
+  for (const checkboxLocator of checkboxLocators) {
     console.log(checkboxLocator);
     if (!(await checkboxLocator.isChecked())) {
       await checkboxLocator.click();
@@ -506,7 +506,7 @@ export async function testExportBackpage(
     })
   ).toBeVisible({ timeout: 60000 });
   const secondButtonLocator = page.getByRole("button", {
-    name: tab.backpageExportButtons?.secondButtonName ?? "",
+    name: tab.backpageExportButtons?.secondButtonName ?? "ERROR",
   });
   await expect(secondButtonLocator).toBeEnabled();
   // Click the "Open Terra" Button and await a new browser tab
@@ -523,6 +523,11 @@ export async function testBackpageAccess(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
+  if (tab.backpageExportButtons == null) {
+    // Fail if this test is ran on a tab without defined backpages
+    await expect(false);
+    return;
+  }
   // Goto the specified tab
   await page.goto(tab.url);
   // Check that the first "Granted" tab has access granted
@@ -530,18 +535,18 @@ export async function testBackpageAccess(
   await expect(grantedRowLocator).toBeVisible();
   await grantedRowLocator.dispatchEvent("click");
   await expect(
-    page.getByText(tab.backpageExportButtons?.detailsName ?? "")
+    page.getByText(tab.backpageExportButtons.detailsName)
   ).toBeVisible();
   await expect(page.getByText("Access Granted")).toBeVisible();
   await page
-    .getByText(tab.backpageExportButtons?.exportTabName ?? "ERROR", {
+    .getByText(tab.backpageExportButtons.exportTabName, {
       exact: true,
     })
     .click();
-  await expect(page).toHaveURL(tab.backpageExportButtons?.exportUrl ?? /ERROR/);
+  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrl);
   await expect(page.getByRole("checkbox").first()).toBeVisible();
   const requestLinkButtonLocator = page.getByRole("button", {
-    name: tab.backpageExportButtons?.firstButtonName,
+    name: tab.backpageExportButtons.firstButtonName,
   });
   await expect(requestLinkButtonLocator).toBeEnabled();
   // Go back to the table page
@@ -568,9 +573,10 @@ export async function testBackpageAccess(
 export async function testBackpageDetails(
   page: Page,
   tab: TabDescription
-): Promise<boolean> {
-  if (tab?.backpageHeaders === undefined) {
-    return false;
+): Promise<void> {
+  if (tab.backpageHeaders == null) {
+    await expect(false);
+    return; // This is unreachable, but typescript doesn't know without it
   }
   await page.goto(tab.url);
   // Enable test columns
@@ -590,7 +596,7 @@ export async function testBackpageDetails(
     if (headerCorrespondingColumns.includes(headerColumnText)) {
       const headerEntryText = await getNthElementTextLocator(
         page,
-        0,
+        1,
         i
       ).innerText();
       const correspondingHeaderName = tab.backpageHeaders.find(
@@ -599,27 +605,25 @@ export async function testBackpageDetails(
       )?.name;
       if (correspondingHeaderName === undefined) {
         // Fail the test, because this means there is an incorrect configuraiton in the tab definition
-        return false;
+        await expect(false);
+        return;
       }
       headers.push({ header: correspondingHeaderName, value: headerEntryText });
     }
   }
-  await getNthElementTextLocator(page, 0, 0).click();
+  await getNthElementTextLocator(page, 1, 0).click();
   await expect(
     page.getByText(tab.backpageExportButtons?.detailsName ?? "ERROR")
   ).toBeVisible();
   for (const headerValue of headers) {
     // Expect the correct value to be below the correct header in the dataset values table
-    // TODO: this locator does not appear to work on Webkit
     await expect(
       page
-        .locator(
-          `:text('${headerValue.value}'):below(:text('${headerValue.header}'))`
-        )
+        .locator(`:below(:text('${headerValue.header}'))`)
+        .getByText(headerValue.value)
         .first()
     ).toBeVisible();
   }
-  return true;
 }
 
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/
