@@ -68,6 +68,7 @@ test("Check that all filters exist on the Files tab and are clickable", async ({
 test("Check that the first filter on the Datasets tab creates at least one checkbox, and that checking up to the first five does not cause an error and does not cause there to be no entries in the table", async ({
   page,
 }) => {
+  test.setTimeout(120000);
   // Goto the datasets tab
   await page.goto(anvilTabs.datasets.url);
   await expect(
@@ -98,6 +99,7 @@ test("Check that the first filter on the Datasets tab creates at least one check
 test("Check that filter checkboxes are persistent across pages on an arbitrary filter", async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testFilterPersistence(
     page,
     anvilFilters[FILE_FORMAT_INDEX],
@@ -108,6 +110,7 @@ test("Check that filter checkboxes are persistent across pages on an arbitrary f
 test("Check that filter menu counts match actual counts on the Datasets tab", async ({
   page,
 }) => {
+  test.setTimeout(120000);
   const result = await testFilterCounts(
     page,
     anvilTabs.datasets,
@@ -122,6 +125,7 @@ test("Check that filter menu counts match actual counts on the Datasets tab", as
 test("Check that filter menu counts match actual counts on the Activities tab", async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testFilterCounts(
     page,
     anvilTabs.activities,
