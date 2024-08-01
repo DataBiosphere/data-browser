@@ -1,4 +1,5 @@
 export interface TabDescription {
+  backpageAccessTags?: BackpageAccessTags;
   backpageExportButtons?: BackpageExportButtons;
   backpageHeaders?: BackpageHeader[];
   emptyFirstColumn: boolean;
@@ -35,11 +36,18 @@ export interface BackpageHeader {
   name: string;
 }
 
+export interface BackpageAccessTags {
+  deniedLongName: string;
+  deniedShortName: string;
+  grantedLongName: string;
+  grantedShortName: string;
+}
+
 export interface BackpageExportButtons {
   accessNotGrantedMessage: string;
   detailsName: string;
   exportTabName: string;
-  exportUrl: RegExp;
+  exportUrlRegExp: RegExp;
   firstButtonName: string;
   firstLoadingMessage: string;
   newTabMessage: string;

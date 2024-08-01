@@ -451,26 +451,34 @@ export async function testExportBackpage(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
+  if (tab.backpageExportButtons == null || tab.backpageAccessTags == null) {
+    // Fail if this test is ran on a tab without defined backpages
+    await expect(false);
+    return;
+  }
   // Goto the specified tab
   await page.goto(tab.url);
   // Expect to find row with a granted status indicator
-  const grantedRowLocator = getRowLocatorByAccess(page, "Granted");
+  const grantedRowLocator = getRowLocatorByAccess(
+    page,
+    tab.backpageAccessTags.grantedShortName
+  );
   await expect(grantedRowLocator).toBeVisible();
   // Click into the selected row
-  await grantedRowLocator.dispatchEvent("click"); //TODO: this is sometimes unreliable and changes the url without changing the tab.
+  await grantedRowLocator.dispatchEvent("click");
   await expect(
-    page.getByText(tab.backpageExportButtons?.detailsName ?? "")
+    page.getByText(tab.backpageExportButtons.detailsName)
   ).toBeVisible();
   // Click the "Export" tab
   await page
-    .getByText(tab.backpageExportButtons?.exportTabName ?? "ERROR", {
+    .getByText(tab.backpageExportButtons.exportTabName, {
       exact: true,
     })
     .click();
-  await expect(page).toHaveURL(tab.backpageExportButtons?.exportUrl ?? "");
+  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
   await expect(page.getByRole("checkbox").first()).toBeVisible();
   const firstButtonLocator = page.getByRole("button", {
-    name: "Request Link",
+    name: tab.backpageExportButtons.firstButtonName,
   });
   await expect(firstButtonLocator).toBeEnabled();
   // Select all checkboxes on the pages
@@ -498,17 +506,17 @@ export async function testExportBackpage(
   await expect(firstButtonLocator).toBeEnabled({ timeout: 10000 });
   await firstButtonLocator.click();
   await expect(
-    page.getByText(tab.backpageExportButtons?.firstLoadingMessage ?? "ERROR", {
+    page.getByText(tab.backpageExportButtons.firstLoadingMessage, {
       exact: true,
     })
   ).toBeVisible();
   await expect(
-    page.getByText(tab.backpageExportButtons?.secondLandingMessage ?? "ERROR", {
+    page.getByText(tab.backpageExportButtons.secondLandingMessage, {
       exact: true,
     })
   ).toBeVisible({ timeout: 60000 });
   const secondButtonLocator = page.getByRole("button", {
-    name: tab.backpageExportButtons?.secondButtonName ?? "ERROR",
+    name: tab.backpageExportButtons?.secondButtonName,
   });
   await expect(secondButtonLocator).toBeEnabled();
   // Click the "Open Terra" Button and await a new browser tab
@@ -517,7 +525,7 @@ export async function testExportBackpage(
   const newPage = await newPagePromise;
   // Expect the new browser tab to look like the Terra page
   await expect(
-    newPage.getByText(tab.backpageExportButtons?.newTabMessage ?? "ERROR")
+    newPage.getByText(tab.backpageExportButtons?.newTabMessage)
   ).toBeVisible();
 }
 
@@ -525,7 +533,7 @@ export async function testBackpageAccess(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
-  if (tab.backpageExportButtons == null) {
+  if (tab.backpageExportButtons == null || tab.backpageAccessTags == null) {
     // Fail if this test is ran on a tab without defined backpages
     await expect(false);
     return;
@@ -533,19 +541,24 @@ export async function testBackpageAccess(
   // Goto the specified tab
   await page.goto(tab.url);
   // Check that the first "Granted" tab has access granted
-  const grantedRowLocator = getRowLocatorByAccess(page, "Granted");
+  const grantedRowLocator = getRowLocatorByAccess(
+    page,
+    tab.backpageAccessTags.grantedShortName
+  );
   await expect(grantedRowLocator).toBeVisible();
   await grantedRowLocator.dispatchEvent("click");
   await expect(
     page.getByText(tab.backpageExportButtons.detailsName)
   ).toBeVisible();
-  await expect(page.getByText("Access Granted")).toBeVisible();
+  await expect(
+    page.getByText(tab.backpageAccessTags.grantedLongName)
+  ).toBeVisible();
   await page
     .getByText(tab.backpageExportButtons.exportTabName, {
       exact: true,
     })
     .click();
-  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrl);
+  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
   await expect(page.getByRole("checkbox").first()).toBeVisible();
   const requestLinkButtonLocator = page.getByRole("button", {
     name: tab.backpageExportButtons.firstButtonName,
@@ -554,21 +567,25 @@ export async function testBackpageAccess(
   // Go back to the table page
   await page.getByRole("link", { name: tab.tabName }).click();
   // Check that the first "Required" tab does not have access granted
-  const requiredRowLocator = getRowLocatorByAccess(page, "Required");
-  await expect(requiredRowLocator).toBeVisible();
-  await requiredRowLocator.click();
-  await expect(page.getByText("Access Required")).toBeVisible();
+  const deniedRowLocator = getRowLocatorByAccess(
+    page,
+    tab.backpageAccessTags.deniedShortName
+  );
+  await expect(deniedRowLocator).toBeVisible();
+  await deniedRowLocator.dispatchEvent("click");
+  await expect(
+    page.getByText(tab.backpageAccessTags.deniedLongName)
+  ).toBeVisible();
   await page
-    .getByText(tab.backpageExportButtons?.exportTabName ?? "ERROR", {
+    .getByText(tab.backpageExportButtons.exportTabName, {
       exact: true,
     })
     .click();
-  await expect(page).toHaveURL(tab.backpageExportButtons?.exportUrl ?? /ERROR/);
+  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
   await expect(
-    page.getByText(
-      tab.backpageExportButtons?.accessNotGrantedMessage ?? "ERROR",
-      { exact: true }
-    )
+    page.getByText(tab.backpageExportButtons.accessNotGrantedMessage, {
+      exact: true,
+    })
   ).toBeVisible();
 }
 
@@ -584,7 +601,7 @@ const hoverAndGetText = async (
     columnPosition
   );
   const cellText = await cellLocator.innerText();
-
+  // Check if the cell appears to be an Ntag cell
   if (
     columnDescription != undefined &&
     columnDescription.pluralizedLabel != undefined &&
@@ -592,11 +609,15 @@ const hoverAndGetText = async (
       cellText
     )
   ) {
+    // Hover over the text of the NTag cell
     await cellLocator.locator("*").last().hover();
+    // Read the tooltip
     await page.getByRole("tooltip").waitFor();
     const outputText = (await page.getByRole("tooltip").innerText()).trim();
+    // Hover over a different part of the page to ensure that the tooltip disappears
     await page.getByRole("columnheader").first().hover();
     await expect(page.getByRole("tooltip")).toHaveCount(0);
+    // Return the tooltip contents
     return outputText;
   }
   return cellText.trim();
@@ -606,13 +627,14 @@ export async function testBackpageDetails(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
-  if (tab.backpageHeaders == null) {
+  if (tab.backpageHeaders == null || tab.backpageExportButtons == null) {
+    // If the tab is not set up with backpage info, fail the test
     await expect(false);
-    return; // This is unreachable due to the expect, but typescript doesn't know
+    return;
   }
   await page.goto(tab.url);
   // Enable test columns
-  await testSelectableColumns(page, tab); //TODO: check if this function breaks if selectable columns don't load in order
+  await testSelectableColumns(page, tab);
   const headers: { header: string; value: string }[] = [];
   const combinedColumns = tab.preselectedColumns.concat(tab.selectableColumns);
   const filterString = (x: string | undefined): x is string => x !== undefined;
@@ -628,7 +650,7 @@ export async function testBackpageDetails(
     ).trim();
     // If the selected column has an entry on the backpage
     if (backpageCorrespondingColumns.includes(columnHeaderName)) {
-      // Get the object of the current column (we have to do it this way, because the combinedColumn list is not ordered)
+      // Get the object representing the current column
       const columnObject = combinedColumns.find(
         (x) => x.name == columnHeaderName
       );
@@ -639,7 +661,7 @@ export async function testBackpageDetails(
         (header: BackpageHeader) =>
           header?.correspondingColumn?.name === columnHeaderName
       )?.name;
-      if (correspondingHeaderName === undefined) {
+      if (correspondingHeaderName == null) {
         // Fail the test, because this means there is an incorrect configuraiton in the tab definition
         await expect(false);
         return;
@@ -651,7 +673,7 @@ export async function testBackpageDetails(
   await getNthElementTextLocator(page, 0, 0).click();
   // Expect the details name to be visible
   await expect(
-    page.getByText(tab.backpageExportButtons?.detailsName ?? "ERROR")
+    page.getByText(tab.backpageExportButtons.detailsName)
   ).toBeVisible();
   for (const headerValue of headers) {
     // Expect the correct value to be below the correct header in the dataset values table
