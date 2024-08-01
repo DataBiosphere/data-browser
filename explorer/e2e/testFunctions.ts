@@ -1,5 +1,9 @@
 import { BrowserContext, expect, Locator, Page } from "@playwright/test";
-import { backpageHeader, TabDescription } from "./testInterfaces";
+import {
+  BackpageHeader,
+  ColumnDescription,
+  TabDescription,
+} from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
@@ -471,9 +475,7 @@ export async function testExportBackpage(
   await expect(firstButtonLocator).toBeEnabled();
   // Select all checkboxes on the pages
   const checkboxLocators = await page.getByRole("checkbox").all();
-  console.log(checkboxLocators);
   for (const checkboxLocator of checkboxLocators) {
-    console.log(checkboxLocator);
     if (!(await checkboxLocator.isChecked())) {
       await checkboxLocator.click();
       await expect(checkboxLocator).toBeChecked();
@@ -570,13 +572,43 @@ export async function testBackpageAccess(
   ).toBeVisible();
 }
 
+const hoverAndGetText = async (
+  page: Page,
+  columnDescription: ColumnDescription | undefined,
+  rowPosition: number,
+  columnPosition: number
+): Promise<string> => {
+  const cellLocator = getNthElementTextLocator(
+    page,
+    rowPosition,
+    columnPosition
+  );
+  const cellText = await cellLocator.innerText();
+
+  if (
+    columnDescription != undefined &&
+    columnDescription.pluralizedLabel != undefined &&
+    RegExp("\\s*[0-9]+ " + columnDescription.pluralizedLabel + "\\s*").test(
+      cellText
+    )
+  ) {
+    await cellLocator.locator("*").last().hover();
+    await page.getByRole("tooltip").waitFor();
+    const outputText = (await page.getByRole("tooltip").innerText()).trim();
+    await page.getByRole("columnheader").first().hover();
+    await expect(page.getByRole("tooltip")).toHaveCount(0);
+    return outputText;
+  }
+  return cellText.trim();
+};
+
 export async function testBackpageDetails(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
   if (tab.backpageHeaders == null) {
     await expect(false);
-    return; // This is unreachable, but typescript doesn't know without it
+    return; // This is unreachable due to the expect, but typescript doesn't know
   }
   await page.goto(tab.url);
   // Enable test columns
@@ -585,33 +617,39 @@ export async function testBackpageDetails(
   const combinedColumns = tab.preselectedColumns.concat(tab.selectableColumns);
   const filterString = (x: string | undefined): x is string => x !== undefined;
   // Get the columns that correspond with a header on the backpage details
-  const headerCorrespondingColumns: string[] = tab.backpageHeaders
+  const backpageCorrespondingColumns: string[] = tab.backpageHeaders
     .map((header) => header?.correspondingColumn?.name)
     .filter(filterString)
     .map((x) => x.trim());
   for (let i = 0; i < combinedColumns.length; i++) {
-    const headerColumnText = (
+    // Get the name of the current column
+    const columnHeaderName = (
       await page.getByRole("columnheader").nth(i).innerText()
     ).trim();
-    if (headerCorrespondingColumns.includes(headerColumnText)) {
-      const headerEntryText = await getNthElementTextLocator(
-        page,
-        1,
-        i
-      ).innerText();
+    // If the selected column has an entry on the backpage
+    if (backpageCorrespondingColumns.includes(columnHeaderName)) {
+      // Get the object of the current column (we have to do it this way, because the combinedColumn list is not ordered)
+      const columnObject = combinedColumns.find(
+        (x) => x.name == columnHeaderName
+      );
+      // Get the entry text
+      const tableEntryText = await hoverAndGetText(page, columnObject, 0, i);
+      // Get the name of the corresponding header on the backpage
       const correspondingHeaderName = tab.backpageHeaders.find(
-        (header: backpageHeader) =>
-          header?.correspondingColumn?.name === headerColumnText
+        (header: BackpageHeader) =>
+          header?.correspondingColumn?.name === columnHeaderName
       )?.name;
       if (correspondingHeaderName === undefined) {
         // Fail the test, because this means there is an incorrect configuraiton in the tab definition
         await expect(false);
         return;
       }
-      headers.push({ header: correspondingHeaderName, value: headerEntryText });
+      headers.push({ header: correspondingHeaderName, value: tableEntryText });
     }
   }
-  await getNthElementTextLocator(page, 1, 0).click();
+  // Go to the backpage
+  await getNthElementTextLocator(page, 0, 0).click();
+  // Expect the details name to be visible
   await expect(
     page.getByText(tab.backpageExportButtons?.detailsName ?? "ERROR")
   ).toBeVisible();

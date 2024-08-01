@@ -1,9 +1,9 @@
 export interface TabDescription {
-  backpageExportButtons?: backpageExportButtons;
-  backpageHeaders?: backpageHeader[];
+  backpageExportButtons?: BackpageExportButtons;
+  backpageHeaders?: BackpageHeader[];
   emptyFirstColumn: boolean;
-  preselectedColumns: columnDescription[];
-  selectableColumns: columnDescription[];
+  preselectedColumns: ColumnDescription[];
+  selectableColumns: ColumnDescription[];
   tabName: string;
   url: string;
 }
@@ -24,17 +24,18 @@ export interface AnvilCatalogTabCollection {
 
 export type TabCollectionKeys = keyof AnvilCMGTabCollection;
 
-export interface columnDescription {
+export interface ColumnDescription {
   name: string;
+  pluralizedLabel?: string;
   sortable: boolean;
 }
 
-export interface backpageHeader {
-  correspondingColumn?: columnDescription;
+export interface BackpageHeader {
+  correspondingColumn?: ColumnDescription;
   name: string;
 }
 
-export interface backpageExportButtons {
+export interface BackpageExportButtons {
   accessNotGrantedMessage: string;
   detailsName: string;
   exportTabName: string;

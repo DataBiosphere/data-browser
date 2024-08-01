@@ -29,8 +29,16 @@ const anvilDatasetsPreselectedColumns = [
   { name: "Data Modality", sortable: true },
 ];
 const anvilDatasetsSelectableColumns = [
-  { name: "Phenotypic Sex", sortable: true },
-  { name: "Reported Ethnicity", sortable: true },
+  {
+    name: "Phenotypic Sex",
+    pluralizedLabel: "phenotypic sexes",
+    sortable: true,
+  },
+  {
+    name: "Reported Ethnicity",
+    pluralizedLabel: "reported ethnicities",
+    sortable: true,
+  },
 ];
 
 export const anvilTabs: AnvilCMGTabCollection = {
@@ -63,8 +71,16 @@ export const anvilTabs: AnvilCMGTabCollection = {
       { name: "Dataset", sortable: true },
     ],
     selectableColumns: [
-      { name: "Phenotypic Sex", sortable: true },
-      { name: "Reported Ethnicity", sortable: true },
+      {
+        name: "Phenotypic Sex",
+        pluralizedLabel: "phenotypic sexes",
+        sortable: true,
+      },
+      {
+        name: "Reported Ethnicity",
+        pluralizedLabel: "reported ethnicities",
+        sortable: true,
+      },
     ],
     tabName: "BioSamples",
     url: "/biosamples",
@@ -103,6 +119,7 @@ export const anvilTabs: AnvilCMGTabCollection = {
         correspondingColumn: anvilDatasetsPreselectedColumns[6],
         name: "Data modality",
       },
+      // Skipped the below two columns, since they aren't always readable
       {
         correspondingColumn: anvilDatasetsSelectableColumns[0],
         name: "Phenotypic sex",
