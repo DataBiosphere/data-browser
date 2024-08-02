@@ -525,7 +525,7 @@ export const buildExportMethodHeroTerra = (
 export const buildExportMethodManifestDownload = (
   _: Unused,
   viewContext: ViewContext
-): React.ComponentProps<typeof C.AnVILExportMethod> => {
+): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
     buttonLabel: "Request File Manifest",
@@ -732,7 +732,7 @@ export const buildListWarning = (
 export const buildManifestDownload = (
   _: Unused,
   viewContext: ViewContext
-): React.ComponentProps<typeof C.AnVILManifestDownload> => {
+): React.ComponentProps<typeof C.ManifestDownload> => {
   const {
     exploreState: { filterState },
     fileManifestState,
