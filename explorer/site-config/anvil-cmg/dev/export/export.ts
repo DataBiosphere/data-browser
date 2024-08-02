@@ -43,9 +43,9 @@ export const exportConfig: ExportConfig = {
         {
           children: [
             {
-              component: C.AnVILManifestDownload, // TODO update component to ManifestDownload when feature flag is no longer required.
+              component: C.ManifestDownload,
               viewBuilder: V.buildManifestDownload,
-            } as ComponentConfig<typeof C.AnVILManifestDownload>,
+            } as ComponentConfig<typeof C.ManifestDownload>,
           ],
           component: C.BackPageContentMainColumn,
         } as ComponentConfig<typeof C.BackPageContentMainColumn>,
@@ -76,9 +76,9 @@ export const exportConfig: ExportConfig = {
               viewBuilder: V.buildExportMethodTerra,
             } as ComponentConfig<typeof C.ExportMethod>,
             {
-              component: C.AnVILExportMethod, // TODO update component to ExportMethod when feature flag is no longer required.
+              component: C.ExportMethod,
               viewBuilder: V.buildExportMethodManifestDownload,
-            } as ComponentConfig<typeof C.AnVILExportMethod>,
+            } as ComponentConfig<typeof C.ExportMethod>,
           ],
           component: C.BackPageContentMainColumn,
         } as ComponentConfig<typeof C.BackPageContentMainColumn>,

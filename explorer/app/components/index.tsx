@@ -89,8 +89,6 @@ export { FileLocationCopy } from "./Detail/components/GeneratedMatricesTables/co
 export { FileLocationDownload } from "./Detail/components/GeneratedMatricesTables/components/FileLocationDownload/fileLocationDownload";
 export { FileNameCell } from "./Detail/components/GeneratedMatricesTables/components/FileNameCell/fileNameCell";
 export { GeneratedMatricesTables } from "./Detail/components/GeneratedMatricesTables/generatedMatricesTables";
-export { ExportMethod as AnVILExportMethod } from "./Export/components/AnVILExplorer/ExportMethod/exportMethod";
-export { ManifestDownload as AnVILManifestDownload } from "./Export/components/AnVILExplorer/ManifestDownload/manifestDownload";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
 export { CopyCell } from "./Index/components/CopyCell/copyCell";
 export { ANVILBranding } from "./Layout/components/Footer/components/Branding/components/ANVILBranding/anvilBranding";
