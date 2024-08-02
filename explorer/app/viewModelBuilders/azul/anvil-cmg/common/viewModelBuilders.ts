@@ -751,6 +751,19 @@ export const buildManifestDownload = (
   };
 };
 
+/*
+ * Build props for ManifestDownloadEntity component.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ManifestDownloadEntity component.
+ */
+export const buildManifestDownloadEntity = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.AnVILManifestDownloadEntity> => {
+  return {
+    filters: getExportEntityFilters(datasetsResponse),
+  };
+};
+
 /**
  * Build props for organism type cell component from the given donors response.
  * @param response - Response model return from index/donors API endpoint.

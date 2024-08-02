@@ -12,7 +12,7 @@ export const mainColumn: ComponentConfig[] = [
         children: [
           {
             component: C.FluidAlert,
-            viewBuilder: V.buildExportEntityWarning,
+            viewBuilder: V.buildExportEntityWarning, // TODO: Implement warning?
           } as ComponentConfig<typeof C.FluidAlert, DatasetsResponse>,
         ],
         component: C.BackPageContentSingleColumn,
@@ -28,9 +28,12 @@ export const mainColumn: ComponentConfig[] = [
       {
         children: [
           {
-            component: C.ExportToTerra,
-            viewBuilder: V.buildExportEntityToTerra,
-          } as ComponentConfig<typeof C.ExportToTerra, DatasetsResponse>,
+            component: C.AnVILManifestDownloadEntity,
+            viewBuilder: V.buildManifestDownloadEntity,
+          } as ComponentConfig<
+            typeof C.AnVILManifestDownloadEntity,
+            DatasetsResponse
+          >,
         ],
         component: C.BackPageContentMainColumn,
       } as ComponentConfig<typeof C.BackPageContentMainColumn>,
