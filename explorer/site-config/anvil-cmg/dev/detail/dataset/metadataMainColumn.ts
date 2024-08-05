@@ -12,7 +12,7 @@ export const mainColumn: ComponentConfig[] = [
         children: [
           {
             component: C.FluidAlert,
-            viewBuilder: V.buildExportEntityWarning, // TODO: Implement warning?
+            viewBuilder: V.buildManifestDownloadEntityWarning,
           } as ComponentConfig<typeof C.FluidAlert, DatasetsResponse>,
         ],
         component: C.BackPageContentSingleColumn,
