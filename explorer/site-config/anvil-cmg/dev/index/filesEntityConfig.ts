@@ -126,8 +126,8 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           component: C.NTagCell,
           viewBuilder: V.buildDiagnoses,
         } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
-        id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
+        header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
+        id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE,
         width: { max: "1fr", min: "200px" },
       },
       {
