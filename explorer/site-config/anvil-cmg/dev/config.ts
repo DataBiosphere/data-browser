@@ -65,8 +65,8 @@ export function makeConfig(
         {
           categoryConfigs: [
             {
-              key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
-              label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
+              key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE,
+              label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
             },
             {
               key: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,

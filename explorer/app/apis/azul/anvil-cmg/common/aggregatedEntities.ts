@@ -72,6 +72,7 @@ export interface AggregatedDonorResponse {
  * /index/files).
  */
 export interface AggregatedDiagnosis {
+  disease: (string | null)[];
   phenotype: string[];
 }
 

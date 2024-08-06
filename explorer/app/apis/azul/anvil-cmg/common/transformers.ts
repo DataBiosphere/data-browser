@@ -274,7 +274,7 @@ export function getAggregatedOrganismTypes(
 export function getAggregatedDiagnoses(
   response: AggregatedDiagnosisResponse
 ): string[] {
-  return processAggregatedOrArrayValue(response.diagnoses, "phenotype");
+  return processAggregatedOrArrayValue(response.diagnoses, "disease");
 }
 
 /**
