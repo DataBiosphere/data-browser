@@ -15,6 +15,7 @@ import {
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
 import { mainColumn as exportMainColumn } from "../detail/dataset/exportMainColumn";
+import { mainColumn as metadataMainColumn } from "../detail/dataset/metadataMainColumn";
 import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
@@ -35,6 +36,11 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         mainColumn: mainColumn,
         route: "",
         sideColumn: sideColumn,
+      },
+      {
+        label: "Metadata",
+        mainColumn: metadataMainColumn,
+        route: "project-metadata",
       },
       {
         label: "Export",

@@ -751,6 +751,42 @@ export const buildManifestDownload = (
   };
 };
 
+/*
+ * Build props for ManifestDownloadEntity component.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ManifestDownloadEntity component.
+ */
+export const buildManifestDownloadEntity = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.AnVILManifestDownloadEntity> => {
+  return {
+    filters: getExportEntityFilters(datasetsResponse),
+  };
+};
+
+/**
+ * Build props for entity related download manifest warning FluidAlert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the FluidAlert component.
+ */
+export const buildManifestDownloadEntityWarning = (
+  _: DatasetsResponse,
+  viewContext: ViewContext
+): React.ComponentProps<typeof C.FluidAlert> => {
+  const {
+    authState: { isAuthenticated },
+  } = viewContext;
+  const title = isAuthenticated
+    ? "To download this dataset manifest, please request access."
+    : "To download this dataset manifest, please sign in and, if necessary, request access.";
+  return {
+    severity: "warning",
+    title,
+    variant: "banner",
+  };
+};
+
 /**
  * Build props for organism type cell component from the given donors response.
  * @param response - Response model return from index/donors API endpoint.
