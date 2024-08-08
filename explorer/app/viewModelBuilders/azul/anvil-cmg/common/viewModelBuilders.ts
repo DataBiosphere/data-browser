@@ -104,6 +104,7 @@ import * as MDX from "../../../../components/common/MDXContent/anvil-cmg";
 import { ExportMethod } from "../../../../components/Export/components/AnVILExplorer/ExportMethod/exportMethod";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import { FEATURE_FLAGS } from "../../../common/contants";
 import { Unused } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
@@ -451,10 +452,13 @@ export const buildExportEntityWarning = (
 ): React.ComponentProps<typeof C.FluidAlert> => {
   const {
     authState: { isAuthenticated },
+    exploreState: { featureFlagState },
   } = viewContext;
-  const title = isAuthenticated
-    ? "To export this dataset, please request access."
-    : "To export this dataset, please sign in and, if necessary, request access.";
+  const title = featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)
+    ? isAuthenticated
+      ? "To export this dataset, please request access."
+      : "To export this dataset, please sign in and, if necessary, request access."
+    : "Export functionality is currently under development. Check back soon for updates.";
   return {
     severity: "warning",
     title,
@@ -1240,26 +1244,41 @@ export const renderWhenUnAuthorized = (
 /**
  * Renders entity related export when the given datasests response is accessible.
  * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ConditionalComponent component.
  */
 export const renderExportEntity = (
-  datasetsResponse: DatasetsResponse
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
+  const {
+    exploreState: { featureFlagState },
+  } = viewContext;
   return {
-    isIn: isDatasetAccessible(datasetsResponse),
+    isIn:
+      isDatasetAccessible(datasetsResponse) &&
+      Boolean(featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)),
   };
 };
 
 /**
  * Renders entity related export warning when the given datasests response is not accessible.
  * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
  * @returns model to be used as props for the ConditionalComponent component.
  */
 export const renderExportEntityWarning = (
-  datasetsResponse: DatasetsResponse
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
+  const {
+    exploreState: { featureFlagState },
+  } = viewContext;
   return {
-    isIn: !isDatasetAccessible(datasetsResponse),
+    isIn: !(
+      isDatasetAccessible(datasetsResponse) &&
+      Boolean(featureFlagState?.includes(FEATURE_FLAGS.VERBATIM))
+    ),
   };
 };
 
