@@ -1283,6 +1283,32 @@ export const renderExportEntityWarning = (
 };
 
 /**
+ * Renders entity related download manifest when the given datasests response is accessible.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderManifestDownloadEntity = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn: isDatasetAccessible(datasetsResponse),
+  };
+};
+
+/**
+ * Renders entity related download manifest warning when the given datasests response is not accessible.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderManifestDownloadEntityWarning = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn: !isDatasetAccessible(datasetsResponse),
+  };
+};
+
+/**
  * Returns value from a string array matching the given index.
  * @param arr - String array.
  * @param index - Zero-based index of the array element to be returned.
