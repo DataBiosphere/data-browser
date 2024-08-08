@@ -19,7 +19,7 @@ export const mainColumn: ComponentConfig[] = [
       } as ComponentConfig<typeof C.BackPageContentSingleColumn>,
     ],
     component: C.ConditionalComponent,
-    viewBuilder: V.renderExportEntityWarning,
+    viewBuilder: V.renderManifestDownloadEntityWarning,
   } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
   {
     /* Dataset is accessible; render export entity */
@@ -41,6 +41,6 @@ export const mainColumn: ComponentConfig[] = [
       ...sideColumn,
     ],
     component: C.ConditionalComponent,
-    viewBuilder: V.renderExportEntity,
+    viewBuilder: V.renderManifestDownloadEntity,
   } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
 ];
