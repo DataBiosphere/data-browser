@@ -101,6 +101,7 @@ import {
 } from "../../../../apis/azul/common/utils";
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/anvil-cmg";
+import { ExportMethod } from "../../../../components/Export/components/AnVILExplorer/ExportMethod/exportMethod";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { Unused } from "../../../common/entities";
@@ -545,7 +546,7 @@ export const buildExportMethodManifestDownload = (
 export const buildExportMethodTerra = (
   _: Unused,
   viewContext: ViewContext
-): React.ComponentProps<typeof C.ExportMethod> => {
+): React.ComponentProps<typeof ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
     buttonLabel: "Analyze in Terra",
