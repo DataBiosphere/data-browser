@@ -3,6 +3,7 @@ import {
   ExportConfig,
 } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
+import { ExportMethod } from "../../../../app/components/Export/components/AnVILExplorer/ExportMethod/exportMethod";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import { ROUTE_EXPORT_TO_TERRA, ROUTE_MANIFEST_DOWNLOAD } from "./constants";
 import { mainColumn as exportMainColumn } from "./exportMainColumn";
@@ -72,9 +73,9 @@ export const exportConfig: ExportConfig = {
         {
           children: [
             {
-              component: C.ExportMethod,
+              component: ExportMethod,
               viewBuilder: V.buildExportMethodTerra,
-            } as ComponentConfig<typeof C.ExportMethod>,
+            } as ComponentConfig<typeof ExportMethod>,
             {
               component: C.ExportMethod,
               viewBuilder: V.buildExportMethodManifestDownload,
