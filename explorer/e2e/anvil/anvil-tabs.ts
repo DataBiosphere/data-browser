@@ -5,7 +5,7 @@ import {
   TabDescription,
 } from "../testInterfaces";
 
-export const filters: string[] = [
+export const anvilFilters: string[] = [
   "Anatomical Site",
   "BioSample Type",
   "Consent Group",
@@ -17,6 +17,28 @@ export const filters: string[] = [
   "Organism Type",
   "Phenotypic Sex",
   "Reported Ethnicity",
+];
+
+const anvilDatasetsPreselectedColumns = [
+  { name: "Dataset", sortable: true },
+  { name: "Access", sortable: false },
+  { name: "Identifier", sortable: true },
+  { name: "Consent Group", sortable: true },
+  { name: "Organism Type", sortable: true },
+  { name: "Diagnosis", sortable: true },
+  { name: "Data Modality", sortable: true },
+];
+const anvilDatasetsSelectableColumns = [
+  {
+    name: "Phenotypic Sex",
+    pluralizedLabel: "phenotypic sexes",
+    sortable: true,
+  },
+  {
+    name: "Reported Ethnicity",
+    pluralizedLabel: "reported ethnicities",
+    sortable: true,
+  },
 ];
 
 export const anvilTabs: AnvilCMGTabCollection = {
@@ -49,27 +71,73 @@ export const anvilTabs: AnvilCMGTabCollection = {
       { name: "Dataset", sortable: true },
     ],
     selectableColumns: [
-      { name: "Phenotypic Sex", sortable: true },
-      { name: "Reported Ethnicity", sortable: true },
+      {
+        name: "Phenotypic Sex",
+        pluralizedLabel: "phenotypic sexes",
+        sortable: true,
+      },
+      {
+        name: "Reported Ethnicity",
+        pluralizedLabel: "reported ethnicities",
+        sortable: true,
+      },
     ],
     tabName: "BioSamples",
     url: "/biosamples",
   },
   datasets: {
+    backpageAccessTags: {
+      deniedLongName: "Access Required",
+      deniedShortName: "Required",
+      grantedLongName: "Access Granted",
+      grantedShortName: "Granted",
+    },
+    backpageExportButtons: {
+      accessNotGrantedMessage:
+        "To export this dataset, please sign in and, if necessary, request access.",
+      detailsName: "Dataset Details",
+      exportTabName: "Export",
+      exportUrlRegExp: /\.*\/export-to-terra/,
+      firstButtonName: "Request Link",
+      firstLoadingMessage: "Your link will be ready shortly...",
+      newTabMessage:
+        "If you are a new user or returning user, click sign in to continue.",
+      secondButtonName: "Open Terra",
+      secondLandingMessage: "Your Terra Workspace Link is Ready",
+    },
+    backpageHeaders: [
+      {
+        name: "Dataset ID",
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[3],
+        name: "Consent group",
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[4],
+        name: "Organism type",
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[5],
+        name: "Diagnosis",
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[6],
+        name: "Data modality",
+      },
+      // Skipped the below two columns, since they aren't always readable
+      {
+        correspondingColumn: anvilDatasetsSelectableColumns[0],
+        name: "Phenotypic sex",
+      },
+      {
+        correspondingColumn: anvilDatasetsSelectableColumns[1],
+        name: "Reported ethnicity",
+      },
+    ],
     emptyFirstColumn: false,
-    preselectedColumns: [
-      { name: "Dataset", sortable: true },
-      { name: "Access", sortable: false },
-      { name: "Identifier", sortable: true },
-      { name: "Consent Group", sortable: true },
-      { name: "Organism Type", sortable: true },
-      { name: "Diagnosis", sortable: true },
-      { name: "Data Modality", sortable: true },
-    ],
-    selectableColumns: [
-      { name: "Phenotypic Sex", sortable: true },
-      { name: "Reported Ethnicity", sortable: true },
-    ],
+    preselectedColumns: anvilDatasetsPreselectedColumns,
+    selectableColumns: anvilDatasetsSelectableColumns,
     tabName: "Datasets",
     url: "/datasets",
   },

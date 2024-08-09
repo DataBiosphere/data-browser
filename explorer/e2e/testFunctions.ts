@@ -1,14 +1,52 @@
-import { expect, Page } from "@playwright/test";
-import { TabDescription } from "./testInterfaces";
+import { BrowserContext, expect, Locator, Page } from "@playwright/test";
+import {
+  BackpageHeader,
+  ColumnDescription,
+  TabDescription,
+} from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
-// Run the "Expect each tab to appear as selected when the corresponding url is accessed" test
+
+export const getNthElementTextLocator = (
+  page: Page,
+  row_position: number,
+  column_position: number
+): Locator => {
+  return page
+    .getByRole("rowgroup")
+    .nth(1)
+    .getByRole("row")
+    .nth(row_position)
+    .getByRole("cell")
+    .nth(column_position);
+};
+
+export const getFirstElementTextLocator = (
+  page: Page,
+  column_position: number
+): Locator => getNthElementTextLocator(page, 0, column_position);
+
+export const getLastElementTextLocator = (
+  page: Page,
+  column_position: number
+): Locator => {
+  return page
+    .getByRole("rowgroup")
+    .nth(1)
+    .getByRole("row")
+    .last()
+    .getByRole("cell")
+    .nth(column_position);
+};
+
 export async function testUrl(
   page: Page,
   tab: TabDescription,
   otherTabs: TabDescription[]
 ): Promise<void> {
+  // Go to the selected tab
   await page.goto(tab.url);
+  // Check that the selected tab appears selected and the other tabs appear deselected
   await expect(
     page.getByRole("tab").getByText(tab.tabName, { exact: true })
   ).toHaveAttribute("aria-selected", "true", { timeout: 25000 });
@@ -21,30 +59,30 @@ export async function testUrl(
   }
 }
 
-// Run the "Expect each tab to become selected, to go to the correct url, and to show all of its columns when selected" test
-export async function testTab(page: Page, tab: TabDescription): Promise<void> {
-  await expect(
-    page
-      .getByRole("rowgroup")
-      .nth(1)
-      .getByRole("row")
-      .nth(1)
-      .getByRole("cell")
-      .nth(1)
-  ).toBeVisible();
-  await page.getByRole("tab").getByText(tab.tabName, { exact: true }).click();
-  await expect(page).toHaveURL(tab.url, { timeout: 25000 }); // Long timeout because some tabs take a long time to load
-  await expect(page.getByRole("tab").getByText(tab.tabName)).toHaveAttribute(
+export async function testTab(
+  page: Page,
+  startTab: TabDescription,
+  endTab: TabDescription
+): Promise<void> {
+  // Run the "Expect each tab to become selected, to go to the correct url, and to show all of its columns when selected" test
+  await page.goto(startTab.url);
+  await expect(getFirstElementTextLocator(page, 1)).toBeVisible();
+  await page
+    .getByRole("tab")
+    .getByText(endTab.tabName, { exact: true })
+    .click();
+  await expect(page).toHaveURL(endTab.url, { timeout: 25000 }); // Long timeout because some tabs take a long time to load
+  await expect(page.getByRole("tab").getByText(endTab.tabName)).toHaveAttribute(
     "aria-selected",
     "true"
   );
-  if (tab.emptyFirstColumn) {
+  if (endTab.emptyFirstColumn) {
     await expect(page.getByRole("columnheader")).toHaveText(
-      [" "].concat(tab.preselectedColumns.map((x) => x.name))
+      [" "].concat(endTab.preselectedColumns.map((x) => x.name))
     );
   } else {
     await expect(page.getByRole("columnheader")).toHaveText(
-      tab.preselectedColumns.map((x) => x.name)
+      endTab.preselectedColumns.map((x) => x.name)
     );
   }
 }
@@ -67,28 +105,21 @@ export async function testSortAzul(
         ? columnPosition + 1
         : columnPosition;
       // Locators for the first and last cells in a particular column position on the page
-      const firstElementTextLocator = page
-        .getByRole("rowgroup")
-        .nth(1)
-        .getByRole("row")
-        .nth(0)
-        .getByRole("cell")
-        .nth(workColumnPosition);
-      const lastElementTextLocator = page
-        .getByRole("rowgroup")
-        .nth(1)
-        .getByRole("row")
-        .last()
-        .getByRole("cell")
-        .nth(workColumnPosition);
-      // Locator for the sort buttonf
+      const firstElementTextLocator = getFirstElementTextLocator(
+        page,
+        workColumnPosition
+      );
+      const lastElementTextLocator = getLastElementTextLocator(
+        page,
+        workColumnPosition
+      );
+      // Locator for the sort button
       const columnSortLocator = page
         .getByRole("columnheader", {
           exact: true,
           name: tab.preselectedColumns[columnPosition].name,
         })
         .getByRole("button");
-
       // Expect the first and last cells to be visible and have text
       await expect(firstElementTextLocator).toBeVisible();
       await expect(lastElementTextLocator).toBeVisible();
@@ -114,7 +145,6 @@ export async function testSortCatalog(
 ): Promise<void> {
   // Get the current tab, and go to it's URL
   await page.goto(tab.url);
-  // For each column
   for (
     let columnPosition = 0;
     columnPosition < tab.preselectedColumns.length;
@@ -126,13 +156,10 @@ export async function testSortCatalog(
         ? columnPosition + 1
         : columnPosition;
       // Locators for the first and last cells in a particular column position on the page
-      const firstElementTextLocator = page
-        .getByRole("rowgroup")
-        .nth(1)
-        .getByRole("row")
-        .nth(0)
-        .getByRole("cell")
-        .nth(workColumnPosition);
+      const firstElementTextLocator = getFirstElementTextLocator(
+        page,
+        workColumnPosition
+      );
       // Locator for the sort button
       const columnSortLocator = page
         .getByRole("columnheader", {
@@ -140,9 +167,7 @@ export async function testSortCatalog(
           name: tab.preselectedColumns[columnPosition].name,
         })
         .getByRole("button");
-
       await expect(firstElementTextLocator).toBeVisible();
-
       // Click to sort
       await columnSortLocator.click();
       // Expect the first and cells to still be visible
@@ -160,10 +185,14 @@ export async function testSelectableColumns(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
+  // Navigate to the tab
   await page.goto(tab.url);
+  // Select the "Edit Columns" menu
   await page.getByRole("button").getByText("Edit Columns").click();
   await expect(page.getByRole("menu")).toBeVisible();
+  // Enable each selectable tab
   for (const column of tab.selectableColumns) {
+    // Locate the checkbox for each column
     const checkboxLocator = page
       .getByRole("menu")
       .locator("*")
@@ -173,13 +202,16 @@ export async function testSelectableColumns(
           .filter({ has: page.getByText(column.name, { exact: true }) }),
       })
       .getByRole("checkbox");
+    // Expect each column to be enabled and unchecked for selectable tabs
     await expect(checkboxLocator).toBeEnabled();
     await expect(checkboxLocator).not.toBeChecked();
+    // Expect clicking the checkbox to function
     await checkboxLocator.click();
     await expect(checkboxLocator).toBeChecked();
   }
   await page.getByRole("document").click();
   await expect(page.getByRole("menu")).not.toBeVisible();
+  // Expect all selectable tabs to be enabled
   await expect(page.getByRole("columnheader")).toContainText(
     tab.selectableColumns.map((x) => x.name)
   );
@@ -204,6 +236,453 @@ export async function testPreSelectedColumns(
       .getByRole("checkbox");
     await expect(checkboxLocator).toBeDisabled();
     await expect(checkboxLocator).toBeChecked();
+  }
+}
+
+export const filterRegex = (filter: string): RegExp =>
+  new RegExp(filter + "\\s+\\([0-9]+\\)\\s*");
+
+export async function testFilterPresence(
+  page: Page,
+  tab: TabDescription,
+  filters: string[]
+): Promise<void> {
+  // Goto the selected tab
+  await page.goto(tab.url);
+  await expect(page.getByRole("tab").getByText(tab.tabName)).toBeVisible();
+  for (const filter of filters) {
+    // Check that each filter is visible and clickable
+    await expect(page.getByText(filterRegex(filter))).toBeVisible();
+    await page.getByText(filterRegex(filter)).click();
+    await expect(page.getByRole("checkbox").first()).toBeVisible();
+    await expect(page.getByRole("checkbox").first()).not.toBeChecked();
+    // Check that clicking out of the filter menu causes it to disappear
+    await page.locator("body").click();
+    await expect(page.getByRole("checkbox")).toHaveCount(0);
+  }
+}
+
+export const getNamedFilterButton = (
+  page: Page,
+  filterName: string
+): Locator => {
+  return page
+    .getByRole("button")
+    .filter({ has: page.getByRole("checkbox"), hasText: filterName });
+};
+
+export const getFirstFilterButton = (page: Page): Locator => {
+  return page
+    .getByRole("button")
+    .filter({ has: page.getByRole("checkbox") })
+    .first();
+};
+
+export async function testFilterPersistence(
+  page: Page,
+  testFilter: string,
+  tabOrder: TabDescription[]
+): Promise<void> {
+  // Start on the first tab in the test order (should be files)
+  await page.goto(tabOrder[0].url);
+  // Select the first checkbox on the test filter
+  await page.getByText(filterRegex(testFilter)).click();
+  const to_select = await getFirstFilterButton(page);
+  await expect(to_select.getByRole("checkbox")).not.toBeChecked();
+  await to_select.getByRole("checkbox").click();
+  const filterName = (await to_select.innerText()).split("\n")[0]; //MAY NEED TO ADD SOME CHECKING MECHANISM HERE
+  await expect(to_select.getByRole("checkbox")).toBeChecked();
+  await page.locator("body").click();
+  // Expect at least some text to still be visible
+  await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
+  // For each tab, check that the selected filter is still checked
+  for (const tab of tabOrder.slice(1)) {
+    await page
+      .getByRole("tab")
+      .getByText(tab.tabName, { exact: true })
+      .dispatchEvent("click");
+    await expect(page.getByText(filterRegex(testFilter))).toBeVisible();
+    await page.getByText(filterRegex(testFilter)).dispatchEvent("click");
+    await page.waitForLoadState("load");
+    const previously_selected = getNamedFilterButton(page, filterName);
+    await expect(previously_selected.getByRole("checkbox")).toBeChecked();
+    await page.waitForLoadState("load");
+    await page.locator("body").click();
+  }
+  // Return to the start tab and confirm that the filter stays checked and that some content is visible
+  await page
+    .getByRole("tab")
+    .getByText(tabOrder[0].tabName, { exact: true })
+    .click();
+  await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
+  await page.getByText(filterRegex(testFilter)).click();
+  const previously_selected = getFirstFilterButton(page);
+  await expect(previously_selected).toContainText(filterName, {
+    useInnerText: true,
+  });
+  await expect(previously_selected.getByRole("checkbox").first()).toBeChecked();
+}
+
+export async function testFilterCounts(
+  page: Page,
+  tab: TabDescription,
+  filters: string[],
+  elements_per_page: number
+): Promise<boolean> {
+  await page.goto(tab.url);
+  // For each arbitrarily selected filter
+  for (const filter of filters) {
+    // Select the filter
+    await page.getByText(filterRegex(filter)).dispatchEvent("click");
+    // Get the number associated with the first filter button, and select it
+    await page.waitForLoadState("load");
+    const filter_button = getFirstFilterButton(page);
+    const filter_numbers = (await filter_button.innerText()).split("\n");
+    const filter_number =
+      filter_numbers.map((x) => Number(x)).find((x) => !isNaN(x) && x !== 0) ??
+      -1;
+    if (filter_number < 0) {
+      console.log(filter_numbers.map((x) => Number(x)));
+      return false;
+    }
+    // Check the filter
+    await filter_button.getByRole("checkbox").dispatchEvent("click");
+    await page.waitForLoadState("load");
+    // Exit the filter menu
+    await page.locator("body").click();
+    await expect(page.getByRole("checkbox")).toHaveCount(0);
+    // Expect the displayed count of elements to be 0
+    const firstNumber =
+      filter_number <= elements_per_page ? filter_number : elements_per_page;
+    await expect(
+      page.getByText("Results 1 - " + firstNumber + " of " + filter_number)
+    ).toBeVisible();
+  }
+  return true;
+}
+
+export async function testFilterBubbles(
+  page: Page,
+  tab: TabDescription,
+  filters: string[]
+): Promise<void> {
+  await page.goto(tab.url);
+  for (const filter of filters) {
+    // Select a filter
+    await page.getByText(filterRegex(filter)).dispatchEvent("click");
+    await page.waitForLoadState("load");
+    const firstFilterButton = getFirstFilterButton(page);
+    // Get the name of the selected filter
+    const firstFilterName =
+      (await firstFilterButton.innerText())
+        .split("\n")
+        .find((x) => x.length > 0) ?? "";
+    // Click the selected filter and exit the filter menu
+    await firstFilterButton.getByRole("checkbox").click();
+    await page.waitForLoadState("load");
+    await page.locator("body").click();
+    await expect(page.getByRole("checkbox")).toHaveCount(0);
+    // Click the blue button
+    const filterBlueButton = page
+      .locator("#sidebar-positioner")
+      .getByText(firstFilterName);
+    await expect(filterBlueButton).toBeVisible();
+    await filterBlueButton.scrollIntoViewIfNeeded();
+    await filterBlueButton.dispatchEvent("click");
+    // Expect the blue button to disappear when clicked
+    await expect(filterBlueButton).toHaveCount(0);
+    // Expect the filter to be deselected in the filter menu
+    await page.getByText(filterRegex(filter)).dispatchEvent("click");
+    await expect(firstFilterButton.getByRole("checkbox")).not.toBeChecked();
+    await page.locator("body").click();
+  }
+}
+
+export async function testClearAll(
+  page: Page,
+  tab: TabDescription,
+  filters: string[]
+): Promise<void> {
+  await page.goto(tab.url);
+  const selected_filter_list = [];
+  // Select each filter and get the names of the actual filter text
+  for (const filter of filters) {
+    await page.getByText(filterRegex(filter)).dispatchEvent("click");
+    await getFirstFilterButton(page).getByRole("checkbox").click();
+    await expect(
+      getFirstFilterButton(page).getByRole("checkbox")
+    ).toBeChecked();
+    selected_filter_list.push(
+      (await getFirstFilterButton(page).innerText())
+        .split("\n")
+        .find((x) => x.length > 0) ?? ""
+    );
+    await page.locator("body").click();
+  }
+  // Click the clear all button
+  await page.getByText("Clear All").dispatchEvent("click");
+  for (const filter of selected_filter_list) {
+    await expect(
+      page.locator("#sidebar-positioner").getByText(filter)
+    ).toHaveCount(0);
+  }
+  // Ensure that the filters still show as unchecked
+  for (let i = 0; i < filters.length; i++) {
+    await page.getByText(filterRegex(filters[i])).dispatchEvent("click");
+    await expect(
+      getNamedFilterButton(page, selected_filter_list[i]).getByRole("checkbox")
+    ).not.toBeChecked();
+    await page.locator("body").click();
+  }
+}
+
+const getRowLocatorByAccess = (page: Page, access: string): Locator =>
+  page
+    .getByRole("row")
+    .filter({ has: page.getByRole("cell", { name: access }) })
+    .first()
+    .getByRole("cell")
+    .first()
+    .getByRole("link");
+
+// Backpages tests
+export async function testExportBackpage(
+  context: BrowserContext,
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  if (tab.backpageExportButtons == null || tab.backpageAccessTags == null) {
+    // Fail if this test is ran on a tab without defined backpages
+    await expect(false);
+    return;
+  }
+  // Goto the specified tab
+  await page.goto(tab.url);
+  // Expect to find row with a granted status indicator
+  const grantedRowLocator = getRowLocatorByAccess(
+    page,
+    tab.backpageAccessTags.grantedShortName
+  );
+  await expect(grantedRowLocator).toBeVisible();
+  // Click into the selected row
+  await grantedRowLocator.dispatchEvent("click");
+  await expect(
+    page.getByText(tab.backpageExportButtons.detailsName)
+  ).toBeVisible();
+  // Click the "Export" tab
+  await page
+    .getByText(tab.backpageExportButtons.exportTabName, {
+      exact: true,
+    })
+    .click();
+  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
+  await expect(page.getByRole("checkbox").first()).toBeVisible();
+  const firstButtonLocator = page.getByRole("button", {
+    name: tab.backpageExportButtons.firstButtonName,
+  });
+  await expect(firstButtonLocator).toBeEnabled();
+  // Select all checkboxes on the pages
+  const checkboxLocators = await page.getByRole("checkbox").all();
+  for (const checkboxLocator of checkboxLocators) {
+    if (!(await checkboxLocator.isChecked())) {
+      await checkboxLocator.click();
+      await expect(checkboxLocator).toBeChecked();
+      await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
+    }
+  }
+  await expect(firstButtonLocator).toBeEnabled({ timeout: 10000 });
+  // Uncheck all checkboxes except one in each table, to reduce overhead
+  for (const tableLocator of await page.getByRole("table").all()) {
+    const checkboxLocatorsInTable = await tableLocator
+      .getByRole("checkbox")
+      .all();
+    for (const checkboxLocator of checkboxLocatorsInTable.slice(2)) {
+      await checkboxLocator.click();
+      await expect(checkboxLocator).not.toBeChecked();
+      await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
+    }
+  }
+  // Click the "Request Link" button
+  await expect(firstButtonLocator).toBeEnabled({ timeout: 10000 });
+  await firstButtonLocator.click();
+  await expect(
+    page.getByText(tab.backpageExportButtons.firstLoadingMessage, {
+      exact: true,
+    })
+  ).toBeVisible();
+  await expect(
+    page.getByText(tab.backpageExportButtons.secondLandingMessage, {
+      exact: true,
+    })
+  ).toBeVisible({ timeout: 60000 });
+  const secondButtonLocator = page.getByRole("button", {
+    name: tab.backpageExportButtons?.secondButtonName,
+  });
+  await expect(secondButtonLocator).toBeEnabled();
+  // Click the "Open Terra" Button and await a new browser tab
+  const newPagePromise = context.waitForEvent("page");
+  await secondButtonLocator.click();
+  const newPage = await newPagePromise;
+  // Expect the new browser tab to look like the Terra page
+  await expect(
+    newPage.getByText(tab.backpageExportButtons?.newTabMessage)
+  ).toBeVisible();
+}
+
+export async function testBackpageAccess(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  if (tab.backpageExportButtons == null || tab.backpageAccessTags == null) {
+    // Fail if this test is ran on a tab without defined backpages
+    await expect(false);
+    return;
+  }
+  // Goto the specified tab
+  await page.goto(tab.url);
+  // Check that the first "Granted" tab has access granted
+  const grantedRowLocator = getRowLocatorByAccess(
+    page,
+    tab.backpageAccessTags.grantedShortName
+  );
+  await expect(grantedRowLocator).toBeVisible();
+  await grantedRowLocator.dispatchEvent("click");
+  await expect(
+    page.getByText(tab.backpageExportButtons.detailsName)
+  ).toBeVisible();
+  await expect(
+    page.getByText(tab.backpageAccessTags.grantedLongName)
+  ).toBeVisible();
+  await page
+    .getByText(tab.backpageExportButtons.exportTabName, {
+      exact: true,
+    })
+    .click();
+  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
+  await expect(page.getByRole("checkbox").first()).toBeVisible();
+  const requestLinkButtonLocator = page.getByRole("button", {
+    name: tab.backpageExportButtons.firstButtonName,
+  });
+  await expect(requestLinkButtonLocator).toBeEnabled();
+  // Go back to the table page
+  await page.getByRole("link", { name: tab.tabName }).click();
+  // Check that the first "Required" tab does not have access granted
+  const deniedRowLocator = getRowLocatorByAccess(
+    page,
+    tab.backpageAccessTags.deniedShortName
+  );
+  await expect(deniedRowLocator).toBeVisible();
+  await deniedRowLocator.dispatchEvent("click");
+  await expect(
+    page.getByText(tab.backpageAccessTags.deniedLongName)
+  ).toBeVisible();
+  await page
+    .getByText(tab.backpageExportButtons.exportTabName, {
+      exact: true,
+    })
+    .click();
+  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
+  await expect(
+    page.getByText(tab.backpageExportButtons.accessNotGrantedMessage, {
+      exact: true,
+    })
+  ).toBeVisible();
+}
+
+const hoverAndGetText = async (
+  page: Page,
+  columnDescription: ColumnDescription | undefined,
+  rowPosition: number,
+  columnPosition: number
+): Promise<string> => {
+  const cellLocator = getNthElementTextLocator(
+    page,
+    rowPosition,
+    columnPosition
+  );
+  const cellText = await cellLocator.innerText();
+  // Check if the cell appears to be an Ntag cell
+  if (
+    columnDescription != undefined &&
+    columnDescription.pluralizedLabel != undefined &&
+    RegExp("\\s*[0-9]+ " + columnDescription.pluralizedLabel + "\\s*").test(
+      cellText
+    )
+  ) {
+    // Hover over the text of the NTag cell
+    await cellLocator.locator("*").last().hover();
+    // Read the tooltip
+    await page.getByRole("tooltip").waitFor();
+    const outputText = (await page.getByRole("tooltip").innerText()).trim();
+    // Hover over a different part of the page to ensure that the tooltip disappears
+    await page.getByRole("columnheader").first().hover();
+    await expect(page.getByRole("tooltip")).toHaveCount(0);
+    // Return the tooltip contents
+    return outputText;
+  }
+  return cellText.trim();
+};
+
+export async function testBackpageDetails(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  if (tab.backpageHeaders == null || tab.backpageExportButtons == null) {
+    // If the tab is not set up with backpage info, fail the test
+    await expect(false);
+    return;
+  }
+  await page.goto(tab.url);
+  // Enable test columns
+  await testSelectableColumns(page, tab);
+  const headers: { header: string; value: string }[] = [];
+  const combinedColumns = tab.preselectedColumns.concat(tab.selectableColumns);
+  const filterString = (x: string | undefined): x is string => x !== undefined;
+  // Get the columns that correspond with a header on the backpage details
+  const backpageCorrespondingColumns: string[] = tab.backpageHeaders
+    .map((header) => header?.correspondingColumn?.name)
+    .filter(filterString)
+    .map((x) => x.trim());
+  for (let i = 0; i < combinedColumns.length; i++) {
+    // Get the name of the current column
+    const columnHeaderName = (
+      await page.getByRole("columnheader").nth(i).innerText()
+    ).trim();
+    // If the selected column has an entry on the backpage
+    if (backpageCorrespondingColumns.includes(columnHeaderName)) {
+      // Get the object representing the current column
+      const columnObject = combinedColumns.find(
+        (x) => x.name == columnHeaderName
+      );
+      // Get the entry text
+      const tableEntryText = await hoverAndGetText(page, columnObject, 0, i);
+      // Get the name of the corresponding header on the backpage
+      const correspondingHeaderName = tab.backpageHeaders.find(
+        (header: BackpageHeader) =>
+          header?.correspondingColumn?.name === columnHeaderName
+      )?.name;
+      if (correspondingHeaderName == null) {
+        // Fail the test, because this means there is an incorrect configuraiton in the tab definition
+        await expect(false);
+        return;
+      }
+      headers.push({ header: correspondingHeaderName, value: tableEntryText });
+    }
+  }
+  // Go to the backpage
+  await getNthElementTextLocator(page, 0, 0).click();
+  // Expect the details name to be visible
+  await expect(
+    page.getByText(tab.backpageExportButtons.detailsName)
+  ).toBeVisible();
+  for (const headerValue of headers) {
+    // Expect the correct value to be below the correct header in the dataset values table
+    await expect(
+      page
+        .locator(`:below(:text('${headerValue.header}'))`)
+        .getByText(headerValue.value)
+        .first()
+    ).toBeVisible();
   }
 }
 
