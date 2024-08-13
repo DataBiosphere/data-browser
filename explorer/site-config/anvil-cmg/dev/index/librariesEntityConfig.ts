@@ -30,18 +30,18 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildLibraryId,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.LIBRARY_ID,
         id: ANVIL_CMG_CATEGORY_KEY.LIBRARY_ID,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildPrepMaterialName,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.PREP_MATERIAL_NAME,
         id: ANVIL_CMG_CATEGORY_KEY.PREP_MATERIAL_NAME,
         width: { max: "1fr", min: "200px" },

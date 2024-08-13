@@ -1,5 +1,3 @@
-import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
-import { HEADER_NAVIGATION_LABEL } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/common/constants";
 import { SiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil/common/constants";
 import * as C from "../../../app/components/index";
@@ -104,53 +102,56 @@ const config: SiteConfig = {
       socials: socialMedia.socials,
     },
     header: {
-      Logo: C.Logo({
+      authenticationEnabled: true,
+      logo: C.Logo({
         alt: APP_TITLE,
         height: 40,
         link: BROWSER_URL,
         src: "/images/logoAnvil.png",
       }),
-      authenticationEnabled: true,
-      navAlignment: ELEMENT_ALIGNMENT.CENTER,
-      navLinks: [
-        {
-          label: "Overview",
-          url: `${BROWSER_URL}/overview`,
-        },
-        {
-          label: "Learn",
-          url: `${BROWSER_URL}/learn`,
-        },
-        {
-          label: "Datasets",
-          url: URL_DATASETS,
-        },
-        {
-          label: "News",
-          url: `${BROWSER_URL}/news`,
-        },
-        {
-          label: "Events",
-          url: `${BROWSER_URL}/events`,
-        },
-        {
-          label: HEADER_NAVIGATION_LABEL.MORE,
-          menuItems: [
-            {
-              label: "Team",
-              url: `${BROWSER_URL}/team`,
-            },
-            {
-              label: "FAQ",
-              url: `${BROWSER_URL}/faq`,
-            },
-            {
-              label: "Help",
-              url: `${BROWSER_URL}/help`,
-            },
-          ],
-          url: "",
-        },
+      navigation: [
+        undefined,
+        [
+          {
+            label: "Overview",
+            url: `${BROWSER_URL}/overview`,
+          },
+          {
+            label: "Learn",
+            url: `${BROWSER_URL}/learn`,
+          },
+          {
+            label: "Datasets",
+            url: URL_DATASETS,
+          },
+          {
+            label: "News",
+            url: `${BROWSER_URL}/news`,
+          },
+          {
+            label: "Events",
+            url: `${BROWSER_URL}/events`,
+          },
+          {
+            label: "More",
+            menuItems: [
+              {
+                label: "Team",
+                url: `${BROWSER_URL}/team`,
+              },
+              {
+                label: "FAQ",
+                url: `${BROWSER_URL}/faq`,
+              },
+              {
+                label: "Help",
+                url: `${BROWSER_URL}/help`,
+              },
+            ],
+            url: "",
+          },
+        ],
+        undefined,
       ],
       searchEnabled: true,
       searchURL: `${BROWSER_URL}/search`,

@@ -1,8 +1,6 @@
-import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
-import { HEADER_NAVIGATION_LABEL } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/common/constants";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import * as C from "../../../app/components/index";
-import { socialMedia } from "../../anvil/dev/socialMedia";
+import { socialMedia, SOCIALS } from "../../anvil/dev/socialMedia";
 import { SiteConfig } from "../../common/entities";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,
@@ -102,75 +100,110 @@ export function makeConfig(
         socials: socialMedia.socials,
       },
       header: {
-        Logo: C.Logo({
+        authenticationEnabled: false,
+        logo: C.Logo({
           alt: APP_TITLE,
           height: 40,
           link: portalUrl,
           src: "/images/logoAnvil.png",
         }),
-        authenticationEnabled: false,
-        navAlignment: ELEMENT_ALIGNMENT.CENTER,
-        navLinks: [
-          {
-            label: "Overview",
-            url: `${portalUrl}/overview`,
-          },
-          {
-            label: "Learn",
-            url: `${portalUrl}/learn`,
-          },
-          {
-            label: "Datasets",
-            menuItems: [
-              {
-                description:
-                  "An open-access view of studies, workspaces, and consortia.",
-                label: "Catalog",
-                url: HOME_PAGE_PATH,
-              },
-              {
-                description:
-                  "Build, download, and export cross-study cohorts of open and managed access data.",
-                label: C.LabelIconMenuItem({
-                  iconFontSize: "small",
-                  label: "Explorer",
-                }),
-                target: ANCHOR_TARGET.BLANK,
-                url: `${explorerUrl}/datasets`,
-              },
-            ],
-            url: "",
-          },
-          {
-            label: "Consortia",
-            url: `${portalUrl}/consortia`,
-          },
-          {
-            label: "News",
-            url: `${portalUrl}/news`,
-          },
-          {
-            label: "Events",
-            url: `${portalUrl}/events`,
-          },
-          {
-            label: HEADER_NAVIGATION_LABEL.MORE,
-            menuItems: [
-              {
-                label: "Team",
-                url: `${portalUrl}/team`,
-              },
-              {
-                label: "FAQ",
-                url: `${portalUrl}/faq`,
-              },
-              {
-                label: "Help",
-                url: `${portalUrl}/help`,
-              },
-            ],
-            url: "",
-          },
+        navigation: [
+          undefined,
+          [
+            {
+              label: "Overview",
+              url: `${portalUrl}/overview`,
+            },
+            {
+              label: "Learn",
+              url: `${portalUrl}/learn`,
+            },
+            {
+              label: "Datasets",
+              menuItems: [
+                {
+                  description:
+                    "An open-access view of studies, workspaces, and consortia.",
+                  label: "Catalog",
+                  url: HOME_PAGE_PATH,
+                },
+                {
+                  description:
+                    "Build, download, and export cross-study cohorts of open and managed access data.",
+                  label: C.LabelIconMenuItem({
+                    iconFontSize: "small",
+                    label: "Explorer",
+                  }),
+                  target: ANCHOR_TARGET.BLANK,
+                  url: `${explorerUrl}/datasets`,
+                },
+              ],
+              url: "",
+            },
+            {
+              label: "Consortia",
+              url: `${portalUrl}/consortia`,
+            },
+            {
+              label: "More",
+              menuItems: [
+                {
+                  label: "News",
+                  url: `${portalUrl}/news`,
+                },
+                {
+                  label: "Events",
+                  url: `${portalUrl}/events`,
+                },
+                {
+                  label: "Team",
+                  url: `${portalUrl}/team`,
+                },
+                {
+                  label: "FAQ",
+                  url: `${portalUrl}/faq`,
+                },
+                {
+                  label: "Help",
+                  url: `${portalUrl}/help`,
+                },
+                {
+                  label: "Follow Us",
+                  menuItems: [
+                    {
+                      ...SOCIALS.DISCOURSE,
+                      icon: C.DiscourseIcon({ fontSize: "small" }),
+                      target: ANCHOR_TARGET.BLANK,
+                    },
+                    {
+                      ...SOCIALS.X,
+                      icon: C.XIcon({ fontSize: "small" }),
+                      target: ANCHOR_TARGET.BLANK,
+                    },
+                    {
+                      ...SOCIALS.YOUTUBE,
+                      icon: C.YouTubeIcon({ fontSize: "small" }),
+                      target: ANCHOR_TARGET.BLANK,
+                    },
+                    {
+                      ...SOCIALS.GITHUB,
+                      icon: C.GitHubIcon({ fontSize: "small" }),
+                      target: ANCHOR_TARGET.BLANK,
+                    },
+                    {
+                      ...SOCIALS.SLACK,
+                      icon: C.SlackIcon({ fontSize: "small" }),
+                      target: ANCHOR_TARGET.BLANK,
+                    },
+                  ],
+                  url: "",
+                  visible: { lg: false, sm: false, xs: false },
+                },
+              ],
+              url: "",
+            },
+          ],
+          undefined,
         ],
         searchEnabled: true,
         searchURL: `${portalUrl}/search`,

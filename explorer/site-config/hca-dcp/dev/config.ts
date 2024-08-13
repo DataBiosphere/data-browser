@@ -1,5 +1,4 @@
 import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { tabletUp } from "@databiosphere/findable-ui/lib/theme/common/breakpoints";
@@ -211,33 +210,36 @@ export function makeConfig(
         ],
       },
       header: {
-        Announcements: C.RenderComponents({ components: announcements }),
-        Logo: C.Logo({
+        announcements,
+        authenticationEnabled: false,
+        logo: C.Logo({
           alt: APP_TITLE,
           height: 32.5,
           link: HOME_PAGE_PATH,
           src: "/images/hcaExplorer.png",
         }),
-        authenticationEnabled: false,
-        navAlignment: ELEMENT_ALIGNMENT.RIGHT,
-        navLinks: [
-          {
-            flatten: true,
-            label: "Help & Documentation",
-            menuItems: [
-              {
-                label: C.LabelIconMenuItem({ label: "Guides" }),
-                target: ANCHOR_TARGET.BLANK,
-                url: `${portalUrl}/guides`,
-              },
-              {
-                label: C.LabelIconMenuItem({ label: "Privacy" }),
-                target: ANCHOR_TARGET.BLANK,
-                url: `${portalUrl}/privacy`,
-              },
-            ],
-            url: "",
-          },
+        navigation: [
+          undefined,
+          undefined,
+          [
+            {
+              flatten: { md: true, sm: true, xs: true },
+              label: "Help & Documentation",
+              menuItems: [
+                {
+                  label: C.LabelIconMenuItem({ label: "Guides" }),
+                  target: ANCHOR_TARGET.BLANK,
+                  url: `${portalUrl}/guides`,
+                },
+                {
+                  label: C.LabelIconMenuItem({ label: "Privacy" }),
+                  target: ANCHOR_TARGET.BLANK,
+                  url: `${portalUrl}/privacy`,
+                },
+              ],
+              url: "",
+            },
+          ],
         ],
         searchEnabled: false,
         searchURL: `${portalUrl}/search`,

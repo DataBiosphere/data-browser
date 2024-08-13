@@ -1,5 +1,4 @@
 import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
@@ -156,34 +155,37 @@ export function makeConfig(
         ],
       },
       header: {
-        Announcements: C.RenderComponents({ components: announcements }),
-        Logo: C.ANVILExplorer({ url: "/datasets" }),
+        announcements,
         authenticationEnabled: true,
-        navAlignment: ELEMENT_ALIGNMENT.RIGHT,
-        navLinks: [
-          {
-            flatten: true,
-            label: "Help & Documentation",
-            menuItems: [
-              {
-                label: "Beta Announcement",
-                url: "/beta-announcement",
-              },
-              {
-                label: "Guides",
-                url: "/guides",
-              },
-              {
-                label: "Terms of service",
-                url: "/terms-of-service",
-              },
-              {
-                label: "Privacy Policy",
-                url: "/privacy",
-              },
-            ],
-            url: "",
-          },
+        logo: C.ANVILExplorer({ url: "/datasets" }),
+        navigation: [
+          undefined,
+          undefined,
+          [
+            {
+              flatten: { md: true, sm: true, xs: true },
+              label: "Help & Documentation",
+              menuItems: [
+                {
+                  label: "Beta Announcement",
+                  url: "/beta-announcement",
+                },
+                {
+                  label: "Guides",
+                  url: "/guides",
+                },
+                {
+                  label: "Terms of service",
+                  url: "/terms-of-service",
+                },
+                {
+                  label: "Privacy Policy",
+                  url: "/privacy",
+                },
+              ],
+              url: "",
+            },
+          ],
         ],
         searchEnabled: false,
         searchURL: `${browserUrl}/search`,

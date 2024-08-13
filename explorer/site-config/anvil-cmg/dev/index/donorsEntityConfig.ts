@@ -32,27 +32,27 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildDonorId,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_DONOR_ID,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_DONOR_ID,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildOrganismType,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildPhenotypicSex,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
         width: { max: "1fr", min: "200px" },

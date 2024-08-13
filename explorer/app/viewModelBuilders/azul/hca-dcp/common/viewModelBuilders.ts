@@ -83,7 +83,7 @@ import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { DATE_TIME_FORMAT_OPTIONS } from "../../../common/contants";
-import { Unused } from "../../../common/entities";
+import { Unused, Void } from "../../../common/entities";
 import { formatDate } from "../../../common/utils";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
@@ -117,7 +117,7 @@ import {
 /**
  * Build props for the KeyValuePairs component for displaying the project accessions.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the key value pairs component.
+ * @returns model to be used as props for the KeyValuePairs component.
  */
 export const buildAccessions = (
   projectsResponse: ProjectsResponse
@@ -183,13 +183,13 @@ export const buildAggregatedDateLastModifiedDate = (
 };
 
 /**
- * Build props for biological sex Cell component from the given entity response.
+ * Build props for biological sex BasicCell component from the given entity response.
  * @param entityResponse - Response model return from entity API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildAggregatedDonorBiologicalSex = (
   entityResponse: EntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: stringifyValues(
       processAggregatedOrArrayValue(
@@ -201,13 +201,13 @@ export const buildAggregatedDonorBiologicalSex = (
 };
 
 /**
- * Build props for donor count Cell component from the given entity response.
+ * Build props for donor count BasicCell component from the given entity response.
  * @param entityResponse - Response model return from entity API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildAggregatedDonorCount = (
   entityResponse: EntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   const donorCount = processNumberEntityValue(
     entityResponse.donorOrganisms,
     HCA_DCP_CATEGORY_KEY.DONOR_COUNT
@@ -339,13 +339,13 @@ export const buildAggregatedProtocolNucleicAcidSource = (
 };
 
 /**
- * Build props for the aggregated paired end Cell component from the given entity response.
+ * Build props for the aggregated paired end BasicCell component from the given entity response.
  * @param entityResponse - Response model return from the entity response API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildAggregatedProtocolPairedEnd = (
   entityResponse: EntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: stringifyValues(
       processAggregatedBooleanOrArrayValue(
@@ -470,13 +470,13 @@ export const buildAggregatedSpecimenOrganPart = (
 };
 
 /**
- * Build props for the aggregate last modified date Cell component from the given projects response.
+ * Build props for the aggregate last modified date BasicCell component from the given projects response.
  * @param projectsResponse - Response model return from the projects API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildAggregateLastModifiedDate = (
   projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: formatAggregatedDate(
       processEntityValue(projectsResponse.dates, "aggregateLastModifiedDate")
@@ -485,13 +485,13 @@ export const buildAggregateLastModifiedDate = (
 };
 
 /**
- * Build props for the aggregate submission date Cell component from the given projects response.
+ * Build props for the aggregate submission date BasicCell component from the given projects response.
  * @param projectsResponse - Response model return from the projects API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildAggregateSubmissionDate = (
   projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: formatAggregatedDate(
       processEntityValue(projectsResponse.dates, "aggregateSubmissionDate")
@@ -502,7 +502,7 @@ export const buildAggregateSubmissionDate = (
 /**
  * Build props for analysis portals component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the analysis portals component.
+ * @returns model to be used as props for the KeyValuePairs component.
  */
 export const buildAnalysisPortals = (
   projectsResponse: ProjectsResponse
@@ -525,8 +525,8 @@ export const buildAnalysisPortals = (
 };
 
 /**
- * Build props for the data normalization and batch correction alert component.
- * @returns model to be used as props for the alert component.
+ * Build props for the data normalization and batch correction FluidAlert component.
+ * @returns model to be used as props for the FluidAlert component.
  */
 export const buildBatchCorrectionWarning = (): React.ComponentProps<
   typeof C.FluidAlert
@@ -538,9 +538,9 @@ export const buildBatchCorrectionWarning = (): React.ComponentProps<
 };
 
 /**
- * Build props for project citation component from the given projects response.
+ * Build props for project Citation component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the project citation component.
+ * @returns model to be used as props for the project Citation component.
  */
 export const buildCitation = (
   projectsResponse: ProjectsResponse
@@ -558,9 +558,9 @@ export const buildCitation = (
 };
 
 /**
- * Build props for project collaborating organizations component from the given projects response.
+ * Build props for project CollaboratingOrganizations component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the project collaborating organizations component.
+ * @returns model to be used as props for the CollaboratingOrganizations component.
  */
 export const buildCollaboratingOrganizations = (
   projectsResponse: ProjectsResponse
@@ -572,9 +572,9 @@ export const buildCollaboratingOrganizations = (
 };
 
 /**
- * Build props for project contacts component from the given projects response.
+ * Build props for project Contacts component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the project contacts component.
+ * @returns model to be used as props for the Contacts component.
  */
 export const buildContacts = (
   projectsResponse: ProjectsResponse
@@ -588,7 +588,7 @@ export const buildContacts = (
 /**
  * Build props for GeneratedMatricesTable component from the given project response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the contributor generated matrices table component.
+ * @returns model to be used as props for the GeneratedMatricesTables component.
  */
 export const buildContributorGeneratedMatricesTable = (
   projectsResponse: ProjectsResponse
@@ -606,9 +606,9 @@ export const buildContributorGeneratedMatricesTable = (
 };
 
 /**
- * Build props for project contributors component from the given projects response.
+ * Build props for project Contributors component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the project contributors component.
+ * @returns model to be used as props for the Contributors component.
  */
 export const buildContributors = (
   projectsResponse: ProjectsResponse
@@ -642,9 +642,9 @@ export const buildCookieBanner = (): React.ComponentProps<
 };
 
 /**
- * Build props for project data curators component from the given projects response.
+ * Build props for project DataCurators component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the project data curators component.
+ * @returns model to be used as props for the DataCurators component.
  */
 export const buildDataCurators = (
   projectsResponse: ProjectsResponse
@@ -658,7 +658,7 @@ export const buildDataCurators = (
 /**
  * Build props for GeneratedMatricesTable component from the given project response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the generated matrices table component.
+ * @returns model to be used as props for the GeneratedMatricesTables component.
  */
 export const buildDCPGeneratedMatricesTable = (
   projectsResponse: ProjectsResponse
@@ -676,9 +676,9 @@ export const buildDCPGeneratedMatricesTable = (
 };
 
 /**
- * Build props for project description component from the given projects response.
+ * Build props for project Description component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the project description component.
+ * @returns model to be used as props for the Description component.
  */
 export const buildDescription = (
   projectsResponse: ProjectsResponse
@@ -693,9 +693,9 @@ export const buildDescription = (
 };
 
 /**
- * Build props for project details component from the given projects response.
+ * Build props for project Details component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the project details component.
+ * @returns model to be used as props for the Details component.
  */
 export const buildDetails = (
   projectsResponse: ProjectsResponse
@@ -712,13 +712,13 @@ export const buildDetails = (
 
 /**
  * Build props for DownloadCurlCommand component.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the DownloadCurlCommand component.
  */
 export const buildDownloadCurlCommand = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.DownloadCurlCommand> => {
   const {
     exploreState: { filterState },
@@ -746,7 +746,7 @@ export const buildDownloadCurlCommand = (
  */
 export const buildDownloadEntityCurlCommand = (
   projectsResponse: ProjectsResponse,
-  viewContext: ViewContext
+  viewContext: ViewContext<ProjectsResponse>
 ): React.ComponentProps<typeof C.DownloadCurlCommand> => {
   const { fileManifestState } = viewContext;
   // Get the initial filters.
@@ -766,13 +766,13 @@ export const buildDownloadEntityCurlCommand = (
 };
 
 /**
- * Build props for "Cell Count Estimate" Cell component from the given projects response.
+ * Build props for "Cell Count Estimate" BasicCell component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the "Cell Count Estimate" Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildEstimateCellCount = (
   projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getEstimatedCellCount(projectsResponse),
   };
@@ -786,7 +786,7 @@ export const buildEstimateCellCount = (
  */
 export const buildExportCurrentQuery = (
   _: Unused,
-  viewContext: ViewContext
+  viewContext: ViewContext<Unused>
 ): React.ComponentProps<typeof C.ExportCurrentQuery> => {
   const {
     fileManifestState: { filesFacets, filters, isFacetsLoading },
@@ -805,7 +805,7 @@ export const buildExportCurrentQuery = (
  */
 export const buildExportEntityToTerra = (
   projectsResponse: ProjectsResponse,
-  viewContext: ViewContext
+  viewContext: ViewContext<ProjectsResponse>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   const { fileManifestState } = viewContext;
   // Get the initial filters.
@@ -834,7 +834,7 @@ export const buildExportEntityToTerra = (
  */
 export const buildExportEntityWarning = (
   _: Unused,
-  viewContext: ViewContext
+  viewContext: ViewContext<Unused>
 ): React.ComponentProps<typeof C.FluidAlert> => {
   const {
     authState: { isAuthenticated },
@@ -850,14 +850,14 @@ export const buildExportEntityWarning = (
 };
 
 /**
- * Build props for export Hero component.
- * @param _ - Unused.
+ * Build props for export BackPageHero component.
+ * @param _ - Void.
  * @param viewContext - View context.
- * @returns model to be used as props for the export Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export function buildExportHero(
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.BackPageHero> {
   const { exploreState } = viewContext;
   const { tabValue } = exploreState || {};
@@ -872,13 +872,13 @@ export function buildExportHero(
 
 /**
  * Build props for ExportMethod component for display of the download to curl command section.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodBulkDownload = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -890,14 +890,14 @@ export const buildExportMethodBulkDownload = (
 };
 
 /**
- * Build props for download curl command Hero component.
- * @param _ - Unused.
+ * Build props for download curl command BackPageHero component.
+ * @param _ - Void.
  * @param viewContext - View context.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroCurlCommand = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = 'Download Selected Data Using "curl"';
   const {
@@ -907,14 +907,14 @@ export const buildExportMethodHeroCurlCommand = (
 };
 
 /**
- * Build props for manifest download Hero component.
- * @param _ - Unused.
+ * Build props for manifest download BackPageHero component.
+ * @param _ - Void.
  * @param viewContext - View context.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroManifestDownload = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Request File Manifest";
   const {
@@ -924,14 +924,14 @@ export const buildExportMethodHeroManifestDownload = (
 };
 
 /**
- * Build props for export to terra Hero component.
- * @param _ - Unused.
+ * Build props for export to terra BackPageHero component.
+ * @param _ - Void.
  * @param viewContext - View context.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroTerra = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Export to Terra";
   const {
@@ -942,13 +942,13 @@ export const buildExportMethodHeroTerra = (
 
 /**
  * Build props for ExportMethod component for display of the manifest download section.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodManifestDownload = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -962,13 +962,13 @@ export const buildExportMethodManifestDownload = (
 
 /**
  * Build props for ExportMethod component for display of the export to terra section.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodTerra = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -988,7 +988,7 @@ export const buildExportMethodTerra = (
  */
 export const buildExportSelectedDataSummary = (
   _: Unused,
-  viewContext: ViewContext
+  viewContext: ViewContext<Unused>
 ): React.ComponentProps<typeof C.ExportSelectedDataSummary> => {
   const {
     fileManifestState: {
@@ -1006,13 +1006,13 @@ export const buildExportSelectedDataSummary = (
 
 /**
  * Build props for ExportToTerra component.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportToTerra = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   const {
     exploreState: { filterState },
@@ -1070,7 +1070,7 @@ export const buildFileContentDescriptions = (
 /**
  * Build props for the KeyValuePairs component for displaying project file counts from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the key value pairs component.
+ * @returns model to be used as props for the KeyValuePairs component.
  */
 export const buildFileCounts = (
   projectsResponse: ProjectsResponse
@@ -1106,13 +1106,13 @@ export const buildFileDownload = (
 };
 
 /**
- * Build props for file format Cell component from the given files response.
+ * Build props for file format BasicCell component from the given files response.
  * @param filesResponse - Response model return from files API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildFileFormat = (
   filesResponse: FilesResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   // Always take the first value in the files array.
   // This is a summary value and there should only ever be single value here.
   return {
@@ -1121,13 +1121,13 @@ export const buildFileFormat = (
 };
 
 /**
- * Build props for file name Cell component from the given files response.
+ * Build props for file name BasicCell component from the given files response.
  * @param filesResponse - Response model return from files API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildFileName = (
   filesResponse: FilesResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   // Always take the first value in the files array.
   // This is a summary value and there should only ever be single value here.
   return {
@@ -1136,13 +1136,13 @@ export const buildFileName = (
 };
 
 /**
- * Build props for file size Cell component from the given files response.
+ * Build props for file size BasicCell component from the given files response.
  * @param filesResponse - Response model return from files API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildFileSize = (
   filesResponse: FilesResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   // Always take the first value in the files array.
   // This is a summary value and there should only ever be single value here.
   return {
@@ -1151,13 +1151,13 @@ export const buildFileSize = (
 };
 
 /**
- * Build props for file source Cell component from the given files response.
+ * Build props for file source BasicCell component from the given files response.
  * @param filesResponse - Response model return from files API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildFileSource = (
   filesResponse: FilesResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: processEntityValue(
       filesResponse.files,
@@ -1183,14 +1183,14 @@ export function getExportSelectedDataSummary(
 }
 
 /**
- * Build props for project Hero component from the given projects response.
+ * Build props for project BackPageHero component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
  * @param viewContext - View context.
- * @returns model to be used as props for the project Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export const buildHero = (
   projectsResponse: ProjectsResponse,
-  viewContext: ViewContext
+  viewContext: ViewContext<ProjectsResponse>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   return {
     breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
@@ -1201,14 +1201,14 @@ export const buildHero = (
 };
 
 /**
- * Build props for managed access Hero component from the given projects response.
+ * Build props for managed access BackPageHero component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
  * @param viewContext - View context.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export const buildMAHero = (
   projectsResponse: ProjectsResponse,
-  viewContext: ViewContext
+  viewContext: ViewContext<ProjectsResponse>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   return {
     breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
@@ -1219,13 +1219,13 @@ export const buildMAHero = (
 
 /**
  * Build props for ManifestDownload component.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ManifestDownload component.
  */
 export const buildManifestDownload = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.ManifestDownload> => {
   const {
     exploreState: { filterState },
@@ -1302,7 +1302,7 @@ export function buildProjectAccessibilityBadge(
 /**
  * Build project list view list hero warning.
  * Warning serves as a reminder for users to log in.
- * @returns model to be used as props for Alert component.
+ * @returns model to be used as props for FluidAlert component.
  */
 export const buildProjectListViewListHeroWarning = (): React.ComponentProps<
   typeof C.FluidAlert
@@ -1332,9 +1332,9 @@ export const buildProjectTitle = (
 };
 
 /**
- * Build props for project publications component from the given projects response.
+ * Build props for project Publications component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the project publications component.
+ * @returns model to be used as props for the Publications component.
  */
 export const buildPublications = (
   projectsResponse: ProjectsResponse
@@ -1346,39 +1346,39 @@ export const buildPublications = (
 };
 
 /**
- * Build props for sample entity type Cell component from the given sample response.
+ * Build props for sample entity type BasicCell component from the given sample response.
  * @param samplesResponse - Response model return from samples API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildSampleEntityType = (
   samplesResponse: SamplesResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: processEntityValue(samplesResponse.samples, "sampleEntityType"),
   };
 };
 
 /**
- * Build props for sample identifier Cell component from the given sample response.
+ * Build props for sample identifier BasicCell component from the given sample response.
  * @param samplesResponse - Response model return from samples API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildSampleId = (
   samplesResponse: SamplesResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: processEntityValue(samplesResponse.samples, "id"),
   };
 };
 
 /**
- * Build props for the model organ Cell component from the given samples response.
+ * Build props for the model organ BasicCell component from the given samples response.
  * @param samplesResponse - Response model return from the samples API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildSampleModelOrgan = (
   samplesResponse: SamplesResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: processEntityValue(
       samplesResponse.samples,
@@ -1388,9 +1388,9 @@ export const buildSampleModelOrgan = (
 };
 
 /**
- * Build props for project supplementary links component from the given projects response.
+ * Build props for project SupplementaryLinks component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the project supplementary links component.
+ * @returns model to be used as props for the SupplementaryLinks component.
  */
 export const buildSupplementaryLinks = (
   projectsResponse: ProjectsResponse
@@ -1402,13 +1402,13 @@ export const buildSupplementaryLinks = (
 };
 
 /**
- * Build props for total cells "Cell Count Estimate" Cell component from the given entity response.
+ * Build props for total cells "Cell Count Estimate" BasicCell component from the given entity response.
  * @param entityResponse - Response model return from entity API.
- * @returns model to be used as props for the total cells "Cell Count Estimate" Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildTotalCells = (
   entityResponse: EntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getCellSuspensionTotalCells(entityResponse),
   };
@@ -1422,8 +1422,8 @@ export const buildTotalCells = (
  * - desktop view: 3 columns.
  * @returns model to be used as props for the Grid component.
  */
-export const buildTripleColumnGrid = (): React.ComponentProps<
-  typeof C.Grid
+export const buildTripleColumnGrid = (): Partial<
+  React.ComponentProps<typeof C.Grid>
 > => {
   return {
     gridSx: {
@@ -1757,7 +1757,7 @@ function getExportEntityFilters(projectsResponse: ProjectsResponse): Filters {
  * @returns export method accessibility.
  */
 function getExportMethodAccessibility(
-  viewContext: ViewContext
+  viewContext: ViewContext<Void>
 ): Partial<typeof C.ExportMethod> {
   const { fileManifestState } = viewContext;
   const { isFacetsSuccess } = fileManifestState;
@@ -2080,7 +2080,7 @@ export function getProjectAggregateLastModifiedDate(
  */
 export function getProjectBreadcrumbs(
   projectsResponse: ProjectsResponse,
-  viewContext?: ViewContext
+  viewContext?: ViewContext<ProjectsResponse>
 ): Breadcrumb[] {
   const { exploreState } = viewContext || {};
   const { tabValue } = exploreState || {};
@@ -2311,7 +2311,7 @@ export const renderExportEntityWarning = (
  */
 export const renderWhenUnAuthorized = (
   _: Unused,
-  viewContext: ViewContext
+  viewContext: ViewContext<Unused>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   const {
     authState: { isAuthenticated },

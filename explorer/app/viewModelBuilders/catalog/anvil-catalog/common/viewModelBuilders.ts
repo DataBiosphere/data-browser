@@ -26,22 +26,22 @@ import { getPluralizedMetadataLabel } from "../../../../components/Index/common/
 import { formatSizeToTB } from "../../../../utils/fileSize";
 
 /**
- * Build props for bucket size cell component from the given AnVIL entity.
+ * Build props for bucket size BasicCell component from the given AnVIL entity.
  * @param anvilCatalogEntity - AnVIL catalog entity.
- * @returns Model to be used as props for the bucket size cell.
+ * @returns Model to be used as props for the BasicCell component.
  */
 export const buildBucketSize = (
   anvilCatalogEntity: AnVILCatalogEntity
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: formatSizeToTB(anvilCatalogEntity.bucketSize),
   };
 };
 
 /**
- * Build props for consent code cell component from the given AnVIL workspace.
+ * Build props for ConsentCodesCell component from the given AnVIL workspace.
  * @param anvilCatalogWorkspace - AnVIL catalog workspace.
- * @returns Model to be used as props for the consent code cell.
+ * @returns Model to be used as props for the ConsentCodesCell component.
  */
 export const buildConsentCode = (
   anvilCatalogWorkspace: AnVILCatalogWorkspace
@@ -54,9 +54,9 @@ export const buildConsentCode = (
 };
 
 /**
- * Build props for consent codes cell component from the given AnVIL entity.
+ * Build props for ConsentCodesCell component from the given AnVIL entity.
  * @param anvilCatalogEntity - AnVIL catalog entity.
- * @returns Model to be used as props for the consent codes cell.
+ * @returns Model to be used as props for the ConsentCodesCell component.
  */
 export const buildConsentCodes = (
   anvilCatalogEntity: Exclude<AnVILCatalogEntity, AnVILCatalogWorkspace>
@@ -69,9 +69,9 @@ export const buildConsentCodes = (
 };
 
 /**
- * Build props for consortium cell component from the given AnVIL entity.
+ * Build props for consortium Link component from the given AnVIL entity.
  * @param anVILCatalogEntity - AnVIL catalog entity .
- * @returns Model to be used as props for the consortium cell.
+ * @returns Model to be used as props for the Link component.
  */
 export const buildConsortium = (
   anVILCatalogEntity: AnVILCatalogEntity
@@ -87,7 +87,7 @@ export const buildConsortium = (
 /**
  * Build props for DetailViewTable component from the given AnVIL entity.
  * @param anVILCatalogConsortium - AnVil catalog consortium.
- * @returns Model to be used as props for the detail view table component.
+ * @returns Model to be used as props for the DetailViewTable component.
  */
 export const buildConsortiumDetailViewStudiesTable = (
   anVILCatalogConsortium: AnVILCatalogConsortium
@@ -105,7 +105,7 @@ export const buildConsortiumDetailViewStudiesTable = (
 /**
  * Build props for DetailViewTable component from the given AnVIL entity.
  * @param anVILCatalogConsortium - AnVil catalog consortium.
- * @returns Model to be used as props for the detail view table component.
+ * @returns Model to be used as props for the DetailViewTable component.
  */
 export const buildConsortiumDetailViewWorkspacesTable = (
   anVILCatalogConsortium: AnVILCatalogConsortium
@@ -165,9 +165,9 @@ export const buildConsortiumSummary = (
 };
 
 /**
- * Build props for data type cell component from the given AnVIL entity.
+ * Build props for data type NTagCell component from the given AnVIL entity.
  * @param anvilCatalogEntity - AnVIL catalog entity.
- * @returns Model to be used as props for the data type cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildDataTypes = (
   anvilCatalogEntity: AnVILCatalogEntity
@@ -179,22 +179,22 @@ export const buildDataTypes = (
 };
 
 /**
- * Build props for dbGapId cell component from the given AnVIL entity.
+ * Build props for dbGapId BasicCell component from the given AnVIL entity.
  * @param anvilCatalogEntity - AnVIL catalog entity.
- * @returns Model to be used as props for the dbGapId cell.
+ * @returns Model to be used as props for the BasicCell component.
  */
 export const buildDbGapId = (
   anvilCatalogEntity: AnVILCatalogStudy
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: anvilCatalogEntity.dbGapId,
   };
 };
 
 /**
- * Build props for dbGapIds cell component from the given AnVIL consortium catalog.
+ * Build props for dbGapIds NTagCell component from the given AnVIL consortium catalog.
  * @param anvilCatalogConsortium - AnVIL catalog consortium.
- * @returns Model to be used as props for the dbGapIds cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildDbGapIds = (
   anvilCatalogConsortium: AnVILCatalogConsortium
@@ -206,9 +206,9 @@ export const buildDbGapIds = (
 };
 
 /**
- * Build props for disease (indication) cell component from the given AnVIL entity.
+ * Build props for disease (indication) NTagCell component from the given AnVIL entity.
  * @param anvilCatalogEntity - AnVIL catalog entity.
- * @returns Model to be used as props for the disease (indication) cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildDiseases = (
   anvilCatalogEntity: AnVILCatalogEntity
@@ -220,14 +220,14 @@ export const buildDiseases = (
 };
 
 /**
- * Build props for Hero component from the given AnVIL entity.
+ * Build props for BackPageHero component from the given AnVIL entity.
  * @param anvilCatalogConsortium - AnVIL catalog consortium.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildConsortiumHero = (
   anvilCatalogConsortium: AnVILCatalogConsortium,
-  viewContext: ViewContext
+  viewContext: ViewContext<AnVILCatalogConsortium>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const { consortium } = anvilCatalogConsortium;
   return {
@@ -237,13 +237,13 @@ export const buildConsortiumHero = (
 };
 
 /**
- * Build props for participant count cell component from the given AnVIL entity.
+ * Build props for participant count BasicCell component from the given AnVIL entity.
  * @param anvilCatalogEntity - AnVIL catalog entity.
- * @returns Model to be used as props for the participant count cell.
+ * @returns Model to be used as props for the BasicCell component.
  */
 export const buildParticipantCount = (
   anvilCatalogEntity: AnVILCatalogEntity
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: anvilCatalogEntity.participantCount,
   };
@@ -287,9 +287,9 @@ export const buildStudyDescription = (
 };
 
 /**
- * Build props for study design cell component from the given AnVIL entity.
+ * Build props for study design NTagCell component from the given AnVIL entity.
  * @param anvilCatalogEntity - AnVIL catalog entity.
- * @returns Model to be used as props for the study design cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildStudyDesigns = (
   anvilCatalogEntity: AnVILCatalogEntity
@@ -303,7 +303,7 @@ export const buildStudyDesigns = (
 /**
  * Build props for DetailViewTable component from the given AnVIL entity.
  * @param anVILCatalogStudy - AnVil catalog study.
- * @returns Model to be used as props for the detail view table component.
+ * @returns Model to be used as props for the DetailViewTable component.
  */
 export const buildStudyDetailViewWorkspacesTable = (
   anVILCatalogStudy: AnVILCatalogStudy
@@ -319,9 +319,9 @@ export const buildStudyDetailViewWorkspacesTable = (
 };
 
 /**
- * Build props for study design cell component from the given AnVIL entity.
+ * Build props for study design NTagCell component from the given AnVIL entity.
  * @param anVILCatalogConsortium - AnVIL catalog consortium.
- * @returns Model to be used as props for the study design cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildStudyNames = (
   anVILCatalogConsortium: AnVILCatalogConsortium
@@ -355,7 +355,7 @@ export const buildStudyDetails = (
 };
 
 /**
- * Build props for Hero component from the given AnVIL entity.
+ * Build props for BackPageHero component from the given AnVIL entity.
  * TODO revisit - separate from entity builder, generalize modeling?, revisit transformer
  * @param anVILCatalogStudy - AnVIL catalog study.
  * @param viewContext - View context.
@@ -363,7 +363,7 @@ export const buildStudyDetails = (
  */
 export const buildStudyHero = (
   anVILCatalogStudy: AnVILCatalogStudy,
-  viewContext: ViewContext
+  viewContext: ViewContext<AnVILCatalogStudy>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const { dbGapId, studyName } = anVILCatalogStudy;
   return {
@@ -378,9 +378,9 @@ export const buildStudyHero = (
 };
 
 /**
- * Build props for study name cell component from the given AnVIL entity.
+ * Build props for study name Link component from the given AnVIL entity.
  * @param workspaceOrStudy - AnVIL catalog workspace.
- * @returns Model to be used as props for the study name cell.
+ * @returns Model to be used as props for the Link component.
  */
 export const buildStudyName = (
   workspaceOrStudy: Exclude<AnVILCatalogEntity, AnVILCatalogConsortium>
@@ -424,9 +424,9 @@ export const buildStudySummary = (
 };
 
 /**
- * Build props for terra workspace name cell component from the given AnVIL workspace.
+ * Build props for terra workspace name Link component from the given AnVIL workspace.
  * @param anvilCatalogWorkspace - AnVIL catalog workspace.
- * @returns Model to be used as props for the terra workspace name cell.
+ * @returns Model to be used as props for the Link component.
  */
 export const buildTerraWorkspaceName = (
   anvilCatalogWorkspace: AnVILCatalogWorkspace
@@ -440,9 +440,9 @@ export const buildTerraWorkspaceName = (
 };
 
 /**
- * Build props for terra workspace names cell component from the given AnVIL entity.
+ * Build props for terra workspace names NTagCell component from the given AnVIL entity.
  * @param anVILCatalogEntity - AnVIL catalog entity.
- * @returns Model to be used as props for the terra workspace names cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildTerraWorkspaceNames = (
   anVILCatalogEntity: Exclude<AnVILCatalogEntity, AnVILCatalogWorkspace>
@@ -619,7 +619,9 @@ function buildWorkspaceNameTableColumn<T>(): ColumnDef<T> {
  * @returns catalog breadcrumbs.
  */
 function getCatalogBreadcrumbs(
-  viewContext: ViewContext,
+  viewContext:
+    | ViewContext<AnVILCatalogConsortium>
+    | ViewContext<AnVILCatalogStudy>,
   lastCrumbText?: string
 ): Breadcrumb[] {
   const { label, route } = viewContext.entityConfig;

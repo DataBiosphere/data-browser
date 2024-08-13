@@ -105,66 +105,66 @@ import { ExportMethod } from "../../../../components/Export/components/AnVILExpl
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { FEATURE_FLAGS } from "../../../common/contants";
-import { Unused } from "../../../common/entities";
+import { Unused, Void } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
 
 /**
- * Build props for activity type Cell component from the given activities response.
+ * Build props for activity type BasicCell component from the given activities response.
  * @param response - Response model return from activities API.
- * @returns model to be used as props for the activity type cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildActivityType = (
   response: ActivityEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getActivityType(response),
   };
 };
 
 /**
- * Build props for anatomical site Cell component from the given index/biosamples response.
+ * Build props for anatomical site BasicCell component from the given index/biosamples response.
  * @param response - Response model return from index/biosamples API.
- * @returns model to be used as props for the biosample type cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildAnatomicalSite = (
   response: BioSampleEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getAnatomicalSite(response),
   };
 };
 
 /**
- * Build props for biosample id Cell component from the given index/biosamples response.
+ * Build props for biosample id BasicCell component from the given index/biosamples response.
  * @param response - Response model return from index/biosamples API.
- * @returns model to be used as props for the biosample id cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildBioSampleId = (
   response: BioSampleEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getBioSampleId(response),
   };
 };
 
 /**
- * Build props for biosample type Cell component from the given index/biosamples response.
+ * Build props for biosample type BasicCell component from the given index/biosamples response.
  * @param response - Response model return from index/biosamples API.
- * @returns model to be used as props for the biosample type cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildBioSampleType = (
   response: BioSampleEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getBioSampleType(response),
   };
 };
 
 /**
- * Build biosample types Cell component from the given entity response.
+ * Build biosample types NTagCell component from the given entity response.
  * @param response - Response model return from Azul that includes aggregated biosamples.
- * @returns model to be used as props for the biosample types cell.
+ * @returns model to be used as props for the NTagCell component.
  */
 export const buildBioSampleTypes = (
   response: AggregatedBioSampleResponse
@@ -176,13 +176,13 @@ export const buildBioSampleTypes = (
 };
 
 /**
- * Build props for consent group Cell component from the given datasets response.
+ * Build props for consent group BasicCell component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildConsentGroup = (
   datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getConsentGroup(datasetsResponse),
   };
@@ -191,7 +191,7 @@ export const buildConsentGroup = (
 /**
  * Build props for data modality NTagCell component from the given activities response.
  * @param response - Response model return from index/activities API.
- * @returns model to be used as props for the data modality NTagCell.
+ * @returns model to be used as props for the NTagCell component.
  */
 export const buildDataModality = (
   response: ActivityEntityResponse
@@ -283,9 +283,9 @@ export const buildDatasetHero = (
 };
 
 /**
- * Build dataset ID Cell component from the given entity response.
+ * Build dataset ID NTagCell component from the given entity response.
  * @param response - Response model return from Azul that includes aggregated datasets.
- * @returns model to be used as props for the dataset ID cell.
+ * @returns model to be used as props for theNTagCell component.
  */
 export const buildDatasetIds = (
   response: AggregatedDatasetResponse
@@ -299,7 +299,7 @@ export const buildDatasetIds = (
 /**
  * Build dataset list view list hero warning.
  * Warning serves as a reminder for users to log in.
- * @returns model to be used as props for Alert component.
+ * @returns model to be used as props for FluidAlert component.
  */
 export const buildDatasetListViewListHeroWarning = (): React.ComponentProps<
   typeof C.FluidAlert
@@ -326,9 +326,9 @@ export const buildDatasetTitle = (
 };
 
 /**
- * Build dataset ID Cell component from the given entity response.
+ * Build dataset ID NTagCell component from the given entity response.
  * @param response - Response model return from Azul that includes aggregated datasets.
- * @returns model to be used as props for the dataset ID cell.
+ * @returns model to be used as props for the NTagCell component.
  */
 export const buildDatasetTitles = (
   response: AggregatedDatasetResponse
@@ -340,9 +340,9 @@ export const buildDatasetTitles = (
 };
 
 /**
- * Build props for diagnosis type cell component from the given entity response.
+ * Build props for diagnosis type NTagCell component from the given entity response.
  * @param response - Response model return from Azul that includes aggregated diagnoses.
- * @returns model to be used as props for the diagnosis cell.
+ * @returns model to be used as props for the NTagCell component.
  */
 export const buildDiagnoses = (
   response: AggregatedDiagnosisResponse
@@ -354,26 +354,26 @@ export const buildDiagnoses = (
 };
 
 /**
- * Build props for donor ID cell component from the given donors response.
+ * Build props for donor ID BasicCell component from the given donors response.
  * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the donor ID cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildDonorId = (
   response: DonorEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getDonorId(response),
   };
 };
 
 /**
- * Build props for document ID Cell component from the given activities response.
+ * Build props for document ID BasicCell component from the given activities response.
  * @param response - Response model return from activities API.
- * @returns model to be used as props for the activity document cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildDocumentId = (
   response: ActivityEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getDocumentId(response),
   };
@@ -394,13 +394,13 @@ export const buildDRSURI = (
 
 /**
  * Build props for ExportCurrentQuery component.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportCurrentQuery component.
  */
 export const buildExportCurrentQuery = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.ExportCurrentQuery> => {
   const {
     fileManifestState: { filters, isFacetsLoading },
@@ -419,7 +419,7 @@ export const buildExportCurrentQuery = (
  */
 export const buildExportEntityToTerra = (
   datasetsResponse: DatasetsResponse,
-  viewContext: ViewContext
+  viewContext: ViewContext<DatasetsResponse>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   const { fileManifestState } = viewContext;
   // Get the initial filters.
@@ -447,8 +447,8 @@ export const buildExportEntityToTerra = (
  * @returns model to be used as props for the FluidAlert component.
  */
 export const buildExportEntityWarning = (
-  _: DatasetsResponse,
-  viewContext: ViewContext
+  _: Unused,
+  viewContext: ViewContext<Unused>
 ): React.ComponentProps<typeof C.FluidAlert> => {
   const {
     authState: { isAuthenticated },
@@ -467,14 +467,14 @@ export const buildExportEntityWarning = (
 };
 
 /**
- * Build props for export Hero component.
- * @param _ - Unused.
+ * Build props for export BackPageHero component.
+ * @param _ - Void.
  * @param viewContext - View context.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export function buildExportHero(
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.BackPageHero> {
   const { exploreState } = viewContext;
   const { tabValue } = exploreState || {};
@@ -488,14 +488,14 @@ export function buildExportHero(
 }
 
 /**
- * Build props for manifest download Hero component.
- * @param _ - Unused.
+ * Build props for manifest download BackPageHero component.
+ * @param _ - Void.
  * @param viewContext - View context.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroManifestDownload = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Request File Manifest";
   const {
@@ -505,14 +505,14 @@ export const buildExportMethodHeroManifestDownload = (
 };
 
 /**
- * Build props for export to terra Hero component.
- * @param _ - Unused.
+ * Build props for export to terra BackPageHero component.
+ * @param _ - Void.
  * @param viewContext - View context.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroTerra = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Export to Terra";
   const {
@@ -523,13 +523,13 @@ export const buildExportMethodHeroTerra = (
 
 /**
  * Build props for ExportMethod component for display of the manifest download section.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodManifestDownload = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -543,13 +543,13 @@ export const buildExportMethodManifestDownload = (
 
 /**
  * Build props for ExportMethod component for display of the export to terra metadata section.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodTerra = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -563,13 +563,13 @@ export const buildExportMethodTerra = (
 
 /**
  * Build props for ExportSelectedDataSummary component.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportSelectedDataSummary component.
  */
 export const buildExportSelectedDataSummary = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.ExportSelectedDataSummary> => {
   const {
     fileManifestState: {
@@ -587,13 +587,13 @@ export const buildExportSelectedDataSummary = (
 
 /**
  * Build props for ExportToTerra component.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportToTerra = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   const {
     exploreState: { filterState },
@@ -630,9 +630,9 @@ export const buildExportWarning = (): React.ComponentProps<
 };
 
 /**
- * Build props for file data modality Cell component from the given files response.
+ * Build props for file data modality NTagCell component from the given files response.
  * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the file data modality cell.
+ * @returns model to be used as props for the NTagCell component.
  */
 export const buildFileDataModality = (
   response: FileEntityResponse
@@ -644,9 +644,9 @@ export const buildFileDataModality = (
 };
 
 /**
- * Build props for file download.
+ * Build props for file download AzulFileDownload component.
  * @param response - Response model returned from index/files API endpoint.
- * @returns Props to be used as input to file download component.
+ * @returns model to be used as props for the AzulFileDownload component.
  */
 export const buildFileDownload = (
   response: FilesResponse
@@ -657,66 +657,66 @@ export const buildFileDownload = (
 };
 
 /**
- * Build props for file ID Cell component from the given files response.
+ * Build props for file ID BasicCell component from the given files response.
  * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the file ID cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildFileName = (
   response: FileEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getFileName(response),
   };
 };
 
 /**
- * Build props for file format Cell component from the given files response.
+ * Build props for file format BasicCell component from the given files response.
  * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the file format cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildFileFormat = (
   response: FileEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getFileFormat(response),
   };
 };
 
 /**
- * Build props for file size Cell component from the given files response.
+ * Build props for file size BasicCell component from the given files response.
  * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the file size cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildFileSize = (
   response: FileEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getFileSize(response),
   };
 };
 
 /**
- * Build props for library ID Cell component from the given libraries response.
+ * Build props for library ID BasicCell component from the given libraries response.
  * @param response - Response model return from index/libraries API endpoint.
- * @returns model to be used as props for the library ID cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildLibraryId = (
   response: LibraryEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getLibraryId(response),
   };
 };
 
 /**
- * Build props for list view access warning Alert component.
+ * Build props for list view access warning FluidAlert component.
  * @param _ - Unused.
  * @param viewContext - View context.
- * @returns model to be used as props for the Alert component.
+ * @returns model to be used as props for the FluidAlert component.
  */
 export const buildListWarning = (
-  _: DatasetsResponse,
-  viewContext: ViewContext
+  _: Unused,
+  viewContext: ViewContext<Unused>
 ): React.ComponentProps<typeof C.FluidAlert> => {
   const {
     entityConfig: { label },
@@ -730,13 +730,13 @@ export const buildListWarning = (
 
 /**
  * Build props for ManifestDownload component.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ManifestDownload component.
  */
 export const buildManifestDownload = (
-  _: Unused,
-  viewContext: ViewContext
+  _: Void,
+  viewContext: ViewContext<Void>
 ): React.ComponentProps<typeof C.ManifestDownload> => {
   const {
     exploreState: { filterState },
@@ -776,8 +776,8 @@ export const buildManifestDownloadEntity = (
  * @returns model to be used as props for the FluidAlert component.
  */
 export const buildManifestDownloadEntityWarning = (
-  _: DatasetsResponse,
-  viewContext: ViewContext
+  _: Unused,
+  viewContext: ViewContext<Unused>
 ): React.ComponentProps<typeof C.FluidAlert> => {
   const {
     authState: { isAuthenticated },
@@ -793,22 +793,22 @@ export const buildManifestDownloadEntityWarning = (
 };
 
 /**
- * Build props for organism type cell component from the given donors response.
+ * Build props for organism type BasicCell component from the given donors response.
  * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the organism type cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildOrganismType = (
   response: DonorEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getOrganismType(response),
   };
 };
 
 /**
- * Build props for organism type cell component from the given entity response.
+ * Build props for organism type NTagCell component from the given entity response.
  * @param response - Response model return from Azul that includes aggregated donors.
- * @returns model to be used as props for the organism type cell.
+ * @returns model to be used as props for the NTagCell component.
  */
 export const buildOrganismTypes = (
   response: AggregatedDonorResponse
@@ -820,22 +820,22 @@ export const buildOrganismTypes = (
 };
 
 /**
- * Build props for phenotypic sex cell component from the given donors response.
+ * Build props for phenotypic sex BasicCell component from the given donors response.
  * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the phenotypic sex cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildPhenotypicSex = (
   response: DonorEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getPhenotypicSex(response),
   };
 };
 
 /**
- * Build props for phenotypic sex cell component from the given donors response.
+ * Build props for phenotypic sex NTagCell component from the given donors response.
  * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the phenotypic sex cell.
+ * @returns model to be used as props for the NTagCell component.
  */
 export const buildPhenotypicSexes = (
   response: AggregatedDonorResponse
@@ -847,36 +847,36 @@ export const buildPhenotypicSexes = (
 };
 
 /**
- * Build props for prep material name Cell component from the given libraries response.
+ * Build props for prep material name BasicCell component from the given libraries response.
  * @param response - Response model return from index/libraries API endpoint.
- * @returns model to be used as props for the prep material name cell.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildPrepMaterialName = (
   response: LibraryEntityResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getPrepMaterialName(response),
   };
 };
 
 /**
- * Build props for registered identifier Cell component from the given datasets response.
+ * Build props for registered identifier BasicCell component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the Cell component.
+ * @returns model to be used as props for the BasicCell component.
  */
 export const buildRegisteredIdentifier = (
   datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getDatasetRegisteredIdentifier(datasetsResponse),
   };
 };
 
 /**
- * Build reported ethnicities Cell component from the given donors response. Naming is singular here to indicate
+ * Build reported ethnicities NTagCell component from the given donors response. Naming is singular here to indicate
  * ethnicities are pulled from the core donor entity, even though the return value is an array.
  * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the reported ethnicities cell.
+ * @returns model to be used as props for the NTagCell component.
  */
 export const buildReportedEthnicity = (
   response: DonorEntityResponse
@@ -1032,7 +1032,7 @@ function getExportEntityFilters(datasetsResponse: DatasetsResponse): Filters {
  * @returns export method accessibility.
  */
 function getExportMethodAccessibility(
-  viewContext: ViewContext
+  viewContext: ViewContext<Void>
 ): Partial<typeof C.ExportMethod> {
   const { fileManifestState } = viewContext;
   const { isFacetsSuccess } = fileManifestState;
@@ -1230,8 +1230,8 @@ function mapCurrentQuery(
  * @returns model to be used as props for the ConditionalComponent component.
  */
 export const renderWhenUnAuthorized = (
-  _: DatasetsResponse,
-  viewContext: ViewContext
+  _: Unused,
+  viewContext: ViewContext<Unused>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   const {
     authState: { isAuthenticated },
@@ -1249,7 +1249,7 @@ export const renderWhenUnAuthorized = (
  */
 export const renderExportEntity = (
   datasetsResponse: DatasetsResponse,
-  viewContext: ViewContext
+  viewContext: ViewContext<DatasetsResponse>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   const {
     exploreState: { featureFlagState },
@@ -1269,7 +1269,7 @@ export const renderExportEntity = (
  */
 export const renderExportEntityWarning = (
   datasetsResponse: DatasetsResponse,
-  viewContext: ViewContext
+  viewContext: ViewContext<DatasetsResponse>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   const {
     exploreState: { featureFlagState },
