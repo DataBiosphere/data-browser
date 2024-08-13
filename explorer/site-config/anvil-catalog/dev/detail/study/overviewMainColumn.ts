@@ -1,14 +1,14 @@
 import { ComponentConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "app/components";
 import { AnVILCatalogStudy } from "../../../../../app/apis/catalog/anvil-catalog/common/entities";
-import * as T from "../../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
+import * as V from "../../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
 
 export const mainColumn = [
   {
     children: [
       {
         component: C.Markdown,
-        viewBuilder: T.buildStudyDescription,
+        viewBuilder: V.buildStudyDescription,
       } as ComponentConfig<typeof C.Markdown, AnVILCatalogStudy>,
     ],
     component: C.CollapsableSection,
@@ -23,7 +23,7 @@ export const mainColumn = [
         children: [
           {
             component: C.Links,
-            viewBuilder: T.buildStudyApplyingForAccess,
+            viewBuilder: V.buildStudyApplyingForAccess,
           } as ComponentConfig<typeof C.Links, AnVILCatalogStudy>,
         ],
         component: C.Stack,

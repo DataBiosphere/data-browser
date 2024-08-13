@@ -6,8 +6,8 @@ import {
 } from "@databiosphere/findable-ui/lib/config/entities";
 import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
 import { FilesResponse } from "../../../../app/apis/azul/anvil/common/responses";
-import * as Components from "../../../../app/components";
-import * as ViewBuilder from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import * as C from "../../../../app/components";
+import * as V from "../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "../category";
 
 /**
@@ -27,45 +27,45 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildFileId,
-        } as ComponentConfig<typeof Components.Cell>,
+          component: C.BasicCell,
+          viewBuilder: V.buildFileId,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CATEGORY_LABEL.FILE_ID,
         id: ANVIL_CATEGORY_KEY.FILE_ID,
         width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildFileFormat,
-        } as ComponentConfig<typeof Components.Cell>,
+          component: C.BasicCell,
+          viewBuilder: V.buildFileFormat,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CATEGORY_LABEL.FILE_FORMAT,
         id: ANVIL_CATEGORY_KEY.FILE_FORMAT,
         width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
-          component: Components.Cell,
-          viewBuilder: ViewBuilder.buildFileType,
-        } as ComponentConfig<typeof Components.Cell>,
+          component: C.BasicCell,
+          viewBuilder: V.buildFileType,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CATEGORY_LABEL.FILE_TYPE,
         id: ANVIL_CATEGORY_KEY.FILE_TYPE,
         width: { max: "1fr", min: "120px" },
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildFileDataModality,
-        } as ComponentConfig<typeof Components.NTagCell>,
+          component: C.NTagCell,
+          viewBuilder: V.buildFileDataModality,
+        } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CATEGORY_LABEL.DATA_MODALITY,
         id: ANVIL_CATEGORY_KEY.DATA_MODALITY,
         width: { max: "2fr", min: "240px" },
       },
       {
         componentConfig: {
-          component: Components.NTagCell,
-          viewBuilder: ViewBuilder.buildDatasetNames,
-        } as ComponentConfig<typeof Components.NTagCell>,
+          component: C.NTagCell,
+          viewBuilder: V.buildDatasetNames,
+        } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CATEGORY_LABEL.DATASET_NAME,
         id: ANVIL_CATEGORY_KEY.DATASET_NAME,
         width: { max: "2fr", min: "240px" },

@@ -53,9 +53,7 @@ export { ManifestDownloadEntity } from "@databiosphere/findable-ui/lib/component
 export { ManifestDownloadForm } from "@databiosphere/findable-ui/lib/components/Export/components/ManifestDownload/components/ManifestDownloadForm/manifestDownloadForm";
 export { ManifestDownload } from "@databiosphere/findable-ui/lib/components/Export/components/ManifestDownload/manifestDownload";
 export { AzulFileDownload } from "@databiosphere/findable-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
-export { Cell } from "@databiosphere/findable-ui/lib/components/Index/components/Cell/cell";
 export { Summaries } from "@databiosphere/findable-ui/lib/components/Index/components/Hero/components/Summaries/summaries";
-export { NTagCell } from "@databiosphere/findable-ui/lib/components/Index/components/NTagCell/nTagCell";
 export {
   BackPageContentMainColumn,
   BackPageContentSideColumn,
@@ -77,6 +75,8 @@ export { Details } from "@databiosphere/findable-ui/lib/components/Project/compo
 export { Publications } from "@databiosphere/findable-ui/lib/components/Project/components/Publications/publications";
 export { SupplementaryLinks } from "@databiosphere/findable-ui/lib/components/Project/components/SupplementaryLinks/supplementaryLinks";
 export { SupportRequest } from "@databiosphere/findable-ui/lib/components/Support/components/SupportRequest/supportRequest";
+export { BasicCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/BasicCell/basicCell";
+export { NTagCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/NTagCell/nTagCell";
 export { ExportMethodView } from "@databiosphere/findable-ui/lib/views/ExportMethodView/exportMethodView";
 export { Announcements } from "./common/Banner/components/Announcements/announcements";
 export { ButtonOutline } from "./common/Button/components/ButtonOutline/buttonOutline";

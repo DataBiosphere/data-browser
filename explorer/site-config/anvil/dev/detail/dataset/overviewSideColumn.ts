@@ -1,10 +1,10 @@
 import { ComponentConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../../app/components";
-import * as T from "../../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
+import * as V from "../../../../../app/viewModelBuilders/azul/anvil/common/viewModelBuilders";
 
 export const sideColumn = [
   {
     component: C.Details,
-    viewBuilder: T.buildDatasetDetails,
+    viewBuilder: V.buildDatasetDetails,
   } as ComponentConfig<typeof C.Details>,
 ];

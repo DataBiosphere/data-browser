@@ -32,18 +32,18 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildDocumentId,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DOCUMENT_ID,
         id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DOCUMENT_ID,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildActivityType,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_ACTIVITY_TYPE,
         id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_ACTIVITY_TYPE,
         width: { max: "1fr", min: "200px" },
@@ -59,9 +59,9 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildBioSampleTypes,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.BIOSAMPLE_BIOSAMPLE_TYPE,
         id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_TYPE,
         width: { max: "1fr", min: "200px" },

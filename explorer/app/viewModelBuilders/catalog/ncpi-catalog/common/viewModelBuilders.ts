@@ -17,9 +17,9 @@ import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 
 /**
- * Build props for consent codes cell component from the given NCPI entity.
+ * Build props for ConsentCodesCell component from the given NCPI entity.
  * @param ncpiCatalogEntry - NCPI catalog entity.
- * @returns Model to be used as props for the consent codes cell.
+ * @returns Model to be used as props for the ConsentCodesCell component.
  */
 export const buildConsentCodes = (
   ncpiCatalogEntry: NCPICatalogEntity
@@ -32,9 +32,9 @@ export const buildConsentCodes = (
 };
 
 /**
- * Build props for data types cell component from the given NCPI entity.
+ * Build props for data types NTagCell component from the given NCPI entity.
  * @param ncpiCatalogEntry - NCPI catalog entity.
- * @returns Model to be used as props for the data types cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildDataTypes = (
   ncpiCatalogEntry: NCPICatalogEntity
@@ -46,22 +46,22 @@ export const buildDataTypes = (
 };
 
 /**
- * Build props for dbGaPId cell component from the given NCPI entity.
+ * Build props for dbGaPId BasicCell component from the given NCPI entity.
  * @param ncpiCatalogStudy - NCPI catalog study.
- * @returns Model to be used as props for the dbGaPId cell.
+ * @returns Model to be used as props for the BasicCell component.
  */
 export const buildDbGapId = (
   ncpiCatalogStudy: NCPICatalogStudy
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: ncpiCatalogStudy.dbGapId,
   };
 };
 
 /**
- * Build props for dbGaPIds cell component from the given NCPI entity.
+ * Build props for dbGaPIds NTagCell component from the given NCPI entity.
  * @param ncpiCatalogPlatform - NCPI catalog platform.
- * @returns Model to be used as props for the dbGaPIds cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildDbGapIds = (
   ncpiCatalogPlatform: NCPICatalogPlatform
@@ -73,22 +73,22 @@ export const buildDbGapIds = (
 };
 
 /**
- * Build props for focus/disease cell component from the given NCPI entity.
+ * Build props for focus/disease BasicCell component from the given NCPI entity.
  * @param ncpiCatalogStudy - NCPI catalog study.
- * @returns Model to be used as props for the focus/disease cell.
+ * @returns Model to be used as props for the BasicCell component.
  */
 export const buildFocus = (
   ncpiCatalogStudy: NCPICatalogStudy
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: ncpiCatalogStudy.focus,
   };
 };
 
 /**
- * Build props for focus/diseases cell component from the given NCPI entity.
+ * Build props for focus/diseases NTagCell component from the given NCPI entity.
  * @param ncpiCatalogPlatform - NCPI catalog platform.
- * @returns Model to be used as props for the focus/diseases cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildFocusDiseases = (
   ncpiCatalogPlatform: NCPICatalogPlatform
@@ -100,35 +100,35 @@ export const buildFocusDiseases = (
 };
 
 /**
- * Build props for participant count cell component from the given NCPI entity.
+ * Build props for participant count BasicCell component from the given NCPI entity.
  * @param ncpiCatalogEntry - NCPI catalog entity.
- * @returns Model to be used as props for the participant count cell.
+ * @returns Model to be used as props for the BasicCell component.
  */
 export const buildParticipantCount = (
   ncpiCatalogEntry: NCPICatalogEntity
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: ncpiCatalogEntry.participantCount,
   };
 };
 
 /**
- * Build props for platform cell component from the given NCPI entity.
+ * Build props for platform BasicCell component from the given NCPI entity.
  * @param ncpiCatalogPlatform - NCPI catalog platform.
- * @returns Model to be used as props for the platform cell.
+ * @returns Model to be used as props for the BasicCell component.
  */
 export const buildPlatform = (
   ncpiCatalogPlatform: NCPICatalogPlatform
-): React.ComponentProps<typeof C.Cell> => {
+): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: ncpiCatalogPlatform.platform,
   };
 };
 
 /**
- * Build props for platforms cell component from the given NCPI entity.
+ * Build props for platforms NTagCell component from the given NCPI entity.
  * @param ncpiCatalogStudy - NCPI catalog study.
- * @returns Model to be used as props for the platforms cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildPlatforms = (
   ncpiCatalogStudy: NCPICatalogStudy
@@ -176,9 +176,9 @@ export const buildStudyDescription = (
 };
 
 /**
- * Build props for study designs cell component from the given NCPI entity.
+ * Build props for study designs NTagCell component from the given NCPI entity.
  * @param ncpiCatalogEntity - NCPI catalog entity.
- * @returns Model to be used as props for the study designs cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildStudyDesigns = (
   ncpiCatalogEntity: NCPICatalogEntity
@@ -211,14 +211,14 @@ export const buildStudyDetails = (
 };
 
 /**
- * Build props for Hero component from the given NCPI entity.
+ * Build props for BackPageHero component from the given NCPI entity.
  * @param ncpiCatalogStudy - NCPI catalog study.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildStudyHero = (
   ncpiCatalogStudy: NCPICatalogStudy,
-  viewContext: ViewContext
+  viewContext: ViewContext<NCPICatalogStudy>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const { dbGapId, title } = ncpiCatalogStudy;
   return {
@@ -264,9 +264,9 @@ export const buildStudySummary = (
 };
 
 /**
- * Build props for study name cell component from the given NCPI entity.
+ * Build props for study name Link component from the given NCPI entity.
  * @param ncpiCatalogStudy - NCPI catalog study.
- * @returns Model to be used as props for the study name cell.
+ * @returns Model to be used as props for the Link component.
  */
 export const buildStudyTitle = (
   ncpiCatalogStudy: NCPICatalogStudy
@@ -279,9 +279,9 @@ export const buildStudyTitle = (
 };
 
 /**
- * Build props for study names cell component from the given NCPI entity.
+ * Build props for study names NTagCell component from the given NCPI entity.
  * @param ncpiCatalogPlatform - NCPI catalog platform.
- * @returns Model to be used as props for the study names cell.
+ * @returns Model to be used as props for the NTagCell component.
  */
 export const buildStudyNames = (
   ncpiCatalogPlatform: NCPICatalogPlatform
@@ -299,7 +299,7 @@ export const buildStudyNames = (
  * @returns catalog breadcrumbs.
  */
 function getCatalogBreadcrumbs(
-  viewContext: ViewContext,
+  viewContext: ViewContext<NCPICatalogStudy>,
   lastCrumbText?: string
 ): Breadcrumb[] {
   const { label, route } = viewContext.entityConfig;

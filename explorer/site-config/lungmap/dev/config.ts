@@ -1,4 +1,3 @@
-import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
 import { CategoryGroupConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import hcaConfig, {
   DATA_URL as HCA_DATA_URL,
@@ -78,34 +77,37 @@ export function makeConfig(
         socials: socialMedia.socials,
       },
       header: {
-        Logo: C.Logo({
+        authenticationEnabled: false,
+        logo: C.Logo({
           alt: APP_TITLE,
           height: 32,
           link: HOME_PAGE_PATH,
           src: "/images/logoLungmap.png",
         }),
-        authenticationEnabled: false,
-        navAlignment: ELEMENT_ALIGNMENT.RIGHT,
-        navLinks: [
-          {
-            flatten: true,
-            label: "Help & Documentation",
-            menuItems: [
-              {
-                label: "Metadata Dictionary",
-                url: "/metadata",
-              },
-              {
-                label: "APIs",
-                url: "/apis",
-              },
-              {
-                label: "Privacy",
-                url: "/privacy",
-              },
-            ],
-            url: "",
-          },
+        navigation: [
+          undefined,
+          undefined,
+          [
+            {
+              flatten: { md: true, sm: true, xs: true },
+              label: "Help & Documentation",
+              menuItems: [
+                {
+                  label: "Metadata Dictionary",
+                  url: "/metadata",
+                },
+                {
+                  label: "APIs",
+                  url: "/apis",
+                },
+                {
+                  label: "Privacy",
+                  url: "/privacy",
+                },
+              ],
+              url: "",
+            },
+          ],
         ],
         searchEnabled: false,
         slogan: undefined,

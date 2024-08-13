@@ -1,14 +1,14 @@
 import { ComponentConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "app/components";
 import { NCPICatalogStudy } from "../../../../../app/apis/catalog/ncpi-catalog/common/entities";
-import * as T from "../../../../../app/viewModelBuilders/catalog/ncpi-catalog/common/viewModelBuilders";
+import * as V from "../../../../../app/viewModelBuilders/catalog/ncpi-catalog/common/viewModelBuilders";
 
 export const mainColumn = [
   {
     children: [
       {
         component: C.Markdown,
-        viewBuilder: T.buildStudyDescription,
+        viewBuilder: V.buildStudyDescription,
       } as ComponentConfig<typeof C.Markdown, NCPICatalogStudy>,
     ],
     component: C.CollapsableSection,
@@ -23,7 +23,7 @@ export const mainColumn = [
         children: [
           {
             component: C.Links,
-            viewBuilder: T.buildStudyApplyingForAccess,
+            viewBuilder: V.buildStudyApplyingForAccess,
           } as ComponentConfig<typeof C.Links, NCPICatalogStudy>,
         ],
         component: C.Stack,

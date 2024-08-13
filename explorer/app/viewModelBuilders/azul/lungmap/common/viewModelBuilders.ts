@@ -8,7 +8,7 @@ import {
 import { ProjectsResponse } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/lungmap";
-import { Unused } from "../../../common/entities";
+import { Void } from "../../../common/entities";
 import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
@@ -29,8 +29,8 @@ import {
 } from "../../hca-dcp/common/viewModelBuilders";
 
 /**
- * Build props for the data normalization and batch correction alert component.
- * @returns model to be used as props for the alert component.
+ * Build props for the data normalization and batch correction Alert component.
+ * @returns model to be used as props for the Alert component.
  */
 export const buildBatchCorrectionWarning = (): React.ComponentProps<
   typeof C.Alert
@@ -44,7 +44,7 @@ export const buildBatchCorrectionWarning = (): React.ComponentProps<
 /**
  * Build props for GeneratedMatricesTable component from the given project response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the contributor generated matrices table component.
+ * @returns model to be used as props for the GeneratedMatricesTables component.
  */
 export const buildContributorGeneratedMatricesTable = (
   projectsResponse: ProjectsResponse
@@ -80,16 +80,16 @@ function buildContributorGeneratedMatricesTableColumns<T>(): ColumnDef<T>[] {
 
 /**
  * Build props for DownloadCurlCommand component.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the DownloadCurlCommand component.
  */
 export const buildDownloadCurlCommand = (
-  _: Unused,
-  viewContext?: ViewContext
+  _: Void,
+  viewContext?: ViewContext<Void>
 ): React.ComponentProps<typeof C.DownloadCurlCommand> => {
   return {
-    ...buildHCADownloadCurlCommand(_, viewContext as ViewContext),
+    ...buildHCADownloadCurlCommand(_, viewContext as ViewContext<Void>),
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
   };
 };
@@ -102,7 +102,7 @@ export const buildDownloadCurlCommand = (
  */
 export const buildDownloadEntityCurlCommand = (
   projectsResponse: ProjectsResponse,
-  viewContext: ViewContext
+  viewContext: ViewContext<ProjectsResponse>
 ): React.ComponentProps<typeof C.DownloadCurlCommand> => {
   return {
     ...buildHCADownloadEntityCurlCommand(projectsResponse, viewContext),
@@ -112,16 +112,16 @@ export const buildDownloadEntityCurlCommand = (
 
 /**
  * Build props for ExportToTerra component.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportToTerra = (
-  _: Unused,
-  viewContext?: ViewContext
+  _: Void,
+  viewContext?: ViewContext<Void>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   return {
-    ...buildHCAExportToTerra(_, viewContext as ViewContext),
+    ...buildHCAExportToTerra(_, viewContext as ViewContext<Void>),
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccessWithWarning,
   };
@@ -129,16 +129,16 @@ export const buildExportToTerra = (
 
 /**
  * Build props for ManifestDownload component.
- * @param _ - Unused.
+ * @param _ - Void.
  * @param viewContext - View context.
  * @returns model to be used as props for the ManifestDownload component.
  */
 export const buildManifestDownload = (
-  _: Unused,
-  viewContext?: ViewContext
+  _: Void,
+  viewContext?: ViewContext<Void>
 ): React.ComponentProps<typeof C.ManifestDownload> => {
   return {
-    ...buildHCAManifestDownload(_, viewContext as ViewContext),
+    ...buildHCAManifestDownload(_, viewContext as ViewContext<Void>),
     ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
   };
 };
@@ -151,8 +151,8 @@ export const buildManifestDownload = (
  * - desktop view: 3 columns.
  * @returns model to be used as props for the Grid component.
  */
-export const buildTripleColumnGrid = (): React.ComponentProps<
-  typeof C.Grid
+export const buildTripleColumnGrid = (): Partial<
+  React.ComponentProps<typeof C.Grid>
 > => {
   return {
     gridSx: {

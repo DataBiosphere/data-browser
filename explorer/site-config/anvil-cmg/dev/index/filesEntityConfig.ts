@@ -47,27 +47,27 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         columnPinned: true,
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildFileName,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_NAME,
         id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_NAME,
         width: { max: "1fr", min: "240px" },
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildFileFormat,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT, // "Format"
         id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
         width: { max: "auto", min: "120px" },
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildFileSize,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_SIZE,
         id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_SIZE,
         width: { max: "auto", min: "120px" },

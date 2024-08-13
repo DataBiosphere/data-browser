@@ -1,6 +1,6 @@
 import { GridPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/paper.styles";
 import { Table } from "@databiosphere/findable-ui/lib/components/Detail/components/Table/table";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowData } from "@tanstack/react-table";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import {
   HCA_DCP_CATEGORY_KEY,
@@ -23,7 +23,10 @@ export interface ArchivePreviewTableProps {
  * Builds the table column definition model for the archive preview table.
  * @returns archive preview table column definition.
  */
-function getArchivePreviewTableColumns<T extends object>(): ColumnDef<T>[] {
+function getArchivePreviewTableColumns<
+  T extends RowData,
+  TData = unknown
+>(): ColumnDef<T, TData>[] {
   return [
     {
       accessorKey: HCA_DCP_CATEGORY_KEY.FILE_NAME,

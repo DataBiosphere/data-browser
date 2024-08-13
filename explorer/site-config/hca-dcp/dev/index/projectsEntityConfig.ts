@@ -170,9 +170,9 @@ export const projectsEntityConfig: EntityConfig = {
       {
         columnVisible: false,
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildAggregatedProtocolPairedEnd,
-        } as ComponentConfig<typeof C.Cell, ProjectsResponse>,
+        } as ComponentConfig<typeof C.BasicCell, ProjectsResponse>,
         header: HCA_DCP_CATEGORY_LABEL.PAIRED_END,
         id: HCA_DCP_CATEGORY_KEY.PAIRED_END,
         width: { max: "1fr", min: "146px" },
@@ -219,18 +219,18 @@ export const projectsEntityConfig: EntityConfig = {
       {
         columnVisible: false,
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildAggregatedDonorCount,
-        } as ComponentConfig<typeof C.Cell, ProjectsResponse>,
+        } as ComponentConfig<typeof C.BasicCell, ProjectsResponse>,
         header: HCA_DCP_CATEGORY_LABEL.DONOR_COUNT,
         id: HCA_DCP_CATEGORY_KEY.DONOR_COUNT,
         width: { max: "1fr", min: "124px" },
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildEstimateCellCount,
-        } as ComponentConfig<typeof C.Cell, ProjectsResponse>,
+        } as ComponentConfig<typeof C.BasicCell, ProjectsResponse>,
         header: HCA_DCP_CATEGORY_LABEL.EFFECTIVE_CELL_COUNT,
         id: HCA_DCP_CATEGORY_KEY.EFFECTIVE_CELL_COUNT,
         width: { max: "1fr", min: "124px" },
@@ -238,9 +238,9 @@ export const projectsEntityConfig: EntityConfig = {
       {
         columnVisible: false,
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildAggregateSubmissionDate,
-        } as ComponentConfig<typeof C.Cell, ProjectsResponse>,
+        } as ComponentConfig<typeof C.BasicCell, ProjectsResponse>,
         header: HCA_DCP_CATEGORY_LABEL.AGGREGATE_SUBMISSION_DATE,
         id: HCA_DCP_CATEGORY_KEY.AGGREGATE_SUBMISSION_DATE,
         width: { max: "1fr", min: "224px" },
@@ -248,9 +248,9 @@ export const projectsEntityConfig: EntityConfig = {
       {
         columnVisible: true,
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildAggregateLastModifiedDate,
-        } as ComponentConfig<typeof C.Cell, ProjectsResponse>,
+        } as ComponentConfig<typeof C.BasicCell, ProjectsResponse>,
         header: HCA_DCP_CATEGORY_LABEL.AGGREGATE_LAST_MODIFIED_DATE,
         id: HCA_DCP_CATEGORY_KEY.AGGREGATE_LAST_MODIFIED_DATE,
         width: { max: "1fr", min: "224px" },

@@ -28,9 +28,9 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildSampleId,
-        } as ComponentConfig<typeof C.Cell, SamplesResponse>,
+        } as ComponentConfig<typeof C.BasicCell, SamplesResponse>,
         header: HCA_DCP_CATEGORY_LABEL.SAMPLE_ID,
         id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
         width: { max: "1fr", min: "120px" },
@@ -55,9 +55,9 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildSampleEntityType,
-        } as ComponentConfig<typeof C.Cell, SamplesResponse>,
+        } as ComponentConfig<typeof C.BasicCell, SamplesResponse>,
         header: HCA_DCP_CATEGORY_LABEL.SAMPLE_TYPE,
         id: HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE,
         width: { max: "1fr", min: "124px" },
@@ -84,9 +84,9 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       {
         columnVisible: false,
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildSampleModelOrgan,
-        } as ComponentConfig<typeof C.Cell, SamplesResponse>,
+        } as ComponentConfig<typeof C.BasicCell, SamplesResponse>,
         header: HCA_DCP_CATEGORY_LABEL.MODEL_ORGAN,
         id: HCA_DCP_CATEGORY_KEY.MODEL_ORGAN,
         width: { max: "1fr", min: "124px" },
@@ -123,9 +123,9 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       {
         columnVisible: false,
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildAggregatedProtocolPairedEnd,
-        } as ComponentConfig<typeof C.Cell, SamplesResponse>,
+        } as ComponentConfig<typeof C.BasicCell, SamplesResponse>,
         header: HCA_DCP_CATEGORY_LABEL.PAIRED_END,
         id: HCA_DCP_CATEGORY_KEY.PAIRED_END,
         width: { max: "1fr", min: "124px" },
@@ -153,9 +153,9 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       {
         columnVisible: false,
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildAggregatedDonorBiologicalSex,
-        } as ComponentConfig<typeof C.Cell, SamplesResponse>,
+        } as ComponentConfig<typeof C.BasicCell, SamplesResponse>,
         header: "Sex",
         id: HCA_DCP_CATEGORY_KEY.BIOLOGICAL_SEX,
         width: { max: "1fr", min: "124px" },
@@ -191,9 +191,9 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildTotalCells,
-        } as ComponentConfig<typeof C.Cell, SamplesResponse>,
+        } as ComponentConfig<typeof C.BasicCell, SamplesResponse>,
         header: HCA_DCP_CATEGORY_LABEL.CELL_COUNT,
         id: HCA_DCP_CATEGORY_KEY.CELL_COUNT,
         width: { max: "1fr", min: "124px" },

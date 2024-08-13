@@ -77,18 +77,18 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildRegisteredIdentifier,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
         id: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
         width: { max: "1fr", min: "200px" },
       },
       {
         componentConfig: {
-          component: C.Cell,
+          component: C.BasicCell,
           viewBuilder: V.buildConsentGroup,
-        } as ComponentConfig<typeof C.Cell>,
+        } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
         id: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
         width: { max: "1fr", min: "200px" },

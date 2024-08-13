@@ -1,4 +1,3 @@
-import { ELEMENT_ALIGNMENT } from "@databiosphere/findable-ui/lib/common/entities";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { SiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../app/components/index";
@@ -80,20 +79,23 @@ const config: SiteConfig = {
       navLinks: [],
     },
     header: {
-      Logo: C.Logo({
+      authenticationEnabled: false,
+      logo: C.Logo({
         alt: APP_TITLE,
         height: 36,
         link: "/platforms",
         src: logoNcpi,
       }),
-      authenticationEnabled: false,
-      navAlignment: ELEMENT_ALIGNMENT.RIGHT,
-      navLinks: [
-        {
-          label: C.LabelIconMenuItem({ label: "Visit ncpi-acc.org" }),
-          target: ANCHOR_TARGET.BLANK,
-          url: PORTAL_URL,
-        },
+      navigation: [
+        undefined,
+        undefined,
+        [
+          {
+            label: C.LabelIconMenuItem({ label: "Visit ncpi-acc.org" }),
+            target: ANCHOR_TARGET.BLANK,
+            url: PORTAL_URL,
+          },
+        ],
       ],
       searchEnabled: false,
       searchURL: ``,
