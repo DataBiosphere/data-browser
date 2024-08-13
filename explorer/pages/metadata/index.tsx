@@ -2,7 +2,7 @@ import { Main } from "@databiosphere/findable-ui/lib/components/Layout/component
 import { ContentView } from "@databiosphere/findable-ui/lib/views/ContentView/contentView";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { MDXRemote } from "next-mdx-remote";
-import { ContentTheme } from "../../app/components/common/Content/components/ContentTheme/contentTheme";
+import { Content } from "../../app/components/Layout/components/Content/content";
 import { MDX_COMPONENTS, MDX_SCOPE } from "../../app/content/common/constants";
 import { getContentStaticProps } from "../../app/content/common/contentPages";
 import NotFoundPage from "../404";
@@ -21,13 +21,13 @@ const Page = ({
   return (
     <ContentView
       content={
-        <ContentTheme>
+        <Content>
           <MDXRemote
             {...mdxSource}
             components={MDX_COMPONENTS}
             scope={MDX_SCOPE}
           />
-        </ContentTheme>
+        </Content>
       }
       layoutStyle={layoutStyle ?? undefined}
     />

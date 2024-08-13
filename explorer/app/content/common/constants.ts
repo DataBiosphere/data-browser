@@ -1,18 +1,15 @@
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
-import { Breadcrumbs } from "../../components/common/Content/components/Breadcrumbs/breadcrumbs.styles";
-import { Link } from "../../components/common/Content/components/Link/link";
+import * as C from "../../components";
 import { Figure } from "../../components/common/Figure/figure";
-import { AnchorProps } from "./entities";
-import { getContentScope } from "./scope";
+import { Link } from "../../components/Layout/components/Content/components/Link/link";
 
 export const CONTENT_FOLDER_NAME = "content";
 
 export const MDX_COMPONENTS = {
-  Breadcrumbs,
+  Alert: C.Alert,
+  Breadcrumbs: C.Breadcrumbs,
   Figure,
-  Link,
-  a: ({ children, href }: AnchorProps): JSX.Element =>
-    Link({ label: children, url: href }),
+  a: Link,
 };
 
-export const MDX_SCOPE = { ...getContentScope(), ANCHOR_TARGET };
+export const MDX_SCOPE = { ANCHOR_TARGET };
