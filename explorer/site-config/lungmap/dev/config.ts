@@ -9,7 +9,6 @@ import * as C from "../../../app/components/index";
 import { SiteConfig } from "../../common/entities";
 import { filesEntityConfig as hcaFilesEntityConfig } from "../../hca-dcp/dev/index/filesEntityConfig";
 import { samplesEntityConfig as hcaSamplesEntityConfig } from "../../hca-dcp/dev/index/samplesEntityConfig";
-import { contentThemeOptions } from "./content/contentThemeOptions";
 import { exportConfig } from "./export/exportConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { summary } from "./index/summary";
@@ -45,7 +44,6 @@ export function makeConfig(
       key: "lungmap",
     },
     contentDir: "lungmap",
-    contentThemeOptionsFn: contentThemeOptions,
     dataSource: {
       defaultListParams: {
         size: PAGINATION_PAGE_SIZE,

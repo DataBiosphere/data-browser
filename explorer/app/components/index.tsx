@@ -4,6 +4,8 @@ export { CookieBanner } from "@databiosphere/findable-ui/lib/components/common/B
 export { SessionTimeout } from "@databiosphere/findable-ui/lib/components/common/Banner/components/SessionTimeout/sessionTimeout";
 export { SystemIndexing } from "@databiosphere/findable-ui/lib/components/common/Banner/components/SystemIndexing/systemIndexing";
 export { SystemStatus } from "@databiosphere/findable-ui/lib/components/common/Banner/components/SystemStatus/systemStatus";
+export { Breadcrumbs } from "@databiosphere/findable-ui/lib/components/common/Breadcrumbs/breadcrumbs";
+export { HelpIconButton } from "@databiosphere/findable-ui/lib/components/common/Button/components/HelpIconButton/helpIconButton";
 export { ButtonGroup } from "@databiosphere/findable-ui/lib/components/common/ButtonGroup/buttonGroup";
 export {
   ContentCopyIconSmall,

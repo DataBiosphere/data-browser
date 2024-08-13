@@ -1,4 +1,4 @@
-import { LAYOUT_STYLE_NO_CONTRAST_LIGHT } from "@databiosphere/findable-ui/lib/components/Layout/components/ContentLayout/common/constants";
+import { LAYOUT_STYLE_NO_CONTRAST_DEFAULT } from "@databiosphere/findable-ui/lib/components/Layout/components/ContentLayout/common/constants";
 import fs from "fs";
 import matter from "gray-matter";
 import { GetStaticPropsContext, GetStaticPropsResult } from "next";
@@ -44,7 +44,7 @@ export async function getContentStaticProps(
   });
   return {
     props: {
-      layoutStyle: LAYOUT_STYLE_NO_CONTRAST_LIGHT,
+      layoutStyle: LAYOUT_STYLE_NO_CONTRAST_DEFAULT,
       mdxSource,
       pageTitle,
       slug,

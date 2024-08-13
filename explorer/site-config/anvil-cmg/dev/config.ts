@@ -8,7 +8,6 @@ import { SiteConfig } from "../../common/entities";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
 import { authenticationConfig } from "./authentication/authentication";
-import { contentThemeOptions } from "./content/contentThemeOptions";
 import { exportConfig } from "./export/export";
 import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
 import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
@@ -121,7 +120,6 @@ export function makeConfig(
       key: "anvil-cmg",
     },
     contentDir: "anvil-cmg",
-    contentThemeOptionsFn: contentThemeOptions,
     dataSource: {
       defaultListParams: {
         size: "25",
