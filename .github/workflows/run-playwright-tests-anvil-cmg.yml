@@ -17,7 +17,7 @@ jobs:
         run: |
             cd explorer
             npm ci
-      - name: Check Backend System Status
+      - name: Check Backend System Status - TEST RESULTS ARE NOT VALID IF THIS FAILS
         run: |
             cd explorer
             npm run check-system-status:anvil-cmg
@@ -29,6 +29,10 @@ jobs:
         run: |
           cd explorer
           npm run test:anvil-cmg
+      - name: Check backend status again - TEST RESULTS ARE NOT VALID IF THIS FAILS
+        run: |
+          cd explorer
+          npm run check-system-status:anvil-cmg
       - uses: actions/upload-artifact@v3
         if: always()
         with:
