@@ -373,9 +373,9 @@ export async function testFilterPersistence(
   await page
     .getByRole("tab")
     .getByText(tabOrder[0].tabName, { exact: true })
-    .click();
+    .dispatchEvent("click");
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
-  await page.getByText(filterRegex(testFilterName)).click();
+  await page.getByText(filterRegex(testFilterName)).dispatchEvent("click");
   const previouslySelected = getFirstFilterButtonLocator(page);
   await expect(previouslySelected).toContainText(filterName, {
     useInnerText: true,
