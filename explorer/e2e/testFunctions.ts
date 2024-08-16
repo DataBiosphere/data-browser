@@ -1,12 +1,17 @@
-import { expect, Locator, Page, test } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { TabDescription } from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
-// Run the "Expect each tab to appear as selected when the corresponding url is accessed" test
 
-export const getFirstElementTextLocator = (
+/**
+ * Get a locator to the cell in the first row's nth column
+ * @param page - a Playwright page object
+ * @param columnIndex - the zero-indexed column to return
+ * @returns a Playwright locator object to the selected cell
+ **/
+export const getFirstRowNthColumnCellLocator = (
   page: Page,
-  workColumnPosition: number
+  columnIndex: number
 ): Locator => {
   return page
     .getByRole("rowgroup")
@@ -14,9 +19,16 @@ export const getFirstElementTextLocator = (
     .getByRole("row")
     .nth(0)
     .getByRole("cell")
-    .nth(workColumnPosition);
+    .nth(columnIndex);
 };
 
+/**
+ * Tests that the tab url goes to a valid page and that the correct tab (and only
+ * the correct tab) appears selected
+ * @param page - a Playwright page object
+ * @param tab - the Tab object to check
+ * @param otherTabs - an array of the other Tab objects for this configuration
+ */
 export async function testUrl(
   page: Page,
   tab: TabDescription,
@@ -36,6 +48,11 @@ export async function testUrl(
 }
 
 // Run the "Expect each tab to become selected, to go to the correct url, and to show all of its columns when selected" test
+/**
+ * Checks that all preselected columns listed in the tab object are visible in the correct order
+ * @param page - a Playwright page object
+ * @param tab - the tab object to test
+ */
 export async function testTab(page: Page, tab: TabDescription): Promise<void> {
   await expect(
     page
@@ -63,6 +80,14 @@ export async function testTab(page: Page, tab: TabDescription): Promise<void> {
   }
 }
 
+/**
+ * Checks that sorting the tab does not cause the first and last row to break.
+ * This test does not check whether the sort order is correct.
+ * This test assumes that this is an Azul explorer with pagination rather than
+ * a catalog, so that the last element is visible without excessive scrolling.
+ * @param page - a Playwright page object
+ * @param tab - the tab to check
+ */
 export async function testSortAzul(
   page: Page,
   tab: TabDescription
@@ -77,13 +102,13 @@ export async function testSortAzul(
   ) {
     // Get the column position, taking into account that some tabs start with a non-text first column
     if (tab.preselectedColumns[columnPosition].sortable) {
-      const workColumnPosition: number = tab.emptyFirstColumn
+      const columnIndex: number = tab.emptyFirstColumn
         ? columnPosition + 1
         : columnPosition;
       // Locators for the first and last cells in a particular column position on the page
-      const firstElementTextLocator = getFirstElementTextLocator(
+      const firstElementTextLocator = getFirstRowNthColumnCellLocator(
         page,
-        workColumnPosition
+        columnIndex
       );
       const lastElementTextLocator = page
         .getByRole("rowgroup")
@@ -91,8 +116,8 @@ export async function testSortAzul(
         .getByRole("row")
         .last()
         .getByRole("cell")
-        .nth(workColumnPosition);
-      // Locator for the sort buttonf
+        .nth(columnIndex);
+      // Locator for the sort button for the tab
       const columnSortLocator = page
         .getByRole("columnheader", {
           exact: true,
@@ -119,6 +144,14 @@ export async function testSortAzul(
   }
 }
 
+/**
+ * Checks that sorting the tab does not cause the first row of the table to break.
+ * This test does not check whether the sort order is correct.
+ * This test assumes that this is a catalog explorer without pagination,
+ * so it only checks the first element of the table.
+ * @param page - a Playwright page object
+ * @param tab - the tab to check
+ */
 export async function testSortCatalog(
   page: Page,
   tab: TabDescription
@@ -133,13 +166,13 @@ export async function testSortCatalog(
   ) {
     // Get the column position, taking into account that some tabs start with a non-text first column
     if (tab.preselectedColumns[columnPosition].sortable) {
-      const workColumnPosition: number = tab.emptyFirstColumn
+      const columnIndex: number = tab.emptyFirstColumn
         ? columnPosition + 1
         : columnPosition;
       // Locators for the first and last cells in a particular column position on the page
-      const firstElementTextLocator = getFirstElementTextLocator(
+      const firstElementTextLocator = getFirstRowNthColumnCellLocator(
         page,
-        workColumnPosition
+        columnIndex
       );
       // Locator for the sort button
       const columnSortLocator = page
@@ -148,12 +181,10 @@ export async function testSortCatalog(
           name: tab.preselectedColumns[columnPosition].name,
         })
         .getByRole("button");
-
       await expect(firstElementTextLocator).toBeVisible();
-
       // Click to sort
       await columnSortLocator.click();
-      // Expect the first and cells to still be visible
+      // Expect the first cell to still be visible
       await expect(firstElementTextLocator).toBeVisible();
       // Click again
       await columnSortLocator.click();
@@ -164,6 +195,13 @@ export async function testSortCatalog(
   }
 }
 
+/**
+ * Check that all of the selectable columns specified in the tab object
+ * are initially not selected in the "Edit Columns" menu, and that selecting
+ * them causes them to appear in the correct order
+ * @param page - a Playwright page object
+ * @param tab - the tab object to check
+ */
 export async function testSelectableColumns(
   page: Page,
   tab: TabDescription
@@ -193,6 +231,12 @@ export async function testSelectableColumns(
   );
 }
 
+/**
+ * Checks that the preselected columns specified in the tab object appear
+ * in the "Edit Columns" menu and that their checkbox is checked and disabled
+ * @param page - the Playwright page object
+ * @param tab - the tab object to test
+ */
 export async function testPreSelectedColumns(
   page: Page,
   tab: TabDescription
@@ -215,21 +259,34 @@ export async function testPreSelectedColumns(
   }
 }
 
-export const filterRegex = (filter: string): RegExp =>
-  new RegExp(filter + "\\s+\\([0-9]+\\)\\s*");
+/**
+ * Returns a regex that matches the sidebar filter buttons
+ * This is useful for selecting a filter from the sidebar
+ * @param filterName - the name of the filter to match
+ * @returns a regular expression matching "[filterName] ([n])"
+ */
+export const filterRegex = (filterName: string): RegExp =>
+  new RegExp(filterName + "\\s+\\([0-9]+\\)\\s*");
 
+/**
+ * Checks that each filter specified in filterNames is visible and can be
+ * selected on the specified tab
+ * @param page - a Playwright page object
+ * @param tab - the tab to check
+ * @param filterNames - the names of the filters who whose existence should be tested for
+ */
 export async function testFilterPresence(
   page: Page,
   tab: TabDescription,
-  filters: string[]
+  filterNames: string[]
 ): Promise<void> {
   // Goto the selected tab
   await page.goto(tab.url);
   await expect(page.getByRole("tab").getByText(tab.tabName)).toBeVisible();
-  for (const filter of filters) {
+  for (const filterName of filterNames) {
     // Check that each filter is visible and clickable
-    await expect(page.getByText(filterRegex(filter))).toBeVisible();
-    await page.getByText(filterRegex(filter)).click();
+    await expect(page.getByText(filterRegex(filterName))).toBeVisible();
+    await page.getByText(filterRegex(filterName)).click();
     await expect(page.getByRole("checkbox").first()).toBeVisible();
     await expect(page.getByRole("checkbox").first()).not.toBeChecked();
     // Check that clicking out of the filter menu causes it to disappear
@@ -238,14 +295,26 @@ export async function testFilterPresence(
   }
 }
 
+/**
+ * Get a locator for the specified filter option. Requires a filter menu to be open
+ * @param page - a Playwright page object
+ * @param filterOptionName - the name of the filter option
+ * @returns a Playwright locator to the filter button
+ */
 export const getNamedFilterButtonLocator = (
   page: Page,
-  filterName: string
+  filterOptionName: string
 ): Locator => {
   return page
     .getByRole("button")
-    .filter({ has: page.getByRole("checkbox"), hasText: filterName });
+    .filter({ has: page.getByRole("checkbox"), hasText: filterOptionName });
 };
+
+/**
+ * Get a locator for the first filter option. Requires a filter menu to be open
+ * @param page - a Playwright page object
+ * @returns a Playwright locator to the filter button
+ */
 export const getFirstFilterButtonLocator = (page: Page): Locator => {
   return page
     .getByRole("button")
@@ -253,37 +322,47 @@ export const getFirstFilterButtonLocator = (page: Page): Locator => {
     .first();
 };
 
+/**
+ * Cheks that selecting a specified filter is persistent across the tabs in tabOrder
+ * @param page - a Playwright page object
+ * @param testFilterName - the name of the filter to check
+ * @param tabOrder - the tabs to check, in order. The filter will be selected on the first tab.
+ * @returns false if the test should fail, and true if the test passes
+ */
 export async function testFilterPersistence(
   page: Page,
-  testFilter: string,
+  testFilterName: string,
   tabOrder: TabDescription[]
-): Promise<void> {
+): Promise<boolean> {
   // Start on the first tab in the test order (should be files)
   await page.goto(tabOrder[0].url);
   // Select the first checkbox on the test filter
-  await page.getByText(filterRegex(testFilter)).click();
+  await page.getByText(filterRegex(testFilterName)).click();
   const filterToSelectLocator = await getFirstFilterButtonLocator(page);
   await expect(filterToSelectLocator.getByRole("checkbox")).not.toBeChecked();
   await filterToSelectLocator.getByRole("checkbox").click();
-  const filterNameMatch = (await filterToSelectLocator.innerText()).match(
-    /\.\S*/
-  );
+  const filterNameMatch = (await filterToSelectLocator.innerText())
+    .trim()
+    .match(/^\S*/);
   if (filterNameMatch == null) {
-    test.fail();
+    // This means that the selected filter did not have any non-whitespace text
+    // associated with it, making the test impossible to complete.
+    console.log("ERROR: Filter name is blank, so the test cannot continue");
+    return false;
   }
   const filterName = (filterNameMatch ?? [""])[0];
   await expect(filterToSelectLocator.getByRole("checkbox")).toBeChecked();
   await page.locator("body").click();
   // Expect at least some text to still be visible
-  await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
+  await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
   // For each tab, check that the selected filter is still checked
   for (const tab of tabOrder.slice(1)) {
     await page
       .getByRole("tab")
       .getByText(tab.tabName, { exact: true })
       .dispatchEvent("click");
-    await expect(page.getByText(filterRegex(testFilter))).toBeVisible();
-    await page.getByText(filterRegex(testFilter)).dispatchEvent("click");
+    await expect(page.getByText(filterRegex(testFilterName))).toBeVisible();
+    await page.getByText(filterRegex(testFilterName)).dispatchEvent("click");
     await page.waitForLoadState("load");
     const previouslySelected = getNamedFilterButtonLocator(page, filterName);
     await expect(previouslySelected.getByRole("checkbox")).toBeChecked();
@@ -295,26 +374,36 @@ export async function testFilterPersistence(
     .getByRole("tab")
     .getByText(tabOrder[0].tabName, { exact: true })
     .click();
-  await expect(getFirstElementTextLocator(page, 0)).toBeVisible();
-  await page.getByText(filterRegex(testFilter)).click();
+  await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
+  await page.getByText(filterRegex(testFilterName)).click();
   const previouslySelected = getFirstFilterButtonLocator(page);
   await expect(previouslySelected).toContainText(filterName, {
     useInnerText: true,
   });
   await expect(previouslySelected.getByRole("checkbox").first()).toBeChecked();
+  return true;
 }
 
+/**
+ * Test that the counts associated with an array of filter names are reflected
+ * in the table
+ * @param page - a Playwright page object
+ * @param tab - the tab object to test
+ * @param filterNames - the names of the filters to select, in order
+ * @param elementsPerPage - the maximum number of elements per page
+ * @returns false if the test should fail and true if the test should pass
+ */
 export async function testFilterCounts(
   page: Page,
   tab: TabDescription,
-  filters: string[],
+  filterNames: string[],
   elementsPerPage: number
 ): Promise<boolean> {
   await page.goto(tab.url);
   // For each arbitrarily selected filter
-  for (const filter of filters) {
+  for (const filterName of filterNames) {
     // Select the filter
-    await page.getByText(filterRegex(filter)).dispatchEvent("click");
+    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     // Get the number associated with the first filter button, and select it
     await page.waitForLoadState("load");
     const filterButton = getFirstFilterButtonLocator(page);
@@ -323,7 +412,7 @@ export async function testFilterCounts(
       filterNumbers.map((x) => Number(x)).find((x) => !isNaN(x) && x !== 0) ??
       -1;
     if (filterNumber < 0) {
-      console.log(filterNumbers.map((x) => Number(x)));
+      console.log("ERROR: The number associated with the filter is negative");
       return false;
     }
     // Check the filter
@@ -342,15 +431,22 @@ export async function testFilterCounts(
   return true;
 }
 
-export async function testFilterBubbles(
+/**
+ * Check that the filter tabs appear when a filter is selected and that clicking
+ * them causes the filter to be deselected
+ * @param page - a Playwright page objet
+ * @param tab - the tab to check
+ * @param filterNames - the names of the filters to check
+ */
+export async function testFilterTags(
   page: Page,
   tab: TabDescription,
-  filters: string[]
+  filterNames: string[]
 ): Promise<void> {
   page.goto(tab.url);
-  for (const filter of filters) {
+  for (const filterName of filterNames) {
     // Select a filter
-    await page.getByText(filterRegex(filter)).dispatchEvent("click");
+    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await page.waitForLoadState("load");
     const firstFilterButtonLocator = getFirstFilterButtonLocator(page);
     // Get the name of the selected filter
@@ -363,17 +459,17 @@ export async function testFilterBubbles(
     await page.waitForLoadState("load");
     await page.locator("body").click();
     await expect(page.getByRole("checkbox")).toHaveCount(0);
-    // Click the blue button
-    const filterBlueButtonLocator = page
+    // Click the filter tag
+    const filterTagLocator = page
       .locator("#sidebar-positioner")
       .getByText(firstFilterName);
-    await expect(filterBlueButtonLocator).toBeVisible();
-    await filterBlueButtonLocator.scrollIntoViewIfNeeded();
-    await filterBlueButtonLocator.dispatchEvent("click");
-    // Expect the blue button to disappear when clicked
-    await expect(filterBlueButtonLocator).toHaveCount(0);
+    await expect(filterTagLocator).toBeVisible();
+    await filterTagLocator.scrollIntoViewIfNeeded();
+    await filterTagLocator.dispatchEvent("click");
+    // Expect the tag to disappear when clicked
+    await expect(filterTagLocator).toHaveCount(0);
     // Expect the filter to be deselected in the filter menu
-    await page.getByText(filterRegex(filter)).dispatchEvent("click");
+    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await expect(
       firstFilterButtonLocator.getByRole("checkbox")
     ).not.toBeChecked();
@@ -381,6 +477,13 @@ export async function testFilterBubbles(
   }
 }
 
+/**
+ * Check that selecting some filters then selecting the clear all button causes
+ * those filters to become deselected
+ * @param page - a Playwright page object
+ * @param tab - the tab object to test on
+ * @param filterNames - the names of the fitlers to check
+ */
 export async function testClearAll(
   page: Page,
   tab: TabDescription,
