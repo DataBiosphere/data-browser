@@ -6,12 +6,12 @@ export async function checkIsIndexing(systemStatusUrl: string): Promise<void> {
   const systemStatusResponse = await fetch(systemStatusUrl);
   if (systemStatusResponse.status != 200) {
     console.log(
-      "WARNING: The System Status API is currently unavailable, or an incorrect url was passed. Tests may fail for unexpected reasons."
+      "ERROR: The System Status API is currently unavailable, or an incorrect url was passed. Please rerun tests when this is resolved."
     );
     process.exit(1);
   }
   const systemStatusJson = await systemStatusResponse.json();
-  const isUp = false; // systemStatusJson.up && systemStatusJson.progress.up;
+  const isUp = systemStatusJson.up && systemStatusJson.progress.up;
   const isIndexing =
     systemStatusJson.progress.unindexed_bundles > 0 ||
     systemStatusJson.progress.unindexed_documents > 0;
