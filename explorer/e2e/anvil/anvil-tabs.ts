@@ -5,7 +5,7 @@ import {
   TabDescription,
 } from "../testInterfaces";
 
-export const anvilFilters: string[] = [
+export const anvilFilterNames: string[] = [
   "Anatomical Site",
   "BioSample Type",
   "Consent Group",
