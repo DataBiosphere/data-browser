@@ -11,7 +11,7 @@ export async function checkIsIndexing(systemStatusUrl: string): Promise<void> {
     process.exit(1);
   }
   const systemStatusJson = await systemStatusResponse.json();
-  const isUp = systemStatusJson.up && systemStatusJson.progress.up;
+  const isUp = false; // systemStatusJson.up && systemStatusJson.progress.up;
   const isIndexing =
     systemStatusJson.progress.unindexed_bundles > 0 ||
     systemStatusJson.progress.unindexed_documents > 0;
