@@ -33,7 +33,8 @@
     "test:e2e": "playwright test",
     "get-cellxgene-projects-hca": "esrun ./site-config/hca-dcp/dev/scripts/get-cellxgene-projects.ts ",
     "test:anvil-cmg": "playwright test -c playwright_anvil.config.ts --trace retain-on-failure",
-    "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts --trace retain-on-failure"
+    "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts --trace retain-on-failure",
+    "check-system-status:anvil-cmg": "esrun e2e/anvil/anvil-check-system-status.ts"
   },
   "dependencies": {
     "@databiosphere/findable-ui": "9.1.0",
