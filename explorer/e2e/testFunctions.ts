@@ -4,6 +4,12 @@ import {
   ColumnDescription,
   TabDescription,
 } from "./testInterfaces";
+import { BrowserContext, expect, Locator, Page } from "@playwright/test";
+import {
+  BackpageHeader,
+  ColumnDescription,
+  TabDescription,
+} from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
