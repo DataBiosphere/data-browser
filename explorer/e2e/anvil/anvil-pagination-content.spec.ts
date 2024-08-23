@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { getFirstElementTextLocator } from "../testFunctions";
+import { getFirstRowNthColumnCellLocator } from "../testFunctions";
 import { anvilTabs } from "./anvil-tabs";
 
 const pageCountRegex = /Page [0-9]+ of [0-9]+/;
@@ -17,7 +17,7 @@ test("Check forward and backwards pagination causes the page content to change o
     page.getByRole("tab").getByText(tab.tabName, { exact: true })
   ).toHaveAttribute("aria-selected", "true", { timeout: 25000 });
 
-  const firstElementTextLocator = getFirstElementTextLocator(page, 0);
+  const firstElementTextLocator = getFirstRowNthColumnCellLocator(page, 0);
 
   // Should start on first page
   await expect(page.getByText(pageCountRegex, { exact: true })).toHaveText(

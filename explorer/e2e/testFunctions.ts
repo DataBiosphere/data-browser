@@ -8,6 +8,27 @@ import {
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
 /**
+ * Get a locator to the cell in the mth row's nth column
+ * @param page - a Playwright page object
+ * @param rowIndex - the zero-indexed row to return
+ * @param columnIndex - the zero-indexed column to return
+ * @returns a Playwright locator object to the selected cell
+ **/
+export const getMthRowNthColumnCellLocator = (
+  page: Page,
+  rowIndex: number,
+  columnIndex: number
+): Locator => {
+  return page
+    .getByRole("rowgroup")
+    .nth(1)
+    .getByRole("row")
+    .nth(rowIndex)
+    .getByRole("cell")
+    .nth(columnIndex);
+};
+
+/**
  * Get a locator to the cell in the first row's nth column
  * @param page - a Playwright page object
  * @param columnIndex - the zero-indexed column to return
@@ -17,13 +38,7 @@ export const getFirstRowNthColumnCellLocator = (
   page: Page,
   columnIndex: number
 ): Locator => {
-  return page
-    .getByRole("rowgroup")
-    .nth(1)
-    .getByRole("row")
-    .nth(0)
-    .getByRole("cell")
-    .nth(columnIndex);
+  return getMthRowNthColumnCellLocator(page, 0, columnIndex);
 };
 
 /**
@@ -686,7 +701,7 @@ const hoverAndGetText = async (
   rowPosition: number,
   columnPosition: number
 ): Promise<string> => {
-  const cellLocator = getNthElementTextLocator(
+  const cellLocator = getMthRowNthColumnCellLocator(
     page,
     rowPosition,
     columnPosition
@@ -761,7 +776,7 @@ export async function testBackpageDetails(
     }
   }
   // Go to the backpage
-  await getNthElementTextLocator(page, 0, 0).click();
+  await getMthRowNthColumnCellLocator(page, 0, 0).click();
   // Expect the details name to be visible
   await expect(
     page.getByText(tab.backpageExportButtons.detailsName)
