@@ -70,6 +70,19 @@ through the actions taken as part of the test and view the impact on the web pag
     - Runs from "Datasets" to "Activities", "Activities" to "Datasets", "Datasets" to "Files", "Datasets" to "Donors", "Datasets" to "BioSamples"
     - `anvil-tabs-buttons.spec.ts`
   - All tests rely on correct lists of tabs, columns, and filters in `anvil-tabs.ts`
+- Backpages (`anvil-backpages.spec.ts`)
+  - Test the export process on the "Datasets" tab
+    - Select the first dataset that does not have access control enabled and go to the export tab on its backpage. Select a one filter checkbox for each category then select the "Export to Terra" button
+    - Check that buttons, text, and loading text appears as expected, and that a new tab appears when the "Export to Terra" button is pressed
+    - Relevant text constants are stored in `anvil-tabs.ts`
+    - Currently disabled as the export button is disabled
+  - Test that access control works properly on the "Datasets" tab
+    - Select a non access controlled tab and check that text associataed with access being granted is present, then repeat for an access controleld tab
+    - Relevant text constants are stored in `anvil-tabs.ts`
+    - Currently disabled as the export button is disabled
+  - Test that data in the sidebar of the "Datasets" tab is the same as the text displayed in the main tab le
+    - Enable all non-preselected columns and read values from all columns in the first row, including n-tag cells. Then select the backpage for the first row and check that all matching columns are reflected
+    - Requires a list of the values in the sidebar to be present in `anvil-tabs.ts` and that plural labels are defined there for any columns that include n-tag cells
 
 #### AnVIL-Catalog
 
@@ -96,13 +109,5 @@ through the actions taken as part of the test and view the impact on the web pag
 - Sign in (probably smoke test / existence only for ease)
 - "Contact Us" form
 - Edit columns Button (already on AnVIL-Catalog)
-- Datasets backpages
-  - Check that "Dataset details" match relevant fields in the table
-  - Check access control works properly
-  - Smoke test for "Request link" button
-    - Check boxes
-    - Press "Request link" button
-    - Press resulting button to go to Terra
-    - Check that url begins "anvil.terra.bio"
 - Smoke test buttons at bottom of screen (logos, help, privacy)
 - Smoke test "Help & Documentation" buttons
