@@ -5,7 +5,7 @@ import { anvilTabs } from "./anvil-tabs";
 test("Expect clicking the activities tab to go to the correct url and to show all of the relevant columns when selected", async ({
   page,
 }) => {
-``  await testTab(page, anvilTabs.datasets, anvilTabs.activities);
+  await testTab(page, anvilTabs.datasets, anvilTabs.activities);
 });
 
 test("Expect clicking the datasets tab to go to the correct url and to show all of the relevant columns when selected", async ({
