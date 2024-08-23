@@ -42,13 +42,13 @@ through the actions taken as part of the test and view the impact on the web pag
     - This filter runs on all tabs in `anviltabs.ts`
   - Check that checking up to the first five entries in the first filter on the datasets tab works and that it does not remove all elements from the list of tabs
   - Check that selecting a filter causes the selected checkbox entries to remain selected across all tabs
-    - Currently uses the fourth filter and starts on the "files" tab
+    - Currently uses the fourth filter and starts on the "Files" tab
   - Check that the counts next to the filter checkbox match the number of entries once the filter is selected
     - Checks an arbitrary list of six filters on the datasets and activities tab
   - Check that the filter tabs appear with the correct text when the filter is selected, and that they cause the filter to become deselected when clicked
-    - Checks an arbitrary list of three filters on the "files" and "biosamples" tabs
+    - Checks an arbitrary list of three filters on the "Files" and "BioSamples" tabs
   - Check that the clear all button deselects all filters, after an arbitrary list is selected
-    - Uses an arbitrary list of three filters and runs on the "files tab"
+    - Uses an arbitrary list of three filters and runs on the "Files" tab
 - Pagination (`anvil-pagination.spec.ts` and `anvil-pagination-content.spec.ts`)
   - Check that, on the first page, the back button is disabled and the forward button is enabled
     - Uses the "Donors" tab only
@@ -67,7 +67,7 @@ through the actions taken as part of the test and view the impact on the web pag
     - Runs on all tabs
     - `anvil-urls.spec.ts`
   - Check that selecting a different tab changes the current url and that each tab has the correct data headers
-    - Runs from "Datasets" to "Activities", "Activities" to "Datasets", "Datasets" to "Files", "Datasets" to "Donors", "Datasets" to "Biosamples"
+    - Runs from "Datasets" to "Activities", "Activities" to "Datasets", "Datasets" to "Files", "Datasets" to "Donors", "Datasets" to "BioSamples"
     - `anvil-tabs-buttons.spec.ts`
   - All tests rely on correct lists of tabs, columns, and filters in `anvil-tabs.ts`
 
