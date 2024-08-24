@@ -9,9 +9,9 @@ import {
   testFilterTags,
 } from "../testFunctions";
 import {
-  anvilFilterNames,
-  anvilTabs,
-  anvilTabTestOrder,
+  ANVIL_FILTER_NAMES,
+  ANVIL_TABS,
+  ANVIL_TAB_TEST_ORDER,
   BIOSAMPLE_TYPE_INDEX,
   CONSENT_GROUP_INDEX,
   DATASET_INDEX,
@@ -38,31 +38,31 @@ const FILTER_INDEX_LIST_SHORT = [
 test("Check that all filters exist on the Datasets tab and are clickable", async ({
   page,
 }) => {
-  await testFilterPresence(page, anvilTabs.datasets, anvilFilterNames);
+  await testFilterPresence(page, ANVIL_TABS.DATASETS, ANVIL_FILTER_NAMES);
 });
 
 test("Check that all filters exist on the Donors tab and are clickable", async ({
   page,
 }) => {
-  await testFilterPresence(page, anvilTabs.donors, anvilFilterNames);
+  await testFilterPresence(page, ANVIL_TABS.DONORS, ANVIL_FILTER_NAMES);
 });
 
 test("Check that all filters exist on the BioSamples tab and are clickable", async ({
   page,
 }) => {
-  await testFilterPresence(page, anvilTabs.biosamples, anvilFilterNames);
+  await testFilterPresence(page, ANVIL_TABS.BIOSAMPLES, ANVIL_FILTER_NAMES);
 });
 
 test("Check that all filters exist on the Activities tab and are clickable", async ({
   page,
 }) => {
-  await testFilterPresence(page, anvilTabs.activities, anvilFilterNames);
+  await testFilterPresence(page, ANVIL_TABS.ACTIVITIES, ANVIL_FILTER_NAMES);
 });
 
 test("Check that all filters exist on the Files tab and are clickable", async ({
   page,
 }) => {
-  await testFilterPresence(page, anvilTabs.files, anvilFilterNames);
+  await testFilterPresence(page, ANVIL_TABS.FILES, ANVIL_FILTER_NAMES);
 });
 
 test("Check that the first filter on the Datasets tab creates at least one checkbox, and that checking up to the first five does not cause an error and does not cause there to be no entries in the table", async ({
@@ -70,9 +70,9 @@ test("Check that the first filter on the Datasets tab creates at least one check
 }) => {
   test.setTimeout(120000);
   // Goto the datasets tab
-  await page.goto(anvilTabs.datasets.url);
+  await page.goto(ANVIL_TABS.DATASETS.url);
   await expect(
-    page.getByRole("tab").getByText(anvilTabs.datasets.tabName)
+    page.getByRole("tab").getByText(ANVIL_TABS.DATASETS.tabName)
   ).toBeVisible();
 
   // Select a filter
@@ -80,7 +80,9 @@ test("Check that the first filter on the Datasets tab creates at least one check
     .getByRole("button")
     .getByText(
       filterRegex(
-        anvilFilterNames[Math.floor(Math.random() * anvilFilterNames.length)]
+        ANVIL_FILTER_NAMES[
+          Math.floor(Math.random() * ANVIL_FILTER_NAMES.length)
+        ]
       )
     )
     .click();
@@ -104,8 +106,8 @@ test("Check that filter checkboxes are persistent across pages on an arbitrary f
   test.setTimeout(120000);
   const result = await testFilterPersistence(
     page,
-    anvilFilterNames[FILE_FORMAT_INDEX],
-    anvilTabTestOrder.map((x) => anvilTabs[x])
+    ANVIL_FILTER_NAMES[FILE_FORMAT_INDEX],
+    ANVIL_TAB_TEST_ORDER.map((x) => ANVIL_TABS[x])
   );
   if (!result) {
     test.fail();
@@ -118,9 +120,9 @@ test("Check that filter menu counts match actual counts on the Datasets tab", as
   test.setTimeout(120000);
   const result = await testFilterCounts(
     page,
-    anvilTabs.datasets,
-    FILTER_INDEX_LIST.map((x) => anvilFilterNames[x]),
-    anvilTabs.datasets.maxPages ?? 0
+    ANVIL_TABS.DATASETS,
+    FILTER_INDEX_LIST.map((x) => ANVIL_FILTER_NAMES[x]),
+    ANVIL_TABS.DATASETS.maxPages ?? 0
   );
   if (!result) {
     test.fail();
@@ -133,9 +135,9 @@ test("Check that filter menu counts match actual counts on the Activities tab", 
   test.setTimeout(120000);
   await testFilterCounts(
     page,
-    anvilTabs.activities,
-    FILTER_INDEX_LIST.map((x) => anvilFilterNames[x]),
-    anvilTabs.activities.maxPages ?? 0
+    ANVIL_TABS.ACTIVITIES,
+    FILTER_INDEX_LIST.map((x) => ANVIL_FILTER_NAMES[x]),
+    ANVIL_TABS.ACTIVITIES.maxPages ?? 0
   );
 });
 
@@ -145,8 +147,8 @@ test("Check that the filter tags match the selected filter for an arbitrary filt
   test.setTimeout(120000);
   await testFilterTags(
     page,
-    anvilTabs.files,
-    FILTER_INDEX_LIST_SHORT.map((x) => anvilFilterNames[x])
+    ANVIL_TABS.FILES,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
   );
 });
 
@@ -156,8 +158,8 @@ test("Check that the filter tags match the selected filter for an arbitrary filt
   test.setTimeout(120000);
   await testFilterTags(
     page,
-    anvilTabs.biosamples,
-    FILTER_INDEX_LIST_SHORT.map((x) => anvilFilterNames[x])
+    ANVIL_TABS.BIOSAMPLES,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
   );
 });
 
@@ -167,7 +169,7 @@ test("Check that the clear all button functions on the files tab", async ({
   test.setTimeout(120000);
   await testClearAll(
     page,
-    anvilTabs.files,
-    FILTER_INDEX_LIST_SHORT.map((x) => anvilFilterNames[x])
+    ANVIL_TABS.FILES,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
   );
 });

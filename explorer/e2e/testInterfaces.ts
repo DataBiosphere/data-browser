@@ -11,17 +11,17 @@ export interface TabDescription {
 }
 
 export interface AnvilCMGTabCollection {
-  activities: TabDescription;
-  biosamples: TabDescription;
-  datasets: TabDescription;
-  donors: TabDescription;
-  files: TabDescription;
+  ACTIVITIES: TabDescription;
+  BIOSAMPLES: TabDescription;
+  DATASETS: TabDescription;
+  DONORS: TabDescription;
+  FILES: TabDescription;
 }
 
 export interface AnvilCatalogTabCollection {
-  consortia: TabDescription;
-  studies: TabDescription;
-  workspaces: TabDescription;
+  CONSORTIA: TabDescription;
+  STUDIES: TabDescription;
+  WORKSPACES: TabDescription;
 }
 
 export type TabCollectionKeys = keyof AnvilCMGTabCollection;

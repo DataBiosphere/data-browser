@@ -1,5 +1,5 @@
 import { BrowserContext, expect, Locator, Page } from "@playwright/test";
-import { anvilTabs } from "./anvil/anvil-tabs";
+import { ANVIL_TABS } from "./anvil/anvil-tabs";
 import {
   BackpageHeader,
   ColumnDescription,
@@ -942,8 +942,8 @@ export async function filterAndTestLastPagePagination(
     .filter(
       (n) =>
         !isNaN(n) &&
-        n > (anvilTabs.files.maxPages ?? 0) * 3 &&
-        n < (anvilTabs.files.maxPages ?? 0) * MAX_PAGINATIONS
+        n > (ANVIL_TABS.FILES.maxPages ?? 0) * 3 &&
+        n < (ANVIL_TABS.FILES.maxPages ?? 0) * MAX_PAGINATIONS
     );
   if (filterCounts.length == 0) {
     console.log(

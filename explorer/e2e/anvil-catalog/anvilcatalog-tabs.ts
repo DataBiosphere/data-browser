@@ -1,8 +1,8 @@
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 import { AnvilCatalogTabCollection, TabDescription } from "../testInterfaces";
 
-export const anvilcatalogTabs: AnvilCatalogTabCollection = {
-  consortia: {
+export const ANVIL_CATALOG_TABS: AnvilCatalogTabCollection = {
+  CONSORTIA: {
     emptyFirstColumn: false,
     preselectedColumns: [
       { name: "Consortium", sortable: true },
@@ -21,7 +21,7 @@ export const anvilcatalogTabs: AnvilCatalogTabCollection = {
     tabName: "Consortia",
     url: "/data/consortia",
   },
-  studies: {
+  STUDIES: {
     emptyFirstColumn: false,
     preselectedColumns: [
       { name: "Study", sortable: true },
@@ -39,7 +39,7 @@ export const anvilcatalogTabs: AnvilCatalogTabCollection = {
     tabName: "Studies",
     url: "/data/studies",
   },
-  workspaces: {
+  WORKSPACES: {
     emptyFirstColumn: false,
     preselectedColumns: [
       { name: "Consortium", sortable: true },
@@ -59,10 +59,10 @@ export const anvilcatalogTabs: AnvilCatalogTabCollection = {
   },
 };
 
-export const anvilCatalogTabList: TabDescription[] = [
-  anvilcatalogTabs.consortia,
-  anvilcatalogTabs.studies,
-  anvilcatalogTabs.workspaces,
+export const ANVIL_CATALOG_TAB_LIST: TabDescription[] = [
+  ANVIL_CATALOG_TABS.CONSORTIA,
+  ANVIL_CATALOG_TABS.STUDIES,
+  ANVIL_CATALOG_TABS.WORKSPACES,
 ];
 
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/
