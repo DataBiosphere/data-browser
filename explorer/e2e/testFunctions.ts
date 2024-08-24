@@ -1,4 +1,5 @@
 import { BrowserContext, expect, Locator, Page } from "@playwright/test";
+import { anvilTabs } from "./anvil/anvil-tabs";
 import {
   BackpageHeader,
   ColumnDescription,
@@ -309,13 +310,22 @@ export async function testPreSelectedColumns(
 }
 
 /**
+ * Returns a string with special characters escaped
+ * @param string - the string to escape
+ * @returns - a string with special characters escaped
+ */
+export function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
  * Returns a regex that matches the sidebar filter buttons
  * This is useful for selecting a filter from the sidebar
  * @param filterName - the name of the filter to match
  * @returns a regular expression matching "[filterName] ([n])"
  */
 export const filterRegex = (filterName: string): RegExp =>
-  new RegExp(filterName + "\\s+\\([0-9]+\\)\\s*");
+  new RegExp(escapeRegExp(filterName) + "\\s+\\([0-9]+\\)\\s*");
 
 /**
  * Checks that each filter specified in filterNames is visible and can be
@@ -396,7 +406,9 @@ export async function testFilterPersistence(
   if (!filterNameMatch) {
     // This means that the selected filter did not have any non-whitespace text
     // associated with it, making the test impossible to complete.
-    console.log("ERROR: Filter name is blank, so the test cannot continue");
+    console.log(
+      "FILTER PERSISTENCE: Filter name is blank, so the test cannot continue"
+    );
     return false;
   }
   const filterName = (filterNameMatch ?? [""])[0];
@@ -461,7 +473,9 @@ export async function testFilterCounts(
       filterNumbers.map((x) => Number(x)).find((x) => !isNaN(x) && x !== 0) ??
       -1;
     if (filterNumber < 0) {
-      console.log("ERROR: The number associated with the filter is negative");
+      console.log(
+        "FILTER COUNTS: The number associated with the filter is negative"
+      );
       return false;
     }
     // Check the filter
@@ -492,7 +506,7 @@ export async function testFilterTags(
   tab: TabDescription,
   filterNames: string[]
 ): Promise<void> {
-  page.goto(tab.url);
+  await page.goto(tab.url);
   for (const filterName of filterNames) {
     // Select a filter
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
@@ -868,6 +882,196 @@ export async function testBackpageDetails(
         .getByText(headerValue.value)
         .first()
     ).toBeVisible();
+  }
+}
+
+const PAGE_COUNT_REGEX = /Page [0-9]+ of [0-9]+/;
+const BACK_BUTTON_TEST_ID = "WestRoundedIcon";
+const FORWARD_BUTTON_TEST_ID = "EastRoundedIcon";
+const ERROR = "ERROR";
+
+export async function testFirstPagePagination(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  await page.goto(tab.url);
+  await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
+  // Should start on first page
+  await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
+    /Page 1 of [0-9]+/
+  );
+  // Forward button should start enabled
+  await expect(
+    page
+      .getByRole("button")
+      .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+  ).toBeEnabled();
+  // Back Button should start disabled
+  await expect(
+    page
+      .getByRole("button")
+      .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
+  ).toBeDisabled();
+}
+
+const MAX_PAGINATIONS = 200;
+export async function filterAndTestLastPagePagination(
+  page: Page,
+  tab: TabDescription,
+  filterName: string
+): Promise<boolean> {
+  // Filter to reduce the number of pages that must be selected
+  await page.goto(tab.url);
+  await page.getByText(filterRegex(filterName)).click();
+  await expect(page.getByRole("checkbox").first()).toBeVisible();
+  const filterTexts = await page
+    .getByRole("button")
+    .filter({ hasText: /([0-9]+)[\n\s]*$/ })
+    .allInnerTexts();
+  // Get the filter with the lowest associated count
+  const filterCounts = filterTexts
+    .map((filterText) =>
+      (
+        (filterText.match(/[^a-zA-Z0-9]+([0-9]+)[\n\s]*$/) ?? [
+          undefined,
+          "",
+        ])[1] ?? ERROR
+      ).trim()
+    )
+    .map((numberText) => parseInt(numberText))
+    .filter(
+      (n) =>
+        !isNaN(n) &&
+        n > (anvilTabs.files.maxPages ?? 0) * 3 &&
+        n < (anvilTabs.files.maxPages ?? 0) * MAX_PAGINATIONS
+    );
+  if (filterCounts.length == 0) {
+    console.log(
+      "PAGINATION TEST: Test would involve too many paginations, so halting"
+    );
+    return false;
+  }
+  const minFilterValue = Math.min(...filterCounts);
+  await page
+    .getByRole("button")
+    .filter({ hasText: RegExp(`${minFilterValue}[\\n\\s]*$`) })
+    .click();
+  await page.locator("body").click();
+  await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
+
+  // Should start on first page, and there should be multiple pages available
+  await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
+    /Page 1 of [0-9]+/
+  );
+  await expect(
+    page.getByText(PAGE_COUNT_REGEX, { exact: true })
+  ).not.toHaveText("Page 1 of 1");
+
+  // Detect number of pages
+  const SplitStartingPageText = (
+    await page.getByText(PAGE_COUNT_REGEX, { exact: true }).innerText()
+  ).split(" ");
+  const max_pages = parseInt(
+    SplitStartingPageText[SplitStartingPageText.length - 1]
+  );
+  // Paginate forwards
+  for (let i = 2; i < max_pages + 1; i++) {
+    await page
+      .getByRole("button")
+      .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+      .dispatchEvent("click");
+    await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
+    // Expect the page count to have incremented
+    await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
+      `Page ${i} of ${max_pages}`
+    );
+  }
+  // Expect to be on the last page
+  await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toContainText(
+    `Page ${max_pages} of ${max_pages}`
+  );
+  // Expect the back button to be enabled on the last page
+  await expect(
+    page
+      .getByRole("button")
+      .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
+  ).toBeEnabled();
+  // Expect the forward button to be disabled
+  await expect(
+    page
+      .getByRole("button")
+      .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+  ).toBeDisabled();
+  return true;
+}
+
+export async function testPaginationContent(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  // Navigate to the correct tab
+  await page.goto(tab.url);
+  await expect(
+    page.getByRole("tab").getByText(tab.tabName, { exact: true })
+  ).toHaveAttribute("aria-selected", "true", { timeout: 25000 });
+
+  const firstElementTextLocator = getFirstRowNthColumnCellLocator(page, 0);
+
+  // Should start on first page
+  await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
+    /Page 1 of [0-9]+/
+  );
+  const max_pages = 5;
+  const FirstTableEntries = [];
+
+  // Paginate forwards
+  for (let i = 2; i < max_pages + 1; i++) {
+    await expect(firstElementTextLocator).not.toHaveText("");
+    const OriginalFirstTableEntry = await firstElementTextLocator.innerText();
+    // Click the next button
+    await page
+      .getByRole("button")
+      .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+      .click();
+    // Expect the page count to have incremented
+    await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
+      RegExp(`Page ${i} of [0-9]+`)
+    );
+    // Expect the back button to be enabled
+    await expect(
+      page
+        .getByRole("button")
+        .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
+    ).toBeEnabled();
+    // Expect the forwards button to be enabled
+    if (i != max_pages) {
+      await expect(
+        page
+          .getByRole("button")
+          .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+      ).toBeEnabled();
+    }
+    // Expect the first entry to have changed on the new page
+    await expect(firstElementTextLocator).not.toHaveText(
+      OriginalFirstTableEntry
+    );
+    // Remember the first entry
+    FirstTableEntries.push(OriginalFirstTableEntry);
+  }
+
+  // Paginate backwards
+  for (let i = 0; i < max_pages - 1; i++) {
+    const OldFirstTableEntry = FirstTableEntries[max_pages - i - 2];
+    await page
+      .getByRole("button")
+      .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
+      .click();
+    // Expect page number to be correct
+    await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
+      RegExp(`Page ${max_pages - i - 1} of [0-9]+`)
+    );
+    // Expect page entry to be consistent with forward pagination
+    await expect(firstElementTextLocator).toHaveText(OldFirstTableEntry);
   }
 }
 

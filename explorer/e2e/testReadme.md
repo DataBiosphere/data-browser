@@ -49,12 +49,12 @@ through the actions taken as part of the test and view the impact on the web pag
     - Checks an arbitrary list of three filters on the "Files" and "BioSamples" tabs
   - Check that the clear all button deselects all filters, after an arbitrary list is selected
     - Uses an arbitrary list of three filters and runs on the "Files" tab
-- Pagination (`anvil-pagination.spec.ts` and `anvil-pagination-content.spec.ts`)
+- Pagination (`anvil-pagination.spec.ts`)
   - Check that, on the first page, the back button is disabled and the forward button is enabled
     - Uses the "Donors" tab only
   - Check that paginating forward on the donors tab keeps the currently displayed page number correct, and that on the last page the back button is enabled and the front page is enabled
+    - Uses a filter to reduce the number of paginations necessary
     - Uses the "Donors" tab only
-    - NOTE: this test may be problematic because it assumes there is relatively short number of pages on the "Donors" tab. This could potentially be resolved by adding filters or by limiting the number of tests run
   - Check that paginating forwards by up to five pages changes the content on the first row of the table, and that paginating backwards causes that text to remain the same
     - Uses the "BioSamples" tab only
 - Sort (`anvil-sort.spec.ts`)
