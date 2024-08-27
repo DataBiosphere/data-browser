@@ -3,6 +3,7 @@ import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/confi
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
+import { FLATTEN } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
@@ -163,7 +164,7 @@ export function makeConfig(
           undefined,
           [
             {
-              flatten: { md: true, sm: true, xs: true },
+              flatten: FLATTEN.XS_ONLY,
               label: "Help & Documentation",
               menuItems: [
                 {
@@ -188,7 +189,7 @@ export function makeConfig(
           ],
         ],
         searchEnabled: false,
-        searchURL: `${browserUrl}/search`,
+        searchURL: undefined,
       },
     },
     portalURL: portalUrl,
