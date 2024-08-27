@@ -2,7 +2,6 @@ import { SocialMedia } from "@databiosphere/findable-ui/lib/components/Layout/co
 import * as C from "../../../app/components/index";
 
 export const socialMedia: SocialMedia = {
-  label: "Follow Us",
   socials: [
     {
       Icon: C.XIcon,
