@@ -35,6 +35,6 @@ function buildMenuItems(
     ...menuItem,
     menuItems: buildMenuItems(menuItems, parameter, true),
     url: replaceParameters(url, parameter),
-    visible: isSubMenu ? visible ?? VISIBLE.SM_DOWN : visible,
+    visible: isSubMenu ? visible ?? VISIBLE.MD_DOWN : visible,
   }));
 }

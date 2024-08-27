@@ -9,17 +9,17 @@ export const TEAM: NavLinkItem = {
     {
       label: "Leadership Team",
       url: TEAM_URL,
-      visible: VISIBLE.SM_DOWN,
+      visible: VISIBLE.MD_DOWN,
     },
     {
       label: "Working Groups",
       url: `${TEAM_URL}/working-groups`,
-      visible: VISIBLE.SM_DOWN,
+      visible: VISIBLE.MD_DOWN,
     },
     {
       label: "Oversight Committee",
       url: `${TEAM_URL}/oversight-committee`,
-      visible: VISIBLE.SM_DOWN,
+      visible: VISIBLE.MD_DOWN,
     },
   ],
   url: TEAM_URL,

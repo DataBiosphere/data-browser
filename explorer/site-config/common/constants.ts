@@ -21,6 +21,6 @@ export const VISIBLE: Record<
   string,
   Partial<Record<BreakpointKey, boolean>>
 > = {
+  MD_DOWN: { lg: false, md: false },
   NEVER: { lg: false, md: false, sm: false, xs: false },
-  SM_DOWN: { lg: false, md: false },
 };

@@ -9,27 +9,27 @@ export const FAQ: NavLinkItem = {
     {
       label: "Overview",
       url: FAQ_URL,
-      visible: VISIBLE.SM_DOWN,
+      visible: VISIBLE.MD_DOWN,
     },
     {
       label: "Data Security, Management, and Access Procedures",
       url: `${FAQ_URL}/data-security`,
-      visible: VISIBLE.SM_DOWN,
+      visible: VISIBLE.MD_DOWN,
     },
     {
       label: "Data Submission",
       url: `${FAQ_URL}/data-submission`,
-      visible: VISIBLE.SM_DOWN,
+      visible: VISIBLE.MD_DOWN,
     },
     {
       label: "Resources for AnVIL Users",
       url: `${FAQ_URL}/resources-for-anvil-users`,
-      visible: VISIBLE.SM_DOWN,
+      visible: VISIBLE.MD_DOWN,
     },
     {
       label: "Using AnVIL",
       url: `${FAQ_URL}/using-anvil`,
-      visible: VISIBLE.SM_DOWN,
+      visible: VISIBLE.MD_DOWN,
     },
   ],
   url: FAQ_URL,

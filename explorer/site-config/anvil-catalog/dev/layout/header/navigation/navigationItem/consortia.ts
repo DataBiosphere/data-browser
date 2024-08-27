@@ -9,7 +9,7 @@ export const CONSORTIA: NavLinkItem = {
     {
       label: "Overview",
       url: CONSORTIA_URL,
-      visible: VISIBLE.SM_DOWN,
+      visible: VISIBLE.MD_DOWN,
     },
     {
       label: "CSER",
@@ -40,7 +40,7 @@ export const CONSORTIA: NavLinkItem = {
         },
       ],
       url: `${CONSORTIA_URL}/cser`,
-      visible: VISIBLE.SM_DOWN,
+      visible: VISIBLE.MD_DOWN,
     },
   ],
   url: CONSORTIA_URL,
