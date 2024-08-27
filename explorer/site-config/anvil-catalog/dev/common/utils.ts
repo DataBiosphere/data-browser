@@ -1,6 +1,9 @@
 import { NavLinkItem } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Navigation/navigation";
+import {
+  Parameter,
+  replaceParameters,
+} from "@databiosphere/findable-ui/lib/utils/replaceParameters";
 import { VISIBLE } from "../../../common/constants";
-import { Parameter, replaceParameters } from "../../../common/utils";
 
 /**
  * Returns configured menu item for the navigation.
