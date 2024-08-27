@@ -5,6 +5,7 @@ import hcaConfig, {
   PORTAL_URL as HCA_PORTAL_URL,
 } from "site-config/hca-dcp/dev/config";
 import * as C from "../../../app/components/index";
+import { FLATTEN } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { filesEntityConfig as hcaFilesEntityConfig } from "../../hca-dcp/dev/index/filesEntityConfig";
 import { samplesEntityConfig as hcaSamplesEntityConfig } from "../../hca-dcp/dev/index/samplesEntityConfig";
@@ -89,7 +90,7 @@ export function makeConfig(
           undefined,
           [
             {
-              flatten: { md: true, sm: true, xs: true },
+              flatten: FLATTEN.XS_ONLY,
               label: "Help & Documentation",
               menuItems: [
                 {

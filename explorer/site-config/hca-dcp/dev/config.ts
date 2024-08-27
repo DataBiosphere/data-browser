@@ -11,6 +11,7 @@ import {
 } from "@databiosphere/findable-ui/lib/theme/common/typography";
 import * as C from "../../../app/components/index";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
+import { FLATTEN } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
@@ -223,7 +224,7 @@ export function makeConfig(
           undefined,
           [
             {
-              flatten: { md: true, sm: true, xs: true },
+              flatten: FLATTEN.XS_ONLY,
               label: "Help & Documentation",
               menuItems: [
                 {
