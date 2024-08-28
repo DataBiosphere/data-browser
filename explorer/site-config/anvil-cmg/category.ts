@@ -8,6 +8,7 @@ export const ANVIL_CMG_CATEGORY_KEY = {
   BIOSAMPLE_BIOSAMPLE_ID: "biosamples.biosample_id",
   BIOSAMPLE_BIOSAMPLE_TYPE: "biosamples.biosample_type",
   BIOSAMPLE_TYPE: "biosample_type",
+  DATASET_ACCESSIBLE: "datasets.accessible",
   DATASET_CONSENT_GROUP: "datasets.consent_group",
   DATASET_ID: "dataset_id",
   DATASET_REGISTERED_ID: "datasets.registered_identifier",
@@ -27,7 +28,7 @@ export const ANVIL_CMG_CATEGORY_KEY = {
 };
 
 export const ANVIL_CMG_CATEGORY_LABEL = {
-  ACCESSIBLE: "Accessible",
+  ACCESSIBLE: "Access",
   ACTIVITY_ACTIVITY_TYPE: "Activity Type",
   ACTIVITY_DATA_MODALITY: "Data Modality",
   ACTIVITY_DOCUMENT_ID: "Document Id",
@@ -36,6 +37,7 @@ export const ANVIL_CMG_CATEGORY_LABEL = {
   BIOSAMPLE_BIOSAMPLE_ID: "BioSample Id",
   BIOSAMPLE_BIOSAMPLE_TYPE: "BioSample Type",
   BIOSAMPLE_TYPE: "BioSample Type",
+  DATASET_ACCESSIBLE: "Access",
   DATASET_CONSENT_GROUP: "Consent Group",
   DATASET_ID: "Dataset Name",
   DATASET_REGISTERED_ID: "Identifier",

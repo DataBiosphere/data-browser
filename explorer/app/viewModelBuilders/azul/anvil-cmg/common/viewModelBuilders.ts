@@ -1235,9 +1235,7 @@ function isFileManifestAccessible(
 function isFileManifestSummaryFileCountValid(
   fileManifestState: FileManifestState
 ): boolean {
-  const { fileSummary } = fileManifestState;
-  if (!fileSummary) return false;
-  const { fileCount } = fileSummary;
+  const { summary: { fileCount } = {} } = fileManifestState;
   return fileCount > 0;
 }
 
