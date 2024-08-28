@@ -43,6 +43,10 @@ export function makeConfig(
         {
           categoryConfigs: [
             {
+              key: ANVIL_CMG_CATEGORY_KEY.ACCESSIBLE,
+              label: ANVIL_CMG_CATEGORY_LABEL.ACCESSIBLE,
+            },
+            {
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
             },

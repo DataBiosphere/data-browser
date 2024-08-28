@@ -71,8 +71,8 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
           viewBuilder: V.buildDatasetAccess,
         } as ComponentConfig<typeof C.StatusBadge>,
         disableSorting: true,
-        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_ACCESSIBLE,
-        id: ANVIL_CMG_CATEGORY_KEY.DATASET_ACCESSIBLE,
+        header: ANVIL_CMG_CATEGORY_LABEL.ACCESSIBLE,
+        id: ANVIL_CMG_CATEGORY_KEY.ACCESSIBLE,
         width: "max-content",
       },
       {
