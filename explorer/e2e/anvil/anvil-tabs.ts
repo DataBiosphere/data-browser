@@ -43,11 +43,14 @@ export const ORGANISM_TYPE_INDEX = 8;
 export const PHENOTYPIC_SEX_INDEX = 9;
 export const REPORTED_ETHNICITY_INDEX = 10;
 
+const ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT = "Search all filters...";
+
 export const ANVIL_TABS: AnvilCMGTabCollection = {
   ACTIVITIES: {
     emptyFirstColumn: false,
     maxPages: 25,
     preselectedColumns: ANVIL_ACTIVITIES_PRESELECTED_COLUMNS_BY_NAME,
+    searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
     selectableColumns: ANVIL_ACTIVITIES_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Activities",
     url: "/activities",
@@ -56,6 +59,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
     emptyFirstColumn: false,
     maxPages: 25,
     preselectedColumns: ANVIL_BIOSAMPLES_PRESELECTED_COLUMNS_BY_NAME,
+    searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
     selectableColumns: ANVIL_BIOSAMPLES_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "BioSamples",
     url: "/biosamples",
@@ -130,6 +134,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
     emptyFirstColumn: false,
     maxPages: 25,
     preselectedColumns: ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME,
+    searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
     selectableColumns: ANVIL_DATASETS_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Datasets",
     url: "/datasets",
@@ -138,6 +143,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
     emptyFirstColumn: false,
     maxPages: 25,
     preselectedColumns: ANVIL_DONORS_PRESELECTED_COLUMNS_BY_NAME,
+    searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
     selectableColumns: ANVIL_DONORS_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Donors",
     url: "/donors",
@@ -146,6 +152,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
     emptyFirstColumn: true,
     maxPages: 25,
     preselectedColumns: ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME,
+    searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
     selectableColumns: ANVIL_DONORS_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Files",
     url: "/files",

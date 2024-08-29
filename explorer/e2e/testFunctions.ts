@@ -405,13 +405,14 @@ export async function testFilterPresence(
  * @param filterOptionName - the name of the filter option
  * @returns a Playwright locator to the filter button
  */
-export const getNamedFilterButtonLocator = (
+export const getNamedFilterOptionLocator = (
   page: Page,
   filterOptionName: string
 ): Locator => {
-  return page
-    .getByRole("button")
-    .filter({ has: page.getByRole("checkbox"), hasText: filterOptionName });
+  return page.getByRole("button").filter({
+    has: page.getByRole("checkbox"),
+    hasText: RegExp(`^${escapeRegExp(filterOptionName)}\\s*\\d+\\s*`),
+  });
 };
 
 /**
@@ -419,11 +420,22 @@ export const getNamedFilterButtonLocator = (
  * @param page - a Playwright page object
  * @returns a Playwright locator to the filter button
  */
-export const getFirstFilterButtonLocator = (page: Page): Locator => {
+export const getFirstFilterOptionLocator = (page: Page): Locator => {
   return page
     .getByRole("button")
     .filter({ has: page.getByRole("checkbox") })
     .first();
+};
+
+export const getFilterOptionName = async (
+  page: Page,
+  firstFilterOptionLocator: Locator
+): Promise<string> => {
+  return (
+    (await firstFilterOptionLocator.innerText())
+      .split("\n")
+      .find((x) => x.length > 0) ?? ""
+  );
 };
 
 /**
@@ -442,7 +454,7 @@ export async function testFilterPersistence(
   await page.goto(tabOrder[0].url);
   // Select the first checkbox on the test filter
   await page.getByText(filterRegex(testFilterName)).click();
-  const filterToSelectLocator = await getFirstFilterButtonLocator(page);
+  const filterToSelectLocator = await getFirstFilterOptionLocator(page);
   await expect(filterToSelectLocator.getByRole("checkbox")).not.toBeChecked();
   await filterToSelectLocator.getByRole("checkbox").click();
   const filterNameMatch = (await filterToSelectLocator.innerText())
@@ -470,7 +482,7 @@ export async function testFilterPersistence(
     await expect(page.getByText(filterRegex(testFilterName))).toBeVisible();
     await page.getByText(filterRegex(testFilterName)).dispatchEvent("click");
     await page.waitForLoadState("load");
-    const previouslySelected = getNamedFilterButtonLocator(page, filterName);
+    const previouslySelected = getNamedFilterOptionLocator(page, filterName);
     await expect(previouslySelected.getByRole("checkbox")).toBeChecked();
     await page.waitForLoadState("load");
     await page.locator("body").click();
@@ -482,7 +494,7 @@ export async function testFilterPersistence(
     .dispatchEvent("click");
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
   await page.getByText(filterRegex(testFilterName)).dispatchEvent("click");
-  const previouslySelected = getFirstFilterButtonLocator(page);
+  const previouslySelected = getFirstFilterOptionLocator(page);
   await expect(previouslySelected).toContainText(filterName, {
     useInnerText: true,
   });
@@ -512,8 +524,8 @@ export async function testFilterCounts(
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     // Get the number associated with the first filter button, and select it
     await page.waitForLoadState("load");
-    const filterButton = getFirstFilterButtonLocator(page);
-    const filterNumbers = (await filterButton.innerText()).split("\n");
+    const firstFilterOption = getFirstFilterOptionLocator(page);
+    const filterNumbers = (await firstFilterOption.innerText()).split("\n");
     const filterNumber =
       filterNumbers
         .reverse()
@@ -526,7 +538,7 @@ export async function testFilterCounts(
       return false;
     }
     // Check the filter
-    await filterButton.getByRole("checkbox").dispatchEvent("click");
+    await firstFilterOption.getByRole("checkbox").dispatchEvent("click");
     await page.waitForLoadState("load");
     // Exit the filter menu
     await page.locator("body").click();
@@ -542,6 +554,18 @@ export async function testFilterCounts(
   }
   return true;
 }
+
+/**
+ * Get a locator for a named filter tag
+ * @param page - a Playwright page object
+ * @param filterTagName - the name of the filter tag to search for
+ * @returns - a locator for the named filter tag
+ */
+const getFilterTagLocator = (page: Page, filterTagName: string): Locator => {
+  return page
+    .locator("#sidebar-positioner")
+    .getByText(filterTagName, { exact: true });
+};
 
 /**
  * Check that the filter tabs appear when a filter is selected and that clicking
@@ -560,21 +584,19 @@ export async function testFilterTags(
     // Select a filter
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await page.waitForLoadState("load");
-    const firstFilterButtonLocator = getFirstFilterButtonLocator(page);
+    const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     // Get the name of the selected filter
-    const firstFilterName =
-      (await firstFilterButtonLocator.innerText())
+    const firstFilterOptionName =
+      (await firstFilterOptionLocator.innerText())
         .split("\n")
         .find((x) => x.length > 0) ?? "";
     // Click the selected filter and exit the filter menu
-    await firstFilterButtonLocator.getByRole("checkbox").click();
+    await firstFilterOptionLocator.getByRole("checkbox").click();
     await page.waitForLoadState("load");
     await page.locator("body").click();
     await expect(page.getByRole("checkbox")).toHaveCount(0);
     // Click the filter tag
-    const filterTagLocator = page
-      .locator("#sidebar-positioner")
-      .getByText(firstFilterName);
+    const filterTagLocator = getFilterTagLocator(page, firstFilterOptionName);
     await expect(filterTagLocator).toBeVisible();
     await filterTagLocator.scrollIntoViewIfNeeded();
     await filterTagLocator.dispatchEvent("click");
@@ -583,7 +605,7 @@ export async function testFilterTags(
     // Expect the filter to be deselected in the filter menu
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await expect(
-      firstFilterButtonLocator.getByRole("checkbox")
+      firstFilterOptionLocator.getByRole("checkbox")
     ).not.toBeChecked();
     await page.locator("body").click();
   }
@@ -606,14 +628,12 @@ export async function testClearAll(
   // Select each filter and get the names of the actual filter text
   for (const filterName of filterNames) {
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    await getFirstFilterButtonLocator(page).getByRole("checkbox").click();
+    await getFirstFilterOptionLocator(page).getByRole("checkbox").click();
     await expect(
-      getFirstFilterButtonLocator(page).getByRole("checkbox")
+      getFirstFilterOptionLocator(page).getByRole("checkbox")
     ).toBeChecked();
     selectedFilterNamesList.push(
-      (await getFirstFilterButtonLocator(page).innerText())
-        .split("\n")
-        .find((x) => x.length > 0) ?? ""
+      await getFilterOptionName(page, getFirstFilterOptionLocator(page))
     );
     await page.locator("body").click();
   }
@@ -628,11 +648,90 @@ export async function testClearAll(
   for (let i = 0; i < filterNames.length; i++) {
     await page.getByText(filterRegex(filterNames[i])).dispatchEvent("click");
     await expect(
-      getNamedFilterButtonLocator(page, selectedFilterNamesList[i]).getByRole(
+      getNamedFilterOptionLocator(page, selectedFilterNamesList[i]).getByRole(
         "checkbox"
       )
     ).not.toBeChecked();
     await page.locator("body").click();
+  }
+}
+/**
+ * Run a test that gets the first filter option of each of the filters specified in
+ * filterNames, then attempts to select each through the filter search bar.
+ * @param page - a Playwright page object
+ * @param tab - the Tab object to run the test on
+ * @param filterNames - an array of potential filter names on the selected tab
+ */
+export async function testSelectFiltersThroughSearchBar(
+  page: Page,
+  tab: TabDescription,
+  filterNames: string[]
+): Promise<void> {
+  await page.goto(tab.url);
+  for (const filterName of filterNames) {
+    await expect(page.getByText(filterRegex(filterName))).toBeVisible();
+    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
+    const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
+    const filterOptionName = await getFilterOptionName(
+      page,
+      firstFilterOptionLocator
+    );
+    await page.locator("body").click();
+
+    const searchFiltersInputLocator = page.getByPlaceholder(
+      tab.searchFiltersPlaceholderText,
+      { exact: true }
+    );
+    await expect(searchFiltersInputLocator).toBeVisible();
+    await searchFiltersInputLocator.fill(filterOptionName);
+    await getNamedFilterOptionLocator(page, filterOptionName).first().click();
+    await page.locator("body").click();
+    const filterTagLocator = getFilterTagLocator(page, filterOptionName);
+    await expect(filterTagLocator).toBeVisible();
+    await filterTagLocator.dispatchEvent("click");
+  }
+}
+
+/**
+ * Run a test that selects the first filter option of each of the filters specified in
+ * filterNames, then attempts to deselect each through the filter search bar.
+ * @param page - a Playwright page object
+ * @param tab - the Tab object to run the test on
+ * @param filterNames - an array of potential filter names on the selected tab
+ */
+export async function testDeselectFiltersThroughSearchBar(
+  page: Page,
+  tab: TabDescription,
+  filterNames: string[]
+): Promise<void> {
+  await page.goto(tab.url);
+  const filterOptionNames: string[] = [];
+  for (const filterName of filterNames) {
+    await expect(page.getByText(filterRegex(filterName))).toBeVisible();
+    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
+    const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
+    const filterOptionName = await getFilterOptionName(
+      page,
+      firstFilterOptionLocator
+    );
+    filterOptionNames.push(filterOptionName);
+    await firstFilterOptionLocator.click();
+    await page.locator("body").click();
+  }
+  for (let i = 0; i < filterOptionNames.length; i++) {
+    const searchFiltersInputLocator = page.getByPlaceholder(
+      tab.searchFiltersPlaceholderText,
+      { exact: true }
+    );
+    await expect(searchFiltersInputLocator).toBeVisible();
+    await searchFiltersInputLocator.fill(filterOptionNames[i]);
+    await getNamedFilterOptionLocator(page, filterOptionNames[i])
+      .locator("input[type='checkbox']:checked")
+      .first()
+      .click();
+    await page.locator("body").click();
+    const filterTagLocator = getFilterTagLocator(page, filterOptionNames[i]);
+    await expect(filterTagLocator).not.toBeVisible();
   }
 }
 
