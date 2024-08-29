@@ -99,6 +99,11 @@ through the actions taken as part of the test and view the impact on the web pag
     - Runs on all tabs
   - Check that selecting all checkboxes in the Edit Columns menu adds the correct headers to the table
     - Only runs on the "Consortia" tab (other tabs do not have editable columns)
+- Filters (`anvilcatalog-filters.spec.ts`)
+  - Search filters bar
+    - Check that filters can be selected through the search bar
+    - Check that filters can be deselected through the search bar
+    - Both tests run on all tabs
 - All tests rely on correct lists of tabs, columns, and filters in `anvilcatalog-tabs.ts`
 
 ### Candidate Additional Tests (anvil-cmg):

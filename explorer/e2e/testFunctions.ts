@@ -616,7 +616,7 @@ export async function testFilterTags(
  * those filters to become deselected
  * @param page - a Playwright page object
  * @param tab - the tab object to test on
- * @param filterNames - the names of the fitlers to check
+ * @param filterNames - the names of the filters to check
  */
 export async function testClearAll(
   page: Page,
@@ -669,6 +669,7 @@ export async function testSelectFiltersThroughSearchBar(
 ): Promise<void> {
   await page.goto(tab.url);
   for (const filterName of filterNames) {
+    // Get the first filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
@@ -677,16 +678,18 @@ export async function testSelectFiltersThroughSearchBar(
       firstFilterOptionLocator
     );
     await page.locator("body").click();
-
+    // Search for the filter option
     const searchFiltersInputLocator = page.getByPlaceholder(
       tab.searchFiltersPlaceholderText,
       { exact: true }
     );
     await expect(searchFiltersInputLocator).toBeVisible();
     await searchFiltersInputLocator.fill(filterOptionName);
+    // Select a filter option with a matching name
     await getNamedFilterOptionLocator(page, filterOptionName).first().click();
     await page.locator("body").click();
     const filterTagLocator = getFilterTagLocator(page, filterOptionName);
+    // Check the filter tag is selected and click it to reset the filter
     await expect(filterTagLocator).toBeVisible();
     await filterTagLocator.dispatchEvent("click");
   }
@@ -705,8 +708,8 @@ export async function testDeselectFiltersThroughSearchBar(
   filterNames: string[]
 ): Promise<void> {
   await page.goto(tab.url);
-  const filterOptionNames: string[] = [];
   for (const filterName of filterNames) {
+    // Select each filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
@@ -714,23 +717,21 @@ export async function testDeselectFiltersThroughSearchBar(
       page,
       firstFilterOptionLocator
     );
-    filterOptionNames.push(filterOptionName);
     await firstFilterOptionLocator.click();
     await page.locator("body").click();
-  }
-  for (let i = 0; i < filterOptionNames.length; i++) {
+    // Search for and check the selected filter
     const searchFiltersInputLocator = page.getByPlaceholder(
       tab.searchFiltersPlaceholderText,
       { exact: true }
     );
     await expect(searchFiltersInputLocator).toBeVisible();
-    await searchFiltersInputLocator.fill(filterOptionNames[i]);
-    await getNamedFilterOptionLocator(page, filterOptionNames[i])
+    await searchFiltersInputLocator.fill(filterOptionName);
+    await getNamedFilterOptionLocator(page, filterOptionName)
       .locator("input[type='checkbox']:checked")
       .first()
       .click();
     await page.locator("body").click();
-    const filterTagLocator = getFilterTagLocator(page, filterOptionNames[i]);
+    const filterTagLocator = getFilterTagLocator(page, filterOptionName);
     await expect(filterTagLocator).not.toBeVisible();
   }
 }
