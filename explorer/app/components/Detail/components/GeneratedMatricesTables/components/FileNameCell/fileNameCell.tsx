@@ -7,13 +7,13 @@ export interface FileNameCellProps {
 }
 
 export const FileNameCell = ({
-  archivePreview,
+  // archivePreview,
   fileName,
 }: FileNameCellProps): JSX.Element => {
   return (
     <Cell>
       {fileName}
-      {archivePreview}
+      {/*{archivePreview}*/}
     </Cell>
   );
 };
