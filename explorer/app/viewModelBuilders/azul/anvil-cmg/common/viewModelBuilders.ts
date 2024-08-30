@@ -1163,34 +1163,6 @@ function getFormFacets(fileManifestState: FileManifestState): FormFacet {
 }
 
 /**
- * Returns true if the given facet "accessible" term has valid selected terms.
- * - Returns true, if no term is selected i.e. neither "true" nor "false" are selected.
- * - Returns false, if every selected term is "false" i.e. only the "false" term is selected.
- * @param fileFacet - File facet.
- * @returns true if the facet "accessible" term has valid selected terms.
- */
-function isAccessibleFileFacetSelectedTermsValid(
-  fileFacet?: FileFacet
-): boolean {
-  if (!fileFacet) return false;
-  const selectedTerms = fileFacet.selectedTerms;
-  // Returns true, if no term is selected i.e. neither "true" nor "false" are selected.
-  if (selectedTerms.length === 0) return true;
-  // Returns false, if every selected term is "false" i.e. only the "false" term is selected.
-  return !selectedTerms.every(({ name }) => name === "false");
-}
-
-/**
- * Returns true if the given facet "accessible" term has a value of "true".
- * @param fileFacet - File facet.
- * @returns true if the facet "accessible" term has a value of "true".
- */
-function isAccessibleFileFacetTermsByNameValid(fileFacet?: FileFacet): boolean {
-  if (!fileFacet) return false;
-  return fileFacet.termsByName.has("true");
-}
-
-/**
  * Returns true if the response is accessible, or when the response is ready.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns true if the response is accessible, or when the response is ready.
@@ -1218,13 +1190,7 @@ function isDatasetAccessible(datasetsResponse: DatasetsResponse): boolean {
 function isFileManifestAccessible(
   fileManifestState: FileManifestState
 ): boolean {
-  const { filesFacets } = fileManifestState;
-  const fileFacet = findFacet(filesFacets, "accessible");
-  return (
-    isFileManifestSummaryFileCountValid(fileManifestState) &&
-    isAccessibleFileFacetTermsByNameValid(fileFacet) &&
-    isAccessibleFileFacetSelectedTermsValid(fileFacet)
-  );
+  return isFileManifestSummaryFileCountValid(fileManifestState);
 }
 
 /**
