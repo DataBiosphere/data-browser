@@ -49,22 +49,22 @@ export function makeConfig(
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
             },
             {
-              key: ANVIL_CMG_CATEGORY_KEY.ACCESSIBLE,
-              label: ANVIL_CMG_CATEGORY_LABEL.ACCESSIBLE,
-              mapSelectCategoryValue:
-                mapSelectCategoryValue(mapAccessibleValue),
-            },
-            {
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
+            },
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
+              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
             },
             {
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
             },
             {
-              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
+              key: ANVIL_CMG_CATEGORY_KEY.ACCESSIBLE,
+              label: ANVIL_CMG_CATEGORY_LABEL.ACCESSIBLE,
+              mapSelectCategoryValue:
+                mapSelectCategoryValue(mapAccessibleValue),
             },
           ],
           label: "Dataset",
