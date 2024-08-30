@@ -2,6 +2,7 @@ import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/en
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
+import { mapSelectCategoryValue } from "../../../app/config/utils";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
 import { FLATTEN } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
@@ -11,6 +12,7 @@ import { authenticationConfig } from "./authentication/authentication";
 import { exportConfig } from "./export/export";
 import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
 import { biosamplesEntityConfig } from "./index/biosamplesEntityConfig";
+import { mapAccessibleValue } from "./index/common/utils";
 import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
@@ -51,12 +53,18 @@ export function makeConfig(
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
             },
             {
+              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
+              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
+            },
+            {
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
             },
             {
-              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
+              key: ANVIL_CMG_CATEGORY_KEY.ACCESSIBLE,
+              label: ANVIL_CMG_CATEGORY_LABEL.ACCESSIBLE,
+              mapSelectCategoryValue:
+                mapSelectCategoryValue(mapAccessibleValue),
             },
           ],
           label: "Dataset",

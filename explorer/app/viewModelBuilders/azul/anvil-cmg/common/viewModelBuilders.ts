@@ -1190,9 +1190,19 @@ function isDatasetAccessible(datasetsResponse: DatasetsResponse): boolean {
 function isFileManifestAccessible(
   fileManifestState: FileManifestState
 ): boolean {
-  const { filesFacets } = fileManifestState;
-  const fileFacet = findFacet(filesFacets, "accessible");
-  return fileFacet?.termsByName.has("true") ?? false;
+  return isFileManifestSummaryFileCountValid(fileManifestState);
+}
+
+/**
+ * Returns true if the file manifest summary file count is valid.
+ * @param fileManifestState - File manifest state.
+ * @returns true if the file manifest summary file count is valid.
+ */
+function isFileManifestSummaryFileCountValid(
+  fileManifestState: FileManifestState
+): boolean {
+  const { summary: { fileCount } = {} } = fileManifestState;
+  return fileCount > 0;
 }
 
 /**
