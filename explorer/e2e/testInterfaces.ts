@@ -47,11 +47,11 @@ export interface BackpageAccessTags {
 export interface BackpageExportButtons {
   accessNotGrantedMessage: string;
   detailsName: string;
+  exportActionButtonText: string;
+  exportRequestButtonText: string;
   exportTabName: string;
   exportUrlRegExp: RegExp;
-  firstButtonName: string;
   firstLoadingMessage: string;
   newTabMessage: string;
-  secondButtonName: string;
   secondLandingMessage: string;
 }

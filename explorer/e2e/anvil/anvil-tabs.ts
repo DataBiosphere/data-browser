@@ -109,13 +109,13 @@ export const anvilTabs: AnvilCMGTabCollection = {
       accessNotGrantedMessage:
         "To export this dataset, please sign in and, if necessary, request access.",
       detailsName: "Dataset Details",
+      exportActionButtonText: "Open Terra",
+      exportRequestButtonText: "Request Link",
       exportTabName: "Export",
       exportUrlRegExp: /\.*\/export-to-terra/,
-      firstButtonName: "Request Link",
       firstLoadingMessage: "Your link will be ready shortly...",
       newTabMessage:
         "If you are a new user or returning user, click sign in to continue.",
-      secondButtonName: "Open Terra",
       secondLandingMessage: "Your Terra Workspace Link is Ready",
     },
     backpageHeaders: [

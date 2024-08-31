@@ -72,12 +72,12 @@ through the actions taken as part of the test and view the impact on the web pag
   - All tests rely on correct lists of tabs, columns, and filters in `anvil-tabs.ts`
 - Backpages (`anvil-backpages.spec.ts`)
   - Test the export process on the "Datasets" tab
-    - Select the first dataset that does not have access control enabled and go to the export tab on its backpage. Select a one filter checkbox for each category then select the "Export to Terra" button
-    - Check that buttons, text, and loading text appears as expected, and that a new tab appears when the "Export to Terra" button is pressed
+    - Selects the first dataset that does not have access control enabled and go to the export tab on its backpage. Then, selects one filter checkbox for each category, then finally selects the "Export to Terra" button
+    - Checks that buttons, text, and loading text appears as expected, and that a new tab appears when the "Export to Terra" button is pressed
     - Relevant text constants are stored in `anvil-tabs.ts`
     - Currently disabled as the export button is disabled
   - Test that access control works properly on the "Datasets" tab
-    - Select a non access controlled tab and check that text associataed with access being granted is present, then repeat for an access controleld tab
+    - Selects a non-access-controlled tab and check that text associated with access being granted is present, then repeats for an access-controlled tab
     - Relevant text constants are stored in `anvil-tabs.ts`
     - Currently disabled as the export button is disabled
   - Test that data in the sidebar of the "Datasets" tab is the same as the text displayed in the main tab le

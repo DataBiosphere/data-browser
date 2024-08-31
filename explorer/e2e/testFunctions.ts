@@ -363,7 +363,7 @@ export async function testFilterPersistence(
   const filterNameMatch = (await filterToSelectLocator.innerText())
     .trim()
     .match(/^\S*/);
-  if (filterNameMatch == null) {
+  if (!filterNameMatch) {
     // This means that the selected filter did not have any non-whitespace text
     // associated with it, making the test impossible to complete.
     console.log("ERROR: Filter name is blank, so the test cannot continue");
@@ -542,7 +542,13 @@ export async function testClearAll(
   }
 }
 
-const getRowLocatorByAccess = (page: Page, access: string): Locator =>
+/**
+ * Get the first link to a backpage with specified backpage access
+ * @param page - a Playright page locator
+ * @param access - the string denoting the level of access desired
+ * @returns a Pla
+ */
+const getBackpageLinkLocatorByAccess = (page: Page, access: string): Locator =>
   page
     .getByRole("row")
     .filter({ has: page.getByRole("cell", { name: access }) })
@@ -551,13 +557,21 @@ const getRowLocatorByAccess = (page: Page, access: string): Locator =>
     .first()
     .getByRole("link");
 
-// Backpages tests
+/**
+ * Test the export process for the specified tab
+ * @param context - a Playwright browser context object
+ * @param page - a Playwright page object
+ * @param tab - the tab to test on
+ */
 export async function testExportBackpage(
   context: BrowserContext,
   page: Page,
   tab: TabDescription
 ): Promise<void> {
-  if (tab.backpageExportButtons == null || tab.backpageAccessTags == null) {
+  if (
+    tab.backpageExportButtons === undefined ||
+    tab.backpageAccessTags === undefined
+  ) {
     // Fail if this test is ran on a tab without defined backpages
     await expect(false);
     return;
@@ -565,7 +579,7 @@ export async function testExportBackpage(
   // Goto the specified tab
   await page.goto(tab.url);
   // Expect to find row with a granted status indicator
-  const grantedRowLocator = getRowLocatorByAccess(
+  const grantedRowLocator = getBackpageLinkLocatorByAccess(
     page,
     tab.backpageAccessTags.grantedShortName
   );
@@ -583,34 +597,41 @@ export async function testExportBackpage(
     .click();
   await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
   await expect(page.getByRole("checkbox").first()).toBeVisible();
-  const firstButtonLocator = page.getByRole("button", {
-    name: tab.backpageExportButtons.firstButtonName,
+  const exportRequestButtonLocator = page.getByRole("button", {
+    name: tab.backpageExportButtons.exportRequestButtonText,
   });
-  await expect(firstButtonLocator).toBeEnabled();
-  // Select all checkboxes on the pages
-  const checkboxLocators = await page.getByRole("checkbox").all();
-  for (const checkboxLocator of checkboxLocators) {
-    if (!(await checkboxLocator.isChecked())) {
-      await checkboxLocator.click();
-      await expect(checkboxLocator).toBeChecked();
-      await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
-    }
+  await expect(exportRequestButtonLocator).toBeEnabled();
+  // Select all checkboxes that are not in a table
+  const allNonTableCheckboxLocators = await page
+    .locator("input[type='checkbox']:not(table input[type='checkbox'])")
+    .all();
+  for (const checkboxLocator of allNonTableCheckboxLocators) {
+    await checkboxLocator.click();
+    await expect(checkboxLocator).toBeChecked();
+    await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
   }
-  await expect(firstButtonLocator).toBeEnabled({ timeout: 10000 });
-  // Uncheck all checkboxes except one in each table, to reduce overhead
+  // Check one checkbox in each table
   for (const tableLocator of await page.getByRole("table").all()) {
-    const checkboxLocatorsInTable = await tableLocator
+    const allInTableCheckboxLocators = await tableLocator
       .getByRole("checkbox")
       .all();
-    for (const checkboxLocator of checkboxLocatorsInTable.slice(2)) {
-      await checkboxLocator.click();
-      await expect(checkboxLocator).not.toBeChecked();
-      await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
+    const secondCheckboxInTableLocator = allInTableCheckboxLocators[1];
+    await secondCheckboxInTableLocator.click();
+    await expect(secondCheckboxInTableLocator).toBeChecked();
+    await expect(secondCheckboxInTableLocator).toBeEnabled({ timeout: 10000 });
+    const otherInTableCheckboxLocators = [
+      allInTableCheckboxLocators[0],
+      ...allInTableCheckboxLocators.slice(2),
+    ];
+    // Make sure that no other checkboxes are selected
+    for (const otherCheckboxLocator of otherInTableCheckboxLocators) {
+      await expect(otherCheckboxLocator).not.toBeChecked();
+      await expect(otherCheckboxLocator).toBeEnabled();
     }
   }
-  // Click the "Request Link" button
-  await expect(firstButtonLocator).toBeEnabled({ timeout: 10000 });
-  await firstButtonLocator.click();
+  // Click the Export Request button
+  await expect(exportRequestButtonLocator).toBeEnabled({ timeout: 10000 });
+  await exportRequestButtonLocator.click();
   await expect(
     page.getByText(tab.backpageExportButtons.firstLoadingMessage, {
       exact: true,
@@ -621,25 +642,34 @@ export async function testExportBackpage(
       exact: true,
     })
   ).toBeVisible({ timeout: 60000 });
-  const secondButtonLocator = page.getByRole("button", {
-    name: tab.backpageExportButtons?.secondButtonName,
+  const exportActionButtonLocator = page.getByRole("button", {
+    name: tab.backpageExportButtons?.exportActionButtonText,
   });
-  await expect(secondButtonLocator).toBeEnabled();
-  // Click the "Open Terra" Button and await a new browser tab
+  await expect(exportActionButtonLocator).toBeEnabled();
+  // Click the Export Action Button and await a new browser tab
   const newPagePromise = context.waitForEvent("page");
-  await secondButtonLocator.click();
+  await exportActionButtonLocator.click();
   const newPage = await newPagePromise;
-  // Expect the new browser tab to look like the Terra page
+  // Expect the new browser tab to display the new tab content
   await expect(
     newPage.getByText(tab.backpageExportButtons?.newTabMessage)
   ).toBeVisible();
 }
 
+/**
+ * Test that export access is available on entries where access shows as available
+ * and is not on entries where access shows as unavailable
+ * @param page - a Playwright page objext
+ * @param tab - the Tab to test on
+ */
 export async function testBackpageAccess(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
-  if (tab.backpageExportButtons == null || tab.backpageAccessTags == null) {
+  if (
+    tab.backpageExportButtons === undefined ||
+    tab.backpageAccessTags === undefined
+  ) {
     // Fail if this test is ran on a tab without defined backpages
     await expect(false);
     return;
@@ -647,7 +677,7 @@ export async function testBackpageAccess(
   // Goto the specified tab
   await page.goto(tab.url);
   // Check that the first "Granted" tab has access granted
-  const grantedRowLocator = getRowLocatorByAccess(
+  const grantedRowLocator = getBackpageLinkLocatorByAccess(
     page,
     tab.backpageAccessTags.grantedShortName
   );
@@ -667,13 +697,13 @@ export async function testBackpageAccess(
   await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
   await expect(page.getByRole("checkbox").first()).toBeVisible();
   const requestLinkButtonLocator = page.getByRole("button", {
-    name: tab.backpageExportButtons.firstButtonName,
+    name: tab.backpageExportButtons.exportRequestButtonText,
   });
   await expect(requestLinkButtonLocator).toBeEnabled();
   // Go back to the table page
   await page.getByRole("link", { name: tab.tabName }).click();
   // Check that the first "Required" tab does not have access granted
-  const deniedRowLocator = getRowLocatorByAccess(
+  const deniedRowLocator = getBackpageLinkLocatorByAccess(
     page,
     tab.backpageAccessTags.deniedShortName
   );
@@ -695,6 +725,15 @@ export async function testBackpageAccess(
   ).toBeVisible();
 }
 
+/**
+ * Get the text from a cell by reading the tooltip if it appears to be an N-tag
+ * cell or by reading the text if it does not appear to be
+ * @param page - a Playwright Page object
+ * @param columnDescription - a columnDescription object for the column
+ * @param rowPosition - the zero-indexed position of the row
+ * @param columnPosition - the zero-indexed position of the column
+ * @returns - a Promise with the cell's text
+ */
 const hoverAndGetText = async (
   page: Page,
   columnDescription: ColumnDescription | undefined,
@@ -709,8 +748,8 @@ const hoverAndGetText = async (
   const cellText = await cellLocator.innerText();
   // Check if the cell appears to be an Ntag cell
   if (
-    columnDescription != undefined &&
-    columnDescription.pluralizedLabel != undefined &&
+    !columnDescription !== undefined &&
+    columnDescription?.pluralizedLabel !== undefined &&
     RegExp("\\s*[0-9]+ " + columnDescription.pluralizedLabel + "\\s*").test(
       cellText
     )
@@ -729,11 +768,19 @@ const hoverAndGetText = async (
   return cellText.trim();
 };
 
+/**
+ * Check that the details in the backpage sidebar match information in the data table
+ * @param page - a Playwright page object
+ * @param tab - the tab to test on
+ */
 export async function testBackpageDetails(
   page: Page,
   tab: TabDescription
 ): Promise<void> {
-  if (tab.backpageHeaders == null || tab.backpageExportButtons == null) {
+  if (
+    tab.backpageHeaders === undefined ||
+    tab.backpageExportButtons === undefined
+  ) {
     // If the tab is not set up with backpage info, fail the test
     await expect(false);
     return;
@@ -767,8 +814,8 @@ export async function testBackpageDetails(
         (header: BackpageHeader) =>
           header?.correspondingColumn?.name === columnHeaderName
       )?.name;
-      if (correspondingHeaderName == null) {
-        // Fail the test, because this means there is an incorrect configuraiton in the tab definition
+      if (correspondingHeaderName === undefined) {
+        // Fail the test, because this means there is an incorrect configuration in the tab definition
         await expect(false);
         return;
       }
