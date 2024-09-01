@@ -56,7 +56,7 @@ This project has end-to-end tests powered by Playwright, currently only for the 
 
 When updating tabs and columns on the anvil-cmg configuration, please update `e2e/anvil/anvil-tabs.ts` to reflect the changes  
 
-## Refresh CelLXGene projects in HCA Data Explorer
+## Refresh CellXGene projects in HCA Data Explorer
 To update HCA scripts in the HCA Data Explorer, run:
 ```bash
 npm run get-cellxgene-projects-hca
