@@ -55,3 +55,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 This project has end-to-end tests powered by Playwright, currently only for the `anvil-cmg` configuration and in progress for `anvil-catalog`. To run tests, run `npm run test:anvil-cmg` from this folder. Tests will also run by default on pull request.
 
 When updating tabs and columns on the anvil-cmg configuration, please update `e2e/anvil/anvil-tabs.ts` to reflect the changes  
+
+## Refresh CellXGene projects in HCA Data Explorer
+To update HCA scripts in the HCA Data Explorer, run:
+```bash
+npm run get-cellxgene-projects-hca
+```
+This will save any updates to `explorer/site-config/hca-dcp/dev/scripts/out/cellxgene-projects.json` based on HCA links provided by CELLxGENE.
+
