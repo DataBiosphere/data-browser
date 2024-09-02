@@ -65,6 +65,10 @@ export function makeConfig(
               key: HCA_DCP_CATEGORY_KEY.INSTITUTION,
               label: HCA_DCP_CATEGORY_LABEL.INSTITUTION,
             },
+            {
+              key: HCA_DCP_CATEGORY_KEY.TISSUE_ATLAS,
+              label: HCA_DCP_CATEGORY_LABEL.TISSUE_ATLAS,
+            },
           ],
           label: "Project",
         },

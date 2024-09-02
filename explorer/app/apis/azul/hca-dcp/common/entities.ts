@@ -93,6 +93,7 @@ export interface ProjectResponse {
   projectTitle: string;
   publications: PublicationResponse[];
   supplementaryLinks: (string | null)[];
+  tissueAtlas?: TissueAtlasResponse[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- TODO - revisit nested Azul structure.
@@ -149,4 +150,9 @@ export interface SampleResponse {
  */
 export interface SamplesEntityResponse {
   samples: SampleResponse[];
+}
+
+export interface TissueAtlasResponse {
+  atlas: string;
+  version: string;
 }

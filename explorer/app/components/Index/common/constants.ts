@@ -40,6 +40,7 @@ const {
   SELECTED_CELL_TYPE,
   STUDY,
   STUDY_DESIGN,
+  TISSUE_ATLAS,
   WORKFLOW,
   WORKSPACE_NAME,
 } = METADATA_KEY;
@@ -107,6 +108,7 @@ export const PLURALIZED_METADATA_LABEL = {
   [SELECTED_CELL_TYPE]: "cell types",
   [STUDY]: "studies",
   [STUDY_DESIGN]: "study designs",
+  [TISSUE_ATLAS]: "atlases",
   [METADATA_KEY.SPECIES]: "species",
   [WORKFLOW]: "analysis protocols",
   [WORKSPACE_NAME]: "workspaces",
