@@ -1401,6 +1401,17 @@ export const buildSupplementaryLinks = (
   };
 };
 
+export const buildTissueAtlas = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  const project = getProjectResponse(projectsResponse);
+  const formattedValues = mapProjectTissueAtlas(project);
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.TISSUE_ATLAS),
+    values: processNullElements(formattedValues),
+  };
+};
+
 /**
  * Build props for total cells "Cell Count Estimate" BasicCell component from the given entity response.
  * @param entityResponse - Response model return from entity API.
@@ -2275,6 +2286,22 @@ function mapProjectIdToProject(
     };
   }
   return filter;
+}
+
+/**
+ * Format the atlas and version fields in the tissueAtlas response.
+ * @param projectResponse - Response model return from projects API.
+ * @returns formatted tissue atlas entries.
+ */
+export function mapProjectTissueAtlas(
+  projectResponse: ProjectResponse
+): string[] {
+  const tissueAtlasEntries = projectResponse?.tissueAtlas ?? [];
+  return tissueAtlasEntries
+    .filter((tissueAtlasEntry) => !!tissueAtlasEntry?.atlas)
+    .map((tissueAtlasEntry) => {
+      return `${tissueAtlasEntry.atlas} ${tissueAtlasEntry?.version ?? ""}`;
+    });
 }
 
 /**

@@ -93,6 +93,15 @@ export const projectsEntityConfig: EntityConfig = {
       {
         componentConfig: {
           component: C.NTagCell,
+          viewBuilder: V.buildTissueAtlas,
+        } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.TISSUE_ATLAS,
+        id: HCA_DCP_CATEGORY_KEY.TISSUE_ATLAS,
+        width: { max: "1fr", min: "116px" },
+      },
+      {
+        componentConfig: {
+          component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorGenusSpecies,
         } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,
         header: "Species", // TODO confirm header

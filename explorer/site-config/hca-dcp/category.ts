@@ -41,6 +41,7 @@ export const HCA_DCP_CATEGORY_KEY = {
   SELECTED_CELL_TYPE: "selectedCellType",
   SPECIMEN_DISEASE: "specimenDisease",
   SPECIMEN_ORGAN: "specimenOrgan",
+  TISSUE_ATLAS: "tissueAtlas",
   WORKFLOW: "workflow",
 } as const;
 
@@ -85,5 +86,6 @@ export const HCA_DCP_CATEGORY_LABEL = {
   SELECTED_CELL_TYPE: "Selected Cell Type",
   SPECIMEN_DISEASE: "Specimen Disease",
   SPECIMEN_ORGAN: "Anatomical Entity",
+  TISSUE_ATLAS: "Atlases",
   WORKFLOW: "Analysis Protocol",
 };
