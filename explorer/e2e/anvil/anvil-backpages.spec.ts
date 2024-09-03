@@ -6,7 +6,7 @@ import {
 } from "../testFunctions";
 import { anvilTabs } from "./anvil-tabs";
 
-test.skip("Smoke test `Export to Terra` button on the first available dataset", async ({
+test("Smoke test `Export to Terra` button on the first available dataset", async ({
   context,
   page,
 }) => {
@@ -14,7 +14,7 @@ test.skip("Smoke test `Export to Terra` button on the first available dataset", 
   await testExportBackpage(context, page, anvilTabs.datasets);
 });
 
-test.skip("Check access controls on the datasets backpages work for the first two tabs", async ({
+test("Check access controls on the datasets backpages work for the first two tabs", async ({
   page,
 }) => {
   test.setTimeout(120000);

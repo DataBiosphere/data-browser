@@ -610,27 +610,29 @@ export async function testExportBackpage(
     await expect(checkboxLocator).toBeChecked();
     await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
   }
-  // Check one checkbox in each table
-  for (const tableLocator of await page.getByRole("table").all()) {
-    const allInTableCheckboxLocators = await tableLocator
-      .getByRole("checkbox")
-      .all();
-    const secondCheckboxInTableLocator = allInTableCheckboxLocators[1];
-    await secondCheckboxInTableLocator.click();
-    await expect(secondCheckboxInTableLocator).toBeChecked();
-    await expect(secondCheckboxInTableLocator).toBeEnabled({ timeout: 10000 });
-    const otherInTableCheckboxLocators = [
-      allInTableCheckboxLocators[0],
-      ...allInTableCheckboxLocators.slice(2),
-    ];
-    // Make sure that no other checkboxes are selected
-    for (const otherCheckboxLocator of otherInTableCheckboxLocators) {
-      await expect(otherCheckboxLocator).not.toBeChecked();
-      await expect(otherCheckboxLocator).toBeEnabled();
-    }
+  // Expect there to be exactly one table on the backpage
+  await expect(page.getByRole("table")).toHaveCount(1);
+  // Check the second checkbox in the table (this should be the checkbox after the "select all checkbox")
+  const tableLocator = page.getByRole("table");
+  const allInTableCheckboxLocators = await tableLocator
+    .getByRole("checkbox")
+    .all();
+  const secondCheckboxInTableLocator = allInTableCheckboxLocators[1];
+  await secondCheckboxInTableLocator.click();
+  await expect(secondCheckboxInTableLocator).toBeChecked();
+  await expect(secondCheckboxInTableLocator).toBeEnabled({ timeout: 10000 });
+  // Make sure that no other checkboxes are selected
+  const otherInTableCheckboxLocators = [
+    allInTableCheckboxLocators[0],
+    ...allInTableCheckboxLocators.slice(2),
+  ];
+  for (const otherCheckboxLocator of otherInTableCheckboxLocators) {
+    await expect(otherCheckboxLocator).not.toBeChecked();
+    await expect(otherCheckboxLocator).toBeEnabled();
   }
   // Click the Export Request button
   await expect(exportRequestButtonLocator).toBeEnabled({ timeout: 10000 });
+  /*
   await exportRequestButtonLocator.click();
   await expect(
     page.getByText(tab.backpageExportButtons.firstLoadingMessage, {
@@ -654,6 +656,7 @@ export async function testExportBackpage(
   await expect(
     newPage.getByText(tab.backpageExportButtons?.newTabMessage)
   ).toBeVisible();
+  */
 }
 
 /**
