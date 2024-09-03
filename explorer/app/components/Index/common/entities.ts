@@ -1,8 +1,11 @@
+import { NETWORK_KEYS } from "./constants";
+
 /**
  * Set of possible metadata keys.
  */
 export enum METADATA_KEY {
   ANATOMICAL_ENTITY = "ANATOMICAL_ENTITY",
+  BIONETWORK_NAME = "BIONETWORK_NAME",
   BIOSAMPLE_TYPE = "BIOSAMPLE_TYPE",
   CONSENT_CODE = "CONSENT_CODE",
   CONTENT_DESCRIPTION = "CONTENT_DESCRIPTION",
@@ -38,6 +41,13 @@ export enum METADATA_KEY {
   WORKFLOW = "WORKFLOW",
   WORKSPACE_NAME = "WORKSPACE_NAME",
 }
+
+export interface Network {
+  key: NetworkKey;
+  name: string;
+}
+
+export type NetworkKey = (typeof NETWORK_KEYS)[number];
 
 /**
  * Set of possible summary counts and other summary values as part of summary response.

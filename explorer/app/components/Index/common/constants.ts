@@ -1,5 +1,5 @@
 import { AzulSummaryResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import { METADATA_KEY, SUMMARY } from "./entities";
+import { METADATA_KEY, Network, NetworkKey, SUMMARY } from "./entities";
 import {
   calculateSummaryFileFormatsCount,
   calculateSummaryTotalCellCount,
@@ -9,6 +9,7 @@ import {
 // Template constants
 const {
   ANATOMICAL_ENTITY,
+  BIONETWORK_NAME,
   BIOSAMPLE_TYPE,
   CONSENT_CODE,
   CONTENT_DESCRIPTION,
@@ -71,11 +72,129 @@ export const BIND_SUMMARY_RESPONSE = {
     getSummaryCount(r, SUMMARY_KEY.SPECIMENS),
 };
 
+export const NETWORK_KEYS = [
+  "Adipose",
+  "Breast",
+  "Development",
+  "Eye",
+  "Genetic-diversity",
+  "Gut",
+  "Heart",
+  "Immune",
+  "Kidney",
+  "Liver",
+  "Lung",
+  "Musculoskeletal",
+  "Nervous-system",
+  "Oral",
+  "Organoid",
+  "Pancreas",
+  "Reproduction",
+  "Skin",
+] as const;
+
+export const NETWORKS: Network[] = [
+  {
+    key: "Adipose",
+    name: "Adipose Network",
+  },
+  {
+    key: "Breast",
+    name: "Breast Network",
+  },
+  {
+    key: "Development",
+    name: "Development Network",
+  },
+  {
+    key: "Eye",
+    name: "Eye Network",
+  },
+  {
+    key: "Genetic-diversity",
+    name: "Genetic Diversity Network",
+  },
+  {
+    key: "Gut",
+    name: "Gut Network",
+  },
+  {
+    key: "Heart",
+    name: "Heart Network",
+  },
+  {
+    key: "Immune",
+    name: "Immune Network",
+  },
+  {
+    key: "Kidney",
+    name: "Kidney Network",
+  },
+  {
+    key: "Liver",
+    name: "Liver Network",
+  },
+  {
+    key: "Lung",
+    name: "Lung Network",
+  },
+  {
+    key: "Musculoskeletal",
+    name: "Musculoskeletal Network",
+  },
+  {
+    key: "Nervous-system",
+    name: "Nervous System Network",
+  },
+  {
+    key: "Oral",
+    name: "Oral and Craniofacial Networks",
+  },
+  {
+    key: "Organoid",
+    name: "Organoid Network",
+  },
+  {
+    key: "Pancreas",
+    name: "Pancreas Network",
+  },
+  {
+    key: "Reproduction",
+    name: "Reproduction Network",
+  },
+  {
+    key: "Skin",
+    name: "Skin Network",
+  },
+];
+
+export const NETWORK_ICONS: { [key in NetworkKey]: string } = {
+  Adipose: "/images/icons/hca-bio-networks/adipose.png",
+  Breast: "/images/icons/hca-bio-networks/breast.png",
+  Development: "/images/icons/hca-bio-networks/development.png",
+  Eye: "/images/icons/hca-bio-networks/eye.png",
+  "Genetic-diversity": "/images/icons/hca-bio-networks/genetic-diversity.png",
+  Gut: "/images/icons/hca-bio-networks/gut.png",
+  Heart: "/images/icons/hca-bio-networks/heart.png",
+  Immune: "/images/icons/hca-bio-networks/immune.png",
+  Kidney: "/images/icons/hca-bio-networks/kidney.png",
+  Liver: "/images/icons/hca-bio-networks/liver.png",
+  Lung: "/images/icons/hca-bio-networks/lung.png",
+  Musculoskeletal: "/images/icons/hca-bio-networks/musculoskeletal.png",
+  "Nervous-system": "/images/icons/hca-bio-networks/nervous-system.png",
+  Oral: "/images/icons/hca-bio-networks/oral-and-craniofacial.png",
+  Organoid: "/images/icons/hca-bio-networks/organoid.png",
+  Pancreas: "/images/icons/hca-bio-networks/pancreas.png",
+  Reproduction: "/images/icons/hca-bio-networks/reproduction.png",
+  Skin: "/images/icons/hca-bio-networks/skin.png",
+};
+
 /**
  * Value for displaying pluralized metadata labels, for example, "tissues" or "diseases".
  */
 export const PLURALIZED_METADATA_LABEL = {
   [ANATOMICAL_ENTITY]: "anatomical entities",
+  [BIONETWORK_NAME]: "networks",
   [BIOSAMPLE_TYPE]: "biosample types",
   [CONSENT_CODE]: "consent codes",
   [CONTENT_DESCRIPTION]: "content descriptions",

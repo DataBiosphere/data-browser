@@ -50,6 +50,8 @@ import {
   FadeProps as MFadeProps,
 } from "@mui/material";
 import { ColumnDef } from "@tanstack/react-table";
+import { NETWORKS } from "app/components/Index/common/constants";
+import { BioNetworkCell } from "app/components/Index/components/BioNetworkCell/bioNetworkCell";
 import React, { ElementType, Fragment, ReactElement } from "react";
 import {
   HCA_DCP_CATEGORY_KEY,
@@ -79,7 +81,11 @@ import {
 } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/hca-dcp";
-import { METADATA_KEY } from "../../../../components/Index/common/entities";
+import {
+  METADATA_KEY,
+  Network,
+  NetworkKey,
+} from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { DATE_TIME_FORMAT_OPTIONS } from "../../../common/contants";
@@ -534,6 +540,21 @@ export const buildBatchCorrectionWarning = (): React.ComponentProps<
   return {
     severity: "warning",
     title: "Please note",
+  };
+};
+
+/**
+ * Build props for the biological network cell component.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns Props to be used for the cell.
+ */
+export const buildBioNetwork = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof BioNetworkCell> => {
+  const project = getProjectResponse(projectsResponse);
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.BIONETWORK_NAME),
+    networkKeys: project.bionetworkName,
   };
 };
 
@@ -1627,6 +1648,24 @@ function getAnalysisPortalsKeyValuePairs(
     }
   }
   return keyValuePairs;
+}
+
+/**
+ * Attempts to return the bio network with the given key.
+ * @param key - Bio network key.
+ * @returns bio network, or undefined if not found.
+ */
+export function getBioNetworkByKey(key: NetworkKey): Network | undefined {
+  return NETWORKS.find((network) => network.key === key);
+}
+
+/**
+ * Returns the bio network name, without the suffix "Network".
+ * @param name - Bio network name.
+ * @returns name of the bio network.
+ */
+export function getBioNetworkName(name: string): string {
+  return name.replace(/(\sNetwork.*)/gi, "");
 }
 
 /**

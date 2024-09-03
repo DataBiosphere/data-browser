@@ -5,6 +5,7 @@ import {
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
 import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { BioNetworkCell } from "app/components/Index/components/BioNetworkCell/bioNetworkCell";
 import { ProjectsResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import {
   getProjectId,
@@ -89,6 +90,15 @@ export const projectsEntityConfig: EntityConfig = {
         header: HCA_DCP_CATEGORY_LABEL.PROJECT_TITLE,
         id: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
         width: { max: "2fr", min: "374px" },
+      },
+      {
+        componentConfig: {
+          component: BioNetworkCell,
+          viewBuilder: V.buildBioNetwork,
+        } as ComponentConfig<typeof BioNetworkCell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.BIONETWORK_NAME,
+        id: HCA_DCP_CATEGORY_KEY.BIONETWORK_NAME,
+        width: { max: "1fr", min: "126px" },
       },
       {
         componentConfig: {
