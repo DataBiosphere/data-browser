@@ -1,3 +1,5 @@
+import { NetworkKey } from "app/components/Index/common/entities";
+
 /**
  * Model of accession value in the response from index/projects API endpoints.
  */
@@ -82,6 +84,7 @@ export interface ProjectMatrixFileResponse {
 export interface ProjectResponse {
   accessible: boolean;
   accessions: AccessionResponse[];
+  bionetworkName: (NetworkKey | null)[];
   contributedAnalyses: ProjectResponseContributedAnalyses;
   contributors: ContributorResponse[];
   estimatedCellCount: number | null;

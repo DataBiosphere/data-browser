@@ -65,6 +65,10 @@ export function makeConfig(
               key: HCA_DCP_CATEGORY_KEY.INSTITUTION,
               label: HCA_DCP_CATEGORY_LABEL.INSTITUTION,
             },
+            {
+              key: HCA_DCP_CATEGORY_KEY.BIONETWORK_NAME,
+              label: HCA_DCP_CATEGORY_LABEL.BIONETWORK_NAME,
+            },
           ],
           label: "Project",
         },
