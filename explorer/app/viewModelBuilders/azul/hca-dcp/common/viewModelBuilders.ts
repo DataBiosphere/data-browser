@@ -50,8 +50,7 @@ import {
   FadeProps as MFadeProps,
 } from "@mui/material";
 import { ColumnDef } from "@tanstack/react-table";
-import { NETWORKS } from "app/components/Index/common/constants";
-import { BioNetworkCell } from "app/components/Index/components/BioNetworkCell/bioNetworkCell";
+import { NETWORK_KEYS } from "app/components/Index/common/constants";
 import React, { ElementType, Fragment, ReactElement } from "react";
 import {
   HCA_DCP_CATEGORY_KEY,
@@ -83,7 +82,6 @@ import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/hca-dcp";
 import {
   METADATA_KEY,
-  Network,
   NetworkKey,
 } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
@@ -544,17 +542,18 @@ export const buildBatchCorrectionWarning = (): React.ComponentProps<
 };
 
 /**
- * Build props for the biological network cell component.
+ * Build props for the bio network cell component.
  * @param projectsResponse - Response model return from projects API.
- * @returns Props to be used for the cell.
+ * @returns model to be used as props to be used for the BionetworkCell component.
  */
 export const buildBioNetwork = (
   projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof BioNetworkCell> => {
+): React.ComponentProps<typeof C.BioNetworkCell> => {
   const project = getProjectResponse(projectsResponse);
+  const networkKeys = filterBioNetworks(project.bionetworkName ?? []);
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.BIONETWORK_NAME),
-    networkKeys: project.bionetworkName,
+    networkKeys: networkKeys,
   };
 };
 
@@ -1475,6 +1474,17 @@ function calculateEstimatedCellCount(
 }
 
 /**
+ * Returns an array of bionetworks with null values and non-bionetworks filtered out.
+ * @param responseValues - an array containing bionetworks and null values
+ * @returns a filtered array containing only bionetworks
+ */
+export function filterBioNetworks(
+  responseValues: (NetworkKey | null)[]
+): NetworkKey[] {
+  return responseValues.filter(isBioNetwork);
+}
+
+/**
  * Returns age and age unit object values.
  * @param donorOrganisms - Donor organisms.
  * @returns age and age unit values.
@@ -1648,24 +1658,6 @@ function getAnalysisPortalsKeyValuePairs(
     }
   }
   return keyValuePairs;
-}
-
-/**
- * Attempts to return the bio network with the given key.
- * @param key - Bio network key.
- * @returns bio network, or undefined if not found.
- */
-export function getBioNetworkByKey(key: NetworkKey): Network | undefined {
-  return NETWORKS.find((network) => network.key === key);
-}
-
-/**
- * Returns the bio network name, without the suffix "Network".
- * @param name - Bio network name.
- * @returns name of the bio network.
- */
-export function getBioNetworkName(name: string): string {
-  return name.replace(/(\sNetwork.*)/gi, "");
 }
 
 /**
@@ -2220,6 +2212,15 @@ function isAccessibleTransitionIn(projectsResponse: ProjectsResponse): boolean {
   const isAccessible = isProjectAccessible(projectsResponse);
   const isReady = isResponseReady(projectsResponse);
   return isAccessible || isReady;
+}
+
+/**
+ * Returns true if the given value is a bionetwork, otherwise returns false.
+ * @param value - a value that may or may not be a bionetwork
+ * @returns a boolean indicating whether the value is a bionetwork
+ */
+export function isBioNetwork(value: unknown): value is NetworkKey {
+  return NETWORK_KEYS.includes(value as NetworkKey);
 }
 
 /**

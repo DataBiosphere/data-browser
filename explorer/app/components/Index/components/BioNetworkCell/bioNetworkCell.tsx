@@ -1,19 +1,15 @@
+import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { TypographyProps } from "@databiosphere/findable-ui/lib/components/common/Typography/common/entities";
-import { processNullElements } from "app/apis/azul/common/utils";
-import * as C from "../../../../components";
-import {
-  getBioNetworkByKey,
-  getBioNetworkName,
-} from "../../../../viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { NTagCell } from "../../../../components/index";
 import { NetworkIcon } from "../../../common/NetworkIcon/networkIcon";
 import { NetworkKey } from "../../common/entities";
-import { Cell } from "./bioNetworkCell.styles";
+import { Cell, Network } from "./bioNetworkCell.styles";
 
 const MAX_DISPLAYABLE_VALUES = 1;
 
 export interface BioNetworkCellProps {
   label: string;
-  networkKeys: (NetworkKey | null)[];
+  networkKeys: NetworkKey[];
   TypographyProps?: TypographyProps;
 }
 
@@ -22,30 +18,26 @@ export const BioNetworkCell = ({
   networkKeys,
   TypographyProps,
 }: BioNetworkCellProps): JSX.Element => {
-  const showNTag = networkKeys?.length > MAX_DISPLAYABLE_VALUES;
-  const names = processNullElements(
-    networkKeys.map((networkKey) =>
-      networkKey === null ? null : getBioNetworkByKey(networkKey)?.key ?? null
-    )
-  );
+  const showNTag = networkKeys.length > MAX_DISPLAYABLE_VALUES;
+  if (networkKeys.length === 0) {
+    return <span>{LABEL.UNSPECIFIED}</span>;
+  }
   return (
     <>
       {showNTag ? (
-        <C.NTagCell
+        <NTagCell
           label={label}
           TypographyProps={TypographyProps}
-          values={names}
+          values={networkKeys}
         />
       ) : (
-        <Cell component="div" {...TypographyProps}>
-          {networkKeys[0] === null ? (
-            <C.BasicCell TypographyProps={TypographyProps} />
-          ) : (
-            <>
-              <NetworkIcon networkKey={networkKeys[0]} />
-              <div>{getBioNetworkName(networkKeys[0])}</div>
-            </>
-          )}
+        <Cell>
+          {networkKeys.map((networkKey) => (
+            <Network component="div" key={networkKey} {...TypographyProps}>
+              <NetworkIcon networkKey={networkKey} />
+              <div>{networkKey}</div>
+            </Network>
+          ))}
         </Cell>
       )}
     </>
