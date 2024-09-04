@@ -632,7 +632,6 @@ export async function testExportBackpage(
   }
   // Click the Export Request button
   await expect(exportRequestButtonLocator).toBeEnabled({ timeout: 10000 });
-  /*
   await exportRequestButtonLocator.click();
   await expect(
     page.getByText(tab.backpageExportButtons.firstLoadingMessage, {
@@ -656,7 +655,6 @@ export async function testExportBackpage(
   await expect(
     newPage.getByText(tab.backpageExportButtons?.newTabMessage)
   ).toBeVisible();
-  */
 }
 
 /**
