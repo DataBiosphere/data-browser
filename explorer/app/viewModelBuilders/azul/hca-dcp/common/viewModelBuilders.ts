@@ -50,8 +50,6 @@ import {
   FadeProps as MFadeProps,
 } from "@mui/material";
 import { ColumnDef } from "@tanstack/react-table";
-import { NETWORKS } from "app/components/Index/common/constants";
-import { BioNetworkCell } from "app/components/Index/components/BioNetworkCell/bioNetworkCell";
 import React, { ElementType, Fragment, ReactElement } from "react";
 import {
   HCA_DCP_CATEGORY_KEY,
@@ -81,9 +79,9 @@ import {
 } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/hca-dcp";
+import { NETWORK_KEYS } from "../../../../components/Index/common/constants";
 import {
   METADATA_KEY,
-  Network,
   NetworkKey,
 } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
@@ -544,17 +542,18 @@ export const buildBatchCorrectionWarning = (): React.ComponentProps<
 };
 
 /**
- * Build props for the biological network cell component.
+ * Build props for bio network cell component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns Props to be used for the cell.
+ * @returns model to be used as props for the BioNetworkCell component.
  */
 export const buildBioNetwork = (
   projectsResponse: ProjectsResponse
-): React.ComponentProps<typeof BioNetworkCell> => {
+): React.ComponentProps<typeof C.BioNetworkCell> => {
   const project = getProjectResponse(projectsResponse);
+  const networkKeys = filterBioNetworks(project.bionetworkName);
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.BIONETWORK_NAME),
-    networkKeys: project.bionetworkName,
+    networkKeys,
   };
 };
 
@@ -1501,6 +1500,15 @@ function processDonorOrganismAge(
 }
 
 /**
+ * Filters valid bio networks.
+ * @param keys - Bio network keys.
+ * @returns filtered bio networks.
+ */
+export function filterBioNetworks(keys: (NetworkKey | null)[]): NetworkKey[] {
+  return keys.filter(isNetworkKey);
+}
+
+/**
  * Returns aggregated date formatted into "yyyy-MM-dd HH:mm 'GMT'" format.
  * @param dateString - Aggregated date string.
  * @returns formatted date.
@@ -1648,24 +1656,6 @@ function getAnalysisPortalsKeyValuePairs(
     }
   }
   return keyValuePairs;
-}
-
-/**
- * Attempts to return the bio network with the given key.
- * @param key - Bio network key.
- * @returns bio network, or undefined if not found.
- */
-export function getBioNetworkByKey(key: NetworkKey): Network | undefined {
-  return NETWORKS.find((network) => network.key === key);
-}
-
-/**
- * Returns the bio network name, without the suffix "Network".
- * @param name - Bio network name.
- * @returns name of the bio network.
- */
-export function getBioNetworkName(name: string): string {
-  return name.replace(/(\sNetwork.*)/gi, "");
 }
 
 /**
@@ -2233,6 +2223,15 @@ function isFileManifestAccessible(
   const { filesFacets } = fileManifestState;
   const fileFacet = findFacet(filesFacets, "accessible");
   return fileFacet?.termsByName.has("true") ?? false;
+}
+
+/**
+ * Type guard to check if given value is NetworkKey.
+ * @param value - Value.
+ * @returns true if value is NetworkKey.
+ */
+function isNetworkKey(value: unknown): value is NetworkKey {
+  return NETWORK_KEYS.includes(value as NetworkKey);
 }
 
 /**

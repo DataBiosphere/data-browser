@@ -1,5 +1,5 @@
 import { AzulSummaryResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import { METADATA_KEY, Network, NetworkKey, SUMMARY } from "./entities";
+import { METADATA_KEY, NetworkKey, SUMMARY } from "./entities";
 import {
   calculateSummaryFileFormatsCount,
   calculateSummaryTotalCellCount,
@@ -92,81 +92,6 @@ export const NETWORK_KEYS = [
   "Reproduction",
   "Skin",
 ] as const;
-
-export const NETWORKS: Network[] = [
-  {
-    key: "Adipose",
-    name: "Adipose Network",
-  },
-  {
-    key: "Breast",
-    name: "Breast Network",
-  },
-  {
-    key: "Development",
-    name: "Development Network",
-  },
-  {
-    key: "Eye",
-    name: "Eye Network",
-  },
-  {
-    key: "Genetic-diversity",
-    name: "Genetic Diversity Network",
-  },
-  {
-    key: "Gut",
-    name: "Gut Network",
-  },
-  {
-    key: "Heart",
-    name: "Heart Network",
-  },
-  {
-    key: "Immune",
-    name: "Immune Network",
-  },
-  {
-    key: "Kidney",
-    name: "Kidney Network",
-  },
-  {
-    key: "Liver",
-    name: "Liver Network",
-  },
-  {
-    key: "Lung",
-    name: "Lung Network",
-  },
-  {
-    key: "Musculoskeletal",
-    name: "Musculoskeletal Network",
-  },
-  {
-    key: "Nervous-system",
-    name: "Nervous System Network",
-  },
-  {
-    key: "Oral",
-    name: "Oral and Craniofacial Networks",
-  },
-  {
-    key: "Organoid",
-    name: "Organoid Network",
-  },
-  {
-    key: "Pancreas",
-    name: "Pancreas Network",
-  },
-  {
-    key: "Reproduction",
-    name: "Reproduction Network",
-  },
-  {
-    key: "Skin",
-    name: "Skin Network",
-  },
-];
 
 export const NETWORK_ICONS: { [key in NetworkKey]: string } = {
   Adipose: "/images/icons/hca-bio-networks/adipose.png",

@@ -42,11 +42,6 @@ export enum METADATA_KEY {
   WORKSPACE_NAME = "WORKSPACE_NAME",
 }
 
-export interface Network {
-  key: NetworkKey;
-  name: string;
-}
-
 export type NetworkKey = (typeof NETWORK_KEYS)[number];
 
 /**
