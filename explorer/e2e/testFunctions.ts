@@ -355,15 +355,6 @@ export async function testPreSelectedColumns(
 }
 
 /**
- * Returns a string with special characters escaped
- * @param string - the string to escape
- * @returns - a string with special characters escaped
- */
-export function escapeRegExp(string: string): string {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-/**
  * Returns a regex that matches the sidebar filter buttons
  * This is useful for selecting a filter from the sidebar
  * @param filterName - the name of the filter to match
@@ -409,6 +400,8 @@ export const getNamedFilterOptionLocator = (
   page: Page,
   filterOptionName: string
 ): Locator => {
+  // The Regex matches a filter name with a number after it, with potential whitespace before and after the number.
+  // This matches how the innerText in the filter options menu appears to Playwright.
   return page.getByRole("button").filter({
     has: page.getByRole("checkbox"),
     hasText: RegExp(`^${escapeRegExp(filterOptionName)}\\s*\\d+\\s*`),
@@ -428,12 +421,14 @@ export const getFirstFilterOptionLocator = (page: Page): Locator => {
 };
 
 export const getFilterOptionName = async (
-  page: Page,
   firstFilterOptionLocator: Locator
 ): Promise<string> => {
+  console.log(await firstFilterOptionLocator.innerText());
+  // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we split on newlines and take the first non-empty string
   return (
     (await firstFilterOptionLocator.innerText())
       .split("\n")
+      .map((x) => x.trim())
       .find((x) => x.length > 0) ?? ""
   );
 };
@@ -555,6 +550,8 @@ export async function testFilterCounts(
   return true;
 }
 
+const FILTER_CSS_SELECTOR = "#sidebar-positioner";
+
 /**
  * Get a locator for a named filter tag
  * @param page - a Playwright page object
@@ -563,7 +560,7 @@ export async function testFilterCounts(
  */
 const getFilterTagLocator = (page: Page, filterTagName: string): Locator => {
   return page
-    .locator("#sidebar-positioner")
+    .locator(FILTER_CSS_SELECTOR)
     .getByText(filterTagName, { exact: true });
 };
 
@@ -633,16 +630,14 @@ export async function testClearAll(
       getFirstFilterOptionLocator(page).getByRole("checkbox")
     ).toBeChecked();
     selectedFilterNamesList.push(
-      await getFilterOptionName(page, getFirstFilterOptionLocator(page))
+      await getFilterOptionName(getFirstFilterOptionLocator(page))
     );
     await page.locator("body").click();
   }
   // Click the "Clear All" button
   await page.getByText("Clear All").dispatchEvent("click");
   for (const filterName of selectedFilterNamesList) {
-    await expect(
-      page.locator("#sidebar-positioner").getByText(filterName)
-    ).toHaveCount(0);
+    await expect(page.getByText(filterRegex(filterName))).toHaveCount(0);
   }
   // Ensure that the filters still show as unchecked
   for (let i = 0; i < filterNames.length; i++) {
@@ -655,6 +650,17 @@ export async function testClearAll(
     await page.locator("body").click();
   }
 }
+
+/**
+ * Escape a string so it can safely be used in a regexp
+ * @param string - the string to escape
+ * @returns - A string that has all Regexp special characters escaped
+ */
+function escapeRegExp(string: string): string {
+  // Searches for regex special characters and adds backslashes in front of them to escape
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 /**
  * Run a test that gets the first filter option of each of the filters specified in
  * filterNames, then attempts to select each through the filter search bar.
@@ -674,7 +680,6 @@ export async function testSelectFiltersThroughSearchBar(
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     const filterOptionName = await getFilterOptionName(
-      page,
       firstFilterOptionLocator
     );
     await page.locator("body").click();
@@ -714,7 +719,6 @@ export async function testDeselectFiltersThroughSearchBar(
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     const filterOptionName = await getFilterOptionName(
-      page,
       firstFilterOptionLocator
     );
     await firstFilterOptionLocator.click();
