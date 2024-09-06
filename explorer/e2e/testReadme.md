@@ -72,16 +72,16 @@ through the actions taken as part of the test and view the impact on the web pag
   - All tests rely on correct lists of tabs, columns, and filters in `anvil-tabs.ts`
 - Backpages (`anvil-backpages.spec.ts`)
   - Test the export process on the "Datasets" tab
-    - Selects the first dataset that does not have access control enabled and go to the export tab on its backpage. Then, selects one filter checkbox for each category, then finally selects the "Export to Terra" button
-    - Checks that buttons, text, and loading text appears as expected, and that a new tab appears when the "Export to Terra" button is pressed
+    - Selects the first dataset that does not have access control enabled and goes to the export tab on its backpage. Then, selects one filter checkbox for each category, then finally selects the "Export to Terra" button
+    - Checks that buttons, text, and loading text appear as expected, and that a new tab appears when the "Export to Terra" button is pressed
     - Relevant text constants are stored in `anvil-tabs.ts`
     - Currently disabled as the export button is disabled
   - Test that access control works properly on the "Datasets" tab
-    - Selects a non-access-controlled tab and check that text associated with access being granted is present, then repeats for an access-controlled tab
+    - Selects a non-access-controlled tab and checks that text associated with access being granted is present, then repeats for an access-controlled tab
     - Relevant text constants are stored in `anvil-tabs.ts`
     - Currently disabled as the export button is disabled
-  - Test that data in the sidebar of the "Datasets" tab is the same as the text displayed in the main tab le
-    - Enable all non-preselected columns and read values from all columns in the first row, including n-tag cells. Then select the backpage for the first row and check that all matching columns are reflected
+  - Test that data in the sidebar of the "Datasets" tab is the same as the text displayed in the main table
+    - Enables all non-preselected columns and read values from all columns in the first row, including n-tag cells. Then selects the backpage for the first row and checks that all matching columns are reflected
     - Requires a list of the values in the sidebar to be present in `anvil-tabs.ts` and that plural labels are defined there for any columns that include n-tag cells
 
 #### AnVIL-Catalog
