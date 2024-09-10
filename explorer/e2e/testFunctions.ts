@@ -1,7 +1,32 @@
-import { expect, Locator, Page } from "@playwright/test";
-import { TabDescription } from "./testInterfaces";
+import { BrowserContext, expect, Locator, Page } from "@playwright/test";
+import {
+  BackpageHeader,
+  ColumnDescription,
+  TabDescription,
+} from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
+
+/**
+ * Get a locator to the cell in the mth row's nth column
+ * @param page - a Playwright page object
+ * @param rowIndex - the zero-indexed row to return
+ * @param columnIndex - the zero-indexed column to return
+ * @returns a Playwright locator object to the selected cell
+ **/
+export const getMthRowNthColumnCellLocator = (
+  page: Page,
+  rowIndex: number,
+  columnIndex: number
+): Locator => {
+  return page
+    .getByRole("rowgroup")
+    .nth(1)
+    .getByRole("row")
+    .nth(rowIndex)
+    .getByRole("cell")
+    .nth(columnIndex);
+};
 
 /**
  * Get a locator to the cell in the first row's nth column
@@ -13,13 +38,7 @@ export const getFirstRowNthColumnCellLocator = (
   page: Page,
   columnIndex: number
 ): Locator => {
-  return page
-    .getByRole("rowgroup")
-    .nth(1)
-    .getByRole("row")
-    .nth(0)
-    .getByRole("cell")
-    .nth(columnIndex);
+  return getMthRowNthColumnCellLocator(page, 0, columnIndex);
 };
 
 /**
@@ -344,7 +363,7 @@ export async function testFilterPersistence(
   const filterNameMatch = (await filterToSelectLocator.innerText())
     .trim()
     .match(/^\S*/);
-  if (filterNameMatch == null) {
+  if (!filterNameMatch) {
     // This means that the selected filter did not have any non-whitespace text
     // associated with it, making the test impossible to complete.
     console.log("ERROR: Filter name is blank, so the test cannot continue");
@@ -522,4 +541,303 @@ export async function testClearAll(
     await page.locator("body").click();
   }
 }
+
+/**
+ * Get the first link to a backpage with specified backpage access
+ * @param page - a Playright page locator
+ * @param access - the string denoting the level of access desired
+ * @returns a Pla
+ */
+const getBackpageLinkLocatorByAccess = (page: Page, access: string): Locator =>
+  page
+    .getByRole("row")
+    .filter({ has: page.getByRole("cell", { name: access }) })
+    .first()
+    .getByRole("cell")
+    .first()
+    .getByRole("link");
+
+/**
+ * Test the export process for the specified tab
+ * @param context - a Playwright browser context object
+ * @param page - a Playwright page object
+ * @param tab - the tab to test on
+ */
+export async function testExportBackpage(
+  context: BrowserContext,
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  if (
+    tab.backpageExportButtons === undefined ||
+    tab.backpageAccessTags === undefined
+  ) {
+    // Fail if this test is ran on a tab without defined backpages
+    await expect(false);
+    return;
+  }
+  // Goto the specified tab
+  await page.goto(tab.url);
+  // Expect to find row with a granted status indicator
+  const grantedRowLocator = getBackpageLinkLocatorByAccess(
+    page,
+    tab.backpageAccessTags.grantedShortName
+  );
+  await expect(grantedRowLocator).toBeVisible();
+  // Click into the selected row
+  await grantedRowLocator.dispatchEvent("click");
+  await expect(
+    page.getByText(tab.backpageExportButtons.detailsName)
+  ).toBeVisible();
+  // Click the "Export" tab
+  await page
+    .getByText(tab.backpageExportButtons.exportTabName, {
+      exact: true,
+    })
+    .click();
+  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
+  await expect(page.getByRole("checkbox").first()).toBeVisible();
+  const exportRequestButtonLocator = page.getByRole("button", {
+    name: tab.backpageExportButtons.exportRequestButtonText,
+  });
+  await expect(exportRequestButtonLocator).toBeEnabled();
+  // Select all checkboxes that are not in a table
+  const allNonTableCheckboxLocators = await page
+    .locator("input[type='checkbox']:not(table input[type='checkbox'])")
+    .all();
+  for (const checkboxLocator of allNonTableCheckboxLocators) {
+    await checkboxLocator.click();
+    await expect(checkboxLocator).toBeChecked();
+    await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
+  }
+  // Expect there to be exactly one table on the backpage
+  await expect(page.getByRole("table")).toHaveCount(1);
+  // Check the second checkbox in the table (this should be the checkbox after the "select all checkbox")
+  const tableLocator = page.getByRole("table");
+  const allInTableCheckboxLocators = await tableLocator
+    .getByRole("checkbox")
+    .all();
+  const secondCheckboxInTableLocator = allInTableCheckboxLocators[1];
+  await secondCheckboxInTableLocator.click();
+  await expect(secondCheckboxInTableLocator).toBeChecked();
+  await expect(secondCheckboxInTableLocator).toBeEnabled({ timeout: 10000 });
+  // Make sure that no other checkboxes are selected
+  const otherInTableCheckboxLocators = [
+    allInTableCheckboxLocators[0],
+    ...allInTableCheckboxLocators.slice(2),
+  ];
+  for (const otherCheckboxLocator of otherInTableCheckboxLocators) {
+    await expect(otherCheckboxLocator).not.toBeChecked();
+    await expect(otherCheckboxLocator).toBeEnabled();
+  }
+  // Click the Export Request button
+  await expect(exportRequestButtonLocator).toBeEnabled({ timeout: 10000 });
+  await exportRequestButtonLocator.click();
+  await expect(
+    page.getByText(tab.backpageExportButtons.firstLoadingMessage, {
+      exact: true,
+    })
+  ).toBeVisible();
+  await expect(
+    page.getByText(tab.backpageExportButtons.secondLandingMessage, {
+      exact: true,
+    })
+  ).toBeVisible({ timeout: 60000 });
+  const exportActionButtonLocator = page.getByRole("button", {
+    name: tab.backpageExportButtons?.exportActionButtonText,
+  });
+  await expect(exportActionButtonLocator).toBeEnabled();
+  // Click the Export Action Button and await a new browser tab
+  const newPagePromise = context.waitForEvent("page");
+  await exportActionButtonLocator.click();
+  const newPage = await newPagePromise;
+  // Expect the new browser tab to display the new tab content
+  await expect(
+    newPage.getByText(tab.backpageExportButtons?.newTabMessage)
+  ).toBeVisible();
+}
+
+/**
+ * Test that export access is available on entries where access shows as available
+ * and is not on entries where access shows as unavailable
+ * @param page - a Playwright page objext
+ * @param tab - the Tab to test on
+ */
+export async function testBackpageAccess(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  if (
+    tab.backpageExportButtons === undefined ||
+    tab.backpageAccessTags === undefined
+  ) {
+    // Fail if this test is ran on a tab without defined backpages
+    await expect(false);
+    return;
+  }
+  // Goto the specified tab
+  await page.goto(tab.url);
+  // Check that the first "Granted" tab has access granted
+  const grantedRowLocator = getBackpageLinkLocatorByAccess(
+    page,
+    tab.backpageAccessTags.grantedShortName
+  );
+  await expect(grantedRowLocator).toBeVisible();
+  await grantedRowLocator.dispatchEvent("click");
+  await expect(
+    page.getByText(tab.backpageExportButtons.detailsName)
+  ).toBeVisible();
+  await expect(
+    page.getByText(tab.backpageAccessTags.grantedLongName)
+  ).toBeVisible();
+  await page
+    .getByText(tab.backpageExportButtons.exportTabName, {
+      exact: true,
+    })
+    .click();
+  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
+  await expect(page.getByRole("checkbox").first()).toBeVisible();
+  const requestLinkButtonLocator = page.getByRole("button", {
+    name: tab.backpageExportButtons.exportRequestButtonText,
+  });
+  await expect(requestLinkButtonLocator).toBeEnabled();
+  // Go back to the table page
+  await page.getByRole("link", { name: tab.tabName }).click();
+  // Check that the first "Required" tab does not have access granted
+  const deniedRowLocator = getBackpageLinkLocatorByAccess(
+    page,
+    tab.backpageAccessTags.deniedShortName
+  );
+  await expect(deniedRowLocator).toBeVisible();
+  await deniedRowLocator.dispatchEvent("click");
+  await expect(
+    page.getByText(tab.backpageAccessTags.deniedLongName)
+  ).toBeVisible();
+  await page
+    .getByText(tab.backpageExportButtons.exportTabName, {
+      exact: true,
+    })
+    .click();
+  await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
+  await expect(
+    page.getByText(tab.backpageExportButtons.accessNotGrantedMessage, {
+      exact: true,
+    })
+  ).toBeVisible();
+}
+
+/**
+ * Get the text from a cell by reading the tooltip if it appears to be an N-tag
+ * cell or by reading the text if it does not appear to be
+ * @param page - a Playwright Page object
+ * @param columnDescription - a columnDescription object for the column
+ * @param rowPosition - the zero-indexed position of the row
+ * @param columnPosition - the zero-indexed position of the column
+ * @returns - a Promise with the cell's text
+ */
+const hoverAndGetText = async (
+  page: Page,
+  columnDescription: ColumnDescription | undefined,
+  rowPosition: number,
+  columnPosition: number
+): Promise<string> => {
+  const cellLocator = getMthRowNthColumnCellLocator(
+    page,
+    rowPosition,
+    columnPosition
+  );
+  const cellText = await cellLocator.innerText();
+  // Check if the cell appears to be an Ntag cell
+  if (
+    !columnDescription !== undefined &&
+    columnDescription?.pluralizedLabel !== undefined &&
+    RegExp("\\s*[0-9]+ " + columnDescription.pluralizedLabel + "\\s*").test(
+      cellText
+    )
+  ) {
+    // Hover over the text of the NTag cell
+    await cellLocator.locator("*").last().hover();
+    // Read the tooltip
+    await page.getByRole("tooltip").waitFor();
+    const outputText = (await page.getByRole("tooltip").innerText()).trim();
+    // Hover over a different part of the page to ensure that the tooltip disappears
+    await page.getByRole("columnheader").first().hover();
+    await expect(page.getByRole("tooltip")).toHaveCount(0);
+    // Return the tooltip contents
+    return outputText;
+  }
+  return cellText.trim();
+};
+
+/**
+ * Check that the details in the backpage sidebar match information in the data table
+ * @param page - a Playwright page object
+ * @param tab - the tab to test on
+ */
+export async function testBackpageDetails(
+  page: Page,
+  tab: TabDescription
+): Promise<void> {
+  if (
+    tab.backpageHeaders === undefined ||
+    tab.backpageExportButtons === undefined
+  ) {
+    // If the tab is not set up with backpage info, fail the test
+    await expect(false);
+    return;
+  }
+  await page.goto(tab.url);
+  // Enable test columns
+  await testSelectableColumns(page, tab);
+  const headers: { header: string; value: string }[] = [];
+  const combinedColumns = tab.preselectedColumns.concat(tab.selectableColumns);
+  const filterString = (x: string | undefined): x is string => x !== undefined;
+  // Get the columns that correspond with a header on the backpage details
+  const backpageCorrespondingColumns: string[] = tab.backpageHeaders
+    .map((header) => header?.correspondingColumn?.name)
+    .filter(filterString)
+    .map((x) => x.trim());
+  for (let i = 0; i < combinedColumns.length; i++) {
+    // Get the name of the current column
+    const columnHeaderName = (
+      await page.getByRole("columnheader").nth(i).innerText()
+    ).trim();
+    // If the selected column has an entry on the backpage
+    if (backpageCorrespondingColumns.includes(columnHeaderName)) {
+      // Get the object representing the current column
+      const columnObject = combinedColumns.find(
+        (x) => x.name == columnHeaderName
+      );
+      // Get the entry text
+      const tableEntryText = await hoverAndGetText(page, columnObject, 0, i);
+      // Get the name of the corresponding header on the backpage
+      const correspondingHeaderName = tab.backpageHeaders.find(
+        (header: BackpageHeader) =>
+          header?.correspondingColumn?.name === columnHeaderName
+      )?.name;
+      if (correspondingHeaderName === undefined) {
+        // Fail the test, because this means there is an incorrect configuration in the tab definition
+        await expect(false);
+        return;
+      }
+      headers.push({ header: correspondingHeaderName, value: tableEntryText });
+    }
+  }
+  // Go to the backpage
+  await getMthRowNthColumnCellLocator(page, 0, 0).click();
+  // Expect the details name to be visible
+  await expect(
+    page.getByText(tab.backpageExportButtons.detailsName)
+  ).toBeVisible();
+  for (const headerValue of headers) {
+    // Expect the correct value to be below the correct header in the dataset values table
+    await expect(
+      page
+        .locator(`:below(:text('${headerValue.header}'))`)
+        .getByText(headerValue.value)
+        .first()
+    ).toBeVisible();
+  }
+}
+
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/

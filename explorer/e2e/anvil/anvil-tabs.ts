@@ -4,6 +4,11 @@ import {
   TabCollectionKeys,
   TabDescription,
 } from "../testInterfaces";
+import {
+  ANVIL_COLUMN_NAMES,
+  ANVIL_DATASETS_BACKPAGE_HEADER_NAMES,
+  ANVIL_PLURALIZED_METADATA_LABELS,
+} from "./constants";
 
 export const anvilFilterNames: string[] = [
   "Anatomical Site",
@@ -30,22 +35,44 @@ export const ORGANISM_TYPE_INDEX = 8;
 export const PHENOTYPIC_SEX_INDEX = 9;
 export const REPORTED_ETHNICITY_INDEX = 10;
 
+const anvilDatasetsPreselectedColumns = [
+  { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
+  { name: ANVIL_COLUMN_NAMES.ACCESS, sortable: false },
+  { name: ANVIL_COLUMN_NAMES.IDENTIFIER, sortable: true },
+  { name: ANVIL_COLUMN_NAMES.CONSENT_GROUP, sortable: true },
+  { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
+  { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
+  { name: ANVIL_COLUMN_NAMES.DATA_MODALITY, sortable: true },
+];
+const anvilDatasetsSelectableColumns = [
+  {
+    name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX,
+    pluralizedLabel: ANVIL_PLURALIZED_METADATA_LABELS.PHENOTYPIC_SEX,
+    sortable: true,
+  },
+  {
+    name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY,
+    pluralizedLabel: ANVIL_PLURALIZED_METADATA_LABELS.PHENOTYPIC_SEX,
+    sortable: true,
+  },
+];
+
 export const anvilTabs: AnvilCMGTabCollection = {
   activities: {
     emptyFirstColumn: false,
     maxPages: 25,
     preselectedColumns: [
-      { name: "Document Id", sortable: true },
-      { name: "Activity Type", sortable: true },
-      { name: "Data Modality", sortable: true },
-      { name: "BioSample Type", sortable: true },
-      { name: "Organism Type", sortable: true },
-      { name: "Dataset", sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DOCUMENT_ID, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.ACTIVITY_TYPE, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DATA_MODALITY, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.BIOSAMPLE_TYPE, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
     ],
     selectableColumns: [
-      { name: "Phenotypic Sex", sortable: true },
-      { name: "Reported Ethnicity", sortable: true },
-      { name: "Diagnosis", sortable: true },
+      { name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
     ],
     tabName: "Activities",
     url: "/activities",
@@ -54,36 +81,81 @@ export const anvilTabs: AnvilCMGTabCollection = {
     emptyFirstColumn: false,
     maxPages: 25,
     preselectedColumns: [
-      { name: "BioSample Id", sortable: true },
-      { name: "Anatomical Site", sortable: true },
-      { name: "BioSample Type", sortable: true },
-      { name: "Organism Type", sortable: true },
-      { name: "Diagnosis", sortable: true },
-      { name: "Dataset", sortable: true },
+      { name: ANVIL_COLUMN_NAMES.BIOSAMPLE_ID, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.ANATOMICAL_SITE, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.BIOSAMPLE_TYPE, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
     ],
     selectableColumns: [
-      { name: "Phenotypic Sex", sortable: true },
-      { name: "Reported Ethnicity", sortable: true },
+      {
+        name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX,
+        pluralizedLabel: ANVIL_PLURALIZED_METADATA_LABELS.PHENOTYPIC_SEX,
+        sortable: true,
+      },
+      {
+        name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY,
+        pluralizedLabel: ANVIL_PLURALIZED_METADATA_LABELS.REPORTED_ETHNICITIES,
+        sortable: true,
+      },
     ],
     tabName: "BioSamples",
     url: "/biosamples",
   },
   datasets: {
+    backpageAccessTags: {
+      deniedLongName: "Access Required",
+      deniedShortName: "Required",
+      grantedLongName: "Access Granted",
+      grantedShortName: "Granted",
+    },
+    backpageExportButtons: {
+      accessNotGrantedMessage:
+        "To export this dataset, please sign in and, if necessary, request access.",
+      detailsName: "Dataset Details",
+      exportActionButtonText: "Open Terra",
+      exportRequestButtonText: "Request Link",
+      exportTabName: "Export",
+      exportUrlRegExp: /\.*\/export-to-terra/,
+      firstLoadingMessage: "Your link will be ready shortly...",
+      newTabMessage:
+        "If you are a new user or returning user, click sign in to continue.",
+      secondLandingMessage: "Your Terra Workspace Link is Ready",
+    },
+    backpageHeaders: [
+      {
+        name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.DATASET_ID,
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[3],
+        name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.CONSENT_GROUP,
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[4],
+        name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.ORGANISM_TYPE,
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[5],
+        name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.DIAGNOSIS,
+      },
+      {
+        correspondingColumn: anvilDatasetsPreselectedColumns[6],
+        name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.DATA_MODALITY,
+      },
+      {
+        correspondingColumn: anvilDatasetsSelectableColumns[0],
+        name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.PHENOTYPIC_SEX,
+      },
+      {
+        correspondingColumn: anvilDatasetsSelectableColumns[1],
+        name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.REPORTED_ETHNICITY,
+      },
+    ],
     emptyFirstColumn: false,
     maxPages: 25,
-    preselectedColumns: [
-      { name: "Dataset", sortable: true },
-      { name: "Access", sortable: false },
-      { name: "Identifier", sortable: true },
-      { name: "Consent Group", sortable: true },
-      { name: "Organism Type", sortable: true },
-      { name: "Diagnosis", sortable: true },
-      { name: "Data Modality", sortable: true },
-    ],
-    selectableColumns: [
-      { name: "Phenotypic Sex", sortable: true },
-      { name: "Reported Ethnicity", sortable: true },
-    ],
+    preselectedColumns: anvilDatasetsPreselectedColumns,
+    selectableColumns: anvilDatasetsSelectableColumns,
     tabName: "Datasets",
     url: "/datasets",
   },
@@ -91,12 +163,12 @@ export const anvilTabs: AnvilCMGTabCollection = {
     emptyFirstColumn: false,
     maxPages: 25,
     preselectedColumns: [
-      { name: "Donor Id", sortable: true },
-      { name: "Organism Type", sortable: true },
-      { name: "Phenotypic Sex", sortable: true },
-      { name: "Reported Ethnicity", sortable: true },
-      { name: "Diagnosis", sortable: true },
-      { name: "Dataset", sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DONOR_ID, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
     ],
     selectableColumns: [],
     tabName: "Donors",
@@ -106,18 +178,18 @@ export const anvilTabs: AnvilCMGTabCollection = {
     emptyFirstColumn: true,
     maxPages: 25,
     preselectedColumns: [
-      { name: "Name", sortable: true },
-      { name: "File Format", sortable: true },
-      { name: "Size", sortable: true },
-      { name: "DRS URI", sortable: false },
-      { name: "Data Modality", sortable: true },
-      { name: "Organism Type", sortable: true },
-      { name: "Dataset", sortable: true },
+      { name: ANVIL_COLUMN_NAMES.NAME, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.FILE_FORMAT, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.SIZE, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DRS_URI, sortable: false },
+      { name: ANVIL_COLUMN_NAMES.DATA_MODALITY, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
     ],
     selectableColumns: [
-      { name: "Phenotypic Sex", sortable: true },
-      { name: "Reported Ethnicity", sortable: true },
-      { name: "Diagnosis", sortable: true },
+      { name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY, sortable: true },
+      { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
     ],
     tabName: "Files",
     url: "/files",

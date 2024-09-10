@@ -14,7 +14,7 @@ test("Expect clicking the studies tab to go to the correct url and to show all o
   page,
 }) => {
   const tab = anvilcatalogTabs.studies;
-  await page.goto(anvilcatalogTabs.consortia.url);
+  await page.goto(anvilcatalogTabs.workspaces.url);
   await testTab(page, tab);
 });
 
@@ -22,6 +22,6 @@ test("Expect clicking the workspaces tab to go to the correct url and to show al
   page,
 }) => {
   const tab = anvilcatalogTabs.workspaces;
-  await page.goto(anvilcatalogTabs.workspaces.url);
+  await page.goto(anvilcatalogTabs.consortia.url);
   await testTab(page, tab);
 });

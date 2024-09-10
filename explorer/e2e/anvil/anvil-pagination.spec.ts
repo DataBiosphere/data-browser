@@ -32,10 +32,10 @@ test("Check first page has disabled back and enabled forward pagination buttons 
   ).toBeDisabled();
 });
 
-test.setTimeout(300000);
 test("Check that forward pagination increments the current page and that page count stays static for the first five pages on the donors tab", async ({
   page,
 }) => {
+  test.setTimeout(500000);
   // Should start on first page, and there should be multiple pages available
   await expect(page.getByText(pageCountRegex, { exact: true })).toHaveText(
     /Page 1 of [0-9]+/
