@@ -1,59 +1,33 @@
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 import { AnvilCatalogTabCollection, TabDescription } from "../testInterfaces";
+import {
+  ANVIL_CATALOG_CONSORTIA_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_CATALOG_CONSORTIA_SELECTABLE_COLUMNS_BY_NAME,
+  ANVIL_CATALOG_STUDIES_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_CATALOG_STUDIES_SELECTABLE_COLUMNS_BY_NAME,
+  ANVIL_CATALOG_WORKSPACES_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_CATALOG_WORKSPACES_SELECTABLE_COLUMNS_BY_NAME,
+} from "./constants";
 
 export const ANVIL_CATALOG_TABS: AnvilCatalogTabCollection = {
   CONSORTIA: {
     emptyFirstColumn: false,
-    preselectedColumns: [
-      { name: "Consortium", sortable: true },
-      { name: "dbGap Id", sortable: true },
-      { name: "Consent Codes", sortable: true },
-      { name: "Disease (indication)", sortable: true },
-      { name: "Data Type", sortable: true },
-      { name: "Study Design", sortable: true },
-      { name: "Participants", sortable: true },
-      { name: "Size (TB)", sortable: true },
-    ],
-    selectableColumns: [
-      { name: "Study", sortable: true },
-      { name: "Workspaces", sortable: true },
-    ],
+    preselectedColumns: ANVIL_CATALOG_CONSORTIA_PRESELECTED_COLUMNS_BY_NAME,
+    selectableColumns: ANVIL_CATALOG_CONSORTIA_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Consortia",
     url: "/data/consortia",
   },
   STUDIES: {
     emptyFirstColumn: false,
-    preselectedColumns: [
-      { name: "Study", sortable: true },
-      { name: "dbGap Id", sortable: true },
-      { name: "Consortium", sortable: true },
-      { name: "Consent Codes", sortable: true },
-      { name: "Disease (indication)", sortable: true },
-      { name: "Data Type", sortable: true },
-      { name: "Study Design", sortable: true },
-      { name: "Workspaces", sortable: true },
-      { name: "Participants", sortable: true },
-      { name: "Size (TB)", sortable: true },
-    ],
-    selectableColumns: [],
+    preselectedColumns: ANVIL_CATALOG_STUDIES_PRESELECTED_COLUMNS_BY_NAME,
+    selectableColumns: ANVIL_CATALOG_STUDIES_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Studies",
     url: "/data/studies",
   },
   WORKSPACES: {
     emptyFirstColumn: false,
-    preselectedColumns: [
-      { name: "Consortium", sortable: true },
-      { name: "Terra Workspace", sortable: true },
-      { name: "Study", sortable: true },
-      { name: "dbGap Id", sortable: true },
-      { name: "Consent Code", sortable: true },
-      { name: "Disease (indication)", sortable: true },
-      { name: "Data Type", sortable: true },
-      { name: "Study Design", sortable: false },
-      { name: "Participants", sortable: true },
-      { name: "Size (TB)", sortable: true },
-    ],
-    selectableColumns: [],
+    preselectedColumns: ANVIL_CATALOG_WORKSPACES_PRESELECTED_COLUMNS_BY_NAME,
+    selectableColumns: ANVIL_CATALOG_WORKSPACES_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Workspaces",
     url: "/data/workspaces",
   },

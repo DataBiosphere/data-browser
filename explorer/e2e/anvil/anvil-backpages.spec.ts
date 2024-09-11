@@ -25,5 +25,8 @@ test("Check that information on the backpages matches information in the data ta
   page,
 }) => {
   test.setTimeout(120000);
-  await testBackpageDetails(page, ANVIL_TABS.DATASETS);
+  const testResult = await testBackpageDetails(page, ANVIL_TABS.DATASETS);
+  if (!testResult) {
+    test.fail();
+  }
 });

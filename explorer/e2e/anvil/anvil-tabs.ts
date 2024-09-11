@@ -5,9 +5,17 @@ import {
   TabDescription,
 } from "../testInterfaces";
 import {
+  ANVIL_ACTIVITIES_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_ACTIVITIES_SELECTABLE_COLUMNS_BY_NAME,
+  ANVIL_BIOSAMPLES_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_BIOSAMPLES_SELECTABLE_COLUMNS_BY_NAME,
   ANVIL_COLUMN_NAMES,
   ANVIL_DATASETS_BACKPAGE_HEADER_NAMES,
-  ANVIL_PLURALIZED_METADATA_LABELS,
+  ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_DATASETS_SELECTABLE_COLUMNS_BY_NAME,
+  ANVIL_DONORS_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_DONORS_SELECTABLE_COLUMNS_BY_NAME,
+  ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME,
 } from "./constants";
 
 export const ANVIL_FILTER_NAMES: string[] = [
@@ -35,71 +43,20 @@ export const ORGANISM_TYPE_INDEX = 8;
 export const PHENOTYPIC_SEX_INDEX = 9;
 export const REPORTED_ETHNICITY_INDEX = 10;
 
-const ANVIL_DATASETS_PRESELECTED_COLUMNS = [
-  { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
-  { name: ANVIL_COLUMN_NAMES.ACCESS, sortable: false },
-  { name: ANVIL_COLUMN_NAMES.IDENTIFIER, sortable: true },
-  { name: ANVIL_COLUMN_NAMES.CONSENT_GROUP, sortable: true },
-  { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
-  { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
-  { name: ANVIL_COLUMN_NAMES.DATA_MODALITY, sortable: true },
-];
-const ANVIL_DATASETS_SELECTABLE_COLUMNS = [
-  {
-    name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX,
-    pluralizedLabel: ANVIL_PLURALIZED_METADATA_LABELS.PHENOTYPIC_SEX,
-    sortable: true,
-  },
-  {
-    name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY,
-    pluralizedLabel: ANVIL_PLURALIZED_METADATA_LABELS.PHENOTYPIC_SEX,
-    sortable: true,
-  },
-];
-
 export const ANVIL_TABS: AnvilCMGTabCollection = {
   ACTIVITIES: {
     emptyFirstColumn: false,
     maxPages: 25,
-    preselectedColumns: [
-      { name: ANVIL_COLUMN_NAMES.DOCUMENT_ID, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.ACTIVITY_TYPE, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.DATA_MODALITY, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.BIOSAMPLE_TYPE, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
-    ],
-    selectableColumns: [
-      { name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
-    ],
+    preselectedColumns: ANVIL_ACTIVITIES_PRESELECTED_COLUMNS_BY_NAME,
+    selectableColumns: ANVIL_ACTIVITIES_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Activities",
     url: "/activities",
   },
   BIOSAMPLES: {
     emptyFirstColumn: false,
     maxPages: 25,
-    preselectedColumns: [
-      { name: ANVIL_COLUMN_NAMES.BIOSAMPLE_ID, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.ANATOMICAL_SITE, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.BIOSAMPLE_TYPE, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
-    ],
-    selectableColumns: [
-      {
-        name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX,
-        pluralizedLabel: ANVIL_PLURALIZED_METADATA_LABELS.PHENOTYPIC_SEX,
-        sortable: true,
-      },
-      {
-        name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY,
-        pluralizedLabel: ANVIL_PLURALIZED_METADATA_LABELS.REPORTED_ETHNICITIES,
-        sortable: true,
-      },
-    ],
+    preselectedColumns: ANVIL_BIOSAMPLES_PRESELECTED_COLUMNS_BY_NAME,
+    selectableColumns: ANVIL_BIOSAMPLES_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "BioSamples",
     url: "/biosamples",
   },
@@ -128,69 +85,68 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
         name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.DATASET_ID,
       },
       {
-        correspondingColumn: ANVIL_DATASETS_PRESELECTED_COLUMNS[3],
+        correspondingColumn:
+          ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME[
+            ANVIL_COLUMN_NAMES.DATASET
+          ],
         name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.CONSENT_GROUP,
       },
       {
-        correspondingColumn: ANVIL_DATASETS_PRESELECTED_COLUMNS[4],
+        correspondingColumn:
+          ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME[
+            ANVIL_COLUMN_NAMES.ORGANISM_TYPE
+          ],
         name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.ORGANISM_TYPE,
       },
       {
-        correspondingColumn: ANVIL_DATASETS_PRESELECTED_COLUMNS[5],
+        correspondingColumn:
+          ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME[
+            ANVIL_COLUMN_NAMES.DIAGNOSIS
+          ],
         name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.DIAGNOSIS,
       },
       {
-        correspondingColumn: ANVIL_DATASETS_PRESELECTED_COLUMNS[6],
+        correspondingColumn:
+          ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME[
+            ANVIL_COLUMN_NAMES.DATA_MODALITY
+          ],
         name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.DATA_MODALITY,
       },
       {
-        correspondingColumn: ANVIL_DATASETS_SELECTABLE_COLUMNS[0],
+        correspondingColumn:
+          ANVIL_DATASETS_SELECTABLE_COLUMNS_BY_NAME[
+            ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX
+          ],
         name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.PHENOTYPIC_SEX,
       },
       {
-        correspondingColumn: ANVIL_DATASETS_SELECTABLE_COLUMNS[1],
+        correspondingColumn:
+          ANVIL_DATASETS_SELECTABLE_COLUMNS_BY_NAME[
+            ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY
+          ],
         name: ANVIL_DATASETS_BACKPAGE_HEADER_NAMES.REPORTED_ETHNICITY,
       },
     ],
     emptyFirstColumn: false,
     maxPages: 25,
-    preselectedColumns: ANVIL_DATASETS_PRESELECTED_COLUMNS,
-    selectableColumns: ANVIL_DATASETS_SELECTABLE_COLUMNS,
+    preselectedColumns: ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME,
+    selectableColumns: ANVIL_DATASETS_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Datasets",
     url: "/datasets",
   },
   DONORS: {
     emptyFirstColumn: false,
     maxPages: 25,
-    preselectedColumns: [
-      { name: ANVIL_COLUMN_NAMES.DONOR_ID, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
-    ],
-    selectableColumns: [],
+    preselectedColumns: ANVIL_DONORS_PRESELECTED_COLUMNS_BY_NAME,
+    selectableColumns: ANVIL_DONORS_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Donors",
     url: "/donors",
   },
   FILES: {
     emptyFirstColumn: true,
     maxPages: 25,
-    preselectedColumns: [
-      { name: ANVIL_COLUMN_NAMES.NAME, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.FILE_FORMAT, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.SIZE, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.DRS_URI, sortable: false },
-      { name: ANVIL_COLUMN_NAMES.DATA_MODALITY, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
-    ],
-    selectableColumns: [
-      { name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY, sortable: true },
-      { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
-    ],
+    preselectedColumns: ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME,
+    selectableColumns: ANVIL_DONORS_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Files",
     url: "/files",
   },

@@ -1,11 +1,15 @@
+export type StringToColumnDescription = {
+  [k: string]: ColumnDescription;
+};
+
 export interface TabDescription {
   backpageAccessTags?: BackpageAccessTags;
   backpageExportButtons?: BackpageExportButtons;
   backpageHeaders?: BackpageHeader[];
   emptyFirstColumn: boolean;
   maxPages?: number;
-  preselectedColumns: ColumnDescription[];
-  selectableColumns: ColumnDescription[];
+  preselectedColumns: StringToColumnDescription;
+  selectableColumns: StringToColumnDescription;
   tabName: string;
   url: string;
 }

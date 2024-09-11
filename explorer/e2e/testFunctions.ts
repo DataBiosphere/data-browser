@@ -8,6 +8,17 @@ import {
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
 /**
+ * Get an array of all visible column header names
+ * @param page - a Playwright page object
+ * @returns an array of the text of all visible column headers
+ */
+const getAllVisibleColumnNames = async (page: Page): Promise<string[]> => {
+  return (await page.getByRole("columnheader").allInnerTexts()).map((entry) =>
+    entry.trim()
+  );
+};
+
+/**
  * Get a locator to the cell in the mth row's nth column
  * @param page - a Playwright page object
  * @param rowIndex - the zero-indexed row to return
@@ -110,13 +121,19 @@ export async function testTab(
     "aria-selected",
     "true"
   );
+  const columnArray = Array.from(Object.values(endTab.preselectedColumns));
+  for (const column of columnArray) {
+    await expect(
+      page.getByRole("columnheader").getByText(column.name, { exact: true })
+    ).toBeVisible();
+  }
   if (endTab.emptyFirstColumn) {
-    await expect(page.getByRole("columnheader")).toHaveText(
-      [" "].concat(endTab.preselectedColumns.map((x) => x.name))
+    await expect(page.getByRole("columnheader")).toHaveCount(
+      columnArray.length + 1
     );
   } else {
-    await expect(page.getByRole("columnheader")).toHaveText(
-      endTab.preselectedColumns.map((x) => x.name)
+    await expect(page.getByRole("columnheader")).toHaveCount(
+      columnArray.length
     );
   }
 }
@@ -128,21 +145,35 @@ export async function testTab(
  * a catalog, so that the last element is visible without excessive scrolling.
  * @param page - a Playwright page object
  * @param tab - the tab to check
+ * @returns - true if the test passes and false if the test fails
  */
 export async function testSortAzul(
   page: Page,
   tab: TabDescription
-): Promise<void> {
+): Promise<boolean> {
   // Get the current tab, and go to it's URL
   await page.goto(tab.url);
   // For each column
+  const columnNameArray = (await getAllVisibleColumnNames(page)).slice(
+    tab.emptyFirstColumn ? 1 : 0
+  );
+  const columnObjectArray = Array.from(Object.values(tab.preselectedColumns));
   for (
     let columnPosition = 0;
-    columnPosition < tab.preselectedColumns.length;
+    columnPosition < columnNameArray.length;
     columnPosition++
   ) {
     // Get the column position, taking into account that some tabs start with a non-text first column
-    if (tab.preselectedColumns[columnPosition].sortable) {
+    const columnObject = columnObjectArray.find(
+      (x) => x.name === columnNameArray[columnPosition]
+    );
+    if (columnObject === undefined) {
+      console.log(
+        `SORT AZUL: Preselected column object ${columnNameArray[columnPosition]} not found in tab configuration`
+      );
+      return false;
+    }
+    if (columnObject?.sortable) {
       const columnIndex: number = tab.emptyFirstColumn
         ? columnPosition + 1
         : columnPosition;
@@ -159,7 +190,7 @@ export async function testSortAzul(
       const columnSortLocator = page
         .getByRole("columnheader", {
           exact: true,
-          name: tab.preselectedColumns[columnPosition].name,
+          name: columnNameArray[columnPosition],
         })
         .getByRole("button");
       // Expect the first and last cells to be visible and have text
@@ -179,6 +210,7 @@ export async function testSortAzul(
       await expect(lastElementTextLocator).not.toHaveText("");
     }
   }
+  return true;
 }
 
 /**
@@ -188,33 +220,45 @@ export async function testSortAzul(
  * so it only checks the first element of the table.
  * @param page - a Playwright page object
  * @param tab - the tab to check
+ * @returns - true if the test passes, false if the test fails
  */
 export async function testSortCatalog(
   page: Page,
   tab: TabDescription
-): Promise<void> {
+): Promise<boolean> {
   // Get the current tab, and go to it's URL
   await page.goto(tab.url);
+  await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
+  const columnNameArray = (
+    await page.getByRole("columnheader").allInnerTexts()
+  ).map((entry) => entry.trim());
+  console.log(columnNameArray);
+  const columnObjectArray = Array.from(Object.values(tab.preselectedColumns));
   for (
     let columnPosition = 0;
-    columnPosition < tab.preselectedColumns.length;
+    columnPosition < columnNameArray.length;
     columnPosition++
   ) {
+    const columnName = columnNameArray[columnPosition];
     // Get the column position, taking into account that some tabs start with a non-text first column
-    if (tab.preselectedColumns[columnPosition].sortable) {
-      const columnIndex: number = tab.emptyFirstColumn
-        ? columnPosition + 1
-        : columnPosition;
-      // Locators for the first and last cells in a particular column position on the page
+    const columnObject = columnObjectArray.find((x) => x.name === columnName);
+    if (columnObject === undefined) {
+      console.log(
+        `SORT CATALOG: Preselected column object ${columnName} not found in tab configuration`
+      );
+      return false;
+    }
+    if (columnObject.sortable) {
+      // Locators for the first cell in a particular column position on the page
       const firstElementTextLocator = getFirstRowNthColumnCellLocator(
         page,
-        columnIndex
+        columnPosition
       );
       // Locator for the sort button
       const columnSortLocator = page
         .getByRole("columnheader", {
           exact: true,
-          name: tab.preselectedColumns[columnPosition].name,
+          name: columnName,
         })
         .getByRole("button");
       await expect(firstElementTextLocator).toBeVisible();
@@ -222,13 +266,20 @@ export async function testSortCatalog(
       await columnSortLocator.click();
       // Expect the first cell to still be visible
       await expect(firstElementTextLocator).toBeVisible();
+      const firstElementText = await hoverAndGetText(
+        page,
+        columnObject,
+        0,
+        columnPosition
+      );
       // Click again
       await columnSortLocator.click();
       // Expect the first cell to have changed after clicking sort
       await expect(firstElementTextLocator).toBeVisible();
-      await expect(firstElementTextLocator).not.toHaveText("");
+      await expect(firstElementTextLocator).not.toHaveText(firstElementText);
     }
   }
+  return true;
 }
 
 /**
@@ -248,7 +299,8 @@ export async function testSelectableColumns(
   await page.getByRole("button").getByText("Edit Columns").click();
   await expect(page.getByRole("menu")).toBeVisible();
   // Enable each selectable tab
-  for (const column of tab.selectableColumns) {
+  const tabObjectArray = Array.from(Object.values(tab.selectableColumns));
+  for (const column of tabObjectArray) {
     // Locate the checkbox for each column
     const checkboxLocator = page
       .getByRole("menu")
@@ -270,7 +322,7 @@ export async function testSelectableColumns(
   await expect(page.getByRole("menu")).not.toBeVisible();
   // Expect all selectable tabs to be enabled
   await expect(page.getByRole("columnheader")).toContainText(
-    tab.selectableColumns.map((x) => x.name)
+    tabObjectArray.map((x) => x.name)
   );
 }
 
@@ -287,7 +339,7 @@ export async function testPreSelectedColumns(
   await page.goto(tab.url);
   await page.getByRole("button").getByText("Edit Columns").click();
   await expect(page.getByRole("menu")).toBeVisible();
-  for (const column of tab.preselectedColumns) {
+  for (const column of Object.values(tab.preselectedColumns)) {
     const checkboxLocator = page
       .getByRole("menu")
       .locator("*")
@@ -463,8 +515,10 @@ export async function testFilterCounts(
     const filterButton = getFirstFilterButtonLocator(page);
     const filterNumbers = (await filterButton.innerText()).split("\n");
     const filterNumber =
-      filterNumbers.map((x) => Number(x)).find((x) => !isNaN(x) && x !== 0) ??
-      -1;
+      filterNumbers
+        .reverse()
+        .map((x) => Number(x))
+        .find((x) => !isNaN(x) && x !== 0) ?? -1;
     if (filterNumber < 0) {
       console.log(
         "FILTER COUNTS: The number associated with the filter is negative"
@@ -699,7 +753,7 @@ export async function testExportBackpage(
  * Test that export access is available on entries where access shows as available
  * and is not on entries where access shows as unavailable
  * @param page - a Playwright page objext
- * @param tab - the Tab to test on
+ * @param tab - the tab object to test on
  */
 export async function testBackpageAccess(
   page: Page,
@@ -811,24 +865,35 @@ const hoverAndGetText = async (
  * Check that the details in the backpage sidebar match information in the data table
  * @param page - a Playwright page object
  * @param tab - the tab to test on
+ * @returns - true if the test passes, false if the test fails due to an issue with the tab configuration
  */
 export async function testBackpageDetails(
   page: Page,
   tab: TabDescription
-): Promise<void> {
+): Promise<boolean> {
   if (
     tab.backpageHeaders === undefined ||
     tab.backpageExportButtons === undefined
   ) {
     // If the tab is not set up with backpage info, fail the test
-    await expect(false);
-    return;
+    console.log(
+      "BACKPAGE DETAILS error: tab is not set up with backpage info, so test cannot continue"
+    );
+    return false;
   }
   await page.goto(tab.url);
   // Enable test columns
   await testSelectableColumns(page, tab);
   const headers: { header: string; value: string }[] = [];
-  const combinedColumns = tab.preselectedColumns.concat(tab.selectableColumns);
+  const preselectedColumnObjectArray = Array.from(
+    Object.values(tab.preselectedColumns)
+  );
+  const selectableColumnObjectArray = Array.from(
+    Object.values(tab.selectableColumns)
+  );
+  const combinedColumns = preselectedColumnObjectArray.concat(
+    selectableColumnObjectArray
+  );
   const filterString = (x: string | undefined): x is string => x !== undefined;
   // Get the columns that correspond with a header on the backpage details
   const backpageCorrespondingColumns: string[] = tab.backpageHeaders
@@ -855,8 +920,10 @@ export async function testBackpageDetails(
       )?.name;
       if (correspondingHeaderName === undefined) {
         // Fail the test, because this means there is an incorrect configuration in the tab definition
-        await expect(false);
-        return;
+        console.log(
+          "BACKPAGE DETAILS error: backpageHeaders is configured incorrectly, so test cannot continue"
+        );
+        return false;
       }
       headers.push({ header: correspondingHeaderName, value: tableEntryText });
     }
@@ -876,13 +943,20 @@ export async function testBackpageDetails(
         .first()
     ).toBeVisible();
   }
+  return true;
 }
 
 const PAGE_COUNT_REGEX = /Page [0-9]+ of [0-9]+/;
 const BACK_BUTTON_TEST_ID = "WestRoundedIcon";
 const FORWARD_BUTTON_TEST_ID = "EastRoundedIcon";
 const ERROR = "ERROR";
+const MAX_PAGINATIONS = 200;
 
+/**
+ * Test that the forward pagination button is enabled and the back button is disabled on the first page of the selected tab
+ * @param page - a Playwright page object
+ * @param tab - the tab object to test on
+ */
 export async function testFirstPagePagination(
   page: Page,
   tab: TabDescription
@@ -907,7 +981,13 @@ export async function testFirstPagePagination(
   ).toBeDisabled();
 }
 
-const MAX_PAGINATIONS = 200;
+/**
+ * Filter the current tab to reduce the number of pages to select, then go to the last page and test that the forward button is disabled and the back button is enabled
+ * @param page - a Playwright page object
+ * @param tab - the tab object to test on
+ * @param filterName - the name of the filter top to use to reduce the number of pages
+ * @returns - true if the test passes, false if it fails due to configuration issues
+ */
 export async function filterAndTestLastPagePagination(
   page: Page,
   tab: TabDescription,
@@ -940,7 +1020,7 @@ export async function filterAndTestLastPagePagination(
     );
   if (filterCounts.length == 0) {
     console.log(
-      "PAGINATION TEST: Test would involve too many paginations, so halting"
+      "PAGINATION LAST PAGE: Test would involve too many paginations, so halting"
     );
     return false;
   }
@@ -998,6 +1078,11 @@ export async function filterAndTestLastPagePagination(
   return true;
 }
 
+/**
+ * Test that paginating changes the content on the page
+ * @param page - a Playwright page object
+ * @param tab  - the tab to test on
+ */
 export async function testPaginationContent(
   page: Page,
   tab: TabDescription
