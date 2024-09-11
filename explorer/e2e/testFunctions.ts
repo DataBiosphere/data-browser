@@ -1,11 +1,4 @@
 import { BrowserContext, expect, Locator, Page } from "@playwright/test";
-import { ANVIL_TABS } from "./anvil/anvil-tabs";
-import {
-  BackpageHeader,
-  ColumnDescription,
-  TabDescription,
-} from "./testInterfaces";
-import { BrowserContext, expect, Locator, Page } from "@playwright/test";
 import {
   BackpageHeader,
   ColumnDescription,
@@ -942,8 +935,8 @@ export async function filterAndTestLastPagePagination(
     .filter(
       (n) =>
         !isNaN(n) &&
-        n > (ANVIL_TABS.FILES.maxPages ?? 0) * 3 &&
-        n < (ANVIL_TABS.FILES.maxPages ?? 0) * MAX_PAGINATIONS
+        n > (tab.maxPages ?? 0) * 3 &&
+        n < (tab.maxPages ?? 0) * MAX_PAGINATIONS
     );
   if (filterCounts.length == 0) {
     console.log(
@@ -968,14 +961,14 @@ export async function filterAndTestLastPagePagination(
   ).not.toHaveText("Page 1 of 1");
 
   // Detect number of pages
-  const SplitStartingPageText = (
+  const splitStartingPageText = (
     await page.getByText(PAGE_COUNT_REGEX, { exact: true }).innerText()
   ).split(" ");
-  const max_pages = parseInt(
-    SplitStartingPageText[SplitStartingPageText.length - 1]
+  const maxPages = parseInt(
+    splitStartingPageText[splitStartingPageText.length - 1]
   );
   // Paginate forwards
-  for (let i = 2; i < max_pages + 1; i++) {
+  for (let i = 2; i < maxPages + 1; i++) {
     await page
       .getByRole("button")
       .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
@@ -983,12 +976,12 @@ export async function filterAndTestLastPagePagination(
     await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
     // Expect the page count to have incremented
     await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-      `Page ${i} of ${max_pages}`
+      `Page ${i} of ${maxPages}`
     );
   }
   // Expect to be on the last page
   await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toContainText(
-    `Page ${max_pages} of ${max_pages}`
+    `Page ${maxPages} of ${maxPages}`
   );
   // Expect the back button to be enabled on the last page
   await expect(
@@ -1021,11 +1014,11 @@ export async function testPaginationContent(
   await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
     /Page 1 of [0-9]+/
   );
-  const max_pages = 5;
+  const maxPages = 5;
   const FirstTableEntries = [];
 
   // Paginate forwards
-  for (let i = 2; i < max_pages + 1; i++) {
+  for (let i = 2; i < maxPages + 1; i++) {
     await expect(firstElementTextLocator).not.toHaveText("");
     const OriginalFirstTableEntry = await firstElementTextLocator.innerText();
     // Click the next button
@@ -1044,7 +1037,7 @@ export async function testPaginationContent(
         .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
     ).toBeEnabled();
     // Expect the forwards button to be enabled
-    if (i != max_pages) {
+    if (i != maxPages) {
       await expect(
         page
           .getByRole("button")
@@ -1060,15 +1053,15 @@ export async function testPaginationContent(
   }
 
   // Paginate backwards
-  for (let i = 0; i < max_pages - 1; i++) {
-    const OldFirstTableEntry = FirstTableEntries[max_pages - i - 2];
+  for (let i = 0; i < maxPages - 1; i++) {
+    const OldFirstTableEntry = FirstTableEntries[maxPages - i - 2];
     await page
       .getByRole("button")
       .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
       .click();
     // Expect page number to be correct
     await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-      RegExp(`Page ${max_pages - i - 1} of [0-9]+`)
+      RegExp(`Page ${maxPages - i - 1} of [0-9]+`)
     );
     // Expect page entry to be consistent with forward pagination
     await expect(firstElementTextLocator).toHaveText(OldFirstTableEntry);

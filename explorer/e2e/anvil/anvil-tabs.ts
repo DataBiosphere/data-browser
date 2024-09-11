@@ -36,13 +36,13 @@ export const PHENOTYPIC_SEX_INDEX = 9;
 export const REPORTED_ETHNICITY_INDEX = 10;
 
 const ANVIL_DATASETS_PRESELECTED_COLUMNS = [
-  { name: "Dataset", sortable: true },
-  { name: "Access", sortable: false },
-  { name: "Identifier", sortable: true },
-  { name: "Consent Group", sortable: true },
-  { name: "Organism Type", sortable: true },
-  { name: "Diagnosis", sortable: true },
-  { name: "Data Modality", sortable: true },
+  { name: ANVIL_COLUMN_NAMES.DATASET, sortable: true },
+  { name: ANVIL_COLUMN_NAMES.ACCESS, sortable: false },
+  { name: ANVIL_COLUMN_NAMES.IDENTIFIER, sortable: true },
+  { name: ANVIL_COLUMN_NAMES.CONSENT_GROUP, sortable: true },
+  { name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE, sortable: true },
+  { name: ANVIL_COLUMN_NAMES.DIAGNOSIS, sortable: true },
+  { name: ANVIL_COLUMN_NAMES.DATA_MODALITY, sortable: true },
 ];
 const ANVIL_DATASETS_SELECTABLE_COLUMNS = [
   {
