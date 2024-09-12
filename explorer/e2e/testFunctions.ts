@@ -531,6 +531,8 @@ export async function testFilterCounts(
     // Exit the filter menu
     await page.locator("body").click();
     await expect(page.getByRole("checkbox")).toHaveCount(0);
+    // Wait for the table to load
+    await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
     // Expect the displayed count of elements to be 0
     const firstNumber =
       filterNumber <= elementsPerPage ? filterNumber : elementsPerPage;
@@ -638,7 +640,7 @@ export async function testClearAll(
  * Get the first link to a backpage with specified backpage access
  * @param page - a Playright page locator
  * @param access - the string denoting the level of access desired
- * @returns a Pla
+ * @returns a Playwright locator object to the first link to a backpage with the specified access
  */
 const getBackpageLinkLocatorByAccess = (page: Page, access: string): Locator =>
   page
