@@ -4,8 +4,8 @@ import {
   testSelectFiltersThroughSearchBar,
 } from "../testFunctions";
 import {
-  anvilcatalogTabs,
   ANVIL_CATALOG_FILTERS,
+  ANVIL_CATALOG_TABS,
   CONSENT_CODE_INDEX,
   DBGAP_ID_INDEX,
   TERRA_WORKSPACE_INDEX,
@@ -18,7 +18,7 @@ test('Check that selecting filters through the "Search all Filters" textbox work
 }) => {
   await testSelectFiltersThroughSearchBar(
     page,
-    anvilcatalogTabs.consortia,
+    ANVIL_CATALOG_TABS.CONSORTIA,
     filterList.map((i: number) => ANVIL_CATALOG_FILTERS[i])
   );
 });
@@ -28,7 +28,7 @@ test('Check that selecting filters through the "Search all Filters" textbox work
 }) => {
   await testSelectFiltersThroughSearchBar(
     page,
-    anvilcatalogTabs.studies,
+    ANVIL_CATALOG_TABS.STUDIES,
     filterList.map((i: number) => ANVIL_CATALOG_FILTERS[i])
   );
 });
@@ -38,7 +38,7 @@ test('Check that selecting filters through the "Search all Filters" textbox work
 }) => {
   await testSelectFiltersThroughSearchBar(
     page,
-    anvilcatalogTabs.workspaces,
+    ANVIL_CATALOG_TABS.WORKSPACES,
     filterList.map((i: number) => ANVIL_CATALOG_FILTERS[i])
   );
 });
@@ -48,7 +48,7 @@ test('Check that deselecting filters through the "Search all Filters" textbox wo
 }) => {
   await testDeselectFiltersThroughSearchBar(
     page,
-    anvilcatalogTabs.consortia,
+    ANVIL_CATALOG_TABS.CONSORTIA,
     filterList.map((i: number) => ANVIL_CATALOG_FILTERS[i])
   );
 });
@@ -58,7 +58,7 @@ test('Check that deselecting filters through the "Search all Filters" textbox wo
 }) => {
   await testDeselectFiltersThroughSearchBar(
     page,
-    anvilcatalogTabs.studies,
+    ANVIL_CATALOG_TABS.STUDIES,
     filterList.map((i: number) => ANVIL_CATALOG_FILTERS[i])
   );
 });
@@ -68,7 +68,7 @@ test('Check that deselecting filters through the "Search all Filters" textbox wo
 }) => {
   await testDeselectFiltersThroughSearchBar(
     page,
-    anvilcatalogTabs.workspaces,
+    ANVIL_CATALOG_TABS.WORKSPACES,
     filterList.map((i: number) => ANVIL_CATALOG_FILTERS[i])
   );
 });

@@ -30,7 +30,6 @@ export const STUDY_DESIGN_INDEX = 5;
 export const STUDY_INDEX = 6;
 export const TERRA_WORKSPACE_INDEX = 7;
 
-
 export const ANVIL_CATALOG_TABS: AnvilCatalogTabCollection = {
   CONSORTIA: {
     emptyFirstColumn: false,
