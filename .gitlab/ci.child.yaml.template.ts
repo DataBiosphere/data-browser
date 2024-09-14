@@ -6,15 +6,15 @@ import merge from 'deepmerge-json';
 
 let azul_deployment = process.env.AZUL_DEPLOYMENT_STAGE ?? assert.fail();
 
-// CI_COMMIT_REF_NAME is the branch name. We want to use it as the `version`
-// of the tarball package that we upload to the GitLab package registry. The
-// `version` field doesn't support slashes, so we replace them with periods.
-// This code is evaluated in the context of the parent pipeline. Luckily,
-// CI_COMMIT_REF_NAME will be set to the same value in both the parent and the
-// child pipeline.
+// CI_COMMIT_REF_NAME is the branch name.
 //
 let package_version = process.env.CI_COMMIT_REF_NAME ?? assert.fail();
-assert(!package_version.includes('.'));
+
+// We want to use the branch name as the `version` of the tarball package that
+// we upload to the GitLab package registry. The `version` field doesn't support
+// slashes, so we replace them with underscores.
+//
+assert(!package_version.includes('_'));
 package_version = package_version.replaceAll('/', '_');
 
 let sites = fs.readdirSync(
