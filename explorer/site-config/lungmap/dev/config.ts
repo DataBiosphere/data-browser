@@ -1,9 +1,8 @@
 import { CategoryGroupConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import hcaConfig, {
   DATA_URL as HCA_DATA_URL,
-  EXPORT_TO_TERRA_URL as HCA_EXPORT_TO_TERRA_URL,
   PORTAL_URL as HCA_PORTAL_URL,
-} from "site-config/hca-dcp/dev/config";
+} from "site-config/hca-dcp/ma-dev/config";
 import * as C from "../../../app/components/index";
 import { FLATTEN } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
@@ -16,10 +15,10 @@ import { socialMedia } from "./socialMedia";
 
 // Template constants
 const APP_TITLE = "LungMAP Data Explorer";
-const BROWSER_URL = "https://data-browser.dev.lungmap.net";
-const CATALOG = "lm7";
+const BROWSER_URL = "https://dev.data-browser.lungmap.net";
+const CATALOG = "lm2";
 const DATA_URL = HCA_DATA_URL;
-const EXPORT_TO_TERRA_URL = HCA_EXPORT_TO_TERRA_URL;
+const EXPORT_TO_TERRA_URL = "https://bvdp-saturn-dev.appspot.com/";
 const HOME_PAGE_PATH = "/projects";
 const PAGINATION_PAGE_SIZE = "25";
 const PORTAL_URL = HCA_PORTAL_URL;
@@ -28,7 +27,7 @@ export function makeConfig(
   browserUrl: string,
   portalUrl: string,
   dataUrl: string,
-  catalog: string = CATALOG
+  catalog: string
 ): SiteConfig {
   return {
     analytics: {
@@ -123,6 +122,11 @@ export function makeConfig(
   };
 }
 
-const config: SiteConfig = makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL);
+const config: SiteConfig = makeConfig(
+  BROWSER_URL,
+  PORTAL_URL,
+  DATA_URL,
+  CATALOG
+);
 
 export default config;
