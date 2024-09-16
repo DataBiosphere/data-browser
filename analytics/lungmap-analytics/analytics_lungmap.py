@@ -53,7 +53,14 @@ def plot_users_over_time(load_json=True, use_api=True, **other_params):
 	return ac.format_change_over_time_table(df, change_dir=-1, **other_params)
 
 def process_users_over_time_df(df):
+	df = add_missing_dates(df)
 	if df.index[-1] == date.today().strftime("%Y%m"):
 		return df.set_index(df.index + "01")[-2::-1]
 	return df.set_index(df.index + "01")[-1::-1]
 
+def add_missing_dates(df):
+	start = df.index[0]
+	end = df.index[-1]
+	start_num = int(start[0:4]) * 12 + (int(start[4:6]) - 1)
+	end_num = int(end[0:4]) * 12 + (int(end[4:6]) - 1)
+	return df.reindex(fill_value=0, index=[f"{int(n/12):0>4}{(n%12+1):0>2}" for n in range(start_num, end_num + 1)])
