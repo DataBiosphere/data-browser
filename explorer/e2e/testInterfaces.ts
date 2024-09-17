@@ -9,6 +9,7 @@ export interface TabDescription {
   emptyFirstColumn: boolean;
   maxPages?: number;
   preselectedColumns: StringToColumnDescription;
+  searchFiltersPlaceholderText: string;
   selectableColumns: StringToColumnDescription;
   tabName: string;
   url: string;
