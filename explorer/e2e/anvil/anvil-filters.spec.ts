@@ -3,10 +3,12 @@ import {
   filterRegex,
   getFirstRowNthColumnCellLocator,
   testClearAll,
+  testDeselectFiltersThroughSearchBar,
   testFilterCounts,
   testFilterPersistence,
   testFilterPresence,
   testFilterTags,
+  testSelectFiltersThroughSearchBar,
 } from "../testFunctions";
 import {
   ANVIL_FILTER_NAMES,
@@ -168,6 +170,116 @@ test("Check that the clear all button functions on the files tab", async ({
 }) => {
   test.setTimeout(120000);
   await testClearAll(
+    page,
+    ANVIL_TABS.FILES,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Datasets tab', async ({
+  page,
+}) => {
+  await testSelectFiltersThroughSearchBar(
+    page,
+    ANVIL_TABS.DATASETS,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Datasets tab', async ({
+  page,
+}) => {
+  await testSelectFiltersThroughSearchBar(
+    page,
+    ANVIL_TABS.DATASETS,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Donors tab', async ({
+  page,
+}) => {
+  await testSelectFiltersThroughSearchBar(
+    page,
+    ANVIL_TABS.DONORS,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that selecting filters through the "Search all Filters" textbox works correctly on the BioSamples tab', async ({
+  page,
+}) => {
+  await testSelectFiltersThroughSearchBar(
+    page,
+    ANVIL_TABS.BIOSAMPLES,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Activities tab', async ({
+  page,
+}) => {
+  await testSelectFiltersThroughSearchBar(
+    page,
+    ANVIL_TABS.ACTIVITIES,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Files tab', async ({
+  page,
+}) => {
+  await testSelectFiltersThroughSearchBar(
+    page,
+    ANVIL_TABS.FILES,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that deselecting filters through the "Search all Filters" textbox works correctly on the Datasets tab', async ({
+  page,
+}) => {
+  await testDeselectFiltersThroughSearchBar(
+    page,
+    ANVIL_TABS.DATASETS,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that deselecting filters through the "Search all Filters" textbox works correctly on the Donors tab', async ({
+  page,
+}) => {
+  await testDeselectFiltersThroughSearchBar(
+    page,
+    ANVIL_TABS.DONORS,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that deselecting filters through the "Search all Filters" textbox works correctly on the BioSamples tab', async ({
+  page,
+}) => {
+  await testDeselectFiltersThroughSearchBar(
+    page,
+    ANVIL_TABS.BIOSAMPLES,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that deselecting filters through the "Search all Filters" textbox works correctly on the Activities tab', async ({
+  page,
+}) => {
+  await testDeselectFiltersThroughSearchBar(
+    page,
+    ANVIL_TABS.ACTIVITIES,
+    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
+  );
+});
+
+test('Check that deselecting filters through the "Search all Filters" textbox works correctly on the Files tab', async ({
+  page,
+}) => {
+  await testDeselectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.FILES,
     FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
