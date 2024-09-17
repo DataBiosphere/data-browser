@@ -232,7 +232,6 @@ export async function testSortCatalog(
   const columnNameArray = (
     await page.getByRole("columnheader").allInnerTexts()
   ).map((entry) => entry.trim());
-  console.log(columnNameArray);
   const columnObjectArray = Array.from(Object.values(tab.preselectedColumns));
   for (
     let columnPosition = 0;
@@ -420,10 +419,14 @@ export const getFirstFilterOptionLocator = (page: Page): Locator => {
     .first();
 };
 
+/**
+ * Gets the name of the filter option associated with a locator
+ * @param firstFilterOptionLocator - a Playwright locator to the filter option
+ * @returns the name of the filter option as a promise
+ */
 export const getFilterOptionName = async (
   firstFilterOptionLocator: Locator
 ): Promise<string> => {
-  console.log(await firstFilterOptionLocator.innerText());
   // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we split on newlines and take the first non-empty string
   return (
     (await firstFilterOptionLocator.innerText())
@@ -434,7 +437,7 @@ export const getFilterOptionName = async (
 };
 
 /**
- * Cheks that selecting a specified filter is persistent across the tabs in tabOrder
+ * Checks that selecting a specified filter is persistent across the tabs in tabOrder
  * @param page - a Playwright page object
  * @param testFilterName - the name of the filter to check
  * @param tabOrder - the tabs to check, in order. The filter will be selected on the first tab.

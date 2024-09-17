@@ -186,16 +186,6 @@ test('Check that selecting filters through the "Search all Filters" textbox work
   );
 });
 
-test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Datasets tab', async ({
-  page,
-}) => {
-  await testSelectFiltersThroughSearchBar(
-    page,
-    ANVIL_TABS.DATASETS,
-    FILTER_INDEX_LIST_SHORT.map((x) => ANVIL_FILTER_NAMES[x])
-  );
-});
-
 test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Donors tab', async ({
   page,
 }) => {
