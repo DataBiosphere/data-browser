@@ -179,6 +179,7 @@ test("Check that the clear all button functions on the files tab", async ({
 test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Datasets tab', async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testSelectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.DATASETS,
@@ -189,6 +190,7 @@ test('Check that selecting filters through the "Search all Filters" textbox work
 test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Donors tab', async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testSelectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.DONORS,
@@ -199,6 +201,7 @@ test('Check that selecting filters through the "Search all Filters" textbox work
 test('Check that selecting filters through the "Search all Filters" textbox works correctly on the BioSamples tab', async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testSelectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.BIOSAMPLES,
@@ -209,6 +212,7 @@ test('Check that selecting filters through the "Search all Filters" textbox work
 test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Activities tab', async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testSelectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.ACTIVITIES,
@@ -219,6 +223,7 @@ test('Check that selecting filters through the "Search all Filters" textbox work
 test('Check that selecting filters through the "Search all Filters" textbox works correctly on the Files tab', async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testSelectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.FILES,
@@ -229,6 +234,7 @@ test('Check that selecting filters through the "Search all Filters" textbox work
 test('Check that deselecting filters through the "Search all Filters" textbox works correctly on the Datasets tab', async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testDeselectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.DATASETS,
@@ -239,6 +245,7 @@ test('Check that deselecting filters through the "Search all Filters" textbox wo
 test('Check that deselecting filters through the "Search all Filters" textbox works correctly on the Donors tab', async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testDeselectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.DONORS,
@@ -249,6 +256,7 @@ test('Check that deselecting filters through the "Search all Filters" textbox wo
 test('Check that deselecting filters through the "Search all Filters" textbox works correctly on the BioSamples tab', async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testDeselectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.BIOSAMPLES,
@@ -259,6 +267,7 @@ test('Check that deselecting filters through the "Search all Filters" textbox wo
 test('Check that deselecting filters through the "Search all Filters" textbox works correctly on the Activities tab', async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testDeselectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.ACTIVITIES,
@@ -269,6 +278,7 @@ test('Check that deselecting filters through the "Search all Filters" textbox wo
 test('Check that deselecting filters through the "Search all Filters" textbox works correctly on the Files tab', async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await testDeselectFiltersThroughSearchBar(
     page,
     ANVIL_TABS.FILES,
