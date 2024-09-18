@@ -10,7 +10,7 @@ Node.js 20.10.0 is required to run the app.
 
 ### 1. Clone the Repo
 
-        git clone https://github.com/HumanCellAtlas/data-browser.git [folder_name]
+        git clone https://github.com/DataBiosphere/data-browser.git [folder_name]
 
 ### 2. Install Client-Side Dependencies
 
