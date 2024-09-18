@@ -1,57 +1,41 @@
 # HCA Data Browser
 
-The HCA Data Browser is an [AngularJs](http://angular.io), built with the [Angular CLI tool](https://github.com/angular/angular-cli).
+The HCA Data Browser is built using [Next.js](https://nextjs.org/).
 
-
-
-
-[git-secrets]: https://github.com/awslabs/git-secrets
-
- 
 ## Development Environment Setup
 
 ## Prerequisites
 
-1. node 14.16.0
-1. npm 6.14.11
-1. [git-secrets] must be installed
+Node.js 20.10.0 is required to run the app.
 
 ### 1. Clone the Repo
 
         git clone https://github.com/HumanCellAtlas/data-browser.git [folder_name]
 
-
-
 ### 2. Install Client-Side Dependencies
 
-
-		npm install -g angular-cli
-
-Navigate to the `spa` directory and install client-side dependencies.
+Navigate to the `explorer` directory and install client-side dependencies.
 
 		npm install
 
 ### 3. Development Server
 
-To start the Angular development server, run the following from the `spa` directory:
+To start the development server, run the following from the `explorer` directory:
 
-		npm start
+		npm run dev
 
-You can hit the server at `http://localhost:4200`.
+You can hit the server at `http://localhost:3000`.
 
+## End-to-end tests
 
-### 4. Install git-secrets
+This project has end-to-end tests powered by Playwright, currently only for the `anvil-cmg` configuration and in progress for `anvil-catalog`. To run tests, run `npm run test:anvil-cmg` from the `explorer` folder. Tests will also run by default on pull request.
 
-If you have push access to the remote, you'll need to install [git-secrets],
-   enable the commit hooks for it and configure patterns for AWS and Google:
+When updating tabs and columns on the anvil-cmg configuration, please update `explorer/e2e/anvil/anvil-tabs.ts` to reflect the changes  
 
-   ```
-   git secrets --install
-   git secrets --register-aws
-   git secrets --add '[-]----BEGIN.PRIVATE.KEY-----'
-   ```
-## Deployment 
-The deployment runbook can be accessed [here](https://allspark.dev.data.humancellatlas.org/dcp-ops/docs/wikis/Data-Browser-Runbook)
+## Refresh CellXGene projects in HCA Data Explorer
+To update HCA scripts in the HCA Data Explorer, navigate to the `explorer` directory and run:
+```bash
+npm run get-cellxgene-projects-hca
+```
+This will save any updates to `explorer/site-config/hca-dcp/dev/scripts/out/cellxgene-projects.json` based on HCA links provided by CELLxGENE.
 
-
- 
