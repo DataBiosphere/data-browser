@@ -448,18 +448,17 @@ const getFirstNonEmptyFilterOptionNameAndLocator = async (
   let filterOptionLocator = undefined;
   let i = 0;
   while (filterNameToSelect === "" && i < MAX_FILTER_OPTIONS_TO_CHECK) {
-    // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we split on newlines and take the first non-empty string
-    const regex = /^(.*)\n+([0-9]+)\s*$/;
+    // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we want the string before the newline
+    const filterOptionRegex = /^(.*)\n+([0-9]+)\s*$/;
     filterOptionLocator = getNthFilterOptionLocator(page, i);
     console.log(await filterOptionLocator.innerText());
-    filterNameToSelect = ((await filterOptionLocator.innerText()).trim().match(regex) ?? [
-      "",
-      "",
-    ])[1];
+    filterNameToSelect = ((await filterOptionLocator.innerText())
+      .trim()
+      .match(filterOptionRegex) ?? ["", ""])[1];
     i += 1;
   }
-  
-  if (filterOptionLocator === undefined) {
+
+  if (filterOptionLocator === undefined || filterNameToSelect === "") {
     throw new Error(
       "No locator found within the maximum number of filter options"
     );
@@ -712,7 +711,6 @@ export async function testSelectFiltersThroughSearchBar(
     // Get the first filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     const filterOptionName = (
       await getFirstNonEmptyFilterOptionNameAndLocator(page)
     ).name;
@@ -755,7 +753,7 @@ export async function testDeselectFiltersThroughSearchBar(
       await getFirstNonEmptyFilterOptionNameAndLocator(page);
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     const filterOptionName = firstFilterOptionNameAndLocator.name;
-    await firstFilterOptionLocator.click();
+    await firstFilterOptionLocator.getByRole("checkbox").click();
     await page.locator("body").click();
     // Search for and check the selected filter
     const searchFiltersInputLocator = page.getByPlaceholder(
