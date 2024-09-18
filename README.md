@@ -22,7 +22,7 @@ Navigate to the `explorer` directory and install client-side dependencies.
 
 To start the development server, run the following from the `explorer` directory:
 
-		npm run dev
+		npm run dev:hca-dcp
 
 You can hit the server at `http://localhost:3000`.
 
