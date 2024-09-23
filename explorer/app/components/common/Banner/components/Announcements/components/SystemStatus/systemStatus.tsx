@@ -1,5 +1,4 @@
 import { BannerPrimary } from "@databiosphere/findable-ui/lib/components/common/Banner/components/BannerPrimary/bannerPrimary";
-import React from "react";
 
 export const SystemStatus = ({ ...props }): JSX.Element => {
   return (
