@@ -4,24 +4,40 @@ import {strict as assert} from 'assert';
 import merge from 'deepmerge-json';
 
 
-let azul_deployment = process.env.AZUL_DEPLOYMENT_STAGE ?? assert.fail();
+let deployment = process.env.AZUL_DEPLOYMENT_STAGE ?? assert.fail();
 
-// CI_COMMIT_REF_NAME is the branch name. We want to use it as the `version`
-// of the tarball package that we upload to the GitLab package registry. The
-// `version` field doesn't support slashes, so we replace them with periods.
-// This code is evaluated in the context of the parent pipeline. Luckily,
-// CI_COMMIT_REF_NAME will be set to the same value in both the parent and the
-// child pipeline.
+// CI_COMMIT_REF_NAME is the branch name.
 //
-let package_version = process.env.CI_COMMIT_REF_NAME ?? assert.fail();
-assert(!package_version.includes('.'));
-package_version = package_version.replaceAll('/', '_');
+let branch = process.env.CI_COMMIT_REF_NAME ?? assert.fail();
+
+// The main GitLab branches follow a naming convention
+//
+let [branch_prefix, branch_site, branch_deployment] = branch.split('/');
+
+// We want to use the branch name as the `version` of the tarball package that
+// we upload to the GitLab package registry. The `version` field doesn't support
+// slashes, so we replace them with underscores.
+//
+assert(!branch.includes('_'));
+branch = branch.replaceAll('/', '_');
 
 let sites = fs.readdirSync(
-    `sites/${azul_deployment}`,
+    `sites/${deployment}`,
     {withFileTypes: true}
 ).filter(entry => entry.isDirectory())
     .map(entry => entry.name);
+
+// If the branch name follows the naming convention, we just build the site
+// encoded in it. Otherwise we build all sites. This is just an efficiency
+// measure. For all other branches, like feature branches or the main branch, we
+// build a tarball for every site, but in the package registry, the tarball is
+// still labeled with the complete, transliterated branch name.
+//
+if (branch_prefix == 'ucsc') {
+    assert(branch_deployment == deployment);
+    assert(sites.includes(branch_site));
+    sites = [branch_site]
+}
 
 function load_yaml(...pathElements: Array<string>) {
     let path = pathElements.join('/') + '.yaml';
@@ -50,7 +66,7 @@ let pipeline = merge(
                     'image': '$DOCKER_IMAGE:$DOCKER_TAG',
                     'dependencies': []
                 },
-                load_yaml('sites', azul_deployment, site, 'base')
+                load_yaml('sites', deployment, site, 'base')
             ),
             [`${site}_build`]: merge(
                 {
@@ -65,7 +81,7 @@ let pipeline = merge(
                         ]
                     }
                 },
-                load_yaml('sites', azul_deployment, site, 'build')
+                load_yaml('sites', deployment, site, 'build')
             ),
             [`${site}_publish`]: {
                 'extends': `.${site}_base`,
@@ -81,8 +97,8 @@ let pipeline = merge(
                             // PUT /projects/:id/packages/generic/:package_name/:package_version/:file_name?status=:status
                             '${CI_API_V4_URL}',
                             'projects', '${CI_PROJECT_ID}',
-                            'packages', 'generic', 'tarball', package_version,
-                            ['${CI_PROJECT_NAME}', azul_deployment, site, 'distribution'].join('_') + '.tar.bz2'
+                            'packages', 'generic', 'tarball', branch,
+                            ['${CI_PROJECT_NAME}', deployment, site, 'distribution'].join('_') + '.tar.bz2'
                         ].join('/') +
                         '"'
                     ].join(' ')
@@ -93,6 +109,6 @@ let pipeline = merge(
             }
         })).flat())
     },
-    load_yaml('sites', azul_deployment, 'pipeline')
+    load_yaml('sites', deployment, 'pipeline')
 );
 console.log(YAML.stringify(pipeline));

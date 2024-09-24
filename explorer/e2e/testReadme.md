@@ -39,7 +39,7 @@ through the actions taken as part of the test and view the impact on the web pag
 
 - Filters (`anvil-filters.spec.ts`)
   - Check that all filters specified in `e2e/anvil/anvil-tabs.ts` are present, and that clicking them opens a menu with checkboxes
-    - This filter runs on all tabs in `anviltabs.ts`
+    - This filter runs on all tabs in `anvil-tabs.ts`
   - Check that checking up to the first five entries in the first filter on the datasets tab works and that it does not remove all elements from the list of tabs
   - Check that selecting a filter causes the selected checkbox entries to remain selected across all tabs
     - Currently uses the fourth filter and starts on the "Files" tab
@@ -49,12 +49,12 @@ through the actions taken as part of the test and view the impact on the web pag
     - Checks an arbitrary list of three filters on the "Files" and "BioSamples" tabs
   - Check that the clear all button deselects all filters, after an arbitrary list is selected
     - Uses an arbitrary list of three filters and runs on the "Files" tab
-- Pagination (`anvil-pagination.spec.ts` and `anvil-pagination-content.spec.ts`)
+- Pagination (`anvil-pagination.spec.ts`)
   - Check that, on the first page, the back button is disabled and the forward button is enabled
     - Uses the "Donors" tab only
-  - Check that paginating forward on the donors tab keeps the currently displayed page number correct, and that on the last page the back button is enabled and the front page is enabled
+  - Check that paginating forward on the donors tab keeps the currently displayed page number correct, and that on the last page the back button is enabled and the forward button is enabled
+    - Uses a filter to reduce the number of paginations necessary
     - Uses the "Donors" tab only
-    - NOTE: this test may be problematic because it assumes there is relatively short number of pages on the "Donors" tab. This could potentially be resolved by adding filters or by limiting the number of tests run
   - Check that paginating forwards by up to five pages changes the content on the first row of the table, and that paginating backwards causes that text to remain the same
     - Uses the "BioSamples" tab only
 - Sort (`anvil-sort.spec.ts`)
@@ -97,8 +97,13 @@ through the actions taken as part of the test and view the impact on the web pag
 - Edit Columns Button (`anvilcatalog-select-tabs.spec.ts`)
   - Check that the checkboxes in the "Edit Columns" button are activated/deselected and deactivated/selected where proper
     - Runs on all tabs
-  - Check that selecting all checkboxes in the Edit Columns menu adds the correct headets to the table
+  - Check that selecting all checkboxes in the Edit Columns menu adds the correct headers to the table
     - Only runs on the "Consortia" tab (other tabs do not have editable columns)
+- Filters (`anvilcatalog-filters.spec.ts`)
+  - Search filters bar
+    - Check that filters can be selected through the search bar
+    - Check that filters can be deselected through the search bar
+    - Both tests run on all tabs
 - All tests rely on correct lists of tabs, columns, and filters in `anvilcatalog-tabs.ts`
 
 ### Candidate Additional Tests (anvil-cmg):

@@ -1,69 +1,66 @@
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
-
 import { AnvilCatalogTabCollection, TabDescription } from "../testInterfaces";
+import {
+  ANVIL_CATALOG_CONSORTIA_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_CATALOG_CONSORTIA_SELECTABLE_COLUMNS_BY_NAME,
+  ANVIL_CATALOG_STUDIES_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_CATALOG_STUDIES_SELECTABLE_COLUMNS_BY_NAME,
+  ANVIL_CATALOG_WORKSPACES_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_CATALOG_WORKSPACES_SELECTABLE_COLUMNS_BY_NAME,
+} from "./constants";
 
-export const anvilcatalogTabs: AnvilCatalogTabCollection = {
-  consortia: {
+const ANVIL_CATALOG_SEARCH_FILTERS_PLACEHOLDER_TEXT = "Search all filters...";
+export const ANVIL_CATALOG_FILTERS = [
+  "Consent Code",
+  "Consortium",
+  "Data Type",
+  "dbGap Id",
+  "Disease (indication)",
+  "Study Design",
+  "Study",
+  "Terra Workspace Name",
+];
+
+export const CONSENT_CODE_INDEX = 0;
+export const CONSORTIUM_INDEX = 1;
+export const DATA_TYPE_INDEX = 2;
+export const DBGAP_ID_INDEX = 3;
+export const DISEASE_INDICATION_INDEX = 4;
+export const STUDY_DESIGN_INDEX = 5;
+export const STUDY_INDEX = 6;
+export const TERRA_WORKSPACE_INDEX = 7;
+
+export const ANVIL_CATALOG_TABS: AnvilCatalogTabCollection = {
+  CONSORTIA: {
     emptyFirstColumn: false,
-    preselectedColumns: [
-      { name: "Consortium", sortable: true },
-      { name: "dbGap Id", sortable: true },
-      { name: "Consent Codes", sortable: true },
-      { name: "Disease (indication)", sortable: true },
-      { name: "Data Type", sortable: true },
-      { name: "Study Design", sortable: true },
-      { name: "Participants", sortable: true },
-      { name: "Size (TB)", sortable: true },
-    ],
-    selectableColumns: [
-      { name: "Study", sortable: true },
-      { name: "Workspaces", sortable: true },
-    ],
+    preselectedColumns: ANVIL_CATALOG_CONSORTIA_PRESELECTED_COLUMNS_BY_NAME,
+    searchFiltersPlaceholderText: ANVIL_CATALOG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
+    selectableColumns: ANVIL_CATALOG_CONSORTIA_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Consortia",
     url: "/data/consortia",
   },
-  studies: {
+  STUDIES: {
     emptyFirstColumn: false,
-    preselectedColumns: [
-      { name: "Study", sortable: true },
-      { name: "dbGap Id", sortable: true },
-      { name: "Consortium", sortable: true },
-      { name: "Consent Codes", sortable: true },
-      { name: "Disease (indication)", sortable: true },
-      { name: "Data Type", sortable: true },
-      { name: "Study Design", sortable: true },
-      { name: "Workspaces", sortable: true },
-      { name: "Participants", sortable: true },
-      { name: "Size (TB)", sortable: true },
-    ],
-    selectableColumns: [],
+    preselectedColumns: ANVIL_CATALOG_STUDIES_PRESELECTED_COLUMNS_BY_NAME,
+    searchFiltersPlaceholderText: ANVIL_CATALOG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
+    selectableColumns: ANVIL_CATALOG_STUDIES_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Studies",
     url: "/data/studies",
   },
-  workspaces: {
+  WORKSPACES: {
     emptyFirstColumn: false,
-    preselectedColumns: [
-      { name: "Consortium", sortable: true },
-      { name: "Terra Workspace", sortable: true },
-      { name: "Study", sortable: true },
-      { name: "dbGap Id", sortable: true },
-      { name: "Consent Code", sortable: true },
-      { name: "Disease (indication)", sortable: true },
-      { name: "Data Type", sortable: true },
-      { name: "Study Design", sortable: false },
-      { name: "Participants", sortable: true },
-      { name: "Size (TB)", sortable: true },
-    ],
-    selectableColumns: [],
+    preselectedColumns: ANVIL_CATALOG_WORKSPACES_PRESELECTED_COLUMNS_BY_NAME,
+    searchFiltersPlaceholderText: ANVIL_CATALOG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
+    selectableColumns: ANVIL_CATALOG_WORKSPACES_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Workspaces",
     url: "/data/workspaces",
   },
 };
 
-export const anvilCatalogTabList: TabDescription[] = [
-  anvilcatalogTabs.consortia,
-  anvilcatalogTabs.studies,
-  anvilcatalogTabs.workspaces,
+export const ANVIL_CATALOG_TAB_LIST: TabDescription[] = [
+  ANVIL_CATALOG_TABS.CONSORTIA,
+  ANVIL_CATALOG_TABS.STUDIES,
+  ANVIL_CATALOG_TABS.WORKSPACES,
 ];
 
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/
