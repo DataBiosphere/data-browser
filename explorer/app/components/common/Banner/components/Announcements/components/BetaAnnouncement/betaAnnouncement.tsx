@@ -1,4 +1,3 @@
-import React from "react";
 import { BetaAnnouncement as GeneralAnnouncement } from "../../../../../MDXContent/anvil-cmg";
 import { Banner } from "./betaAnnouncement.styles";
 
