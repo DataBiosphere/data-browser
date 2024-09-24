@@ -19,8 +19,8 @@ import { Summary } from "@databiosphere/findable-ui/lib/components/Export/compon
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import {
-  FileFacet,
   FILE_MANIFEST_TYPE,
+  FileFacet,
 } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import {
   findFacet,
@@ -1190,9 +1190,19 @@ function isDatasetAccessible(datasetsResponse: DatasetsResponse): boolean {
 function isFileManifestAccessible(
   fileManifestState: FileManifestState
 ): boolean {
-  const { filesFacets } = fileManifestState;
-  const fileFacet = findFacet(filesFacets, "accessible");
-  return fileFacet?.termsByName.has("true") ?? false;
+  return isFileManifestSummaryFileCountValid(fileManifestState);
+}
+
+/**
+ * Returns true if the file manifest summary file count is valid.
+ * @param fileManifestState - File manifest state.
+ * @returns true if the file manifest summary file count is valid.
+ */
+function isFileManifestSummaryFileCountValid(
+  fileManifestState: FileManifestState
+): boolean {
+  const { summary: { fileCount } = {} } = fileManifestState;
+  return fileCount > 0;
 }
 
 /**

@@ -3,8 +3,8 @@ import {
   HelpIconButtonProps as DXHelpIconButtonProps,
 } from "@databiosphere/findable-ui/lib/components/common/Button/components/HelpIconButton/helpIconButton";
 import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
+import { replaceParameters } from "@databiosphere/findable-ui/lib/utils/replaceParameters";
 import { SiteConfig } from "../../../../../../../site-config/common/entities";
-import { replaceParameters } from "../Link/common/utils";
 
 export const HelpIconButton = ({
   url,
@@ -14,7 +14,9 @@ export const HelpIconButton = ({
   const { browserURL, portalURL = "{portalURL}" } = config as SiteConfig;
   return (
     <DXHelpIconButton
-      url={replaceParameters(url, { browserURL, portalURL })}
+      url={encodeURI(
+        replaceParameters(decodeURI(url), { browserURL, portalURL })
+      )}
       {...props}
     />
   );

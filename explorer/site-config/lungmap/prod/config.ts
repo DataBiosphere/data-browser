@@ -9,9 +9,10 @@ import { makeConfig } from "../dev/config";
 const BROWSER_URL = "https://data-browser.lungmap.net";
 const DATA_URL = HCA_DATA_URL;
 const PORTAL_URL = HCA_PORTAL_URL;
+const CATALOG = "lm7";
 
 const config: SiteConfig = {
-  ...makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL),
+  ...makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, CATALOG),
 };
 
 // Update gtmAuth for the prod environment lookup.

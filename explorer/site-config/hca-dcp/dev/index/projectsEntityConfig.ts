@@ -92,6 +92,15 @@ export const projectsEntityConfig: EntityConfig = {
       },
       {
         componentConfig: {
+          component: C.BioNetworkCell,
+          viewBuilder: V.buildBioNetwork,
+        } as ComponentConfig<typeof C.BioNetworkCell, ProjectsResponse>,
+        header: HCA_DCP_CATEGORY_LABEL.BIONETWORK_NAME,
+        id: HCA_DCP_CATEGORY_KEY.BIONETWORK_NAME,
+        width: { max: "1fr", min: "126px" },
+      },
+      {
+        componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorGenusSpecies,
         } as ComponentConfig<typeof C.NTagCell, ProjectsResponse>,

@@ -11,6 +11,7 @@ import {
 } from "@databiosphere/findable-ui/lib/theme/common/typography";
 import * as C from "../../../app/components/index";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
+import { FLATTEN } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
@@ -23,7 +24,7 @@ import { floating } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
-const CATALOG = "dcp40";
+const CATALOG = "dcp41";
 const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
 export const DATA_URL = "https://service.azul.data.humancellatlas.org";
 export const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
@@ -63,6 +64,10 @@ export function makeConfig(
             {
               key: HCA_DCP_CATEGORY_KEY.INSTITUTION,
               label: HCA_DCP_CATEGORY_LABEL.INSTITUTION,
+            },
+            {
+              key: HCA_DCP_CATEGORY_KEY.BIONETWORK_NAME,
+              label: HCA_DCP_CATEGORY_LABEL.BIONETWORK_NAME,
             },
           ],
           label: "Project",
@@ -223,7 +228,7 @@ export function makeConfig(
           undefined,
           [
             {
-              flatten: { md: true, sm: true, xs: true },
+              flatten: FLATTEN.XS_ONLY,
               label: "Help & Documentation",
               menuItems: [
                 {

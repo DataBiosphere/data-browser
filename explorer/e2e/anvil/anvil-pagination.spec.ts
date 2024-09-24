@@ -1,79 +1,38 @@
-import { expect, test } from "@playwright/test";
-import { anvilTabs } from "./anvil-tabs";
-
-const pageCountRegex = /Page [0-9]+ of [0-9]+/;
-const BackButtonTestID = "WestRoundedIcon";
-const ForwardButtonTestID = "EastRoundedIcon";
-
-test.beforeEach(async ({ page }) => {
-  // Navigate to the Donors page
-  await page.goto(anvilTabs.donors.url);
-  await expect(
-    page.getByRole("tab").getByText(anvilTabs.donors.tabName)
-  ).toBeVisible();
-});
+import { test } from "@playwright/test";
+import {
+  filterAndTestLastPagePagination,
+  testFirstPagePagination,
+  testPaginationContent,
+} from "../testFunctions";
+import {
+  ANVIL_FILTER_NAMES,
+  ANVIL_TABS,
+  FILE_FORMAT_INDEX,
+} from "./anvil-tabs";
 
 test("Check first page has disabled back and enabled forward pagination buttons on Donors Page", async ({
   page,
 }) => {
-  // Should start on first page
-  await expect(page.getByText(pageCountRegex, { exact: true })).toHaveText(
-    /Page 1 of [0-9]+/
-  );
-  // Forward button should start enabled
-  await expect(
-    page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(ForwardButtonTestID) })
-  ).toBeEnabled();
-  // Back Button should start disabled
-  await expect(
-    page.getByRole("button").filter({ has: page.getByTestId(BackButtonTestID) })
-  ).toBeDisabled();
+  await testFirstPagePagination(page, ANVIL_TABS.DONORS);
 });
 
-test.setTimeout(300000);
-test("Check that forward pagination increments the current page and that page count stays static for the first five pages on the donors tab", async ({
+test("Paginate through the entire Files tab to confirm that the page number stays consistent and that paginating forwards is disabled on the last page. Uses filters to reduce the amount of calls necessary", async ({
   page,
 }) => {
-  // Should start on first page, and there should be multiple pages available
-  await expect(page.getByText(pageCountRegex, { exact: true })).toHaveText(
-    /Page 1 of [0-9]+/
+  test.setTimeout(500000);
+  const result = await filterAndTestLastPagePagination(
+    page,
+    ANVIL_TABS.FILES,
+    ANVIL_FILTER_NAMES[FILE_FORMAT_INDEX]
   );
-  await expect(page.getByText(pageCountRegex, { exact: true })).not.toHaveText(
-    "Page 1 of 1"
-  );
-
-  // Detect number of pages
-  const SplitStartingPageText = (
-    await page.getByText(pageCountRegex, { exact: true }).innerText()
-  ).split(" ");
-  const max_pages = parseInt(
-    SplitStartingPageText[SplitStartingPageText.length - 1]
-  );
-  // Paginate forwards
-  for (let i = 2; i < max_pages + 1; i++) {
-    await page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(ForwardButtonTestID) })
-      .click();
-    // Expect the page count to have incremented
-    await expect(page.getByText(pageCountRegex, { exact: true })).toHaveText(
-      `Page ${i} of ${max_pages}`
-    );
+  if (!result) {
+    test.fail();
   }
-  // Expect to be on the last page
-  await expect(page.getByText(pageCountRegex, { exact: true })).toContainText(
-    `Page ${max_pages} of ${max_pages}`
-  );
-  // Expect the back button to be enabled on the last page
-  await expect(
-    page.getByRole("button").filter({ has: page.getByTestId(BackButtonTestID) })
-  ).toBeEnabled();
-  // Expect the forward button to be disabled
-  await expect(
-    page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(ForwardButtonTestID) })
-  ).toBeDisabled();
+});
+
+test("Check forward and backwards pagination causes the page content to change on the Biosamples page", async ({
+  page,
+}) => {
+  test.setTimeout(90000);
+  await testPaginationContent(page, ANVIL_TABS.BIOSAMPLES);
 });
