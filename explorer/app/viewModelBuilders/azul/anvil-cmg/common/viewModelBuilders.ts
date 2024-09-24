@@ -19,8 +19,8 @@ import { Summary } from "@databiosphere/findable-ui/lib/components/Export/compon
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import {
-  FileFacet,
   FILE_MANIFEST_TYPE,
+  FileFacet,
 } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import {
   findFacet,
