@@ -3,5 +3,5 @@ script:
   - (cd files && npm ci)
   - npm ci
   - rm -rf out
-  - npm run build:anvil-cmg
+  - npm run "$data_browser_build_script"
   - tar -cvj -f ../.gitlab/distribution.tar.bz2 out

@@ -1,4 +1,5 @@
 export const ANVIL_CMG_CATEGORY_KEY = {
+  ACCESSIBLE: "accessible",
   ACTIVITY_ACTIVITY_TYPE: "activities.activity_type",
   ACTIVITY_DATA_MODALITY: "activities.data_modality",
   ACTIVITY_DOCUMENT_ID: "activities.document_id",
@@ -27,6 +28,7 @@ export const ANVIL_CMG_CATEGORY_KEY = {
 };
 
 export const ANVIL_CMG_CATEGORY_LABEL = {
+  ACCESSIBLE: "Access",
   ACTIVITY_ACTIVITY_TYPE: "Activity Type",
   ACTIVITY_DATA_MODALITY: "Data Modality",
   ACTIVITY_DOCUMENT_ID: "Document Id",

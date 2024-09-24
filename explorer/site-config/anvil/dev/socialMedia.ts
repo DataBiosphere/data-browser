@@ -4,7 +4,7 @@ import * as C from "../../../app/components/index";
 export const SOCIALS = {
   DISCOURSE: {
     label: "Discourse",
-    url: "https://help.anvilproject.org/",
+    url: "https://help.anvilproject.org",
   },
   GITHUB: {
     label: "GitHub",
@@ -25,7 +25,6 @@ export const SOCIALS = {
 };
 
 export const socialMedia: SocialMedia = {
-  label: "Follow Us",
   socials: [
     {
       ...SOCIALS.DISCOURSE,

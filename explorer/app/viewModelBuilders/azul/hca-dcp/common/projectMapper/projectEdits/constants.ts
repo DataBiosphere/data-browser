@@ -1,4 +1,4 @@
-import { AnalysisPortal, ANALYSIS_PORTAL, ProjectEdit } from "./entities";
+import { ANALYSIS_PORTAL, AnalysisPortal, ProjectEdit } from "./entities";
 
 const cxgIcon = "/images/icons/cxg.png";
 const genomeBrowserIcon = "/images/icons/ucsc-genome.svg";

@@ -1,0 +1,3 @@
+variables:
+  data_browser_build_script: build-dev:lungmap
+  data_browser_build_env: dev

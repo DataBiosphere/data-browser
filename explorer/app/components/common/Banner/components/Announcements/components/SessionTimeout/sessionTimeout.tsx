@@ -1,5 +1,4 @@
 import { Banner } from "@databiosphere/findable-ui/lib/components/common/Banner/components/SessionTimeout/sessionTimeout.styles";
-import React from "react";
 
 export const SessionTimeout = ({ ...props }): JSX.Element => {
   return (

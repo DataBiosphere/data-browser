@@ -1,8 +1,8 @@
 import { TypographyWordBreak } from "@databiosphere/findable-ui/lib/components/common/Typography/TypographyWordBreak/TypographyWordBreak";
 import { Link as DXLink } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
 import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
+import { replaceParameters } from "@databiosphere/findable-ui/lib/utils/replaceParameters";
 import { SiteConfig } from "../../../../../../../site-config/common/entities";
-import { replaceParameters } from "./common/utils";
 
 /**
  * Basic anchor link component, used by MDX for all anchor links.
@@ -18,10 +18,12 @@ export const Link = ({
   return (
     <DXLink
       label={<TypographyWordBreak>{children}</TypographyWordBreak>}
-      url={replaceParameters(href, {
-        browserURL,
-        portalURL,
-      })}
+      url={encodeURI(
+        replaceParameters(decodeURI(href), {
+          browserURL,
+          portalURL,
+        })
+      )}
       {...linkProps}
     />
   );

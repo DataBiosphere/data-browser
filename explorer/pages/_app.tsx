@@ -18,14 +18,16 @@ import { SystemStatusProvider } from "@databiosphere/findable-ui/lib/providers/s
 import { createAppTheme } from "@databiosphere/findable-ui/lib/theme/theme";
 import { DataExplorerError } from "@databiosphere/findable-ui/lib/types/error";
 import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
-import { CssBaseline } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
+import { createTheme, CssBaseline, Theme, ThemeProvider } from "@mui/material";
+import { createBreakpoints } from "@mui/system";
+import { deepmerge } from "@mui/utils";
 import { config } from "app/config/config";
 import { FEATURES } from "app/shared/entities";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import TagManager from "react-gtm-module";
+import { BREAKPOINTS } from "../site-config/common/constants";
 
 const FEATURE_FLAGS = Object.values(FEATURES);
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
@@ -71,7 +73,17 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
             <AuthProvider sessionTimeout={SESSION_TIMEOUT}>
               <LayoutStateProvider>
                 <AppLayout>
-                  <Header {...header} />
+                  <ThemeProvider
+                    theme={(theme: Theme): Theme =>
+                      createTheme(
+                        deepmerge(theme, {
+                          breakpoints: createBreakpoints(BREAKPOINTS),
+                        })
+                      )
+                    }
+                  >
+                    <Header {...header} />
+                  </ThemeProvider>
                   <ExploreStateProvider entityListType={entityListType}>
                     <FileManifestStateProvider>
                       <Main>

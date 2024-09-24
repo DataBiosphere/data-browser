@@ -1,21 +1,23 @@
-import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import * as C from "../../../app/components/index";
-import { socialMedia, SOCIALS } from "../../anvil/dev/socialMedia";
+import { socialMedia } from "../../anvil/dev/socialMedia";
 import { SiteConfig } from "../../common/entities";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,
   ANVIL_CATALOG_CATEGORY_LABEL,
 } from "../category";
+import { PORTAL_ROUTES, ROUTES } from "./common/constants";
 import { exportConfig } from "./export/export";
 import { consortiaEntityConfig } from "./index/consortiaEntityConfig";
 import { studiesEntityConfig } from "./index/studiesEntityConfig";
 import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
+import { buildNavigation as buildFooterNavigation } from "./layout/footer/navigation/navigation";
+import { buildNavigation } from "./layout/header/navigation/navigation";
 
 // Template constants
 const APP_TITLE = "AnVIL Dataset Catalog";
 const BROWSER_URL = "https://anvilproject.dev.clevercanary.com";
 const EXPLORER_URL = "https://explore.anvilproject.dev.clevercanary.com";
-const HOME_PAGE_PATH = "/consortia";
+const HOME_PAGE_PATH = ROUTES.CONSORTIA;
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
 
@@ -87,16 +89,7 @@ export function makeConfig(
     layout: {
       footer: {
         Branding: C.ANVILBranding({ portalURL: undefined }),
-        navLinks: [
-          {
-            label: "Help",
-            url: `${portalUrl}/help`,
-          },
-          {
-            label: "Privacy",
-            url: `${portalUrl}/privacy`,
-          },
-        ],
+        navLinks: buildFooterNavigation(portalUrl),
         socials: socialMedia.socials,
       },
       header: {
@@ -107,106 +100,9 @@ export function makeConfig(
           link: portalUrl,
           src: "/images/logoAnvil.png",
         }),
-        navigation: [
-          undefined,
-          [
-            {
-              label: "Overview",
-              url: `${portalUrl}/overview`,
-            },
-            {
-              label: "Learn",
-              url: `${portalUrl}/learn`,
-            },
-            {
-              label: "Datasets",
-              menuItems: [
-                {
-                  description:
-                    "An open-access view of studies, workspaces, and consortia.",
-                  label: "Catalog",
-                  url: HOME_PAGE_PATH,
-                },
-                {
-                  description:
-                    "Build, download, and export cross-study cohorts of open and managed access data.",
-                  label: C.LabelIconMenuItem({
-                    iconFontSize: "small",
-                    label: "Explorer",
-                  }),
-                  target: ANCHOR_TARGET.BLANK,
-                  url: `${explorerUrl}/datasets`,
-                },
-              ],
-              url: "",
-            },
-            {
-              label: "Consortia",
-              url: `${portalUrl}/consortia`,
-            },
-            {
-              label: "More",
-              menuItems: [
-                {
-                  label: "News",
-                  url: `${portalUrl}/news`,
-                },
-                {
-                  label: "Events",
-                  url: `${portalUrl}/events`,
-                },
-                {
-                  label: "Team",
-                  url: `${portalUrl}/team`,
-                },
-                {
-                  label: "FAQ",
-                  url: `${portalUrl}/faq`,
-                },
-                {
-                  label: "Help",
-                  url: `${portalUrl}/help`,
-                },
-                {
-                  label: "Follow Us",
-                  menuItems: [
-                    {
-                      ...SOCIALS.DISCOURSE,
-                      icon: C.DiscourseIcon({ fontSize: "small" }),
-                      target: ANCHOR_TARGET.BLANK,
-                    },
-                    {
-                      ...SOCIALS.X,
-                      icon: C.XIcon({ fontSize: "small" }),
-                      target: ANCHOR_TARGET.BLANK,
-                    },
-                    {
-                      ...SOCIALS.YOUTUBE,
-                      icon: C.YouTubeIcon({ fontSize: "small" }),
-                      target: ANCHOR_TARGET.BLANK,
-                    },
-                    {
-                      ...SOCIALS.GITHUB,
-                      icon: C.GitHubIcon({ fontSize: "small" }),
-                      target: ANCHOR_TARGET.BLANK,
-                    },
-                    {
-                      ...SOCIALS.SLACK,
-                      icon: C.SlackIcon({ fontSize: "small" }),
-                      target: ANCHOR_TARGET.BLANK,
-                    },
-                  ],
-                  url: "",
-                  visible: { lg: false, sm: false, xs: false },
-                },
-              ],
-              url: "",
-            },
-          ],
-          undefined,
-        ],
+        navigation: buildNavigation(portalUrl, explorerUrl),
         searchEnabled: true,
-        searchURL: `${portalUrl}/search`,
+        searchURL: `${portalUrl}${PORTAL_ROUTES.SEARCH}`,
         slogan: SLOGAN,
         socialMedia,
       },

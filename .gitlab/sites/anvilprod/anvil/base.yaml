@@ -1,2 +1,3 @@
 variables:
+  data_browser_build_script: build:anvil-cmg
   data_browser_build_env: prod

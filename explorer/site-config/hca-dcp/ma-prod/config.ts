@@ -4,8 +4,8 @@ import { makeConfig } from "../dev/config";
 import { getAuthenticationConfig } from "./authentication/authentication";
 
 // Template constants
-const BROWSER_URL = "https://ma-pilot.explore.data.humancellatlas.org";
-const CATALOG = "pilot1";
+const BROWSER_URL = "https://explore.data.humancellatlas.org";
+const CATALOG = "dcp42";
 const DATA_URL = "https://service.azul.data.humancellatlas.org";
 const PORTAL_URL = "https://data.humancellatlas.org";
 
