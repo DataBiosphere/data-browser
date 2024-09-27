@@ -8,7 +8,6 @@ import {
 } from "@databiosphere/findable-ui/lib/common/entities";
 import { stringifyValues } from "@databiosphere/findable-ui/lib/common/utils";
 import { Breadcrumb } from "@databiosphere/findable-ui/lib/components/common/Breadcrumbs/breadcrumbs";
-import { CallToAction } from "@databiosphere/findable-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
 import {
   Key,
   KeyValueFn,
@@ -1213,8 +1212,8 @@ export const buildHero = (
   viewContext: ViewContext<ProjectsResponse>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   return {
+    actions: getProjectCallToAction(projectsResponse),
     breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
-    callToAction: getProjectCallToAction(projectsResponse),
     subTitle: getProjectAggregateLastModifiedDate(projectsResponse),
     title: processEntityValue(projectsResponse.projects, "projectTitle"),
   };
@@ -1231,8 +1230,8 @@ export const buildMAHero = (
   viewContext: ViewContext<ProjectsResponse>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   return {
+    actions: getProjectCallToAction(projectsResponse),
     breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
-    callToAction: getProjectCallToAction(projectsResponse),
     title: processEntityValue(projectsResponse.projects, "projectTitle"),
   };
 };
@@ -2128,23 +2127,32 @@ export function getProjectBreadcrumbs(
 }
 
 /**
- * Returns the callToAction prop for the Hero component from the given projects response.
+ * Returns the actions prop BackPageHeroActions component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @returns model to be used as props for the CallToActionButton component.
+ * @returns model to be used as props for the BackPageHeroActions component.
  */
 function getProjectCallToAction(
   projectsResponse: ProjectsResponse
-): CallToAction | undefined {
+): ReactElement | null {
   const isReady = isResponseReady(projectsResponse);
   const isAccessGranted = isProjectAccessible(projectsResponse);
   if (!isReady || isAccessGranted) {
-    return;
+    return null;
   }
-  return {
-    label: "Request Access",
-    target: ANCHOR_TARGET.BLANK,
-    url: "https://duos.org/datalibrary/HCA",
-  };
+  return C.BackPageHeroActions({
+    callToActionProps: {
+      callToAction: {
+        label: "Request Access",
+        target: ANCHOR_TARGET.BLANK,
+        url: "https://duos.org/datalibrary/HCA",
+      },
+    },
+    linkProps: {
+      getURL: (origin?: string): string =>
+        `${origin}/guides/requesting-access-to-controlled-access-data`,
+      label: "Need Help?",
+    },
+  });
 }
 
 /**
