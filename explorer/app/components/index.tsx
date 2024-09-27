@@ -5,6 +5,7 @@ export { SessionTimeout } from "@databiosphere/findable-ui/lib/components/common
 export { SystemIndexing } from "@databiosphere/findable-ui/lib/components/common/Banner/components/SystemIndexing/systemIndexing";
 export { SystemStatus } from "@databiosphere/findable-ui/lib/components/common/Banner/components/SystemStatus/systemStatus";
 export { Breadcrumbs } from "@databiosphere/findable-ui/lib/components/common/Breadcrumbs/breadcrumbs";
+export { CallToActionButton } from "@databiosphere/findable-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
 export { HelpIconButton } from "@databiosphere/findable-ui/lib/components/common/Button/components/HelpIconButton/helpIconButton";
 export { ButtonGroup } from "@databiosphere/findable-ui/lib/components/common/ButtonGroup/buttonGroup";
 export {
@@ -95,6 +96,7 @@ export { ManifestDownloadEntity as AnVILManifestDownloadEntity } from "./Export/
 export { BioNetworkCell } from "./Index/components/BioNetworkCell/bioNetworkCell";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
 export { CopyCell } from "./Index/components/CopyCell/copyCell";
+export { BackPageHeroActions } from "./Layout/components/BackPage/components/BackPageHero/components/BackPageHeroActions/backPageHeroActions";
 export { ANVILBranding } from "./Layout/components/Footer/components/Branding/components/ANVILBranding/anvilBranding";
 export { HCABranding } from "./Layout/components/Footer/components/Branding/components/HCABranding/hcaBranding";
 export { ANVILExplorer } from "./Layout/components/Header/components/Content/components/Logo/components/LogoExplorer/components/ANVILExplorer/ANVILExplorer";
