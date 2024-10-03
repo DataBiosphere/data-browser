@@ -49,6 +49,10 @@ through the actions taken as part of the test and view the impact on the web pag
     - Checks an arbitrary list of three filters on the "Files" and "BioSamples" tabs
   - Check that the clear all button deselects all filters, after an arbitrary list is selected
     - Uses an arbitrary list of three filters and runs on the "Files" tab
+  - Search filters bar
+    - Check that filters can be selected through the search bar
+    - Check that filters can be deselected through the search bar
+    - Both tests run on all tabs
 - Pagination (`anvil-pagination.spec.ts`)
   - Check that, on the first page, the back button is disabled and the forward button is enabled
     - Uses the "Donors" tab only
