@@ -3,7 +3,7 @@ import withPlugins from "next-compose-plugins";
 import path from "path";
 
 const ESM_PACKAGES = [
-  "axios",
+  "ky",
   "@databiosphere/findable-ui",
   "@tanstack/react-table",
 ];
