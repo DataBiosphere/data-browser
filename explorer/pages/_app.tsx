@@ -9,7 +9,9 @@ import { Footer } from "@databiosphere/findable-ui/lib/components/Layout/compone
 import { Header } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/header";
 import { Main as DXMain } from "@databiosphere/findable-ui/lib/components/Layout/components/Main/main";
 import { setFeatureFlags } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/common/utils";
-import { AuthProvider } from "@databiosphere/findable-ui/lib/providers/authentication";
+import { useGTM } from "@databiosphere/findable-ui/lib/hooks/useGTM";
+import { GoogleSignInProvider } from "@databiosphere/findable-ui/lib/providers/authentication/auth/googleSignIn/provider";
+import { TerraProfileProvider } from "@databiosphere/findable-ui/lib/providers/authentication/terra/provider";
 import { ConfigProvider as DXConfigProvider } from "@databiosphere/findable-ui/lib/providers/config";
 import { ExploreStateProvider } from "@databiosphere/findable-ui/lib/providers/exploreState";
 import { FileManifestStateProvider } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
@@ -25,8 +27,6 @@ import { config } from "app/config/config";
 import { FEATURES } from "app/shared/entities";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
-import { useEffect } from "react";
-import TagManager from "react-gtm-module";
 import { BREAKPOINTS } from "../site-config/common/constants";
 
 const FEATURE_FLAGS = Object.values(FEATURES);
@@ -49,20 +49,12 @@ setFeatureFlags(FEATURE_FLAGS);
 function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
   // Set up the site configuration, layout and theme.
   const appConfig = config();
-  const { analytics, layout, redirectRootToPath, themeOptions } = appConfig;
-  const { gtmAuth, gtmId, gtmPreview } = analytics || {};
+  const { layout, redirectRootToPath, themeOptions } = appConfig;
   const { floating, footer, header } = layout || {};
   const theme = createAppTheme(themeOptions);
   const { entityListType, pageTitle } = pageProps as PageProps;
   const Main = Component.Main || DXMain;
-
-  // Initialize Google Tag Manager.
-  useEffect(() => {
-    if (gtmId) {
-      TagManager.initialize({ auth: gtmAuth, gtmId, preview: gtmPreview });
-    }
-  }, [gtmAuth, gtmId, gtmPreview]);
-
+  useGTM(appConfig); // Initialize Google Tag Manager.
   return (
     <EmotionThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
@@ -70,7 +62,10 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
           <Head pageTitle={pageTitle} />
           <CssBaseline />
           <SystemStatusProvider>
-            <AuthProvider sessionTimeout={SESSION_TIMEOUT}>
+            <GoogleSignInProvider
+              APIServicesProvider={TerraProfileProvider}
+              timeout={SESSION_TIMEOUT}
+            >
               <LayoutStateProvider>
                 <AppLayout>
                   <ThemeProvider
@@ -112,7 +107,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
                   <Footer {...footer} />
                 </AppLayout>
               </LayoutStateProvider>
-            </AuthProvider>
+            </GoogleSignInProvider>
           </SystemStatusProvider>
         </DXConfigProvider>
       </ThemeProvider>

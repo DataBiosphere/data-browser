@@ -1,5 +1,20 @@
 import { BreakpointKey } from "@databiosphere/findable-ui/lib/hooks/useBreakpointHelper";
 import { Breakpoints } from "@mui/system";
+import { GoogleProfile } from "../../../../findable-ui/lib/providers/authentication/auth/oauth/GoogleOAuth/hooks/service/types";
+import { OAuthProvider } from "../../../../findable-ui/src/config/entities";
+
+export const OAUTH_GOOGLE_SIGN_IN: Pick<
+  OAuthProvider<GoogleProfile>,
+  "authorization" | "userinfo"
+> = {
+  authorization: {
+    params: {
+      scope:
+        "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
+    },
+  },
+  userinfo: "https://www.googleapis.com/oauth2/v3/userinfo",
+};
 
 export const BREAKPOINTS: Partial<Breakpoints> = {
   values: {

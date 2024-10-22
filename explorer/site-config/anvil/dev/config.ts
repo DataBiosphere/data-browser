@@ -1,7 +1,6 @@
 import { SiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil/common/constants";
 import * as C from "../../../app/components/index";
-import { authenticationConfig } from "./authentication/authentication";
 import { ANVIL_CATEGORY_KEY, ANVIL_CATEGORY_LABEL } from "./category";
 import { exportConfig } from "./export/export";
 import { activitiesEntityConfig } from "./index/activitiesEntityConfig";
@@ -22,7 +21,7 @@ export const URL_DATASETS = "/datasets";
 const config: SiteConfig = {
   analytics: undefined,
   appTitle: APP_TITLE,
-  authentication: authenticationConfig,
+  authentication: undefined,
   browserURL: BROWSER_URL,
   categoryGroupConfig: {
     categoryGroups: [
