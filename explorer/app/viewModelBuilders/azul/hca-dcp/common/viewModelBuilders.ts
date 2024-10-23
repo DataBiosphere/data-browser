@@ -976,7 +976,7 @@ export const buildExportMethodManifestDownload = (
       "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
     route: ROUTE_MANIFEST_DOWNLOAD,
     title: "Download a File Manifest with Metadata for the Selected Data",
-    trackingId: "button_request_file_manifest",
+    trackingId: "button-request-file-manifest",
   };
 };
 
