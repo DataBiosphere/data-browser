@@ -997,6 +997,7 @@ export const buildExportMethodTerra = (
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     route: ROUTE_EXPORT_TO_TERRA,
     title: "Export Study Data and Metadata to Terra Workspace",
+    trackingId: "button-analyze-in-terra",
   };
 };
 
