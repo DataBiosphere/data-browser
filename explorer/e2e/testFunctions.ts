@@ -232,7 +232,6 @@ export async function testSortCatalog(
   const columnNameArray = (
     await page.getByRole("columnheader").allInnerTexts()
   ).map((entry) => entry.trim());
-  console.log(columnNameArray);
   const columnObjectArray = Array.from(Object.values(tab.preselectedColumns));
   for (
     let columnPosition = 0;
@@ -409,32 +408,66 @@ export const getNamedFilterOptionLocator = (
 };
 
 /**
- * Get a locator for the first filter option. Requires a filter menu to be open
+ * Get a locator for the nth filter option on the page.
  * @param page - a Playwright page object
- * @returns a Playwright locator to the filter button
+ * @param n - the index of the filter option to get
+ * @returns - a Playwright locator object for the first filter option on the page
  */
-export const getFirstFilterOptionLocator = (page: Page): Locator => {
+const getNthFilterOptionLocator = (page: Page, n: number): Locator => {
   return page
     .getByRole("button")
     .filter({ has: page.getByRole("checkbox") })
-    .first();
-};
-
-export const getFilterOptionName = async (
-  firstFilterOptionLocator: Locator
-): Promise<string> => {
-  console.log(await firstFilterOptionLocator.innerText());
-  // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we split on newlines and take the first non-empty string
-  return (
-    (await firstFilterOptionLocator.innerText())
-      .split("\n")
-      .map((x) => x.trim())
-      .find((x) => x.length > 0) ?? ""
-  );
+    .nth(n);
 };
 
 /**
- * Cheks that selecting a specified filter is persistent across the tabs in tabOrder
+ * Get a locator for the first filter option on the page.
+ * @param page - a Playwright page object
+ * @returns - a Playwright locator object for the first filter option on the page
+ */
+export const getFirstFilterOptionLocator = (page: Page): Locator => {
+  return getNthFilterOptionLocator(page, 0);
+};
+
+interface FilterOptionNameAndLocator {
+  locator: Locator;
+  name: string;
+}
+
+const MAX_FILTER_OPTIONS_TO_CHECK = 10;
+
+/**
+ * Gets the name of the filter option associated with a locator
+ * @param page - a Playwright Page object, on which a filter must be currently selected
+ * @returns the innerText of the first nonempty filter option as a promise
+ */
+const getFirstNonEmptyFilterOptionNameAndLocator = async (
+  page: Page
+): Promise<FilterOptionNameAndLocator> => {
+  let filterNameToSelect = "";
+  let filterOptionLocator = undefined;
+  let i = 0;
+  while (filterNameToSelect === "" && i < MAX_FILTER_OPTIONS_TO_CHECK) {
+    // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we want the string before the newline
+    const filterOptionRegex = /^(.*)\n+([0-9]+)\s*$/;
+    filterOptionLocator = getNthFilterOptionLocator(page, i);
+    console.log(await filterOptionLocator.innerText());
+    filterNameToSelect = ((await filterOptionLocator.innerText())
+      .trim()
+      .match(filterOptionRegex) ?? ["", ""])[1];
+    i += 1;
+  }
+
+  if (filterOptionLocator === undefined || filterNameToSelect === "") {
+    throw new Error(
+      "No locator found within the maximum number of filter options"
+    );
+  }
+  return { locator: filterOptionLocator, name: filterNameToSelect };
+};
+
+/**
+ * Checks that selecting a specified filter is persistent across the tabs in tabOrder
  * @param page - a Playwright page object
  * @param testFilterName - the name of the filter to check
  * @param tabOrder - the tabs to check, in order. The filter will be selected on the first tab.
@@ -622,16 +655,16 @@ export async function testClearAll(
 ): Promise<void> {
   await page.goto(tab.url);
   const selectedFilterNamesList = [];
-  // Select each filter and get the names of the actual filter text
+  // Select each filter and get the names of the filter option text
   for (const filterName of filterNames) {
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    await getFirstFilterOptionLocator(page).getByRole("checkbox").click();
+    const filterOptionNameAndLocator =
+      await getFirstNonEmptyFilterOptionNameAndLocator(page);
+    await filterOptionNameAndLocator.locator.click();
     await expect(
-      getFirstFilterOptionLocator(page).getByRole("checkbox")
+      filterOptionNameAndLocator.locator.getByRole("checkbox")
     ).toBeChecked();
-    selectedFilterNamesList.push(
-      await getFilterOptionName(getFirstFilterOptionLocator(page))
-    );
+    selectedFilterNamesList.push(filterOptionNameAndLocator.name);
     await page.locator("body").click();
   }
   // Click the "Clear All" button
@@ -678,10 +711,9 @@ export async function testSelectFiltersThroughSearchBar(
     // Get the first filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
-    const filterOptionName = await getFilterOptionName(
-      firstFilterOptionLocator
-    );
+    const filterOptionName = (
+      await getFirstNonEmptyFilterOptionNameAndLocator(page)
+    ).name;
     await page.locator("body").click();
     // Search for the filter option
     const searchFiltersInputLocator = page.getByPlaceholder(
@@ -717,11 +749,11 @@ export async function testDeselectFiltersThroughSearchBar(
     // Select each filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
+    const firstFilterOptionNameAndLocator =
+      await getFirstNonEmptyFilterOptionNameAndLocator(page);
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
-    const filterOptionName = await getFilterOptionName(
-      firstFilterOptionLocator
-    );
-    await firstFilterOptionLocator.click();
+    const filterOptionName = firstFilterOptionNameAndLocator.name;
+    await firstFilterOptionLocator.getByRole("checkbox").click();
     await page.locator("body").click();
     // Search for and check the selected filter
     const searchFiltersInputLocator = page.getByPlaceholder(
