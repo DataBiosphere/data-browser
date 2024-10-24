@@ -10,7 +10,7 @@ import { Header } from "@databiosphere/findable-ui/lib/components/Layout/compone
 import { Main as DXMain } from "@databiosphere/findable-ui/lib/components/Layout/components/Main/main";
 import { setFeatureFlags } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/common/utils";
 import { useGTM } from "@databiosphere/findable-ui/lib/hooks/useGTM";
-import { GoogleSignInProvider } from "@databiosphere/findable-ui/lib/providers/authentication/auth/googleSignIn/provider";
+import { GoogleSignInProvider } from "@databiosphere/findable-ui/lib/providers/authentication/googleSignIn/provider";
 import { TerraProfileProvider } from "@databiosphere/findable-ui/lib/providers/authentication/terra/provider";
 import { ConfigProvider as DXConfigProvider } from "@databiosphere/findable-ui/lib/providers/config";
 import { ExploreStateProvider } from "@databiosphere/findable-ui/lib/providers/exploreState";

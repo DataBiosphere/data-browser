@@ -1,6 +1,6 @@
 import { OAuthProvider } from "@databiosphere/findable-ui/lib/config/entities";
-import { GoogleProfile } from "@databiosphere/findable-ui/lib/providers/authentication/auth/oauth/GoogleOAuth/hooks/service/types";
-import { GOOGLE_SIGN_IN_PROVIDER } from "@databiosphere/findable-ui/lib/providers/authentication/auth/oauth/GoogleOAuth/service/constants";
+import { GoogleProfile } from "@databiosphere/findable-ui/lib/providers/authentication/googleSignIn/profile/types";
+import { GOOGLE_SIGN_IN_PROVIDER } from "@databiosphere/findable-ui/lib/providers/authentication/googleSignIn/service/constants";
 import { OAUTH_GOOGLE_SIGN_IN } from "../../../common/constants";
 
 const CLIENT_ID =

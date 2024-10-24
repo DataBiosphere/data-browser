@@ -1,7 +1,7 @@
 import { BreakpointKey } from "@databiosphere/findable-ui/lib/hooks/useBreakpointHelper";
+import { GoogleProfile } from "@databiosphere/findable-ui/lib/providers/authentication/googleSignIn/profile/types";
+import { OAuthProvider } from "@databiosphere/findable-ui/src/config/entities";
 import { Breakpoints } from "@mui/system";
-import { GoogleProfile } from "../../../../findable-ui/lib/providers/authentication/auth/oauth/GoogleOAuth/hooks/service/types";
-import { OAuthProvider } from "../../../../findable-ui/src/config/entities";
 
 export const OAUTH_GOOGLE_SIGN_IN: Pick<
   OAuthProvider<GoogleProfile>,
