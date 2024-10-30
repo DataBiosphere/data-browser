@@ -7,6 +7,7 @@ export interface TabDescription {
   backpageExportButtons?: BackpageExportButtons;
   backpageHeaders?: BackpageHeader[];
   emptyFirstColumn: boolean;
+  indexExportPage?: IndexExportButtons;
   maxPages?: number;
   preselectedColumns: StringToColumnDescription;
   searchFiltersPlaceholderText: string;
@@ -49,14 +50,27 @@ export interface BackpageAccessTags {
   grantedShortName: string;
 }
 
-export interface BackpageExportButtons {
-  accessNotGrantedMessage: string;
+export interface ExportButtonInfo {
   detailsName: string;
   exportActionButtonText: string;
   exportRequestButtonText: string;
+  firstLandingMessage?: string; //TODO: rename to requestLoadingMessage
+  firstLoadingMessage?: string;
+  secondLandingMessage?: string; //TODO: rename to actionLaodingMessage
+  secondLoadingMessage?: string;
+}
+
+export interface BackpageExportButtons extends ExportButtonInfo {
+  accessNotGrantedMessage: string;
   exportTabName: string;
   exportUrlRegExp: RegExp;
-  firstLoadingMessage: string;
   newTabMessage: string;
-  secondLandingMessage: string;
+}
+
+//TODO: might need to make it so that there's an interface with indexExportButtonText
+// and a list of other objects that go to different export pages for this to work with HCA
+export interface IndexExportButtons extends ExportButtonInfo {
+  detailsToCheck: string[];
+  exportOptionButtonText: string;
+  indexExportButtonText: string;
 }

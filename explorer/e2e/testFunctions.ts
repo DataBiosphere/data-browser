@@ -769,7 +769,9 @@ export async function testExportBackpage(
 ): Promise<void> {
   if (
     tab.backpageExportButtons === undefined ||
-    tab.backpageAccessTags === undefined
+    tab.backpageAccessTags === undefined ||
+    tab.backpageExportButtons?.firstLoadingMessage === undefined ||
+    tab.backpageExportButtons?.secondLandingMessage === undefined
   ) {
     // Fail if this test is ran on a tab without defined backpages
     await expect(false);
@@ -1041,6 +1043,158 @@ export async function testBackpageDetails(
   await expect(
     page.getByText(tab.backpageExportButtons.detailsName)
   ).toBeVisible();
+  for (const headerValue of headers) {
+    // Expect the correct value to be below the correct header in the dataset values table
+    await expect(
+      page
+        .locator(`:below(:text('${headerValue.header}'))`)
+        .getByText(headerValue.value)
+        .first()
+    ).toBeVisible();
+  }
+  return true;
+}
+
+type DownloadResult = {
+  filename: string;
+  url: string;
+};
+
+/**
+ * Attempt to download a file, confirm that it succeeds, and get the filename and file url
+ * @param page - a Playwright Page object
+ * @param downloadActionLocator - a locator that initiates the file download when clicked
+ * @returns - an object containing the url and filename
+ */
+async function checkDownloadAndReturnLink(
+  page: Page,
+  downloadActionLocator: Locator
+): Promise<DownloadResult> {
+  const downloadPromise = page.waitForEvent("download");
+  await downloadActionLocator.click();
+  const download = await downloadPromise;
+  const downloadFilename = download.suggestedFilename();
+  const downloadUrl = download.url();
+  return {
+    filename: downloadFilename,
+    url: downloadUrl,
+  };
+}
+
+export async function testIndexExportWorkflow(
+  page: Page,
+  tab: TabDescription
+): Promise<boolean> {
+  if (tab?.indexExportPage === undefined) {
+    console.log(
+      "testIndexExportWorkflow Error: indexExportPage not specified for given tab, so test cannot run"
+    );
+    return false;
+  }
+  await page.goto(tab.url);
+  const exportButtonLocator = page.getByRole("link", {
+    name: tab.indexExportPage.indexExportButtonText,
+  });
+  await expect(exportButtonLocator).toBeVisible();
+  await exportButtonLocator.click();
+  await expect(
+    page.getByText(tab.indexExportPage.firstLandingMessage ?? "")
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", {
+      name: tab.indexExportPage.exportOptionButtonText,
+    })
+  ).toBeEnabled();
+  await page
+    .getByRole("link", { name: tab.indexExportPage.exportOptionButtonText })
+    .click();
+  const exportRequestButtonLocator = page.getByRole("button", {
+    name: tab.indexExportPage.exportRequestButtonText,
+  });
+  await expect(exportRequestButtonLocator).toBeEnabled();
+  // TODO: below is code copied from #4080, refactor this to a separate function to call that instead
+  // Expect there to be exactly one table on the backpage
+  await expect(page.getByRole("table")).toHaveCount(1);
+  const allNonTableCheckboxLocators = await page
+    .locator("input[type='checkbox']:not(table input[type='checkbox'])")
+    .all();
+  for (const checkboxLocator of allNonTableCheckboxLocators) {
+    await checkboxLocator.click();
+    await expect(checkboxLocator).toBeChecked();
+    await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
+  }
+  // Check the second checkbox in the table (this should be the checkbox after the "select all checkbox")
+  const tableLocator = page.getByRole("table");
+  const allInTableCheckboxLocators = await tableLocator
+    .getByRole("checkbox")
+    .all();
+  const secondCheckboxInTableLocator = allInTableCheckboxLocators[1];
+  await secondCheckboxInTableLocator.click();
+  await expect(secondCheckboxInTableLocator).toBeChecked();
+  await expect(secondCheckboxInTableLocator).toBeEnabled({ timeout: 10000 });
+  // Make sure that no other checkboxes are selected
+  const otherInTableCheckboxLocators = [
+    allInTableCheckboxLocators[0],
+    ...allInTableCheckboxLocators.slice(2),
+  ];
+  for (const otherCheckboxLocator of otherInTableCheckboxLocators) {
+    await expect(otherCheckboxLocator).not.toBeChecked();
+    await expect(otherCheckboxLocator).toBeEnabled();
+  }
+  // Click the Export Request button
+  await expect(exportRequestButtonLocator).toBeEnabled({ timeout: 10000 });
+  await exportRequestButtonLocator.click();
+  if (tab.indexExportPage?.secondLoadingMessage !== undefined) {
+    await expect(
+      page.getByText(tab.indexExportPage.secondLoadingMessage, {
+        exact: true,
+      })
+    ).toBeVisible();
+  }
+  // END copying from #4080
+  const exportActionButtonLocator = page.getByRole("link", {
+    name: tab.indexExportPage?.exportActionButtonText,
+  });
+  await expect(exportActionButtonLocator).toBeEnabled();
+  const downloadResult = await checkDownloadAndReturnLink(
+    page,
+    exportActionButtonLocator
+  );
+  console.log(downloadResult);
+  return true;
+  //TODO: validate the results from the downnload
+}
+
+export async function testIndexExportDetails(
+  page: Page,
+  tab: TabDescription
+): Promise<boolean> {
+  if (tab?.indexExportPage === undefined) {
+    console.log(
+      "testIndexExportDetails Error: indexExportPage not specified for given tab, so test cannot run"
+    );
+    return false;
+  }
+  await page.goto(tab.url);
+  //await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
+  const headers: { header: string; value: string }[] = [];
+  const indexExportButtonLocator = page.getByRole("link", {
+    name: tab.indexExportPage.indexExportButtonText,
+  });
+  await expect(indexExportButtonLocator).toBeVisible();
+  for (const detail of tab.indexExportPage.detailsToCheck) {
+    // This Regexp gets a decimal number, some whitespace, then the name of the detail, matching how the detail box appears to Playwright.
+    const detailBoxRegexp = RegExp(`^([0-9]+\\.[0-9]+k)\\s*${detail}$`);
+    console.log(await page.getByText(detailBoxRegexp).innerText());
+    // This gets the detail's value. The .trim() is necessary since innertext adds extraneous whitespace on Webkit
+    headers.push({
+      header: detail,
+      value: ((await page.getByText(detailBoxRegexp).innerText())
+        .trim()
+        .match(detailBoxRegexp) ?? ["", "ERROR"])[1],
+    });
+  }
+  await indexExportButtonLocator.click();
   for (const headerValue of headers) {
     // Expect the correct value to be below the correct header in the dataset values table
     await expect(

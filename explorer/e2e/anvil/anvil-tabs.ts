@@ -1,6 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 import {
   AnvilCMGTabCollection,
+  IndexExportButtons,
   TabCollectionKeys,
   TabDescription,
 } from "../testInterfaces";
@@ -45,9 +46,23 @@ export const REPORTED_ETHNICITY_INDEX = 10;
 
 const ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT = "Search all filters...";
 
+export const anvilIndexExportButtons: IndexExportButtons = {
+  detailsName: "Selected Data Summary",
+  detailsToCheck: ["BioSamples", "Donors", "Files"],
+  exportActionButtonText: "Download Manifest",
+  exportOptionButtonText: "Request File Manifest",
+  exportRequestButtonText: "Prepare Manifest",
+  firstLandingMessage:
+    "Download a File Manifest with Metadata for the Selected Data",
+  indexExportButtonText: "Export",
+  secondLandingMessage: "Confirm Organism Type and Manifest File Formats",
+  secondLoadingMessage: "Your manifest will be ready shortly...",
+};
+
 export const ANVIL_TABS: AnvilCMGTabCollection = {
   ACTIVITIES: {
     emptyFirstColumn: false,
+    indexExportPage: anvilIndexExportButtons,
     maxPages: 25,
     preselectedColumns: ANVIL_ACTIVITIES_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
@@ -57,6 +72,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
   },
   BIOSAMPLES: {
     emptyFirstColumn: false,
+    indexExportPage: anvilIndexExportButtons,
     maxPages: 25,
     preselectedColumns: ANVIL_BIOSAMPLES_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
@@ -132,6 +148,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
       },
     ],
     emptyFirstColumn: false,
+    indexExportPage: anvilIndexExportButtons,
     maxPages: 25,
     preselectedColumns: ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
@@ -141,6 +158,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
   },
   DONORS: {
     emptyFirstColumn: false,
+    indexExportPage: anvilIndexExportButtons,
     maxPages: 25,
     preselectedColumns: ANVIL_DONORS_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
@@ -150,6 +168,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
   },
   FILES: {
     emptyFirstColumn: true,
+    indexExportPage: anvilIndexExportButtons,
     maxPages: 25,
     preselectedColumns: ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
