@@ -1142,7 +1142,7 @@ export async function testIndexExportWorkflow(
   //TODO: validate the results from the downnload
 }
 
-export async function testIndexExportDetails(
+export async function testIndexExportSummary(
   page: Page,
   tab: TabDescription
 ): Promise<boolean> {
