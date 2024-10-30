@@ -756,6 +756,46 @@ const getBackpageLinkLocatorByAccess = (page: Page, access: string): Locator =>
     .first()
     .getByRole("link");
 
+const makeMinimalExportRequest = async (
+  page: Page,
+  exportRequestButtonLocator: Locator
+): Promise<void> => {
+  await expect(exportRequestButtonLocator).toBeEnabled();
+  // Expect there to be exactly one table on the backpage
+  await expect(page.getByRole("table")).toHaveCount(1);
+  // Select all checkboxes that are not in a table
+  const allNonTableCheckboxLocators = await page
+    .locator("input[type='checkbox']:not(table input[type='checkbox'])")
+    .all();
+  for (const checkboxLocator of allNonTableCheckboxLocators) {
+    await checkboxLocator.click();
+    await expect(checkboxLocator).toBeChecked();
+    await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
+  }
+
+  // Check the second checkbox in the table (this should be the checkbox after the "select all checkbox")
+  const tableLocator = page.getByRole("table");
+  const allInTableCheckboxLocators = await tableLocator
+    .getByRole("checkbox")
+    .all();
+  const secondCheckboxInTableLocator = allInTableCheckboxLocators[1];
+  await secondCheckboxInTableLocator.click();
+  await expect(secondCheckboxInTableLocator).toBeChecked();
+  await expect(secondCheckboxInTableLocator).toBeEnabled({ timeout: 10000 });
+  // Make sure that no other checkboxes are selected
+  const otherInTableCheckboxLocators = [
+    allInTableCheckboxLocators[0],
+    ...allInTableCheckboxLocators.slice(2),
+  ];
+  for (const otherCheckboxLocator of otherInTableCheckboxLocators) {
+    await expect(otherCheckboxLocator).not.toBeChecked();
+    await expect(otherCheckboxLocator).toBeEnabled();
+  }
+  // Click the Export Request button
+  await expect(exportRequestButtonLocator).toBeEnabled({ timeout: 10000 });
+  await exportRequestButtonLocator.click();
+};
+
 /**
  * Test the export process for the specified tab
  * @param context - a Playwright browser context object
@@ -801,39 +841,8 @@ export async function testExportBackpage(
   const exportRequestButtonLocator = page.getByRole("button", {
     name: tab.backpageExportButtons.exportRequestButtonText,
   });
-  await expect(exportRequestButtonLocator).toBeEnabled();
-  // Select all checkboxes that are not in a table
-  const allNonTableCheckboxLocators = await page
-    .locator("input[type='checkbox']:not(table input[type='checkbox'])")
-    .all();
-  for (const checkboxLocator of allNonTableCheckboxLocators) {
-    await checkboxLocator.click();
-    await expect(checkboxLocator).toBeChecked();
-    await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
-  }
-  // Expect there to be exactly one table on the backpage
-  await expect(page.getByRole("table")).toHaveCount(1);
-  // Check the second checkbox in the table (this should be the checkbox after the "select all checkbox")
-  const tableLocator = page.getByRole("table");
-  const allInTableCheckboxLocators = await tableLocator
-    .getByRole("checkbox")
-    .all();
-  const secondCheckboxInTableLocator = allInTableCheckboxLocators[1];
-  await secondCheckboxInTableLocator.click();
-  await expect(secondCheckboxInTableLocator).toBeChecked();
-  await expect(secondCheckboxInTableLocator).toBeEnabled({ timeout: 10000 });
-  // Make sure that no other checkboxes are selected
-  const otherInTableCheckboxLocators = [
-    allInTableCheckboxLocators[0],
-    ...allInTableCheckboxLocators.slice(2),
-  ];
-  for (const otherCheckboxLocator of otherInTableCheckboxLocators) {
-    await expect(otherCheckboxLocator).not.toBeChecked();
-    await expect(otherCheckboxLocator).toBeEnabled();
-  }
-  // Click the Export Request button
-  await expect(exportRequestButtonLocator).toBeEnabled({ timeout: 10000 });
-  await exportRequestButtonLocator.click();
+  // Complete the export request form
+  await makeMinimalExportRequest(page, exportRequestButtonLocator);
   await expect(
     page.getByText(tab.backpageExportButtons.firstLoadingMessage, {
       exact: true,
@@ -1111,39 +1120,8 @@ export async function testIndexExportWorkflow(
   const exportRequestButtonLocator = page.getByRole("button", {
     name: tab.indexExportPage.exportRequestButtonText,
   });
-  await expect(exportRequestButtonLocator).toBeEnabled();
-  // TODO: below is code copied from #4080, refactor this to a separate function to call that instead
-  // Expect there to be exactly one table on the backpage
-  await expect(page.getByRole("table")).toHaveCount(1);
-  const allNonTableCheckboxLocators = await page
-    .locator("input[type='checkbox']:not(table input[type='checkbox'])")
-    .all();
-  for (const checkboxLocator of allNonTableCheckboxLocators) {
-    await checkboxLocator.click();
-    await expect(checkboxLocator).toBeChecked();
-    await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
-  }
-  // Check the second checkbox in the table (this should be the checkbox after the "select all checkbox")
-  const tableLocator = page.getByRole("table");
-  const allInTableCheckboxLocators = await tableLocator
-    .getByRole("checkbox")
-    .all();
-  const secondCheckboxInTableLocator = allInTableCheckboxLocators[1];
-  await secondCheckboxInTableLocator.click();
-  await expect(secondCheckboxInTableLocator).toBeChecked();
-  await expect(secondCheckboxInTableLocator).toBeEnabled({ timeout: 10000 });
-  // Make sure that no other checkboxes are selected
-  const otherInTableCheckboxLocators = [
-    allInTableCheckboxLocators[0],
-    ...allInTableCheckboxLocators.slice(2),
-  ];
-  for (const otherCheckboxLocator of otherInTableCheckboxLocators) {
-    await expect(otherCheckboxLocator).not.toBeChecked();
-    await expect(otherCheckboxLocator).toBeEnabled();
-  }
-  // Click the Export Request button
-  await expect(exportRequestButtonLocator).toBeEnabled({ timeout: 10000 });
-  await exportRequestButtonLocator.click();
+  // Complete the export request form
+  await makeMinimalExportRequest(page, exportRequestButtonLocator);
   if (tab.indexExportPage?.secondLoadingMessage !== undefined) {
     await expect(
       page.getByText(tab.indexExportPage.secondLoadingMessage, {
@@ -1151,7 +1129,6 @@ export async function testIndexExportWorkflow(
       })
     ).toBeVisible();
   }
-  // END copying from #4080
   const exportActionButtonLocator = page.getByRole("link", {
     name: tab.indexExportPage?.exportActionButtonText,
   });
