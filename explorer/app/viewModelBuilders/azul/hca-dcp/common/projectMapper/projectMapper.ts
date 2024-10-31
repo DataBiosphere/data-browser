@@ -11,6 +11,8 @@ import {
   ProjectResponse,
   PublicationResponse,
 } from "../../../../../apis/azul/hca-dcp/common/entities";
+import { Atlas } from "../../../../../components/Detail/components/Section/components/AtlasSection/types";
+import { isNetworkKey } from "../../../../../components/Index/common/utils";
 import { CONTRIBUTOR_ROLE } from "./constants";
 import { AnalysisPortal, ProjectEdit } from "./projectEdits/entities";
 import { projectEdits } from "./projectEdits/projectEdits";
@@ -28,6 +30,23 @@ export function mapProjectAnalysisPortals(
   }
   const { analysisPortals } = getProjectEdit(projectResponse.projectId) || {};
   return analysisPortals;
+}
+
+/**
+ * Maps project tissue atlases from the project response to network key and corresponding atlas name.
+ * @param projectResponse - Response model return from project API.
+ * @returns list of atlas with network key and atlas name.
+ */
+export function mapProjectAtlas(projectResponse?: ProjectResponse): Atlas[] {
+  if (!projectResponse) return [];
+  return projectResponse.tissueAtlas.reduce((acc, { atlas, version }, i) => {
+    if (!atlas) return acc;
+    const networkKey = projectResponse.bionetworkName[i];
+    if (isNetworkKey(networkKey)) {
+      acc.push({ atlasName: `${atlas} ${version}`, networkKey });
+    }
+    return acc;
+  }, [] as Atlas[]);
 }
 
 /**

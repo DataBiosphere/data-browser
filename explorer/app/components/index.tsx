@@ -92,6 +92,7 @@ export { FileLocationCopy } from "./Detail/components/GeneratedMatricesTables/co
 export { FileLocationDownload } from "./Detail/components/GeneratedMatricesTables/components/FileLocationDownload/fileLocationDownload";
 export { FileNameCell } from "./Detail/components/GeneratedMatricesTables/components/FileNameCell/fileNameCell";
 export { GeneratedMatricesTables } from "./Detail/components/GeneratedMatricesTables/generatedMatricesTables";
+export { AtlasSection } from "./Detail/components/Section/components/AtlasSection/atlasSection";
 export { ManifestDownloadEntity as AnVILManifestDownloadEntity } from "./Export/components/AnVILExplorer/components/ManifestDownload/components/ManifestDownloadEntity/manifestDownloadEntity";
 export { BioNetworkCell } from "./Index/components/BioNetworkCell/bioNetworkCell";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
