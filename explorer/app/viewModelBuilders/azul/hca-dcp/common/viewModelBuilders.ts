@@ -976,6 +976,7 @@ export const buildExportMethodManifestDownload = (
       "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
     route: ROUTE_MANIFEST_DOWNLOAD,
     title: "Download a File Manifest with Metadata for the Selected Data",
+    trackingId: "button-request-file-manifest",
   };
 };
 
@@ -996,6 +997,7 @@ export const buildExportMethodTerra = (
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     route: ROUTE_EXPORT_TO_TERRA,
     title: "Export Study Data and Metadata to Terra Workspace",
+    trackingId: "button-analyze-in-terra",
   };
 };
 
