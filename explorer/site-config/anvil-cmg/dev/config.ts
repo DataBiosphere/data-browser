@@ -21,7 +21,7 @@ import { floating } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
-const DATA_URL = "https://service.anvil.gi.ucsc.edu";
+const DATA_URL = "https://service.explore.anvilproject.org";
 const BROWSER_URL = "https://explore.anvil.gi.ucsc.edu";
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 
@@ -221,6 +221,11 @@ export function makeConfig(
   };
 }
 
-const config: SiteConfig = makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL);
+const config: SiteConfig = makeConfig(
+  BROWSER_URL,
+  PORTAL_URL,
+  DATA_URL,
+  "anvil7"
+);
 
 export default config;
