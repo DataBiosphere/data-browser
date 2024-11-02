@@ -5,7 +5,7 @@ import { getAuthenticationConfig } from "./authentication/authentication";
 
 // Template constants
 const BROWSER_URL = "https://explore.data.humancellatlas.org";
-const CATALOG = "dcp42";
+const CATALOG = "dcp43";
 const DATA_URL = "https://service.azul.data.humancellatlas.org";
 const PORTAL_URL = "https://data.humancellatlas.org";
 
