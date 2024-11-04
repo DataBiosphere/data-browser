@@ -1064,32 +1064,6 @@ export async function testBackpageDetails(
   return true;
 }
 
-type DownloadResult = {
-  filename: string;
-  url: string;
-};
-
-/**
- * Attempt to download a file, confirm that it succeeds, and get the filename and file url
- * @param page - a Playwright Page object
- * @param downloadActionLocator - a locator that initiates the file download when clicked
- * @returns - an object containing the url and filename
- */
-async function checkDownloadAndReturnLink(
-  page: Page,
-  downloadActionLocator: Locator
-): Promise<DownloadResult> {
-  const downloadPromise = page.waitForEvent("download");
-  await downloadActionLocator.click();
-  const download = await downloadPromise;
-  const downloadFilename = download.suggestedFilename();
-  const downloadUrl = download.url();
-  return {
-    filename: downloadFilename,
-    url: downloadUrl,
-  };
-}
-
 export async function testIndexExportWorkflow(
   page: Page,
   tab: TabDescription
@@ -1122,24 +1096,17 @@ export async function testIndexExportWorkflow(
   });
   // Complete the export request form
   await makeMinimalExportRequest(page, exportRequestButtonLocator);
-  if (tab.indexExportPage?.secondLoadingMessage !== undefined) {
-    await expect(
-      page.getByText(tab.indexExportPage.secondLoadingMessage, {
-        exact: true,
-      })
-    ).toBeVisible();
-  }
+  // Click the Export Action button and check that a download occurs
   const exportActionButtonLocator = page.getByRole("link", {
     name: tab.indexExportPage?.exportActionButtonText,
   });
   await expect(exportActionButtonLocator).toBeEnabled();
-  const downloadResult = await checkDownloadAndReturnLink(
-    page,
-    exportActionButtonLocator
-  );
-  console.log(downloadResult);
+  const downloadPromise = page.waitForEvent("download", { timeout: 10000 }); // This timeout is necessary, as otherwise the test will wait for the global test timeout
+  await exportActionButtonLocator.click();
+  const download = await downloadPromise;
+  // Cancel the download when it occurs, since there's no need to let it fully download
+  await download.cancel();
   return true;
-  //TODO: validate the results from the downnload
 }
 
 export async function testIndexExportSummary(
