@@ -905,6 +905,7 @@ export const buildExportMethodBulkDownload = (
     description: "Obtain a curl command for downloading the selected data.",
     route: ROUTE_BULK_DOWNLOAD,
     title: "Download Study Data and Metadata (Curl Command)",
+    trackingId: "button-request-bulk-download",
   };
 };
 
