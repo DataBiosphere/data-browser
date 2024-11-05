@@ -5,7 +5,8 @@ import {
 import { getMAProjectDetailTabs } from "../detail/project/mainColumn";
 import { getMAProjectDetailTop } from "../detail/project/top";
 import { listHero } from "../listView/projectsListHero";
-import { CATEGORY_GROUP, COLUMN } from "./common/constants";
+import { CATEGORY_GROUPS } from "./common/category";
+import { COLUMN } from "./common/constants";
 
 /**
  * Returns managed access category group config.
@@ -18,10 +19,7 @@ export function getMACategoryGroupConfig(
   if (categoryGroupConfig) {
     return {
       ...categoryGroupConfig,
-      categoryGroups: [
-        CATEGORY_GROUP.ACCESSIBLE,
-        ...categoryGroupConfig.categoryGroups,
-      ],
+      categoryGroups: CATEGORY_GROUPS,
     };
   }
 }
