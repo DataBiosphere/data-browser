@@ -2,7 +2,10 @@ import { SiteConfig } from "../../common/entities";
 import { makeConfig } from "../dev/config";
 import { getAuthenticationConfig } from "./authentication/authentication";
 import { getMAExportConfig } from "./export/export";
-import { getMAEntitiesConfig } from "./index/projectsEntityConfig";
+import {
+  getMACategoryGroupConfig,
+  getMAEntitiesConfig,
+} from "./index/projectsEntityConfig";
 
 // Template constants
 const BROWSER_URL =
@@ -28,6 +31,11 @@ export function makeManagedAccessConfig(config: SiteConfig): SiteConfig {
 
   // Add authentication to the config.
   cloneConfig.authentication = getAuthenticationConfig();
+
+  // Update categoryGroupConfig.
+  cloneConfig.categoryGroupConfig = getMACategoryGroupConfig(
+    cloneConfig.categoryGroupConfig
+  );
 
   // Adding authentication to the header.
   const header = { ...cloneConfig.layout.header };
