@@ -95,6 +95,7 @@ import { mapProjectDataSummary } from "./dataSummaryMapper/dataSummaryMapper";
 import { AnalysisPortal } from "./projectMapper/projectEdits/entities";
 import {
   mapProjectAnalysisPortals,
+  mapProjectAtlas,
   mapProjectCollaboratingOrganizations,
   mapProjectContacts,
   mapProjectContributors,
@@ -524,6 +525,20 @@ export const buildAnalysisPortals = (
         ...props,
       }),
     keyValuePairs,
+  };
+};
+
+/**
+ * Build props for atlas section from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @returns model to be used as props for the AtlasSection component.
+ */
+export const buildAtlasSection = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.AtlasSection> => {
+  const project = getProjectResponse(projectsResponse);
+  return {
+    atlases: mapProjectAtlas(project),
   };
 };
 

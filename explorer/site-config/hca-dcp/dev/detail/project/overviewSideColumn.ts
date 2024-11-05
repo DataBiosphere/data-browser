@@ -5,6 +5,10 @@ import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/vie
 
 export const sideColumn = [
   {
+    component: C.AtlasSection,
+    viewBuilder: V.buildAtlasSection,
+  } as ComponentConfig<typeof C.AtlasSection, ProjectsResponse>,
+  {
     children: [
       {
         children: [

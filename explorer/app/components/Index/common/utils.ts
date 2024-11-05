@@ -1,6 +1,8 @@
 import { AzulSummaryResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { FileFormat } from "../../../apis/azul/anvil-cmg/common/entities";
 import { ProjectSummary } from "../../../apis/azul/hca-dcp/common/entities";
+import { NETWORK_KEYS } from "./constants";
+import { NetworkKey } from "./entities";
 
 /**
  * Calculates the summary file format count using count values returned for each file format in the summary response.
@@ -58,4 +60,14 @@ export function getSummaryCount(
   summaryKey: keyof AzulSummaryResponse
 ): number {
   return summaryResponse[summaryKey] as number;
+}
+
+/**
+ * Type guard for NetworkKey.
+ * @param value - Value.
+ * @returns true if value is a NetworkKey.
+ */
+export function isNetworkKey(value: unknown): value is NetworkKey {
+  if (typeof value !== "string") return false;
+  return (NETWORK_KEYS as readonly string[]).includes(value);
 }
