@@ -233,7 +233,6 @@ export async function testSortCatalog(
   const columnNameArray = (
     await page.getByRole("columnheader").allInnerTexts()
   ).map((entry) => entry.trim());
-  console.log(columnNameArray);
   const columnObjectArray = Array.from(Object.values(tab.preselectedColumns));
   for (
     let columnPosition = 0;
@@ -424,7 +423,6 @@ export const getFirstFilterOptionLocator = (page: Page): Locator => {
 export const getFilterOptionName = async (
   firstFilterOptionLocator: Locator
 ): Promise<string> => {
-  console.log(await firstFilterOptionLocator.innerText());
   // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we split on newlines and take the first non-empty string
   return (
     (await firstFilterOptionLocator.innerText())
@@ -756,12 +754,17 @@ const getBackpageLinkLocatorByAccess = (page: Page, access: string): Locator =>
     .first()
     .getByRole("link");
 
+/**
+ * Make an export request that leaves only the minimal number of checkboxes selected
+ * @param page - a Playwright page object
+ * @param exportRequestButtonLocator - a Playwright locator to the button to click after the export request is completed
+ */
 const makeMinimalExportRequest = async (
   page: Page,
   exportRequestButtonLocator: Locator
 ): Promise<void> => {
   await expect(exportRequestButtonLocator).toBeEnabled();
-  // Expect there to be exactly one table on the backpage
+  // Expect there to be exactly one table on the export page
   await expect(page.getByRole("table")).toHaveCount(1);
   // Select all checkboxes that are not in a table
   const allNonTableCheckboxLocators = await page
@@ -801,21 +804,19 @@ const makeMinimalExportRequest = async (
  * @param context - a Playwright browser context object
  * @param page - a Playwright page object
  * @param tab - the tab to test on
+ * @returns - true if the test passes, false if the test fails but does not fail an assertion
  */
 export async function testExportBackpage(
   context: BrowserContext,
   page: Page,
   tab: TabDescription
-): Promise<void> {
+): Promise<boolean> {
   if (
     tab.backpageExportButtons === undefined ||
-    tab.backpageAccessTags === undefined ||
-    tab.backpageExportButtons?.firstLoadingMessage === undefined ||
-    tab.backpageExportButtons?.secondLandingMessage === undefined
+    tab.backpageAccessTags === undefined
   ) {
-    // Fail if this test is ran on a tab without defined backpages
-    await expect(false);
-    return;
+    // Fail if this test u on a tab without defined backpages
+    return false;
   }
   // Goto the specified tab
   await page.goto(tab.url);
@@ -836,6 +837,9 @@ export async function testExportBackpage(
       exact: true,
     })
     .click();
+  await expect(
+    page.getByText(tab.backpageExportButtons.requestLandingMessage)
+  ).toBeVisible();
   await expect(page).toHaveURL(tab.backpageExportButtons.exportUrlRegExp);
   await expect(page.getByRole("checkbox").first()).toBeVisible();
   const exportRequestButtonLocator = page.getByRole("button", {
@@ -844,12 +848,7 @@ export async function testExportBackpage(
   // Complete the export request form
   await makeMinimalExportRequest(page, exportRequestButtonLocator);
   await expect(
-    page.getByText(tab.backpageExportButtons.firstLoadingMessage, {
-      exact: true,
-    })
-  ).toBeVisible();
-  await expect(
-    page.getByText(tab.backpageExportButtons.secondLandingMessage, {
+    page.getByText(tab.backpageExportButtons.actionLandingMessage, {
       exact: true,
     })
   ).toBeVisible({ timeout: 60000 });
@@ -865,6 +864,7 @@ export async function testExportBackpage(
   await expect(
     newPage.getByText(tab.backpageExportButtons?.newTabMessage)
   ).toBeVisible();
+  return true;
 }
 
 /**
@@ -872,18 +872,18 @@ export async function testExportBackpage(
  * and is not on entries where access shows as unavailable
  * @param page - a Playwright page objext
  * @param tab - the tab object to test on
+ * @returns - true if the test passes, false if the test fails but does not fail an assertion
  */
 export async function testBackpageAccess(
   page: Page,
   tab: TabDescription
-): Promise<void> {
+): Promise<boolean> {
   if (
     tab.backpageExportButtons === undefined ||
     tab.backpageAccessTags === undefined
   ) {
-    // Fail if this test is ran on a tab without defined backpages
-    await expect(false);
-    return;
+    // Fail if this test is run on a tab without defined backpages
+    return false;
   }
   // Goto the specified tab
   await page.goto(tab.url);
@@ -934,6 +934,7 @@ export async function testBackpageAccess(
       exact: true,
     })
   ).toBeVisible();
+  return true;
 }
 
 /**
@@ -1064,13 +1065,19 @@ export async function testBackpageDetails(
   return true;
 }
 
-export async function testIndexExportWorkflow(
+/**
+ * Test that the Bulk Download index export workflow can be initiated and results in a download on the specified tab
+ * @param page - a Playwright page object
+ * @param tab - the tab to run the test on
+ * @returns - true if the test passes, false if the test fails but does not fail an assertion
+ */
+export async function testBulkDownloadIndexExportWorkflow(
   page: Page,
   tab: TabDescription
 ): Promise<boolean> {
   if (tab?.indexExportPage === undefined) {
     console.log(
-      "testIndexExportWorkflow Error: indexExportPage not specified for given tab, so test cannot run"
+      "testBulkIndexExportWorkflow Error: indexExportPage not specified for given tab, so test cannot run"
     );
     return false;
   }
@@ -1081,7 +1088,7 @@ export async function testIndexExportWorkflow(
   await expect(exportButtonLocator).toBeVisible();
   await exportButtonLocator.click();
   await expect(
-    page.getByText(tab.indexExportPage.firstLandingMessage ?? "")
+    page.getByText(tab.indexExportPage.requestLandingMessage ?? "")
   ).toBeVisible();
   await expect(
     page.getByRole("link", {
@@ -1109,18 +1116,23 @@ export async function testIndexExportWorkflow(
   return true;
 }
 
+/**
+ * Check that the summary box on the "Choose Export Method" page has numbers that match those on the index page
+ * @param page - a Playwright page object
+ * @param tab - the tab to test on
+ * @returns - true if the test passes, false if it should fail but does not fail an assertion
+ */
 export async function testIndexExportSummary(
   page: Page,
   tab: TabDescription
 ): Promise<boolean> {
   if (tab?.indexExportPage === undefined) {
     console.log(
-      "testIndexExportDetails Error: indexExportPage not specified for given tab, so test cannot run"
+      "testIndexExportSummmary Error: indexExportPage not specified for given tab, so test cannot run"
     );
     return false;
   }
   await page.goto(tab.url);
-  //await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
   const headers: { header: string; value: string }[] = [];
   const indexExportButtonLocator = page.getByRole("link", {
     name: tab.indexExportPage.indexExportButtonText,
@@ -1129,13 +1141,21 @@ export async function testIndexExportSummary(
   for (const detail of tab.indexExportPage.detailsToCheck) {
     // This Regexp gets a decimal number, some whitespace, then the name of the detail, matching how the detail box appears to Playwright.
     const detailBoxRegexp = RegExp(`^([0-9]+\\.[0-9]+k)\\s*${detail}$`);
-    console.log(await page.getByText(detailBoxRegexp).innerText());
     // This gets the detail's value. The .trim() is necessary since innertext adds extraneous whitespace on Webkit
+    const headerValueArray = (await page.getByText(detailBoxRegexp).innerText())
+      .trim()
+      .match(detailBoxRegexp);
+    // Check that the regex matches the expected format
+    if (headerValueArray === null || headerValueArray.length !== 2) {
+      console.log(
+        "testIndexExportSummmary Error: The detail box text does not match the expected format"
+      );
+      return false;
+    }
+    // Save the header value and detail for later comparison
     headers.push({
       header: detail,
-      value: ((await page.getByText(detailBoxRegexp).innerText())
-        .trim()
-        .match(detailBoxRegexp) ?? ["", "ERROR"])[1],
+      value: headerValueArray[1],
     });
   }
   await indexExportButtonLocator.click();

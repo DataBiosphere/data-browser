@@ -11,14 +11,24 @@ test.skip("Smoke test `Export to Terra` button on the first available dataset", 
   page,
 }) => {
   test.setTimeout(120000);
-  await testExportBackpage(context, page, ANVIL_TABS.DATASETS);
+  const testResult = await testExportBackpage(
+    context,
+    page,
+    ANVIL_TABS.DATASETS
+  );
+  if (!testResult) {
+    test.fail();
+  }
 });
 
 test.skip("Check access controls on the datasets backpages work for the first two tabs", async ({
   page,
 }) => {
   test.setTimeout(120000);
-  await testBackpageAccess(page, ANVIL_TABS.DATASETS);
+  const testResult = await testBackpageAccess(page, ANVIL_TABS.DATASETS);
+  if (!testResult) {
+    test.fail();
+  }
 });
 
 test("Check that information on the backpages matches information in the data tables", async ({

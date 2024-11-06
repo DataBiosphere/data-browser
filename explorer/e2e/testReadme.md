@@ -85,7 +85,7 @@ through the actions taken as part of the test and view the impact on the web pag
     - Requires a list of the values in the sidebar to be present in `anvil-tabs.ts` and that plural labels are defined there for any columns that include n-tag cells
 - Index Export (`anvil-index-export-button.spec.ts`)
   - Test the "File Manifest Request" workflow works
-    - Runs through the export workfl.ow for "File Manifest Request" Workflow, checking that loading screens and text appear correctly on each page
+    - Runs through the export workflow for "File Manifest Request" workflow, checking that loading screens and text appear correctly on each page
     - Checks that a download occurs when the "Download Manifest" is clicked
     - Runs only on the Files tab
   - Tests that the counts in the "Selected Data Summary" box match the counts on the index page

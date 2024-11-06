@@ -51,13 +51,11 @@ export interface BackpageAccessTags {
 }
 
 export interface ExportButtonInfo {
+  actionLandingMessage: string;
   detailsName: string;
   exportActionButtonText: string;
   exportRequestButtonText: string;
-  firstLandingMessage?: string; //TODO: rename to requestLoadingMessage
-  firstLoadingMessage?: string;
-  secondLandingMessage?: string; //TODO: rename to actionLaodingMessage
-  secondLoadingMessage?: string;
+  requestLandingMessage: string;
 }
 
 export interface BackpageExportButtons extends ExportButtonInfo {
