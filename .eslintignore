@@ -3,3 +3,5 @@
 **/.next/*
 
 build
+
+/analytics
