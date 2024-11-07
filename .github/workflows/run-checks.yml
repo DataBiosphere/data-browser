@@ -1,5 +1,5 @@
 name: Run checks
-on: [ pull_request ]
+on: [pull_request]
 
 jobs:
   build:
