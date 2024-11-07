@@ -5,3 +5,6 @@
 build
 
 /analytics
+/.gitlab
+/reports
+/meta-scripts
