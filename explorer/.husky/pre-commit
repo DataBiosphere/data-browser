@@ -1,8 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-cd explorer
-
 echo '🏗️👷 Checking your project before committing'
 
 # Check Prettier
