@@ -15,27 +15,22 @@ jobs:
           node-version: "20.10.0"
       - name: Install dependencies
         run: |
-          cd explorer
           npm ci
       - name: Check Backend System Status - TEST RESULTS ARE NOT VALID IF THIS FAILS
         run: |
-          cd explorer
           npm run check-system-status:anvil-cmg
       - name: Install Playwright Browsers
         run: |
-          cd explorer
           npx playwright install --with-deps
       - name: Run Playwright tests
         run: |
-          cd explorer
           npm run test:anvil-cmg
       - name: Check backend status again - TEST RESULTS ARE NOT VALID IF THIS FAILS
         run: |
-          cd explorer
           npm run check-system-status:anvil-cmg
       - uses: actions/upload-artifact@v3
         if: always()
         with:
           name: playwright-report
-          path: explorer/playwright-report/
+          path: playwright-report/
           retention-days: 30
