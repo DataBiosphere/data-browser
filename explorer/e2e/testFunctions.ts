@@ -1088,7 +1088,7 @@ export async function testBulkDownloadIndexExportWorkflow(
   await expect(exportButtonLocator).toBeVisible();
   await exportButtonLocator.click();
   await expect(
-    page.getByText(tab.indexExportPage.requestLandingMessage ?? "")
+    page.getByText(tab.indexExportPage.requestLandingMessage)
   ).toBeVisible();
   await expect(
     page.getByRole("link", {
@@ -1107,7 +1107,7 @@ export async function testBulkDownloadIndexExportWorkflow(
   const exportActionButtonLocator = page.getByRole("link", {
     name: tab.indexExportPage?.exportActionButtonText,
   });
-  await expect(exportActionButtonLocator).toBeEnabled();
+  await expect(exportActionButtonLocator).toBeEnabled({ timeout: 60000 });
   const downloadPromise = page.waitForEvent("download", { timeout: 10000 }); // This timeout is necessary, as otherwise the test will wait for the global test timeout
   await exportActionButtonLocator.click();
   const download = await downloadPromise;

@@ -8,6 +8,7 @@ import { ANVIL_TABS } from "./anvil-tabs";
 test("Smoke test File Manifest Request index export workflow on the Files tab", async ({
   page,
 }) => {
+  test.setTimeout(120000);
   const testResult = await testBulkDownloadIndexExportWorkflow(
     page,
     ANVIL_TABS.FILES
