@@ -1,6 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 import {
   AnvilCMGTabCollection,
+  IndexExportButtons,
   TabCollectionKeys,
   TabDescription,
 } from "../testInterfaces";
@@ -45,9 +46,22 @@ export const REPORTED_ETHNICITY_INDEX = 10;
 
 const ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT = "Search all filters...";
 
+export const ANVIL_INDEX_EXPORT_BUTTONS: IndexExportButtons = {
+  actionLandingMessage: "Confirm Organism Type and Manifest File Formats",
+  detailsName: "Selected Data Summary",
+  detailsToCheck: ["BioSamples", "Donors", "Files"],
+  exportActionButtonText: "Download Manifest",
+  exportOptionButtonText: "Request File Manifest",
+  exportRequestButtonText: "Prepare Manifest",
+  indexExportButtonText: "Export",
+  requestLandingMessage:
+    "Download a File Manifest with Metadata for the Selected Data",
+};
+
 export const ANVIL_TABS: AnvilCMGTabCollection = {
   ACTIVITIES: {
     emptyFirstColumn: false,
+    indexExportPage: ANVIL_INDEX_EXPORT_BUTTONS,
     maxPages: 25,
     preselectedColumns: ANVIL_ACTIVITIES_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
@@ -57,6 +71,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
   },
   BIOSAMPLES: {
     emptyFirstColumn: false,
+    indexExportPage: ANVIL_INDEX_EXPORT_BUTTONS,
     maxPages: 25,
     preselectedColumns: ANVIL_BIOSAMPLES_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
@@ -74,15 +89,16 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
     backpageExportButtons: {
       accessNotGrantedMessage:
         "To export this dataset, please sign in and, if necessary, request access.",
+      actionLandingMessage: "Your Terra Workspace Link is Ready",
       detailsName: "Dataset Details",
       exportActionButtonText: "Open Terra",
       exportRequestButtonText: "Request Link",
       exportTabName: "Export",
       exportUrlRegExp: /\.*\/export-to-terra/,
-      firstLoadingMessage: "Your link will be ready shortly...",
       newTabMessage:
         "If you are a new user or returning user, click sign in to continue.",
-      secondLandingMessage: "Your Terra Workspace Link is Ready",
+      requestLandingMessage:
+        "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     },
     backpageHeaders: [
       {
@@ -132,6 +148,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
       },
     ],
     emptyFirstColumn: false,
+    indexExportPage: ANVIL_INDEX_EXPORT_BUTTONS,
     maxPages: 25,
     preselectedColumns: ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
@@ -141,6 +158,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
   },
   DONORS: {
     emptyFirstColumn: false,
+    indexExportPage: ANVIL_INDEX_EXPORT_BUTTONS,
     maxPages: 25,
     preselectedColumns: ANVIL_DONORS_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
@@ -150,6 +168,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
   },
   FILES: {
     emptyFirstColumn: true,
+    indexExportPage: ANVIL_INDEX_EXPORT_BUTTONS,
     maxPages: 25,
     preselectedColumns: ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,

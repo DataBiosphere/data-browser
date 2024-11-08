@@ -83,6 +83,14 @@ through the actions taken as part of the test and view the impact on the web pag
   - Test that data in the sidebar of the "Datasets" tab is the same as the text displayed in the main table
     - Enables all non-preselected columns and read values from all columns in the first row, including n-tag cells. Then selects the backpage for the first row and checks that all matching columns are reflected
     - Requires a list of the values in the sidebar to be present in `anvil-tabs.ts` and that plural labels are defined there for any columns that include n-tag cells
+- Index Export (`anvil-index-export-button.spec.ts`)
+  - Test the "File Manifest Request" workflow works
+    - Runs through the export workflow for "File Manifest Request" workflow, checking that loading screens and text appear correctly on each page
+    - Checks that a download occurs when the "Download Manifest" is clicked
+    - Runs only on the Files tab
+  - Tests that the counts in the "Selected Data Summary" box match the counts on the index page
+    - Does not apply filters
+    - Runs only on the BioSamples tab
 
 #### AnVIL-Catalog
 
