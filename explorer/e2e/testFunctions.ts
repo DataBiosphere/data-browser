@@ -138,11 +138,12 @@ export async function testTab(
   }
 }
 
+// The test id for the column sorted icon
+const COLUMN_SORT_ICON_TEST_ID = "SouthRoundedIcon";
+
 /**
- * Checks that sorting the tab does not cause the first and last row to break.
+ * Checks that sorting the tab causes the sort icon to appear
  * This test does not check whether the sort order is correct.
- * This test assumes that this is an Azul explorer with pagination rather than
- * a catalog, so that the last element is visible without excessive scrolling.
  * @param page - a Playwright page object
  * @param tab - the tab to check
  * @returns - true if the test passes and false if the test fails
@@ -153,11 +154,15 @@ export async function testSortAzul(
 ): Promise<boolean> {
   // Get the current tab, and go to it's URL
   await page.goto(tab.url);
-  // For each column
+  // Get the name of all visible columns
   const columnNameArray = (await getAllVisibleColumnNames(page)).slice(
     tab.emptyFirstColumn ? 1 : 0
   );
+  // Get the predefined column metadata (in an arbitrary order) as an array
   const columnObjectArray = Array.from(Object.values(tab.preselectedColumns));
+  // Defined a value to store the locator for the previously checked locator
+  let lastElementSortIconLocator: Locator | undefined = undefined;
+  // Iterate through each visible column on screen
   for (
     let columnPosition = 0;
     columnPosition < columnNameArray.length;
@@ -167,6 +172,7 @@ export async function testSortAzul(
     const columnObject = columnObjectArray.find(
       (x) => x.name === columnNameArray[columnPosition]
     );
+    // If a column is visible but is not in the array of predefined columns, fail the test
     if (columnObject === undefined) {
       console.log(
         `SORT AZUL: Preselected column object ${columnNameArray[columnPosition]} not found in tab configuration`
@@ -174,40 +180,35 @@ export async function testSortAzul(
       return false;
     }
     if (columnObject?.sortable) {
-      const columnIndex: number = tab.emptyFirstColumn
-        ? columnPosition + 1
-        : columnPosition;
-      // Locators for the first and last cells in a particular column position on the page
-      const firstElementTextLocator = getFirstRowNthColumnCellLocator(
-        page,
-        columnIndex
+      // Locator that can be clicked to sort the column
+      const columnSortLocator = page.getByRole("button", {
+        exact: true,
+        name: columnObject.name,
+      });
+      // Locator for the column sort icon
+      const sortIconLocator = columnSortLocator.getByTestId(
+        COLUMN_SORT_ICON_TEST_ID
       );
-      const lastElementTextLocator = getLastRowNthColumnTextLocator(
-        page,
-        columnIndex
-      );
-      // Locator for the sort button
-      const columnSortLocator = page
-        .getByRole("columnheader", {
-          exact: true,
-          name: columnNameArray[columnPosition],
-        })
-        .getByRole("button");
-      // Expect the first and last cells to be visible and have text
-      await expect(firstElementTextLocator).toBeVisible();
-      await expect(lastElementTextLocator).toBeVisible();
-      await expect(firstElementTextLocator).not.toHaveText("");
-      await expect(lastElementTextLocator).not.toHaveText("");
+      // If on the first cell, expect the sort icon to be visible. Otherwise, expect it not to be
+      if (columnPosition === 0) {
+        await expect(sortIconLocator).not.toHaveCSS("opacity", "0");
+      } else {
+        await expect(sortIconLocator).toHaveCSS("opacity", "0");
+      }
       // Click to sort
       await columnSortLocator.click();
-      // Expect the first and last cell to still have text after clicking sort
-      await expect(firstElementTextLocator).not.toHaveText("");
-      await expect(lastElementTextLocator).not.toHaveText("");
-      // Click again
-      await columnSortLocator.click();
-      // Expect the first and last cell to still have text after clicking sort
-      await expect(firstElementTextLocator).not.toHaveText("");
-      await expect(lastElementTextLocator).not.toHaveText("");
+      // Expect the first element of the table to still be visible (may not have text)
+      await expect(
+        getFirstRowNthColumnCellLocator(page, columnPosition)
+      ).toBeVisible();
+      // Expect the previously selected sort icon to be invisible
+      if (lastElementSortIconLocator !== undefined) {
+        await expect(lastElementSortIconLocator).toHaveCSS("opacity", "0");
+      }
+      // Expect the newly selected sort icon to be visible
+      await expect(sortIconLocator).not.toHaveCSS("opacity", "0");
+      // Save the selected sort icon locator
+      lastElementSortIconLocator = sortIconLocator;
     }
   }
   return true;
