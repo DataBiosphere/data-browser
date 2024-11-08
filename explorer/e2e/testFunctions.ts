@@ -409,15 +409,25 @@ export const getNamedFilterOptionLocator = (
 };
 
 /**
- * Get a locator for the first filter option. Requires a filter menu to be open
+ * Get a locator for the nth filter option on the page.
  * @param page - a Playwright page object
- * @returns a Playwright locator to the filter button
+ * @param n - the index of the filter option to get
+ * @returns - a Playwright locator object for the first filter option on the page
  */
-export const getFirstFilterOptionLocator = (page: Page): Locator => {
+const getNthFilterOptionLocator = (page: Page, n: number): Locator => {
   return page
     .getByRole("button")
     .filter({ has: page.getByRole("checkbox") })
-    .first();
+    .nth(n);
+};
+
+/**
+ * Get a locator for the first filter option on the page.
+ * @param page - a Playwright page object
+ * @returns - a Playwright locator object for the first filter option on the page
+ */
+export const getFirstFilterOptionLocator = (page: Page): Locator => {
+  return getNthFilterOptionLocator(page, 0);
 };
 
 export const getFilterOptionName = async (
@@ -432,37 +442,66 @@ export const getFilterOptionName = async (
   );
 };
 
+const MAX_FILTER_OPTIONS_TO_CHECK = 10;
+
+interface FilterOptionNameAndLocator {
+  index: number;
+  locator: Locator;
+  name: string;
+}
+
 /**
- * Cheks that selecting a specified filter is persistent across the tabs in tabOrder
+ * Gets the name of the filter option associated with a locator
+ * @param page - a Playwright Page object, on which a filter must be currently selected
+ * @returns the innerText of the first nonempty filter option as a promise
+ */
+const getFirstNonEmptyFilterOptionInfo = async (
+  page: Page
+): Promise<FilterOptionNameAndLocator> => {
+  let filterToSelect = "";
+  let filterOptionLocator = undefined;
+  let i = 0;
+  while (filterToSelect === "" && i < MAX_FILTER_OPTIONS_TO_CHECK) {
+    // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we want the string before the newline
+    const filterOptionRegex = /^(.*)\n+([0-9]+)\s*$/;
+    filterOptionLocator = getNthFilterOptionLocator(page, i);
+    const filterNameMatch = (await filterOptionLocator.innerText())
+      .trim()
+      .match(filterOptionRegex);
+    if (filterNameMatch !== null) {
+      filterToSelect = filterNameMatch[1];
+    }
+    i += 1;
+  }
+  if (filterOptionLocator === undefined) {
+    throw new Error(
+      "No locator found within the maximum number of filter options"
+    );
+  }
+  return { index: i - 1, locator: filterOptionLocator, name: filterToSelect };
+};
+
+/**
+ * Checks that selecting a specified filter is persistent across the tabs in tabOrder
  * @param page - a Playwright page object
  * @param testFilterName - the name of the filter to check
  * @param tabOrder - the tabs to check, in order. The filter will be selected on the first tab.
- * @returns false if the test should fail, and true if the test passes
  */
 export async function testFilterPersistence(
   page: Page,
   testFilterName: string,
   tabOrder: TabDescription[]
-): Promise<boolean> {
+): Promise<void> {
   // Start on the first tab in the test order (should be files)
   await page.goto(tabOrder[0].url);
   // Select the first checkbox on the test filter
   await page.getByText(filterRegex(testFilterName)).click();
-  const filterToSelectLocator = await getFirstFilterOptionLocator(page);
+  const filterToSelectInfo = await getFirstNonEmptyFilterOptionInfo(page);
+  const filterToSelectLocator = filterToSelectInfo.locator;
+  const filterName = filterToSelectInfo.name;
+  const filterIndex = filterToSelectInfo.index;
   await expect(filterToSelectLocator.getByRole("checkbox")).not.toBeChecked();
   await filterToSelectLocator.getByRole("checkbox").click();
-  const filterNameMatch = (await filterToSelectLocator.innerText())
-    .trim()
-    .match(/^\S*/);
-  if (!filterNameMatch) {
-    // This means that the selected filter did not have any non-whitespace text
-    // associated with it, making the test impossible to complete.
-    console.log(
-      "FILTER PERSISTENCE: Filter name is blank, so the test cannot continue"
-    );
-    return false;
-  }
-  const filterName = (filterNameMatch ?? [""])[0];
   await expect(filterToSelectLocator.getByRole("checkbox")).toBeChecked();
   await page.locator("body").click();
   // Expect at least some text to still be visible
@@ -488,12 +527,11 @@ export async function testFilterPersistence(
     .dispatchEvent("click");
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
   await page.getByText(filterRegex(testFilterName)).dispatchEvent("click");
-  const previouslySelected = getFirstFilterOptionLocator(page);
+  const previouslySelected = getNthFilterOptionLocator(page, filterIndex);
   await expect(previouslySelected).toContainText(filterName, {
     useInnerText: true,
   });
   await expect(previouslySelected.getByRole("checkbox").first()).toBeChecked();
-  return true;
 }
 
 /**
