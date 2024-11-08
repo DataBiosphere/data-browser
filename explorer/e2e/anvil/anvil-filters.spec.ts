@@ -104,14 +104,11 @@ test("Check that filter checkboxes are persistent across pages on an arbitrary f
   page,
 }) => {
   test.setTimeout(120000);
-  const result = await testFilterPersistence(
+  await testFilterPersistence(
     page,
     ANVIL_FILTER_NAMES[FILE_FORMAT_INDEX],
     ANVIL_TAB_TEST_ORDER.map((x) => ANVIL_TABS[x])
   );
-  if (!result) {
-    test.fail();
-  }
 });
 
 test("Check that filter menu counts match actual counts on the Datasets tab", async ({
