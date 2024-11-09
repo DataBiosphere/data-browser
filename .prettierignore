@@ -1,6 +1,9 @@
 # general
 README.md
 /CHANGELOG.md
+/analytics
+/.gitlab
+/reports
 
 # testing
 coverage
