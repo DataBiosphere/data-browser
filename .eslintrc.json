@@ -13,7 +13,6 @@
     "plugin:@typescript-eslint/recommended",
     "prettier",
     "plugin:prettier/recommended",
-    "plugin:storybook/recommended",
     "next",
     "plugin:sonarjs/recommended",
     "plugin:eslint-comments/recommended"
