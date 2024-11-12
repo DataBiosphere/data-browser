@@ -7,6 +7,7 @@ export const CONTENT_FOLDER_NAME = "content";
 
 export const MDX_COMPONENTS = {
   Alert: C.Alert,
+  AlertTitle: C.AlertTitle,
   Breadcrumbs: C.Breadcrumbs,
   Figure,
   a: Link,

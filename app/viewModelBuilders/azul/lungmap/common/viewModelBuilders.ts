@@ -29,19 +29,6 @@ import {
 } from "../../hca-dcp/common/viewModelBuilders";
 
 /**
- * Build props for the data normalization and batch correction Alert component.
- * @returns model to be used as props for the Alert component.
- */
-export const buildBatchCorrectionWarning = (): React.ComponentProps<
-  typeof C.Alert
-> => {
-  return {
-    severity: "warning",
-    title: "Please note",
-  };
-};
-
-/**
  * Build props for GeneratedMatricesTable component from the given project response.
  * @param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the GeneratedMatricesTables component.

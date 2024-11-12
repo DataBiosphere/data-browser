@@ -3,13 +3,13 @@ import {
   ComponentsConfig,
 } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
-import { BetaAnnouncement } from "../../../../app/components/common/Banner/components/Announcements/components/BetaAnnouncement/betaAnnouncement";
+import * as MDX from "../../../../app/components/common/MDXContent/anvil-cmg";
 
 export const announcements: ComponentsConfig = [
   {
     component: C.Announcements,
     props: {
-      GeneralAnnouncement: BetaAnnouncement,
+      generalAnnouncement: MDX.AlertBetaAnnouncement({}),
     },
   } as ComponentConfig<typeof C.Announcements>,
 ];

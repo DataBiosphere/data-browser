@@ -1,20 +1,14 @@
+import { Banner } from "@databiosphere/findable-ui/lib/components/common/Banner/banner";
 import { useSessionTimeout } from "@databiosphere/findable-ui/lib/hooks/useSessionTimeout";
 import { useSystemStatus } from "@databiosphere/findable-ui/lib/hooks/useSystemStatus";
-import { ElementType, Fragment } from "react";
-import { SessionTimeout } from "./components/SessionTimeout/sessionTimeout";
-import { SystemIndexing as SystemIndexingBanner } from "./components/SystemIndexing/systemIndexing";
-import { SystemStatus as SystemStatusBanner } from "./components/SystemStatus/systemStatus";
+import { Fragment, ReactNode } from "react";
 
 interface AnnouncementsProps {
-  GeneralAnnouncement?: ElementType;
-  SystemIndexing?: ElementType;
-  SystemStatus?: ElementType;
+  generalAnnouncement: ReactNode;
 }
 
 export const Announcements = ({
-  GeneralAnnouncement,
-  SystemIndexing = SystemIndexingBanner,
-  SystemStatus = SystemStatusBanner,
+  generalAnnouncement,
 }: AnnouncementsProps): JSX.Element => {
   const sessionTimeout = useSessionTimeout();
   const systemStatus = useSystemStatus();
@@ -25,13 +19,22 @@ export const Announcements = ({
   return (
     <Fragment>
       {isSessionTimeout ? (
-        <SessionTimeout onClose={clearSessionTimeout} />
+        <Banner onClose={clearSessionTimeout}>
+          For your security, you have been logged out due to 15 minutes of
+          inactivity.
+        </Banner>
       ) : isSystemUnavailable ? (
-        <SystemStatus />
+        <Banner>
+          One or more of the system components are currently unavailable.
+          Functionality may be degraded.
+        </Banner>
       ) : isSystemIndexing ? (
-        <SystemIndexing />
+        <Banner>
+          Data indexing in progress. Downloads and exports are disabled as
+          search results may be incomplete.
+        </Banner>
       ) : (
-        GeneralAnnouncement && <GeneralAnnouncement />
+        generalAnnouncement
       )}
     </Fragment>
   );

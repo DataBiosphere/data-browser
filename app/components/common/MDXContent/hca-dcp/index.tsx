@@ -1,7 +1,11 @@
 export { Section } from "../../MDXMarkdown/components/Section/mdxSection.styles";
+export { default as Alert } from "../common/alert.mdx";
 export { default as ExportToTerra } from "../common/exportToTerraStart.mdx";
 export { default as ExportToTerraSuccess } from "../common/exportToTerraSuccess.mdx";
-export { default as BatchCorrectionWarning } from "./batchCorrectionWarning.mdx";
+export { default as AlertBatchCorrectionWarning } from "./alertBatchCorrectionWarning.mdx";
+export { default as AlertExportWarning } from "./alertExportWarning.mdx";
+export { default as AlertExportWarningContent } from "./alertExportWarningContent.mdx";
+export { default as AlertLoginReminder } from "./alertLoginReminder.mdx";
 export { default as ContributorGeneratedMatrices } from "./contributorGeneratedMatrices.mdx";
 export { default as DataReleasePolicy } from "./dataReleasePolicy.mdx";
 export { default as DCPGeneratedMatrices } from "./dcpGeneratedMatrices.mdx";
@@ -10,8 +14,6 @@ export { default as DownloadCurlCommandStart } from "./downloadCurlCommandStart.
 export { default as DownloadCurlCommandSuccess } from "./downloadCurlCommandSuccess.mdx";
 export { default as ExportToTerraStart } from "./exportToTerraStart.mdx";
 export { default as ExportToTerraSuccessWithWarning } from "./exportToTerraSuccessWithWarning.mdx";
-export { default as ExportWarning } from "./exportWarning.mdx";
-export { default as LoginReminder } from "./loginReminder.mdx";
 export { default as LoginTermsOfService } from "./loginTermsOfService.mdx";
 export { default as LoginText } from "./loginText.mdx";
 export { default as ManifestDownloadStart } from "./manifestDownloadStart.mdx";
