@@ -6,6 +6,7 @@ import {
   Filters,
   SelectedFilter,
 } from "@databiosphere/findable-ui/lib/common/entities";
+import { ALERT_PROPS } from "@databiosphere/findable-ui/lib/components/common/Alert/constants";
 import { Breadcrumb } from "@databiosphere/findable-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import { CallToAction } from "@databiosphere/findable-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
 import { STATUS_BADGE_COLOR } from "@databiosphere/findable-ui/lib/components/common/StatusBadge/statusBadge";
@@ -28,6 +29,7 @@ import {
   sortTerms,
 } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/utils";
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
+import { SIZE } from "@databiosphere/findable-ui/lib/styles/common/constants/size";
 import { CategoryKeyLabel } from "@databiosphere/findable-ui/lib/viewModelBuilders/common/entities";
 import {
   mapCategoryKeyLabel,
@@ -119,6 +121,87 @@ export const buildActivityType = (
 ): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getActivityType(response),
+  };
+};
+
+/**
+ * Build props for list view access warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertEntityListWarning = (
+  _: Unused,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof MDX.AlertEntityListWarning> => {
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    entityName: viewContext.entityConfig.label,
+  };
+};
+
+/**
+ * Build props for entity related export warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertExportEntityWarning = (
+  _: Unused,
+  viewContext: ViewContext<Unused>
+): React.ComponentProps<typeof MDX.Alert> => {
+  const {
+    exploreState: { featureFlagState },
+  } = viewContext;
+  const content = featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)
+    ? isUserAuthenticated(viewContext)
+      ? "To export this dataset, please request access."
+      : "To export this dataset, please sign in and, if necessary, request access."
+    : "Export functionality is currently under development. Check back soon for updates.";
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    content,
+  };
+};
+
+/**
+ * Build props for export warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertExportWarning = (
+  _: Unused,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof MDX.AlertExportWarning> => {
+  const isAuthenticated = isUserAuthenticated(viewContext);
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    content: isAuthenticated ? null : MDX.AlertExportWarningContent({}),
+    size: isAuthenticated ? SIZE.MEDIUM : SIZE.LARGE,
+  };
+};
+
+/**
+ * Build props for entity related download manifest warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertManifestDownloadEntityWarning = (
+  _: Unused,
+  viewContext: ViewContext<Unused>
+): React.ComponentProps<typeof MDX.Alert> => {
+  const content = isUserAuthenticated(viewContext)
+    ? "To download this dataset manifest, please request access."
+    : "To download this dataset manifest, please sign in and, if necessary, request access.";
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    content,
   };
 };
 
@@ -297,21 +380,6 @@ export const buildDatasetIds = (
 };
 
 /**
- * Build dataset list view list hero warning.
- * Warning serves as a reminder for users to log in.
- * @returns model to be used as props for FluidAlert component.
- */
-export const buildDatasetListViewListHeroWarning = (): React.ComponentProps<
-  typeof C.FluidAlert
-> => {
-  return {
-    severity: "warning",
-    title: MDX.LoginReminder({}),
-    variant: "banner",
-  };
-};
-
-/**
  * Build dataset title Link component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the Link component.
@@ -437,32 +505,6 @@ export const buildExportEntityToTerra = (
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB],
-  };
-};
-
-/**
- * Build props for entity related export warning FluidAlert component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the FluidAlert component.
- */
-export const buildExportEntityWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
-): React.ComponentProps<typeof C.FluidAlert> => {
-  const {
-    authState: { isAuthenticated },
-    exploreState: { featureFlagState },
-  } = viewContext;
-  const title = featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)
-    ? isAuthenticated
-      ? "To export this dataset, please request access."
-      : "To export this dataset, please sign in and, if necessary, request access."
-    : "Export functionality is currently under development. Check back soon for updates.";
-  return {
-    severity: "warning",
-    title,
-    variant: "banner",
   };
 };
 
@@ -616,20 +658,6 @@ export const buildExportToTerra = (
 };
 
 /**
- * Build props for export warning FluidAlert component.
- * @returns model to be used as props for the FluidAlert component.
- */
-export const buildExportWarning = (): React.ComponentProps<
-  typeof C.FluidAlert
-> => {
-  return {
-    severity: "warning",
-    title:
-      'Files from datasets with access "required" will be excluded from this export.',
-  };
-};
-
-/**
  * Build props for file data modality NTagCell component from the given files response.
  * @param response - Response model return from index/files API endpoint.
  * @returns model to be used as props for the NTagCell component.
@@ -709,26 +737,6 @@ export const buildLibraryId = (
 };
 
 /**
- * Build props for list view access warning FluidAlert component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the FluidAlert component.
- */
-export const buildListWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
-): React.ComponentProps<typeof C.FluidAlert> => {
-  const {
-    entityConfig: { label },
-  } = viewContext;
-  return {
-    severity: "warning",
-    title: `For datasets with a 'Required' access status, ${label} are not listed.`,
-    variant: "banner",
-  };
-};
-
-/**
  * Build props for ManifestDownload component.
  * @param _ - Void.
  * @param viewContext - View context.
@@ -766,29 +774,6 @@ export const buildManifestDownloadEntity = (
 ): React.ComponentProps<typeof C.AnVILManifestDownloadEntity> => {
   return {
     filters: getExportEntityFilters(datasetsResponse),
-  };
-};
-
-/**
- * Build props for entity related download manifest warning FluidAlert component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the FluidAlert component.
- */
-export const buildManifestDownloadEntityWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
-): React.ComponentProps<typeof C.FluidAlert> => {
-  const {
-    authState: { isAuthenticated },
-  } = viewContext;
-  const title = isAuthenticated
-    ? "To download this dataset manifest, please request access."
-    : "To download this dataset manifest, please sign in and, if necessary, request access.";
-  return {
-    severity: "warning",
-    title,
-    variant: "banner",
   };
 };
 
@@ -1217,6 +1202,17 @@ function isResponseReady(datasetsResponse: DatasetsResponse): boolean {
 }
 
 /**
+ * Returns true if user is authenticated.
+ * @param viewContext - View context.
+ * @returns true if user is authenticated.
+ */
+export function isUserAuthenticated(
+  viewContext: ViewContext<unknown>
+): boolean {
+  return viewContext.authState.isAuthenticated;
+}
+
+/**
  * Returns current query for the given facet.
  * @param filter - Selected filter.
  * @param categoryKeyLabel - Map of category key to category label.
@@ -1234,20 +1230,17 @@ function mapCurrentQuery(
 }
 
 /**
- * Renders configuration component children when the given authentication state is not authorized.
+ * Renders configuration component children when the given authentication state is not authenticated.
  * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ConditionalComponent component.
  */
-export const renderWhenUnAuthorized = (
+export const renderWhenUnAuthenticated = (
   _: Unused,
   viewContext: ViewContext<Unused>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
-  const {
-    authState: { isAuthenticated },
-  } = viewContext;
   return {
-    isIn: !isAuthenticated,
+    isIn: !isUserAuthenticated(viewContext),
   };
 };
 

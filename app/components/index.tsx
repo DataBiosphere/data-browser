@@ -1,5 +1,5 @@
 export { Alert } from "@databiosphere/findable-ui/lib/components/common/Alert/alert";
-export { FluidAlert } from "@databiosphere/findable-ui/lib/components/common/Alert/alert.styles";
+export { Banner } from "@databiosphere/findable-ui/lib/components/common/Banner/banner";
 export { CookieBanner } from "@databiosphere/findable-ui/lib/components/common/Banner/components/CookieBanner/cookieBanner";
 export { SessionTimeout } from "@databiosphere/findable-ui/lib/components/common/Banner/components/SessionTimeout/sessionTimeout";
 export { SystemIndexing } from "@databiosphere/findable-ui/lib/components/common/Banner/components/SystemIndexing/systemIndexing";
@@ -79,6 +79,7 @@ export { SupportRequest } from "@databiosphere/findable-ui/lib/components/Suppor
 export { BasicCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/BasicCell/basicCell";
 export { NTagCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/NTagCell/nTagCell";
 export { ExportMethodView } from "@databiosphere/findable-ui/lib/views/ExportMethodView/exportMethodView";
+export { AlertTitle } from "@mui/material";
 export { Announcements } from "./common/Banner/components/Announcements/announcements";
 export { ButtonOutline } from "./common/Button/components/ButtonOutline/buttonOutline";
 export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";

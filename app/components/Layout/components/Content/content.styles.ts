@@ -12,20 +12,18 @@ import styled from "@emotion/styled";
 const muiAlert = (props: ThemeProps) => css`
   .MuiAlert-root {
     margin: 24px 0;
-
-    &.MuiAlert-standardWarning {
-      margin: 16px 0;
-    }
+    padding: 24px;
 
     &:last-child {
       margin-bottom: 0;
     }
 
-    .MuiAlert-message {
-      ${textBodyLarge4002Lines(props)};
+    .MuiAlert-icon {
+      padding: 4px 0;
     }
 
-    .MuiAlert-message:first-of-type {
+    .MuiAlert-message {
+      ${textBodyLarge4002Lines(props)};
       gap: 16px;
 
       .MuiAlertTitle-root {
@@ -42,14 +40,6 @@ const muiBreadcrumbs = () => css`
     .MuiBreadcrumbs-li {
       margin: 0;
 
-      .MuiLink-root {
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-
       .MuiTypography-root {
         margin: 0;
       }
@@ -58,15 +48,6 @@ const muiBreadcrumbs = () => css`
 `;
 
 export const Content = styled.div`
-  a {
-    color: inherit;
-    text-decoration: underline;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
   h1 {
     ${textHeadingLarge};
     margin: 0 0 16px;

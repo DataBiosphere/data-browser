@@ -4,6 +4,7 @@ import {
 } from "@databiosphere/findable-ui/lib/config/entities";
 import { ProjectsResponse } from "../../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../../app/components";
+import * as MDX from "../../../../../app/components/common/MDXContent/hca-dcp";
 import * as V from "../../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 import { PROJECT_ENTITY_ROUTE } from "../../../dev/index/projectsEntityConfig";
 
@@ -14,9 +15,9 @@ const MAIN_COLUMN_WARNING: ComponentConfig[] = [
       {
         children: [
           {
-            component: C.FluidAlert,
-            viewBuilder: V.buildExportEntityWarning,
-          } as ComponentConfig<typeof C.FluidAlert, ProjectsResponse>,
+            component: MDX.Alert,
+            viewBuilder: V.buildAlertExportEntityWarning,
+          } as ComponentConfig<typeof MDX.Alert, ProjectsResponse>,
         ],
         component: C.BackPageContentSingleColumn,
       } as ComponentConfig<typeof C.BackPageContentSingleColumn>,

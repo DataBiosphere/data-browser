@@ -8,20 +8,9 @@ export const mainColumn = [
   {
     children: [
       {
-        children: [
-          {
-            children: [
-              {
-                component: MDX.ExportWarning,
-              } as ComponentConfig<typeof MDX.ExportWarning>,
-            ],
-            component: C.ConditionalComponent,
-            viewBuilder: V.renderWhenUnAuthorized,
-          } as ComponentConfig<typeof C.ConditionalComponent>,
-        ],
-        component: C.FluidAlert,
-        viewBuilder: V.buildExportWarning,
-      } as ComponentConfig<typeof C.FluidAlert>,
+        component: MDX.AlertExportWarning,
+        viewBuilder: V.buildAlertExportWarning,
+      } as ComponentConfig<typeof MDX.AlertExportWarning>,
     ],
     component: C.BackPageContentSingleColumn,
   } as ComponentConfig<typeof C.BackPageContentSingleColumn>,

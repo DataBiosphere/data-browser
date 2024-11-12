@@ -1,5 +1,7 @@
-import { ComponentConfig } from "@databiosphere/findable-ui/lib/config/entities";
-import { ComponentsConfig } from "@databiosphere/findable-ui/src/config/entities";
+import {
+  ComponentConfig,
+  ComponentsConfig,
+} from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../../app/components";
 import * as MDX from "../../../../../app/components/common/MDXContent/lungmap";
 import { mainColumn as hcaOverviewMainColumn } from "../../../../hca-dcp/dev/detail/project/overviewMainColumn";

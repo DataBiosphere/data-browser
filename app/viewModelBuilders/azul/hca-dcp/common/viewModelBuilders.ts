@@ -7,6 +7,7 @@ import {
   SelectedFilter,
 } from "@databiosphere/findable-ui/lib/common/entities";
 import { stringifyValues } from "@databiosphere/findable-ui/lib/common/utils";
+import { ALERT_PROPS } from "@databiosphere/findable-ui/lib/components/common/Alert/constants";
 import { Breadcrumb } from "@databiosphere/findable-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import {
   Key,
@@ -34,6 +35,7 @@ import {
   sortTerms,
 } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/utils";
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
+import { SIZE } from "@databiosphere/findable-ui/lib/styles/common/constants/size";
 import {
   TEXT_BODY_400,
   TEXT_BODY_400_2_LINES,
@@ -504,6 +506,45 @@ export const buildAggregateSubmissionDate = (
 };
 
 /**
+ * Build props for entity related export warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertExportEntityWarning = (
+  _: Unused,
+  viewContext: ViewContext<Unused>
+): React.ComponentProps<typeof MDX.Alert> => {
+  const content = isUserAuthenticated(viewContext)
+    ? "To export this project, please request access."
+    : "To export this project, please sign in and, if necessary, request access.";
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    content,
+  };
+};
+
+/**
+ * Build props for export warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertExportWarning = (
+  _: Unused,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof MDX.AlertExportWarning> => {
+  const isAuthenticated = isUserAuthenticated(viewContext);
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    content: isAuthenticated ? null : MDX.AlertExportWarningContent({}),
+    size: isAuthenticated ? SIZE.MEDIUM : SIZE.LARGE,
+  };
+};
+
+/**
  * Build props for analysis portals component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the KeyValuePairs component.
@@ -539,19 +580,6 @@ export const buildAtlasSection = (
   const project = getProjectResponse(projectsResponse);
   return {
     atlases: mapProjectAtlas(project),
-  };
-};
-
-/**
- * Build props for the data normalization and batch correction FluidAlert component.
- * @returns model to be used as props for the FluidAlert component.
- */
-export const buildBatchCorrectionWarning = (): React.ComponentProps<
-  typeof C.FluidAlert
-> => {
-  return {
-    severity: "warning",
-    title: "Please note",
   };
 };
 
@@ -861,29 +889,6 @@ export const buildExportEntityToTerra = (
 };
 
 /**
- * Build props for entity related export warning FluidAlert component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the FluidAlert component.
- */
-export const buildExportEntityWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
-): React.ComponentProps<typeof C.FluidAlert> => {
-  const {
-    authState: { isAuthenticated },
-  } = viewContext;
-  const title = isAuthenticated
-    ? "To export this project, please request access."
-    : "To export this project, please sign in and, if necessary, request access.";
-  return {
-    severity: "warning",
-    title,
-    variant: "banner",
-  };
-};
-
-/**
  * Build props for export BackPageHero component.
  * @param _ - Void.
  * @param viewContext - View context.
@@ -1068,20 +1073,6 @@ export const buildExportToTerra = (
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
-  };
-};
-
-/**
- * Build props for export warning FluidAlert component.
- * @returns model to be used as props for the FluidAlert component.
- */
-export const buildExportWarning = (): React.ComponentProps<
-  typeof C.FluidAlert
-> => {
-  return {
-    severity: "warning",
-    title:
-      'Files from projects with access "required" will be excluded from this export.',
   };
 };
 
@@ -1335,21 +1326,6 @@ export function buildProjectAccessibilityBadge(
     fadeProps,
   };
 }
-
-/**
- * Build project list view list hero warning.
- * Warning serves as a reminder for users to log in.
- * @returns model to be used as props for FluidAlert component.
- */
-export const buildProjectListViewListHeroWarning = (): React.ComponentProps<
-  typeof C.FluidAlert
-> => {
-  return {
-    severity: "warning",
-    title: MDX.LoginReminder({}),
-    variant: "banner",
-  };
-};
 
 /**
  * Build props for the project title Link component from the given projects response.
@@ -2283,6 +2259,17 @@ function isResponseReady(projectsResponse: ProjectsResponse): boolean {
 }
 
 /**
+ * Returns true if user is authenticated.
+ * @param viewContext - View context.
+ * @returns true if user is authenticated.
+ */
+export function isUserAuthenticated(
+  viewContext: ViewContext<unknown>
+): boolean {
+  return viewContext.authState.isAuthenticated;
+}
+
+/**
  * Returns current query for the given facet.
  * @param filter - Selected filter.
  * @param categoryKeyLabel - Map of category key to category label.
@@ -2370,20 +2357,17 @@ export const renderExportEntityWarning = (
 };
 
 /**
- * Renders configuration component children when the given authentication state is not authorized.
+ * Renders configuration component children when the given authentication state is not authenticated.
  * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ConditionalComponent component.
  */
-export const renderWhenUnAuthorized = (
+export const renderWhenUnAuthenticated = (
   _: Unused,
   viewContext: ViewContext<Unused>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
-  const {
-    authState: { isAuthenticated },
-  } = viewContext;
   return {
-    isIn: !isAuthenticated,
+    isIn: !isUserAuthenticated(viewContext),
   };
 };
 

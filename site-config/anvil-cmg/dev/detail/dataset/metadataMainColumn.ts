@@ -1,6 +1,7 @@
 import { ComponentConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { DatasetsResponse } from "../../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../../app/components";
+import * as MDX from "../../../../../app/components/common/MDXContent/anvil-cmg";
 import * as V from "../../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import { sideColumn } from "../../export/exportSideColumn";
 
@@ -11,9 +12,9 @@ export const mainColumn: ComponentConfig[] = [
       {
         children: [
           {
-            component: C.FluidAlert,
-            viewBuilder: V.buildManifestDownloadEntityWarning,
-          } as ComponentConfig<typeof C.FluidAlert, DatasetsResponse>,
+            component: MDX.Alert,
+            viewBuilder: V.buildAlertManifestDownloadEntityWarning,
+          } as ComponentConfig<typeof MDX.Alert, DatasetsResponse>,
         ],
         component: C.BackPageContentSingleColumn,
       } as ComponentConfig<typeof C.BackPageContentSingleColumn>,

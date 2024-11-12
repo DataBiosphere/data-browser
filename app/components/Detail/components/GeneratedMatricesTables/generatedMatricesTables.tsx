@@ -1,3 +1,4 @@
+import { ALERT_PROPS } from "@databiosphere/findable-ui/lib/components/common/Alert/constants";
 import { GridPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/paper.styles";
 import { Table } from "@databiosphere/findable-ui/lib/components/Detail/components/Table/table";
 import { Divider } from "@mui/material";
@@ -5,7 +6,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Fragment } from "react";
 import { GenusSpecies } from "../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/constants";
 import { ProjectMatrixTableView } from "../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
-import { Alert, SectionTitle } from "./generatedMatricesTables.styles";
+import { SectionTitle, StyledAlert } from "./generatedMatricesTables.styles";
 
 interface GeneratedMatricesTablesProps<T extends object> {
   columns: ColumnDef<T>[];
@@ -42,9 +43,9 @@ export const GeneratedMatricesTables = <T extends object>({
           }
         )
       ) : (
-        <Alert icon={false} severity="info" variant="neutral">
+        <StyledAlert {...ALERT_PROPS.FILLED_SMOKE} icon={false}>
           There are currently no DCP generated matrices for this project.
-        </Alert>
+        </StyledAlert>
       )}
     </>
   );
