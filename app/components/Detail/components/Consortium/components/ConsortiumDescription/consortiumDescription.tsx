@@ -2,7 +2,6 @@ import {
   MdxMarkdown,
   MDXSerializeResult,
 } from "../../../../../common/MDXMarkdown/mdxMarkdown";
-import { ConsortiumDescriptionFallback } from "./components/ConsortiumDescriptionFallback/consortiumDescriptionFallback";
 import { SectionText } from "./consortiumDescription.styles";
 
 interface ConsortiumDescriptionProps {
@@ -14,10 +13,7 @@ export const ConsortiumDescription = ({
 }: ConsortiumDescriptionProps): JSX.Element => {
   return (
     <SectionText component="div">
-      <MdxMarkdown
-        fallback={<ConsortiumDescriptionFallback />}
-        source={source}
-      />
+      <MdxMarkdown fallback="None" source={source} />
     </SectionText>
   );
 };

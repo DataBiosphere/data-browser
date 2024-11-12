@@ -32,7 +32,9 @@ export function buildAnVILCatalogConsortia(
     const anvilCatalogConsortium =
       anvilCatalogConsortiaByConsortium.get(consortium) || {};
     const consortiumOverview =
-      consortiumOverviewByConsortium.get(consortium.toLowerCase()) || null;
+      consortiumOverviewByConsortium.get(consortium.toLowerCase()) ||
+      consortiumOverviewByConsortium.get("default-consortium") ||
+      null;
     anvilCatalogConsortiaByConsortium.set(
       consortium,
       buildAnVILCatalogConsortium(
