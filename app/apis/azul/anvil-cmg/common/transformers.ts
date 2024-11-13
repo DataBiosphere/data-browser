@@ -22,6 +22,7 @@ import {
 import {
   ActivityEntityResponse,
   BioSampleEntityResponse,
+  DatasetEntityResponse,
   DonorEntityResponse,
   FileEntityResponse,
   LibraryEntityResponse,
@@ -84,6 +85,16 @@ export function getAggregatedBioSampleTypes(
   return processAggregatedOrArrayValue(response.biosamples, "biosample_type");
 }
 
+/**
+ * Maps data modality from index/datasets API response.
+ * @param response - Response model return from index/datasets API.
+ * @returns a list of data modalities.
+ */
+export function getDatasetDataModalities(
+  response: DatasetEntityResponse
+): MetadataValue[] {
+  return processAggregatedOrArrayValue(response.datasets, "data_modality");
+}
 /**
  * Maps dataset-related information, included formatted display text from API response.
  * @param response - Response model return from datasets or dataset API endpoints.

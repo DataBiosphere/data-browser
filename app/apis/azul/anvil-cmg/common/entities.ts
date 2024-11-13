@@ -45,6 +45,7 @@ export interface BioSampleEntityResponse {
 export interface DatasetEntity {
   accessible: boolean;
   consent_group: (string | null)[];
+  data_modality: (string | null)[];
   dataset_id: string;
   description?: string;
   registered_identifier: (string | null)[];
@@ -88,7 +89,7 @@ export interface DonorSpecies {
  */
 export interface FileEntity {
   accessible: boolean;
-  data_modality: string[];
+  data_modality: (string | null)[];
   date_created: string;
   document_id: string;
   drs_uri: string;

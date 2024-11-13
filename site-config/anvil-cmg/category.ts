@@ -10,6 +10,7 @@ export const ANVIL_CMG_CATEGORY_KEY = {
   BIOSAMPLE_TYPE: "biosample_type",
   DATASET_ACCESSIBLE: "datasets.accessible",
   DATASET_CONSENT_GROUP: "datasets.consent_group",
+  DATASET_DATA_MODALITY: "datasets.data_modality",
   DATASET_ID: "dataset_id",
   DATASET_REGISTERED_ID: "datasets.registered_identifier",
   DATASET_TITLE: "datasets.title",
@@ -19,6 +20,7 @@ export const ANVIL_CMG_CATEGORY_KEY = {
   DONOR_ORGANISM_TYPE: "donors.organism_type",
   DONOR_PHENOTYPIC_SEX: "donors.phenotypic_sex",
   DONOR_REPORTED_ETHNICITY: "donors.reported_ethnicity",
+  FILE_DATA_MODALITY: "files.data_modality",
   FILE_FILE_FORMAT: "files.file_format",
   FILE_FILE_NAME: "files.file_name",
   FILE_FILE_SIZE: "files.file_size",
@@ -27,10 +29,12 @@ export const ANVIL_CMG_CATEGORY_KEY = {
   PREP_MATERIAL_NAME: "prep_material_name",
 };
 
+const DATA_MODALITY_LABEL = "Data Modality";
+
 export const ANVIL_CMG_CATEGORY_LABEL = {
   ACCESSIBLE: "Access",
   ACTIVITY_ACTIVITY_TYPE: "Activity Type",
-  ACTIVITY_DATA_MODALITY: "Data Modality",
+  ACTIVITY_DATA_MODALITY: DATA_MODALITY_LABEL,
   ACTIVITY_DOCUMENT_ID: "Document Id",
   AZUL_FILE_DOWNLOAD: " ",
   BIOSAMPLE_ANATOMICAL_SITE: "Anatomical Site",
@@ -39,6 +43,7 @@ export const ANVIL_CMG_CATEGORY_LABEL = {
   BIOSAMPLE_TYPE: "BioSample Type",
   DATASET_ACCESSIBLE: "Access",
   DATASET_CONSENT_GROUP: "Consent Group",
+  DATASET_DATA_MODALITY: DATA_MODALITY_LABEL,
   DATASET_ID: "Dataset Name",
   DATASET_REGISTERED_ID: "Identifier",
   DATASET_TITLE: "Dataset",
@@ -48,6 +53,7 @@ export const ANVIL_CMG_CATEGORY_LABEL = {
   DONOR_ORGANISM_TYPE: "Organism Type",
   DONOR_PHENOTYPIC_SEX: "Phenotypic Sex",
   DONOR_REPORTED_ETHNICITY: "Reported Ethnicity",
+  FILE_DATA_MODALITY: DATA_MODALITY_LABEL,
   FILE_FILE_FORMAT: "File Format",
   FILE_FILE_NAME: "Name",
   FILE_FILE_SIZE: "Size",

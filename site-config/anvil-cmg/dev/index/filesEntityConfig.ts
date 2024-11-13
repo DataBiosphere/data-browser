@@ -87,8 +87,8 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           component: C.NTagCell,
           viewBuilder: V.buildFileDataModality,
         } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
         width: { max: "1fr", min: "140px" },
       },
       {

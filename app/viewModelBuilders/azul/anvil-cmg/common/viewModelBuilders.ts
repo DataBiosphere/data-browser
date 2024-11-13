@@ -58,6 +58,7 @@ import {
 import {
   ActivityEntityResponse,
   BioSampleEntityResponse,
+  DatasetEntityResponse,
   DonorEntityResponse,
   FileEntityResponse,
   FileFormat,
@@ -82,6 +83,7 @@ import {
   getBioSampleId,
   getBioSampleType,
   getConsentGroup,
+  getDatasetDataModalities,
   getDatasetDetails,
   getDatasetEntryId,
   getDocumentId,
@@ -316,6 +318,20 @@ export function buildDatasetAccessibilityBadge(
   const fadeProps = getAccessibleTransition(datasetsResponse);
   return { badgeProps, fadeProps };
 }
+
+/**
+ * Build props for dataset data modality NTagCell component from the given datasets response.
+ * @param response - Response model return from index/datasets API endpoint.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildDatasetDataModality = (
+  response: DatasetEntityResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
+    values: getDatasetDataModalities(response),
+  };
+};
 
 /**
  * Build props for Markdown component from the given entity response.
