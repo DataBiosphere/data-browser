@@ -33,6 +33,10 @@ const HOME_PAGE_PATH = "/projects";
 const ORG_URL = "https://www.humancellatlas.org";
 const PAGINATION_PAGE_SIZE = "25";
 export const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
+const BUILD_DATE = process.env.NEXT_PUBLIC_BUILD_DATE;
+const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
+const GIT_HASH = process.env.NEXT_PUBLIC_GIT_HASH;
+const VERSION = process.env.NEXT_PUBLIC_VERSION;
 
 export function makeConfig(
   browserUrl: string,
@@ -66,6 +70,7 @@ export function makeConfig(
     explorerTitle: "Explore Data",
     export: exportConfig,
     exportToTerraUrl: EXPORT_TO_TERRA_URL,
+    gitHubUrl: GIT_HUB_REPO_URL,
     layout: {
       floating,
       footer: {
@@ -95,6 +100,15 @@ export function makeConfig(
             url: `${portalUrl}/contact`,
           },
         ],
+        versionInfo: C.VersionInfo({
+          tooltipProps: { open: true },
+          versionInfo: {
+            buildDate: BUILD_DATE,
+            catalog,
+            gitHash: GIT_HASH,
+            version: VERSION,
+          },
+        }),
       },
       header: {
         announcements,

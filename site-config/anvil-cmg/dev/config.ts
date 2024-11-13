@@ -21,14 +21,19 @@ import { floating } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
+const BUILD_DATE = process.env.NEXT_PUBLIC_BUILD_DATE;
 const DATA_URL = "https://service.anvil.gi.ucsc.edu";
 const BROWSER_URL = "https://explore.anvil.gi.ucsc.edu";
+const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
+const GIT_HASH = process.env.NEXT_PUBLIC_GIT_HASH;
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
+const VERSION = process.env.NEXT_PUBLIC_VERSION;
 
 export function makeConfig(
   browserUrl: string,
   portalUrl: string,
   dataUrl: string,
+  gitHubUrl: string = GIT_HUB_REPO_URL,
   catalog: string = CATALOG_DEFAULT
 ): SiteConfig {
   return {
@@ -148,6 +153,7 @@ export function makeConfig(
     explorerTitle: "Explore Data",
     export: exportConfig,
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
+    gitHubUrl,
     layout: {
       floating,
       footer: {
@@ -162,6 +168,14 @@ export function makeConfig(
             url: `${browserUrl}/privacy`,
           },
         ],
+        versionInfo: C.VersionInfo({
+          versionInfo: {
+            buildDate: BUILD_DATE,
+            catalog,
+            gitHash: GIT_HASH,
+            version: VERSION,
+          },
+        }),
       },
       header: {
         announcements,

@@ -38,6 +38,7 @@ export { StatusBadge } from "@databiosphere/findable-ui/lib/components/common/St
 export { TagWarning } from "@databiosphere/findable-ui/lib/components/common/Tag/tag.styles";
 export { TypographyWordBreak } from "@databiosphere/findable-ui/lib/components/common/Typography/TypographyWordBreak/TypographyWordBreak";
 export { ConditionalComponent } from "@databiosphere/findable-ui/lib/components/ComponentCreator/components/ConditionalComponent/conditionalComponent";
+export { RenderComponent } from "@databiosphere/findable-ui/lib/components/ComponentCreator/components/RenderComponent/renderComponent";
 export { AccessibilityBadge as DXAccessibilityBadge } from "@databiosphere/findable-ui/lib/components/Detail/components/AccessibilityBadge/accessibilityBadge";
 export { DetailViewTable } from "@databiosphere/findable-ui/lib/components/Detail/components/DetailViewTable/detailViewTable";
 export { DownloadCurlCommandForm } from "@databiosphere/findable-ui/lib/components/Export/components/DownloadCurlCommand/components/DownloadCurlCommandForm/downloadCurlCommandForm";
@@ -62,6 +63,7 @@ export {
 } from "@databiosphere/findable-ui/lib/components/Layout/components/BackPage/backPageView.styles";
 export { BackPageHero } from "@databiosphere/findable-ui/lib/components/Layout/components/BackPage/components/BackPageHero/backPageHero";
 export { SubTitle } from "@databiosphere/findable-ui/lib/components/Layout/components/BackPage/components/BackPageHero/components/SubTitle/subTitle";
+export { VersionInfo } from "@databiosphere/findable-ui/lib/components/Layout/components/Footer/components/VersionInfo/versionInfo";
 export { Logo } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
 export { Link } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
 export { Links } from "@databiosphere/findable-ui/lib/components/Links/links";
@@ -79,7 +81,7 @@ export { SupportRequest } from "@databiosphere/findable-ui/lib/components/Suppor
 export { BasicCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/BasicCell/basicCell";
 export { NTagCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/NTagCell/nTagCell";
 export { ExportMethodView } from "@databiosphere/findable-ui/lib/views/ExportMethodView/exportMethodView";
-export { AlertTitle } from "@mui/material";
+export { AlertTitle, Chip } from "@mui/material";
 export { Announcements } from "./common/Banner/components/Announcements/announcements";
 export { ButtonOutline } from "./common/Button/components/ButtonOutline/buttonOutline";
 export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
