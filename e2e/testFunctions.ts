@@ -7,6 +7,10 @@ import {
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
+// Timeout constants
+const EXPORT_REQUEST_TIMEOUT = 60000;
+const DOWNLOAD_TIMEOUT = 10000;
+
 /**
  * Get an array of all visible column header names
  * @param page - a Playwright page object
@@ -777,8 +781,6 @@ export async function testDeselectFiltersThroughSearchBar(
   }
 }
 
-const EXPORT_REQUEST_TIMEOUT = 60000;
-
 /**
  * Get the first link to a backpage with specified backpage access
  * @param page - a Playright page locator
@@ -1147,8 +1149,12 @@ export async function testBulkDownloadIndexExportWorkflow(
   const exportActionButtonLocator = page.getByRole("link", {
     name: tab.indexExportPage?.exportActionButtonText,
   });
-  await expect(exportActionButtonLocator).toBeEnabled({ timeout: 60000 });
-  const downloadPromise = page.waitForEvent("download", { timeout: 10000 }); // This timeout is necessary, as otherwise the test will wait for the global test timeout
+  await expect(exportActionButtonLocator).toBeEnabled({
+    timeout: EXPORT_REQUEST_TIMEOUT,
+  });
+  const downloadPromise = page.waitForEvent("download", {
+    timeout: DOWNLOAD_TIMEOUT,
+  }); // This timeout is necessary, as otherwise the test will wait for the global test timeout
   await exportActionButtonLocator.click();
   const download = await downloadPromise;
   // Cancel the download when it occurs, since there's no need to let it fully download
