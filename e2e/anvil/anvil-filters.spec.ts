@@ -68,7 +68,6 @@ test("Check that all filters exist on the Files tab and are clickable", async ({
 test("Check that the first filter on the Datasets tab creates at least one checkbox, and that checking up to the first five does not cause an error and does not cause there to be no entries in the table", async ({
   page,
 }) => {
-  test.setTimeout(120000);
   // Goto the datasets tab
   await page.goto(ANVIL_TABS.DATASETS.url);
   await expect(
@@ -103,7 +102,6 @@ test("Check that the first filter on the Datasets tab creates at least one check
 test("Check that filter checkboxes are persistent across pages on an arbitrary filter", async ({
   page,
 }) => {
-  test.setTimeout(120000);
   await testFilterPersistence(
     page,
     ANVIL_FILTER_NAMES[FILE_FORMAT_INDEX],
@@ -114,7 +112,6 @@ test("Check that filter checkboxes are persistent across pages on an arbitrary f
 test("Check that filter menu counts match actual counts on the Datasets tab", async ({
   page,
 }) => {
-  test.setTimeout(120000);
   const result = await testFilterCounts(
     page,
     ANVIL_TABS.DATASETS,
@@ -129,7 +126,6 @@ test("Check that filter menu counts match actual counts on the Datasets tab", as
 test("Check that filter menu counts match actual counts on the Activities tab", async ({
   page,
 }) => {
-  test.setTimeout(120000);
   await testFilterCounts(
     page,
     ANVIL_TABS.ACTIVITIES,
@@ -141,7 +137,6 @@ test("Check that filter menu counts match actual counts on the Activities tab", 
 test("Check that the filter tags match the selected filter for an arbitrary filter on the Files tab", async ({
   page,
 }) => {
-  test.setTimeout(120000);
   await testFilterTags(
     page,
     ANVIL_TABS.FILES,
@@ -152,7 +147,6 @@ test("Check that the filter tags match the selected filter for an arbitrary filt
 test("Check that the filter tags match the selected filter for an arbitrary filter on the BioSamples tab", async ({
   page,
 }) => {
-  test.setTimeout(120000);
   await testFilterTags(
     page,
     ANVIL_TABS.BIOSAMPLES,
@@ -163,7 +157,6 @@ test("Check that the filter tags match the selected filter for an arbitrary filt
 test("Check that the clear all button functions on the files tab", async ({
   page,
 }) => {
-  test.setTimeout(120000);
   await testClearAll(
     page,
     ANVIL_TABS.FILES,

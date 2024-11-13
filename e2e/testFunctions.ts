@@ -88,7 +88,7 @@ export async function testUrl(
   // Check that the selected tab appears selected and the other tabs appear deselected
   await expect(
     page.getByRole("tab").getByText(tab.tabName, { exact: true })
-  ).toHaveAttribute("aria-selected", "true", { timeout: 25000 });
+  ).toHaveAttribute("aria-selected", "true");
   for (const otherTab of otherTabs) {
     if (otherTab.tabName !== tab.tabName) {
       await expect(
@@ -116,7 +116,7 @@ export async function testTab(
     .getByRole("tab")
     .getByText(endTab.tabName, { exact: true })
     .click();
-  await expect(page).toHaveURL(endTab.url, { timeout: 25000 }); // Long timeout because some tabs take a long time to load
+  await expect(page).toHaveURL(endTab.url);
   await expect(page.getByRole("tab").getByText(endTab.tabName)).toHaveAttribute(
     "aria-selected",
     "true"
@@ -777,6 +777,8 @@ export async function testDeselectFiltersThroughSearchBar(
   }
 }
 
+const EXPORT_REQUEST_TIMEOUT = 60000;
+
 /**
  * Get the first link to a backpage with specified backpage access
  * @param page - a Playright page locator
@@ -811,7 +813,7 @@ const makeMinimalExportRequest = async (
   for (const checkboxLocator of allNonTableCheckboxLocators) {
     await checkboxLocator.click();
     await expect(checkboxLocator).toBeChecked();
-    await expect(checkboxLocator).toBeEnabled({ timeout: 10000 });
+    await expect(checkboxLocator).toBeEnabled();
   }
 
   // Check the second checkbox in the table (this should be the checkbox after the "select all checkbox")
@@ -822,7 +824,7 @@ const makeMinimalExportRequest = async (
   const secondCheckboxInTableLocator = allInTableCheckboxLocators[1];
   await secondCheckboxInTableLocator.click();
   await expect(secondCheckboxInTableLocator).toBeChecked();
-  await expect(secondCheckboxInTableLocator).toBeEnabled({ timeout: 10000 });
+  await expect(secondCheckboxInTableLocator).toBeEnabled();
   // Make sure that no other checkboxes are selected
   const otherInTableCheckboxLocators = [
     allInTableCheckboxLocators[0],
@@ -833,7 +835,7 @@ const makeMinimalExportRequest = async (
     await expect(otherCheckboxLocator).toBeEnabled();
   }
   // Click the Export Request button
-  await expect(exportRequestButtonLocator).toBeEnabled({ timeout: 10000 });
+  await expect(exportRequestButtonLocator).toBeEnabled();
   await exportRequestButtonLocator.click();
 };
 
@@ -889,7 +891,7 @@ export async function testExportBackpage(
     page.getByText(tab.backpageExportButtons.actionLandingMessage, {
       exact: true,
     })
-  ).toBeVisible({ timeout: 60000 });
+  ).toBeVisible({ timeout: EXPORT_REQUEST_TIMEOUT });
   const exportActionButtonLocator = page.getByRole("button", {
     name: tab.backpageExportButtons?.exportActionButtonText,
   });
@@ -1354,7 +1356,7 @@ export async function testPaginationContent(
   await page.goto(tab.url);
   await expect(
     page.getByRole("tab").getByText(tab.tabName, { exact: true })
-  ).toHaveAttribute("aria-selected", "true", { timeout: 25000 });
+  ).toHaveAttribute("aria-selected", "true");
 
   const firstElementTextLocator = getFirstRowNthColumnCellLocator(page, 0);
 
