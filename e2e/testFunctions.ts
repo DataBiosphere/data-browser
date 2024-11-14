@@ -8,8 +8,8 @@ import {
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
 // Timeout constants
-const EXPORT_REQUEST_TIMEOUT = 60000;
-const DOWNLOAD_TIMEOUT = 10000;
+const TIMEOUT_EXPORT_REQUEST = 60000;
+const TIMEOUT_DOWNLOAD = 10000;
 
 /**
  * Get an array of all visible column header names
@@ -893,7 +893,7 @@ export async function testExportBackpage(
     page.getByText(tab.backpageExportButtons.actionLandingMessage, {
       exact: true,
     })
-  ).toBeVisible({ timeout: EXPORT_REQUEST_TIMEOUT });
+  ).toBeVisible({ timeout: TIMEOUT_EXPORT_REQUEST });
   const exportActionButtonLocator = page.getByRole("button", {
     name: tab.backpageExportButtons?.exportActionButtonText,
   });
@@ -1150,10 +1150,10 @@ export async function testBulkDownloadIndexExportWorkflow(
     name: tab.indexExportPage?.exportActionButtonText,
   });
   await expect(exportActionButtonLocator).toBeEnabled({
-    timeout: EXPORT_REQUEST_TIMEOUT,
+    timeout: TIMEOUT_EXPORT_REQUEST,
   });
   const downloadPromise = page.waitForEvent("download", {
-    timeout: DOWNLOAD_TIMEOUT,
+    timeout: TIMEOUT_DOWNLOAD,
   }); // This timeout is necessary, as otherwise the test will wait for the global test timeout
   await exportActionButtonLocator.click();
   const download = await downloadPromise;
