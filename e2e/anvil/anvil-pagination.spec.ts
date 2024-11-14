@@ -19,7 +19,6 @@ test("Check first page has disabled back and enabled forward pagination buttons 
 test("Paginate through the entire Files tab to confirm that the page number stays consistent and that paginating forwards is disabled on the last page. Uses filters to reduce the amount of calls necessary", async ({
   page,
 }) => {
-  test.setTimeout(500000);
   const result = await filterAndTestLastPagePagination(
     page,
     ANVIL_TABS.FILES,
@@ -33,6 +32,5 @@ test("Paginate through the entire Files tab to confirm that the page number stay
 test("Check forward and backwards pagination causes the page content to change on the Biosamples page", async ({
   page,
 }) => {
-  test.setTimeout(90000);
   await testPaginationContent(page, ANVIL_TABS.BIOSAMPLES);
 });
