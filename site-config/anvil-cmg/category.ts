@@ -55,3 +55,7 @@ export const ANVIL_CMG_CATEGORY_LABEL = {
   LIBRARY_ID: "Library Id",
   PREP_MATERIAL_NAME: "Library Preparation",
 };
+
+export const DATASET_RESPONSE = {
+  DATASETS: "datasets",
+};

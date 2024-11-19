@@ -43,6 +43,7 @@ import React from "react";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
+  DATASET_RESPONSE,
 } from "../../../../../site-config/anvil-cmg/category";
 import {
   ROUTE_EXPORT_TO_TERRA,
@@ -1019,7 +1020,7 @@ export function getExportCurrentQuerySelectedFilters(
   datasetsResponse: DatasetsResponse,
   viewContext: ViewContext<DatasetsResponse>
 ): Filters {
-  if ("datasets" in datasetsResponse) {
+  if (DATASET_RESPONSE.DATASETS in datasetsResponse) {
     return getExportEntityCurrentQuerySelectedFilters(
       datasetsResponse,
       viewContext
