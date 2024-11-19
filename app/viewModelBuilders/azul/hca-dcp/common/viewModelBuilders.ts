@@ -879,7 +879,7 @@ export const buildExportEntityToTerra = (
     ExportToTerraStart: MDX.ExportToTerra,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENITY_EXPORT_TO_TERRA,
+    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters,
     formFacet,
@@ -1128,7 +1128,11 @@ export const buildFileDownload = (
 ): React.ComponentProps<typeof C.AzulFileDownload> => {
   // Always take the first value in the files array.
   // This is a summary value and there should only ever be single value here.
+  const project = filesResponse.projects[0];
   return {
+    entityName: processEntityValue(filesResponse.files, "name"),
+    relatedEntityId: project.projectId[0],
+    relatedEntityName: project.projectTitle[0],
     url: processEntityValue(filesResponse.files, "url", LABEL.EMPTY),
   };
 };
