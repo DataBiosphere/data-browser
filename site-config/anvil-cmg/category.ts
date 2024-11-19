@@ -10,7 +10,7 @@ export const ANVIL_CMG_CATEGORY_KEY = {
   BIOSAMPLE_TYPE: "biosample_type",
   DATASET_ACCESSIBLE: "datasets.accessible",
   DATASET_CONSENT_GROUP: "datasets.consent_group",
-  DATASET_ID: "dataset_id",
+  DATASET_ID: "datasets.dataset_id",
   DATASET_REGISTERED_ID: "datasets.registered_identifier",
   DATASET_TITLE: "datasets.title",
   DIAGNOSE_DISEASE: "diagnoses.disease",
@@ -54,4 +54,8 @@ export const ANVIL_CMG_CATEGORY_LABEL = {
   FILE_FILE_TYPE: "File Type",
   LIBRARY_ID: "Library Id",
   PREP_MATERIAL_NAME: "Library Preparation",
+};
+
+export const DATASET_RESPONSE = {
+  DATASETS: "datasets",
 };

@@ -43,6 +43,7 @@ import React from "react";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
+  DATASET_RESPONSE,
 } from "../../../../../site-config/anvil-cmg/category";
 import {
   ROUTE_EXPORT_TO_TERRA,
@@ -462,20 +463,19 @@ export const buildDRSURI = (
 
 /**
  * Build props for ExportCurrentQuery component.
- * @param _ - Void.
+ * @param datasetsResponse - Response model returned from datasets API.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportCurrentQuery component.
  */
 export const buildExportCurrentQuery = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext<DatasetsResponse>
 ): React.ComponentProps<typeof C.ExportCurrentQuery> => {
-  const {
-    fileManifestState: { filters, isFacetsLoading },
-  } = viewContext;
   return {
-    isLoading: isFacetsLoading,
-    queries: getExportCurrentQueries(filters),
+    isLoading: viewContext.fileManifestState.isFacetsLoading,
+    queries: getExportCurrentQueries(
+      getExportCurrentQuerySelectedFilters(datasetsResponse, viewContext)
+    ),
   };
 };
 
@@ -975,6 +975,19 @@ function getDatasetStatusBadge(
 }
 
 /**
+ * Returns dataset ID from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns dataset ID.
+ */
+export function getDatasetId(datasetsResponse: DatasetsResponse): string {
+  return processEntityValue(
+    datasetsResponse.datasets,
+    "dataset_id",
+    LABEL.NONE
+  );
+}
+
+/**
  * Returns dataset title from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns dataset title.
@@ -998,6 +1011,44 @@ export function getExportCurrentQueries(filters: Filters): CurrentQuery[] {
 }
 
 /**
+ * Returns the export current query selected filters for the given file manifest state.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
+ * @returns export current query selected filters.
+ */
+export function getExportCurrentQuerySelectedFilters(
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext<DatasetsResponse>
+): Filters {
+  if (DATASET_RESPONSE.DATASETS in datasetsResponse) {
+    return getExportEntityCurrentQuerySelectedFilters(
+      datasetsResponse,
+      viewContext
+    );
+  }
+  return viewContext.fileManifestState.filters;
+}
+
+/**
+ * Returns the export entity current query selected filters for the given file manifest state.
+ * Dataset ID is filtered out from the current filters query, and dataset title is added.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
+ * @returns export entity current query selected filters.
+ */
+export function getExportEntityCurrentQuerySelectedFilters(
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext<DatasetsResponse>
+): Filters {
+  const filters = viewContext.fileManifestState.filters.filter(filterDatasetId);
+  const datasetTitleFilter: SelectedFilter = {
+    categoryKey: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+    value: [getDatasetTitle(datasetsResponse)],
+  };
+  return [datasetTitleFilter, ...filters];
+}
+
+/**
  * Returns the export entity filters for the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns export entity filters.
@@ -1005,8 +1056,8 @@ export function getExportCurrentQueries(filters: Filters): CurrentQuery[] {
 function getExportEntityFilters(datasetsResponse: DatasetsResponse): Filters {
   return [
     {
-      categoryKey: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
-      value: [getDatasetTitle(datasetsResponse)],
+      categoryKey: ANVIL_CMG_CATEGORY_KEY.DATASET_ID,
+      value: [getDatasetId(datasetsResponse)],
     },
   ];
 }
@@ -1145,6 +1196,15 @@ function getFormFacets(fileManifestState: FileManifestState): FormFacet {
         }
       : undefined,
   };
+}
+
+/**
+ * Boolean to filter out any selected filters that have dataset ID as the category key.
+ * @param filter - Selected filter.
+ * @returns true if the filter category key is not dataset ID.
+ */
+function filterDatasetId(filter: SelectedFilter): boolean {
+  return filter.categoryKey !== ANVIL_CMG_CATEGORY_KEY.DATASET_ID;
 }
 
 /**
