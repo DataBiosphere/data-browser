@@ -91,7 +91,6 @@ import {
   getFileFormat,
   getFileName,
   getFileSize,
-  getFileUrl,
   getLibraryId,
   getOrganismType,
   getPhenotypicSex,
@@ -499,7 +498,7 @@ export const buildExportEntityToTerra = (
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENITY_EXPORT_TO_TERRA,
+    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters,
     formFacet,
@@ -679,8 +678,12 @@ export const buildFileDataModality = (
 export const buildFileDownload = (
   response: FilesResponse
 ): React.ComponentProps<typeof C.AzulFileDownload> => {
+  const dataset = response.datasets[0];
   return {
-    url: getFileUrl(response),
+    entityName: processEntityValue(response.files, "file_name"),
+    relatedEntityId: dataset.dataset_id[0],
+    relatedEntityName: dataset.title[0],
+    url: processEntityValue(response.files, "url", LABEL.EMPTY),
   };
 };
 

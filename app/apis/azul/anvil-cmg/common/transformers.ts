@@ -229,15 +229,6 @@ export function getFileSize(response: FileEntityResponse): string {
 }
 
 /**
- * Maps file URL from the core file value returned from the /index/files API response.
- * @param response - Response model return from index/files API endpoint.
- * @returns File URL.
- */
-export function getFileUrl(response: FileEntityResponse): string {
-  return processEntityValue(response.files, "url", LABEL.EMPTY);
-}
-
-/**
  * Maps library ID from the core library value returned from the /index/libraries API response.
  * @param response - Response model return from index/libraries API endpoint.
  * @returns Library ID.
