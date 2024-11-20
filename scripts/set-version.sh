@@ -15,6 +15,9 @@ BUILD_DATE=$(TZ="America/Los_Angeles" date +"%Y-%m-%d %H:%M:%S %Z")
 # Get the current code version from git
 VERSION=$(git tag --points-at HEAD)
 
+# Append newline to ensure following lines are separated from existing content
+echo "" >> "$TARGET_ENV_FILE"
+
 # Append these values as NEXT_PUBLIC variables
 echo "NEXT_PUBLIC_GIT_HASH='$GIT_HASH'" >> "$TARGET_ENV_FILE"
 echo "NEXT_PUBLIC_BUILD_DATE='$BUILD_DATE'" >> "$TARGET_ENV_FILE"
