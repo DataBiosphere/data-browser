@@ -10,7 +10,7 @@ export const PORTAL_URL = "https://dev.singlecell.gi.ucsc.edu";
 
 const config: SiteConfig = {
   ...makeManagedAccessConfig(
-    makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, CATALOG)
+    makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, undefined, CATALOG)
   ),
 };
 
