@@ -23,12 +23,14 @@ import { floating } from "./layout/floating";
 const APP_TITLE = "AnVIL Data Explorer";
 const DATA_URL = "https://service.anvil.gi.ucsc.edu";
 const BROWSER_URL = "https://explore.anvil.gi.ucsc.edu";
+const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 
 export function makeConfig(
   browserUrl: string,
   portalUrl: string,
   dataUrl: string,
+  gitHubUrl: string = GIT_HUB_REPO_URL,
   catalog: string = CATALOG_DEFAULT
 ): SiteConfig {
   return {
@@ -148,6 +150,7 @@ export function makeConfig(
     explorerTitle: "Explore Data",
     export: exportConfig,
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
+    gitHubUrl,
     layout: {
       floating,
       footer: {
@@ -162,6 +165,7 @@ export function makeConfig(
             url: `${browserUrl}/privacy`,
           },
         ],
+        versionInfo: true,
       },
       header: {
         announcements,
