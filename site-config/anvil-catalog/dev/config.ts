@@ -1,5 +1,6 @@
 import * as C from "../../../app/components/index";
 import { socialMedia } from "../../anvil/dev/socialMedia";
+import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,
@@ -17,7 +18,6 @@ import { buildNavigation } from "./layout/header/navigation/navigation";
 const APP_TITLE = "AnVIL Dataset Catalog";
 const BROWSER_URL = "https://anvilproject.dev.clevercanary.com";
 const EXPLORER_URL = "https://explore.anvilproject.dev.clevercanary.com";
-const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
 const HOME_PAGE_PATH = ROUTES.CONSORTIA;
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
@@ -26,7 +26,7 @@ export function makeConfig(
   browserUrl: string,
   portalUrl: string,
   explorerUrl: string,
-  gitHubUrl: string = GIT_HUB_REPO_URL
+  gitHubUrl: string
 ): SiteConfig {
   return {
     analytics: {
@@ -125,6 +125,11 @@ export function makeConfig(
   };
 }
 
-const config: SiteConfig = makeConfig(BROWSER_URL, PORTAL_URL, EXPLORER_URL);
+const config: SiteConfig = makeConfig(
+  BROWSER_URL,
+  PORTAL_URL,
+  EXPLORER_URL,
+  GIT_HUB_REPO_URL
+);
 
 export default config;

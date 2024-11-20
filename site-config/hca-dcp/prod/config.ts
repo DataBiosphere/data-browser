@@ -1,3 +1,4 @@
+import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { makeConfig } from "../dev/config";
 
@@ -7,7 +8,7 @@ export const DATA_URL = "https://service.azul.data.humancellatlas.org";
 export const PORTAL_URL = "https://data.humancellatlas.org";
 
 const config: SiteConfig = {
-  ...makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL),
+  ...makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, GIT_HUB_REPO_URL),
 };
 
 // Update gtmAuth for the prod environment lookup.

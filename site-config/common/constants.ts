@@ -17,6 +17,8 @@ export const FLATTEN: Record<
   XS_ONLY: { xs: true },
 };
 
+export const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
+
 export const VISIBLE: Record<
   string,
   Partial<Record<BreakpointKey, boolean>>

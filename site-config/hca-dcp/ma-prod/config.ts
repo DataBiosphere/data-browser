@@ -1,3 +1,4 @@
+import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { makeManagedAccessConfig } from "../cc-ma-dev/config";
 import { makeConfig } from "../dev/config";
@@ -7,7 +8,6 @@ import { getAuthenticationConfig } from "./authentication/authentication";
 const BROWSER_URL = "https://explore.data.humancellatlas.org";
 const CATALOG = "dcp43";
 const DATA_URL = "https://service.azul.data.humancellatlas.org";
-const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
 const PORTAL_URL = "https://data.humancellatlas.org";
 
 const config: SiteConfig = {

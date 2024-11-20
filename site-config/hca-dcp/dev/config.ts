@@ -11,7 +11,7 @@ import {
 } from "@databiosphere/findable-ui/lib/theme/common/typography";
 import * as C from "../../../app/components/index";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
-import { FLATTEN } from "../../common/constants";
+import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { announcements } from "./announcements/announcements";
 import { exportConfig } from "./export/export";
@@ -29,7 +29,6 @@ const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
 const DATA_URL = "https://service.azul.data.humancellatlas.org";
 const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
 const FONT_FAMILY_DIN = "'din-2014', sans-serif";
-const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
 const HOME_PAGE_PATH = "/projects";
 const ORG_URL = "https://www.humancellatlas.org";
 const PAGINATION_PAGE_SIZE = "25";
@@ -39,7 +38,7 @@ export function makeConfig(
   browserUrl: string,
   portalUrl: string,
   dataUrl: string,
-  gitHubUrl: string = GIT_HUB_REPO_URL,
+  gitHubUrl: string,
   catalog: string = CATALOG
 ): SiteConfig {
   return {
@@ -205,6 +204,11 @@ export function makeConfig(
   };
 }
 
-const config: SiteConfig = makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL);
+const config: SiteConfig = makeConfig(
+  BROWSER_URL,
+  PORTAL_URL,
+  DATA_URL,
+  GIT_HUB_REPO_URL
+);
 
 export default config;
