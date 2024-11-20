@@ -1,3 +1,4 @@
+import { VersionInfo } from "@databiosphere/findable-ui/lib/components/Layout/components/Footer/components/VersionInfo/types";
 import * as C from "../../../app/components/index";
 import { socialMedia } from "../../anvil/dev/socialMedia";
 import { SiteConfig } from "../../common/entities";
@@ -16,15 +17,25 @@ import { buildNavigation } from "./layout/header/navigation/navigation";
 // Template constants
 const APP_TITLE = "AnVIL Dataset Catalog";
 const BROWSER_URL = "https://anvilproject.dev.clevercanary.com";
+const BUILD_DATE = process.env.NEXT_PUBLIC_BUILD_DATE;
 const EXPLORER_URL = "https://explore.anvilproject.dev.clevercanary.com";
+const GIT_HASH = process.env.NEXT_PUBLIC_GIT_HASH;
+const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
 const HOME_PAGE_PATH = ROUTES.CONSORTIA;
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 const SLOGAN = "NHGRI Analysis Visualization and Informatics Lab-space";
+const VERSION = process.env.NEXT_PUBLIC_VERSION;
 
 export function makeConfig(
   browserUrl: string,
   portalUrl: string,
-  explorerUrl: string
+  explorerUrl: string,
+  gitHubUrl: string = GIT_HUB_REPO_URL,
+  versionInfo: VersionInfo = {
+    buildDate: BUILD_DATE,
+    gitHash: GIT_HASH,
+    version: VERSION,
+  }
 ): SiteConfig {
   return {
     analytics: {
@@ -86,11 +97,13 @@ export function makeConfig(
     ],
     explorerTitle: APP_TITLE,
     export: exportConfig, // TODO(cc) export config should be optional, we should add notFound to export pages.
+    gitHubUrl,
     layout: {
       footer: {
         Branding: C.ANVILBranding({ portalURL: undefined }),
         navLinks: buildFooterNavigation(portalUrl),
         socials: socialMedia.socials,
+        versionInfo: C.VersionInfo({ versionInfo }),
       },
       header: {
         authenticationEnabled: false,
