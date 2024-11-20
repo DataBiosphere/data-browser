@@ -1,4 +1,5 @@
 import { EntityConfig } from "@databiosphere/findable-ui/lib/config/entities";
+import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { makeConfig } from "../dev/config";
 import { downloadColumn } from "../dev/index/filesEntityConfig";
@@ -9,7 +10,7 @@ const config: SiteConfig = {
     "https://explore.anvilproject.org",
     "https://anvilproject.org",
     "https://service.explore.anvilproject.org",
-    undefined,
+    GIT_HUB_REPO_URL,
     "anvil8"
   ),
   exportToTerraUrl: "https://anvil.terra.bio/",

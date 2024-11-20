@@ -4,7 +4,7 @@ import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constan
 import * as C from "../../../app/components/index";
 import { mapSelectCategoryValue } from "../../../app/config/utils";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
-import { FLATTEN } from "../../common/constants";
+import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
@@ -23,14 +23,13 @@ import { floating } from "./layout/floating";
 const APP_TITLE = "AnVIL Data Explorer";
 const DATA_URL = "https://service.anvil.gi.ucsc.edu";
 const BROWSER_URL = "https://explore.anvil.gi.ucsc.edu";
-const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 
 export function makeConfig(
   browserUrl: string,
   portalUrl: string,
   dataUrl: string,
-  gitHubUrl: string = GIT_HUB_REPO_URL,
+  gitHubUrl: string,
   catalog: string = CATALOG_DEFAULT
 ): SiteConfig {
   return {
@@ -225,6 +224,11 @@ export function makeConfig(
   };
 }
 
-const config: SiteConfig = makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL);
+const config: SiteConfig = makeConfig(
+  BROWSER_URL,
+  PORTAL_URL,
+  DATA_URL,
+  GIT_HUB_REPO_URL
+);
 
 export default config;

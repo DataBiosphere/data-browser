@@ -1,3 +1,4 @@
+import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { makeManagedAccessConfig } from "../cc-ma-dev/config";
 import { makeConfig } from "../dev/config";
@@ -6,7 +7,6 @@ import { makeConfig } from "../dev/config";
 const BROWSER_URL = "https://explore.dev.singlecell.gi.ucsc.edu";
 const CATALOG = "dcp3";
 export const DATA_URL = "https://service.dev.singlecell.gi.ucsc.edu";
-const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
 export const PORTAL_URL = "https://dev.singlecell.gi.ucsc.edu";
 
 const config: SiteConfig = {

@@ -4,7 +4,7 @@ import hcaConfig, {
   PORTAL_URL as HCA_PORTAL_URL,
 } from "site-config/hca-dcp/ma-dev/config";
 import * as C from "../../../app/components/index";
-import { FLATTEN } from "../../common/constants";
+import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { filesEntityConfig as hcaFilesEntityConfig } from "../../hca-dcp/dev/index/filesEntityConfig";
 import { samplesEntityConfig as hcaSamplesEntityConfig } from "../../hca-dcp/dev/index/samplesEntityConfig";
@@ -27,6 +27,7 @@ export function makeConfig(
   browserUrl: string,
   portalUrl: string,
   dataUrl: string,
+  gitHubUrl: string,
   catalog: string
 ): SiteConfig {
   return {
@@ -60,6 +61,7 @@ export function makeConfig(
     explorerTitle: "Explore Data",
     export: exportConfig,
     exportToTerraUrl: EXPORT_TO_TERRA_URL,
+    gitHubUrl,
     layout: {
       footer: {
         Branding: C.Logo({
@@ -75,6 +77,7 @@ export function makeConfig(
           },
         ],
         socials: socialMedia.socials,
+        versionInfo: true,
       },
       header: {
         authenticationEnabled: false,
@@ -126,6 +129,7 @@ const config: SiteConfig = makeConfig(
   BROWSER_URL,
   PORTAL_URL,
   DATA_URL,
+  GIT_HUB_REPO_URL,
   CATALOG
 );
 

@@ -1,3 +1,4 @@
+import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import {
   DATA_URL as HCA_DATA_URL,
@@ -12,7 +13,7 @@ const PORTAL_URL = HCA_PORTAL_URL;
 const CATALOG = "lm7";
 
 const config: SiteConfig = {
-  ...makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, CATALOG),
+  ...makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, GIT_HUB_REPO_URL, CATALOG),
 };
 
 // Update gtmAuth for the prod environment lookup.
