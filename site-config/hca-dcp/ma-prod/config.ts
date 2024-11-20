@@ -7,11 +7,12 @@ import { getAuthenticationConfig } from "./authentication/authentication";
 const BROWSER_URL = "https://explore.data.humancellatlas.org";
 const CATALOG = "dcp43";
 const DATA_URL = "https://service.azul.data.humancellatlas.org";
+const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
 const PORTAL_URL = "https://data.humancellatlas.org";
 
 const config: SiteConfig = {
   ...makeManagedAccessConfig(
-    makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, CATALOG)
+    makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, GIT_HUB_REPO_URL, CATALOG)
   ),
 };
 
