@@ -1,5 +1,4 @@
 import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import { VersionInfo } from "@databiosphere/findable-ui/lib/components/Layout/components/Footer/components/VersionInfo/types";
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
@@ -22,25 +21,17 @@ import { floating } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
-const BUILD_DATE = process.env.NEXT_PUBLIC_BUILD_DATE;
 const DATA_URL = "https://service.anvil.gi.ucsc.edu";
 const BROWSER_URL = "https://explore.anvil.gi.ucsc.edu";
 const GIT_HUB_REPO_URL = "https://github.com/DataBiosphere/data-browser";
-const GIT_HASH = process.env.NEXT_PUBLIC_GIT_HASH;
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
-const VERSION = process.env.NEXT_PUBLIC_VERSION;
 
 export function makeConfig(
   browserUrl: string,
   portalUrl: string,
   dataUrl: string,
   gitHubUrl: string = GIT_HUB_REPO_URL,
-  catalog: string = CATALOG_DEFAULT,
-  versionInfo: VersionInfo = {
-    buildDate: BUILD_DATE,
-    gitHash: GIT_HASH,
-    version: VERSION,
-  }
+  catalog: string = CATALOG_DEFAULT
 ): SiteConfig {
   return {
     analytics: {
@@ -174,9 +165,7 @@ export function makeConfig(
             url: `${browserUrl}/privacy`,
           },
         ],
-        versionInfo: C.VersionInfo({
-          versionInfo: { ...versionInfo, catalog },
-        }),
+        versionInfo: true,
       },
       header: {
         announcements,
