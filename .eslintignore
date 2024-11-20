@@ -1,0 +1,10 @@
+**/node_modules/*
+**/out/*
+**/.next/*
+
+build
+
+/analytics
+/.gitlab
+/reports
+/meta-scripts
