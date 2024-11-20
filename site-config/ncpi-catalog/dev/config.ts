@@ -2,6 +2,7 @@ import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/c
 import { SiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../app/components/index";
 import anvilConfig from "../../anvil/dev/config";
+import { GIT_HUB_REPO_URL } from "../../common/constants";
 import {
   NCPI_CATALOG_CATEGORY_KEY,
   NCPI_CATALOG_CATEGORY_LABEL,
@@ -65,8 +66,13 @@ const config: SiteConfig = {
     ],
     key: "ncpi-catalog",
   },
+  dataSource: {
+    ...anvilConfig.dataSource,
+    defaultParams: undefined,
+  },
   entities: [platformsEntityConfig, studiesEntityConfig],
   explorerTitle: "NCPI Dataset Catalog",
+  gitHubUrl: GIT_HUB_REPO_URL,
   layout: {
     footer: {
       Branding: C.Logo({
@@ -77,6 +83,7 @@ const config: SiteConfig = {
         target: ANCHOR_TARGET.BLANK,
       }),
       navLinks: [],
+      versionInfo: true,
     },
     header: {
       authenticationEnabled: false,
