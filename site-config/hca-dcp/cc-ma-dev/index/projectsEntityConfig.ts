@@ -7,6 +7,7 @@ import { getMAProjectDetailTop } from "../detail/project/top";
 import { listHero } from "../listView/projectsListHero";
 import { CATEGORY_GROUPS } from "./common/category";
 import { COLUMN } from "./common/constants";
+import { getMAFilesEntityConfig } from "./filesEntityConfig";
 
 /**
  * Returns managed access category group config.
@@ -33,8 +34,11 @@ export function getMAEntitiesConfig(
   entities: SiteConfig["entities"]
 ): SiteConfig["entities"] {
   return [...entities].map((entity) => {
-    if (entity.route !== "projects") {
-      return entity;
+    if (entity.route === "projects") {
+      return getMAProjectsEntityConfig(entity);
+    }
+    if (entity.route === "files") {
+      return getMAFilesEntityConfig(entity);
     }
     return getMAProjectsEntityConfig(entity);
   });
@@ -56,6 +60,8 @@ export function getMAProjectsEntityConfig(
   const cloneColumns = [...cloneList.columns];
   // Add accessible column.
   cloneColumns.splice(1, 0, COLUMN.ACCESSIBLE); // Accessible column.
+  // Add data use restriction column.
+  cloneColumns.splice(2, 0, COLUMN.DATA_USE_RESTRICTION); // Data use restriction column.
   cloneList.columns = cloneColumns;
   cloneEntity.list = cloneList;
   // Update list view.

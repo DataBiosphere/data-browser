@@ -13,7 +13,7 @@ import {
 
 export const COLUMN: PickSome<
   Record<keyof typeof HCA_DCP_CATEGORY_KEY, ColumnConfig>,
-  "ACCESSIBLE"
+  ["ACCESSIBLE", "DATA_USE_RESTRICTION"]
 > = {
   ACCESSIBLE: {
     componentConfig: {
@@ -24,5 +24,14 @@ export const COLUMN: PickSome<
     header: HCA_DCP_CATEGORY_LABEL.ACCESSIBLE,
     id: HCA_DCP_CATEGORY_KEY.ACCESSIBLE,
     width: "auto",
+  },
+  DATA_USE_RESTRICTION: {
+    componentConfig: {
+      component: C.BasicCell,
+      viewBuilder: V.buildDataUseRestriction,
+    } as ComponentConfig<typeof C.BasicCell, ProjectsResponse>,
+    header: HCA_DCP_CATEGORY_LABEL.DATA_USE_RESTRICTION,
+    id: HCA_DCP_CATEGORY_KEY.DATA_USE_RESTRICTION,
+    width: { max: "1fr", min: "146px" },
   },
 };

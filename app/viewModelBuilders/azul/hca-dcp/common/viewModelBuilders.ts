@@ -718,6 +718,23 @@ export const buildDataCurators = (
 };
 
 /**
+ * Builds props for Data Use restriction BasicCell component from the given projects response.
+ * @param projectsResponse - Response model return from projects API
+ * @returns model to be used as props for the BasicCell component
+ */
+export const buildDataUseRestriction = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.BasicCell> => {
+  return {
+    value: processEntityValue(
+      projectsResponse.projects,
+      "dataUseRestriction",
+      LABEL.EMPTY
+    ),
+  };
+};
+
+/**
  * Build props for GeneratedMatricesTable component from the given project response.
  * @param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the GeneratedMatricesTables component.
