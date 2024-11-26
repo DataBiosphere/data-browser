@@ -1,35 +1,73 @@
+import { CategoryGroup } from "@databiosphere/findable-ui/lib/config/entities";
 import {
-  CategoryConfig,
-  CategoryGroup,
-} from "@databiosphere/findable-ui/lib/config/entities";
-import {
-  ACCESSIBLE,
-  MA_CATEGORY_GROUP,
-} from "site-config/hca-dcp/cc-ma-dev/index/common/category";
-import {
-  BIONETWORK_NAME,
-  CATEGORY_GROUP,
-} from "site-config/hca-dcp/dev/index/common/category";
+  ANALYSIS_PROTOCOL,
+  ANATOMICAL_ENTITY,
+  BIOLOGICAL_SEX,
+  CONTACT_NAME,
+  CONTENT_DESCRIPTION,
+  DEVELOPMENT_STAGE,
+  DONOR_DISEASE,
+  FILE_FORMAT,
+  FILE_SOURCE,
+  GENUS_SPECIES,
+  INSTITUTION,
+  INSTRUMENT_MANUFACTURER_MODEL,
+  LIBRARY_CONSTRUCTION_METHOD,
+  MODEL_ORGAN,
+  NUCLEIC_ACID_SOURCE,
+  ORGAN_PART,
+  PAIRED_END,
+  PRESERVATION_METHOD,
+  PROJECT_TITLE,
+  SAMPLE_ENTITY_TYPE,
+  SELECTED_CELL_TYPE,
+  SPECIMEN_DISEASE,
+} from "../../../../hca-dcp/dev/index/common/category";
 
-export const PROJECTS_CATEGORY_KEYS_EXCLUDE = [
-  ACCESSIBLE.key,
-  BIONETWORK_NAME.key,
-];
-
-export const LUNGMAP_CATEGORY_GROUP: Record<string, CategoryGroup> = {
-  PROJECT: {
-    ...MA_CATEGORY_GROUP.PROJECT,
+export const CATEGORY_GROUP: Record<string, CategoryGroup> = {
+  DONOR: {
     categoryConfigs: [
-      ...MA_CATEGORY_GROUP.PROJECT.categoryConfigs.filter(
-        (categoryGroup: CategoryConfig) =>
-          !PROJECTS_CATEGORY_KEYS_EXCLUDE.includes(categoryGroup.key)
-      ),
+      BIOLOGICAL_SEX,
+      DEVELOPMENT_STAGE,
+      DONOR_DISEASE,
+      GENUS_SPECIES,
     ],
+    label: "Donor",
+  },
+  FILE: {
+    categoryConfigs: [CONTENT_DESCRIPTION, FILE_FORMAT, FILE_SOURCE],
+    label: "File",
+  },
+  PROJECT: {
+    categoryConfigs: [PROJECT_TITLE, CONTACT_NAME, INSTITUTION],
+    label: "Project",
+  },
+  PROTOCOL: {
+    categoryConfigs: [
+      ANALYSIS_PROTOCOL, // workflow
+      INSTRUMENT_MANUFACTURER_MODEL,
+      LIBRARY_CONSTRUCTION_METHOD,
+      NUCLEIC_ACID_SOURCE,
+      PAIRED_END,
+    ],
+    label: "Protocol",
+  },
+  SAMPLE: {
+    categoryConfigs: [
+      ANATOMICAL_ENTITY, // specimenOrgan
+      ORGAN_PART,
+      PRESERVATION_METHOD,
+      MODEL_ORGAN,
+      SAMPLE_ENTITY_TYPE,
+      SELECTED_CELL_TYPE,
+      SPECIMEN_DISEASE,
+    ],
+    label: "Sample",
   },
 };
 
 export const CATEGORY_GROUPS: CategoryGroup[] = [
-  LUNGMAP_CATEGORY_GROUP.PROJECT,
+  CATEGORY_GROUP.PROJECT,
   CATEGORY_GROUP.DONOR,
   CATEGORY_GROUP.SAMPLE,
   CATEGORY_GROUP.PROTOCOL,
