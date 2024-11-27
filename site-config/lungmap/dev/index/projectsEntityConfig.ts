@@ -16,13 +16,12 @@ import {
 import * as C from "../../../../app/components";
 import { projectEdits as hcaProjectEdits } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/projectMapper/projectEdits/projectEdits";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { mainColumn as hcaMetadataMainColumn } from "../../../hca-dcp/dev/detail/project/metadataMainColumn";
 import { top as hcaTop } from "../../../hca-dcp/dev/detail/project/top";
-import { subTitleHero as hcaSubTitleHero } from "../../../hca-dcp/dev/listView/subTitleHero";
 import { mainColumn as exportMainColumn } from "../detail/project/exportMainColumn";
 import { sideColumn as exportSideColumn } from "../detail/project/exportSideColumn";
 import { mainColumn as overviewMainColumn } from "../detail/project/mainColumn";
 import { mainColumn as matricesMainColumn } from "../detail/project/matricesMainColumn";
+import { mainColumn as metadataMainColumn } from "../detail/project/metadataMainColumn";
 import { sideColumn as metadataSideColumn } from "../detail/project/metadataSideColumn";
 import { sideColumn as overviewSideColumn } from "../detail/project/overviewSideColumn";
 import { mainColumn as projectFilesMainColumn } from "../detail/project/projectFilesMainColumn";
@@ -45,7 +44,7 @@ export const projectsEntityConfig: EntityConfig = {
       },
       {
         label: "Metadata",
-        mainColumn: hcaMetadataMainColumn,
+        mainColumn: metadataMainColumn,
         route: "project-metadata",
         sideColumn: metadataSideColumn,
       },
@@ -254,9 +253,6 @@ export const projectsEntityConfig: EntityConfig = {
       desc: SORT_DIRECTION.DESCENDING,
       id: HCA_DCP_CATEGORY_KEY.AGGREGATE_LAST_MODIFIED_DATE,
     },
-  },
-  listView: {
-    subTitleHero: hcaSubTitleHero,
   },
   overrides: hcaProjectEdits,
   route: "projects",

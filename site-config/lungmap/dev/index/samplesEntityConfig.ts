@@ -12,7 +12,6 @@ import {
 import { SamplesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { subTitleHero as hcaSubTitleHero } from "../../../hca-dcp/dev/listView/subTitleHero";
 
 export const samplesEntityConfig: EntityConfig = {
   apiPath: "index/samples",
@@ -204,8 +203,5 @@ export const samplesEntityConfig: EntityConfig = {
       id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
     },
   } as ListConfig<SamplesResponse>,
-  listView: {
-    subTitleHero: hcaSubTitleHero,
-  },
   route: "samples",
 };

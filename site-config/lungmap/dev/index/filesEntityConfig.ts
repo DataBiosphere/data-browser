@@ -9,7 +9,6 @@ import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
 } from "site-config/hca-dcp/category";
-import { subTitleHero as hcaSubTitleHero } from "site-config/hca-dcp/dev/listView/subTitleHero";
 import { FilesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
@@ -268,8 +267,5 @@ export const filesEntityConfig: EntityConfig = {
       id: HCA_DCP_CATEGORY_KEY.FILE_NAME,
     },
   } as ListConfig<FilesResponse>,
-  listView: {
-    subTitleHero: hcaSubTitleHero,
-  },
   route: "files",
 };
