@@ -1,4 +1,9 @@
-import { EntityConfig } from "@databiosphere/findable-ui/lib/config/entities";
+import {
+  ComponentConfig,
+  EntityConfig,
+} from "@databiosphere/findable-ui/lib/config/entities";
+import * as C from "../../../../app/components";
+import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 import { COLUMN } from "./common/constants";
 
 /**
@@ -16,7 +21,13 @@ export function getMAFilesEntityConfig(
   // Clone columns.
   const cloneColumns = [...cloneList.columns];
   // Add data use restriction column.
-  cloneColumns.splice(2, 0, COLUMN.DATA_USE_RESTRICTION);
+  cloneColumns.splice(2, 0, {
+    ...COLUMN.DATA_USE_RESTRICTION,
+    componentConfig: {
+      component: C.BasicCell,
+      viewBuilder: V.buildAggregatedDataUseRestriction,
+    } as ComponentConfig<typeof C.BasicCell>,
+  });
   cloneList.columns = cloneColumns;
   cloneEntity.list = cloneList;
   return cloneEntity;

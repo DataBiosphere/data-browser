@@ -40,7 +40,7 @@ export function getMAEntitiesConfig(
     if (entity.route === "files") {
       return getMAFilesEntityConfig(entity);
     }
-    return getMAProjectsEntityConfig(entity);
+    return entity;
   });
 }
 

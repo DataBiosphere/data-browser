@@ -189,6 +189,25 @@ export const buildAggregatedDateLastModifiedDate = (
 };
 
 /**
+ * Build props for data use restriction BasicCell component from the given files response.
+ * @param filesResponse - Response model return from files API.
+ * @returns model to be used as props for the BasicCell component
+ */
+export const buildAggregatedDataUseRestriction = (
+  filesResponse: FilesResponse
+): React.ComponentProps<typeof C.BasicCell> => {
+  return {
+    value: takeArrayValueAt(
+      processEntityArrayValue(
+        filesResponse.projects,
+        "dataUseRestriction",
+        LABEL.EMPTY
+      )
+    ),
+  };
+};
+
+/**
  * Build props for biological sex BasicCell component from the given entity response.
  * @param entityResponse - Response model return from entity API.
  * @returns model to be used as props for the BasicCell component.
