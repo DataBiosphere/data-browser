@@ -65,16 +65,4 @@ export const mainColumn: ComponentsConfig = [
       title: "Data Access Policy",
     },
   } as ComponentConfig<typeof C.CollapsableSection>,
-  {
-    children: [
-      {
-        component: MDX.DataReleasePolicy,
-      } as ComponentConfig<typeof MDX.DataReleasePolicy>,
-    ],
-    component: C.CollapsableSection,
-    props: {
-      collapsable: false,
-      title: "Data Access Policy",
-    },
-  } as ComponentConfig<typeof C.CollapsableSection>,
 ];
