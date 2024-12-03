@@ -189,6 +189,24 @@ export const buildAggregatedDateLastModifiedDate = (
 };
 
 /**
+ * Build props for data use restriction NTagCell component from the given files response.
+ * @param filesResponse - Response model return from files API.
+ * @returns model to be used as props for the NTagCell component
+ */
+export const buildAggregatedDataUseRestriction = (
+  filesResponse: FilesResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_USE_RESTRICTION),
+    values: processEntityArrayValue(
+      filesResponse.projects,
+      "dataUseRestriction",
+      LABEL.EMPTY
+    ),
+  };
+};
+
+/**
  * Build props for biological sex BasicCell component from the given entity response.
  * @param entityResponse - Response model return from entity API.
  * @returns model to be used as props for the BasicCell component.
@@ -714,6 +732,23 @@ export const buildDataCurators = (
   const project = getProjectResponse(projectsResponse);
   return {
     dataCurators: mapProjectDataCurators(project),
+  };
+};
+
+/**
+ * Builds props for Data Use restriction BasicCell component from the given projects response.
+ * @param projectsResponse - Response model return from projects API
+ * @returns model to be used as props for the BasicCell component
+ */
+export const buildDataUseRestriction = (
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.BasicCell> => {
+  return {
+    value: processEntityValue(
+      projectsResponse.projects,
+      "dataUseRestriction",
+      LABEL.EMPTY
+    ),
   };
 };
 
