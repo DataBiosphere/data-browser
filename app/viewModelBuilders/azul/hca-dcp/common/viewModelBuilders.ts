@@ -189,20 +189,19 @@ export const buildAggregatedDateLastModifiedDate = (
 };
 
 /**
- * Build props for data use restriction BasicCell component from the given files response.
+ * Build props for data use restriction NTagCell component from the given files response.
  * @param filesResponse - Response model return from files API.
- * @returns model to be used as props for the BasicCell component
+ * @returns model to be used as props for the NTagCell component
  */
 export const buildAggregatedDataUseRestriction = (
   filesResponse: FilesResponse
-): React.ComponentProps<typeof C.BasicCell> => {
+): React.ComponentProps<typeof C.NTagCell> => {
   return {
-    value: takeArrayValueAt(
-      processEntityArrayValue(
-        filesResponse.projects,
-        "dataUseRestriction",
-        LABEL.EMPTY
-      )
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_USE_RESTRICTION),
+    values: processEntityArrayValue(
+      filesResponse.projects,
+      "dataUseRestriction",
+      LABEL.EMPTY
     ),
   };
 };

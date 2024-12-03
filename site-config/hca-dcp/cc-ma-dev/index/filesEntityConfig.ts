@@ -24,9 +24,9 @@ export function getMAFilesEntityConfig(
   cloneColumns.splice(2, 0, {
     ...COLUMN.DATA_USE_RESTRICTION,
     componentConfig: {
-      component: C.BasicCell,
+      component: C.NTagCell,
       viewBuilder: V.buildAggregatedDataUseRestriction,
-    } as ComponentConfig<typeof C.BasicCell>,
+    } as ComponentConfig<typeof C.NTagCell>,
   });
   cloneList.columns = cloneColumns;
   cloneEntity.list = cloneList;
