@@ -13,7 +13,7 @@ GIT_HASH=$(git rev-parse HEAD)
 BUILD_DATE=$(TZ="America/Los_Angeles" date +"%Y-%m-%d %H:%M:%S %Z")
 
 # Get the current code version from git
-VERSION=$(git tag --points-at HEAD)
+VERSION=$(git describe --tags | cut -d- -f1)
 
 # Append newline to ensure following lines are separated from existing content
 echo "" >> "$TARGET_ENV_FILE"
