@@ -87,6 +87,7 @@ export interface ProjectResponse {
   bionetworkName: (NetworkKey | null)[];
   contributedAnalyses: ProjectResponseContributedAnalyses;
   contributors: ContributorResponse[];
+  dataUseRestriction: string | null;
   estimatedCellCount: number | null;
   laboratory: (string | null)[];
   matrices: ProjectResponseMatrices;
