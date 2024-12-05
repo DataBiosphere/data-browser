@@ -141,7 +141,7 @@ export function processEntityArrayValue<
   const values = responseValue[key] as unknown as StringOrNullArray; // TODO revisit type assertion here
 
   // Sanitize.
-  return processNullElements(values) ?? [label];
+  return processNullElements(values, label) ?? [label];
 }
 
 /**
@@ -249,15 +249,19 @@ function filterDefinedValues(values?: StringOrNullArray): string[] | undefined {
 /**
  * Remove null elements, if any, from the given array.
  * @param values - Array to remove null elements from.
+ * @param label - Label to use in place of values being null.
  * @returns Array with null elements removed.
  */
-export function processNullElements(values: StringOrNullArray): string[] {
+export function processNullElements(
+  values: StringOrNullArray,
+  label: string = LABEL.UNSPECIFIED
+): string[] {
   // Remove any nulls from given array
   const filteredValues = filterDefinedValues(values); // Handle possible [null] values
 
   // Handle undefined or empty lists: caller is expecting "Unspecified", not an empty array.
   if (!filteredValues || filteredValues?.length === 0) {
-    return [LABEL.UNSPECIFIED];
+    return [label];
   }
 
   return filteredValues;

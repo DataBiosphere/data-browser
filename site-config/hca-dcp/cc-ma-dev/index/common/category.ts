@@ -8,7 +8,7 @@ import {
   HCA_DCP_CATEGORY_LABEL,
 } from "../../../category";
 import { CATEGORY_GROUP } from "../../../dev/index/common/category";
-import { mapAccessibleValue } from "./utils";
+import { mapAccessibleValue, mapDataUseRestrictionValue } from "./utils";
 
 export const ACCESSIBLE: CategoryConfig = {
   key: HCA_DCP_CATEGORY_KEY.ACCESSIBLE,
@@ -16,10 +16,20 @@ export const ACCESSIBLE: CategoryConfig = {
   mapSelectCategoryValue: mapSelectCategoryValue(mapAccessibleValue),
 };
 
+export const DATA_USE_RESTRICTION: CategoryConfig = {
+  key: HCA_DCP_CATEGORY_KEY.DATA_USE_RESTRICTION,
+  label: HCA_DCP_CATEGORY_LABEL.DATA_USE_RESTRICTION,
+  mapSelectCategoryValue: mapSelectCategoryValue(mapDataUseRestrictionValue),
+};
+
 export const MA_CATEGORY_GROUP: Record<string, CategoryGroup> = {
   PROJECT: {
     ...CATEGORY_GROUP.PROJECT,
-    categoryConfigs: [...CATEGORY_GROUP.PROJECT.categoryConfigs, ACCESSIBLE],
+    categoryConfigs: [
+      ...CATEGORY_GROUP.PROJECT.categoryConfigs,
+      ACCESSIBLE,
+      DATA_USE_RESTRICTION,
+    ],
   },
 };
 

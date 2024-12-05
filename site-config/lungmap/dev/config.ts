@@ -1,15 +1,15 @@
-import { CategoryGroupConfig } from "@databiosphere/findable-ui/lib/config/entities";
-import hcaConfig, {
+import {
   DATA_URL as HCA_DATA_URL,
   PORTAL_URL as HCA_PORTAL_URL,
 } from "site-config/hca-dcp/ma-dev/config";
 import * as C from "../../../app/components/index";
 import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
-import { filesEntityConfig as hcaFilesEntityConfig } from "../../hca-dcp/dev/index/filesEntityConfig";
-import { samplesEntityConfig as hcaSamplesEntityConfig } from "../../hca-dcp/dev/index/samplesEntityConfig";
 import { exportConfig } from "./export/exportConfig";
+import { CATEGORY_GROUPS } from "./index/common/category";
+import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
+import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { summary } from "./index/summary";
 import { socialMedia } from "./socialMedia";
 
@@ -40,7 +40,7 @@ export function makeConfig(
     authentication: undefined,
     browserURL: browserUrl,
     categoryGroupConfig: {
-      ...(hcaConfig.categoryGroupConfig as CategoryGroupConfig),
+      categoryGroups: CATEGORY_GROUPS,
       key: "lungmap",
     },
     contentDir: "lungmap",
@@ -53,11 +53,7 @@ export function makeConfig(
       },
       url: `${dataUrl}/`,
     },
-    entities: [
-      projectsEntityConfig,
-      hcaSamplesEntityConfig,
-      hcaFilesEntityConfig,
-    ],
+    entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
     explorerTitle: "Explore Data",
     export: exportConfig,
     exportToTerraUrl: EXPORT_TO_TERRA_URL,
