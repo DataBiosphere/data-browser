@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.3.0](https://github.com/DataBiosphere/data-browser/compare/v2.2.0...v2.3.0) (2024-12-04)
+
+
+### Features
+
+* add data use restriction column to HCA Data Explorer ([#4136](https://github.com/DataBiosphere/data-browser/issues/4136)) ([#4294](https://github.com/DataBiosphere/data-browser/issues/4294)) ([0aa7b66](https://github.com/DataBiosphere/data-browser/commit/0aa7b66c964f1993608aa8ad2dd31e06180e5bf1))
+* fix images on guides ([#4237](https://github.com/DataBiosphere/data-browser/issues/4237)) ([#4283](https://github.com/DataBiosphere/data-browser/issues/4283)) ([577f061](https://github.com/DataBiosphere/data-browser/commit/577f061bbc725b2bec322e9c00b87e75b5e14b53))
+
+
+### Bug Fixes
+
+* apply patch for prod deployment version fixes ([#4299](https://github.com/DataBiosphere/data-browser/issues/4299)) ([#4300](https://github.com/DataBiosphere/data-browser/issues/4300)) ([e9753b3](https://github.com/DataBiosphere/data-browser/commit/e9753b326f07e8ee0aef183fe674df337a191558))
+* removed hca specific config from lungmap ([#4287](https://github.com/DataBiosphere/data-browser/issues/4287)) ([#4295](https://github.com/DataBiosphere/data-browser/issues/4295)) ([d167aa7](https://github.com/DataBiosphere/data-browser/commit/d167aa7adc392ef56a213b7254eb566513e15a0f))
+
+
+### Chores
+
+* added drs_uri constants ([#4271](https://github.com/DataBiosphere/data-browser/issues/4271)) ([#4293](https://github.com/DataBiosphere/data-browser/issues/4293)) ([8dc288d](https://github.com/DataBiosphere/data-browser/commit/8dc288d1737ca2605a353fc44d1763e59fee370e))
+* ran cellxgene update script ([#4302](https://github.com/DataBiosphere/data-browser/issues/4302)) ([#4304](https://github.com/DataBiosphere/data-browser/issues/4304)) ([be67a34](https://github.com/DataBiosphere/data-browser/commit/be67a34bebdad01d08218419ded52413fa08a1c4))
+* updated default hca catalog to dcp44 ([#4301](https://github.com/DataBiosphere/data-browser/issues/4301)) ([#4303](https://github.com/DataBiosphere/data-browser/issues/4303)) ([e53d7db](https://github.com/DataBiosphere/data-browser/commit/e53d7db7b8c1a4d2f9010c6faa3026f255efa10c))
+
+
+### Build System
+
+* add script to deploy all cc-dev sites ([#4289](https://github.com/DataBiosphere/data-browser/issues/4289)) ([#4290](https://github.com/DataBiosphere/data-browser/issues/4290)) ([6d0ee51](https://github.com/DataBiosphere/data-browser/commit/6d0ee514f7927f397dcb28f1e031893f9986e775))
+
 ## [2.2.0](https://github.com/DataBiosphere/data-browser/compare/v2.1.1...v2.2.0) (2024-11-20)
 
 
