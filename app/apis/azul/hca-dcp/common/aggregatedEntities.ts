@@ -78,6 +78,7 @@ export interface AggregatedFileTypeSummariesResponse {
  * (for example, /index/samples).
  */
 export interface AggregatedProjectResponse {
+  dataUseRestriction: (string | null)[];
   estimatedCellCount: number | null;
   laboratory: (string | null)[];
   projectId: string[];

@@ -3,6 +3,8 @@ import {
   ExportConfig,
   ExportMethodConfig,
 } from "@databiosphere/findable-ui/lib/config/entities";
+import * as C from "../../../../app/components";
+import * as HCAViewModelBuilders from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 import * as V from "../../../../app/viewModelBuilders/azul/lungmap/common/viewModelBuilders";
 import {
   ROUTE_BULK_DOWNLOAD,
@@ -17,7 +19,22 @@ export const exportConfig: ExportConfig = {
   ...getExportConfig(hcaExportConfig),
   tabs: [
     {
-      ...hcaExportConfig.tabs[0],
+      label: "Choose Export Method",
+      mainColumn: [
+        {
+          component: C.ExportMethod,
+          viewBuilder: HCAViewModelBuilders.buildExportMethodBulkDownload,
+        } as ComponentConfig<typeof C.ExportMethod>,
+        {
+          component: C.ExportMethod,
+          viewBuilder: HCAViewModelBuilders.buildExportMethodManifestDownload,
+        } as ComponentConfig<typeof C.ExportMethod>,
+        {
+          component: C.ExportMethod,
+          viewBuilder: HCAViewModelBuilders.buildExportMethodTerra,
+        } as ComponentConfig<typeof C.ExportMethod>,
+      ],
+      route: "/export",
       sideColumn: [
         ...getExportCurrentQueryAndDataSummary(),
         ...getExportDataReleasePolicy(),
