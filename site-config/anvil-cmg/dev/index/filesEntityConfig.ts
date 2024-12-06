@@ -78,8 +78,8 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           viewBuilder: V.buildDRSURI,
         } as ComponentConfig<typeof C.CopyCell>,
         disableSorting: true,
-        header: "DRS URI",
-        id: "drs_uri",
+        header: ANVIL_CMG_CATEGORY_LABEL.DRS_URI,
+        id: ANVIL_CMG_CATEGORY_KEY.DRS_URI,
         width: { max: "1fr", min: "120px" },
       },
       {
