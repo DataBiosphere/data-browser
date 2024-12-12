@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/DataBiosphere/data-browser/compare/v2.3.0...v2.4.0) (2024-12-12)
+
+
+### Features
+
+* exports via main button don't include orphans ([#4296](https://github.com/DataBiosphere/data-browser/issues/4296)) ([#4306](https://github.com/DataBiosphere/data-browser/issues/4306)) ([58892a6](https://github.com/DataBiosphere/data-browser/commit/58892a6f080a800b61994c5c701f9e5dca7c7f84))
+
 ## [2.3.0](https://github.com/DataBiosphere/data-browser/compare/v2.2.0...v2.3.0) (2024-12-04)
 
 
