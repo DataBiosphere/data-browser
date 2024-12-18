@@ -26,6 +26,8 @@ google-auth==2.34.0
 google-auth-httplib2==0.2.0
 google-auth-oauthlib==1.2.1
 googleapis-common-protos==1.65.0
+gspread==6.1.4
+gspread-formatting==1.2.0
 httplib2==0.22.0
 idna==3.10
 imagesize==1.4.1
