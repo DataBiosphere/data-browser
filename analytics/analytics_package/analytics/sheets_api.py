@@ -16,7 +16,7 @@ class WORKSHEET_OVERRIDE_BEHAVIORS(Enum):
 
 FONT_SIZE_PTS = 10
 PTS_PIXELS_RATIO = 4/3
-DEFAULT_BUFFER_CHARS = 4
+DEFAULT_BUFFER_CHARS = 2
 
 def extract_credentials(authentication_response):
     """Extracts the credentials from the tuple from api.authenticate"""
@@ -189,8 +189,13 @@ def fill_worksheet_with_df(
             lambda column_name: df[column_name].astype(str).str.len().max()
         )
         header_widths = df.columns.str.len()
+        buffer_chars = (
+            DEFAULT_BUFFER_CHARS 
+            if ("column_widths" not in options or "buffer_chars" not in options["column_widths"]) 
+            else options["column_widths"]["buffer_chars"]
+        )
         column_widths = [
-            round((max(len_tuple) + options["column_widths"]["buffer_chars"]) * FONT_SIZE_PTS * 1/PTS_PIXELS_RATIO)
+            round((max(len_tuple) + buffer_chars) * FONT_SIZE_PTS * 1/PTS_PIXELS_RATIO)
             for len_tuple in zip(text_widths, header_widths)
         ]
         column_positions = [
@@ -217,7 +222,7 @@ def fill_worksheet_with_df(
     if "Sheet1" in [i.title for i in sheet.worksheets()]:
         sheet.del_worksheet(sheet.worksheet("Sheet1"))
 
-def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior):
+def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, options={}):
     """
     Fill a sheet with the contents of a dictionary of DataFrames.
     The keys of the dictionary are the names of the worksheets, and the values contain the data to be placed in the sheet.
@@ -226,6 +231,8 @@ def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior):
     :param sheet: the gspread.Spreadsheet object
     :param df_dict: the dictionary of DataFrames to fill the worksheets with
     :param overlapBehavior: the behavior to take if any of the worksheets already exist
+    :param options: the formatting options for the worksheets.
+        Should be a dictionary with optional elements "bold_header", "center_header", "freeze_header", and "column_widths", optional
     """
     if overlapBehavior == WORKSHEET_OVERRIDE_BEHAVIORS.EXIT:
         for worksheet_name in df_dict.keys():
@@ -235,5 +242,5 @@ def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior):
             except gspread.exceptions.WorksheetNotFound:
                 pass
     for worksheet_name, df in df_dict.items():
-        fill_worksheet_with_df(sheet, df, worksheet_name, overlapBehavior)
+        fill_worksheet_with_df(sheet, df, worksheet_name, overlapBehavior, options=options)
 

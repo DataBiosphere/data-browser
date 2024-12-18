@@ -1,5 +1,6 @@
 import pandas as pd
 from .charts import get_data_df
+from .fields import *
 from urllib.parse import urlparse
 
 def get_flat_data_df(analytics_params, metrics, dimensions, remove_matches=None):
@@ -20,15 +21,20 @@ def get_flat_data_df(analytics_params, metrics, dimensions, remove_matches=None)
 
     df = get_data_df(
         metrics,
-        dimensions,
+        [dimension["id"] for dimension in dimensions],
         **analytics_params,
     )
     if remove_matches is not None:
-        for i, match in enumerate(remove_matches):
+        for i, match in enumerate([dimension["remove_matches"] for dimension in dimensions]):
             if match is not None:
                 df = df.loc[~df.index.get_level_values(i).str.fullmatch(match)]
-    return df.reset_index().copy()
+    return df.reset_index().rename(columns=get_rename_dict(dimensions)).copy()
 
+def get_rename_dict(dimensions):
+    """Get a dictionary to rename the columns of a DataFrame."""
+    return dict(
+        zip([dimension["id"] for dimension in dimensions], [dimension["alias"] for dimension in dimensions])
+    )
 
 def get_outbound_sheets_df(analytics_params):
     """
@@ -41,42 +47,38 @@ def get_outbound_sheets_df(analytics_params):
     # Get the builtin "Click" event
     df_builtin_links = get_flat_data_df(
         analytics_params,
-        ["eventCount", "totalUsers"],
-        ["pagePath", "linkUrl", "eventName"],
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [DIMENSION_PAGE_PATH, DIMENSION_BUILTIN_URL, DIMENSION_EVENT_NAME],
         remove_matches=[None, r"\s*", None]
     ).groupby(
-        ["pagePath", "linkUrl"]
-    ).sum().reset_index().rename(
-        columns={"linkUrl": "builtin_url"}
-    )
+        [DIMENSION_PAGE_PATH["alias"], DIMENSION_BUILTIN_URL["alias"]]
+    ).sum().reset_index()
 
     # Get the custom "outbound_link_click" event
     df_custom_links = get_flat_data_df(
         analytics_params, 
-        ["eventCount", "totalUsers"],
-        ["pagePath", "customEvent:click_url", "eventName"], 
-        remove_matches=[None, r"\(not set\)", None],
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [DIMENSION_EVENT_NAME, DIMENSION_CUSTOM_URL, DIMENSION_PAGE_PATH], 
+        remove_matches=[DIMENSION_EVENT_NAME["remove_matches"], r"\(not set\)", None],
     ).groupby(
-        ["pagePath", "customEvent:click_url"]
-    ).sum().reset_index().rename(
-        columns={"customEvent:click_url": "outbound_url"}
-    )
+        [DIMENSION_PAGE_PATH["alias"], DIMENSION_CUSTOM_URL["alias"]]
+    ).sum().reset_index()
     # Concatenate the two dataframes, avoiding duplicates
     # Keep the link from the builtin event, unless the link contains a #fragment, in which case keep the link from the custom event
     df_builtin_links["builtin"] = True
-    df_builtin_links["truncated_url"] = df_builtin_links["builtin_url"]
-    df_custom_links["truncated_url"] = df_custom_links["outbound_url"].str.replace(r"#.*", "", regex=True)
-    df_outbound_links_fragments = df_custom_links.loc[df_custom_links["outbound_url"].str.contains("#")]
+    df_builtin_links["truncated_url"] = df_builtin_links[DIMENSION_BUILTIN_URL["alias"]]
+    df_custom_links["truncated_url"] = df_custom_links[DIMENSION_CUSTOM_URL["alias"]].str.replace(r"#.*", "", regex=True)
+    df_outbound_links_fragments = df_custom_links.loc[df_custom_links[DIMENSION_CUSTOM_URL["alias"]].str.contains("#")].copy()
     df_outbound_links_fragments["is_fragment"] = True
     df_all_links = pd.concat(
         [df_builtin_links, df_outbound_links_fragments], ignore_index=True
     )
+    # Use the builtin link, unless the link is not in the custom links, in which case use the custom link
     df_all_links = df_all_links.loc[
         ~(df_all_links["truncated_url"].isin(df_outbound_links_fragments["truncated_url"]) & df_all_links["builtin"])
-    ].sort_values("eventCount", ascending=False)
-    # Determine whther a link is a fragment or an outbound link
-    df_all_links["outbound"] = df_all_links["truncated_url"].isin(df_custom_links["truncated_url"])
+    ].sort_values(METRIC_EVENT_COUNT, ascending=False)
     df_all_links["is_fragment"] = df_all_links["is_fragment"].fillna(False).astype(bool)
+    # Use the builtin link, unless the link is a fragment, in which case use the custom link
     df_all_links["complete_url"]  = df_all_links["builtin_url"].where(
         ~df_all_links["is_fragment"],
         df_all_links["outbound_url"]
@@ -86,12 +88,11 @@ def get_outbound_sheets_df(analytics_params):
         columns=["builtin_url", "outbound_url", "builtin", "is_fragment"]
     ).rename(
         columns={
-            "pagePath": "Page Path",
+            DIMENSION_PAGE_PATH["alias"]: "Page Path",
             "complete_url": "Outbound Link",
-            "eventCount": "Total Clicks",
-            "totalUsers": "Total Users",
-            "outbound": "Is Outbound",
+            METRIC_EVENT_COUNT: "Total Clicks",
+            METRIC_TOTAL_USERS: "Total Users",
             "hostname": "Hostname",
         } 
-    )[["Page Path", "Hostname", "Outbound Link", "Total Clicks", "Total Users", "Is Outbound"]]
+    )[["Page Path", "Hostname", "Outbound Link", "Total Clicks", "Total Users"]]
     return df_all_links.copy().reset_index(drop=True)
