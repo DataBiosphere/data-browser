@@ -1,9 +1,7 @@
 import gspread
+import gspread_formatting
 from enum import Enum
 from googleapiclient.discovery import build
-
-
-import gspread_formatting
 
 class FILE_OVERRIDE_BEHAVIORS(Enum):
     OVERRIDE_IF_IN_SAME_PLACE = 1
