@@ -1642,7 +1642,9 @@ function getAnalysisPortalKeyValueFn(
     const [, value] = keyValue;
     if (value && typeof value === "string") {
       const url = analysisPortals.find(({ label }) => label === value)?.url;
-      url && window.open(url, ANCHOR_TARGET.BLANK);
+      if (url) {
+        window.open(url, ANCHOR_TARGET.BLANK);
+      }
     }
   };
 }

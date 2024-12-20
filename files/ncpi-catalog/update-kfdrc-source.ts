@@ -35,7 +35,7 @@ async function updateKFDRCSource(sourcePath: string): Promise<void> {
   let KFDRCJson: KFDRCFile;
   try {
     KFDRCJson = JSON.parse(fs.readFileSync(KFDRCDataPath, "utf-8"));
-  } catch (err) {
+  } catch {
     console.error(
       "KFDRC data not found. Please download the KFDRC data to ncpi-catalog/out/kfdrc-studies.json"
     );
