@@ -52,7 +52,7 @@ export async function fetchProjectMatrixArchiveFiles(
     const response = await fetch(url);
     const result = await response.json();
     return bindArchiveFiles(result);
-  } catch (error) {
+  } catch {
     return [];
   }
 }
