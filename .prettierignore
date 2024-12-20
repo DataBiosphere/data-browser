@@ -17,3 +17,6 @@ build
 
 # dependencies
 node_modules
+
+# other (avoids breaking a link)
+app/components/common/MDXContent/hca-dcp/downloadBatchCorrectionWarning.mdx

@@ -25,9 +25,8 @@ async function buildCatalog(): Promise<void> {
     SOURCE_FIELD_TYPE
   )) as PlatformStudy[];
 
-  const ncpiPlatformStudies = await buildNCPIPlatformStudies(
-    platformStudyStubs
-  );
+  const ncpiPlatformStudies =
+    await buildNCPIPlatformStudies(platformStudyStubs);
 
   const ncpiCatalogPlatforms = buildNCPICatalogPlatforms(ncpiPlatformStudies);
 
