@@ -24,6 +24,12 @@ yt_service_params = (
 	lambda service, params: service.reports().query(**params).execute()
 )
 
+drive_service_params = (
+	["https://www.googleapis.com/auth/drive", "https://www.googleapis.com/auth/spreadsheets"],
+	"drive", "v3",
+	{},
+)
+
 next_port = None
 default_service_system = None
 
