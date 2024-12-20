@@ -6,6 +6,7 @@ interface ErrorProps {
   error?: Error | null;
 }
 
+// eslint-disable-next-line sonarjs/no-globals-shadowing -- TODO not sure of reason for this
 const Error: NextPage<ErrorProps> = ({ error }: ErrorProps) => {
   const { config } = useConfig();
 

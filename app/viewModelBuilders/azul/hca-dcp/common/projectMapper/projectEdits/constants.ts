@@ -368,7 +368,7 @@ export const baseProjectEdits: ProjectEdit[] = [
     analysisPortals: [
       {
         ...GENOME_BROWSER,
-        url: "http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&tabulamurisBarChart=pack",
+        url: "https://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&tabulamurisBarChart=pack",
       },
       {
         ...UCSC_CELL_BROWSER,
@@ -672,7 +672,7 @@ export const baseProjectEdits: ProjectEdit[] = [
       },
       {
         ...SHINY,
-        url: "http://devapp.lungmap.net/app/shinycell-lungmap-single-cell-multiomic",
+        url: "https://devapp.lungmap.net/app/shinycell-lungmap-single-cell-multiomic",
       },
       {
         ...TOPPCELL,

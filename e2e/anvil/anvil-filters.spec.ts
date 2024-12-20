@@ -65,7 +65,7 @@ test("Check that all filters exist on the Files tab and are clickable", async ({
   await testFilterPresence(page, ANVIL_TABS.FILES, ANVIL_FILTER_NAMES);
 });
 
-test("Check that the first filter on the Datasets tab creates at least one checkbox, and that checking up to the first five does not cause an error and does not cause there to be no entries in the table", async ({
+test("Check that an arbitrary filter on the Datasets tab creates at least one checkbox, and that checking up to the first five does not cause an error and does not cause there to be no entries in the table", async ({
   page,
 }) => {
   // Goto the datasets tab
@@ -77,13 +77,7 @@ test("Check that the first filter on the Datasets tab creates at least one check
   // Select a filter
   await page
     .getByRole("button")
-    .getByText(
-      filterRegex(
-        ANVIL_FILTER_NAMES[
-          Math.floor(Math.random() * ANVIL_FILTER_NAMES.length)
-        ]
-      )
-    )
+    .getByText(filterRegex(ANVIL_FILTER_NAMES[FILTER_INDEX_LIST[0]]))
     .click();
   // Expect all checkboxes to be unchecked initially and to work properly
   await expect(page.getByRole("checkbox").first()).toBeVisible();

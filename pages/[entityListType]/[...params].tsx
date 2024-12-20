@@ -201,7 +201,8 @@ export default EntityDetailPage;
  * @returns catalog prefix.
  */
 function getCatalogPrefix(defaultCatalog: string): string {
-  return defaultCatalog.replace(/\d.*$/, "");
+  //eslint-disable-next-line sonarjs/slow-regex -- catalog numbers should be short and are user provided
+  return defaultCatalog.replace(/\d.*$/, ""); //TODO - are all catalog numbers less than a maximum length? could remove eslint ignore
 }
 
 /**
