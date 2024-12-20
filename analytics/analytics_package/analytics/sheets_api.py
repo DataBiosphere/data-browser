@@ -26,8 +26,8 @@ def authenticate_gspread(authentication_response):
     return gc
 
 def authenticate_drive_api(authentication_response):
-    """Authenticates the Drive API using the credentials in the tuple from api.authenticate"""
-    return build('drive', 'v3', credentials=extract_credentials(authentication_response))
+    """Authenticates the Drive API using the response from api.authenticate"""
+    return authentication_response[0]
 
 def check_sheet_exists(gc, sheet_name):
     """
@@ -85,6 +85,8 @@ def search_for_folder_id(drive_api, folder_name, allow_trashed = False, allow_du
     if len(files_exact_match) > 1:
         if not allow_duplicates:
             raise RuntimeError("Too many files returned")
+    if len(files_exact_match) == 0:
+        raise RuntimeError("No such folder exists")
     
     return [file["id"] for file in files_exact_match]   
 
@@ -102,9 +104,8 @@ def create_sheet_in_folder(authentication_response, sheet_name, parent_folder_na
     :rtype: gspread.Spreadsheet
     """
     # Build Drive API
-    drive_credentials = extract_credentials(authentication_response)
-    gc = gspread.authorize(drive_credentials)
-    drive_api = build('drive', 'v3', credentials=drive_credentials)
+    gc = authenticate_gspread(authentication_response)
+    drive_api = authenticate_drive_api(authentication_response)
     parent_folder_id = None if parent_folder_name is None else search_for_folder_id(drive_api, parent_folder_name)[0] 
     
     # Check if sheet already exists and handle based on input
