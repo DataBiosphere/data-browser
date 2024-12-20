@@ -1965,7 +1965,7 @@ export function getGeneratedMatricesActionsColumnDef<T>(): ColumnDef<T> {
  * @returns anatomical entity column def.
  */
 export function getGeneratedMatricesAnatomicalEntityColumnDef<
-  T
+  T,
 >(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.ORGAN,
@@ -1986,7 +1986,7 @@ export function getGeneratedMatricesAnatomicalEntityColumnDef<
  * @returns content description column def.
  */
 export function getGeneratedMatricesContentDescriptionColumnDef<
-  T
+  T,
 >(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.CONTENT_DESCRIPTION,
@@ -2059,7 +2059,7 @@ export function getGeneratedMatricesGenusSpeciesColumnDef<T>(): ColumnDef<T> {
  * @returns library construction method column def.
  */
 export function getGeneratedMatricesLibraryConstructionMethodColumnDef<
-  T
+  T,
 >(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
@@ -2080,7 +2080,7 @@ export function getGeneratedMatricesLibraryConstructionMethodColumnDef<
  * @returns matrix cell count column def.
  */
 export function getGeneratedMatricesMatrixCellCountColumnDef<
-  T
+  T,
 >(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.MATRIX_CELL_COUNT,
@@ -2424,12 +2424,15 @@ export const renderWhenUnAuthenticated = (
  * @returns total cells from cellSuspensions.
  */
 function rollUpTotalCells(entityResponse: EntityResponse): number | null {
-  return entityResponse.cellSuspensions.reduce((acc, { totalCells }) => {
-    if (totalCells) {
-      acc = (acc ?? 0) + totalCells;
-    }
-    return acc;
-  }, null as null | number);
+  return entityResponse.cellSuspensions.reduce(
+    (acc, { totalCells }) => {
+      if (totalCells) {
+        acc = (acc ?? 0) + totalCells;
+      }
+      return acc;
+    },
+    null as null | number
+  );
 }
 
 /**
