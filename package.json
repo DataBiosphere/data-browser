@@ -64,8 +64,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
-    "@commitlint/cli": "^17.8.1",
-    "@commitlint/config-conventional": "^17.8.1",
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
     "@digitak/esrun": "^3.2.26",
     "@mui/types": "^7.2.18",
     "@next/eslint-plugin-next": "^14.1.0",
