@@ -22,7 +22,10 @@ import {
 } from "@databiosphere/findable-ui/lib/components/Export/common/entities";
 import { CurrentQuery } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 import { Summary } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
-import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
+import {
+  ANCHOR_TARGET,
+  REL_ATTRIBUTE,
+} from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { getConfig } from "@databiosphere/findable-ui/lib/config/config";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import {
@@ -712,11 +715,14 @@ export const buildCookieBanner = (): React.ComponentProps<
       "This website uses cookies for security and analytics purposes. By using this site, you agree to these uses.",
     secondaryAction: C.ButtonOutline({
       children: "Learn More",
+      /* eslint-disable sonarjs/link-with-target-blank -- const used for NOOPRNER NOREFERRER */
       onClick: () =>
         window.open(
           "https://data.humancellatlas.org/privacy",
-          ANCHOR_TARGET.BLANK
+          ANCHOR_TARGET.BLANK,
+          REL_ATTRIBUTE.NO_OPENER_NO_REFERRER
         ),
+      /* eslint-enable sonarjs/link-with-target-blank -- check target blank links for the rest of the file */
     }),
   };
 };

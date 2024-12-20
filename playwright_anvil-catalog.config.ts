@@ -21,7 +21,7 @@ const config: PlaywrightTestConfig = {
     },
   ],
   testDir: "e2e",
-  testMatch: /.*\/(anvil-catalog)\/.*\.spec\.ts/,
+  testMatch: "**/e2e/anvil-catalog/*.spec.ts",
   timeout: 60 * 1000,
   use: {
     baseURL: "http://localhost:3000/",
