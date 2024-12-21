@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.5.0](https://github.com/DataBiosphere/data-browser/compare/v2.4.0...v2.5.0) (2024-12-21)
+
+
+### Features
+
+* 4305 added gspread analytics package ([#4314](https://github.com/DataBiosphere/data-browser/issues/4314)) ([e8c34c6](https://github.com/DataBiosphere/data-browser/commit/e8c34c67c345264f8817a84aff3b47d40686220b))
+
+
+### Chores
+
+* updated projectEdits for lungmap ([#4310](https://github.com/DataBiosphere/data-browser/issues/4310)) ([#4315](https://github.com/DataBiosphere/data-browser/issues/4315)) ([b37e1ba](https://github.com/DataBiosphere/data-browser/commit/b37e1ba628726ee024016340db257bfd7e8e11f9))
+
 ## [2.4.0](https://github.com/DataBiosphere/data-browser/compare/v2.3.0...v2.4.0) (2024-12-12)
 
 
