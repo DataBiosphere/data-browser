@@ -1,5 +1,5 @@
 // jest.config.js
-// eslint-disable-next-line @typescript-eslint/no-var-requires -- Required for Jest setup
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Required for Jest setup
 const nextJest = require("next/jest");
 
 const createJestConfig = nextJest({

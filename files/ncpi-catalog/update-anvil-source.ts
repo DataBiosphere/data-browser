@@ -24,7 +24,7 @@ async function updateAnVILSource(sourcePath: string): Promise<void> {
   let anvilJson: AnVILJSONElement[];
   try {
     anvilJson = JSON.parse(fs.readFileSync(anVILPath, "utf-8"));
-  } catch (err) {
+  } catch {
     console.error(
       "AnVIL database not present at '/anvil-catalog/out/anvil-studies.json', please run 'npm run build-anvil-db' then try again."
     );

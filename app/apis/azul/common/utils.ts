@@ -70,7 +70,7 @@ export function isNullOrUndefined(value: any): boolean {
  */
 export function processAggregatedOrArrayValue<
   T,
-  K extends KeyOfTypeStringOrNullArray<T>
+  K extends KeyOfTypeStringOrNullArray<T>,
 >(responseValues: T[], key: K): string[] {
   // Aggregate key values across response values.
   const values = aggregateResponseValues(
@@ -91,7 +91,7 @@ export function processAggregatedOrArrayValue<
  */
 export function processAggregatedBooleanOrArrayValue<
   T,
-  K extends KeyOfTypeBooleanOrNullArray<T>
+  K extends KeyOfTypeBooleanOrNullArray<T>,
 >(responseValues: T[], key: K): string[] {
   // Aggregate key values across response values.
   const values = aggregateResponseValues(
@@ -114,7 +114,7 @@ export function processAggregatedBooleanOrArrayValue<
  */
 export function processAggregatedNumberEntityValue<
   T,
-  K extends KeyOfTypeNumberOrNull<T>
+  K extends KeyOfTypeNumberOrNull<T>,
 >(responseValues: T[], key: K): number {
   // Aggregate key values across response values.
   return aggregateNumericalResponseValues(responseValues, key);
@@ -129,7 +129,7 @@ export function processAggregatedNumberEntityValue<
  */
 export function processEntityArrayValue<
   T,
-  K extends KeyOfTypeStringOrNullArray<T>
+  K extends KeyOfTypeStringOrNullArray<T>,
 >(responseValues: T[], key: K, label = LABEL.UNSPECIFIED): string[] {
   // Response values should be a singleton array; check for at least one value here.
   if (responseValues.length === 0) {
@@ -202,7 +202,7 @@ export function processNumberEntityValue<T, K extends KeyOfTypeNumberOrNull<T>>(
  */
 function aggregateNumericalResponseValues<
   T,
-  K extends KeyOfTypeNumberOrNull<T>
+  K extends KeyOfTypeNumberOrNull<T>,
 >(responseValues: T[], key: K): number {
   return responseValues
     .map((responseValue) => responseValue[key] as unknown as number)
@@ -217,7 +217,7 @@ function aggregateNumericalResponseValues<
  */
 function aggregateResponseValues<
   T,
-  K extends KeyOfTypeStringOrNullArray<T> | KeyOfTypeBooleanOrNullArray<T>
+  K extends KeyOfTypeStringOrNullArray<T> | KeyOfTypeBooleanOrNullArray<T>,
 >(responseValues: T[], key: K): StringOrNullArray | BooleanOrNullArray {
   return responseValues
     .filter((responseValue) => !!responseValue[key])
