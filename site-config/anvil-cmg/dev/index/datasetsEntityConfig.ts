@@ -70,7 +70,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
           component: C.StatusBadge,
           viewBuilder: V.buildDatasetAccess,
         } as ComponentConfig<typeof C.StatusBadge>,
-        disableSorting: true,
+        enableSorting: false,
         header: ANVIL_CMG_CATEGORY_LABEL.DATASET_ACCESSIBLE,
         id: ANVIL_CMG_CATEGORY_KEY.DATASET_ACCESSIBLE,
         width: "max-content",
