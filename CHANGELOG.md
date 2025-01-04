@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.5.0](https://github.com/DataBiosphere/data-browser/compare/v2.4.0...v2.5.0) (2025-01-04)
+
+
+### Features
+
+* 4305 added gspread analytics package ([#4314](https://github.com/DataBiosphere/data-browser/issues/4314)) ([e8c34c6](https://github.com/DataBiosphere/data-browser/commit/e8c34c67c345264f8817a84aff3b47d40686220b))
+
+
+### Chores
+
+* update findable-ui to latest v19.0.0 ([#4319](https://github.com/DataBiosphere/data-browser/issues/4319)) ([#4320](https://github.com/DataBiosphere/data-browser/issues/4320)) ([bc9c523](https://github.com/DataBiosphere/data-browser/commit/bc9c5237ad95e19c940ae19210649d01ca57ff1c))
+* updated projectEdits for lungmap ([#4310](https://github.com/DataBiosphere/data-browser/issues/4310)) ([#4315](https://github.com/DataBiosphere/data-browser/issues/4315)) ([b37e1ba](https://github.com/DataBiosphere/data-browser/commit/b37e1ba628726ee024016340db257bfd7e8e11f9))
+
 ## [2.4.0](https://github.com/DataBiosphere/data-browser/compare/v2.3.0...v2.4.0) (2024-12-12)
 
 
