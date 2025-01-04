@@ -99,6 +99,10 @@ export const buildConsortiumDetailViewStudiesTable = (
     gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr 1fr auto",
     items: studies,
     noResultsTitle: "No Studies",
+    tableOptions: {
+      getRowId: (originalRow) =>
+        (originalRow as AnVILCatalogConsortiumStudy).studyName,
+    },
   };
 };
 
@@ -117,6 +121,10 @@ export const buildConsortiumDetailViewWorkspacesTable = (
     gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr auto",
     items: workspaces,
     noResultsTitle: "No Workspaces",
+    tableOptions: {
+      getRowId: (originalRow) =>
+        (originalRow as AnVILCatalogWorkspace).workspaceName,
+    },
   };
 };
 
@@ -315,6 +323,10 @@ export const buildStudyDetailViewWorkspacesTable = (
     gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr auto",
     items: workspaces,
     noResultsTitle: "No Workspaces",
+    tableOptions: {
+      getRowId: (originalRow) =>
+        (originalRow as AnVILCatalogWorkspace).workspaceName,
+    },
   };
 };
 
@@ -658,7 +670,7 @@ function getStudyAPIKeyValue(dbGapId: string): ReactElement {
 /**
  * Returns the KeyValuePair value for the specified AnVIL entity.
  * @param studyAccession - Study identifier with version.
- * @returns the KeyValuePair value for study dbGap Id as a ReactElement.
+ * @returns the KeyValuePair value for study dbGapId as a ReactElement.
  */
 function getStudyDbGapIdKeyValue(studyAccession: string): ReactElement {
   return C.Link({

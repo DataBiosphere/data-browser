@@ -4,7 +4,7 @@ import {
 } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { COLUMN } from "./common/constants";
+import { COLUMN } from "./common/column";
 
 /**
  * Returns the entity config for managed access files.
