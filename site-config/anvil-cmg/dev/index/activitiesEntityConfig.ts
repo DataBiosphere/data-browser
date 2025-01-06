@@ -8,6 +8,7 @@ import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMod
 import { ActivitiesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import { TABLE_OPTIONS } from "../../../common/tableOptions";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
@@ -119,6 +120,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       desc: SORT_DIRECTION.ASCENDING,
       id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DOCUMENT_ID,
     },
+    tableOptions: TABLE_OPTIONS,
   } as ListConfig<ActivitiesResponse>,
   listView: {
     listHero,

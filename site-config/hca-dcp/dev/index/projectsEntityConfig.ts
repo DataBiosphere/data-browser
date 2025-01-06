@@ -13,6 +13,7 @@ import {
 import * as C from "../../../../app/components";
 import { projectEdits } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/projectMapper/projectEdits/projectEdits";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { TABLE_OPTIONS } from "../../../common/tableOptions";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../../category";
 import { mainColumn as exportMainColumn } from "../detail/project/exportMainColumn";
 import { sideColumn as exportSideColumn } from "../detail/project/exportSideColumn";
@@ -269,6 +270,7 @@ export const projectsEntityConfig: EntityConfig = {
       desc: SORT_DIRECTION.DESCENDING,
       id: HCA_DCP_CATEGORY_KEY.AGGREGATE_LAST_MODIFIED_DATE,
     },
+    tableOptions: TABLE_OPTIONS,
   } as ListConfig<ProjectsResponse>,
   listView: {
     subTitleHero,

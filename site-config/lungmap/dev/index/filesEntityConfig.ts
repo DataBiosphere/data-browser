@@ -12,6 +12,7 @@ import {
 import { FilesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { TABLE_OPTIONS } from "../../../common/tableOptions";
 
 export const filesEntityConfig: EntityConfig = {
   apiPath: "index/files",
@@ -266,6 +267,7 @@ export const filesEntityConfig: EntityConfig = {
       desc: SORT_DIRECTION.ASCENDING,
       id: HCA_DCP_CATEGORY_KEY.FILE_NAME,
     },
+    tableOptions: TABLE_OPTIONS,
   } as ListConfig<FilesResponse>,
   route: "files",
 };

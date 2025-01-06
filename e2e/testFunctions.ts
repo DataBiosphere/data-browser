@@ -332,7 +332,7 @@ export async function testSelectableColumns(
 
 /**
  * Checks that the preselected columns specified in the tab object appear
- * in the "Edit Columns" menu and that their checkbox is checked and disabled
+ * in the "Edit Columns" menu and that their checkbox is checked and enabled.
  * @param page - the Playwright page object
  * @param tab - the tab object to test
  */
@@ -353,7 +353,7 @@ export async function testPreSelectedColumns(
           .filter({ has: page.getByText(column.name, { exact: true }) }),
       })
       .getByRole("checkbox");
-    await expect(checkboxLocator).toBeDisabled();
+    await expect(checkboxLocator).toBeEnabled();
     await expect(checkboxLocator).toBeChecked();
   }
 }
@@ -1304,16 +1304,19 @@ export async function filterAndTestLastPagePagination(
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
 
   // Should start on first page, and there should be multiple pages available
-  await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-    /Page 1 of [0-9]+/
-  );
   await expect(
-    page.getByText(PAGE_COUNT_REGEX, { exact: true })
+    page.locator(".MuiPaper-table").getByText(PAGE_COUNT_REGEX, { exact: true })
+  ).toHaveText(/Page 1 of [0-9]+/);
+  await expect(
+    page.locator(".MuiPaper-table").getByText(PAGE_COUNT_REGEX, { exact: true })
   ).not.toHaveText("Page 1 of 1");
 
   // Detect number of pages
   const splitStartingPageText = (
-    await page.getByText(PAGE_COUNT_REGEX, { exact: true }).innerText()
+    await page
+      .locator(".MuiPaper-table")
+      .getByText(PAGE_COUNT_REGEX, { exact: true })
+      .innerText()
   ).split(" ");
   const maxPages = parseInt(
     splitStartingPageText[splitStartingPageText.length - 1]

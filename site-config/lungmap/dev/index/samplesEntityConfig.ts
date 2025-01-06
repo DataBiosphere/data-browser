@@ -12,6 +12,7 @@ import {
 import { SamplesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { TABLE_OPTIONS } from "../../../common/tableOptions";
 
 export const samplesEntityConfig: EntityConfig = {
   apiPath: "index/samples",
@@ -202,6 +203,7 @@ export const samplesEntityConfig: EntityConfig = {
       desc: SORT_DIRECTION.ASCENDING,
       id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
     },
+    tableOptions: TABLE_OPTIONS,
   } as ListConfig<SamplesResponse>,
   route: "samples",
 };

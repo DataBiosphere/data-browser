@@ -8,6 +8,7 @@ import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMod
 import { FilesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
+import { TABLE_OPTIONS } from "../../../common/tableOptions";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../../category";
 import { subTitleHero } from "../listView/subTitleHero";
 
@@ -267,6 +268,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       desc: SORT_DIRECTION.ASCENDING,
       id: HCA_DCP_CATEGORY_KEY.FILE_NAME,
     },
+    tableOptions: TABLE_OPTIONS,
   } as ListConfig<FilesResponse>,
   listView: {
     subTitleHero,
