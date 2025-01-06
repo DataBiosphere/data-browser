@@ -332,7 +332,7 @@ export async function testSelectableColumns(
 
 /**
  * Checks that the preselected columns specified in the tab object appear
- * in the "Edit Columns" menu and that their checkbox is checked and disabled
+ * in the "Edit Columns" menu and that their checkbox is checked and enabled.
  * @param page - the Playwright page object
  * @param tab - the tab object to test
  */
@@ -353,7 +353,7 @@ export async function testPreSelectedColumns(
           .filter({ has: page.getByText(column.name, { exact: true }) }),
       })
       .getByRole("checkbox");
-    await expect(checkboxLocator).toBeDisabled();
+    await expect(checkboxLocator).toBeEnabled();
     await expect(checkboxLocator).toBeChecked();
   }
 }
