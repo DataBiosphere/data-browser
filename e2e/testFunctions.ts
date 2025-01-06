@@ -1304,16 +1304,19 @@ export async function filterAndTestLastPagePagination(
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
 
   // Should start on first page, and there should be multiple pages available
-  await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-    /Page 1 of [0-9]+/
-  );
   await expect(
-    page.getByText(PAGE_COUNT_REGEX, { exact: true })
+    page.locator(".MuiPaper-table").getByText(PAGE_COUNT_REGEX, { exact: true })
+  ).toHaveText(/Page 1 of [0-9]+/);
+  await expect(
+    page.locator(".MuiPaper-table").getByText(PAGE_COUNT_REGEX, { exact: true })
   ).not.toHaveText("Page 1 of 1");
 
   // Detect number of pages
   const splitStartingPageText = (
-    await page.getByText(PAGE_COUNT_REGEX, { exact: true }).innerText()
+    await page
+      .locator(".MuiPaper-table")
+      .getByText(PAGE_COUNT_REGEX, { exact: true })
+      .innerText()
   ).split(" ");
   const maxPages = parseInt(
     splitStartingPageText[splitStartingPageText.length - 1]
