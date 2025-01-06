@@ -13,6 +13,7 @@ import {
 } from "../../../../app/apis/catalog/ncpi-catalog/common/utils";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/catalog/ncpi-catalog/common/viewModelBuilders";
+import { TABLE_OPTIONS } from "../../../common/tableOptions";
 import {
   NCPI_CATALOG_CATEGORY_KEY,
   NCPI_CATALOG_CATEGORY_LABEL,
@@ -123,6 +124,7 @@ export const studiesEntityConfig: EntityConfig<NCPICatalogStudy> = {
       desc: SORT_DIRECTION.ASCENDING,
       id: NCPI_CATALOG_CATEGORY_KEY.PLATFORM,
     },
+    tableOptions: TABLE_OPTIONS,
   } as ListConfig<NCPICatalogStudy>,
   listView: {
     disablePagination: true,
