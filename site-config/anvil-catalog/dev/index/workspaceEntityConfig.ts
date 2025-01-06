@@ -12,7 +12,6 @@ import {
 } from "../../../../app/apis/catalog/anvil-catalog/common/utils";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
-import { TABLE_OPTIONS } from "../../../common/tableOptions";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,
   ANVIL_CATALOG_CATEGORY_LABEL,
@@ -126,11 +125,16 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
         width: "max-content",
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+          },
+        ],
+      },
     },
-    tableOptions: TABLE_OPTIONS,
   } as ListConfig<AnVILCatalogWorkspace>,
   listView: {
     disablePagination: true,

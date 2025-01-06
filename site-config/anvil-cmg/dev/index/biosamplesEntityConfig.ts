@@ -8,7 +8,6 @@ import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMod
 import { BioSamplesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import { TABLE_OPTIONS } from "../../../common/tableOptions";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
@@ -68,7 +67,6 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildPhenotypicSexes,
@@ -78,7 +76,6 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildReportedEthnicity,
@@ -106,11 +103,20 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_ID,
+    tableOptions: {
+      initialState: {
+        columnVisibility: {
+          [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
+          [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
+        },
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_ID,
+          },
+        ],
+      },
     },
-    tableOptions: TABLE_OPTIONS,
   } as ListConfig<BioSamplesResponse>,
   listView: {
     listHero,

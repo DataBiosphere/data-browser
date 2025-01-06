@@ -12,7 +12,6 @@ import {
 import { FilesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { TABLE_OPTIONS } from "../../../common/tableOptions";
 
 export const filesEntityConfig: EntityConfig = {
   apiPath: "index/files",
@@ -31,7 +30,7 @@ export const filesEntityConfig: EntityConfig = {
           component: C.AzulFileDownload,
           viewBuilder: V.buildFileDownload,
         } as ComponentConfig<typeof C.AzulFileDownload, FilesResponse>,
-        disableHiding: true,
+        enableHiding: false,
         enableSorting: false,
         header: HCA_DCP_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
         id: HCA_DCP_CATEGORY_KEY.AZUL_FILE_DOWNLOAD,
@@ -48,7 +47,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "2fr", min: "240px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildFileFormat,
@@ -85,7 +83,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildFileSource,
@@ -104,7 +101,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "2fr", min: "240px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSampleId,
@@ -114,7 +110,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorGenusSpecies,
@@ -124,7 +119,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSampleEntityType,
@@ -134,7 +128,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSpecimenOrgan,
@@ -144,7 +137,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSpecimenOrganPart,
@@ -154,7 +146,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSampleModelOrgan,
@@ -164,7 +155,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedCellSuspensionSelectedCellType,
@@ -174,7 +164,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedProtocolLibraryConstructionApproach,
@@ -184,7 +173,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedProtocolNucleicAcidSource,
@@ -194,7 +182,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildAggregatedProtocolPairedEnd,
@@ -204,7 +191,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorOrganismAge,
@@ -214,7 +200,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildAggregatedDonorBiologicalSex,
@@ -224,7 +209,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSpecimenDisease,
@@ -234,7 +218,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorDisease,
@@ -244,7 +227,6 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorDevelopmentStage,
@@ -263,11 +245,35 @@ export const filesEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "124px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: HCA_DCP_CATEGORY_KEY.FILE_NAME,
+    tableOptions: {
+      initialState: {
+        columnVisibility: {
+          [HCA_DCP_CATEGORY_KEY.FILE_FORMAT]: false,
+          [HCA_DCP_CATEGORY_KEY.FILE_SOURCE]: false,
+          [HCA_DCP_CATEGORY_KEY.SAMPLE_ID]: false,
+          [HCA_DCP_CATEGORY_KEY.GENUS_SPECIES]: false,
+          [HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE]: false,
+          [HCA_DCP_CATEGORY_KEY.SPECIMEN_ORGAN]: false,
+          [HCA_DCP_CATEGORY_KEY.ORGAN_PART]: false,
+          [HCA_DCP_CATEGORY_KEY.MODEL_ORGAN]: false,
+          [HCA_DCP_CATEGORY_KEY.SELECTED_CELL_TYPE]: false,
+          [HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD]: false,
+          [HCA_DCP_CATEGORY_KEY.NUCLEIC_ACID_SOURCE]: false,
+          [HCA_DCP_CATEGORY_KEY.PAIRED_END]: false,
+          [HCA_DCP_CATEGORY_KEY.ORGANISM_AGE]: false,
+          [HCA_DCP_CATEGORY_KEY.BIOLOGICAL_SEX]: false,
+          [HCA_DCP_CATEGORY_KEY.SPECIMEN_DISEASE]: false,
+          [HCA_DCP_CATEGORY_KEY.DONOR_DISEASE]: false,
+          [HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE]: false,
+        },
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: HCA_DCP_CATEGORY_KEY.FILE_NAME,
+          },
+        ],
+      },
     },
-    tableOptions: TABLE_OPTIONS,
   } as ListConfig<FilesResponse>,
   route: "files",
 };

@@ -12,7 +12,6 @@ import {
 } from "../../../../app/apis/catalog/ncpi-catalog/common/utils";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/catalog/ncpi-catalog/common/viewModelBuilders";
-import { TABLE_OPTIONS } from "../../../common/tableOptions";
 import {
   NCPI_CATALOG_CATEGORY_KEY,
   NCPI_CATALOG_CATEGORY_LABEL,
@@ -107,11 +106,16 @@ export const platformsEntityConfig: EntityConfig<NCPICatalogPlatform> = {
         width: { max: "1.16fr", min: "116px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: NCPI_CATALOG_CATEGORY_KEY.PLATFORM,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: NCPI_CATALOG_CATEGORY_KEY.PLATFORM,
+          },
+        ],
+      },
     },
-    tableOptions: TABLE_OPTIONS,
   } as ListConfig<NCPICatalogPlatform>,
   listView: {
     disablePagination: true,
