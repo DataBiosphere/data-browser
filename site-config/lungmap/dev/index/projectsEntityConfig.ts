@@ -16,7 +16,6 @@ import {
 import * as C from "../../../../app/components";
 import { projectEdits as hcaProjectEdits } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/projectMapper/projectEdits/projectEdits";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { TABLE_OPTIONS } from "../../../common/tableOptions";
 import { top as hcaTop } from "../../../hca-dcp/dev/detail/project/top";
 import { mainColumn as exportMainColumn } from "../detail/project/exportMainColumn";
 import { sideColumn as exportSideColumn } from "../detail/project/exportSideColumn";
@@ -94,7 +93,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "136px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSampleEntityType,
@@ -113,7 +111,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "146px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSpecimenOrganPart,
@@ -123,7 +120,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "146px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSampleModelOrgan,
@@ -133,7 +129,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "146px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedCellSuspensionSelectedCellType,
@@ -152,7 +147,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "126px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedProtocolNucleicAcidSource,
@@ -162,7 +156,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "146px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildAggregatedProtocolPairedEnd,
@@ -172,7 +165,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "146px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedProtocolWorkflow,
@@ -182,7 +174,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "146px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSpecimenDisease,
@@ -201,7 +192,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "128px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorDevelopmentStage,
@@ -211,7 +201,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "148px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildAggregatedDonorCount,
@@ -230,7 +219,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildAggregateSubmissionDate,
@@ -240,7 +228,6 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "224px" },
       },
       {
-        columnVisible: true,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildAggregateLastModifiedDate,
@@ -250,11 +237,30 @@ export const projectsEntityConfig: EntityConfig = {
         width: { max: "1fr", min: "224px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.DESCENDING,
-      id: HCA_DCP_CATEGORY_KEY.AGGREGATE_LAST_MODIFIED_DATE,
+    tableOptions: {
+      initialState: {
+        columnVisibility: {
+          [HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE]: false,
+          [HCA_DCP_CATEGORY_KEY.ORGAN_PART]: false,
+          [HCA_DCP_CATEGORY_KEY.MODEL_ORGAN]: false,
+          [HCA_DCP_CATEGORY_KEY.SELECTED_CELL_TYPE]: false,
+          [HCA_DCP_CATEGORY_KEY.NUCLEIC_ACID_SOURCE]: false,
+          [HCA_DCP_CATEGORY_KEY.PAIRED_END]: false,
+          [HCA_DCP_CATEGORY_KEY.WORKFLOW]: false,
+          [HCA_DCP_CATEGORY_KEY.SPECIMEN_DISEASE]: false,
+          [HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE]: false,
+          [HCA_DCP_CATEGORY_KEY.DONOR_COUNT]: false,
+          [HCA_DCP_CATEGORY_KEY.AGGREGATE_SUBMISSION_DATE]: false,
+          [HCA_DCP_CATEGORY_KEY.AGGREGATE_LAST_MODIFIED_DATE]: true,
+        },
+        sorting: [
+          {
+            desc: SORT_DIRECTION.DESCENDING,
+            id: HCA_DCP_CATEGORY_KEY.AGGREGATE_LAST_MODIFIED_DATE,
+          },
+        ],
+      },
     },
-    tableOptions: TABLE_OPTIONS,
   },
   overrides: hcaProjectEdits,
   route: "projects",

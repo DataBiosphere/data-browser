@@ -13,7 +13,6 @@ import {
 } from "../../../../app/apis/catalog/anvil-catalog/common/utils";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/catalog/anvil-catalog/common/viewModelBuilders";
-import { TABLE_OPTIONS } from "../../../common/tableOptions";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,
   ANVIL_CATALOG_CATEGORY_LABEL,
@@ -104,7 +103,6 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildStudyNames,
@@ -123,7 +121,6 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildTerraWorkspaceNames,
@@ -151,11 +148,20 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
         width: "max-content",
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+    tableOptions: {
+      initialState: {
+        columnVisibility: {
+          [ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME]: false,
+          [ANVIL_CATALOG_CATEGORY_KEY.WORKSPACE_NAME]: false,
+        },
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+          },
+        ],
+      },
     },
-    tableOptions: TABLE_OPTIONS,
   } as ListConfig<AnVILCatalogConsortium>,
   listView: {
     disablePagination: true,
