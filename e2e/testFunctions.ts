@@ -235,7 +235,6 @@ export async function testSortAzul(
       await expect(sortIconLocator).not.toHaveCSS("opacity", "0");
       // Save the selected sort icon locator
       lastElementSortIconLocator = sortIconLocator;
-      await expect(false);
     }
   }
   return true;
