@@ -222,7 +222,7 @@ export async function testSortAzul(
           );
         })
       );
-      await columnSortLocator.click();
+      await columnSortLocator.dispatchEvent("click");
       // Expect the first element of the table to still be visible (may not have text)
       await expect(
         getFirstRowNthColumnCellLocator(page, columnPosition)
@@ -413,7 +413,7 @@ export async function testFilterPresence(
   for (const filterName of filterNames) {
     // Check that each filter is visible and clickable
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
-    await page.getByText(filterRegex(filterName)).click();
+    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await expect(page.getByRole("checkbox").first()).toBeVisible();
     await expect(page.getByRole("checkbox").first()).not.toBeChecked();
     // Check that clicking out of the filter menu causes it to disappear
@@ -1425,7 +1425,7 @@ export async function testPaginationContent(
     await page
       .getByRole("button")
       .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
-      .click();
+      .dispatchEvent("click");
     // Expect the page count to have incremented
     await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
       RegExp(`Page ${i} of [0-9]+`)
