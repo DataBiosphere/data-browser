@@ -240,6 +240,8 @@ export async function testSortAzul(
   return true;
 }
 
+const SEARCH_BUTTON_NAME = "Search";
+
 /**
  * Checks that sorting the tab does not cause the first row of the table to break.
  * This test does not check whether the sort order is correct.
@@ -292,11 +294,15 @@ export async function testSortCatalog(
       await columnSortLocator.click();
       // Expect the first cell to still be visible
       await expect(firstElementTextLocator).toBeVisible();
+      const nonOverlappingElement = page.getByRole("button", {
+        name: SEARCH_BUTTON_NAME,
+      });
       const firstElementText = await hoverAndGetText(
         page,
         columnObject,
         0,
-        columnPosition
+        columnPosition,
+        nonOverlappingElement
       );
       // Click again
       await columnSortLocator.click();
@@ -1008,13 +1014,15 @@ export async function testBackpageAccess(
  * @param columnDescription - a columnDescription object for the column
  * @param rowPosition - the zero-indexed position of the row
  * @param columnPosition - the zero-indexed position of the column
+ * @param nonOverlappingElement - a locator for an element that does not overlap with a possble tooltip
  * @returns - a Promise with the cell's text
  */
 const hoverAndGetText = async (
   page: Page,
   columnDescription: ColumnDescription | undefined,
   rowPosition: number,
-  columnPosition: number
+  columnPosition: number,
+  nonOverlappingElement: Locator
 ): Promise<string> => {
   const cellLocator = getMthRowNthColumnCellLocator(
     page,
@@ -1036,13 +1044,15 @@ const hoverAndGetText = async (
     await page.getByRole("tooltip").waitFor();
     const outputText = (await page.getByRole("tooltip").innerText()).trim();
     // Hover over a different part of the page to ensure that the tooltip disappears
-    await page.getByRole("columnheader").first().hover();
+    await nonOverlappingElement.hover();
     await expect(page.getByRole("tooltip")).toHaveCount(0);
     // Return the tooltip contents
     return outputText;
   }
   return cellText.trim();
 };
+
+const FOOTER_LINK_NAME = "Privacy";
 
 /**
  * Check that the details in the backpage sidebar match information in the data table
@@ -1095,7 +1105,16 @@ export async function testBackpageDetails(
         (x) => x.name == columnHeaderName
       );
       // Get the entry text
-      const tableEntryText = await hoverAndGetText(page, columnObject, 0, i);
+      const nonOverlappingElement = page.getByRole("link", {
+        name: FOOTER_LINK_NAME,
+      });
+      const tableEntryText = await hoverAndGetText(
+        page,
+        columnObject,
+        0,
+        i,
+        nonOverlappingElement
+      );
       // Get the name of the corresponding header on the backpage
       const correspondingHeaderName = tab.backpageHeaders.find(
         (header: BackpageHeader) =>
