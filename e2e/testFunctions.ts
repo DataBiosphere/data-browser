@@ -152,6 +152,7 @@ const COLUMN_SORT_ICON_TEST_ID = "SouthRoundedIcon";
  * @param tab - the tab to check
  * @returns - true if the test passes and false if the test fails
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity -- Complex code just for diagnostic will be removed later
 export async function testSortAzul(
   page: Page,
   tab: TabDescription
@@ -200,6 +201,27 @@ export async function testSortAzul(
         await expect(sortIconLocator).toHaveCSS("opacity", "0");
       }
       // Click to sort
+      console.log(
+        await page.evaluate(() => {
+          const obstructingElement = document.querySelector(
+            ".MuiPaper-root.MuiPaper-panel.MuiPaper-rounded.css-c8mee3"
+          );
+          const obstructingElementRect =
+            obstructingElement?.getBoundingClientRect();
+          const obstructingElementRectString = obstructingElementRect
+            ? obstructingElementRect.x +
+              "," +
+              obstructingElementRect.y +
+              ":" +
+              obstructingElementRect.width +
+              "," +
+              obstructingElementRect.height
+            : "No Element";
+          console.log(
+            "test " + !!obstructingElement + ", " + obstructingElementRectString
+          );
+        })
+      );
       await columnSortLocator.click();
       // Expect the first element of the table to still be visible (may not have text)
       await expect(
