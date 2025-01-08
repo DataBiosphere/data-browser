@@ -60,7 +60,7 @@
     "react-hooks/exhaustive-deps": "error",
     "sonarjs/todo-tag": "warn",
     "sonarjs/redundant-type-aliases": "warn",
-    "sonarjs/no-nested-conditional": "warn"
+    "sonarjs/no-nested-conditional": "off"
   },
   "overrides": [
     {
