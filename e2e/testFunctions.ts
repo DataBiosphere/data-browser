@@ -152,6 +152,7 @@ const COLUMN_SORT_ICON_TEST_ID = "SouthRoundedIcon";
  * @param tab - the tab to check
  * @returns - true if the test passes and false if the test fails
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity -- Complex code just for diagnostic will be removed later
 export async function testSortAzul(
   page: Page,
   tab: TabDescription
@@ -200,7 +201,8 @@ export async function testSortAzul(
         await expect(sortIconLocator).toHaveCSS("opacity", "0");
       }
       // Click to sort
-      await columnSortLocator.click();
+      // dispatchEvent necessary because the table loading component sometimes interrupts a click event
+      await columnSortLocator.dispatchEvent("click");
       // Expect the first element of the table to still be visible (may not have text)
       await expect(
         getFirstRowNthColumnCellLocator(page, columnPosition)
@@ -217,6 +219,8 @@ export async function testSortAzul(
   }
   return true;
 }
+
+const SEARCH_BUTTON_NAME = "Search";
 
 /**
  * Checks that sorting the tab does not cause the first row of the table to break.
@@ -270,11 +274,15 @@ export async function testSortCatalog(
       await columnSortLocator.click();
       // Expect the first cell to still be visible
       await expect(firstElementTextLocator).toBeVisible();
+      const nonOverlappingElement = page.getByRole("button", {
+        name: SEARCH_BUTTON_NAME,
+      });
       const firstElementText = await hoverAndGetText(
         page,
         columnObject,
         0,
-        columnPosition
+        columnPosition,
+        nonOverlappingElement
       );
       // Click again
       await columnSortLocator.click();
@@ -300,7 +308,11 @@ export async function testSelectableColumns(
   // Navigate to the tab
   await page.goto(tab.url);
   // Select the "Edit Columns" menu
-  await page.getByRole("button").getByText("Edit Columns").click();
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
+  await page
+    .getByRole("button")
+    .getByText("Edit Columns")
+    .dispatchEvent("click");
   await expect(page.getByRole("menu")).toBeVisible();
   // Enable each selectable tab
   const tabObjectArray = Array.from(Object.values(tab.selectableColumns));
@@ -385,7 +397,8 @@ export async function testFilterPresence(
   for (const filterName of filterNames) {
     // Check that each filter is visible and clickable
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
-    await page.getByText(filterRegex(filterName)).click();
+    // dispatchEvent necessary because the filter menu component sometimes interrupts a click event
+    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await expect(page.getByRole("checkbox").first()).toBeVisible();
     await expect(page.getByRole("checkbox").first()).not.toBeChecked();
     // Check that clicking out of the filter menu causes it to disappear
@@ -525,6 +538,7 @@ export async function testFilterPersistence(
     await page.locator("body").click();
   }
   // Return to the start tab and confirm that the filter stays checked and that some content is visible
+  // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
   await page
     .getByRole("tab")
     .getByText(tabOrder[0].tabName, { exact: true })
@@ -557,6 +571,7 @@ export async function testFilterCounts(
   // For each arbitrarily selected filter
   for (const filterName of filterNames) {
     // Select the filter
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     // Get the number associated with the first filter button, and select it
     await page.waitForLoadState("load");
@@ -574,6 +589,7 @@ export async function testFilterCounts(
       return false;
     }
     // Check the filter
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await firstFilterOption.getByRole("checkbox").dispatchEvent("click");
     await page.waitForLoadState("load");
     // Exit the filter menu
@@ -620,6 +636,7 @@ export async function testFilterTags(
   await page.goto(tab.url);
   for (const filterName of filterNames) {
     // Select a filter
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await page.waitForLoadState("load");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
@@ -664,6 +681,7 @@ export async function testClearAll(
   await page.goto(tab.url);
   const selectedFilterNamesList = [];
   // Select each filter and get the names of the actual filter text
+  // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
   for (const filterName of filterNames) {
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await getFirstFilterOptionLocator(page).getByRole("checkbox").click();
@@ -718,6 +736,7 @@ export async function testSelectFiltersThroughSearchBar(
   for (const filterName of filterNames) {
     // Get the first filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     const filterOptionName = await getFilterOptionName(
@@ -757,6 +776,7 @@ export async function testDeselectFiltersThroughSearchBar(
   for (const filterName of filterNames) {
     // Select each filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     const filterOptionName = await getFilterOptionName(
@@ -869,6 +889,7 @@ export async function testExportBackpage(
   );
   await expect(grantedRowLocator).toBeVisible();
   // Click into the selected row
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
   await grantedRowLocator.dispatchEvent("click");
   await expect(
     page.getByText(tab.backpageExportButtons.detailsName)
@@ -935,6 +956,7 @@ export async function testBackpageAccess(
     tab.backpageAccessTags.grantedShortName
   );
   await expect(grantedRowLocator).toBeVisible();
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
   await grantedRowLocator.dispatchEvent("click");
   await expect(
     page.getByText(tab.backpageExportButtons.detailsName)
@@ -961,6 +983,7 @@ export async function testBackpageAccess(
     tab.backpageAccessTags.deniedShortName
   );
   await expect(deniedRowLocator).toBeVisible();
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
   await deniedRowLocator.dispatchEvent("click");
   await expect(
     page.getByText(tab.backpageAccessTags.deniedLongName)
@@ -986,13 +1009,15 @@ export async function testBackpageAccess(
  * @param columnDescription - a columnDescription object for the column
  * @param rowPosition - the zero-indexed position of the row
  * @param columnPosition - the zero-indexed position of the column
+ * @param nonOverlappingElement - a locator for an element that does not overlap with a possble tooltip
  * @returns - a Promise with the cell's text
  */
 const hoverAndGetText = async (
   page: Page,
   columnDescription: ColumnDescription | undefined,
   rowPosition: number,
-  columnPosition: number
+  columnPosition: number,
+  nonOverlappingElement: Locator
 ): Promise<string> => {
   const cellLocator = getMthRowNthColumnCellLocator(
     page,
@@ -1014,13 +1039,15 @@ const hoverAndGetText = async (
     await page.getByRole("tooltip").waitFor();
     const outputText = (await page.getByRole("tooltip").innerText()).trim();
     // Hover over a different part of the page to ensure that the tooltip disappears
-    await page.getByRole("columnheader").first().hover();
+    await nonOverlappingElement.hover();
     await expect(page.getByRole("tooltip")).toHaveCount(0);
     // Return the tooltip contents
     return outputText;
   }
   return cellText.trim();
 };
+
+const FOOTER_LINK_NAME = "Privacy";
 
 /**
  * Check that the details in the backpage sidebar match information in the data table
@@ -1073,7 +1100,16 @@ export async function testBackpageDetails(
         (x) => x.name == columnHeaderName
       );
       // Get the entry text
-      const tableEntryText = await hoverAndGetText(page, columnObject, 0, i);
+      const nonOverlappingElement = page.getByRole("link", {
+        name: FOOTER_LINK_NAME,
+      });
+      const tableEntryText = await hoverAndGetText(
+        page,
+        columnObject,
+        0,
+        i,
+        nonOverlappingElement
+      );
       // Get the name of the corresponding header on the backpage
       const correspondingHeaderName = tab.backpageHeaders.find(
         (header: BackpageHeader) =>
@@ -1323,6 +1359,7 @@ export async function filterAndTestLastPagePagination(
   );
   // Paginate forwards
   for (let i = 2; i < maxPages + 1; i++) {
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page
       .getByRole("button")
       .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
@@ -1381,10 +1418,11 @@ export async function testPaginationContent(
     await expect(firstElementTextLocator).not.toHaveText("");
     const OriginalFirstTableEntry = await firstElementTextLocator.innerText();
     // Click the next button
+    // dispatchEvent necessary because the table loading component sometimes interrupts a click event
     await page
       .getByRole("button")
       .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
-      .click();
+      .dispatchEvent("click");
     // Expect the page count to have incremented
     await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
       RegExp(`Page ${i} of [0-9]+`)

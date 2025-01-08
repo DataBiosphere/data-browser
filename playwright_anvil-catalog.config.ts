@@ -9,7 +9,7 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"], channel: "chrome" },
     },
     {
       name: "firefox",
@@ -26,6 +26,7 @@ const config: PlaywrightTestConfig = {
   use: {
     baseURL: "http://localhost:3000/",
     screenshot: "only-on-failure",
+    viewport: { height: 1080, width: 1960 },
   },
   webServer: {
     command:
