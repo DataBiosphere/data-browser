@@ -328,7 +328,10 @@ export async function testSelectableColumns(
   // Navigate to the tab
   await page.goto(tab.url);
   // Select the "Edit Columns" menu
-  await page.getByRole("button").getByText("Edit Columns").click();
+  await page
+    .getByRole("button")
+    .getByText("Edit Columns")
+    .dispatchEvent("click");
   await expect(page.getByRole("menu")).toBeVisible();
   // Enable each selectable tab
   const tabObjectArray = Array.from(Object.values(tab.selectableColumns));
