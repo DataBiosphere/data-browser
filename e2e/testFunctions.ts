@@ -201,27 +201,7 @@ export async function testSortAzul(
         await expect(sortIconLocator).toHaveCSS("opacity", "0");
       }
       // Click to sort
-      console.log(
-        await page.evaluate(() => {
-          const obstructingElement = document.querySelector(
-            ".MuiPaper-root.MuiPaper-panel.MuiPaper-rounded.css-c8mee3"
-          );
-          const obstructingElementRect =
-            obstructingElement?.getBoundingClientRect();
-          const obstructingElementRectString = obstructingElementRect
-            ? obstructingElementRect.x +
-              "," +
-              obstructingElementRect.y +
-              ":" +
-              obstructingElementRect.width +
-              "," +
-              obstructingElementRect.height
-            : "No Element";
-          console.log(
-            "test " + !!obstructingElement + ", " + obstructingElementRectString
-          );
-        })
-      );
+      // dispatchEvent necessary because the table loading component sometimes interrupts a click event
       await columnSortLocator.dispatchEvent("click");
       // Expect the first element of the table to still be visible (may not have text)
       await expect(
@@ -328,6 +308,7 @@ export async function testSelectableColumns(
   // Navigate to the tab
   await page.goto(tab.url);
   // Select the "Edit Columns" menu
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
   await page
     .getByRole("button")
     .getByText("Edit Columns")
@@ -416,6 +397,7 @@ export async function testFilterPresence(
   for (const filterName of filterNames) {
     // Check that each filter is visible and clickable
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
+    // dispatchEvent necessary because the filter menu component sometimes interrupts a click event
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await expect(page.getByRole("checkbox").first()).toBeVisible();
     await expect(page.getByRole("checkbox").first()).not.toBeChecked();
@@ -556,6 +538,7 @@ export async function testFilterPersistence(
     await page.locator("body").click();
   }
   // Return to the start tab and confirm that the filter stays checked and that some content is visible
+  // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
   await page
     .getByRole("tab")
     .getByText(tabOrder[0].tabName, { exact: true })
@@ -588,6 +571,7 @@ export async function testFilterCounts(
   // For each arbitrarily selected filter
   for (const filterName of filterNames) {
     // Select the filter
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     // Get the number associated with the first filter button, and select it
     await page.waitForLoadState("load");
@@ -605,6 +589,7 @@ export async function testFilterCounts(
       return false;
     }
     // Check the filter
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await firstFilterOption.getByRole("checkbox").dispatchEvent("click");
     await page.waitForLoadState("load");
     // Exit the filter menu
@@ -651,6 +636,7 @@ export async function testFilterTags(
   await page.goto(tab.url);
   for (const filterName of filterNames) {
     // Select a filter
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await page.waitForLoadState("load");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
@@ -695,6 +681,7 @@ export async function testClearAll(
   await page.goto(tab.url);
   const selectedFilterNamesList = [];
   // Select each filter and get the names of the actual filter text
+  // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
   for (const filterName of filterNames) {
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await getFirstFilterOptionLocator(page).getByRole("checkbox").click();
@@ -749,6 +736,7 @@ export async function testSelectFiltersThroughSearchBar(
   for (const filterName of filterNames) {
     // Get the first filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     const filterOptionName = await getFilterOptionName(
@@ -788,6 +776,7 @@ export async function testDeselectFiltersThroughSearchBar(
   for (const filterName of filterNames) {
     // Select each filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     const filterOptionName = await getFilterOptionName(
@@ -900,6 +889,7 @@ export async function testExportBackpage(
   );
   await expect(grantedRowLocator).toBeVisible();
   // Click into the selected row
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
   await grantedRowLocator.dispatchEvent("click");
   await expect(
     page.getByText(tab.backpageExportButtons.detailsName)
@@ -966,6 +956,7 @@ export async function testBackpageAccess(
     tab.backpageAccessTags.grantedShortName
   );
   await expect(grantedRowLocator).toBeVisible();
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
   await grantedRowLocator.dispatchEvent("click");
   await expect(
     page.getByText(tab.backpageExportButtons.detailsName)
@@ -992,6 +983,7 @@ export async function testBackpageAccess(
     tab.backpageAccessTags.deniedShortName
   );
   await expect(deniedRowLocator).toBeVisible();
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
   await deniedRowLocator.dispatchEvent("click");
   await expect(
     page.getByText(tab.backpageAccessTags.deniedLongName)
@@ -1367,6 +1359,7 @@ export async function filterAndTestLastPagePagination(
   );
   // Paginate forwards
   for (let i = 2; i < maxPages + 1; i++) {
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page
       .getByRole("button")
       .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
@@ -1425,6 +1418,7 @@ export async function testPaginationContent(
     await expect(firstElementTextLocator).not.toHaveText("");
     const OriginalFirstTableEntry = await firstElementTextLocator.innerText();
     // Click the next button
+    // dispatchEvent necessary because the table loading component sometimes interrupts a click event
     await page
       .getByRole("button")
       .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
