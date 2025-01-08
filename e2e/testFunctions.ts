@@ -11,6 +11,9 @@ import {
 const TIMEOUT_EXPORT_REQUEST = 60000;
 const TIMEOUT_DOWNLOAD = 10000;
 
+// Filter length const for regexes
+const MAX_FILTER_LENGTH = 256;
+
 /**
  * Get an array of all visible column header names
  * @param page - a Playwright page object
@@ -377,7 +380,7 @@ export async function testPreSelectedColumns(
  * @returns a regular expression matching "[filterName] ([n])"
  */
 export const filterRegex = (filterName: string): RegExp =>
-  new RegExp(escapeRegExp(filterName) + "\\s+\\([0-9]+\\)\\s*");
+  new RegExp(escapeRegExp(filterName) + "\\s+\\(\\d+\\)\\s*");
 
 /**
  * Checks that each filter specified in filterNames is visible and can be
@@ -480,7 +483,7 @@ const getFirstNonEmptyFilterOptionInfo = async (
   let i = 0;
   while (filterToSelect === "" && i < MAX_FILTER_OPTIONS_TO_CHECK) {
     // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we want the string before the newline
-    const filterOptionRegex = /^(.*)\n+([0-9]+)\s*$/;
+    const filterOptionRegex = /^(.*)\n+(\d+)\s*$/;
     filterOptionLocator = getNthFilterOptionLocator(page, i);
     const filterNameMatch = (await filterOptionLocator.innerText())
       .trim()
@@ -1029,7 +1032,7 @@ const hoverAndGetText = async (
   if (
     !columnDescription !== undefined &&
     columnDescription?.pluralizedLabel !== undefined &&
-    RegExp("\\s*[0-9]+ " + columnDescription.pluralizedLabel + "\\s*").test(
+    RegExp("\\s*\\d+ " + columnDescription.pluralizedLabel + "\\s*").test(
       cellText
     )
   ) {
@@ -1222,7 +1225,7 @@ export async function testIndexExportSummary(
   await expect(indexExportButtonLocator).toBeVisible();
   for (const detail of tab.indexExportPage.detailsToCheck) {
     // This Regexp gets a decimal number, some whitespace, then the name of the detail, matching how the detail box appears to Playwright.
-    const detailBoxRegexp = RegExp(`^([0-9]+\\.[0-9]+k)\\s*${detail}$`);
+    const detailBoxRegexp = RegExp(`^(\\d+\\.\\d+k)\\s*${detail}$`);
     // This gets the detail's value. The .trim() is necessary since innertext adds extraneous whitespace on Webkit
     const headerValueArray = (await page.getByText(detailBoxRegexp).innerText())
       .trim()
@@ -1253,10 +1256,9 @@ export async function testIndexExportSummary(
   return true;
 }
 
-const PAGE_COUNT_REGEX = /Page [0-9]+ of [0-9]+/;
+const PAGE_COUNT_REGEX = /Page \d+ of \d+/;
 const BACK_BUTTON_TEST_ID = "WestRoundedIcon";
 const FORWARD_BUTTON_TEST_ID = "EastRoundedIcon";
-const ERROR = "ERROR";
 const MAX_PAGINATIONS = 200;
 
 /**
@@ -1272,7 +1274,7 @@ export async function testFirstPagePagination(
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
   // Should start on first page
   await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-    /Page 1 of [0-9]+/
+    /Page 1 of \d+/
   );
   // Forward button should start enabled
   await expect(
@@ -1306,35 +1308,36 @@ export async function filterAndTestLastPagePagination(
   await expect(page.getByRole("checkbox").first()).toBeVisible();
   const filterTexts = await page
     .getByRole("button")
-    .filter({ hasText: /([0-9]+)[\n\s]*$/ })
+    .filter({ hasText: RegExp("(\\d{1," + MAX_FILTER_LENGTH + "})[\\s]*$") })
     .allInnerTexts();
   // Get the filter with the lowest associated count
-  const filterCounts = filterTexts
-    .map((filterText) =>
-      (
-        (filterText.match(/[^a-zA-Z0-9]+([0-9]+)[\n\s]*$/) ?? [
-          undefined,
-          "",
-        ])[1] ?? ERROR
-      ).trim()
+  const validFilterCounts = filterTexts
+    .map(
+      // Get filter counts
+      (filterOption) =>
+        filterOption
+          .split("\n")
+          .reverse()
+          .map((x) => Number(x))
+          .find((x) => !isNaN(x) && x !== 0) ?? -1
     )
-    .map((numberText) => parseInt(numberText))
     .filter(
+      /// Filter for counts that will produce a useful number of paginations
       (n) =>
         !isNaN(n) &&
         n > (tab.maxPages ?? 0) * 3 &&
         n < (tab.maxPages ?? 0) * MAX_PAGINATIONS
     );
-  if (filterCounts.length == 0) {
+  if (validFilterCounts.length == 0) {
     console.log(
-      "PAGINATION LAST PAGE: Test would involve too many paginations, so halting"
+      "PAGINATION LAST PAGE: Test would involve too many or too few paginations, so halting"
     );
     return false;
   }
-  const minFilterValue = Math.min(...filterCounts);
+  const minFilterValue = Math.min(...validFilterCounts);
   await page
     .getByRole("button")
-    .filter({ hasText: RegExp(`${minFilterValue}[\\n\\s]*$`) })
+    .filter({ hasText: RegExp(`${minFilterValue}[\\s]*$`) })
     .click();
   await page.locator("body").click();
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
@@ -1342,7 +1345,7 @@ export async function filterAndTestLastPagePagination(
   // Should start on first page, and there should be multiple pages available
   await expect(
     page.locator(".MuiPaper-table").getByText(PAGE_COUNT_REGEX, { exact: true })
-  ).toHaveText(/Page 1 of [0-9]+/);
+  ).toHaveText(/Page 1 of \d+/);
   await expect(
     page.locator(".MuiPaper-table").getByText(PAGE_COUNT_REGEX, { exact: true })
   ).not.toHaveText("Page 1 of 1");
@@ -1408,7 +1411,7 @@ export async function testPaginationContent(
 
   // Should start on first page
   await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-    /Page 1 of [0-9]+/
+    /Page 1 of \d+/
   );
   const maxPages = 5;
   const FirstTableEntries = [];
@@ -1425,7 +1428,7 @@ export async function testPaginationContent(
       .dispatchEvent("click");
     // Expect the page count to have incremented
     await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-      RegExp(`Page ${i} of [0-9]+`)
+      RegExp(`Page ${i} of \\d+`)
     );
     // Expect the back button to be enabled
     await expect(
@@ -1458,7 +1461,7 @@ export async function testPaginationContent(
       .click();
     // Expect page number to be correct
     await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-      RegExp(`Page ${maxPages - i - 1} of [0-9]+`)
+      RegExp(`Page ${maxPages - i - 1} of \\d+`)
     );
     // Expect page entry to be consistent with forward pagination
     await expect(firstElementTextLocator).toHaveText(OldFirstTableEntry);
