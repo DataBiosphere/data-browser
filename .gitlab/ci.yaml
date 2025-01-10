@@ -1,6 +1,6 @@
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'push' && $CI_COMMIT_BRANCH =~ /^ucsc\//
+    - if: $CI_PIPELINE_SOURCE =~ /^(push|web|api)$/ && $CI_COMMIT_BRANCH =~ /^ucsc\//
 
 stages:
   - build_image
