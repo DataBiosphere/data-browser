@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.6.0](https://github.com/DataBiosphere/data-browser/compare/v2.5.0...v2.6.0) (2025-01-13)
+
+
+### Features
+
+* update header to match new portal learn section ([#4323](https://github.com/DataBiosphere/data-browser/issues/4323)) ([#4324](https://github.com/DataBiosphere/data-browser/issues/4324)) ([a061e2f](https://github.com/DataBiosphere/data-browser/commit/a061e2fd286c12c9c0e19aa4cd502a93ef075e33))
+
+
+### Chores
+
+* set HCA default catalog to dcp45 ([#4328](https://github.com/DataBiosphere/data-browser/issues/4328)) ([#4332](https://github.com/DataBiosphere/data-browser/issues/4332)) ([5cf8704](https://github.com/DataBiosphere/data-browser/commit/5cf87048691e0b4e293c1e3b198d09e8c169b612))
+* update findable-ui to latest v20.0.0 ([#4321](https://github.com/DataBiosphere/data-browser/issues/4321)) ([#4322](https://github.com/DataBiosphere/data-browser/issues/4322)) ([8925ed1](https://github.com/DataBiosphere/data-browser/commit/8925ed1d38b313f55068563878b1b6478e4f7823))
+* update findable-ui to latest v21.0.0 ([#4326](https://github.com/DataBiosphere/data-browser/issues/4326)) ([#4327](https://github.com/DataBiosphere/data-browser/issues/4327)) ([111af56](https://github.com/DataBiosphere/data-browser/commit/111af569a60b36d254791102715914e12e542a5f))
+* updated dev dependencies ([#4309](https://github.com/DataBiosphere/data-browser/issues/4309)) ([#4318](https://github.com/DataBiosphere/data-browser/issues/4318)) ([109465f](https://github.com/DataBiosphere/data-browser/commit/109465ff3c1bd1138bbab06b9f533c87eb6a5daf))
+
+
+### Tests
+
+* added test string to diagnose click failures ([#4329](https://github.com/DataBiosphere/data-browser/issues/4329)) ([#4330](https://github.com/DataBiosphere/data-browser/issues/4330)) ([e5b579e](https://github.com/DataBiosphere/data-browser/commit/e5b579e639e8f2b5d09957ea84edee3d01c73454))
+
 ## [2.5.0](https://github.com/DataBiosphere/data-browser/compare/v2.4.0...v2.5.0) (2025-01-04)
 
 
