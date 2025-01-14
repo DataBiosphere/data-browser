@@ -76,7 +76,6 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildPhenotypicSexes,
@@ -86,7 +85,6 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildReportedEthnicity,
@@ -96,7 +94,6 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildDiagnoses,
@@ -115,9 +112,20 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DOCUMENT_ID,
+    tableOptions: {
+      initialState: {
+        columnVisibility: {
+          [ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX]: false,
+          [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
+          [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE]: false,
+        },
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DOCUMENT_ID,
+          },
+        ],
+      },
     },
   } as ListConfig<ActivitiesResponse>,
   listView: {

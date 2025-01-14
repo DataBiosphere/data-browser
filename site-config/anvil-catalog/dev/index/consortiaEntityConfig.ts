@@ -103,7 +103,6 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildStudyNames,
@@ -122,7 +121,6 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
         width: { max: "1fr", min: "120px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildTerraWorkspaceNames,
@@ -150,9 +148,19 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
         width: "max-content",
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+    tableOptions: {
+      initialState: {
+        columnVisibility: {
+          [ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME]: false,
+          [ANVIL_CATALOG_CATEGORY_KEY.WORKSPACE_NAME]: false,
+        },
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+          },
+        ],
+      },
     },
   } as ListConfig<AnVILCatalogConsortium>,
   listView: {

@@ -71,9 +71,15 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         width: { max: "2fr", min: "240px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CATEGORY_KEY.FILE_ID,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CATEGORY_KEY.FILE_ID,
+          },
+        ],
+      },
     },
   } as ListConfig<FilesResponse>,
   route: "files",
