@@ -36,7 +36,7 @@ def get_rename_dict(dimensions):
         zip([dimension["id"] for dimension in dimensions], [dimension["alias"] for dimension in dimensions])
     )
 
-def get_outbound_sheets_df(analytics_params):
+def get_outbound_links_df(analytics_params):
     """
     Get a DF with outbound links from the Analytics API. Merges the builtin and custom events for outbound links.
 
@@ -95,4 +95,39 @@ def get_outbound_sheets_df(analytics_params):
             "hostname": "Hostname",
         } 
     )[["Page Path", "Hostname", "Outbound Link", "Total Clicks", "Total Users"]]
+
     return df_all_links.copy().reset_index(drop=True)
+
+def get_outbound_links_change(analytics_params, start_current, end_current, start_previous, end_previous):
+    """
+    Get a DF with outbound links from the Analytics API and a comparison for the prior month
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param start_current: the start date for the current month in the format "YYYY-MM-DD"
+    :param end_current: the end date for the current month
+    :param start_previous: the start date for the previous month
+    :param end_previous: the end date for the previous month
+    """
+    analytics_params_month_1 = {
+        **analytics_params,
+        "start_date": start_current,
+        "end_date": end_current,
+    }
+    analytics_params_month_2 = {
+        **analytics_params,
+        "start_date": start_previous,
+        "end_date": end_previous,
+    }
+    print(analytics_params_month_2)
+    df_current = get_outbound_links_df(analytics_params_month_1).set_index(
+        ["Page Path", "Outbound Link", "Hostname"]
+    )
+    df_previous = get_outbound_links_df(analytics_params_month_2).set_index(
+        ["Page Path", "Outbound Link", "Hostname"]
+    )
+    combined_index = df_current.index.union(df_previous.index)
+    df_current_reindexed = df_current.reindex(combined_index).fillna(0)
+    df_previous_reindexed = df_previous.reindex(combined_index)
+    df_current_reindexed["Total Clicks Percent Change"] = (df_current_reindexed["Total Clicks"] / df_previous_reindexed["Total Clicks"]) - 1
+    df_current_reindexed["Total Users Percent Change"] = (df_current_reindexed["Total Users"] / df_previous_reindexed["Total Users"]) - 1
+    return df_current_reindexed.sort_values(["Total Clicks", "Total Users"], ascending=False, kind="stable").reset_index()
+
