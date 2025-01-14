@@ -25,12 +25,12 @@ const LYMPH_NODE = "lymph node";
 const MOCK_PROJECT_MATRIX_FILE_0 = {
   name: "123.loom",
   size: 254147853,
-  url: "http://path/to/file0?version=0&catalog=dcp2ebi",
+  url: "https://path/to/file0?version=0&catalog=dcp2ebi",
 };
 const MOCK_PROJECT_MATRIX_FILE_1 = {
   name: "456.loom",
   size: 254147854,
-  url: "http://path/to/file1?version=0&catalog=dcp2ebi",
+  url: "https://path/to/file1?version=0&catalog=dcp2ebi",
 };
 const CONTRIBUTED_ANALYSES = {
   genusSpecies: {

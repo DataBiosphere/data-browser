@@ -6,7 +6,7 @@ interface ErrorProps {
   error?: Error | null;
 }
 
-const Error: NextPage<ErrorProps> = ({ error }: ErrorProps) => {
+const MyError: NextPage<ErrorProps> = ({ error }: ErrorProps) => {
   const { config } = useConfig();
 
   return error ? (
@@ -16,8 +16,8 @@ const Error: NextPage<ErrorProps> = ({ error }: ErrorProps) => {
   );
 };
 
-Error.getInitialProps = ({ err }: NextPageContext): ErrorProps => {
+MyError.getInitialProps = ({ err }: NextPageContext): ErrorProps => {
   return { error: err };
 };
 
-export default Error;
+export default MyError;

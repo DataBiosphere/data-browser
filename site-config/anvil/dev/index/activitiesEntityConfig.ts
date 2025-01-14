@@ -71,9 +71,15 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CATEGORY_KEY.DOCUMENT_ID,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CATEGORY_KEY.DOCUMENT_ID,
+          },
+        ],
+      },
     },
   } as ListConfig<ActivitiesResponse>,
   route: "activities",

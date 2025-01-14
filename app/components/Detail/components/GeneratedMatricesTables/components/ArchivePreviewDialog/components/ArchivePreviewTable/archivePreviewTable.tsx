@@ -25,7 +25,7 @@ export interface ArchivePreviewTableProps {
  */
 function getArchivePreviewTableColumns<
   T extends RowData,
-  TData = unknown
+  TData = unknown,
 >(): ColumnDef<T, TData>[] {
   return [
     {
