@@ -94,7 +94,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
       exportActionButtonText: "Open Terra",
       exportRequestButtonText: "Request Link",
       exportTabName: "Export",
-      exportUrlRegExp: /\.*\/export-to-terra/,
+      exportUrlRegExp: /\/export-to-terra/,
       newTabMessage:
         "If you are a new user or returning user, click sign in to continue.",
       requestLandingMessage:

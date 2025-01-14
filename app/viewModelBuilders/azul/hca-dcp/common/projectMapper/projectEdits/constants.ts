@@ -368,7 +368,7 @@ export const baseProjectEdits: ProjectEdit[] = [
     analysisPortals: [
       {
         ...GENOME_BROWSER,
-        url: "http://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&tabulamurisBarChart=pack",
+        url: "https://genome.ucsc.edu/cgi-bin/hgTracks?db=mm10&tabulamurisBarChart=pack",
       },
       {
         ...UCSC_CELL_BROWSER,
@@ -672,7 +672,7 @@ export const baseProjectEdits: ProjectEdit[] = [
       },
       {
         ...SHINY,
-        url: "http://devapp.lungmap.net/app/shinycell-lungmap-single-cell-multiomic",
+        url: "https://devapp.lungmap.net/app/shinycell-lungmap-single-cell-multiomic",
       },
       {
         ...TOPPCELL,
@@ -1681,5 +1681,61 @@ export const baseProjectEdits: ProjectEdit[] = [
   {
     duplicateOf: "9c20a245-f2c0-43ae-82c9-2232ec6b594f",
     entryId: "c3354786-c17c-4e53-b4d7-c7afbed5b208",
+  },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/omics/?experiment_id=LMEX0000004396",
+      },
+      {
+        ...LGEA,
+        url: "https://research.cchmc.org/pbge/lunggens/tools/lung_at_glance.html?tab=reference&species=Human",
+      },
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/f86d6317-7215-409e-bfda-3f4ded3dadaa",
+      },
+      {
+        ...SHINY,
+        url: "https://app.lungmap.net/app/shinycell-human-lung-cellref",
+      },
+    ],
+    entryId: "6135382f-487d-4adb-9cf8-4d6634125b68",
+  },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/omics/?experiment_id=LMEX0000004400",
+      },
+      {
+        ...SHINY,
+        url: "https://app.lungmap.net/app/shinycell-bpd",
+      },
+    ],
+    entryId: "1977dc47-8414-4263-a870-6b0f207d8ab3",
+  },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/omics/?experiment_id=LMEX0000004399",
+      },
+      {
+        ...SHINY,
+        url: "https://crem-bu.shinyapps.io/scRNAseq-AEC2-comparisons/",
+      },
+    ],
+    entryId: "6511b041-b11e-4ccf-8593-2b40148c437e",
+  },
+  {
+    analysisPortals: [
+      {
+        ...SHINY,
+        url: "https://research.cchmc.org/pbge/lunggens/lungDisease/ACDMPV_snrna_query.html",
+      },
+    ],
+    entryId: "fdadee7e-2097-45d5-bf81-cc280bd8348e",
   },
 ];
