@@ -85,9 +85,15 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
         width: { max: "1fr", min: "200px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CMG_CATEGORY_KEY.DONOR_DONOR_ID,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CMG_CATEGORY_KEY.DONOR_DONOR_ID,
+          },
+        ],
+      },
     },
   } as ListConfig<DonorsResponse>,
   listView: {

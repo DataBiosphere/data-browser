@@ -119,9 +119,15 @@ export const studiesEntityConfig: EntityConfig<NCPICatalogStudy> = {
         width: { max: "1.16fr", min: "116px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: NCPI_CATALOG_CATEGORY_KEY.PLATFORM,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: NCPI_CATALOG_CATEGORY_KEY.PLATFORM,
+          },
+        ],
+      },
     },
   } as ListConfig<NCPICatalogStudy>,
   listView: {

@@ -11,6 +11,9 @@ import {
 const TIMEOUT_EXPORT_REQUEST = 60000;
 const TIMEOUT_DOWNLOAD = 10000;
 
+// Filter length const for regexes
+const MAX_FILTER_LENGTH = 256;
+
 /**
  * Get an array of all visible column header names
  * @param page - a Playwright page object
@@ -152,6 +155,7 @@ const COLUMN_SORT_ICON_TEST_ID = "SouthRoundedIcon";
  * @param tab - the tab to check
  * @returns - true if the test passes and false if the test fails
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity -- Complex code just for diagnostic will be removed later
 export async function testSortAzul(
   page: Page,
   tab: TabDescription
@@ -200,7 +204,8 @@ export async function testSortAzul(
         await expect(sortIconLocator).toHaveCSS("opacity", "0");
       }
       // Click to sort
-      await columnSortLocator.click();
+      // dispatchEvent necessary because the table loading component sometimes interrupts a click event
+      await columnSortLocator.dispatchEvent("click");
       // Expect the first element of the table to still be visible (may not have text)
       await expect(
         getFirstRowNthColumnCellLocator(page, columnPosition)
@@ -217,6 +222,8 @@ export async function testSortAzul(
   }
   return true;
 }
+
+const SEARCH_BUTTON_NAME = "Search";
 
 /**
  * Checks that sorting the tab does not cause the first row of the table to break.
@@ -270,11 +277,15 @@ export async function testSortCatalog(
       await columnSortLocator.click();
       // Expect the first cell to still be visible
       await expect(firstElementTextLocator).toBeVisible();
+      const nonOverlappingElement = page.getByRole("button", {
+        name: SEARCH_BUTTON_NAME,
+      });
       const firstElementText = await hoverAndGetText(
         page,
         columnObject,
         0,
-        columnPosition
+        columnPosition,
+        nonOverlappingElement
       );
       // Click again
       await columnSortLocator.click();
@@ -300,7 +311,11 @@ export async function testSelectableColumns(
   // Navigate to the tab
   await page.goto(tab.url);
   // Select the "Edit Columns" menu
-  await page.getByRole("button").getByText("Edit Columns").click();
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
+  await page
+    .getByRole("button")
+    .getByText("Edit Columns")
+    .dispatchEvent("click");
   await expect(page.getByRole("menu")).toBeVisible();
   // Enable each selectable tab
   const tabObjectArray = Array.from(Object.values(tab.selectableColumns));
@@ -332,7 +347,7 @@ export async function testSelectableColumns(
 
 /**
  * Checks that the preselected columns specified in the tab object appear
- * in the "Edit Columns" menu and that their checkbox is checked and disabled
+ * in the "Edit Columns" menu and that their checkbox is checked and enabled.
  * @param page - the Playwright page object
  * @param tab - the tab object to test
  */
@@ -353,7 +368,7 @@ export async function testPreSelectedColumns(
           .filter({ has: page.getByText(column.name, { exact: true }) }),
       })
       .getByRole("checkbox");
-    await expect(checkboxLocator).toBeDisabled();
+    await expect(checkboxLocator).toBeEnabled();
     await expect(checkboxLocator).toBeChecked();
   }
 }
@@ -365,7 +380,7 @@ export async function testPreSelectedColumns(
  * @returns a regular expression matching "[filterName] ([n])"
  */
 export const filterRegex = (filterName: string): RegExp =>
-  new RegExp(escapeRegExp(filterName) + "\\s+\\([0-9]+\\)\\s*");
+  new RegExp(escapeRegExp(filterName) + "\\s+\\(\\d+\\)\\s*");
 
 /**
  * Checks that each filter specified in filterNames is visible and can be
@@ -385,7 +400,8 @@ export async function testFilterPresence(
   for (const filterName of filterNames) {
     // Check that each filter is visible and clickable
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
-    await page.getByText(filterRegex(filterName)).click();
+    // dispatchEvent necessary because the filter menu component sometimes interrupts a click event
+    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await expect(page.getByRole("checkbox").first()).toBeVisible();
     await expect(page.getByRole("checkbox").first()).not.toBeChecked();
     // Check that clicking out of the filter menu causes it to disappear
@@ -467,7 +483,7 @@ const getFirstNonEmptyFilterOptionInfo = async (
   let i = 0;
   while (filterToSelect === "" && i < MAX_FILTER_OPTIONS_TO_CHECK) {
     // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we want the string before the newline
-    const filterOptionRegex = /^(.*)\n+([0-9]+)\s*$/;
+    const filterOptionRegex = /^(.*)\n+(\d+)\s*$/;
     filterOptionLocator = getNthFilterOptionLocator(page, i);
     const filterNameMatch = (await filterOptionLocator.innerText())
       .trim()
@@ -525,6 +541,7 @@ export async function testFilterPersistence(
     await page.locator("body").click();
   }
   // Return to the start tab and confirm that the filter stays checked and that some content is visible
+  // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
   await page
     .getByRole("tab")
     .getByText(tabOrder[0].tabName, { exact: true })
@@ -557,6 +574,7 @@ export async function testFilterCounts(
   // For each arbitrarily selected filter
   for (const filterName of filterNames) {
     // Select the filter
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     // Get the number associated with the first filter button, and select it
     await page.waitForLoadState("load");
@@ -574,6 +592,7 @@ export async function testFilterCounts(
       return false;
     }
     // Check the filter
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await firstFilterOption.getByRole("checkbox").dispatchEvent("click");
     await page.waitForLoadState("load");
     // Exit the filter menu
@@ -620,6 +639,7 @@ export async function testFilterTags(
   await page.goto(tab.url);
   for (const filterName of filterNames) {
     // Select a filter
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await page.waitForLoadState("load");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
@@ -664,6 +684,7 @@ export async function testClearAll(
   await page.goto(tab.url);
   const selectedFilterNamesList = [];
   // Select each filter and get the names of the actual filter text
+  // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
   for (const filterName of filterNames) {
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     await getFirstFilterOptionLocator(page).getByRole("checkbox").click();
@@ -718,6 +739,7 @@ export async function testSelectFiltersThroughSearchBar(
   for (const filterName of filterNames) {
     // Get the first filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     const filterOptionName = await getFilterOptionName(
@@ -757,6 +779,7 @@ export async function testDeselectFiltersThroughSearchBar(
   for (const filterName of filterNames) {
     // Select each filter option
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page.getByText(filterRegex(filterName)).dispatchEvent("click");
     const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
     const filterOptionName = await getFilterOptionName(
@@ -869,6 +892,7 @@ export async function testExportBackpage(
   );
   await expect(grantedRowLocator).toBeVisible();
   // Click into the selected row
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
   await grantedRowLocator.dispatchEvent("click");
   await expect(
     page.getByText(tab.backpageExportButtons.detailsName)
@@ -935,6 +959,7 @@ export async function testBackpageAccess(
     tab.backpageAccessTags.grantedShortName
   );
   await expect(grantedRowLocator).toBeVisible();
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
   await grantedRowLocator.dispatchEvent("click");
   await expect(
     page.getByText(tab.backpageExportButtons.detailsName)
@@ -961,6 +986,7 @@ export async function testBackpageAccess(
     tab.backpageAccessTags.deniedShortName
   );
   await expect(deniedRowLocator).toBeVisible();
+  // dispatchEvent necessary because the table loading component sometimes interrupts a click event
   await deniedRowLocator.dispatchEvent("click");
   await expect(
     page.getByText(tab.backpageAccessTags.deniedLongName)
@@ -986,13 +1012,15 @@ export async function testBackpageAccess(
  * @param columnDescription - a columnDescription object for the column
  * @param rowPosition - the zero-indexed position of the row
  * @param columnPosition - the zero-indexed position of the column
+ * @param nonOverlappingElement - a locator for an element that does not overlap with a possble tooltip
  * @returns - a Promise with the cell's text
  */
 const hoverAndGetText = async (
   page: Page,
   columnDescription: ColumnDescription | undefined,
   rowPosition: number,
-  columnPosition: number
+  columnPosition: number,
+  nonOverlappingElement: Locator
 ): Promise<string> => {
   const cellLocator = getMthRowNthColumnCellLocator(
     page,
@@ -1004,7 +1032,7 @@ const hoverAndGetText = async (
   if (
     !columnDescription !== undefined &&
     columnDescription?.pluralizedLabel !== undefined &&
-    RegExp("\\s*[0-9]+ " + columnDescription.pluralizedLabel + "\\s*").test(
+    RegExp("\\s*\\d+ " + columnDescription.pluralizedLabel + "\\s*").test(
       cellText
     )
   ) {
@@ -1014,13 +1042,15 @@ const hoverAndGetText = async (
     await page.getByRole("tooltip").waitFor();
     const outputText = (await page.getByRole("tooltip").innerText()).trim();
     // Hover over a different part of the page to ensure that the tooltip disappears
-    await page.getByRole("columnheader").first().hover();
+    await nonOverlappingElement.hover();
     await expect(page.getByRole("tooltip")).toHaveCount(0);
     // Return the tooltip contents
     return outputText;
   }
   return cellText.trim();
 };
+
+const FOOTER_LINK_NAME = "Privacy";
 
 /**
  * Check that the details in the backpage sidebar match information in the data table
@@ -1073,7 +1103,16 @@ export async function testBackpageDetails(
         (x) => x.name == columnHeaderName
       );
       // Get the entry text
-      const tableEntryText = await hoverAndGetText(page, columnObject, 0, i);
+      const nonOverlappingElement = page.getByRole("link", {
+        name: FOOTER_LINK_NAME,
+      });
+      const tableEntryText = await hoverAndGetText(
+        page,
+        columnObject,
+        0,
+        i,
+        nonOverlappingElement
+      );
       // Get the name of the corresponding header on the backpage
       const correspondingHeaderName = tab.backpageHeaders.find(
         (header: BackpageHeader) =>
@@ -1186,7 +1225,7 @@ export async function testIndexExportSummary(
   await expect(indexExportButtonLocator).toBeVisible();
   for (const detail of tab.indexExportPage.detailsToCheck) {
     // This Regexp gets a decimal number, some whitespace, then the name of the detail, matching how the detail box appears to Playwright.
-    const detailBoxRegexp = RegExp(`^([0-9]+\\.[0-9]+k)\\s*${detail}$`);
+    const detailBoxRegexp = RegExp(`^(\\d+\\.\\d+k)\\s*${detail}$`);
     // This gets the detail's value. The .trim() is necessary since innertext adds extraneous whitespace on Webkit
     const headerValueArray = (await page.getByText(detailBoxRegexp).innerText())
       .trim()
@@ -1217,10 +1256,9 @@ export async function testIndexExportSummary(
   return true;
 }
 
-const PAGE_COUNT_REGEX = /Page [0-9]+ of [0-9]+/;
+const PAGE_COUNT_REGEX = /Page \d+ of \d+/;
 const BACK_BUTTON_TEST_ID = "WestRoundedIcon";
 const FORWARD_BUTTON_TEST_ID = "EastRoundedIcon";
-const ERROR = "ERROR";
 const MAX_PAGINATIONS = 200;
 
 /**
@@ -1236,7 +1274,7 @@ export async function testFirstPagePagination(
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
   // Should start on first page
   await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-    /Page 1 of [0-9]+/
+    /Page 1 of \d+/
   );
   // Forward button should start enabled
   await expect(
@@ -1270,56 +1308,61 @@ export async function filterAndTestLastPagePagination(
   await expect(page.getByRole("checkbox").first()).toBeVisible();
   const filterTexts = await page
     .getByRole("button")
-    .filter({ hasText: /([0-9]+)[\n\s]*$/ })
+    .filter({ hasText: RegExp("(\\d{1," + MAX_FILTER_LENGTH + "})[\\s]*$") })
     .allInnerTexts();
   // Get the filter with the lowest associated count
-  const filterCounts = filterTexts
-    .map((filterText) =>
-      (
-        (filterText.match(/[^a-zA-Z0-9]+([0-9]+)[\n\s]*$/) ?? [
-          undefined,
-          "",
-        ])[1] ?? ERROR
-      ).trim()
+  const validFilterCounts = filterTexts
+    .map(
+      // Get filter counts
+      (filterOption) =>
+        filterOption
+          .split("\n")
+          .reverse()
+          .map((x) => Number(x))
+          .find((x) => !isNaN(x) && x !== 0) ?? -1
     )
-    .map((numberText) => parseInt(numberText))
     .filter(
+      /// Filter for counts that will produce a useful number of paginations
       (n) =>
         !isNaN(n) &&
         n > (tab.maxPages ?? 0) * 3 &&
         n < (tab.maxPages ?? 0) * MAX_PAGINATIONS
     );
-  if (filterCounts.length == 0) {
+  if (validFilterCounts.length == 0) {
     console.log(
-      "PAGINATION LAST PAGE: Test would involve too many paginations, so halting"
+      "PAGINATION LAST PAGE: Test would involve too many or too few paginations, so halting"
     );
     return false;
   }
-  const minFilterValue = Math.min(...filterCounts);
+  const minFilterValue = Math.min(...validFilterCounts);
   await page
     .getByRole("button")
-    .filter({ hasText: RegExp(`${minFilterValue}[\\n\\s]*$`) })
+    .filter({ hasText: RegExp(`${minFilterValue}[\\s]*$`) })
     .click();
   await page.locator("body").click();
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
 
   // Should start on first page, and there should be multiple pages available
-  await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-    /Page 1 of [0-9]+/
-  );
   await expect(
-    page.getByText(PAGE_COUNT_REGEX, { exact: true })
+    page.locator(".MuiPaper-table").getByText(PAGE_COUNT_REGEX, { exact: true })
+  ).toHaveText(/Page 1 of \d+/);
+  await expect(
+    page.locator(".MuiPaper-table").getByText(PAGE_COUNT_REGEX, { exact: true })
   ).not.toHaveText("Page 1 of 1");
 
   // Detect number of pages
   const splitStartingPageText = (
-    await page.getByText(PAGE_COUNT_REGEX, { exact: true }).innerText()
+    await page
+      .locator(".MuiPaper-table")
+      .getByText(PAGE_COUNT_REGEX, { exact: true })
+      .innerText()
   ).split(" ");
   const maxPages = parseInt(
     splitStartingPageText[splitStartingPageText.length - 1]
   );
   // Paginate forwards
   for (let i = 2; i < maxPages + 1; i++) {
+    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page
       .getByRole("button")
       .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
@@ -1368,7 +1411,7 @@ export async function testPaginationContent(
 
   // Should start on first page
   await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-    /Page 1 of [0-9]+/
+    /Page 1 of \d+/
   );
   const maxPages = 5;
   const FirstTableEntries = [];
@@ -1378,13 +1421,14 @@ export async function testPaginationContent(
     await expect(firstElementTextLocator).not.toHaveText("");
     const OriginalFirstTableEntry = await firstElementTextLocator.innerText();
     // Click the next button
+    // dispatchEvent necessary because the table loading component sometimes interrupts a click event
     await page
       .getByRole("button")
       .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
-      .click();
+      .dispatchEvent("click");
     // Expect the page count to have incremented
     await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-      RegExp(`Page ${i} of [0-9]+`)
+      RegExp(`Page ${i} of \\d+`)
     );
     // Expect the back button to be enabled
     await expect(
@@ -1417,7 +1461,7 @@ export async function testPaginationContent(
       .click();
     // Expect page number to be correct
     await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-      RegExp(`Page ${maxPages - i - 1} of [0-9]+`)
+      RegExp(`Page ${maxPages - i - 1} of \\d+`)
     );
     // Expect page entry to be consistent with forward pagination
     await expect(firstElementTextLocator).toHaveText(OldFirstTableEntry);

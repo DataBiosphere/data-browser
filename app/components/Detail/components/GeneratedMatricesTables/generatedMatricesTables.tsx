@@ -1,6 +1,7 @@
 import { ALERT_PROPS } from "@databiosphere/findable-ui/lib/components/common/Alert/constants";
 import { GridPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/paper.styles";
 import { Table } from "@databiosphere/findable-ui/lib/components/Detail/components/Table/table";
+import { COLUMN_IDENTIFIER } from "@databiosphere/findable-ui/lib/components/Table/common/columnIdentifier";
 import { Divider } from "@mui/material";
 import { ColumnDef } from "@tanstack/react-table";
 import { Fragment } from "react";
@@ -36,6 +37,13 @@ export const GeneratedMatricesTables = <T extends object>({
                     columns={columns}
                     gridTemplateColumns={gridTemplateColumns}
                     items={items}
+                    tableOptions={{
+                      initialState: {
+                        columnVisibility: {
+                          [COLUMN_IDENTIFIER.ROW_POSITION]: false,
+                        },
+                      },
+                    }}
                   />
                 </GridPaper>
               </Fragment>

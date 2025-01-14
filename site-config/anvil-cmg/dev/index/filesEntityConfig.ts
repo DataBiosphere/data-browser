@@ -16,13 +16,13 @@ import {
 import { listHero } from "../listView/listHero";
 import { subTitleHero } from "../listView/subTitleHero";
 
-export const downloadColumn: ColumnConfig = {
+export const downloadColumn: ColumnConfig<FilesResponse> = {
   componentConfig: {
     component: C.AzulFileDownload,
     viewBuilder: V.buildFileDownload,
   } as ComponentConfig<typeof C.AzulFileDownload>,
-  disableHiding: true,
-  disableSorting: true,
+  enableHiding: false,
+  enableSorting: false,
   header: ANVIL_CMG_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
   id: ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD,
   width: { max: "auto", min: "76px" },
@@ -77,7 +77,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           component: C.CopyCell,
           viewBuilder: V.buildDRSURI,
         } as ComponentConfig<typeof C.CopyCell>,
-        disableSorting: true,
+        enableSorting: false,
         header: ANVIL_CMG_CATEGORY_LABEL.DRS_URI,
         id: ANVIL_CMG_CATEGORY_KEY.DRS_URI,
         width: { max: "1fr", min: "120px" },
@@ -101,7 +101,6 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         width: { max: "1fr", min: "140px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildPhenotypicSexes,
@@ -111,7 +110,6 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildReportedEthnicity,
@@ -121,7 +119,6 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildDiagnoses,
@@ -140,9 +137,20 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         width: { max: "1fr", min: "240px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_NAME,
+    tableOptions: {
+      initialState: {
+        columnVisibility: {
+          [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
+          [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
+          [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE]: false,
+        },
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_NAME,
+          },
+        ],
+      },
     },
   } as ListConfig<FilesResponse>,
   listView: {

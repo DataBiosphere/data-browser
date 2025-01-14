@@ -142,9 +142,15 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
         width: "max-content",
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME,
+          },
+        ],
+      },
     },
   } as ListConfig<AnVILCatalogStudy>,
   listView: {

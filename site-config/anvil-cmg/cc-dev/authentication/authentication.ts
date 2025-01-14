@@ -1,23 +1,12 @@
 import { AuthenticationConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import * as MDX from "../../../../app/components/common/MDXContent/anvil-cmg";
+import { TERRA_SERVICE } from "../../dev/authentication/constants";
+import { GOOGLE_PROVIDER } from "./constants";
 
 export const authenticationConfig: AuthenticationConfig = {
-  googleGISAuthConfig: {
-    clientId:
-      "561542988117-0o4oticvtp35n48q6o69pnd13chsnkie.apps.googleusercontent.com",
-    googleProfileEndpoint: "https://www.googleapis.com/oauth2/v3/userinfo",
-    scope:
-      "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid",
-  },
+  providers: [GOOGLE_PROVIDER],
+  services: [TERRA_SERVICE],
   termsOfService: MDX.LoginTermsOfService({}),
-  terraAuthConfig: {
-    termsOfServiceEndpoint:
-      "https://sam.dsde-dev.broadinstitute.org/register/user/v2/self/termsOfServiceDetails",
-    terraNIHProfileEndpoint:
-      "https://firecloud-orchestration.dsde-dev.broadinstitute.org/api/nih/status",
-    terraProfileEndpoint:
-      "https://sam.dsde-dev.broadinstitute.org/register/user/v1",
-  },
   text: MDX.LoginText({}),
   title: "Sign in to your account",
   warning: MDX.LoginWarning({}),

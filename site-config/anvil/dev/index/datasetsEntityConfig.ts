@@ -83,7 +83,6 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildDataModality,
@@ -93,9 +92,15 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         width: { max: "1fr", min: "148px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CATEGORY_KEY.DATASET_NAME,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CATEGORY_KEY.DATASET_NAME,
+          },
+        ],
+      },
     },
   } as ListConfig<DatasetsResponse>,
   route: "datasets",
