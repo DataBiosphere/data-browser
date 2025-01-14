@@ -9,10 +9,11 @@ import { Footer } from "@databiosphere/findable-ui/lib/components/Layout/compone
 import { Header } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/header";
 import { Main as DXMain } from "@databiosphere/findable-ui/lib/components/Layout/components/Main/main";
 import { setFeatureFlags } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/common/utils";
-import { AuthProvider } from "@databiosphere/findable-ui/lib/providers/authentication";
+import { TerraProfileProvider } from "@databiosphere/findable-ui/lib/providers/authentication/terra/provider";
 import { ConfigProvider as DXConfigProvider } from "@databiosphere/findable-ui/lib/providers/config";
 import { ExploreStateProvider } from "@databiosphere/findable-ui/lib/providers/exploreState";
 import { FileManifestStateProvider } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
+import { GoogleSignInAuthenticationProvider } from "@databiosphere/findable-ui/lib/providers/googleSignInAuthentication/provider";
 import { LayoutStateProvider } from "@databiosphere/findable-ui/lib/providers/layoutState";
 import { SystemStatusProvider } from "@databiosphere/findable-ui/lib/providers/systemStatus";
 import { createAppTheme } from "@databiosphere/findable-ui/lib/theme/theme";
@@ -70,7 +71,10 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
           <Head pageTitle={pageTitle} />
           <CssBaseline />
           <SystemStatusProvider>
-            <AuthProvider sessionTimeout={SESSION_TIMEOUT}>
+            <GoogleSignInAuthenticationProvider
+              SessionController={TerraProfileProvider}
+              timeout={SESSION_TIMEOUT}
+            >
               <LayoutStateProvider>
                 <AppLayout>
                   <ThemeProvider
@@ -112,7 +116,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
                   <Footer {...footer} />
                 </AppLayout>
               </LayoutStateProvider>
-            </AuthProvider>
+            </GoogleSignInAuthenticationProvider>
           </SystemStatusProvider>
         </DXConfigProvider>
       </ThemeProvider>

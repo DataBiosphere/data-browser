@@ -71,9 +71,15 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
         width: { max: "1fr", min: "200px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CATEGORY_KEY.DONOR_ID,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CATEGORY_KEY.DONOR_ID,
+          },
+        ],
+      },
     },
   } as ListConfig<DonorsResponse>,
   route: "donors",

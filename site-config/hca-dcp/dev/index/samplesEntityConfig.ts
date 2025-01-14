@@ -72,7 +72,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSpecimenOrganPart,
@@ -82,7 +81,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildSampleModelOrgan,
@@ -92,7 +90,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedCellSuspensionSelectedCellType,
@@ -111,7 +108,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedProtocolNucleicAcidSource,
@@ -121,7 +117,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildAggregatedProtocolPairedEnd,
@@ -131,7 +126,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedProtocolWorkflow,
@@ -141,7 +135,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorOrganismAge,
@@ -151,7 +144,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildAggregatedDonorBiologicalSex,
@@ -161,7 +153,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedSpecimenDisease,
@@ -180,7 +171,6 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorDevelopmentStage,
@@ -199,9 +189,27 @@ export const samplesEntityConfig: EntityConfig<SamplesResponse> = {
         width: { max: "1fr", min: "124px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
+    tableOptions: {
+      initialState: {
+        columnVisibility: {
+          [HCA_DCP_CATEGORY_KEY.ORGAN_PART]: false,
+          [HCA_DCP_CATEGORY_KEY.MODEL_ORGAN]: false,
+          [HCA_DCP_CATEGORY_KEY.SELECTED_CELL_TYPE]: false,
+          [HCA_DCP_CATEGORY_KEY.NUCLEIC_ACID_SOURCE]: false,
+          [HCA_DCP_CATEGORY_KEY.PAIRED_END]: false,
+          [HCA_DCP_CATEGORY_KEY.WORKFLOW]: false,
+          [HCA_DCP_CATEGORY_KEY.ORGANISM_AGE]: false,
+          [HCA_DCP_CATEGORY_KEY.BIOLOGICAL_SEX]: false,
+          [HCA_DCP_CATEGORY_KEY.SPECIMEN_DISEASE]: false,
+          [HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE]: false,
+        },
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
+          },
+        ],
+      },
     },
   } as ListConfig<SamplesResponse>,
   listView: {

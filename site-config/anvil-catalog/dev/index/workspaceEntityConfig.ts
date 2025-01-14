@@ -125,9 +125,15 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
         width: "max-content",
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
+          },
+        ],
+      },
     },
   } as ListConfig<AnVILCatalogWorkspace>,
   listView: {

@@ -53,7 +53,7 @@ export const readDir = async function readDir(
   try {
     return fs.readdirSync(dir, options);
     // eslint-disable-next-line no-empty -- copied from readFile function
-  } catch (err) {}
+  } catch {}
 };
 
 /**
@@ -72,7 +72,7 @@ export const readFile = async function readFile(
     const jsonDirectory = process.cwd();
     return fs.readFileSync(jsonDirectory + "/" + file, options);
     // eslint-disable-next-line no-empty -- copied from anvil-portal
-  } catch (err) {}
+  } catch {}
 };
 
 /**

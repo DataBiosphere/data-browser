@@ -70,7 +70,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
           component: C.StatusBadge,
           viewBuilder: V.buildDatasetAccess,
         } as ComponentConfig<typeof C.StatusBadge>,
-        disableSorting: true,
+        enableSorting: false,
         header: ANVIL_CMG_CATEGORY_LABEL.DATASET_ACCESSIBLE,
         id: ANVIL_CMG_CATEGORY_KEY.DATASET_ACCESSIBLE,
         width: "max-content",
@@ -103,7 +103,6 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildPhenotypicSexes,
@@ -113,7 +112,6 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         width: { max: "1fr", min: "200px" },
       },
       {
-        columnVisible: false,
         componentConfig: {
           component: C.NTagCell,
           viewBuilder: V.buildReportedEthnicities,
@@ -141,9 +139,19 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         width: { max: "1fr", min: "148px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+    tableOptions: {
+      initialState: {
+        columnVisibility: {
+          [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
+          [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
+        },
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+          },
+        ],
+      },
     },
   } as ListConfig<DatasetsResponse>,
   listView: {

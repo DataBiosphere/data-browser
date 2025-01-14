@@ -80,9 +80,15 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CATEGORY_KEY.BIOSAMPLE_ID,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CATEGORY_KEY.BIOSAMPLE_ID,
+          },
+        ],
+      },
     },
   } as ListConfig<BioSamplesResponse>,
   route: "biosamples",
