@@ -281,7 +281,7 @@ def fill_worksheet_with_df(
     if "Sheet1" in [i.title for i in sheet.worksheets()]:
         sheet.del_worksheet(sheet.worksheet("Sheet1"))
 
-def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, base_formatting_options={}, column_formatting_options={}):
+def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, sheet_formatting_options={}, column_formatting_options={}):
     """
     Fill a sheet with the contents of a dictionary of DataFrames.
     The keys of the dictionary are the names of the worksheets, and the values contain the data to be placed in the sheet.
@@ -290,7 +290,7 @@ def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, base_formatti
     :param sheet: the gspread.Spreadsheet object
     :param df_dict: the dictionary of DataFrames to fill the worksheets with
     :param overlapBehavior: the behavior to take if any of the worksheets already exist
-    :param base_formatting_options: the formatting options for the worksheets.
+    :param sheet_formatting_options: the formatting options for the worksheets.
         Should be a 2 level dictionary with outer keys being names of worksheets and inner keys being some of
         "bold_header", "center_header", "freeze_header", and "column_widths", optional
     :param column_formatting_options: the column formatting options for the worksheets.
@@ -307,6 +307,6 @@ def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, base_formatti
     for worksheet_name, df in df_dict.items():
         fill_worksheet_with_df(
             sheet, df, worksheet_name, overlapBehavior, 
-            sheet_formatting_options=base_formatting_options.get(worksheet_name, {}), 
+            sheet_formatting_options=sheet_formatting_options.get(worksheet_name, DEFAULT_SHEET_FORMATTING_OPTIONS), 
             column_formatting_options=column_formatting_options.get(worksheet_name, {})
         )
