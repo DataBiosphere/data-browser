@@ -5,6 +5,7 @@ import {
   Value,
 } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/keyValuePairs";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
+import { COLUMN_IDENTIFIER } from "@databiosphere/findable-ui/lib/components/Table/common/columnIdentifier";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { ColumnDef } from "@tanstack/react-table";
 import React, { ReactElement } from "react";
@@ -99,6 +100,14 @@ export const buildConsortiumDetailViewStudiesTable = (
     gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr 1fr auto",
     items: studies,
     noResultsTitle: "No Studies",
+    tableOptions: {
+      enableRowPosition: false,
+      getRowId: (originalRow) =>
+        (originalRow as AnVILCatalogConsortiumStudy).studyName,
+      initialState: {
+        columnVisibility: { [COLUMN_IDENTIFIER.ROW_POSITION]: false },
+      },
+    },
   };
 };
 
@@ -117,6 +126,13 @@ export const buildConsortiumDetailViewWorkspacesTable = (
     gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr auto",
     items: workspaces,
     noResultsTitle: "No Workspaces",
+    tableOptions: {
+      getRowId: (originalRow) =>
+        (originalRow as AnVILCatalogWorkspace).workspaceName,
+      initialState: {
+        columnVisibility: { [COLUMN_IDENTIFIER.ROW_POSITION]: false },
+      },
+    },
   };
 };
 
@@ -315,6 +331,13 @@ export const buildStudyDetailViewWorkspacesTable = (
     gridTemplateColumns: "auto 1fr 1fr 1fr 1fr 1fr auto",
     items: workspaces,
     noResultsTitle: "No Workspaces",
+    tableOptions: {
+      getRowId: (originalRow) =>
+        (originalRow as AnVILCatalogWorkspace).workspaceName,
+      initialState: {
+        columnVisibility: { [COLUMN_IDENTIFIER.ROW_POSITION]: false },
+      },
+    },
   };
 };
 
@@ -658,7 +681,7 @@ function getStudyAPIKeyValue(dbGapId: string): ReactElement {
 /**
  * Returns the KeyValuePair value for the specified AnVIL entity.
  * @param studyAccession - Study identifier with version.
- * @returns the KeyValuePair value for study dbGap Id as a ReactElement.
+ * @returns the KeyValuePair value for study dbGapId as a ReactElement.
  */
 function getStudyDbGapIdKeyValue(studyAccession: string): ReactElement {
   return C.Link({

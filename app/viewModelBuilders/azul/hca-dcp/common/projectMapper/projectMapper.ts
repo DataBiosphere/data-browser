@@ -296,7 +296,7 @@ function isContributorDataCurator(
 function isValidUrl(testUrl: string): boolean {
   try {
     return Boolean(new URL(testUrl));
-  } catch (e) {
+  } catch {
     return false;
   }
 }

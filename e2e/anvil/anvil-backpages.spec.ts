@@ -6,6 +6,8 @@ import {
 } from "../testFunctions";
 import { ANVIL_TABS } from "./anvil-tabs";
 
+//TODO: this should probably check a feature flag instead
+//eslint-disable-next-line sonarjs/no-skipped-tests -- disabled since Export to Terra is disabled on AnVIL
 test.skip("Smoke test `Export to Terra` button on the first available dataset", async ({
   context,
   page,
@@ -20,6 +22,8 @@ test.skip("Smoke test `Export to Terra` button on the first available dataset", 
   }
 });
 
+//TODO: this should probably check a feature flag instead
+//eslint-disable-next-line sonarjs/no-skipped-tests -- disabled since Export to Terra is disabled on AnVIL
 test.skip("Check access controls on the datasets backpages work for the first two tabs", async ({
   page,
 }) => {

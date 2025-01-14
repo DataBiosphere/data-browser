@@ -65,9 +65,15 @@ export const librariesEntityConfig: EntityConfig<LibrariesResponse> = {
         width: { max: "1fr", min: "200px" },
       },
     ],
-    defaultSort: {
-      desc: SORT_DIRECTION.ASCENDING,
-      id: ANVIL_CMG_CATEGORY_KEY.LIBRARY_ID,
+    tableOptions: {
+      initialState: {
+        sorting: [
+          {
+            desc: SORT_DIRECTION.ASCENDING,
+            id: ANVIL_CMG_CATEGORY_KEY.LIBRARY_ID,
+          },
+        ],
+      },
     },
   } as ListConfig<LibrariesResponse>,
   route: "libraries",

@@ -9,7 +9,7 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"], channel: "chrome" },
     },
     {
       name: "firefox",
@@ -21,11 +21,12 @@ const config: PlaywrightTestConfig = {
     },
   ],
   testDir: "e2e",
-  testMatch: /.*\/(anvil-catalog)\/.*\.spec\.ts/,
+  testMatch: "**/e2e/anvil-catalog/*.spec.ts",
   timeout: 60 * 1000,
   use: {
     baseURL: "http://localhost:3000/",
     screenshot: "only-on-failure",
+    viewport: { height: 1080, width: 1960 },
   },
   webServer: {
     command:

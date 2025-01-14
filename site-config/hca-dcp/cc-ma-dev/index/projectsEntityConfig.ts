@@ -6,8 +6,9 @@ import { getMAProjectDetailTabs } from "../detail/project/mainColumn";
 import { getMAProjectDetailTop } from "../detail/project/top";
 import { listHero } from "../listView/projectsListHero";
 import { CATEGORY_GROUPS } from "./common/category";
-import { COLUMN } from "./common/constants";
+import { COLUMN } from "./common/column";
 import { getMAFilesEntityConfig } from "./filesEntityConfig";
+import { COLUMN as PROJECTS_COLUMN } from "./projects/column";
 
 /**
  * Returns managed access category group config.
@@ -59,7 +60,7 @@ export function getMAProjectsEntityConfig(
   // Clone columns.
   const cloneColumns = [...cloneList.columns];
   // Add accessible column.
-  cloneColumns.splice(1, 0, COLUMN.ACCESSIBLE); // Accessible column.
+  cloneColumns.splice(1, 0, PROJECTS_COLUMN.ACCESSIBLE); // Accessible column.
   // Add data use restriction column.
   cloneColumns.splice(2, 0, COLUMN.DATA_USE_RESTRICTION); // Data use restriction column.
   cloneList.columns = cloneColumns;

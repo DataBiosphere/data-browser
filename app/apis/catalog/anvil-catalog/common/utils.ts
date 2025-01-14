@@ -61,7 +61,7 @@ export const getConsortiumTitle = (
 };
 
 export const anvilCatalogStudyInputMapper = <
-  StudyType extends AnVILCatalogStudyAny
+  StudyType extends AnVILCatalogStudyAny,
 >(
   input: StudyType
 ): StudyType => {

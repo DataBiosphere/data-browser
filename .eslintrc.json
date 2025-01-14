@@ -14,7 +14,7 @@
     "prettier",
     "plugin:prettier/recommended",
     "next",
-    "plugin:sonarjs/recommended",
+    "plugin:sonarjs/recommended-legacy",
     "plugin:eslint-comments/recommended"
   ],
   "rules": {
@@ -57,7 +57,10 @@
     "jsdoc/require-returns-description": "error",
     "jsdoc/check-alignment": "error",
     "jsdoc/check-param-names": "error",
-    "react-hooks/exhaustive-deps": "error"
+    "react-hooks/exhaustive-deps": "error",
+    "sonarjs/todo-tag": "warn",
+    "sonarjs/redundant-type-aliases": "warn",
+    "sonarjs/no-nested-conditional": "off"
   },
   "overrides": [
     {
