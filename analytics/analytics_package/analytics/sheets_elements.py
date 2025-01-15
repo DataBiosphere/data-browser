@@ -47,10 +47,10 @@ def get_outbound_links_df(analytics_params):
     pd.set_option('future.no_silent_downcasting', True)
     # Get the builtin "Click" event
     df_builtin_links = get_flat_data_df(
-        analytics_params,
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_PAGE_PATH, DIMENSION_BUILTIN_URL, DIMENSION_EVENT_NAME],
-        remove_matches=[None, r"\s*", None]
+        remove_matches=[None, r"\s*", None],
+        **analytics_params,
     ).groupby(
         [DIMENSION_PAGE_PATH["alias"], DIMENSION_BUILTIN_URL["alias"]]
     ).sum().reset_index()
