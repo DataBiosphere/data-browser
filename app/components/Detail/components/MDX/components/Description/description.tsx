@@ -5,8 +5,8 @@ import type { MDXProps } from "mdx/types";
 import { ReactNode, useEffect, useState } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import remarkGfm from "remark-gfm";
-import { DescriptionProps } from "../../../../../../../explorer/app/components/Detail/components/MDX/components/Description/types";
 import { MDX_COMPONENTS } from "./common/constants";
+import { DescriptionProps } from "./types";
 
 type ReactMDXContent = (props: MDXProps) => ReactNode;
 type Runtime = Pick<EvaluateOptions, "jsx" | "jsxs" | "Fragment">;
