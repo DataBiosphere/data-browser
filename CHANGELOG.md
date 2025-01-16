@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.1](https://github.com/DataBiosphere/data-browser/compare/v2.6.0...v2.6.1) (2025-01-15)
+
+
+### Chores
+
+* updated lungmap analytics portals ([#4338](https://github.com/DataBiosphere/data-browser/issues/4338)) ([#4340](https://github.com/DataBiosphere/data-browser/issues/4340)) ([4612db9](https://github.com/DataBiosphere/data-browser/commit/4612db925b2efccb01097eb5d058c20576ac6b1a))
+
 ## [2.6.0](https://github.com/DataBiosphere/data-browser/compare/v2.5.0...v2.6.0) (2025-01-13)
 
 
