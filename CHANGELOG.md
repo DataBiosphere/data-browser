@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://github.com/DataBiosphere/data-browser/compare/v2.6.1...v2.7.0) (2025-01-16)
+
+
+### Features
+
+* markdown in entity description [#4170](https://github.com/DataBiosphere/data-browser/issues/4170) ([#4342](https://github.com/DataBiosphere/data-browser/issues/4342)) ([5f3cfee](https://github.com/DataBiosphere/data-browser/commit/5f3cfee5074cecab5f4bba2a95d7623d64e73ef7))
+
 ## [2.6.1](https://github.com/DataBiosphere/data-browser/compare/v2.6.0...v2.6.1) (2025-01-15)
 
 
