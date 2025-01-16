@@ -5,9 +5,8 @@ import type { MDXProps } from "mdx/types";
 import { ReactNode, useEffect, useState } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import remarkGfm from "remark-gfm";
-import { Test, TestV } from "./index";
-import { DescriptionProps } from "./types";
-// import { Link } from "../../../../../Layout/components/Content/components/Link/link";
+import { DescriptionProps } from "../../../../../../../explorer/app/components/Detail/components/MDX/components/Description/types";
+import { MDX_COMPONENTS } from "./common/constants";
 
 type ReactMDXContent = (props: MDXProps) => ReactNode;
 type Runtime = Pick<EvaluateOptions, "jsx" | "jsxs" | "Fragment">;
@@ -25,11 +24,12 @@ export const Description = ({ content }: DescriptionProps): JSX.Element => {
     );
   }, [content]);
 
+  // Wrapping <MdxContent> with <div> to force `display: block`
   return (
     <CollapsableSection collapsable={false} title="Description">
-      <TestV />
-      <Test />
-      {/*<div>{MdxContent ? <MdxContent components={{ a: Link }} /> : null}</div>*/}
+      <div>
+        {MdxContent ? <MdxContent components={MDX_COMPONENTS} /> : null}
+      </div>
     </CollapsableSection>
   );
 };
