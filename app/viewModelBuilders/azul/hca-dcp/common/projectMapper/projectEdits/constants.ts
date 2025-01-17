@@ -1700,6 +1700,10 @@ export const baseProjectEdits: ProjectEdit[] = [
         ...SHINY,
         url: "https://app.lungmap.net/app/shinycell-human-lung-cellref",
       },
+      {
+        ...TOPPCELL,
+        url: "https://toppcell.cchmc.org/biosystems/go/index3/shred/Eric/LungMapCellRef/Output%20by%20SampleAssayType%20by%20Lineage%20by%20Lineage_subgroup%20by%20Celltype_group%20by%20celltype-3",
+      },
     ],
     entryId: "6135382f-487d-4adb-9cf8-4d6634125b68",
   },
@@ -1712,6 +1716,10 @@ export const baseProjectEdits: ProjectEdit[] = [
       {
         ...SHINY,
         url: "https://app.lungmap.net/app/shinycell-bpd",
+      },
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/3a5dbf8a-9b3e-4309-b4c5-d8a024f83734",
       },
     ],
     entryId: "1977dc47-8414-4263-a870-6b0f207d8ab3",
@@ -1733,6 +1741,10 @@ export const baseProjectEdits: ProjectEdit[] = [
     analysisPortals: [
       {
         ...SHINY,
+        url: "https://research.cchmc.org/pbge/lunggens/lungDisease/ACDMPV_snrna_query.html",
+      },
+      {
+        ...LGEA,
         url: "https://research.cchmc.org/pbge/lunggens/lungDisease/ACDMPV_snrna_query.html",
       },
     ],
