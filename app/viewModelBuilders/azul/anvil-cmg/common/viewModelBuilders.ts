@@ -103,6 +103,7 @@ import {
 } from "../../../../apis/azul/common/utils";
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/anvil-cmg";
+import { Description } from "../../../../components/Detail/components/MDX/components/Description/description";
 import { ExportMethod } from "../../../../components/Export/components/AnVILExplorer/ExportMethod/exportMethod";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
@@ -318,13 +319,13 @@ export function buildDatasetAccessibilityBadge(
 }
 
 /**
- * Build props for Markdown component from the given entity response.
+ * Build props for Description component from the given entity response.
  * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the Markdown component.
+ * @returns model to be used as props for the Description component.
  */
 export const buildDatasetDescription = (
   datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.Markdown> => {
+): React.ComponentProps<typeof Description> => {
   return {
     content:
       processEntityValue(

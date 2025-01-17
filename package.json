@@ -1,6 +1,6 @@
 {
   "name": "explorer",
-  "version": "2.6.0",
+  "version": "2.7.1",
   "private": true,
   "scripts": {
     "dev:ncpi-catalog": "./scripts/dev.sh ncpi-catalog dev && ./scripts/set-version.sh dev && next dev",
@@ -61,6 +61,7 @@
     "react-dropzone": "^14.2.3",
     "react-gtm-module": "2.0.11",
     "react-window": "1.8.9",
+    "remark-gfm": "^4.0.0",
     "uuid": "8.3.2",
     "validate.js": "^0.13.1"
   },
