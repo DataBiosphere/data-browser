@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.7.1](https://github.com/DataBiosphere/data-browser/compare/v2.7.0...v2.7.1) (2025-01-17)
+
+
+### Bug Fixes
+
+* updated anvil catalog test timeout to match anvil cmg ([#4334](https://github.com/DataBiosphere/data-browser/issues/4334)) ([#4344](https://github.com/DataBiosphere/data-browser/issues/4344)) ([63948cf](https://github.com/DataBiosphere/data-browser/commit/63948cfd447b42a3f48eb5bf673059155243b91a))
+
+
+### Chores
+
+* update LungMAP default catalog to lm8 ([#4333](https://github.com/DataBiosphere/data-browser/issues/4333)) ([#4346](https://github.com/DataBiosphere/data-browser/issues/4346)) ([990e670](https://github.com/DataBiosphere/data-browser/commit/990e67090453ffc03b5f3b9f35478e3bb8872a86))
+
+## [2.7.0](https://github.com/DataBiosphere/data-browser/compare/v2.6.1...v2.7.0) (2025-01-16)
+
+
+### Features
+
+* markdown in entity description [#4170](https://github.com/DataBiosphere/data-browser/issues/4170) ([#4342](https://github.com/DataBiosphere/data-browser/issues/4342)) ([5f3cfee](https://github.com/DataBiosphere/data-browser/commit/5f3cfee5074cecab5f4bba2a95d7623d64e73ef7))
+
+## [2.6.1](https://github.com/DataBiosphere/data-browser/compare/v2.6.0...v2.6.1) (2025-01-15)
+
+
+### Chores
+
+* updated lungmap analytics portals ([#4338](https://github.com/DataBiosphere/data-browser/issues/4338)) ([#4340](https://github.com/DataBiosphere/data-browser/issues/4340)) ([4612db9](https://github.com/DataBiosphere/data-browser/commit/4612db925b2efccb01097eb5d058c20576ac6b1a))
+
 ## [2.6.0](https://github.com/DataBiosphere/data-browser/compare/v2.5.0...v2.6.0) (2025-01-13)
 
 
