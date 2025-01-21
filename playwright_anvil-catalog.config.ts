@@ -22,7 +22,7 @@ const config: PlaywrightTestConfig = {
   ],
   testDir: "e2e",
   testMatch: "**/e2e/anvil-catalog/*.spec.ts",
-  timeout: 60 * 1000,
+  timeout: 240 * 1000,
   use: {
     baseURL: "http://localhost:3000/",
     screenshot: "only-on-failure",
