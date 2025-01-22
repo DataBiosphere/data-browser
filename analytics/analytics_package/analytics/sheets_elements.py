@@ -100,7 +100,7 @@ def get_outbound_links_df(analytics_params):
 
     return df_all_links.copy().reset_index(drop=True)
 
-def get_outbound_links_change_df(analytics_params, start_current, end_current, start_previous, end_previous):
+def get_outbound_links_change(analytics_params, start_current, end_current, start_previous, end_previous):
     """
     Get a DF with outbound links from the Analytics API and a comparison for the prior month
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
@@ -125,28 +125,26 @@ def get_outbound_links_change_df(analytics_params, start_current, end_current, s
     df_previous = get_outbound_links_df(analytics_params_month_2).set_index(
         ["Page Path", "Outbound Link", "Hostname"]
     )
-    combined_index = df_current.index.union(df_previous.index)
-    df_current_reindexed = df_current.reindex(combined_index).fillna(0)
-    df_previous_reindexed = df_previous.reindex(combined_index)
-    df_current_reindexed["Total Clicks Percent Change"] = get_change(
-        df_current_reindexed["Total Clicks"],
-        df_previous_reindexed["Total Clicks"],
+    total_clicks_percent_change = get_change(
+        df_current["Total Clicks"],
+        df_previous["Total Clicks"],
         start_current,
         end_current,
         start_previous,
         end_previous
     )
-    df_current_reindexed["Total Users Percent Change"] = get_change(
-        df_current_reindexed["Total Users"],
-        df_previous_reindexed["Total Users"],
+    total_users_percent_change = get_change(
+        df_current["Total Users"],
+        df_previous["Total Users"],
         start_current,
         end_current,
         start_previous,
         end_previous
     )
-    return df_current_reindexed.sort_values(["Total Clicks", "Total Users"], ascending=False, kind="stable").reset_index()
-
-
+    df_reindexed = df_current.reindex(total_clicks_percent_change.index).fillna(0)
+    df_reindexed["Total Clicks Percent Change"] = total_clicks_percent_change
+    df_reindexed["Total Users Percent Change"] = total_users_percent_change
+    return df_reindexed.sort_values(["Total Clicks", "Total Users"], ascending=False, kind="stable").reset_index()
 
 def get_page_views_df(analytics_params):
     """
@@ -169,7 +167,7 @@ def get_page_views_df(analytics_params):
     )[["Page Path", "Total Views", "Total Users"]].copy()
     return df_response
 
-def get_page_views_change_df(analytics_params, start_current, end_current, start_previous, end_previous):
+def get_page_views_change(analytics_params, start_current, end_current, start_previous, end_previous):
     """
     Get a DF with page views from the Analytics API and a comparison for the prior month
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
@@ -188,14 +186,12 @@ def get_page_views_change_df(analytics_params, start_current, end_current, start
         "start_date": start_previous,
         "end_date": end_previous,
     }
-    current_length = float((dt.datetime.fromisoformat(end_current) - dt.datetime.fromisoformat(start_current)).days + 1)
-    previous_length = float((dt.datetime.fromisoformat(end_previous) - dt.datetime.fromisoformat(start_previous)).days + 1)
     df_current = get_page_views_df(analytics_params_current).set_index("Page Path")
-    df_previous = get_page_views_df(analytics_params_previous).set_index("Page Path") * current_length / previous_length
+    df_previous = get_page_views_df(analytics_params_previous).set_index("Page Path")
     combined_index = df_current.index.union(df_previous.index)
     df_current_reindexed = df_current.reindex(combined_index).fillna(0)
     df_previous_reindexed = df_previous.reindex(combined_index)
-    df_current_reindexed["Total Views Percent Change"] = get_change(
+    views_percent_change = get_change(
         df_current_reindexed["Total Views"],
         df_previous_reindexed["Total Views"],
         start_current,
@@ -203,7 +199,7 @@ def get_page_views_change_df(analytics_params, start_current, end_current, start
         start_previous,
         end_previous,
     )
-    df_current_reindexed["Total Users Percent Change"] = get_change(
+    users_percent_change = get_change(
         df_current_reindexed["Total Users"],
         df_previous_reindexed["Total Users"],
         start_current,
@@ -211,9 +207,12 @@ def get_page_views_change_df(analytics_params, start_current, end_current, start
         start_previous,
         end_previous,
     )
-    return df_current_reindexed.sort_values(["Total Views", "Total Users"], ascending=False, kind="stable").reset_index()
+    df_reindexed = df_current.reindex(views_percent_change.index).fillna(0)
+    df_reindexed["Total Views Percent Change"] = views_percent_change
+    df_reindexed["Total Users Percent Change"] = users_percent_change
+    return df_reindexed.sort_values(["Total Views", "Total Users"], ascending=False, kind="stable").reset_index()
     
-def get_change(series_current, series_previous, start_current, end_current, start_previous, end_previous):
+def get_change(series_current, series_previous, start_current, end_current, start_previous, end_previous, combined_index = None):
     """
     Get the percent change between two serieses, accounting for different numbers of days in the month.
     :param series_current: the series representing the current month
@@ -230,8 +229,7 @@ def get_change(series_current, series_previous, start_current, end_current, star
     combined_index = series_current.index.union(series_previous.index)
     current_length = float((dt.datetime.fromisoformat(end_current) - dt.datetime.fromisoformat(start_current)).days + 1)
     previous_length = float((dt.datetime.fromisoformat(end_previous) - dt.datetime.fromisoformat(start_previous)).days + 1)
-    assert current_length != 0
-    assert previous_length != 0
+    assert current_length != 0 and previous_length != 0
     series_current_reindexed = series_current.reindex(combined_index).fillna(0)
     # Adjust the values from the prior series to account for the different number of days in the month
     series_previous_reindexed = (series_previous.reindex(combined_index) * current_length / previous_length)
