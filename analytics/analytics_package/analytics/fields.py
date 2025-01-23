@@ -1,6 +1,7 @@
 # Metric names
 METRIC_EVENT_COUNT = 'eventCount'
 METRIC_TOTAL_USERS = 'totalUsers'
+METRIC_PAGE_VIEW = 'screenPageViews'
 
 # DIMENSIONS
 DIMENSION_PAGE_PATH = {
