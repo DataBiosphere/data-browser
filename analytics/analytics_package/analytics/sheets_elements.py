@@ -230,7 +230,6 @@ def get_change(series_current, series_previous, start_current, end_current, star
     current_length = float((dt.datetime.fromisoformat(end_current) - dt.datetime.fromisoformat(start_current)).days + 1)
     previous_length = float((dt.datetime.fromisoformat(end_previous) - dt.datetime.fromisoformat(start_previous)).days + 1)
     assert current_length != 0 and previous_length != 0
-    print("current, previous", current_length, previous_length)
     series_current_reindexed = series_current.reindex(combined_index).fillna(0)
     # Adjust the values from the prior series to account for the different number of days in the month
     series_previous_reindexed = (series_previous.reindex(combined_index) * current_length / previous_length)
