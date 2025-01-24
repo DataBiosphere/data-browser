@@ -5,7 +5,7 @@ from .fields import *
 from urllib.parse import urlparse
 import datetime as dt
 
-def get_flat_data_df(metrics, dimensions, remove_matches=None, **other_params):
+def get_flat_data_df(metrics, dimensions, **other_params):
     """
     Get a df from the Analytics API with a flat structure (no multiindex).
 
@@ -18,18 +18,11 @@ def get_flat_data_df(metrics, dimensions, remove_matches=None, **other_params):
 
     :return: a DataFrame with the data from the Analytics API
     """
-    if remove_matches is not None:
-        assert len(remove_matches) == len(dimensions)
-
     df = get_data_df(
         metrics,
         [dimension["id"] for dimension in dimensions],
         **other_params,
     )
-    if remove_matches is not None:
-        for i, match in enumerate([dimension["remove_matches"] for dimension in dimensions]):
-            if match is not None:
-                df = df.loc[~df.index.get_level_values(i).str.fullmatch(match)]
     return df.reset_index().rename(columns=get_rename_dict(dimensions)).copy()
 
 def get_rename_dict(dimensions):
@@ -41,30 +34,33 @@ def get_rename_dict(dimensions):
 def get_outbound_links_df(analytics_params):
     """
     Get a DF with outbound links from the Analytics API. Merges the builtin and custom events for outbound links.
+    analytics_params cannot currently include a dimension_filter
 
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
     :return: a DataFrame with the outbound links from the Analytics API
     """
     pd.set_option('future.no_silent_downcasting', True)
+    assert "dimension_filter" not in analytics_params
     # Get the builtin "Click" event
     df_builtin_links = get_flat_data_df(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_PAGE_PATH, DIMENSION_BUILTIN_URL, DIMENSION_EVENT_NAME],
-        remove_matches=[None, r"\s*", None],
+        dimension_filter=f"eventName=={EVENT_BUILTIN_CLICK}",
         **analytics_params,
     ).groupby(
         [DIMENSION_PAGE_PATH["alias"], DIMENSION_BUILTIN_URL["alias"]]
     ).sum().reset_index()
-
+    df_builtin_links.sort_values(METRIC_EVENT_COUNT, ascending=False).to_csv("test_builtin_links.csv")
     # Get the custom "outbound_link_click" event
     df_custom_links = get_flat_data_df(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_EVENT_NAME, DIMENSION_CUSTOM_URL, DIMENSION_PAGE_PATH], 
-        remove_matches=[DIMENSION_EVENT_NAME["remove_matches"], r"\(not set\)", None],
+        dimension_filter=f"eventName=={EVENT_CUSTOM_CLICK}",
         **analytics_params, 
     ).groupby(
         [DIMENSION_PAGE_PATH["alias"], DIMENSION_CUSTOM_URL["alias"]]
     ).sum().reset_index()
+    df_custom_links.sort_values(METRIC_EVENT_COUNT, ascending=False).to_csv("test_custom_links.csv")
     # Concatenate the two dataframes, avoiding duplicates
     # Keep the link from the builtin event, unless the link contains a #fragment, in which case keep the link from the custom event
     df_builtin_links["builtin"] = True
@@ -156,7 +152,7 @@ def get_page_views_df(analytics_params):
     df_response = get_flat_data_df(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS, METRIC_PAGE_VIEW],
         [DIMENSION_PAGE_PATH, DIMENSION_EVENT_NAME],
-        dimension_filter="eventName==page_view",
+        dimension_filter=f"eventName=={EVENT_PAGE_VIEW}",
         **analytics_params,
     ).rename(
         columns={
