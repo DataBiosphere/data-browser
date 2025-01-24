@@ -12,10 +12,6 @@ def get_flat_data_df(metrics, dimensions, **other_params):
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
     :param metrics: the metrics to get
     :param dimensions: the dimensions to get
-    :param remove_matches: a list of regex patterns or None elements to remove from each dimension. 
-        Each regex or None element should correspond with an element of dimensions and remove_matches must be the same length as dimensions. 
-        If the value is None, no patterns are removed, defaults to None.
-
     :return: a DataFrame with the data from the Analytics API
     """
     df = get_data_df(
@@ -149,11 +145,12 @@ def get_page_views_df(analytics_params):
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
     :return: a DataFrame with the page views from the Analytics API
     """
+    assert "dimension_filter" not in analytics_params
     df_response = get_flat_data_df(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS, METRIC_PAGE_VIEW],
         [DIMENSION_PAGE_PATH, DIMENSION_EVENT_NAME],
-        dimension_filter=f"eventName=={EVENT_PAGE_VIEW}",
         **analytics_params,
+        dimension_filter=f"eventName=={EVENT_PAGE_VIEW}",
     ).rename(
         columns={
             DIMENSION_PAGE_PATH["alias"]: "Page Path",
