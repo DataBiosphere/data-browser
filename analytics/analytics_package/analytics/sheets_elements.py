@@ -46,7 +46,6 @@ def get_outbound_links_df(analytics_params):
     ).groupby(
         [DIMENSION_PAGE_PATH["alias"], DIMENSION_BUILTIN_URL["alias"]]
     ).sum().reset_index()
-    df_builtin_links.sort_values(METRIC_EVENT_COUNT, ascending=False).to_csv("test_builtin_links.csv")
     # Get the custom "outbound_link_click" event
     df_custom_links = get_flat_data_df(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
@@ -56,7 +55,6 @@ def get_outbound_links_df(analytics_params):
     ).groupby(
         [DIMENSION_PAGE_PATH["alias"], DIMENSION_CUSTOM_URL["alias"]]
     ).sum().reset_index()
-    df_custom_links.sort_values(METRIC_EVENT_COUNT, ascending=False).to_csv("test_custom_links.csv")
     # Concatenate the two dataframes, avoiding duplicates
     # Keep the link from the builtin event, unless the link contains a #fragment, in which case keep the link from the custom event
     df_builtin_links["builtin"] = True
