@@ -160,7 +160,7 @@ def get_metrics_by_dimensions_v4_style(service, metrics, dimensions, property, s
 	while has_more:
 		result = service.properties().runReport(property=property, body=params).execute()
 		if rows_left is None:
-			rows_left = result.get("rowsCount", 0)
+			rows_left = result.get("rowCount", 0)
 		page_row_count = len(result["rows"]) if "rows" in result else 0
 		has_more = page_row_count > 0
 		if has_more:
@@ -172,7 +172,7 @@ def get_metrics_by_dimensions_v4_style(service, metrics, dimensions, property, s
 				offset += max_results
 				params["offset"] = offset
 	
-	df =  v4_results_to_df(results, dimensions, metrics)
+	df = v4_results_to_df(results, dimensions, metrics)
 
 	return df
 

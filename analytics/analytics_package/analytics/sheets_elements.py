@@ -5,31 +5,20 @@ from .fields import *
 from urllib.parse import urlparse
 import datetime as dt
 
-def get_flat_data_df(metrics, dimensions, remove_matches=None, **other_params):
+def get_flat_data_df(metrics, dimensions, **other_params):
     """
     Get a df from the Analytics API with a flat structure (no multiindex).
 
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
     :param metrics: the metrics to get
     :param dimensions: the dimensions to get
-    :param remove_matches: a list of regex patterns or None elements to remove from each dimension. 
-        Each regex or None element should correspond with an element of dimensions and remove_matches must be the same length as dimensions. 
-        If the value is None, no patterns are removed, defaults to None.
-
     :return: a DataFrame with the data from the Analytics API
     """
-    if remove_matches is not None:
-        assert len(remove_matches) == len(dimensions)
-
     df = get_data_df(
         metrics,
         [dimension["id"] for dimension in dimensions],
         **other_params,
     )
-    if remove_matches is not None:
-        for i, match in enumerate([dimension["remove_matches"] for dimension in dimensions]):
-            if match is not None:
-                df = df.loc[~df.index.get_level_values(i).str.fullmatch(match)]
     return df.reset_index().rename(columns=get_rename_dict(dimensions)).copy()
 
 def get_rename_dict(dimensions):
@@ -41,26 +30,27 @@ def get_rename_dict(dimensions):
 def get_outbound_links_df(analytics_params):
     """
     Get a DF with outbound links from the Analytics API. Merges the builtin and custom events for outbound links.
+    analytics_params cannot currently include a dimension_filter
 
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
     :return: a DataFrame with the outbound links from the Analytics API
     """
     pd.set_option('future.no_silent_downcasting', True)
+    assert "dimension_filter" not in analytics_params
     # Get the builtin "Click" event
     df_builtin_links = get_flat_data_df(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_PAGE_PATH, DIMENSION_BUILTIN_URL, DIMENSION_EVENT_NAME],
-        remove_matches=[None, r"\s*", None],
+        dimension_filter=f"eventName=={EVENT_BUILTIN_CLICK}",
         **analytics_params,
     ).groupby(
         [DIMENSION_PAGE_PATH["alias"], DIMENSION_BUILTIN_URL["alias"]]
     ).sum().reset_index()
-
     # Get the custom "outbound_link_click" event
     df_custom_links = get_flat_data_df(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_EVENT_NAME, DIMENSION_CUSTOM_URL, DIMENSION_PAGE_PATH], 
-        remove_matches=[DIMENSION_EVENT_NAME["remove_matches"], r"\(not set\)", None],
+        dimension_filter=f"eventName=={EVENT_CUSTOM_CLICK}",
         **analytics_params, 
     ).groupby(
         [DIMENSION_PAGE_PATH["alias"], DIMENSION_CUSTOM_URL["alias"]]
@@ -153,11 +143,12 @@ def get_page_views_df(analytics_params):
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
     :return: a DataFrame with the page views from the Analytics API
     """
+    assert "dimension_filter" not in analytics_params
     df_response = get_flat_data_df(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS, METRIC_PAGE_VIEW],
         [DIMENSION_PAGE_PATH, DIMENSION_EVENT_NAME],
-        dimension_filter="eventName==page_view",
         **analytics_params,
+        dimension_filter=f"eventName=={EVENT_PAGE_VIEW}",
     ).rename(
         columns={
             DIMENSION_PAGE_PATH["alias"]: "Page Path",
