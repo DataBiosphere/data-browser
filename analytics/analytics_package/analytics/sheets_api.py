@@ -1,8 +1,8 @@
+from dataclasses import dataclass
+import typing
 import gspread
 import gspread_formatting
 from enum import Enum
-from googleapiclient.discovery import build
-import numpy as np
 
 FONT_SIZE_PTS = 10
 PTS_PIXELS_RATIO = 4/3
@@ -16,14 +16,20 @@ class FILE_OVERRIDE_BEHAVIORS(Enum):
     EXIT_IF_IN_SAME_PLACE = 2
     EXIT_ANYWHERE = 3
 
+
 class WORKSHEET_OVERRIDE_BEHAVIORS(Enum):
     OVERRIDE = 1
     EXIT = 2
+
 
 class COLUMN_FORMAT_OPTIONS(Enum):
     DEFAULT = 1
     PERCENT_UNCOLORED = 2
     PERCENT_COLORED = 3
+
+
+class CHART_TYPES(Enum):
+    LINE = "LINE"
 
 DEFAULT_SHEET_FORMATTING_OPTIONS = {
     "bold_header": True,
@@ -41,7 +47,7 @@ def authenticate_gspread(authentication_response):
     gc = gspread.authorize(extract_credentials(authentication_response))
     return gc
 
-def authenticate_drive_api(authentication_response):
+def authenticate_google_api(authentication_response):
     """Authenticates the Drive API using the response from api.authenticate"""
     return authentication_response[0]
 
@@ -107,12 +113,12 @@ def search_for_folder_id(drive_api, folder_name, allow_trashed = False, allow_du
     return [file["id"] for file in files_exact_match]   
 
 
-def create_sheet_in_folder(authentication_response, sheet_name, parent_folder_name=None, override_behavior=FILE_OVERRIDE_BEHAVIORS.EXIT_ANYWHERE):
+def create_sheet_in_folder(drive_authentication_response, sheet_name, parent_folder_name=None, override_behavior=FILE_OVERRIDE_BEHAVIORS.EXIT_ANYWHERE):
     """
     Create a new sheet in the project with the given name and parent folder.
     Returns the new sheet.
 
-    :param authentication_response: the service parameters tuple
+    :param drive_authentication_response: the service parameters tuple
     :param sheet_name: the name of the new sheet
     :param parent_folder_name: the name of the parent folder for the new sheet
     :param override_behavior: the behavior to take if the sheet already exists
@@ -120,8 +126,8 @@ def create_sheet_in_folder(authentication_response, sheet_name, parent_folder_na
     :rtype: gspread.Spreadsheet
     """
     # Build Drive API
-    gc = authenticate_gspread(authentication_response)
-    drive_api = authenticate_drive_api(authentication_response)
+    gc = authenticate_gspread(drive_authentication_response)
+    drive_api = authenticate_google_api(drive_authentication_response)
     parent_folder_id = None if parent_folder_name is None else search_for_folder_id(drive_api, parent_folder_name)[0] 
     
     # Check if sheet already exists and handle based on input
@@ -310,3 +316,123 @@ def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, sheet_formatt
             sheet_formatting_options=sheet_formatting_options.get(worksheet_name, DEFAULT_SHEET_FORMATTING_OPTIONS), 
             column_formatting_options=column_formatting_options.get(worksheet_name, {})
         )
+
+def update_sheet_raw(sheets_authentication_response, sheet, *updates):
+    """
+    Directly call the Google Sheets api to update the specified sheet with the optional arguments.
+    """
+    assert len(updates) > 0
+    sheets_api = authenticate_google_api(sheets_authentication_response)
+    sheet_id = sheet.id
+    body = {"requests": list(updates)}
+    response = (
+        sheets_api.spreadsheets()
+        .batchUpdate(spreadsheetId=sheet_id, body=body)
+        .execute()
+    )
+    return response
+
+REQUIRED_CHART_ARGS = []
+
+DEFAULT_CHART_ARGS = {
+    "title": "",
+    "x_axis_title": "",
+    "y_axis_title": "",
+    "chart_position": None # Means it will be created in a new sheet
+}
+
+@dataclass
+class WorksheetRange:
+    worksheet: gspread.worksheet.Worksheet
+    top_left: gspread.cell.Cell
+    bottom_right: gspread.cell.Cell
+
+    @property
+    def range_dict(self):
+        return {
+            "sheetId": self.worksheet.id,
+            "startRowIndex": self.top_left.row - 1,
+            "endRowIndex": self.bottom_right.row - 1,
+            "startColumnIndex": self.top_left.col - 1,
+            "endColumnIndex": self.bottom_right.col - 1,
+        }
+
+def _cell_to_grid_coordinate(cell, worksheet):
+    return {
+        "sheetId": worksheet.id,
+        "rowIndex": cell.row - 1,
+        "columnIndex": cell.col - 1,
+    }
+
+def add_chart_to_sheet(sheets_authentication_response, sheet, worksheet, chart_type, domain, series, **chart_args):
+    complete_chart_args = {**DEFAULT_CHART_ARGS, **chart_args}
+    print(worksheet.id)
+    if complete_chart_args["chart_position"] is not None:
+        position_dict = {
+            "overlayPosition": {
+                "anchorCell": _cell_to_grid_coordinate(complete_chart_args["chart_position"], worksheet)
+            }
+        }
+    else:
+        position_dict = {"newSheet": True}
+    formatted_domains = [
+        {
+            "domain": {
+                #TODO: would be nice to also support column references https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/other#DataSourceColumnReference
+                "sourceRange": {
+                    "sources": [
+                        domain.range_dict
+                    ],
+                },
+            },
+        },
+    ]
+    formatted_series = [
+        {
+            "series": {
+                "sourceRange": {
+                    "sources": [
+                        series_source.range_dict
+                    ],
+                },
+            },
+            "targetAxis": "LEFT_AXIS",
+        }
+        for series_source in series
+    ]
+    formatted_axis = []
+    if complete_chart_args["x_axis_title"]:
+        formatted_axis.append({
+            "title": complete_chart_args["x_axis_title"],
+            "position": "BOTTOM_AXIS",
+        })
+    if complete_chart_args["y_axis_title"]:
+        formatted_axis.append({
+            "title": complete_chart_args["y_axis_title"],
+            "position": "LEFT_AXIS",
+        })
+    print(formatted_domains)
+    print(formatted_series)
+    request = {
+        "addChart": {
+            "chart": {
+                "spec": {
+                    "title": complete_chart_args["title"],
+                    #TODO: insert legend position
+                    #TODO: insert axis positions
+                    "basicChart": {
+                        "axis": formatted_axis,
+                        "chartType": chart_type.value,
+                        "domains": formatted_domains,
+                        "headerCount": 1, #TODO: not sure what this means  
+                        "series": formatted_series, 
+                    },
+                },
+                 "position": position_dict
+            },
+        },
+    }
+    print(request)
+
+    response = update_sheet_raw(sheets_authentication_response, sheet, request)
+    return response
