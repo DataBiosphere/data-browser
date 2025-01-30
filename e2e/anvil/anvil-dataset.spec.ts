@@ -76,6 +76,21 @@ describe.parallel("Dataset", () => {
     await expect(buttons.nth(1)).toBeVisible();
   });
 
+  test("displays login to export method", async ({ page }) => {
+    await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
+
+    // Navigate to the choose export method page.
+    const currentUrl = page.url();
+    await page.goto(`${currentUrl}/export`);
+
+    // Confirm the login alert is displayed.
+    await expect(
+      page.locator(
+        `${MUI_ALERT_ROOT}:has-text("To export this dataset, please sign in and, if necessary, request access.")`
+      )
+    ).toBeVisible();
+  });
+
   test("displays login to download file manifest", async ({ page }) => {
     await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
 
