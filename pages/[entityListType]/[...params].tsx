@@ -91,41 +91,35 @@ function isOverride(override: Override): boolean {
 }
 
 /**
- * Determine if the current view is choose export.
+ * Check if the current view matches the expected export path segment.
+ * @param query - The current query object.
+ * @param expectedIndex - The expected index for the parameter length check.
+ * @returns True if the view matches the expected export criteria.
+ */
+function isExportView(query: ParsedUrlQuery, expectedIndex: number): boolean {
+  return (
+    !!query.params &&
+    query.params.length === expectedIndex + 1 &&
+    query.params[PARAMS_INDEX_TAB] === "export"
+  );
+}
+
+/**
+ * Determine if the current view is choose export method.
  * @param query - The current query object.
  * @returns True if the current view is choose export.
  */
 function isChooseExportView(query: ParsedUrlQuery): boolean {
-  // Must have query params for export view.
-  if (!query.params) {
-    return false;
-  }
-  // Must have correct number of params for export view.
-  if (query.params.length !== PARAMS_INDEX_TAB + 1) {
-    return false;
-  }
-  // Must have export param.
-  const exportPathSegment = query.params[PARAMS_INDEX_TAB];
-  return !!exportPathSegment && exportPathSegment === "export";
+  return isExportView(query, PARAMS_INDEX_TAB);
 }
 
 /**
- * Determine if the current view is an export method.
+ * Determine if the current view is an export method (e.g. file manifest or Terra).
  * @param query - The current query object.
  * @returns True if the current view is an export method.
  */
 function isExportMethodView(query: ParsedUrlQuery): boolean {
-  // Must have query params for export method view.
-  if (!query.params) {
-    return false;
-  }
-  // Must have correct number of params for export method view.
-  if (query.params.length !== PARAMS_INDEX_EXPORT_METHOD + 1) {
-    return false;
-  }
-  // Must have export param.
-  const exportPathSegment = query.params[PARAMS_INDEX_TAB];
-  return !!exportPathSegment && exportPathSegment === "export";
+  return isExportView(query, PARAMS_INDEX_EXPORT_METHOD);
 }
 
 /**

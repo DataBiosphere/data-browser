@@ -27,7 +27,7 @@ describe.parallel("Dataset", () => {
   test("displays request access button", async ({ page }) => {
     await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
 
-    // Confirm export button is visible.
+    // Confirm request access button is visible.
     const exportButton = getLinkWithText(page, BUTTON_TEXT_REQUEST_ACCESS);
     await expect(exportButton).toBeVisible();
   });

@@ -800,21 +800,6 @@ export async function testDeselectFiltersThroughSearchBar(
   }
 }
 
-// /**
-//  * Get the first link to a backpage with specified backpage access
-//  * @param page - a Playright page locator
-//  * @param access - the string denoting the level of access desired
-//  * @returns a Playwright locator object to the first link to a backpage with the specified access
-//  */
-// const getBackpageLinkLocatorByAccess = (page: Page, access: string): Locator =>
-//   page
-//     .getByRole("row")
-//     .filter({ has: page.getByRole("cell", { name: access }) })
-//     .first()
-//     .getByRole("cell")
-//     .first()
-//     .getByRole("link");
-
 /**
  * Make an export request that leaves only the minimal number of checkboxes selected
  * @param page - a Playwright page object
