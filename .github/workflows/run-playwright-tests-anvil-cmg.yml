@@ -28,9 +28,10 @@ jobs:
       - name: Check backend status again - TEST RESULTS ARE NOT VALID IF THIS FAILS
         run: |
           npm run check-system-status:anvil-cmg
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
           path: playwright-report/
+          overwrite: true
           retention-days: 30
