@@ -17,14 +17,12 @@ import {
 } from "../features/common/constants";
 import { ROUTE_MANIFEST_DOWNLOAD } from "../../site-config/anvil-cmg/dev/export/constants";
 import { ANVIL_CMG_CATEGORY_KEY } from "../../site-config/anvil-cmg/category";
-import {
-  APIEndpoints,
-  AZUL_PARAM,
-} from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 
 const { describe } = test;
 
-describe.parallel("Dataset", () => {
+const API_ENDPOINT_SUMMARY = "summary";
+
+describe("Dataset", () => {
   test.beforeEach(async ({ page }) => {
     await goToDatasetsList(page);
   });
@@ -81,7 +79,7 @@ describe.parallel("Dataset", () => {
     // Wait for the summary request once the export button is clicked.
     const [request] = await Promise.all([
       page.waitForRequest((request) =>
-        request.url().includes(APIEndpoints.SUMMARY)
+        request.url().includes(API_ENDPOINT_SUMMARY)
       ),
       clickLink(page, BUTTON_TEXT_EXPORT),
     ]);
@@ -135,7 +133,7 @@ describe.parallel("Dataset", () => {
     // Wait for the summary request once the file manifest button is clicked.
     const [request] = await Promise.all([
       page.waitForRequest((request) =>
-        request.url().includes(APIEndpoints.SUMMARY)
+        request.url().includes(API_ENDPOINT_SUMMARY)
       ),
       clickLink(page, BUTTON_TEXT_REQUEST_FILE_MANIFEST),
     ]);
@@ -220,7 +218,7 @@ async function goToDataset(page: Page, access: DatasetAccess): Promise<void> {
 function verifySummaryRequest(request: Request): void {
   // Grab the filters param from the request.
   const url = new URL(request.url());
-  const paramValue = url.searchParams.get(AZUL_PARAM.FILTERS) || "";
+  const paramValue = url.searchParams.get("filters") || "";
 
   // Validate dataset ID is in the filters query parameter.
   expect(paramValue).toContain(ANVIL_CMG_CATEGORY_KEY.DATASET_ID);
