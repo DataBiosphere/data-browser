@@ -232,17 +232,47 @@ class ADDITIONAL_DATA_BEHAVIOR(Enum):
     ADD = "add"
     REPLACE = "replace"
 
+def get_page_views_over_time_df(analytics_params, additional_data_path=None, additional_data_behavior=None):
+    """
+    Get a DataFrame with pageviews and total active users over time from the Analytics API.
+    :param analytics_params: the parameters for the Analytics API, including service params, start dates, and end dates
+    :param additional_data_path: the path to a JSON file with additional data to be added to the DataFrame, defaults to None
+    :param additional_data_behavior: the behavior to use when adding the additional data, defaults to None
+    """
+    return get_change_over_time_df(
+        ["Users", "Total Pageviews"],
+        ["activeUsers", "screenPageViews"],
+        ["Month"],
+        "yearMonth",
+        additional_data_path=additional_data_path,
+        additional_data_behavior=additional_data_behavior,
+        **analytics_params
+    )
+
 def get_change_over_time_df(
-    analytics_params, include_changes=True, additional_data_path=None, additional_data_behavior=None
+    metric_titles, metrics, time_title, time_dimension, include_changes=True, change_title_suffix = " Change", additional_data_path=None, additional_data_behavior=None, strftime_format="%Y-%m", **other_params
 ):
+    """
+    Get a DataFrame with the change over time for the given metrics, renamed to match metric_titles
+    :param metric_titles: the titles of the metrics to be displayed
+    :param metrics: the metrics to be displayed
+    :param time_title: the title to be displayed for the time dimension
+    :param time_dimension: the time dimension to be displayed
+    :param include_changes: whether to include the percent change columns, defaults to True
+    :param change_title_suffix: the suffix to be added to the change columns, defaults to " Change"
+    :param additional_data_path: the path to a JSON file with additional data to be added to the DataFrame, defaults to None
+    :param additional_data_behavior: the behavior to use when adding the additional data, defaults to None
+    :param strftime_format: the format to use for the time dimension, defaults to "%Y-%m". None means a datetime will be returned
+    :param other_params: any other parameters to be passed to the get_df_over_time function, including service params
+    """
     df_api = get_df_over_time(
-		["Users", "Total Pageviews"],
-		["activeUsers", "screenPageViews"],
-		"yearMonth",
-		sort_results=["yearMonth"],
+		metric_titles,
+        metrics,
+		time_dimension,
+		sort_results=[time_dimension],
 		df_processor=(lambda df: df.set_index(df.index + "01")[-2::-1]),
 		format_table=False,
-		**analytics_params
+		**other_params
 	)
     
     df_combined = pd.DataFrame()
@@ -259,7 +289,13 @@ def get_change_over_time_df(
         df_combined = df_api
 
     if include_changes:
-        df_combined["Users Change"] = df_combined["Users"].pct_change()
-        df_combined["Total Pageviews Change"] = df_combined["Total Pageviews"].pct_change()
+        assert change_title_suffix is not None
+        df_combined[
+            [f"{title}{change_title_suffix}" for title in metric_titles]
+        ] = df_combined[metric_titles].pct_change(periods=-1).replace({np.inf: np.nan})
+
+    if strftime_format is not None:
+        df_combined.index = pd.to_datetime(df_combined.index).strftime(strftime_format)
+
+    return df_combined.reset_index(names=time_title)
     
-    return df_combined

@@ -27,6 +27,7 @@ class COLUMN_FORMAT_OPTIONS(Enum):
     DEFAULT = 1
     PERCENT_UNCOLORED = 2
     PERCENT_COLORED = 3
+    YEAR_MONTH_DATE = 4
 
 
 class CHART_TYPES(Enum):
@@ -39,6 +40,10 @@ DEFAULT_SHEET_FORMATTING_OPTIONS = {
     "column_widths": {"justify": True, "buffer_chars": DEFAULT_BUFFER_CHARS},
     "extra_columns": 0,
     "extra_columns_width": 50,
+}
+
+DEFAULT_GSPREAD_UPDATE_ARGS = {
+    "value_input_option": gspread.utils.ValueInputOption.user_entered,
 }
 
 def extract_credentials(authentication_response):
@@ -173,7 +178,8 @@ def fill_worksheet_with_df(
         worksheet_name,
         overlapBehavior,
         sheet_formatting_options={},
-        column_formatting_options={}
+        column_formatting_options={},
+        **gspread_update_args
     ):
     """
     Fill a worksheet with the contents of a DataFrame.
@@ -210,7 +216,10 @@ def fill_worksheet_with_df(
         axis=1
     )
     # Add data to worksheet
-    worksheet.update([df_to_insert.columns.values.tolist()] + df_to_insert.fillna("NA").values.tolist())
+    worksheet.update(
+        [df_to_insert.columns.values.tolist()] + df_to_insert.fillna("NA").values.tolist(),
+        **{**DEFAULT_GSPREAD_UPDATE_ARGS, **gspread_update_args}
+    )
 
     # Format worksheet
     # Justify Column Widths
@@ -287,6 +296,13 @@ def fill_worksheet_with_df(
                 column_range, 
                 gspread_formatting.CellFormat(numberFormat=gspread_formatting.NumberFormat(type='PERCENT', pattern='0.0%'))
             )
+        if column_formatting_options[column] == COLUMN_FORMAT_OPTIONS.YEAR_MONTH_DATE:
+            # Apply date format rule
+            gspread_formatting.format_cell_range(
+                worksheet, 
+                column_range, 
+                gspread_formatting.CellFormat(numberFormat=gspread_formatting.NumberFormat(type='DATE', pattern='yyyy-mm'))
+            )
 
     # Apply base formatting options
     gspread_formatting.format_cell_range(
@@ -299,7 +315,7 @@ def fill_worksheet_with_df(
     if "Sheet1" in [i.title for i in sheet.worksheets()]:
         sheet.del_worksheet(sheet.worksheet("Sheet1"))
 
-def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, sheet_formatting_options={}, column_formatting_options={}):
+def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, sheet_formatting_options={}, column_formatting_options={}, **gspread_update_args):
     """
     Fill a sheet with the contents of a dictionary of DataFrames.
     The keys of the dictionary are the names of the worksheets, and the values contain the data to be placed in the sheet.
@@ -326,7 +342,8 @@ def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, sheet_formatt
         fill_worksheet_with_df(
             sheet, df, worksheet_name, overlapBehavior, 
             sheet_formatting_options=sheet_formatting_options.get(worksheet_name, {}), 
-            column_formatting_options=column_formatting_options.get(worksheet_name, {})
+            column_formatting_options=column_formatting_options.get(worksheet_name, {}),
+            **gspread_update_args
         )
 
 def update_sheet_raw(sheets_authentication_response, sheet, *updates):
