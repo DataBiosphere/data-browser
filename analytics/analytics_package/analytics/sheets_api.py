@@ -3,6 +3,7 @@ import typing
 import gspread
 import gspread_formatting
 from enum import Enum
+import pandas as pd
 
 FONT_SIZE_PTS = 10
 PTS_PIXELS_RATIO = 4/3
@@ -35,7 +36,9 @@ DEFAULT_SHEET_FORMATTING_OPTIONS = {
     "bold_header": True,
     "center_header": True,
     "freeze_header": True,
-    "column_widths": {"justify": True, "buffer_chars": DEFAULT_BUFFER_CHARS}
+    "column_widths": {"justify": True, "buffer_chars": DEFAULT_BUFFER_CHARS},
+    "extra_columns": 0,
+    "extra_columns_width": 50,
 }
 
 def extract_credentials(authentication_response):
@@ -169,7 +172,7 @@ def fill_worksheet_with_df(
         df,
         worksheet_name,
         overlapBehavior,
-        sheet_formatting_options=DEFAULT_SHEET_FORMATTING_OPTIONS,
+        sheet_formatting_options={},
         column_formatting_options={}
     ):
     """
@@ -199,38 +202,47 @@ def fill_worksheet_with_df(
             title=worksheet_name, rows=df.shape[0], cols=df.shape[1]
         )
     
+    sheet_formatting_options_filled = {**DEFAULT_SHEET_FORMATTING_OPTIONS, **sheet_formatting_options}
+
+    # Add extra blank columns to the right of the worksheet
+    df_to_insert = pd.concat(
+        [df] + [pd.Series(" ", index=df.index, name="")] * sheet_formatting_options_filled["extra_columns"], 
+        axis=1
+    )
     # Add data to worksheet
-    worksheet.update([df.columns.values.tolist()] + df.fillna("NA").values.tolist())
+    worksheet.update([df_to_insert.columns.values.tolist()] + df_to_insert.fillna("NA").values.tolist())
 
     # Format worksheet
     # Justify Column Widths
-    if "column_widths" not in sheet_formatting_options or sheet_formatting_options["column_widths"]["justify"]:
+    if "column_widths" not in sheet_formatting_options_filled or sheet_formatting_options_filled["column_widths"]["justify"]:
         text_widths = df.astype(str).columns.map(
             lambda column_name: df[column_name].astype(str).str.len().max()
         )
         header_widths = df.columns.str.len()
         buffer_chars = (
             DEFAULT_BUFFER_CHARS 
-            if ("column_widths" not in sheet_formatting_options or "buffer_chars" not in sheet_formatting_options["column_widths"]) 
-            else sheet_formatting_options["column_widths"]["buffer_chars"]
+            if ("column_widths" not in sheet_formatting_options_filled or "buffer_chars" not in sheet_formatting_options_filled["column_widths"]) 
+            else sheet_formatting_options_filled["column_widths"]["buffer_chars"]
         )
-        column_widths = [
+        data_column_widths = [
             round((max(len_tuple) + buffer_chars) * FONT_SIZE_PTS * 1/PTS_PIXELS_RATIO)
             for len_tuple in zip(text_widths, header_widths)
         ]
+        extra_column_widths = [sheet_formatting_options_filled["extra_columns_width"]] * sheet_formatting_options_filled["extra_columns"]
+        combined_column_widths = data_column_widths + extra_column_widths
         column_positions = [
-            gspread.utils.rowcol_to_a1(1, i + 1)[0] for i, _ in enumerate(column_widths)
+            gspread.utils.rowcol_to_a1(1, i + 1)[0] for i, _ in enumerate(combined_column_widths)
         ]
-        gspread_formatting.set_column_widths(worksheet, zip(column_positions, column_widths))
+        gspread_formatting.set_column_widths(worksheet, zip(column_positions, combined_column_widths))
     # Freeze Header
-    if "freeze_header" not in sheet_formatting_options or sheet_formatting_options["freeze_header"]:
+    if "freeze_header" not in sheet_formatting_options_filled or sheet_formatting_options_filled["freeze_header"]:
         gspread_formatting.set_frozen(worksheet, rows=1)
     base_format_options = gspread_formatting.CellFormat()
     # Bold Header
-    if "bold_header" not in sheet_formatting_options or sheet_formatting_options["bold_header"]:
+    if "bold_header" not in sheet_formatting_options_filled or sheet_formatting_options_filled["bold_header"]:
         base_format_options += gspread_formatting.CellFormat(textFormat=gspread_formatting.TextFormat(bold=True))
     # Center Header
-    if "center_header" not in sheet_formatting_options or sheet_formatting_options["center_header"]:
+    if "center_header" not in sheet_formatting_options_filled or sheet_formatting_options_filled["center_header"]:
         base_format_options += gspread_formatting.CellFormat(horizontalAlignment="CENTER")
     # Handle column specific formatting
     for column in column_formatting_options:
@@ -313,7 +325,7 @@ def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, sheet_formatt
     for worksheet_name, df in df_dict.items():
         fill_worksheet_with_df(
             sheet, df, worksheet_name, overlapBehavior, 
-            sheet_formatting_options=sheet_formatting_options.get(worksheet_name, DEFAULT_SHEET_FORMATTING_OPTIONS), 
+            sheet_formatting_options=sheet_formatting_options.get(worksheet_name, {}), 
             column_formatting_options=column_formatting_options.get(worksheet_name, {})
         )
 
@@ -338,7 +350,12 @@ DEFAULT_CHART_ARGS = {
     "title": "",
     "x_axis_title": "",
     "y_axis_title": "",
-    "chart_position": None # Means it will be created in a new sheet
+    "invert_x_axis": False,
+    "chart_position": None, # None means it will be created in a new sheet
+    "chart_position_offset_x": 0,
+    "chart_position_offset_y": 0,
+    "chart_width": 600,
+    "chart_height": 371,
 }
 
 @dataclass
@@ -366,11 +383,14 @@ def _cell_to_grid_coordinate(cell, worksheet):
 
 def add_chart_to_sheet(sheets_authentication_response, sheet, worksheet, chart_type, domain, series, **chart_args):
     complete_chart_args = {**DEFAULT_CHART_ARGS, **chart_args}
-    print(worksheet.id)
     if complete_chart_args["chart_position"] is not None:
         position_dict = {
             "overlayPosition": {
-                "anchorCell": _cell_to_grid_coordinate(complete_chart_args["chart_position"], worksheet)
+                "anchorCell": _cell_to_grid_coordinate(complete_chart_args["chart_position"], worksheet),
+                "offsetXPixels": complete_chart_args["chart_position_offset_x"],
+                "offsetYPixels": complete_chart_args["chart_position_offset_y"],
+                "widthPixels": complete_chart_args["chart_width"],
+                "heightPixels": complete_chart_args["chart_height"],
             }
         }
     else:
@@ -385,6 +405,7 @@ def add_chart_to_sheet(sheets_authentication_response, sheet, worksheet, chart_t
                     ],
                 },
             },
+            "reversed": complete_chart_args["invert_x_axis"],
         },
     ]
     formatted_series = [
@@ -411,8 +432,6 @@ def add_chart_to_sheet(sheets_authentication_response, sheet, worksheet, chart_t
             "title": complete_chart_args["y_axis_title"],
             "position": "LEFT_AXIS",
         })
-    print(formatted_domains)
-    print(formatted_series)
     request = {
         "addChart": {
             "chart": {
@@ -432,7 +451,6 @@ def add_chart_to_sheet(sheets_authentication_response, sheet, worksheet, chart_t
             },
         },
     }
-    print(request)
 
     response = update_sheet_raw(sheets_authentication_response, sheet, request)
     return response

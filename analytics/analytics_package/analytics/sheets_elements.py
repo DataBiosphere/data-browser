@@ -1,6 +1,7 @@
+from enum import Enum
 import numpy as np
 import pandas as pd
-from .charts import get_data_df
+from .charts import get_data_df, get_df_over_time
 from .fields import *
 from urllib.parse import urlparse
 import datetime as dt
@@ -226,3 +227,39 @@ def get_change(series_current, series_previous, start_current, end_current, star
     series_previous_reindexed = (series_previous.reindex(combined_index) * current_length / previous_length)
     change = ((series_current_reindexed / series_previous_reindexed) - 1).replace({np.inf: np.nan})
     return change
+
+class ADDITIONAL_DATA_BEHAVIOR(Enum):
+    ADD = "add"
+    REPLACE = "replace"
+
+def get_change_over_time_df(
+    analytics_params, include_changes=True, additional_data_path=None, additional_data_behavior=None
+):
+    df_api = get_df_over_time(
+		["Users", "Total Pageviews"],
+		["activeUsers", "screenPageViews"],
+		"yearMonth",
+		sort_results=["yearMonth"],
+		df_processor=(lambda df: df.set_index(df.index + "01")[-2::-1]),
+		format_table=False,
+		**analytics_params
+	)
+    
+    df_combined = pd.DataFrame()
+
+    if additional_data_path is not None:
+        assert additional_data_behavior is not None
+        df_saved = pd.read_json(additional_data_path)
+        if additional_data_behavior == ADDITIONAL_DATA_BEHAVIOR.ADD:
+            df_combined = df_api.add(df_saved.astype(int), fill_value=0)[::-1]
+        elif additional_data_behavior == ADDITIONAL_DATA_BEHAVIOR.REPLACE:
+            df_combined = pd.concat([df_saved, df_api], ignore_index=False)
+            df_combined = df_combined.loc[~df_combined.index.duplicated(keep="first")].sort_index(ascending=False)
+    else:
+        df_combined = df_api
+
+    if include_changes:
+        df_combined["Users Change"] = df_combined["Users"].pct_change()
+        df_combined["Total Pageviews Change"] = df_combined["Total Pageviews"].pct_change()
+    
+    return df_combined
