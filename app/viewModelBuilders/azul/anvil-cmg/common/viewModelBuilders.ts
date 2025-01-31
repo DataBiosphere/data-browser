@@ -111,6 +111,7 @@ import { FEATURE_FLAGS } from "../../../common/contants";
 import { Unused, Void } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
+import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
 
 /**
  * Build props for activity type BasicCell component from the given activities response.
@@ -469,6 +470,22 @@ export const buildDatasetExportMethodManifestDownload = (
 };
 
 /**
+ * Build props for either the ExportEntity component for the display of the choose export methods or
+ * the AnVILManifestDownloadEntity component for the display of the manifest download method.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ExportEntity component.
+ */
+export const buildDatasetExportPropsWithFilter = (
+  datasetsResponse: DatasetsResponse
+):
+  | React.ComponentProps<typeof ExportEntity>
+  | typeof C.AnVILManifestDownloadEntity => {
+  return {
+    filters: getExportEntityFilters(datasetsResponse),
+  };
+};
+
+/**
  * Build props for ExportMethod component for display of the export to terra metadata section.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the dataset Terra export method component.
@@ -524,6 +541,35 @@ export function buildDatasetPath(datasetsResponse: DatasetsResponse): string {
   const datasetId = getDatasetEntryId(datasetsResponse);
   return `${URL_DATASETS}/${datasetId}`;
 }
+
+/**
+ * Build props for dataset ExportToTerra component.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ExportToTerra component.
+ */
+export const builDatasetTerraExport = (
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext<DatasetsResponse>
+): React.ComponentProps<typeof C.ExportToTerra> => {
+  const { fileManifestState } = viewContext;
+  // Get the initial filters.
+  const filters = getExportEntityFilters(datasetsResponse);
+  // Grab the form facet.
+  const formFacet = getFormFacets(fileManifestState);
+  return {
+    ExportForm: C.ExportToTerraForm,
+    ExportToTerraStart: MDX.ExportToTerraStart,
+    ExportToTerraSuccess: MDX.ExportToTerraSuccess,
+    fileManifestState,
+    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    filters,
+    formFacet,
+    manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB,
+    manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB],
+  };
+};
 
 /**
  * Build dataset title Link component from the given datasets response.
@@ -621,35 +667,6 @@ export const buildExportCurrentQuery = (
     queries: getExportCurrentQueries(
       getExportCurrentQuerySelectedFilters(datasetsResponse, viewContext)
     ),
-  };
-};
-
-/**
- * Build props for ExportToTerra component from the given datasets response.
- * @param datasetsResponse - Response model return from datasets API.
- * @param viewContext - View context.
- * @returns model to be used as props for the ExportToTerra component.
- */
-export const buildExportEntityToTerra = (
-  datasetsResponse: DatasetsResponse,
-  viewContext: ViewContext<DatasetsResponse>
-): React.ComponentProps<typeof C.ExportToTerra> => {
-  const { fileManifestState } = viewContext;
-  // Get the initial filters.
-  const filters = getExportEntityFilters(datasetsResponse);
-  // Grab the form facet.
-  const formFacet = getFormFacets(fileManifestState);
-  return {
-    ExportForm: C.ExportToTerraForm,
-    ExportToTerraStart: MDX.ExportToTerraStart,
-    ExportToTerraSuccess: MDX.ExportToTerraSuccess,
-    fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
-    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
-    filters,
-    formFacet,
-    manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB,
-    manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB],
   };
 };
 
@@ -910,19 +927,6 @@ export const buildManifestDownload = (
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters: filterState,
     formFacet,
-  };
-};
-
-/*
- * Build props for ManifestDownloadEntity component.
- * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the ManifestDownloadEntity component.
- */
-export const buildManifestDownloadEntity = (
-  datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.AnVILManifestDownloadEntity> => {
-  return {
-    filters: getExportEntityFilters(datasetsResponse),
   };
 };
 

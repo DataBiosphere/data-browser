@@ -1,4 +1,4 @@
-import { expect, Locator, Page, test } from "@playwright/test";
+import { expect, Locator, Page, Request, test } from "@playwright/test";
 import {
   BUTTON_TEXT_ANALYZE_IN_TERRA,
   BUTTON_TEXT_EXPORT,
@@ -16,6 +16,11 @@ import {
   MUI_TABLE_ROW_ROOT,
 } from "../features/common/constants";
 import { ROUTE_MANIFEST_DOWNLOAD } from "../../site-config/anvil-cmg/dev/export/constants";
+import { ANVIL_CMG_CATEGORY_KEY } from "../../site-config/anvil-cmg/category";
+import {
+  APIEndpoints,
+  AZUL_PARAM,
+} from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 
 const { describe } = test;
 
@@ -40,6 +45,21 @@ describe.parallel("Dataset", () => {
     await expect(exportButton).toBeVisible();
   });
 
+  test("displays login to export method", async ({ page }) => {
+    await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
+
+    // Navigate to the choose export method page.
+    const currentUrl = page.url();
+    await page.goto(`${currentUrl}/export`);
+
+    // Confirm the login alert is displayed.
+    await expect(
+      page.locator(
+        `${MUI_ALERT_ROOT}:has-text("To export this dataset, please sign in and, if necessary, request access.")`
+      )
+    ).toBeVisible();
+  });
+
   test("displays export method", async ({ page }) => {
     await goToDataset(page, CHIP_TEXT_ACCESS_GRANTED);
 
@@ -52,6 +72,36 @@ describe.parallel("Dataset", () => {
     ).toBeVisible();
     await expect(
       getLinkWithText(page, BUTTON_TEXT_REQUEST_FILE_MANIFEST)
+    ).toBeVisible();
+  });
+
+  test("displays export method selected data", async ({ page }) => {
+    await goToDataset(page, CHIP_TEXT_ACCESS_GRANTED);
+
+    // Wait for the summary request once the export button is clicked.
+    const [request] = await Promise.all([
+      page.waitForRequest((request) =>
+        request.url().includes(APIEndpoints.SUMMARY)
+      ),
+      clickLink(page, BUTTON_TEXT_EXPORT),
+    ]);
+
+    // Confirm summary request has dataset ID request param.
+    verifySummaryRequest(request);
+  });
+
+  test("displays login to download file manifest", async ({ page }) => {
+    await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
+
+    // Navigate to the export file manifest page.
+    const currentUrl = page.url();
+    await page.goto(`${currentUrl}${ROUTE_MANIFEST_DOWNLOAD}`);
+
+    // Confirm the login alert is displayed.
+    await expect(
+      page.locator(
+        `${MUI_ALERT_ROOT}:has-text("To download this dataset manifest, please sign in and, if necessary, request access.")`
+      )
     ).toBeVisible();
   });
 
@@ -76,37 +126,25 @@ describe.parallel("Dataset", () => {
     await expect(buttons.nth(1)).toBeVisible();
   });
 
-  test("displays login to export method", async ({ page }) => {
-    await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
+  test("displays download file manifest selected data", async ({ page }) => {
+    await goToDataset(page, CHIP_TEXT_ACCESS_GRANTED);
 
-    // Navigate to the choose export method page.
-    const currentUrl = page.url();
-    await page.goto(`${currentUrl}/export`);
+    // Confirm export button is visible and click it.
+    await clickLink(page, BUTTON_TEXT_EXPORT);
 
-    // Confirm the login alert is displayed.
-    await expect(
-      page.locator(
-        `${MUI_ALERT_ROOT}:has-text("To export this dataset, please sign in and, if necessary, request access.")`
-      )
-    ).toBeVisible();
+    // Wait for the summary request once the file manifest button is clicked.
+    const [request] = await Promise.all([
+      page.waitForRequest((request) =>
+        request.url().includes(APIEndpoints.SUMMARY)
+      ),
+      clickLink(page, BUTTON_TEXT_REQUEST_FILE_MANIFEST),
+    ]);
+
+    // Confirm summary request has dataset ID request param.
+    verifySummaryRequest(request);
   });
 
-  test("displays login to download file manifest", async ({ page }) => {
-    await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
-
-    // Navigate to the export file manifest page.
-    const currentUrl = page.url();
-    await page.goto(`${currentUrl}${ROUTE_MANIFEST_DOWNLOAD}`);
-
-    // Confirm the login alert is displayed.
-    await expect(
-      page.locator(
-        `${MUI_ALERT_ROOT}:has-text("To download this dataset manifest, please sign in and, if necessary, request access.")`
-      )
-    ).toBeVisible();
-  });
-
-  test("displays download analyze in Terra", async ({ page }) => {
+  test("displays analyze in Terra", async ({ page }) => {
     await goToDataset(page, CHIP_TEXT_ACCESS_GRANTED);
 
     // Confirm export button is visible and click it.
@@ -173,4 +211,17 @@ async function goToDataset(page: Page, access: DatasetAccess): Promise<void> {
 
   // Wait for the dataset detail page to load (specifically the dataset title).
   await page.waitForSelector(`h1:has-text("${datasetTitle}")`);
+}
+
+/**
+ * Confirm dataset ID is in the /summary request URL.
+ * @param request - The request object.
+ */
+function verifySummaryRequest(request: Request): void {
+  // Grab the filters param from the request.
+  const url = new URL(request.url());
+  const paramValue = url.searchParams.get(AZUL_PARAM.FILTERS) || "";
+
+  // Validate dataset ID is in the filters query parameter.
+  expect(paramValue).toContain(ANVIL_CMG_CATEGORY_KEY.DATASET_ID);
 }

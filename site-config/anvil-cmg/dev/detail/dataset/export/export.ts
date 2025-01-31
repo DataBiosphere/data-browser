@@ -54,7 +54,7 @@ export const exportConfig: ExportConfig = {
               children: [
                 {
                   component: C.ExportToTerra,
-                  viewBuilder: V.buildExportToTerra,
+                  viewBuilder: V.builDatasetTerraExport,
                 } as ComponentConfig<typeof C.ExportToTerra>,
               ],
               component: C.BackPageContentMainColumn,
@@ -104,7 +104,7 @@ export const exportConfig: ExportConfig = {
               children: [
                 {
                   component: C.AnVILManifestDownloadEntity,
-                  viewBuilder: V.buildManifestDownloadEntity,
+                  viewBuilder: V.buildDatasetExportPropsWithFilter,
                 } as ComponentConfig<
                   typeof C.AnVILManifestDownloadEntity,
                   DatasetsResponse
@@ -143,7 +143,6 @@ export const exportConfig: ExportConfig = {
               children: [
                 {
                   component: MDX.Alert,
-                  // TODO(cc) update text
                   viewBuilder: V.buildAlertDatasetExportWarning,
                 } as ComponentConfig<typeof MDX.Alert, DatasetsResponse>,
               ],
@@ -160,6 +159,11 @@ export const exportConfig: ExportConfig = {
           children: [
             {
               children: [
+                // Empty component for triggering calls to populate the selected data in the side channel.
+                {
+                  component: C.AnVILExportEntity,
+                  viewBuilder: V.buildDatasetExportPropsWithFilter,
+                } as ComponentConfig<typeof C.AnVILExportEntity>,
                 {
                   component: C.ExportMethod,
                   viewBuilder: V.buildDatasetExportMethodTerra,
