@@ -297,7 +297,6 @@ def build_params(source, subs):
 
 
 def results_to_df(results):
-
 	df = pd.DataFrame()
 	for result in results:  
 		# Collect column nmes 

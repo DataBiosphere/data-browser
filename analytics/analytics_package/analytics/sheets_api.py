@@ -377,12 +377,19 @@ DEFAULT_CHART_ARGS = {
 
 @dataclass
 class WorksheetRange:
+    """
+    A dataclass to represent a range of cells in a worksheet in the one-sided interval [top_left, bottom_right).
+    :param worksheet: the gspread.worksheet.Worksheet object
+    :param top_left: the top left cell of the range. This cell will be included in the range
+    :param bottom_right: the bottom right cell of the range. This cell will not be included in the range
+    """
     worksheet: gspread.worksheet.Worksheet
     top_left: gspread.cell.Cell
     bottom_right: gspread.cell.Cell
 
     @property
     def range_dict(self):
+        """The range as a dictionary for the sources field in the Google Sheets api"""
         return {
             "sheetId": self.worksheet.id,
             "startRowIndex": self.top_left.row - 1,
@@ -399,6 +406,16 @@ def _cell_to_grid_coordinate(cell, worksheet):
     }
 
 def add_chart_to_sheet(sheets_authentication_response, sheet, worksheet, chart_type, domain, series, **chart_args):
+    """
+    Add a chart to a specified workshet
+    :param sheets_authentication_response: the response from ga.authenticate. Must be for the sheets api v4
+    :param sheet: the gspread.Spreadsheet object
+    :param worksheet: the gspread.Worksheet object
+    :param chart_type: the type of chart to add
+    :param domain: the domain of the chart as a WorksheetRange. Must contain either one row or one column
+    :param series: the series of the chart as a WorksheetRange. Must contain either one row or one column
+    :param chart_args: other arguments to create the chart. See DEFAULT_CHART_ARGS
+    """
     complete_chart_args = {**DEFAULT_CHART_ARGS, **chart_args}
     if complete_chart_args["chart_position"] is not None:
         position_dict = {
@@ -415,7 +432,6 @@ def add_chart_to_sheet(sheets_authentication_response, sheet, worksheet, chart_t
     formatted_domains = [
         {
             "domain": {
-                #TODO: would be nice to also support column references https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/other#DataSourceColumnReference
                 "sourceRange": {
                     "sources": [
                         domain.range_dict
@@ -425,6 +441,7 @@ def add_chart_to_sheet(sheets_authentication_response, sheet, worksheet, chart_t
             "reversed": complete_chart_args["invert_x_axis"],
         },
     ]
+
     formatted_series = [
         {
             "series": {
