@@ -95,6 +95,7 @@ export { FileNameCell } from "./Detail/components/GeneratedMatricesTables/compon
 export { GeneratedMatricesTables } from "./Detail/components/GeneratedMatricesTables/generatedMatricesTables";
 export { AtlasSection } from "./Detail/components/Section/components/AtlasSection/atlasSection";
 export { ManifestDownloadEntity as AnVILManifestDownloadEntity } from "./Export/components/AnVILExplorer/components/ManifestDownload/components/ManifestDownloadEntity/manifestDownloadEntity";
+export { ExportEntity as AnVILExportEntity } from "./Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
 export { BioNetworkCell } from "./Index/components/BioNetworkCell/bioNetworkCell";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
 export { CopyCell } from "./Index/components/CopyCell/copyCell";
