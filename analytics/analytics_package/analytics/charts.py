@@ -416,8 +416,8 @@ def show_plot(df, title, fontsize=16, **other_params):
 	fig.suptitle(title, fontsize=fontsize)
 	plt.show()
 
-def show_plot_over_time(titles, xlabels, metrics, dimensions="ga:date", format_table=True, df_filter=None, pre_plot_df_processor=None, **other_params):
-	titles, xlabels, metrics = strings_to_lists(titles, xlabels, metrics)
+def get_df_over_time(xlabels, metrics, dimensions, df_filter=None, **other_params):
+	xlabels, metrics = strings_to_lists(xlabels, metrics)
 	
 	df = get_data_df(metrics, dimensions, **other_params)
 	
@@ -429,6 +429,11 @@ def show_plot_over_time(titles, xlabels, metrics, dimensions="ga:date", format_t
 
 	# Rename for display
 	df.rename(columns={name: xlabels[i] for i, name in enumerate(df.columns)}, inplace=True)
+
+	return df
+
+def show_plot_over_time(titles, xlabels, metrics, dimensions="ga:date", format_table=True, df_filter=None, pre_plot_df_processor=None, **other_params):
+	df = get_df_over_time(xlabels, metrics, dimensions, df_filter=df_filter, **other_params)
 
 	if (not pre_plot_df_processor is None):
 		df = pre_plot_df_processor(df)
