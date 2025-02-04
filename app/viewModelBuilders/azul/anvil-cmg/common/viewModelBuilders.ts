@@ -39,7 +39,7 @@ import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,
 } from "@mui/material";
-import React from "react";
+import React, { ReactNode } from "react";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
@@ -111,6 +111,8 @@ import { FEATURE_FLAGS } from "../../../common/contants";
 import { Unused, Void } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
+import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
+import { RequestAccess } from "../../../../components/Detail/components/AnVILCMG/components/RequestAccess/requestAccess";
 
 /**
  * Build props for activity type BasicCell component from the given activities response.
@@ -122,6 +124,71 @@ export const buildActivityType = (
 ): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getActivityType(response),
+  };
+};
+
+/**
+ * Build props for dataset-related export warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertDatasetExportWarning = (
+  _: Unused,
+  viewContext: ViewContext<Unused>
+): React.ComponentProps<typeof MDX.Alert> => {
+  const content = isUserAuthenticated(viewContext)
+    ? "To export this dataset, please request access."
+    : "To export this dataset, please sign in and, if necessary, request access.";
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    content,
+  };
+};
+
+/**
+ * Build props for entity related download manifest warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertDatasetManifestDownloadWarning = (
+  _: Unused,
+  viewContext: ViewContext<Unused>
+): React.ComponentProps<typeof MDX.Alert> => {
+  const content = isUserAuthenticated(viewContext)
+    ? "To download this dataset manifest, please request access."
+    : "To download this dataset manifest, please sign in and, if necessary, request access.";
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    content,
+  };
+};
+
+/**
+ * Build props for dataset-related export warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertDatasetTerraExportWarning = (
+  _: Unused,
+  viewContext: ViewContext<Unused>
+): React.ComponentProps<typeof MDX.Alert> => {
+  const {
+    exploreState: { featureFlagState },
+  } = viewContext;
+  const content = featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)
+    ? isUserAuthenticated(viewContext)
+      ? "To export this dataset, please request access."
+      : "To export this dataset, please sign in and, if necessary, request access."
+    : "Export functionality is currently under development. Check back soon for updates.";
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    content,
   };
 };
 
@@ -143,31 +210,6 @@ export const buildAlertEntityListWarning = (
 };
 
 /**
- * Build props for entity related export warning Alert component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the Alert component.
- */
-export const buildAlertExportEntityWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
-): React.ComponentProps<typeof MDX.Alert> => {
-  const {
-    exploreState: { featureFlagState },
-  } = viewContext;
-  const content = featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)
-    ? isUserAuthenticated(viewContext)
-      ? "To export this dataset, please request access."
-      : "To export this dataset, please sign in and, if necessary, request access."
-    : "Export functionality is currently under development. Check back soon for updates.";
-  return {
-    ...ALERT_PROPS.STANDARD_WARNING,
-    component: C.FluidPaper,
-    content,
-  };
-};
-
-/**
  * Build props for export warning Alert component.
  * @param _ - Unused.
  * @param viewContext - View context.
@@ -183,26 +225,6 @@ export const buildAlertExportWarning = (
     component: C.FluidPaper,
     content: isAuthenticated ? null : MDX.AlertExportWarningContent({}),
     size: isAuthenticated ? SIZE.MEDIUM : SIZE.LARGE,
-  };
-};
-
-/**
- * Build props for entity related download manifest warning Alert component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the Alert component.
- */
-export const buildAlertManifestDownloadEntityWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
-): React.ComponentProps<typeof MDX.Alert> => {
-  const content = isUserAuthenticated(viewContext)
-    ? "To download this dataset manifest, please request access."
-    : "To download this dataset manifest, please sign in and, if necessary, request access.";
-  return {
-    ...ALERT_PROPS.STANDARD_WARNING,
-    component: C.FluidPaper,
-    content,
   };
 };
 
@@ -352,6 +374,137 @@ export const buildDatasetDetails = (
 };
 
 /**
+ * Build base breadcrumbs for dataset export. Includes link to all datasets and
+ * the selected dataset.
+ * @param datasetsResponse  - Response model return from datasets API.
+ * @returns array of breadcrumbs to be used by dataset export and dataset export method pages.
+ */
+export function buildDatasetExportBreadcrumbs(
+  datasetsResponse: DatasetsResponse
+): Breadcrumb[] {
+  const datasetPath = buildDatasetPath(datasetsResponse);
+  const datasetTitle = getDatasetTitle(datasetsResponse);
+  return [
+    { path: URL_DATASETS, text: "Datasets" },
+    { path: datasetPath, text: datasetTitle },
+  ];
+}
+
+/**
+ * Build props for dataset export BackPageHero component.
+ * @param datasetsResponse  - Response model return from datasets API.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export function buildDatasetExportHero(
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.BackPageHero> {
+  return {
+    breadcrumbs: [
+      ...buildDatasetExportBreadcrumbs(datasetsResponse),
+      { path: "", text: "Choose Export Method" },
+    ],
+    title: getDatasetTitle(datasetsResponse),
+  };
+}
+
+/**
+ * Returns breadcrumbs and title for dataset export method Hero component.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @param title - Short export method description (e.g. Request File Manifest).
+ * @returns model to be used as props for the Hero component.
+ */
+function getDatasetExportMethodHero(
+  datasetsResponse: DatasetsResponse,
+  title: string
+): React.ComponentProps<typeof C.BackPageHero> {
+  const datasetPath = buildDatasetPath(datasetsResponse);
+  return {
+    breadcrumbs: [
+      ...buildDatasetExportBreadcrumbs(datasetsResponse),
+      { path: `${datasetPath}/export`, text: "Choose Export Method" },
+      { path: "", text: title },
+    ],
+    title: getDatasetTitle(datasetsResponse),
+  };
+}
+
+/**
+ * Build props for dataset manifest download BackPageHero component.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildDatasetExportMethodHeroManifestDownload = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.BackPageHero> => {
+  const title = "File Manifest";
+  return getDatasetExportMethodHero(datasetsResponse, title);
+};
+
+/**
+ * Build props for dataset manifest download BackPageHero component.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildDatasetExportMethodHeroTerraExport = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.BackPageHero> => {
+  const title = "Analyze in Terra";
+  return getDatasetExportMethodHero(datasetsResponse, title);
+};
+
+/**
+ * Build props for ExportMethod component for display of the dataset manifest download section.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the dataset file manifest export method component.
+ */
+export const buildDatasetExportMethodManifestDownload = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ExportMethod> => {
+  const datasetPath = buildDatasetPath(datasetsResponse);
+  return {
+    buttonLabel: "Request File Manifest",
+    description:
+      "Request a file manifest suitable for downloading this dataset to your HPC cluster or local machine.",
+    route: `${datasetPath}${ROUTE_MANIFEST_DOWNLOAD}`,
+    title: "Download a File Manifest with Metadata",
+  };
+};
+
+/**
+ * Build props for either the ExportEntity component for the display of the choose export methods or
+ * the AnVILManifestDownloadEntity component for the display of the manifest download method.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ExportEntity component.
+ */
+export const buildDatasetExportPropsWithFilter = (
+  datasetsResponse: DatasetsResponse
+):
+  | React.ComponentProps<typeof ExportEntity>
+  | typeof C.AnVILManifestDownloadEntity => {
+  return {
+    filters: getExportEntityFilters(datasetsResponse),
+  };
+};
+
+/**
+ * Build props for ExportMethod component for display of the export to terra metadata section.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the dataset Terra export method component.
+ */
+export const buildDatasetExportMethodTerra = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof ExportMethod> => {
+  const datasetPath = buildDatasetPath(datasetsResponse);
+  return {
+    buttonLabel: "Analyze in Terra",
+    description:
+      "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+    route: `${datasetPath}${ROUTE_EXPORT_TO_TERRA}`,
+    title: "Export Dataset Data and Metadata to Terra Workspace",
+  };
+};
+
+/**
  * Build props for BackPageHero component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the BackPageHero component.
@@ -360,6 +513,7 @@ export const buildDatasetHero = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.BackPageHero> => {
   return {
+    actions: getDatasetRequestAccess(datasetsResponse),
     breadcrumbs: getDatasetBreadcrumbs(datasetsResponse),
     callToAction: getDatasetCallToAction(datasetsResponse),
     title: getDatasetTitle(datasetsResponse),
@@ -377,6 +531,45 @@ export const buildDatasetIds = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATASET_NAME),
     values: getAggregatedDatasetIds(response),
+  };
+};
+
+/**
+ * Build path to dataset from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns path to the dataset.
+ */
+export function buildDatasetPath(datasetsResponse: DatasetsResponse): string {
+  const datasetId = getDatasetEntryId(datasetsResponse);
+  return `${URL_DATASETS}/${datasetId}`;
+}
+
+/**
+ * Build props for dataset ExportToTerra component.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ExportToTerra component.
+ */
+export const builDatasetTerraExport = (
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext<DatasetsResponse>
+): React.ComponentProps<typeof C.ExportToTerra> => {
+  const { fileManifestState } = viewContext;
+  // Get the initial filters.
+  const filters = getExportEntityFilters(datasetsResponse);
+  // Grab the form facet.
+  const formFacet = getFormFacets(fileManifestState);
+  return {
+    ExportForm: C.ExportToTerraForm,
+    ExportToTerraStart: MDX.ExportToTerraStart,
+    ExportToTerraSuccess: MDX.ExportToTerraSuccess,
+    fileManifestState,
+    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    filters,
+    formFacet,
+    manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB,
+    manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB],
   };
 };
 
@@ -476,35 +669,6 @@ export const buildExportCurrentQuery = (
     queries: getExportCurrentQueries(
       getExportCurrentQuerySelectedFilters(datasetsResponse, viewContext)
     ),
-  };
-};
-
-/**
- * Build props for ExportToTerra component from the given datasets response.
- * @param datasetsResponse - Response model return from datasets API.
- * @param viewContext - View context.
- * @returns model to be used as props for the ExportToTerra component.
- */
-export const buildExportEntityToTerra = (
-  datasetsResponse: DatasetsResponse,
-  viewContext: ViewContext<DatasetsResponse>
-): React.ComponentProps<typeof C.ExportToTerra> => {
-  const { fileManifestState } = viewContext;
-  // Get the initial filters.
-  const filters = getExportEntityFilters(datasetsResponse);
-  // Grab the form facet.
-  const formFacet = getFormFacets(fileManifestState);
-  return {
-    ExportForm: C.ExportToTerraForm,
-    ExportToTerraStart: MDX.ExportToTerraStart,
-    ExportToTerraSuccess: MDX.ExportToTerraSuccess,
-    fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
-    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
-    filters,
-    formFacet,
-    manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB,
-    manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB],
   };
 };
 
@@ -768,19 +932,6 @@ export const buildManifestDownload = (
   };
 };
 
-/*
- * Build props for ManifestDownloadEntity component.
- * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the ManifestDownloadEntity component.
- */
-export const buildManifestDownloadEntity = (
-  datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.AnVILManifestDownloadEntity> => {
-  return {
-    filters: getExportEntityFilters(datasetsResponse),
-  };
-};
-
 /**
  * Build props for organism type BasicCell component from the given donors response.
  * @param response - Response model return from index/donors API endpoint.
@@ -930,19 +1081,16 @@ function getDatasetCallToAction(
 ): CallToAction | undefined {
   const isReady = isResponseReady(datasetsResponse);
   const isAccessGranted = isDatasetAccessible(datasetsResponse);
-  const registeredIdentifier = getDatasetRegisteredIdentifier(datasetsResponse);
-  if (
-    !isReady ||
-    isAccessGranted ||
-    registeredIdentifier === LABEL.UNSPECIFIED
-  ) {
-    return;
+  if (!isReady) return;
+  // Display export button if user is authorized to access the dataset.
+  if (isAccessGranted) {
+    return {
+      label: "Export",
+      target: ANCHOR_TARGET.SELF,
+      url: `/datasets/${getDatasetEntryId(datasetsResponse)}/export`,
+    };
   }
-  return {
-    label: "Request Access",
-    target: ANCHOR_TARGET.BLANK,
-    url: `https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=${registeredIdentifier}`,
-  };
+  // Otherwise, display nothing.
 }
 
 /**
@@ -957,6 +1105,23 @@ export function getDatasetRegisteredIdentifier(
     processEntityArrayValue(datasetsResponse.datasets, "registered_identifier"),
     0
   );
+}
+
+/**
+ * Returns the `actions` prop for the Hero component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns react node to be used as the `actions` props for the Hero component.
+ */
+function getDatasetRequestAccess(
+  datasetsResponse: DatasetsResponse
+): ReactNode {
+  const isReady = isResponseReady(datasetsResponse);
+  const isAccessGranted = isDatasetAccessible(datasetsResponse);
+  if (!isReady) return null;
+  // Display nothing if user is authorized to access the dataset.
+  if (isAccessGranted) return null;
+  // Display request access button if user is not authorized to access the dataset.
+  return RequestAccess({ datasetsResponse });
 }
 
 /**
@@ -1309,12 +1474,14 @@ export const renderWhenUnAuthenticated = (
 };
 
 /**
- * Renders entity related export when the given datasests response is accessible.
+ * Renders dataset export to Terra component when the given datasests response is accessible. Note,
+ * this can be removed once the verbatim feature flag is removed (use renderDatasetExport instead).
  * @param datasetsResponse - Response model return from datasets API.
  * @param viewContext - View context.
  * @returns model to be used as props for the ConditionalComponent component.
+ * @deprecated
  */
-export const renderExportEntity = (
+export const renderDatasetTerraExport = (
   datasetsResponse: DatasetsResponse,
   viewContext: ViewContext<DatasetsResponse>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
@@ -1329,12 +1496,14 @@ export const renderExportEntity = (
 };
 
 /**
- * Renders entity related export warning when the given datasests response is not accessible.
+ * Renders dataset export to Terra warning component when the given datasests response is accessible. Note,
+ * this can be removed once the verbatim feature flag is removed (use renderDatasetExportWarning instead).
  * @param datasetsResponse - Response model return from datasets API.
  * @param viewContext - View context.
  * @returns model to be used as props for the ConditionalComponent component.
+ * @deprecated
  */
-export const renderExportEntityWarning = (
+export const renderDatasetTerraExportWarning = (
   datasetsResponse: DatasetsResponse,
   viewContext: ViewContext<DatasetsResponse>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
@@ -1342,19 +1511,19 @@ export const renderExportEntityWarning = (
     exploreState: { featureFlagState },
   } = viewContext;
   return {
-    isIn: !(
-      isDatasetAccessible(datasetsResponse) &&
-      Boolean(featureFlagState?.includes(FEATURE_FLAGS.VERBATIM))
-    ),
+    isIn:
+      !isDatasetAccessible(datasetsResponse) ||
+      Boolean(!featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)),
   };
 };
 
 /**
- * Renders entity related download manifest when the given datasests response is accessible.
+ * Renders dataset export-related components (either the choose export method component,
+ * or specific export components) when the given dataset is accessble.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the ConditionalComponent component.
  */
-export const renderManifestDownloadEntity = (
+export const renderDatasetExport = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
@@ -1363,11 +1532,12 @@ export const renderManifestDownloadEntity = (
 };
 
 /**
- * Renders entity related download manifest warning when the given datasests response is not accessible.
+ * Renders dataset export-related warning components (either the choose export method component,
+ * or specific export components) when the given dataset is not accessible.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the ConditionalComponent component.
  */
-export const renderManifestDownloadEntityWarning = (
+export const renderDatasetExportWarning = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
