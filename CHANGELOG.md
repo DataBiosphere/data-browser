@@ -1,5 +1,32 @@
 # Changelog
 
+## [2.8.0](https://github.com/DataBiosphere/data-browser/compare/v2.7.1...v2.8.0) (2025-02-04)
+
+
+### Features
+
+* add percent change to analytics package ([#4335](https://github.com/DataBiosphere/data-browser/issues/4335)) ([eef1cee](https://github.com/DataBiosphere/data-browser/commit/eef1cee33a84853c9e15b7dc958aa07feedacfb7))
+* added pageviews analytics functions ([#4336](https://github.com/DataBiosphere/data-browser/issues/4336)) ([#4339](https://github.com/DataBiosphere/data-browser/issues/4339)) ([6d65fae](https://github.com/DataBiosphere/data-browser/commit/6d65fae358f74ca0c6f7fb817c4b0bf89336c5f8))
+* analytics package total views users graphs [#4353](https://github.com/DataBiosphere/data-browser/issues/4353) ([#4360](https://github.com/DataBiosphere/data-browser/issues/4360)) ([8845dba](https://github.com/DataBiosphere/data-browser/commit/8845dba2b27f664f1160d4ac63db399a3d79b279))
+* page view report for hca data explorer ([#4354](https://github.com/DataBiosphere/data-browser/issues/4354)) ([efc0ff8](https://github.com/DataBiosphere/data-browser/commit/efc0ff86db48524aba8a67c0190880463f326570))
+* request access via duos in addition to dbgap ([#4127](https://github.com/DataBiosphere/data-browser/issues/4127)) ([#4362](https://github.com/DataBiosphere/data-browser/issues/4362)) ([97b8cdb](https://github.com/DataBiosphere/data-browser/commit/97b8cdb3095b4a3af0c6176b3fed54f29374ba64))
+* unified export flow [#4102](https://github.com/DataBiosphere/data-browser/issues/4102) ([#4356](https://github.com/DataBiosphere/data-browser/issues/4356)) ([59d2d7b](https://github.com/DataBiosphere/data-browser/commit/59d2d7bcc598fdc2d7a38197c0159847f751e968))
+
+
+### Bug Fixes
+
+* analytics package issues ([#4352](https://github.com/DataBiosphere/data-browser/issues/4352)) ([e0ce2c7](https://github.com/DataBiosphere/data-browser/commit/e0ce2c7464107bbbc166f7e21fcc3c4426b6e553))
+
+
+### Chores
+
+* updated cellxgene portals ([#4355](https://github.com/DataBiosphere/data-browser/issues/4355)) ([#4361](https://github.com/DataBiosphere/data-browser/issues/4361)) ([60a7a6e](https://github.com/DataBiosphere/data-browser/commit/60a7a6eb92ed15d350131fbe85f213a65867938c))
+
+
+### Tests
+
+* upgraded to GH actions artifacts v4 [#4358](https://github.com/DataBiosphere/data-browser/issues/4358) ([#4359](https://github.com/DataBiosphere/data-browser/issues/4359)) ([ba3d866](https://github.com/DataBiosphere/data-browser/commit/ba3d866e05b9dcccb44dcfe1a9d82d3dbe715952))
+
 ## [2.7.1](https://github.com/DataBiosphere/data-browser/compare/v2.7.0...v2.7.1) (2025-01-17)
 
 
