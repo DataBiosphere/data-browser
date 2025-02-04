@@ -14,13 +14,12 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
-import { mainColumn as exportMainColumn } from "../detail/dataset/exportMainColumn";
-import { mainColumn as metadataMainColumn } from "../detail/dataset/metadataMainColumn";
 import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
 import { listHero } from "../listView/datasetsListHero";
 import { subTitleHero } from "../listView/subTitleHero";
+import { exportConfig } from "../detail/dataset/export/export";
 
 /**
  * Entity config object responsible for config related to the /datasets route.
@@ -37,22 +36,14 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         route: "",
         sideColumn: sideColumn,
       },
-      {
-        label: "Metadata",
-        mainColumn: metadataMainColumn,
-        route: "project-metadata",
-      },
-      {
-        label: "Export",
-        mainColumn: exportMainColumn,
-        route: "export-to-terra",
-      },
     ],
     top: top,
   },
   exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
+  export: exportConfig,
   getId: getDatasetEntryId,
   getTitle: getTitle,
+  hideTabs: true,
   label: "Datasets",
   list: {
     columns: [
