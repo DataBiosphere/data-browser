@@ -47,6 +47,7 @@ export interface DatasetEntity {
   consent_group: (string | null)[];
   dataset_id: string;
   description?: string;
+  duos_id: string | null;
   registered_identifier: (string | null)[];
   title: string;
 }

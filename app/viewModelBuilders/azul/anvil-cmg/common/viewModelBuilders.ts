@@ -39,7 +39,7 @@ import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,
 } from "@mui/material";
-import React from "react";
+import React, { ReactNode } from "react";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
@@ -112,6 +112,7 @@ import { Unused, Void } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
 import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
+import { RequestAccess } from "../../../../components/Detail/components/AnVILCMG/components/RequestAccess/requestAccess";
 
 /**
  * Build props for activity type BasicCell component from the given activities response.
@@ -512,6 +513,7 @@ export const buildDatasetHero = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.BackPageHero> => {
   return {
+    actions: getDatasetRequestAccess(datasetsResponse),
     breadcrumbs: getDatasetBreadcrumbs(datasetsResponse),
     callToAction: getDatasetCallToAction(datasetsResponse),
     title: getDatasetTitle(datasetsResponse),
@@ -1079,24 +1081,13 @@ function getDatasetCallToAction(
 ): CallToAction | undefined {
   const isReady = isResponseReady(datasetsResponse);
   const isAccessGranted = isDatasetAccessible(datasetsResponse);
-  const registeredIdentifier = getDatasetRegisteredIdentifier(datasetsResponse);
-  if (!isReady) {
-    return;
-  }
+  if (!isReady) return;
   // Display export button if user is authorized to access the dataset.
   if (isAccessGranted) {
     return {
       label: "Export",
       target: ANCHOR_TARGET.SELF,
       url: `/datasets/${getDatasetEntryId(datasetsResponse)}/export`,
-    };
-  }
-  // Display request access button if user is not authorized to access the dataset.
-  if (registeredIdentifier === LABEL.UNSPECIFIED) {
-    return {
-      label: "Request Access",
-      target: ANCHOR_TARGET.BLANK,
-      url: `https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=${registeredIdentifier}`,
     };
   }
   // Otherwise, display nothing.
@@ -1114,6 +1105,23 @@ export function getDatasetRegisteredIdentifier(
     processEntityArrayValue(datasetsResponse.datasets, "registered_identifier"),
     0
   );
+}
+
+/**
+ * Returns the `actions` prop for the Hero component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns react node to be used as the `actions` props for the Hero component.
+ */
+function getDatasetRequestAccess(
+  datasetsResponse: DatasetsResponse
+): ReactNode {
+  const isReady = isResponseReady(datasetsResponse);
+  const isAccessGranted = isDatasetAccessible(datasetsResponse);
+  if (!isReady) return null;
+  // Display nothing if user is authorized to access the dataset.
+  if (isAccessGranted) return null;
+  // Display request access button if user is not authorized to access the dataset.
+  return RequestAccess({ datasetsResponse });
 }
 
 /**
