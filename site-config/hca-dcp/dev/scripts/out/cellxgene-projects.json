@@ -56,10 +56,6 @@
     "hcaProjectId": "21ea8ddb-525f-4f1f-a820-31f0360399a2"
   },
   {
-    "cellxgeneId": "fc19ae6c-d7c1-4dce-b703-62c5d52061b4",
-    "hcaProjectId": "248c5dc3-6b75-4fb4-ad8a-cc771968483f"
-  },
-  {
     "cellxgeneId": "3a2af25b-2338-4266-aad3-aa8d07473f50",
     "hcaProjectId": "24d0dbbc-54eb-4904-8141-934d26f1c936"
   },
@@ -240,6 +236,10 @@
     "hcaProjectId": "95f07e6e-6a73-4e1b-a880-c83996b3aa5c"
   },
   {
+    "cellxgeneId": "9e4e8f1d-d905-4d4f-b343-84889d0f9ffe",
+    "hcaProjectId": "9762d70c-9b27-4f57-8cbc-377b9b92ea9b"
+  },
+  {
     "cellxgeneId": "99f1515b-46a2-4bc4-94c3-f62659dc1eb4",
     "hcaProjectId": "9b876d31-0739-4e96-9846-f76e6a427279"
   },
@@ -326,6 +326,10 @@
   {
     "cellxgeneId": "83ed3be8-4cb9-43e6-9aaa-3fbbf5d1bd3a",
     "hcaProjectId": "dbd836cf-bfc2-41f0-9834-41cc6c0b235a"
+  },
+  {
+    "cellxgeneId": "ba84c7ba-8d8c-4720-a76e-3ee37dc89f0b",
+    "hcaProjectId": "df8eb7ce-3707-46af-b823-e081a562e954"
   },
   {
     "cellxgeneId": "939769a8-d8d2-4d01-abfc-55699893fd49",

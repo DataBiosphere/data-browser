@@ -5,6 +5,7 @@ import {
   AzulListParams,
 } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import {
+  PARAMS_INDEX_EXPORT_METHOD,
   PARAMS_INDEX_TAB,
   PARAMS_INDEX_UUID,
 } from "@databiosphere/findable-ui/lib/common/constants";
@@ -19,11 +20,14 @@ import { getEntityService } from "@databiosphere/findable-ui/lib/hooks/useEntity
 import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
 import { database } from "@databiosphere/findable-ui/lib/utils/database";
 import { EntityDetailView } from "@databiosphere/findable-ui/lib/views/EntityDetailView/entityDetailView";
+import { EntityExportView } from "@databiosphere/findable-ui/lib/views/EntityExportView/entityExportView";
+import { EntityExportMethodView } from "@databiosphere/findable-ui/lib/views/EntityExportMethodView/entityExportMethodView";
 import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { readFile } from "../../app/utils/tsvParser";
+import { useRouter } from "next/router";
 
 const setOfProcessedIds = new Set<string>();
 
@@ -48,8 +52,11 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  * @returns Entity detail view component.
  */
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
+  const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
+  if (isChooseExportView(query)) return <EntityExportView {...props} />;
+  if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
   return <EntityDetailView {...props} />;
 };
 
@@ -81,6 +88,38 @@ function isOverride(override: Override): boolean {
       override.supersededBy ||
       override.withdrawn
   );
+}
+
+/**
+ * Check if the current view matches the expected export path segment.
+ * @param query - The current query object.
+ * @param expectedIndex - The expected index for the parameter length check.
+ * @returns True if the view matches the expected export criteria.
+ */
+function isExportView(query: ParsedUrlQuery, expectedIndex: number): boolean {
+  return (
+    !!query.params &&
+    query.params.length === expectedIndex + 1 &&
+    query.params[PARAMS_INDEX_TAB] === "export"
+  );
+}
+
+/**
+ * Determine if the current view is choose export method.
+ * @param query - The current query object.
+ * @returns True if the current view is choose export.
+ */
+function isChooseExportView(query: ParsedUrlQuery): boolean {
+  return isExportView(query, PARAMS_INDEX_TAB);
+}
+
+/**
+ * Determine if the current view is an export method (e.g. file manifest or Terra).
+ * @param query - The current query object.
+ * @returns True if the current view is an export method.
+ */
+function isExportMethodView(query: ParsedUrlQuery): boolean {
+  return isExportView(query, PARAMS_INDEX_EXPORT_METHOD);
 }
 
 /**
@@ -343,7 +382,7 @@ function processEntityPaths(
   entitiesResponse: AzulEntitiesResponse,
   paths: StaticPath[]
 ): void {
-  const { detail, route: entityListType } = entityConfig;
+  const { detail, export: exportConfig, route: entityListType } = entityConfig;
   const { tabs } = detail;
   const { hits: entities } = entitiesResponse;
   const tabRoutes = getTabRoutes(tabs);
@@ -356,6 +395,26 @@ function processEntityPaths(
     // Generate a path for each entity and each tab.
     for (const tabRoute of tabRoutes) {
       const params = [entityId, tabRoute];
+      paths.push({
+        params: {
+          entityListType,
+          params,
+        },
+      });
+    }
+    // Generate paths for exports: add paths for choose method and each individual
+    // export method.
+    if (!exportConfig) continue;
+    for (const exportRoute of [
+      ...exportConfig.tabs,
+      ...exportConfig.exportMethods,
+    ]) {
+      // Split export routes into individual paths (e.g. /export/download-manifest),
+      // removing any slashes. Default to empty array if no route is provided.
+      const exportRoutePaths =
+        exportRoute?.route?.split("/").filter(Boolean) || [];
+      // Build and add paths for each export route.
+      const params = [entityId, ...exportRoutePaths];
       paths.push({
         params: {
           entityListType,
