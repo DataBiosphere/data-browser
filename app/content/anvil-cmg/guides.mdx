@@ -11,7 +11,7 @@ We are excited to introduce users of the [AnVIL Portal]({portalURL}) to the [AnV
 
 ## What is the AnVIL Data Explorer?
 
-Until now, the way to browse datasets through the AnVIL portal has been to use the [AnVIL Dataset Catalog]({portalURL}/data/consortia), which allows you to organize your search results based on the workspaces that contain a subset of a dataset by its consent code. The AnVIL Dataset Catalog provides summary level information of the dataset and study.
+Until now, the way to browse datasets through the AnVIL Portal has been to use the [AnVIL Dataset Catalog]({portalURL}/data/consortia), which allows you to organize your search results based on the workspaces that contain a subset of a dataset by its consent code. The AnVIL Dataset Catalog provides summary level information of the dataset and study.
 
 With the addition of the [AnVIL Data Explorer]({browserURL}), you’ll be able to sort the datasets you’re browsing based on the following managed access categories:
 
@@ -31,7 +31,7 @@ When working with NIH data, particularly managed access data, users must follow 
 
 ## How do I use the AnVIL Data Explorer?
 
-Below you’ll find step-by-step instructions for navigating the AnVIL Data Explorer and exporting data to Terra. In order to successfully import data from the AnVIL Data Explorer to Terra, you’ll need to make your selection in the AnVIL Data Explorer, export this selection to a Terra workspace, and (as an interim stopgap) run a final step in the form of a Jupyter Notebook in order to retrieve all of the data relevant to your selection.
+Below you’ll find step-by-step instructions for navigating the AnVIL Data Explorer and exporting data to Terra.
 
 ### Step 1: Finding the AnVIL Data Explorer
 
@@ -61,36 +61,19 @@ The facets are visible in the screen above in the column on the left. If you cli
 
 When you select multiple facets, only data matching all selected facets is displayed (e.g. filter by Anatomical Site AND BioSample Type). When you select multiple values within a facet, data matching any of the facet values is displayed (e.g. selecting both Blood and Tissue above will list studies that include Blood OR Tissue samples).
 
-#### Exploring Studies
+#### Exploring Datasets
 
-Note: Currently the summary pages of studies in the AnVIL Data Explorer are not populated with information, yet the information described below will be populated for all of the studies as development progresses.
+When you click on a dataset, you’ll be taken a summary page where you can find a variety of information and helpful links, including but not limited to:
 
-When you click on a study, you’ll be taken a summary page where you can find a variety of information and helpful links, including but not limited to:
-
-- What consortium the data is associated with
+- What consortium the dataset is associated with
 - The quantity and types of data
 - Links to APIs for accessing the data programmatically
 - Links to request access
-- A button for exporting the data to a Terra workspace
+- A button for exporting the dataset to a Terra workspace
 
-<Figure alt="Exploring Studies" src="/guides/exploring-studies.png" />
+<Figure alt="Exploring Datasets" src="/guides/exploring-studies.png" />
 
 ### Step 4: Exporting Data
-
-<Alert severity="warning">
-  <AlertTitle>Note</AlertTitle>
-
-The format of exported study data is currently being updated. Exporting study
-data is temporarily disabled by default while this work is in progress. Export
-will be reenabled when the format is stable and working well.
-
-</Alert>
-
-To use data you’ve found through the AnVIL Data Explorer within your Terra workspace, you’ll need to follow two steps:
-
-First, you export the data from the AnVIL Data Explorer to Terra.
-
-Second, currently, you will need to use a publicly available notebook to fill in some of the metadata that doesn’t populate automatically.
 
 #### Exporting from The AnVIL Data Explorer
 
@@ -113,15 +96,13 @@ After you click this button, you will be prompted to wait while the system gener
   src="/guides/export-to-terra2.png"
 />
 
-#### Working with the Data in Terra
+### Working with the Data in Terra
 
 Until recently, AnVIL data has been hosted and shared from multiple Terra workspaces making it hard to generate cohorts across differing studies. To resolve this, we created the AnVIL Data Explorer enabling you to create custom cohorts and then hand them off to your own Terra workspaces.
 
 Depending on the AnVIL dataset/study, the data in question have varying schemas (different columns and structure to the data). In an effort to ingest all of the AnVIL datasets, the Broad's Data Sciences Platform created a common subset schema across all AnVIL datasets. When you use the AnVIL Data Explorer, it actually searches through a specialized subset - called the Findability Subset (FSS) - that only contains the attributes which are most commonly used by researchers across a broad range of study data types and for diverse analyses.
 
-At this point in development, the data that you hand off from the AnVIL Data Explorer to your Terra workspace is incomplete - it only contains the columns that were deemed relevant for the FSS used in the AnVIL Data Explorer. Currently, if you want the complete data, you will need to perform one additional step after exporting to your workspace. This step is performed by running a publicly available Jupyter Notebook, as instructed below.
-
-##### Working with NIH Data in Terra
+#### Working with NIH Data in Terra
 
 When working with NIH data in Terra, we require users to import data to workspaces with the checkbox for protected data marked. Optionally, an Authorization Domain may be applied and is highly recommended if working with controlled access data.
 
@@ -132,7 +113,7 @@ In the data handoff from the AnVIL Data Explorer, you will transition to the Ter
   src="/guides/working-with-data.png"
 />
 
-##### Selecting Workspace
+#### Selecting Workspace
 
 Next, you’ll see a workspace selection screen where you can either choose an existing workspace or create a new workspace to receive the data.
 
@@ -150,21 +131,3 @@ If you choose to “start with a new workspace”, you will see that the import 
 <Figure alt="Create New Workspace" src="/guides/create-new-workspace.png" />
 
 Once you’ve completed this step, your workspace will spin up and you can go to the Data tab of your workspace to see a set of tables have been successfully imported into the workspace.
-
-##### Using the Notebook
-
-The data you now see in your workspace is incomplete - to retrieve the complete data, you’ll need to run a Jupyter Notebook created for this purpose called \*get_non_findability_subset_data_v7.ipynb\*. We’ve published this notebook in a [public workspace](https://app.terra.bio/#workspaces/anvil-datastorage/AnVIL_Explorer_FSS_Tool) for your convenience. To complete the import process, all you need to do is copy the notebook from the public workspace into the workspace to which you’ve imported your data, and run the notebook from within that workspace.
-
-##### Copy the Notebook
-
-Go to the public workspace containing the AnVIL FSS tool notebook, navigate to the Analyses section, and use the three-dot menu to the right of the notebook name to find the option to copy the notebook to another workspace:
-
-<Figure alt="Copy the Notebook" src="/guides/copy-notebook.png" />
-
-##### Run the Notebook
-
-Once the notebook is in the same workspace as the data, set up a Clou open the notebook in edit mode (the default environment is sufficient), and select “Run All” from the Cell menu:
-
-<Figure alt="Run the Notebook" src="/guides/run-notebook.png" />
-
-Once you’ve completed this step, you should be able to see a new set of tables in the Data tab of your workspace.
