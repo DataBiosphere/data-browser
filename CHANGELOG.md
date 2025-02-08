@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.9.0](https://github.com/DataBiosphere/data-browser/compare/v2.8.0...v2.9.0) (2025-02-07)
+
+
+### Features
+
+* removed verbatim ff [#4350](https://github.com/DataBiosphere/data-browser/issues/4350) ([#4363](https://github.com/DataBiosphere/data-browser/issues/4363)) ([b8b37fb](https://github.com/DataBiosphere/data-browser/commit/b8b37fb986b1c7751901807026eb1ee6e16ea0cc))
+
+
+### Bug Fixes
+
+* get_change_df_over_time uses an inclusive range ([#4365](https://github.com/DataBiosphere/data-browser/issues/4365)) ([#4366](https://github.com/DataBiosphere/data-browser/issues/4366)) ([e2653f5](https://github.com/DataBiosphere/data-browser/commit/e2653f5605cc3220d28299bfc2cc48205c23067d))
+
 ## [2.8.0](https://github.com/DataBiosphere/data-browser/compare/v2.7.1...v2.8.0) (2025-02-04)
 
 
