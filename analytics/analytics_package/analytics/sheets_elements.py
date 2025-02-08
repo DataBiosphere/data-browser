@@ -270,7 +270,7 @@ def get_change_over_time_df(
         metrics,
 		time_dimension,
 		sort_results=[time_dimension],
-		df_processor=(lambda df: df.set_index(df.index + "01")[-2::-1]),
+		df_processor=(lambda df: df.set_index(df.index + "01").sort_index(ascending=False)),
 		format_table=False,
 		**other_params
 	)
