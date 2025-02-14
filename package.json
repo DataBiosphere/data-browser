@@ -3,9 +3,6 @@
   "version": "2.9.0",
   "private": true,
   "scripts": {
-    "dev:ncpi-catalog": "./scripts/dev.sh ncpi-catalog dev && ./scripts/set-version.sh dev && next dev",
-    "build-dev:ncpi-catalog": "scripts/common-build.sh ncpi-catalog dev && ./scripts/set-version.sh && next build && npm run postbuild",
-    "build-prod:ncpi-catalog": "./scripts/common-build.sh ncpi-catalog prod && ./scripts/set-version.sh && next build && npm run postbuild",
     "dev:anvil-catalog": "./scripts/dev.sh anvil-catalog dev && ./scripts/set-version.sh dev && next dev",
     "build-dev:anvil-catalog": "scripts/common-build.sh anvil-catalog dev && ./scripts/set-version.sh && next build  && npm run postbuild",
     "build-prod:anvil-catalog": "./scripts/common-build.sh anvil-catalog prod && ./scripts/set-version.sh && next build && npm run postbuild",
