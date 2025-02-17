@@ -1,46 +1,24 @@
-from enum import Enum
-import numpy as np
 import pandas as pd
-from .charts import get_data_df, get_df_over_time
-from .fields import *
+
+from ._sheets_utils import *
+from .entities import *
 from urllib.parse import urlparse
-import datetime as dt
-
-def get_data_df_from_fields(metrics, dimensions, **other_params):
-    """
-    Get a df from the Analytics API with metrics and dimensions as specified in fields.py
-
-    :param metrics: the metrics to get
-    :param dimensions: the dimensions to get
-    :param dimension_index: whether to use the dimensions as the index, defaults to False
-    :param other_params: any other parameters to be passed to the get_data_df function, including service params
-    :return: a DataFrame with the data from the Analytics API
-    """
-    df = get_data_df(
-        [metric["id"] for metric in metrics],
-        [dimension["id"] for dimension in dimensions],
-        **other_params
-    )
-    return df.reset_index().rename(columns=get_rename_dict(dimensions+metrics)).copy()
-
-def get_rename_dict(dimensions):
-    """Get a dictionary to rename the columns of a DataFrame."""
-    return dict(
-        zip([dimension["id"] for dimension in dimensions], [dimension["alias"] for dimension in dimensions])
-    )
 
 def get_outbound_links_df(analytics_params, ignore_index=True):
     """
-    Get a DF with outbound links from the Analytics API. Merges the builtin and custom events for outbound links.
+    Get a DataFrame with outbound links from the Analytics API. Merges the builtin and custom events for outbound links.
     analytics_params cannot currently include a dimension_filter
 
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
-    :return: a DataFrame with the outbound links from the Analytics API
+    :param ignore_index: If true, the index will be an arbitrary range index. If false, the index will be the dimensions
+    :return: a DataFrame with the response from the Analytics API. By default, dimensions and metrics both form columns
+        Dimensions: DIMENSION_PAGE_PATH, SYNTHETIC_DIMENSION_CLICKED_HOSTNAME, SYNTHETIC_DIMENSION_CLICKED_LINK
+        Metrics: SYNTHETIC_METRIC_CLICKS, METRIC_TOTAL_USERS
     """
     pd.set_option('future.no_silent_downcasting', True)
     assert "dimension_filter" not in analytics_params
     # Get the builtin "Click" event
-    df_builtin_links = get_data_df_from_fields(
+    df_builtin_links =get_data_df_from_fields(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_PAGE_PATH, DIMENSION_BUILTIN_URL, DIMENSION_EVENT_NAME],
         dimension_filter=f"eventName=={EVENT_BUILTIN_CLICK}",
@@ -78,35 +56,46 @@ def get_outbound_links_df(analytics_params, ignore_index=True):
         df_all_links[DIMENSION_CUSTOM_URL["alias"]]
     )
     df_all_links["hostname"] = df_all_links["complete_url"].map(lambda x: urlparse(x).hostname)
+    dimension_aliases_to_keep = [
+        DIMENSION_PAGE_PATH["alias"],
+        SYNTHETIC_DIMENSION_CLICKED_LINK["alias"],
+        SYNTHETIC_DIMENSION_CLICKED_HOSTNAME["alias"],
+    ]
+    metric_aliases_to_keep = [
+        SYNTHETIC_METRIC_CLICKS["alias"],
+        METRIC_TOTAL_USERS["alias"],
+    ]
     df_all_links = df_all_links.drop(
         columns=[DIMENSION_BUILTIN_URL["alias"], DIMENSION_CUSTOM_URL["alias"], "builtin", "is_fragment"]
     ).rename(
         columns={
-            "complete_url": "Outbound Link",
+            "complete_url": SYNTHETIC_DIMENSION_CLICKED_LINK["alias"],
             METRIC_EVENT_COUNT["alias"]: SYNTHETIC_METRIC_CLICKS["alias"],
-            "hostname": "Hostname",
+            "hostname": SYNTHETIC_DIMENSION_CLICKED_HOSTNAME["alias"],
         } 
     )[[
-        DIMENSION_PAGE_PATH["alias"],
-        "Hostname",
-        "Outbound Link",
-        SYNTHETIC_METRIC_CLICKS["alias"],
-        METRIC_TOTAL_USERS["alias"]
+        *dimension_aliases_to_keep, *metric_aliases_to_keep
     ]].copy()
 
     if not ignore_index:
-        return df_all_links.set_index(["Page Path", "Outbound Link", "Hostname"])
+        return df_all_links.set_index(dimension_aliases_to_keep)
     else:
         return df_all_links.reset_index(drop=True)
 
 def get_outbound_links_change(analytics_params, start_current, end_current, start_previous, end_previous):
     """
-    Get a DF with outbound links from the Analytics API and a comparison for the prior month
+    Get a DataFrame with outbound links from the Analytics API and a comparison for the prior period
+
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
     :param start_current: the start date for the current month in the format "YYYY-MM-DD"
     :param end_current: the end date for the current month
     :param start_previous: the start date for the previous month
     :param end_previous: the end date for the previous month
+    :return: a DataFrame with the outbound links from the Analytics API. 
+        By default, dimensions and metrics both form columns.
+        Columns are present for both metric values and metric changes from the prior period
+        Dimensions: DIMENSION_PAGE_PATH, SYNTHETIC_DIMENSION_CLICKED_HOSTNAME, SYNTHETIC_DIMENSION_CLICKED_LINK
+        Metrics: SYNTHETIC_METRIC_CLICKS, METRIC_TOTAL_USERS
     """
     return get_one_period_change_df(
         get_outbound_links_df, 
@@ -121,10 +110,13 @@ def get_outbound_links_change(analytics_params, start_current, end_current, star
 
 def get_page_views_df(analytics_params, ignore_index=False):
     """
-    Get a DF with page views from the Analytics API.
+    Get a DataFrame with page views from the Analytics API
 
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
-    :return: a DataFrame with the page views from the Analytics API
+    :param ignore_index: If true, the index will be an arbitrary range index. If false, the index will be the dimensions
+    :return: a DataFrame with the response from the Analytics API. By default, dimensions and metrics both form columns
+        Dimensions: DIMENSION_PAGE_PATH
+        Metrics: METRIC_PAGE_VIEWS, METRIC_TOTAL_USERS
     """
     assert "dimension_filter" not in analytics_params
     df_response = get_data_df_from_fields(
@@ -139,12 +131,17 @@ def get_page_views_df(analytics_params, ignore_index=False):
 
 def get_page_views_change(analytics_params, start_current, end_current, start_previous, end_previous):
     """
-    Get a DF with page views from the Analytics API and a comparison for the prior month
+    Get a DataFrame with page views from the Analytics API and a comparison for the prior month
+
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
     :param start_current: the start date for the current month in the format "YYYY-MM-DD"
     :param end_current: the end date for the current month
     :param start_previous: the start date for the previous month
     :param end_previous: the end date for the previous month
+    :return: a DataFrame with the response from the Analytics API. By default, dimensions and metrics both form columns
+        Columns are present for both metric values and metric changes from the prior period
+        Dimensions: DIMENSION_PAGE_PATH
+        Metrics: METRIC_PAGE_VIEWS, METRIC_TOTAL_USERS
     """
     return get_one_period_change_df(
         get_page_views_df, 
@@ -156,55 +153,21 @@ def get_page_views_change(analytics_params, start_current, end_current, start_pr
         end_previous,
         sort_results=[METRIC_PAGE_VIEWS, METRIC_TOTAL_USERS]
     )
-    
-def get_one_period_change_series(series_current, series_previous, start_current, end_current, start_previous, end_previous, combined_index = None):
-    """
-    Get the percent change between two serieses, accounting for different numbers of days in the month.
-    :param series_current: the series representing the current month
-    :param series_previous: the series representing the prior month
-    :param start_current: the start date for the current month in the format "YYYY-MM-DD"
-    :param end_current: the end date for the current month
-    :param start_previous: the start date for the prior month
-    :param end_previous: the end date for the prior month
-    :return: a Series with the change between the two serieses
-    """
-    # Check that both serieses have the same index names
-    assert series_current.index.names == series_previous.index.names
-    # Reindex both serieses to have the same index
-    combined_index = series_current.index.union(series_previous.index)
-    current_length = float((dt.datetime.fromisoformat(end_current) - dt.datetime.fromisoformat(start_current)).days + 1)
-    previous_length = float((dt.datetime.fromisoformat(end_previous) - dt.datetime.fromisoformat(start_previous)).days + 1)
-    assert current_length != 0 and previous_length != 0
-    series_current_reindexed = series_current.reindex(combined_index).fillna(0)
-    # Adjust the values from the prior series to account for the different number of days in the month
-    series_previous_reindexed = (series_previous.reindex(combined_index) * current_length / previous_length)
-    change = ((series_current_reindexed / series_previous_reindexed) - 1).replace({np.inf: np.nan})
-    return change
 
-def get_string_or_alias(string_or_alias):
+def get_one_period_change_df(df_function, change_metrics, analytics_params, start_current, end_current, start_previous, end_previous, sort_results=None, ignore_index=False):
     """
-    Get the string or alias of a metric or dimension.
-    :param string_or_alias: the string or alias to get
-    :return: the string or alias of the metric or dimension
-    """
-    if isinstance(string_or_alias, dict) and "alias" in string_or_alias:
-        return string_or_alias["alias"]
-    elif isinstance(string_or_alias, str):
-        return string_or_alias
-    else:
-        raise ValueError("string_or_alias must be a string or a dictionary with an alias key")
-
-def get_one_period_change_df(df_function, change_metrics, analytics_params, start_current, end_current, start_previous, end_previous, sort_results=None, dimension_index=False):
-    """
-    Get a DF with the change between two periods for the given metrics, renamed to match titles
-    :param metrics: the objects representing metrics to be displayed
-    :param metric_titles: the titles to be displayed for the metrics
-    :param dimensions: the objects representing dimensions to be displayed
+    Get a DataFrame with the change between two periods for the given metrics, renamed to match titles
+    :param df_function: a function that returns a dataframe, with numerical columns matching the aliases of change_metrics
+    :param change_metrics: an iterable of the objects representing metrics to be displayed
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
     :param start_current: the start date for the current month in the format "YYYY-MM-DD"
     :param end_current: the end date for the current month
     :param start_previous: the start date for the prior month
     :param end_previous: the end date for the prior month
+    :param sort_results: an iterable containing the metrics to sort the results by, defaults to None
+    :param ignore_index: if true, the index will be an arbitrary range index. If false, the index will be the dimensions
+    :return: a DataFrame with the change between two periods for the given metrics, renamed to match titles
+        Columns are dimension aliases (as strings), metric aliases (as ints), and metric change aliases (as floats)
     """
     
     analytics_params_current = {
@@ -244,21 +207,22 @@ def get_one_period_change_df(df_function, change_metrics, analytics_params, star
         df_current_with_changes = df_current_with_changes.sort_values(
             [metric["alias"] for metric in sort_results], ascending=False, kind="stable"
         )
-    if dimension_index:
+    if ignore_index:
         return df_current_with_changes
     else:
         return df_current_with_changes.reset_index()
-    
-class ADDITIONAL_DATA_BEHAVIOR(Enum):
-    ADD = "add"
-    REPLACE = "replace"
 
 def get_page_views_over_time_df(analytics_params, additional_data_path=None, additional_data_behavior=None):
     """
     Get a DataFrame with pageviews and total active users over time from the Analytics API.
+
     :param analytics_params: the parameters for the Analytics API, including service params, start dates, and end dates
     :param additional_data_path: the path to a JSON file with additional data to be added to the DataFrame, defaults to None
-    :param additional_data_behavior: the behavior to use when adding the additional data, defaults to None
+    :param additional_data_behavior: the behavior to use when adding the additional data, as an instance of ADDITIONAL_DATA_BEHAVIOR, defaults to None
+    :return: a DataFrame with the pageviews and total active users over time from the Analytics API. 
+        Columns are the dimension aliases, metrics (as ints), and change metrics (as floats)
+        Dimensions: DIMENSION_YEAR_MONTH (as a datetime)
+        Metrics: METRIC_ACTIVE_USERS, METRIC_PAGE_VIEWS
     """
     return get_change_over_time_df(
         [METRIC_ACTIVE_USERS, METRIC_PAGE_VIEWS],
@@ -268,64 +232,16 @@ def get_page_views_over_time_df(analytics_params, additional_data_path=None, add
         **analytics_params
     )
 
-def get_change_over_time_df(
-    metrics, time_dimension, include_changes=True, additional_data_path=None, additional_data_behavior=None, strftime_format="%Y-%m", **other_params
-):
-    """
-    Get a DataFrame with the change over time for the given metrics, renamed to match metric_titles
-    :param metric_titles: the titles of the metrics to be displayed
-    :param metrics: the metrics to be displayed
-    :param time_title: the title to be displayed for the time dimension
-    :param time_dimension: the time dimension to be displayed
-    :param include_changes: whether to include the percent change columns, defaults to True
-    :param change_title_suffix: the suffix to be added to the change columns, defaults to " Change"
-    :param additional_data_path: the path to a JSON file with additional data to be added to the DataFrame, defaults to None
-    :param additional_data_behavior: the behavior to use when adding the additional data, defaults to None
-    :param strftime_format: the format to use for the time dimension, defaults to "%Y-%m". None means a datetime will be returned
-    :param other_params: any other parameters to be passed to the get_df_over_time function, including service params
-    """
-    df_api = get_df_over_time(
-		[metric["alias"] for metric in metrics],
-        [metric["id"] for metric in metrics],
-		time_dimension["id"],
-		sort_results=[time_dimension["id"]],
-		df_processor=(lambda df: df.set_index(df.index + "01").sort_index(ascending=False)),
-		format_table=False,
-		**other_params
-	).rename({time_dimension["id"]: time_dimension["alias"]})
-    
-    df_combined = pd.DataFrame()
-
-    if additional_data_path is not None:
-        assert additional_data_behavior is not None
-        df_saved = pd.read_json(additional_data_path)
-        if additional_data_behavior == ADDITIONAL_DATA_BEHAVIOR.ADD:
-            df_combined = df_api.add(df_saved.astype(int), fill_value=0)[::-1]
-        elif additional_data_behavior == ADDITIONAL_DATA_BEHAVIOR.REPLACE:
-            df_combined = pd.concat([df_saved, df_api], ignore_index=False)
-            df_combined = df_combined.loc[~df_combined.index.duplicated(keep="first")].sort_index(ascending=False)
-    else:
-        df_combined = df_api
-
-    if include_changes:
-        df_combined[
-            [metric["change_alias"] for metric in metrics]
-        ] = df_combined[
-            [metric["alias"] for metric in metrics]
-        ].pct_change(periods=-1).replace({np.inf: np.nan})
-
-    if strftime_format is not None:
-        df_combined.index = pd.to_datetime(df_combined.index).strftime(strftime_format)
-
-    return df_combined.reset_index(names=time_dimension["alias"])
-    
-
 def get_landing_page_df(analytics_params, ignore_index=True):
     """
     Get a DataFrame with landing pages from the Analytics API.
 
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param ignore_index: If true, the index will be an arbitrary range index. If false, the index will be the dimensions
     :return: a DataFrame with the landing pages from the Analytics API
+        By default, dimension and metric aliases both form columns
+        Dimensions: DIMENSION_LANDING_PAGE,
+        Metrics: METRIC_SESSIONS
     """
     df_response = get_data_df_from_fields(
         [METRIC_SESSIONS],
@@ -338,12 +254,17 @@ def get_landing_page_df(analytics_params, ignore_index=True):
 
 def get_landing_page_change(analytics_params, start_current, end_current, start_previous, end_previous):
     """
-    Get a DF with landing pages from the Analytics API and a comparison for the prior month
+    Get a DataFrame with landing pages from the Analytics API and a comparison for the prior month
     :param analytics_params: the parameters for the Analytics API, including authentication and property ids
     :param start_current: the start date for the current month in the format "YYYY-MM-DD"
     :param end_current: the end date for the current month
     :param start_previous: the start date for the previous month
     :param end_previous: the end date for the previous month
+    :return: a DataFrame with the landing pages from the Analytics API. 
+        By default, dimensions and metrics both form columns
+        Columns are present for both metric values and metric changes from the prior period
+        Dimensions: DIMENSION_LANDING_PAGE
+        Metrics: METRIC_SESSIONS
     """
     return get_one_period_change_df(
         get_landing_page_df,
