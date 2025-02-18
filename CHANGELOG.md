@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.10.0](https://github.com/DataBiosphere/data-browser/compare/v2.9.0...v2.10.0) (2025-02-14)
+
+
+### Features
+
+* added anvil catalog analytics reports ([#4372](https://github.com/DataBiosphere/data-browser/issues/4372)) ([#4379](https://github.com/DataBiosphere/data-browser/issues/4379)) ([b648f9e](https://github.com/DataBiosphere/data-browser/commit/b648f9e923d565b02356588ac800d7b0cce312b6))
+* added missing elements to hca dx analytics sheets ([#4371](https://github.com/DataBiosphere/data-browser/issues/4371)) ([#4377](https://github.com/DataBiosphere/data-browser/issues/4377)) ([3141f3e](https://github.com/DataBiosphere/data-browser/commit/3141f3e870170cc1be043b9d86ee53b49de96ef1))
+* removed ncpi catalog ([#4375](https://github.com/DataBiosphere/data-browser/issues/4375)) ([fe23cfa](https://github.com/DataBiosphere/data-browser/commit/fe23cfaf6c2391689d4042e17ac70a7bfe72ef48))
+* update anvil catalog content for 2025-02-08 ([#4241](https://github.com/DataBiosphere/data-browser/issues/4241)) ([#4369](https://github.com/DataBiosphere/data-browser/issues/4369)) ([4cf7fc6](https://github.com/DataBiosphere/data-browser/commit/4cf7fc67ee04cda4b209045f7ac0682c6b14efbf))
+
 ## [2.9.0](https://github.com/DataBiosphere/data-browser/compare/v2.8.0...v2.9.0) (2025-02-07)
 
 
