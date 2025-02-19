@@ -54,7 +54,7 @@ export interface AggregatedDatasetResponse {
  * /index/libraries).
  */
 export interface AggregatedDonor {
-  organism_type: string[];
+  organism_type: (string | null)[];
   phenotypic_sex: string[];
   reported_ethnicity: string[];
 }
@@ -89,8 +89,8 @@ export interface AggregatedDiagnosisResponse {
  * /index/libraries).
  */
 export interface AggregatedFile {
-  data_modality: string[];
-  file_format: string;
+  data_modality: (string | null)[];
+  file_format: string[];
   file_id: string;
   file_type: string;
 }
