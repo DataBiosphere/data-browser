@@ -27,6 +27,7 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
     top: [],
   },
   exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
+  key: "biosamples",
   label: "BioSamples",
   list: {
     columns: [

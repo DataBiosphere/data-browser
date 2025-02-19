@@ -27,6 +27,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
     top: [],
   },
   exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
+  key: "activities",
   label: "Activities",
   list: {
     columns: [
