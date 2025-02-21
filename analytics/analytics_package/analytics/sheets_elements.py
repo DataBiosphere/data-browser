@@ -277,3 +277,241 @@ def get_landing_page_change(analytics_params, start_current, end_current, start_
         sort_results=[METRIC_SESSIONS]
     )
     
+def get_index_table_download_df(analytics_params, ignore_index=True):
+    """
+    Get a DataFrame with firect file downloads from the Analytics API.
+
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param ignore_index: If true, the index will be an arbitrary range index. If false, the index will be the dimensions
+    :return: a DataFrame with the landing pages from the Analytics API
+        By default, dimension and metric aliases both form columns
+        Dimensions: DIMENSION_ENTITY_NAME, DIMENSION_RELATED_ENTITY_ID, DIMENSION_RELATED_ENTITY_NAME
+        Metrics: METRIC_EVENT_COUNT, METRIC_TOTAL_USERS
+    """
+    assert "dimension_filter" not in analytics_params
+    df_response = get_data_df_from_fields(
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [DIMENSION_ENTITY_NAME, DIMENSION_RELATED_ENTITY_ID, DIMENSION_RELATED_ENTITY_NAME],
+        **analytics_params,
+        dimension_filter=f"eventName=={EVENT_FILE_DOWNLOADED}",
+    )
+    if not ignore_index:
+        df_response = df_response.set_index([DIMENSION_ENTITY_NAME["alias"], DIMENSION_RELATED_ENTITY_ID["alias"], DIMENSION_RELATED_ENTITY_NAME["alias"]])
+    return df_response
+
+def get_index_table_download_change(analytics_params, start_current, end_current, start_previous, end_previous):
+    """
+    Get a DataFrame with firect file downloads from the Analytics API and a comparison for the prior month
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param start_current: the start date for the current month in the format "YYYY-MM-DD"
+    :param end_current: the end date for the current month
+    :param start_previous: the start date for the previous month
+    :param end_previous: the end date for the previous month
+    :return: a DataFrame with the landing pages from the Analytics API. 
+        By default, dimensions and metrics both form columns
+        Columns are present for both metric values and metric changes from the prior period
+        Dimensions: DIMENSION_ENTITY_NAME, DIMENSION_RELATED_ENTITY_ID, DIMENSION_RELATED_ENTITY_NAME
+        Metrics: METRIC_EVENT_COUNT, METRIC_TOTAL_USERS
+    """
+    return get_one_period_change_df(
+        get_index_table_download_df,
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        analytics_params,
+        start_current,
+        end_current,
+        start_previous,
+        end_previous,
+        sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
+    )
+
+def get_index_entity_selected_df(analytics_params, ignore_index=True):
+    """
+    Get a DataFrame with index tab selections from the Analytics API.
+
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param ignore_index: If true, the index will be an arbitrary range index. If false, the index will be the dimensions
+    :return: a DataFrame with the landing pages from the Analytics API
+        By default, dimension and metric aliases both form columns
+        Dimensions: DIMENSION_ENTITY_NAME_TAB
+        Metrics: METRIC_EVENT_COUNT, METRIC_TOTAL_USERS
+    """
+    assert "dimension_filter" not in analytics_params
+    df_response = get_data_df_from_fields(
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [DIMENSION_ENTITY_NAME_TAB],
+        **analytics_params,
+        dimension_filter=f"eventName=={EVENT_ENTITY_SELECTED}",
+    )
+    if not ignore_index:
+        df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"]])
+    return df_response
+
+def get_index_entity_selected_change(analytics_params, start_current, end_current, start_previous, end_previous):
+    """
+    Get a DataFrame with index tab selections from the Analytics API and a comparison for the prior month
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param start_current: the start date for the current month in the format "YYYY-MM-DD"
+    :param end_current: the end date for the current month
+    :param start_previous: the start date for the previous month
+    :param end_previous: the end date for the previous month
+    :return: a DataFrame with the landing pages from the Analytics API. 
+        By default, dimensions and metrics both form columns
+        Columns are present for both metric values and metric changes from the prior period
+        Dimensions: DIMENSION_ENTITY_NAME_TAB
+        Metrics: METRIC_EVENT_COUNT, METRIC_TOTAL_USERS
+    """
+    return get_one_period_change_df(
+        get_index_entity_selected_df,
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        analytics_params,
+        start_current,
+        end_current,
+        start_previous,
+        end_previous,
+        sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
+    )
+
+def get_index_entity_table_sorted_df(analytics_params, ignore_index=True):
+    """
+    Get a DataFrame with index table sortings from the Analytics API.
+
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param ignore_index: If true, the index will be an arbitrary range index. If false, the index will be the dimensions
+    :return: a DataFrame with the landing pages from the Analytics API
+        By default, dimension and metric aliases both form columns
+        Dimensions: DIMENSION_ENTITY_NAME_TAB, DIMENSION_COLUMN_NAME, DIMENSION_SORT_DIRECTION
+        Metrics: METRIC_EVENT_COUNT, METRIC_TOTAL_USERS
+    """
+    assert "dimension_filter" not in analytics_params
+    df_response = get_data_df_from_fields(
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [DIMENSION_ENTITY_NAME_TAB, DIMENSION_COLUMN_NAME, DIMENSION_SORT_DIRECTION],
+        **analytics_params,
+        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_SORTED}",
+    )
+    if not ignore_index:
+        df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"], DIMENSION_COLUMN_NAME["alias"], DIMENSION_SORT_DIRECTION["alias"]])
+    return df_response
+
+def get_index_entity_table_sorted_change(analytics_params, start_current, end_current, start_previous, end_previous):
+    """
+    Get a DataFrame with index table sortings from the Analytics API and a comparison for the prior month
+
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param start_current: the start date for the current month in the format "YYYY-MM-DD"
+    :param end_current: the end date for the current month
+    :param start_previous: the start date for the previous month
+    :param end_previous: the end date for the previous month
+    :return: a DataFrame with the landing pages from the Analytics API.
+        By default, dimensions and metrics both form columns
+        Columns are present for both metric values and metric changes from the prior period
+        Dimensions: DIMENSION_ENTITY_NAME_TAB, DIMENSION_COLUMN_NAME, DIMENSION_SORT_DIRECTION
+        Metrics: METRIC_EVENT_COUNT, METRIC_TOTAL_USERS
+    """
+    return get_one_period_change_df(
+        get_index_entity_table_sorted_df,
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        analytics_params,
+        start_current,
+        end_current,
+        start_previous,
+        end_previous,
+        sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
+    )
+
+def get_index_entity_table_paginated_df(analytics_params, ignore_index=True):
+    """
+    Get a DataFrame with index table paginations from the Analytics API.
+
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param ignore_index: If true, the index will be an arbitrary range index. If false, the index will be the dimensions
+    :return: a DataFrame with the landing pages from the Analytics API
+        By default, dimension and metric aliases both form columns
+        Dimensions: DIMENSION_ENTITY_NAME_TAB, DIMENSION_PAGINATION_DIRECTION
+        Metrics: METRIC_EVENT_COUNT, METRIC_TOTAL_USERS
+    """
+    assert "dimension_filter" not in analytics_params
+    df_response = get_data_df_from_fields(
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [DIMENSION_ENTITY_NAME_TAB, DIMENSION_PAGINATION_DIRECTION],
+        **analytics_params,
+        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_PAGINATED}",
+    )
+    if not ignore_index:
+        df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"], DIMENSION_PAGINATION_DIRECTION["alias"]])
+    return df_response
+
+def get_index_entity_table_paginated_change(analytics_params, start_current, end_current, start_previous, end_previous):
+    """
+    Get a DataFrame with index table paginations from the Analytics API and a comparison for the prior month
+
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param start_current: the start date for the current month in the format "YYYY-MM-DD"
+    :param end_current: the end date for the current month
+    :param start_previous: the start date for the previous month
+    :param end_previous: the end date for the previous month
+    :return: a DataFrame with the landing pages from the Analytics API. 
+        By default, dimensions and metrics both form columns
+        Columns are present for both metric values and metric changes from the prior period
+        Dimensions: DIMENSION_ENTITY_NAME_TAB, DIMENSION_PAGINATION_DIRECTION
+        Metrics: METRIC_EVENT_COUNT, METRIC_TOTAL_USERS
+    """
+    return get_one_period_change_df(
+        get_index_entity_table_paginated_df,
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        analytics_params,
+        start_current,
+        end_current,
+        start_previous,
+        end_previous,
+        sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
+    )
+
+def get_index_filter_selected_df(analytics_params, ignore_index=True):
+    """
+    Get a DataFrame with index filter selections from the Analytics API.
+
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param ignore_index: If true, the index will be an arbitrary range index. If false, the index will be the dimensions
+    :return: a DataFrame with the landing pages from the Analytics API
+        By default, dimension and metric aliases both form columns
+        Dimensions: DIMENSION_ENTITY_NAME_TAB, DIMENSION_FILTER_NAME, DIMENSION_FILTER_VALUE
+        Metrics: METRIC_EVENT_COUNT, METRIC_TOTAL_USERS
+    """
+    assert "dimension_filter" not in analytics_params
+    df_response = get_data_df_from_fields(
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [DIMENSION_FILTER_NAME, DIMENSION_FILTER_VALUE],
+        **analytics_params,
+        dimension_filter=f"eventName=={EVENT_FILTER_SELECTED}",
+    )
+    if not ignore_index:
+        df_response = df_response.set_index([DIMENSION_FILTER_NAME["alias"], DIMENSION_FILTER_VALUE["alias"]])
+    return df_response
+
+def get_index_filter_selected_change(analytics_params, start_current, end_current, start_previous, end_previous):
+    """
+    Get a DataFrame with index filter selections from the Analytics API and a comparison for the prior month
+
+    :param analytics_params: the parameters for the Analytics API, including authentication and property ids
+    :param start_current: the start date for the current month in the format "YYYY-MM-DD"
+    :param end_current: the end date for the current month
+    :param start_previous: the start date for the previous month
+    :param end_previous: the end date for the previous month
+    :return: a DataFrame with the landing pages from the Analytics API. 
+        By default, dimensions and metrics both form columns
+        Columns are present for both metric values and metric changes from the prior period
+        Dimensions: DIMENSION_ENTITY_NAME_TAB, DIMENSION_FILTER_NAME, DIMENSION_FILTER_VALUE
+        Metrics: METRIC_EVENT_COUNT, METRIC_TOTAL_USERS
+    """
+    return get_one_period_change_df(
+        get_index_filter_selected_df,
+        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        analytics_params,
+        start_current,
+        end_current,
+        start_previous,
+        end_previous,
+        sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
+    )
+
