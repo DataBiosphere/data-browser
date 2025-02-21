@@ -226,7 +226,7 @@ def fill_worksheet_with_df(
         # Format worksheet
         # Justify Column Widths
         if "column_widths" not in sheet_formatting_options_filled or sheet_formatting_options_filled["column_widths"]["justify"]:
-            text_widths = df.astype(str).columns.map(
+            text_widths = df.columns.map(
                 lambda column_name: df[column_name].astype(str).str.len().max()
             )
             header_widths = df.columns.str.len()

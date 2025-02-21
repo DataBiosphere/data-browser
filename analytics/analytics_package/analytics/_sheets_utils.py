@@ -105,3 +105,29 @@ def get_change_over_time_df(
         df_combined.index = pd.to_datetime(df_combined.index).strftime(strftime_format)
 
     return df_combined.reset_index(names=time_dimension["alias"])
+
+def get_change_over_time_df_multiple_events(metric, events, time_dimension, **change_over_time_args):
+    """
+    Get a DataFrame with the change over time for the given metrics, renamed to match metric_titles
+    :param metrics: the metrics to be displayed
+    :param events: the events to be used
+    :param time_dimension: the time dimension to be used
+    :param change_over_time_args: any other parameters to be passed to the get_change_over_time_df function, including service params
+    :returns: a datetime with the values of the metrics for each time dimension.
+        Columns are the time dimension alias (as a datetime), metric aliases (as ints), and change metric aliases (as floats)
+    """
+    assert "dimension_filter" not in change_over_time_args
+    return pd.concat(
+        [
+            get_change_over_time_df(
+                [metric],
+                time_dimension,
+                **change_over_time_args,
+                dimension_filter=f"eventName=={event['id']}"
+            ).rename(
+                columns={metric["alias"]: event["alias"], metric["change_alias"]: event["change_alias"]}
+            ).set_index(time_dimension["alias"]) 
+            for event in events
+        ],
+        axis=1
+    )

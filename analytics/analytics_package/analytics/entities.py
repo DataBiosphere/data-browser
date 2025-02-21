@@ -45,17 +45,77 @@ SYNTHETIC_METRIC_CLICKS = {
 # Event Names
 # The builtin outbound link click event. Stores the clicked URL in DIMENSION_BUILTIN_URL
 # Triggers under some circumstances where custom click does not, but does not include url fragments in any dimensions
-EVENT_BUILTIN_CLICK = "click"
+EVENT_BUILTIN_CLICK = {
+    "id": "click",
+    "alias": "Builtin Outbound Link Click"
+}
 # The custom outbound link click event. Stores the clicked URL DIMENSION_CUSTOM_URL
 # Includes url fragments, sometimes has a slightly different count to the built in click event
-EVENT_CUSTOM_CLICK = "outbound_link_clicked"
+EVENT_CUSTOM_CLICK = {
+    "id": "outbound_link_clicked",
+    "alias": "Custom Outbound Link Click"
+}
 # The builtin page view event. 
-EVENT_PAGE_VIEW = "page_view"
-EVENT_FILE_DOWNLOADED = "file_downloaded"
-EVENT_ENTITY_SELECTED = "entity_selected"
-EVENT_ENTITY_TABLE_SORTED = "entity_table_sorted"
-EVENT_ENTITY_TABLE_PAGINATED = "entity_table_paginated"
-EVENT_FILTER_SELECTED = "filter_selected"
+EVENT_PAGE_VIEW = {
+    "id": "page_view", 
+    "alias": "Page View"
+}
+
+EVENT_INDEX_BULK_DOWNLOAD_SELECTED = {
+    "id": "index_bulk_download_selected",
+    "alias": "Bulk Download Selected",
+    "change_alias": "Bulk Download Selected Change",
+}
+EVENT_INDEX_BULK_DOWNLOAD_REQUESTED = {
+    "id": "bulk_download_requested",
+    "alias": "Bulk Download Requested",
+    "change_alias": "Bulk Download Requested Change",
+}
+EVENT_INDEX_FILE_MANIFEST_SELECTED = {
+    "id": "index_file_manifest_selected",
+    "alias": "File Manifest Selected",
+    "change_alias": "File Manifest Selected Change",
+}
+EVENT_INDEX_FILE_MANIFEST_REQUESTED = {
+    "id": "index_file_manifest_requested",
+    "alias": "File Manifest Requested",
+    "change_alias": "File Manifest Requested Change",
+}
+EVENT_INDEX_ANALYZE_IN_TERRA_SELECTED = {
+    "id": "index_analyze_in_terra_selected",
+    "alias": "Analyze in Terra Selected",
+    "change_alias": "Analyze in Terra Selected Change",
+}
+EVENT_INDEX_ANALYZE_IN_TERRA_REQUESTED = {
+    "id": "index_analyze_in_terra_requested",
+    "alias": "Analyze in Terra Requested",
+    "change_alias": "Analyze in Terra Requested Change",
+}
+EVENT_FILE_DOWNLOADED = {
+    "id": "file_downloaded",
+    "alias": "File Downloaded",
+    "change_alias": "File Downloaded Change",
+}
+EVENT_ENTITY_SELECTED = {
+    "id": "entity_selected",
+    "alias": "Entity Selected",
+    "change_alias": "Entity Selected Change",
+}
+EVENT_ENTITY_TABLE_SORTED = {
+    "id": "entity_table_sorted",
+    "alias": "Entity Table Sorted",
+    "change_alias": "Entity Table Sorted Change",
+}
+EVENT_ENTITY_TABLE_PAGINATED = {
+    "id": "entity_table_paginated",
+    "alias": "Entity Table Paginated",
+    "change_alias": "Entity Table Paginated Change",
+}
+EVENT_FILTER_SELECTED = {
+    "id": "filter_selected",
+    "alias": "Filter Selected",
+    "change_alias": "Filter Selected Change",
+}
 # DIMENSIONS
 # The path to the page the user is on when the event occurs. Does not include fragments or parameters
 DIMENSION_PAGE_PATH = {
