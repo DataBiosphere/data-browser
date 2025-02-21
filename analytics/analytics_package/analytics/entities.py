@@ -51,7 +51,11 @@ EVENT_BUILTIN_CLICK = "click"
 EVENT_CUSTOM_CLICK = "outbound_link_clicked"
 # The builtin page view event. 
 EVENT_PAGE_VIEW = "page_view"
-
+EVENT_FILE_DOWNLOADED = "file_downloaded"
+EVENT_ENTITY_SELECTED = "entity_selected"
+EVENT_ENTITY_TABLE_SORTED = "entity_table_sorted"
+EVENT_ENTITY_TABLE_PAGINATED = "entity_table_paginated"
+EVENT_FILTER_SELECTED = "filter_selected"
 # DIMENSIONS
 # The path to the page the user is on when the event occurs. Does not include fragments or parameters
 DIMENSION_PAGE_PATH = {
@@ -82,6 +86,42 @@ DIMENSION_LANDING_PAGE = {
 DIMENSION_YEAR_MONTH = {
     "id": "yearMonth",
     "alias": "Month",
+}
+DIMENSION_RELATED_ENTITY_ID = {
+    "id": "customEvent:related_entity_id",
+    "alias": "Related Entity ID",
+}
+DIMENSION_RELATED_ENTITY_NAME = {
+    "id": "customEvent:related_entity_name",
+    "alias": "Related Entity Name",
+}
+DIMENSION_ENTITY_NAME = {
+    "id": "customEvent:entity_name",
+    "alias": "Entity Name",
+}
+DIMENSION_ENTITY_NAME_TAB = {
+    **DIMENSION_ENTITY_NAME,
+    "alias": "Entity Name (Tab)",
+}
+DIMENSION_PAGINATION_DIRECTION = {
+    "id": "customEvent:pagination_direction",
+    "alias": "Direction",
+}
+DIMENSION_SORT_DIRECTION = {
+    "id": "customEvent:sort_direction",
+    "alias": "Direction",
+}
+DIMENSION_COLUMN_NAME = {
+    "id": "customEvent:column_name",
+    "alias": "Column Name",
+}
+DIMENSION_FILTER_NAME = {
+    "id": "customEvent:filter_name",
+    "alias": "Filter Name",
+}
+DIMENSION_FILTER_VALUE = {
+    "id": "customEvent:filter_value",
+    "alias": "Filter Value",
 }
 # The hostname of the clicked link. Based on DIMENSION_CUSTOM_URL and DIMENSION_BUILTIN_URL
 SYNTHETIC_DIMENSION_CLICKED_HOSTNAME = {
