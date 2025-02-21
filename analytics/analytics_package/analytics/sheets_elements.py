@@ -154,7 +154,7 @@ def get_page_views_change(analytics_params, start_current, end_current, start_pr
         sort_results=[METRIC_PAGE_VIEWS, METRIC_TOTAL_USERS]
     )
 
-def get_one_period_change_df(df_function, change_metrics, analytics_params, start_current, end_current, start_previous, end_previous, sort_results=None, ignore_index=False):
+def get_one_period_change_df(df_function, change_metrics, analytics_params, start_current, end_current, start_previous, end_previous, sort_results=None, sort_ascending=False, ignore_index=False):
     """
     Get a DataFrame with the change between two periods for the given metrics, renamed to match titles
     :param df_function: a function that returns a dataframe, with numerical columns matching the aliases of change_metrics
@@ -165,6 +165,9 @@ def get_one_period_change_df(df_function, change_metrics, analytics_params, star
     :param start_previous: the start date for the prior month
     :param end_previous: the end date for the prior month
     :param sort_results: an iterable containing the metrics to sort the results by, defaults to None
+    :param sort_ascending: whether to sort the results in ascending order, defaults to False
+        If a boolean value is provided, all metrics will be sorted in the same order
+        If an iterable is provided, values of the iterable correspond to values of sort_results
     :param ignore_index: if true, the index will be an arbitrary range index. If false, the index will be the dimensions
     :return: a DataFrame with the change between two periods for the given metrics, renamed to match titles
         Columns are dimension aliases (as strings), metric aliases (as ints), and metric change aliases (as floats)
@@ -205,7 +208,7 @@ def get_one_period_change_df(df_function, change_metrics, analytics_params, star
     )
     if sort_results:
         df_current_with_changes = df_current_with_changes.sort_values(
-            [metric["alias"] for metric in sort_results], ascending=False, kind="stable"
+            [metric["alias"] for metric in sort_results], ascending=sort_ascending, kind="stable"
         )
     if ignore_index:
         return df_current_with_changes
@@ -464,7 +467,8 @@ def get_index_entity_table_paginated_change(analytics_params, start_current, end
         end_current,
         start_previous,
         end_previous,
-        sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
+        sort_results=[DIMENSION_ENTITY_NAME_TAB, DIMENSION_PAGINATION_DIRECTION],
+        sort_ascending=True
     )
 
 def get_index_filter_selected_df(analytics_params, ignore_index=True):
