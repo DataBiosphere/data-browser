@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.11.0](https://github.com/DataBiosphere/data-browser/compare/v2.10.0...v2.11.0) (2025-02-21)
+
+
+### Features
+
+* add landing pages to analytics package ([#4378](https://github.com/DataBiosphere/data-browser/issues/4378)) ([#4384](https://github.com/DataBiosphere/data-browser/issues/4384)) ([5a7502f](https://github.com/DataBiosphere/data-browser/commit/5a7502f93d4b94ab58674d51f3e6b8adc47fdfb7))
+* added anvil data dictionary [#4131](https://github.com/DataBiosphere/data-browser/issues/4131) ([#4382](https://github.com/DataBiosphere/data-browser/issues/4382)) ([9828592](https://github.com/DataBiosphere/data-browser/commit/9828592095704b5726a0553f8244206abeed96f2))
+* added lungmap analytics reports ([#4374](https://github.com/DataBiosphere/data-browser/issues/4374)) ([#4381](https://github.com/DataBiosphere/data-browser/issues/4381)) ([3a98b06](https://github.com/DataBiosphere/data-browser/commit/3a98b0606359d2795558aaa868c09cc19a7f5bcb))
+* analytics sheets for anvil explorer ([#4373](https://github.com/DataBiosphere/data-browser/issues/4373)) ([#4380](https://github.com/DataBiosphere/data-browser/issues/4380)) ([e92c50d](https://github.com/DataBiosphere/data-browser/commit/e92c50d684d0b42bcc320cec7ca9daf5ebcfb25a))
+* make dataset detail export to terra to select all in the initial view ([#4383](https://github.com/DataBiosphere/data-browser/issues/4383)) ([#4390](https://github.com/DataBiosphere/data-browser/issues/4390)) ([3c7e64d](https://github.com/DataBiosphere/data-browser/commit/3c7e64d9e762abc328701031bdfa49259f0eb247))
+
 ## [2.10.0](https://github.com/DataBiosphere/data-browser/compare/v2.9.0...v2.10.0) (2025-02-14)
 
 
