@@ -15,6 +15,7 @@ import { ExploreStateProvider } from "@databiosphere/findable-ui/lib/providers/e
 import { FileManifestStateProvider } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import { GoogleSignInAuthenticationProvider } from "@databiosphere/findable-ui/lib/providers/googleSignInAuthentication/provider";
 import { LayoutStateProvider } from "@databiosphere/findable-ui/lib/providers/layoutState";
+import { LoginGuardProvider } from "@databiosphere/findable-ui/lib/providers/loginGuard/provider";
 import { SystemStatusProvider } from "@databiosphere/findable-ui/lib/providers/systemStatus";
 import { createAppTheme } from "@databiosphere/findable-ui/lib/theme/theme";
 import { DataExplorerError } from "@databiosphere/findable-ui/lib/types/error";
@@ -75,47 +76,49 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
               SessionController={TerraProfileProvider}
               timeout={SESSION_TIMEOUT}
             >
-              <LayoutStateProvider>
-                <AppLayout>
-                  <ThemeProvider
-                    theme={(theme: Theme): Theme =>
-                      createTheme(
-                        deepmerge(theme, {
-                          breakpoints: createBreakpoints(BREAKPOINTS),
-                        })
-                      )
-                    }
-                  >
-                    <Header {...header} />
-                  </ThemeProvider>
-                  <ExploreStateProvider entityListType={entityListType}>
-                    <FileManifestStateProvider>
-                      <Main>
-                        <ErrorBoundary
-                          fallbackRender={({
-                            error,
-                            reset,
-                          }: {
-                            error: DataExplorerError;
-                            reset: () => void;
-                          }): JSX.Element => (
-                            <Error
-                              errorMessage={error.message}
-                              requestUrlMessage={error.requestUrlMessage}
-                              rootPath={redirectRootToPath}
-                              onReset={reset}
-                            />
-                          )}
-                        >
-                          <Component {...pageProps} />
-                          <Floating {...floating} />
-                        </ErrorBoundary>
-                      </Main>
-                    </FileManifestStateProvider>
-                  </ExploreStateProvider>
-                  <Footer {...footer} />
-                </AppLayout>
-              </LayoutStateProvider>
+              <LoginGuardProvider>
+                <LayoutStateProvider>
+                  <AppLayout>
+                    <ThemeProvider
+                      theme={(theme: Theme): Theme =>
+                        createTheme(
+                          deepmerge(theme, {
+                            breakpoints: createBreakpoints(BREAKPOINTS),
+                          })
+                        )
+                      }
+                    >
+                      <Header {...header} />
+                    </ThemeProvider>
+                    <ExploreStateProvider entityListType={entityListType}>
+                      <FileManifestStateProvider>
+                        <Main>
+                          <ErrorBoundary
+                            fallbackRender={({
+                              error,
+                              reset,
+                            }: {
+                              error: DataExplorerError;
+                              reset: () => void;
+                            }): JSX.Element => (
+                              <Error
+                                errorMessage={error.message}
+                                requestUrlMessage={error.requestUrlMessage}
+                                rootPath={redirectRootToPath}
+                                onReset={reset}
+                              />
+                            )}
+                          >
+                            <Component {...pageProps} />
+                            <Floating {...floating} />
+                          </ErrorBoundary>
+                        </Main>
+                      </FileManifestStateProvider>
+                    </ExploreStateProvider>
+                    <Footer {...footer} />
+                  </AppLayout>
+                </LayoutStateProvider>
+              </LoginGuardProvider>
             </GoogleSignInAuthenticationProvider>
           </SystemStatusProvider>
         </DXConfigProvider>
