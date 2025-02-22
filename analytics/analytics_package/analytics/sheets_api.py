@@ -220,102 +220,104 @@ def fill_worksheet_with_df(
         [df_to_insert.columns.values.tolist()] + df_to_insert.fillna("NA").values.tolist(),
         **{**DEFAULT_GSPREAD_UPDATE_ARGS, **gspread_update_args}
     )
-
-    # Format worksheet
-    # Justify Column Widths
-    if "column_widths" not in sheet_formatting_options_filled or sheet_formatting_options_filled["column_widths"]["justify"]:
-        text_widths = df.astype(str).columns.map(
-            lambda column_name: df[column_name].astype(str).str.len().max()
-        )
-        header_widths = df.columns.str.len()
-        buffer_chars = (
-            DEFAULT_BUFFER_CHARS 
-            if ("column_widths" not in sheet_formatting_options_filled or "buffer_chars" not in sheet_formatting_options_filled["column_widths"]) 
-            else sheet_formatting_options_filled["column_widths"]["buffer_chars"]
-        )
-        data_column_widths = [
-            round((max(len_tuple) + buffer_chars) * FONT_SIZE_PTS * 1/PTS_PIXELS_RATIO)
-            for len_tuple in zip(text_widths, header_widths)
-        ]
-        extra_column_widths = [sheet_formatting_options_filled["extra_columns_width"]] * sheet_formatting_options_filled["extra_columns"]
-        combined_column_widths = data_column_widths + extra_column_widths
-        column_positions = [
-            gspread.utils.rowcol_to_a1(1, i + 1)[0] for i, _ in enumerate(combined_column_widths)
-        ]
-        gspread_formatting.set_column_widths(worksheet, zip(column_positions, combined_column_widths))
-    # Freeze Header
-    if "freeze_header" not in sheet_formatting_options_filled or sheet_formatting_options_filled["freeze_header"]:
-        gspread_formatting.set_frozen(worksheet, rows=1)
-    base_format_options = gspread_formatting.CellFormat()
-    # Bold Header
-    if "bold_header" not in sheet_formatting_options_filled or sheet_formatting_options_filled["bold_header"]:
-        base_format_options += gspread_formatting.CellFormat(textFormat=gspread_formatting.TextFormat(bold=True))
-    # Center Header
-    if "center_header" not in sheet_formatting_options_filled or sheet_formatting_options_filled["center_header"]:
-        base_format_options += gspread_formatting.CellFormat(horizontalAlignment="CENTER")
-    # Handle column specific formatting
-    for column in column_formatting_options:
-        if column not in df.columns:
-            raise KeyError("Formatting column is not in the dataframe")
-        # Skip if the column is set to default
-        if column_formatting_options[column] == COLUMN_FORMAT_OPTIONS.DEFAULT:
-            continue
-        # Get the column position
-        column_position_numeric = df.columns.get_loc(column) + 1
-        column_range_top = gspread.utils.rowcol_to_a1(1, column_position_numeric)
-        column_range_bottom = gspread.utils.rowcol_to_a1(df.index.size + 1, column_position_numeric)
-        column_range = f"{column_range_top}:{column_range_bottom}"
-        column_worksheet_range = gspread_formatting.GridRange.from_a1_range(column_range, worksheet)
-        # Get conditional formatting rules
-        if column_formatting_options[column] == COLUMN_FORMAT_OPTIONS.PERCENT_COLORED:
-            green_rule = gspread_formatting.ConditionalFormatRule(
-                ranges=[column_worksheet_range],
-                booleanRule=gspread_formatting.BooleanRule(
-                condition=gspread_formatting.BooleanCondition('NUMBER_GREATER_THAN_EQ', ['0']),
-                format=gspread_formatting.CellFormat(
-                    textFormat=gspread_formatting.TextFormat(foregroundColor=gspread_formatting.Color(0,1,0)))
+    
+    # Batch formatting updates to increase
+    with gspread_formatting.batch_updater(worksheet.spreadsheet) as batch:
+        # Format worksheet
+        # Justify Column Widths
+        if "column_widths" not in sheet_formatting_options_filled or sheet_formatting_options_filled["column_widths"]["justify"]:
+            text_widths = df.astype(str).columns.map(
+                lambda column_name: df[column_name].astype(str).str.len().max()
+            )
+            header_widths = df.columns.str.len()
+            buffer_chars = (
+                DEFAULT_BUFFER_CHARS 
+                if ("column_widths" not in sheet_formatting_options_filled or "buffer_chars" not in sheet_formatting_options_filled["column_widths"]) 
+                else sheet_formatting_options_filled["column_widths"]["buffer_chars"]
+            )
+            data_column_widths = [
+                round((max(len_tuple) + buffer_chars) * FONT_SIZE_PTS * 1/PTS_PIXELS_RATIO)
+                for len_tuple in zip(text_widths, header_widths)
+            ]
+            extra_column_widths = [sheet_formatting_options_filled["extra_columns_width"]] * sheet_formatting_options_filled["extra_columns"]
+            combined_column_widths = data_column_widths + extra_column_widths
+            column_positions = [
+                gspread.utils.rowcol_to_a1(1, i + 1)[0] for i, _ in enumerate(combined_column_widths)
+            ]
+            batch.set_column_widths(worksheet, zip(column_positions, combined_column_widths))
+        # Freeze Header
+        if "freeze_header" not in sheet_formatting_options_filled or sheet_formatting_options_filled["freeze_header"]:
+            batch.set_frozen(worksheet, rows=1)
+        base_format_options = gspread_formatting.CellFormat()
+        # Bold Header
+        if "bold_header" not in sheet_formatting_options_filled or sheet_formatting_options_filled["bold_header"]:
+            base_format_options += gspread_formatting.CellFormat(textFormat=gspread_formatting.TextFormat(bold=True))
+        # Center Header
+        if "center_header" not in sheet_formatting_options_filled or sheet_formatting_options_filled["center_header"]:
+            base_format_options += gspread_formatting.CellFormat(horizontalAlignment="CENTER")
+        # Handle column specific formatting
+        for column in column_formatting_options:
+            if column not in df.columns:
+                raise KeyError("Formatting column is not in the dataframe")
+            # Skip if the column is set to default
+            if column_formatting_options[column] == COLUMN_FORMAT_OPTIONS.DEFAULT:
+                continue
+            # Get the column position
+            column_position_numeric = df.columns.get_loc(column) + 1
+            column_range_top = gspread.utils.rowcol_to_a1(1, column_position_numeric)
+            column_range_bottom = gspread.utils.rowcol_to_a1(df.index.size + 1, column_position_numeric)
+            column_range = f"{column_range_top}:{column_range_bottom}"
+            column_worksheet_range = gspread_formatting.GridRange.from_a1_range(column_range, worksheet)
+            # Get conditional formatting rules
+            if column_formatting_options[column] == COLUMN_FORMAT_OPTIONS.PERCENT_COLORED:
+                green_rule = gspread_formatting.ConditionalFormatRule(
+                    ranges=[column_worksheet_range],
+                    booleanRule=gspread_formatting.BooleanRule(
+                    condition=gspread_formatting.BooleanCondition('NUMBER_GREATER_THAN_EQ', ['0']),
+                    format=gspread_formatting.CellFormat(
+                        textFormat=gspread_formatting.TextFormat(foregroundColor=gspread_formatting.Color(0,1,0)))
+                    )
                 )
-            )
-            red_rule = gspread_formatting.ConditionalFormatRule(
-                ranges=[column_worksheet_range],
-                booleanRule=gspread_formatting.BooleanRule(
-                condition=gspread_formatting.BooleanCondition('NUMBER_LESS_THAN_EQ', ['0']),
-                format=gspread_formatting.CellFormat(
-                    textFormat=gspread_formatting.TextFormat(foregroundColor=gspread_formatting.Color(1,0,0)))
+                red_rule = gspread_formatting.ConditionalFormatRule(
+                    ranges=[column_worksheet_range],
+                    booleanRule=gspread_formatting.BooleanRule(
+                    condition=gspread_formatting.BooleanCondition('NUMBER_LESS_THAN_EQ', ['0']),
+                    format=gspread_formatting.CellFormat(
+                        textFormat=gspread_formatting.TextFormat(foregroundColor=gspread_formatting.Color(1,0,0)))
+                    )
                 )
-            )
-            # Apply conditional formatting rules
-            conditional_formatting_rules = gspread_formatting.get_conditional_format_rules(worksheet)
-            conditional_formatting_rules.append(green_rule)
-            conditional_formatting_rules.append(red_rule)
-            conditional_formatting_rules.save()
-        if column_formatting_options[column] in (COLUMN_FORMAT_OPTIONS.PERCENT_COLORED, COLUMN_FORMAT_OPTIONS.PERCENT_UNCOLORED):
-            # Apply percent format rule
-            gspread_formatting.format_cell_range(
-                worksheet, 
-                column_range, 
-                gspread_formatting.CellFormat(numberFormat=gspread_formatting.NumberFormat(type='PERCENT', pattern='0.0%'))
-            )
-        if column_formatting_options[column] == COLUMN_FORMAT_OPTIONS.YEAR_MONTH_DATE:
-            # Apply date format rule
-            gspread_formatting.format_cell_range(
-                worksheet, 
-                column_range, 
-                gspread_formatting.CellFormat(numberFormat=gspread_formatting.NumberFormat(type='DATE', pattern='yyyy-mm'))
-            )
+                # Apply conditional formatting rules
+                conditional_formatting_rules = gspread_formatting.get_conditional_format_rules(worksheet)
+                conditional_formatting_rules.append(green_rule)
+                conditional_formatting_rules.append(red_rule)
+                conditional_formatting_rules.save()
+            if column_formatting_options[column] in (COLUMN_FORMAT_OPTIONS.PERCENT_COLORED, COLUMN_FORMAT_OPTIONS.PERCENT_UNCOLORED):
+                # Apply percent format rule
+                gspread_formatting.format_cell_range(
+                    worksheet, 
+                    column_range, 
+                    gspread_formatting.CellFormat(numberFormat=gspread_formatting.NumberFormat(type='PERCENT', pattern='0.0%'))
+                )
+            if column_formatting_options[column] == COLUMN_FORMAT_OPTIONS.YEAR_MONTH_DATE:
+                # Apply date format rule
+                gspread_formatting.format_cell_range(
+                    worksheet, 
+                    column_range, 
+                    gspread_formatting.CellFormat(numberFormat=gspread_formatting.NumberFormat(type='DATE', pattern='yyyy-mm'))
+                )
 
-    # Apply base formatting options
-    gspread_formatting.format_cell_range(
-        worksheet,
-        f"A1:{gspread.utils.rowcol_to_a1(1, len(df.columns))}",
-        base_format_options
-    )
+        # Apply base formatting options
+        batch.format_cell_range(
+            worksheet,
+            f"A1:{gspread.utils.rowcol_to_a1(1, len(df.columns))}",
+            base_format_options
+        )
 
     # Delete Sheet1 if it has been created by default
     if "Sheet1" in [i.title for i in sheet.worksheets()]:
         sheet.del_worksheet(sheet.worksheet("Sheet1"))
 
-def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, sheet_formatting_options={}, column_formatting_options={}, **gspread_update_args):
+def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, sheet_formatting_options={}, column_formatting_options={}, gspread_update_args={}):
     """
     Fill a sheet with the contents of a dictionary of DataFrames.
     The keys of the dictionary are the names of the worksheets, and the values contain the data to be placed in the sheet.
@@ -343,13 +345,14 @@ def fill_spreadsheet_with_df_dict(sheet, df_dict, overlapBehavior, sheet_formatt
             sheet, df, worksheet_name, overlapBehavior, 
             sheet_formatting_options=sheet_formatting_options.get(worksheet_name, {}), 
             column_formatting_options=column_formatting_options.get(worksheet_name, {}),
-            **gspread_update_args
+            **gspread_update_args.get(worksheet_name, {})
         )
 
 def update_sheet_raw(sheets_authentication_response, sheet, *updates):
     """
     Directly call the Google Sheets api to update the specified sheet with the optional arguments.
     """
+    # TODO: gspread.Spreadsheet.batch_update can also do this
     assert len(updates) > 0
     sheets_api = authenticate_google_api(sheets_authentication_response)
     sheet_id = sheet.id
