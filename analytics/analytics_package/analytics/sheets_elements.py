@@ -296,7 +296,7 @@ def get_index_table_download_df(analytics_params, ignore_index=True):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_ENTITY_NAME, DIMENSION_RELATED_ENTITY_ID, DIMENSION_RELATED_ENTITY_NAME],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_FILE_DOWNLOADED}",
+        dimension_filter=f"eventName=={EVENT_FILE_DOWNLOADED['id']}",
     )
     if not ignore_index:
         df_response = df_response.set_index([DIMENSION_ENTITY_NAME["alias"], DIMENSION_RELATED_ENTITY_ID["alias"], DIMENSION_RELATED_ENTITY_NAME["alias"]])
@@ -343,7 +343,7 @@ def get_index_entity_selected_df(analytics_params, ignore_index=True):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_ENTITY_NAME_TAB],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_ENTITY_SELECTED}",
+        dimension_filter=f"eventName=={EVENT_ENTITY_SELECTED['id']}",
     )
     if not ignore_index:
         df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"]])
@@ -390,7 +390,7 @@ def get_index_entity_table_sorted_df(analytics_params, ignore_index=True):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_ENTITY_NAME_TAB, DIMENSION_COLUMN_NAME, DIMENSION_SORT_DIRECTION],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_SORTED}",
+        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_SORTED['id']}",
     )
     if not ignore_index:
         df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"], DIMENSION_COLUMN_NAME["alias"], DIMENSION_SORT_DIRECTION["alias"]])
@@ -438,7 +438,7 @@ def get_index_entity_table_paginated_df(analytics_params, ignore_index=True):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_ENTITY_NAME_TAB, DIMENSION_PAGINATION_DIRECTION],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_PAGINATED}",
+        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_PAGINATED['id']}",
     )
     if not ignore_index:
         df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"], DIMENSION_PAGINATION_DIRECTION["alias"]])
@@ -487,7 +487,7 @@ def get_index_filter_selected_df(analytics_params, ignore_index=True):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_FILTER_NAME, DIMENSION_FILTER_VALUE],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_FILTER_SELECTED}",
+        dimension_filter=f"eventName=={EVENT_FILTER_SELECTED['id']}",
     )
     if not ignore_index:
         df_response = df_response.set_index([DIMENSION_FILTER_NAME["alias"], DIMENSION_FILTER_VALUE["alias"]])
