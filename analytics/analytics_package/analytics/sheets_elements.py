@@ -21,7 +21,7 @@ def get_outbound_links_df(analytics_params, ignore_index=True):
     df_builtin_links =get_data_df_from_fields(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_PAGE_PATH, DIMENSION_BUILTIN_URL, DIMENSION_EVENT_NAME],
-        dimension_filter=f"eventName=={EVENT_BUILTIN_CLICK}",
+        dimension_filter=f"eventName=={EVENT_BUILTIN_CLICK['id']}",
         **analytics_params,
     ).groupby(
         [DIMENSION_PAGE_PATH["alias"], DIMENSION_BUILTIN_URL["alias"]]
@@ -30,7 +30,7 @@ def get_outbound_links_df(analytics_params, ignore_index=True):
     df_custom_links = get_data_df_from_fields(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_EVENT_NAME, DIMENSION_CUSTOM_URL, DIMENSION_PAGE_PATH], 
-        dimension_filter=f"eventName=={EVENT_CUSTOM_CLICK}",
+        dimension_filter=f"eventName=={EVENT_CUSTOM_CLICK['id']}",
         **analytics_params, 
     ).groupby(
         [DIMENSION_PAGE_PATH["alias"], DIMENSION_CUSTOM_URL["alias"]]
@@ -123,7 +123,7 @@ def get_page_views_df(analytics_params, ignore_index=False):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS, METRIC_PAGE_VIEWS],
         [DIMENSION_PAGE_PATH, DIMENSION_EVENT_NAME],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_PAGE_VIEW}",
+        dimension_filter=f"eventName=={EVENT_PAGE_VIEW['id']}",
     )[[DIMENSION_PAGE_PATH["alias"], METRIC_PAGE_VIEWS["alias"], METRIC_TOTAL_USERS["alias"]]].copy()
     if not ignore_index:
         df_response = df_response.set_index(DIMENSION_PAGE_PATH["alias"])
@@ -296,7 +296,7 @@ def get_index_table_download_df(analytics_params, ignore_index=True):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_ENTITY_NAME, DIMENSION_RELATED_ENTITY_ID, DIMENSION_RELATED_ENTITY_NAME],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_FILE_DOWNLOADED}",
+        dimension_filter=f"eventName=={EVENT_FILE_DOWNLOADED['id']}",
     )
     if not ignore_index:
         df_response = df_response.set_index([DIMENSION_ENTITY_NAME["alias"], DIMENSION_RELATED_ENTITY_ID["alias"], DIMENSION_RELATED_ENTITY_NAME["alias"]])
@@ -343,7 +343,7 @@ def get_index_entity_selected_df(analytics_params, ignore_index=True):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_ENTITY_NAME_TAB],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_ENTITY_SELECTED}",
+        dimension_filter=f"eventName=={EVENT_ENTITY_SELECTED['id']}",
     )
     if not ignore_index:
         df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"]])
@@ -390,7 +390,7 @@ def get_index_entity_table_sorted_df(analytics_params, ignore_index=True):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_ENTITY_NAME_TAB, DIMENSION_COLUMN_NAME, DIMENSION_SORT_DIRECTION],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_SORTED}",
+        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_SORTED['id']}",
     )
     if not ignore_index:
         df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"], DIMENSION_COLUMN_NAME["alias"], DIMENSION_SORT_DIRECTION["alias"]])
@@ -438,7 +438,7 @@ def get_index_entity_table_paginated_df(analytics_params, ignore_index=True):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_ENTITY_NAME_TAB, DIMENSION_PAGINATION_DIRECTION],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_PAGINATED}",
+        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_PAGINATED['id']}",
     )
     if not ignore_index:
         df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"], DIMENSION_PAGINATION_DIRECTION["alias"]])
@@ -487,7 +487,7 @@ def get_index_filter_selected_df(analytics_params, ignore_index=True):
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
         [DIMENSION_FILTER_NAME, DIMENSION_FILTER_VALUE],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_FILTER_SELECTED}",
+        dimension_filter=f"eventName=={EVENT_FILTER_SELECTED['id']}",
     )
     if not ignore_index:
         df_response = df_response.set_index([DIMENSION_FILTER_NAME["alias"], DIMENSION_FILTER_VALUE["alias"]])
@@ -519,3 +519,25 @@ def get_index_filter_selected_change(analytics_params, start_current, end_curren
         sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
     )
 
+
+def get_event_count_over_time_df(analytics_params, events, additional_data_path=None, additional_data_behavior=None):
+    """
+    Get a DataFrame with pageviews and total active users over time from the Analytics API.
+
+    :param analytics_params: the parameters for the Analytics API, including service params, start dates, and end dates
+    :param additional_data_path: the path to a JSON file with additional data to be added to the DataFrame, defaults to None
+    :param additional_data_behavior: the behavior to use when adding the additional data, as an instance of ADDITIONAL_DATA_BEHAVIOR, defaults to None
+    :return: a DataFrame with the pageviews and total active users over time from the Analytics API. 
+        Columns are the dimension aliases, metrics (as ints), and change metrics (as floats)
+        Dimensions: DIMENSION_YEAR_MONTH (as a datetime)
+        Metrics: METRIC_ACTIVE_USERS, METRIC_PAGE_VIEWS
+    """
+    
+    return get_change_over_time_df_multiple_events(
+        METRIC_EVENT_COUNT,
+        events,
+        DIMENSION_YEAR_MONTH,
+        additional_data_path=additional_data_path,
+        additional_data_behavior=additional_data_behavior,
+        **analytics_params
+    )
