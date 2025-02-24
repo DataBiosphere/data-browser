@@ -1,6 +1,6 @@
 accessible-pygments==0.0.5
 alabaster==0.7.16
--e git+https://github.com/DataBiosphere/data-browser.git@25443866e0e389b5729c06cd16ba10b311b8f7ba#egg=analytics&subdirectory=analytics/analytics_package
+-e git+https://github.com/DataBiosphere/data-browser.git@98cb089c11c503943b349d25532ae182d5e413b5#egg=analytics&subdirectory=analytics/analytics_package
 anyio==4.7.0
 appdirs==1.4.4
 appnope==0.1.4
