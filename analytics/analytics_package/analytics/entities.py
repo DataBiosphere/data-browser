@@ -60,7 +60,6 @@ EVENT_PAGE_VIEW = {
     "id": "page_view", 
     "alias": "Page View"
 }
-
 EVENT_INDEX_BULK_DOWNLOAD_SELECTED = {
     "id": "index_bulk_download_selected",
     "alias": "Bulk Download Selected",
@@ -115,6 +114,11 @@ EVENT_FILTER_SELECTED = {
     "id": "filter_selected",
     "alias": "Filter Selected",
     "change_alias": "Filter Selected Change",
+}
+EVENT_HCA_EXPLORE_DATA_CLICKED = {
+    "id": "explore_data_clicked",
+    "alias": "Explore Data Clicked",
+    "change_alias": "Explore Data Clicked Change",
 }
 # DIMENSIONS
 # The path to the page the user is on when the event occurs. Does not include fragments or parameters
