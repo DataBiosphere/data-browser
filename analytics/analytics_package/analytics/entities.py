@@ -120,6 +120,12 @@ EVENT_HCA_EXPLORE_DATA_CLICKED = {
     "alias": "Explore Data Clicked",
     "change_alias": "Explore Data Clicked Change",
 }
+# Track the number of times the user submitd a support request
+EVENT_SUPPORT_REQUEST_CREATED = {
+    "id": "support_request_created",
+    "alias": "Support Request Created",
+    "change_alias": "Support Request Created Change",
+}
 # DIMENSIONS
 # The path to the page the user is on when the event occurs. Does not include fragments or parameters
 DIMENSION_PAGE_PATH = {
