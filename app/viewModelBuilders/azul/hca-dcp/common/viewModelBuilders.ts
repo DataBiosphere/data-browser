@@ -1519,7 +1519,7 @@ function calculateEstimatedCellCount(
 export function filterBioNetworks(
   responseValues: (NetworkKey | null)[]
 ): NetworkKey[] {
-  return responseValues.filter(isBioNetwork);
+  return Array.from(new Set(responseValues.filter(isBioNetwork)));
 }
 
 /**
