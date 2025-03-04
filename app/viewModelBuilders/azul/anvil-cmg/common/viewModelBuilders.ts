@@ -524,13 +524,13 @@ export function buildDatasetPath(datasetsResponse: DatasetsResponse): string {
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
-export const builDatasetTerraExport = (
+export const buildDatasetTerraExport = (
   datasetsResponse: DatasetsResponse,
   viewContext: ViewContext<DatasetsResponse>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   const { fileManifestState } = viewContext;
   // Get the initial filters.
-  const filters = getExportEntityFilters(datasetsResponse);
+  const filters = getExportTerraEntityFilters(datasetsResponse);
   // Grab the form facet.
   const formFacet = getFormFacets(fileManifestState);
   return {
@@ -1263,6 +1263,31 @@ export function getExportSelectedDataSummary(
 }
 
 /**
+ * Returns the export to terra entity filters for the given datasets response.
+ * Includes dataset ID, donor organism type, and file format.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns export to terra entity filters.
+ */
+function getExportTerraEntityFilters(
+  datasetsResponse: DatasetsResponse
+): Filters {
+  return [
+    ...getExportEntityFilters(datasetsResponse),
+    {
+      categoryKey: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+      value: processRawEntityArrayValue(
+        datasetsResponse.donors,
+        "organism_type"
+      ),
+    },
+    {
+      categoryKey: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+      value: processRawEntityArrayValue(datasetsResponse.files, "file_format"),
+    },
+  ];
+}
+
+/**
  * Returns the file summary facet, where facet terms are generated from the file summary.
  * @param fileFacet - File facet.
  * @param fileSummary - File summary.
@@ -1430,6 +1455,22 @@ function mapCurrentQuery(
     categoryKeyLabel.get(categoryKey) || categoryKey,
     values.map((value) => sanitizeString(value)),
   ];
+}
+
+/**
+ * Processes entities and extracts unique string or null values
+ * from a specified key that holds an array of (string | null)[].
+ * @param responseValues - Response model return from API.
+ * @param key - The key whose values (arrays of string or null) will be processed.
+ * @returns A unique list of string or null values.
+ */
+function processRawEntityArrayValue<
+  T extends Record<K, (string | null)[]>,
+  K extends keyof T,
+>(responseValues: T[], key: K): (string | null)[] {
+  const flatValues = responseValues.flatMap((value) => value[key]);
+  const uniqueValues = new Set(flatValues);
+  return [...uniqueValues];
 }
 
 /**

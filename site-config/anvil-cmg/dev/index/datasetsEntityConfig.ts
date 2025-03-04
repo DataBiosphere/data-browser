@@ -44,6 +44,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
   getId: getDatasetEntryId,
   getTitle: getTitle,
   hideTabs: true,
+  key: "datasets",
   label: "Datasets",
   list: {
     columns: [
