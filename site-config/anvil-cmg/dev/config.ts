@@ -158,10 +158,6 @@ export function makeConfig(
         Branding: C.ANVILBranding({ portalURL: portalUrl }),
         navLinks: [
           {
-            label: "Help",
-            url: `${browserUrl}/help`,
-          },
-          {
             label: "Privacy",
             url: `${browserUrl}/privacy`,
           },
