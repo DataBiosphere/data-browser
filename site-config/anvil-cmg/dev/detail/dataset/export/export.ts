@@ -36,14 +36,14 @@ export const exportConfig: ExportConfig = {
               children: [
                 {
                   component: MDX.Alert,
-                  viewBuilder: V.buildAlertDatasetTerraExportWarning,
+                  viewBuilder: V.buildAlertDatasetExportWarning,
                 } as ComponentConfig<typeof MDX.Alert, DatasetsResponse>,
               ],
               component: C.BackPageContentSingleColumn,
             } as ComponentConfig<typeof C.BackPageContentSingleColumn>,
           ],
           component: C.ConditionalComponent,
-          viewBuilder: V.renderDatasetTerraExportWarning,
+          viewBuilder: V.renderDatasetExportWarning,
         } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
         /* ------ */
         /* Dataset is accessible; render Terra export method */
@@ -54,7 +54,7 @@ export const exportConfig: ExportConfig = {
               children: [
                 {
                   component: C.ExportToTerra,
-                  viewBuilder: V.builDatasetTerraExport,
+                  viewBuilder: V.buildDatasetTerraExport,
                 } as ComponentConfig<typeof C.ExportToTerra>,
               ],
               component: C.BackPageContentMainColumn,
@@ -63,7 +63,7 @@ export const exportConfig: ExportConfig = {
             ...exportSideColumn,
           ],
           component: C.ConditionalComponent,
-          viewBuilder: V.renderDatasetTerraExport,
+          viewBuilder: V.renderDatasetExport,
         } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
       ],
       route: ROUTE_EXPORT_TO_TERRA,

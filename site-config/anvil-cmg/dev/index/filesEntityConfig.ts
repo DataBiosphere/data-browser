@@ -40,6 +40,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     top: [],
   },
   exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
+  key: "files",
   label: "Files",
   list: {
     columns: [

@@ -104,10 +104,9 @@ import {
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/anvil-cmg";
 import { Description } from "../../../../components/Detail/components/MDX/components/Description/description";
-import { ExportMethod } from "../../../../components/Export/components/AnVILExplorer/ExportMethod/exportMethod";
+import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
-import { FEATURE_FLAGS } from "../../../common/contants";
 import { Unused, Void } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
@@ -160,31 +159,6 @@ export const buildAlertDatasetManifestDownloadWarning = (
   const content = isUserAuthenticated(viewContext)
     ? "To download this dataset manifest, please request access."
     : "To download this dataset manifest, please sign in and, if necessary, request access.";
-  return {
-    ...ALERT_PROPS.STANDARD_WARNING,
-    component: C.FluidPaper,
-    content,
-  };
-};
-
-/**
- * Build props for dataset-related export warning Alert component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the Alert component.
- */
-export const buildAlertDatasetTerraExportWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
-): React.ComponentProps<typeof MDX.Alert> => {
-  const {
-    exploreState: { featureFlagState },
-  } = viewContext;
-  const content = featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)
-    ? isUserAuthenticated(viewContext)
-      ? "To export this dataset, please request access."
-      : "To export this dataset, please sign in and, if necessary, request access."
-    : "Export functionality is currently under development. Check back soon for updates.";
   return {
     ...ALERT_PROPS.STANDARD_WARNING,
     component: C.FluidPaper,
@@ -550,13 +524,13 @@ export function buildDatasetPath(datasetsResponse: DatasetsResponse): string {
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
-export const builDatasetTerraExport = (
+export const buildDatasetTerraExport = (
   datasetsResponse: DatasetsResponse,
   viewContext: ViewContext<DatasetsResponse>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   const { fileManifestState } = viewContext;
   // Get the initial filters.
-  const filters = getExportEntityFilters(datasetsResponse);
+  const filters = getExportTerraEntityFilters(datasetsResponse);
   // Grab the form facet.
   const formFacet = getFormFacets(fileManifestState);
   return {
@@ -1289,6 +1263,31 @@ export function getExportSelectedDataSummary(
 }
 
 /**
+ * Returns the export to terra entity filters for the given datasets response.
+ * Includes dataset ID, donor organism type, and file format.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns export to terra entity filters.
+ */
+function getExportTerraEntityFilters(
+  datasetsResponse: DatasetsResponse
+): Filters {
+  return [
+    ...getExportEntityFilters(datasetsResponse),
+    {
+      categoryKey: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+      value: processRawEntityArrayValue(
+        datasetsResponse.donors,
+        "organism_type"
+      ),
+    },
+    {
+      categoryKey: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+      value: processRawEntityArrayValue(datasetsResponse.files, "file_format"),
+    },
+  ];
+}
+
+/**
  * Returns the file summary facet, where facet terms are generated from the file summary.
  * @param fileFacet - File facet.
  * @param fileSummary - File summary.
@@ -1459,6 +1458,22 @@ function mapCurrentQuery(
 }
 
 /**
+ * Processes entities and extracts unique string or null values
+ * from a specified key that holds an array of (string | null)[].
+ * @param responseValues - Response model return from API.
+ * @param key - The key whose values (arrays of string or null) will be processed.
+ * @returns A unique list of string or null values.
+ */
+function processRawEntityArrayValue<
+  T extends Record<K, (string | null)[]>,
+  K extends keyof T,
+>(responseValues: T[], key: K): (string | null)[] {
+  const flatValues = responseValues.flatMap((value) => value[key]);
+  const uniqueValues = new Set(flatValues);
+  return [...uniqueValues];
+}
+
+/**
  * Renders configuration component children when the given authentication state is not authenticated.
  * @param _ - Unused.
  * @param viewContext - View context.
@@ -1470,50 +1485,6 @@ export const renderWhenUnAuthenticated = (
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
     isIn: !isUserAuthenticated(viewContext),
-  };
-};
-
-/**
- * Renders dataset export to Terra component when the given datasests response is accessible. Note,
- * this can be removed once the verbatim feature flag is removed (use renderDatasetExport instead).
- * @param datasetsResponse - Response model return from datasets API.
- * @param viewContext - View context.
- * @returns model to be used as props for the ConditionalComponent component.
- * @deprecated
- */
-export const renderDatasetTerraExport = (
-  datasetsResponse: DatasetsResponse,
-  viewContext: ViewContext<DatasetsResponse>
-): React.ComponentProps<typeof C.ConditionalComponent> => {
-  const {
-    exploreState: { featureFlagState },
-  } = viewContext;
-  return {
-    isIn:
-      isDatasetAccessible(datasetsResponse) &&
-      Boolean(featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)),
-  };
-};
-
-/**
- * Renders dataset export to Terra warning component when the given datasests response is accessible. Note,
- * this can be removed once the verbatim feature flag is removed (use renderDatasetExportWarning instead).
- * @param datasetsResponse - Response model return from datasets API.
- * @param viewContext - View context.
- * @returns model to be used as props for the ConditionalComponent component.
- * @deprecated
- */
-export const renderDatasetTerraExportWarning = (
-  datasetsResponse: DatasetsResponse,
-  viewContext: ViewContext<DatasetsResponse>
-): React.ComponentProps<typeof C.ConditionalComponent> => {
-  const {
-    exploreState: { featureFlagState },
-  } = viewContext;
-  return {
-    isIn:
-      !isDatasetAccessible(datasetsResponse) ||
-      Boolean(!featureFlagState?.includes(FEATURE_FLAGS.VERBATIM)),
   };
 };
 

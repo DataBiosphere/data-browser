@@ -1,5 +1,57 @@
 # Changelog
 
+## [2.11.0](https://github.com/DataBiosphere/data-browser/compare/v2.10.0...v2.11.0) (2025-03-03)
+
+
+### Features
+
+* add landing pages to analytics package ([#4378](https://github.com/DataBiosphere/data-browser/issues/4378)) ([#4384](https://github.com/DataBiosphere/data-browser/issues/4384)) ([5a7502f](https://github.com/DataBiosphere/data-browser/commit/5a7502f93d4b94ab58674d51f3e6b8adc47fdfb7))
+* added anvil data dictionary [#4131](https://github.com/DataBiosphere/data-browser/issues/4131) ([#4382](https://github.com/DataBiosphere/data-browser/issues/4382)) ([9828592](https://github.com/DataBiosphere/data-browser/commit/9828592095704b5726a0553f8244206abeed96f2))
+* added check login required for hca export/download [#4292](https://github.com/DataBiosphere/data-browser/issues/4292) ([#4394](https://github.com/DataBiosphere/data-browser/issues/4394)) ([b551e5b](https://github.com/DataBiosphere/data-browser/commit/b551e5b30b2577deecdfd45c25c1de5fc2b690ff))
+* added lungmap analytics reports ([#4374](https://github.com/DataBiosphere/data-browser/issues/4374)) ([#4381](https://github.com/DataBiosphere/data-browser/issues/4381)) ([3a98b06](https://github.com/DataBiosphere/data-browser/commit/3a98b0606359d2795558aaa868c09cc19a7f5bcb))
+* analytics sheets for anvil explorer ([#4373](https://github.com/DataBiosphere/data-browser/issues/4373)) ([#4380](https://github.com/DataBiosphere/data-browser/issues/4380)) ([e92c50d](https://github.com/DataBiosphere/data-browser/commit/e92c50d684d0b42bcc320cec7ca9daf5ebcfb25a))
+* bulk export analytics ([#4386](https://github.com/DataBiosphere/data-browser/issues/4386)) ([#4395](https://github.com/DataBiosphere/data-browser/issues/4395)) ([6bfb92a](https://github.com/DataBiosphere/data-browser/commit/6bfb92a5109bd295e937aab98bb2aa491ca1ee89))
+* explorer index tracking functions ([#4385](https://github.com/DataBiosphere/data-browser/issues/4385)) ([#4391](https://github.com/DataBiosphere/data-browser/issues/4391)) ([be8484e](https://github.com/DataBiosphere/data-browser/commit/be8484e4f2b6cc1174599a41b96f59090c9088b5))
+* make dataset detail export to terra to select all in the initial view ([#4383](https://github.com/DataBiosphere/data-browser/issues/4383)) ([#4390](https://github.com/DataBiosphere/data-browser/issues/4390)) ([3c7e64d](https://github.com/DataBiosphere/data-browser/commit/3c7e64d9e762abc328701031bdfa49259f0eb247))
+
+
+### Bug Fixes
+
+* removed duped networks [#4399](https://github.com/DataBiosphere/data-browser/issues/4399) ([#4403](https://github.com/DataBiosphere/data-browser/issues/4403)) ([692cca1](https://github.com/DataBiosphere/data-browser/commit/692cca11c6dc9caee6657df2cfe4a19715e26e97))
+* updated oral and craniofacial network key [#4400](https://github.com/DataBiosphere/data-browser/issues/4400) ([#4402](https://github.com/DataBiosphere/data-browser/issues/4402)) ([0a7d938](https://github.com/DataBiosphere/data-browser/commit/0a7d9389df94a6050043bdb4d9935a83a27532d5))
+
+
+### Chores
+
+* added event explore_data_clicked ([#4387](https://github.com/DataBiosphere/data-browser/issues/4387)) ([98cb089](https://github.com/DataBiosphere/data-browser/commit/98cb089c11c503943b349d25532ae182d5e413b5))
+* added event for explore_data_clicked ([#4387](https://github.com/DataBiosphere/data-browser/issues/4387)) ([dde731c](https://github.com/DataBiosphere/data-browser/commit/dde731c3bf528e1ae5c39e73c7ed044b12b237fa))
+* added example code for analytics package ([#4393](https://github.com/DataBiosphere/data-browser/issues/4393)) ([#4398](https://github.com/DataBiosphere/data-browser/issues/4398)) ([33c8a68](https://github.com/DataBiosphere/data-browser/commit/33c8a68852e0f502831474e8434d11fd27e7826a))
+* analytics for explore data clicked ([#4396](https://github.com/DataBiosphere/data-browser/issues/4396)) ([dde731c](https://github.com/DataBiosphere/data-browser/commit/dde731c3bf528e1ae5c39e73c7ed044b12b237fa))
+* support request created analytics ([#4388](https://github.com/DataBiosphere/data-browser/issues/4388)) ([#4397](https://github.com/DataBiosphere/data-browser/issues/4397)) ([98cb089](https://github.com/DataBiosphere/data-browser/commit/98cb089c11c503943b349d25532ae182d5e413b5))
+* updated catalog to dcp46 [#4392](https://github.com/DataBiosphere/data-browser/issues/4392) ([#4401](https://github.com/DataBiosphere/data-browser/issues/4401)) ([460df97](https://github.com/DataBiosphere/data-browser/commit/460df97728abcbd4de641313344e7a92125e1fc5))
+
+## [2.10.0](https://github.com/DataBiosphere/data-browser/compare/v2.9.0...v2.10.0) (2025-02-14)
+
+
+### Features
+
+* added anvil catalog analytics reports ([#4372](https://github.com/DataBiosphere/data-browser/issues/4372)) ([#4379](https://github.com/DataBiosphere/data-browser/issues/4379)) ([b648f9e](https://github.com/DataBiosphere/data-browser/commit/b648f9e923d565b02356588ac800d7b0cce312b6))
+* added missing elements to hca dx analytics sheets ([#4371](https://github.com/DataBiosphere/data-browser/issues/4371)) ([#4377](https://github.com/DataBiosphere/data-browser/issues/4377)) ([3141f3e](https://github.com/DataBiosphere/data-browser/commit/3141f3e870170cc1be043b9d86ee53b49de96ef1))
+* removed ncpi catalog ([#4375](https://github.com/DataBiosphere/data-browser/issues/4375)) ([fe23cfa](https://github.com/DataBiosphere/data-browser/commit/fe23cfaf6c2391689d4042e17ac70a7bfe72ef48))
+* update anvil catalog content for 2025-02-08 ([#4241](https://github.com/DataBiosphere/data-browser/issues/4241)) ([#4369](https://github.com/DataBiosphere/data-browser/issues/4369)) ([4cf7fc6](https://github.com/DataBiosphere/data-browser/commit/4cf7fc67ee04cda4b209045f7ac0682c6b14efbf))
+
+## [2.9.0](https://github.com/DataBiosphere/data-browser/compare/v2.8.0...v2.9.0) (2025-02-07)
+
+
+### Features
+
+* removed verbatim ff [#4350](https://github.com/DataBiosphere/data-browser/issues/4350) ([#4363](https://github.com/DataBiosphere/data-browser/issues/4363)) ([b8b37fb](https://github.com/DataBiosphere/data-browser/commit/b8b37fb986b1c7751901807026eb1ee6e16ea0cc))
+
+
+### Bug Fixes
+
+* get_change_df_over_time uses an inclusive range ([#4365](https://github.com/DataBiosphere/data-browser/issues/4365)) ([#4366](https://github.com/DataBiosphere/data-browser/issues/4366)) ([e2653f5](https://github.com/DataBiosphere/data-browser/commit/e2653f5605cc3220d28299bfc2cc48205c23067d))
+
 ## [2.8.0](https://github.com/DataBiosphere/data-browser/compare/v2.7.1...v2.8.0) (2025-02-04)
 
 
