@@ -29,6 +29,19 @@ const muiAlert = (props: ThemeProps) => css`
       .MuiAlertTitle-root {
         ${textHeadingSmall(props)};
       }
+
+      ol > li,
+      ul > li {
+        margin: 4px 0;
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 `;
