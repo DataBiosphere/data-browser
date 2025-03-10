@@ -89,14 +89,16 @@ export async function testUrl(
   // Go to the selected tab
   await page.goto(tab.url);
   // Check that the selected tab appears selected and the other tabs appear deselected
-  await expect(
-    page.getByRole("tab").getByText(tab.tabName, { exact: true })
-  ).toHaveAttribute("aria-selected", "true");
+  await expect(getTabByText(page, tab.tabName)).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
   for (const otherTab of otherTabs) {
     if (otherTab.tabName !== tab.tabName) {
-      await expect(
-        page.getByRole("tab").getByText(otherTab.tabName)
-      ).toHaveAttribute("aria-selected", "false");
+      await expect(getTabByText(page, otherTab.tabName)).toHaveAttribute(
+        "aria-selected",
+        "false"
+      );
     }
   }
 }
@@ -115,12 +117,9 @@ export async function testTab(
   // Run the "Expect each tab to become selected, to go to the correct url, and to show all of its columns when selected" test
   await page.goto(startTab.url);
   await expect(getFirstRowNthColumnCellLocator(page, 1)).toBeVisible();
-  await page
-    .getByRole("tab")
-    .getByText(endTab.tabName, { exact: true })
-    .click();
+  await getTabByText(page, endTab.tabName).click();
   await expect(page).toHaveURL(endTab.url);
-  await expect(page.getByRole("tab").getByText(endTab.tabName)).toHaveAttribute(
+  await expect(getTabByText(page, endTab.tabName)).toHaveAttribute(
     "aria-selected",
     "true"
   );
@@ -392,7 +391,7 @@ export async function testFilterPresence(
 ): Promise<void> {
   // Goto the selected tab
   await page.goto(tab.url);
-  await expect(page.getByRole("tab").getByText(tab.tabName)).toBeVisible();
+  await expect(getTabByText(page, tab.tabName)).toBeVisible();
   for (const filterName of filterNames) {
     // Check that each filter is visible and clickable
     await expect(page.getByText(filterRegex(filterName))).toBeVisible();
@@ -524,10 +523,7 @@ export async function testFilterPersistence(
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
   // For each tab, check that the selected filter is still checked
   for (const tab of tabOrder.slice(1)) {
-    await page
-      .getByRole("tab")
-      .getByText(tab.tabName, { exact: true })
-      .dispatchEvent("click");
+    await getTabByText(page, tab.tabName).dispatchEvent("click");
     await expect(page.getByText(filterRegex(testFilterName))).toBeVisible();
     await page.getByText(filterRegex(testFilterName)).dispatchEvent("click");
     await page.waitForLoadState("load");
@@ -538,10 +534,7 @@ export async function testFilterPersistence(
   }
   // Return to the start tab and confirm that the filter stays checked and that some content is visible
   // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
-  await page
-    .getByRole("tab")
-    .getByText(tabOrder[0].tabName, { exact: true })
-    .dispatchEvent("click");
+  await getTabByText(page, tabOrder[0].tabName).dispatchEvent("click");
   await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
   await page.getByText(filterRegex(testFilterName)).dispatchEvent("click");
   const previouslySelected = getNthFilterOptionLocator(page, filterIndex);
@@ -1147,9 +1140,10 @@ export async function testPaginationContent(
 ): Promise<void> {
   // Navigate to the correct tab
   await page.goto(tab.url);
-  await expect(
-    page.getByRole("tab").getByText(tab.tabName, { exact: true })
-  ).toHaveAttribute("aria-selected", "true");
+  await expect(getTabByText(page, tab.tabName)).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
 
   const firstElementTextLocator = getFirstRowNthColumnCellLocator(page, 0);
 
@@ -1211,5 +1205,17 @@ export async function testPaginationContent(
     await expect(firstElementTextLocator).toHaveText(OldFirstTableEntry);
   }
 }
+
+/**
+ * Return the tab with the specified text.
+ * @param page - a Playwright page object.
+ * @param tabText  - the tab text to search for.
+ * @returns - a Playwright locator object for the tab with the specified text.
+ */
+export const getTabByText = (page: Page, tabText: string): Locator => {
+  return page.locator("[role='tab']", {
+    has: page.locator(`text="${tabText}"`),
+  });
+};
 
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/

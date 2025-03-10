@@ -9,12 +9,12 @@ END_DATE_PRIOR = "2024-12-31"
 PARENT_FOLDER_NAME = "January 2025"
 
 # The name of the spreadsheet with the report
-SHEET_NAME = "HCA Explorer"
+SHEET_NAME = "AnVIL Catalog"
 
-HCA_ID = "361323030"
+ANVIL_CATALOG_ID = "368661710"
 # Filter to exclude the Data Explorer
-HCA_BROWSER_ONLY_FILTER = {"filter": {"fieldName": "hostName", "stringFilter": {"matchType": "EXACT", "value": "explore.data.humancellatlas.org"}}}
-SECRET_NAME = "HCA_ANALYTICS_REPORTING_CLIENT_SECRET_PATH"
-ANALYTICS_START = "2024-02-01"
+SECRET_NAME = "ANVIL_ANALYTICS_REPORTING_CLIENT_SECRET_PATH"
+ANALYTICS_START = "2023-05-01"
+HISTORIC_UA_DATA_PATH = "users_over_time_history.json"
 
 OAUTH_PORT = 8082

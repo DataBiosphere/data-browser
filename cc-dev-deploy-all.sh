@@ -7,7 +7,6 @@ scripts=(
   "./cc-explore.anvilproject.dev.clevercanary.com-deploy.sh"
   "./cc-explore.data.humancellatlas.dev.clevercanary.com-deploy.sh"
   "./cc-ma-pilot.explore.data.humancellatlas.dev.clevercanary.com-deploy.sh"
-  "./cc-ncpi-catalog-dev-deploy.sh"
 )
 
 
