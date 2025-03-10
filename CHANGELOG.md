@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.12.0](https://github.com/DataBiosphere/data-browser/compare/v2.11.0...v2.12.0) (2025-03-10)
+
+
+### Features
+
+* remove help link in footer ([#4405](https://github.com/DataBiosphere/data-browser/issues/4405)) ([#4410](https://github.com/DataBiosphere/data-browser/issues/4410)) ([d1e31bd](https://github.com/DataBiosphere/data-browser/commit/d1e31bdc50f454ae897f0c46da00a27da39e03f6))
+* updated AnVIL guides PFB text [#4404](https://github.com/DataBiosphere/data-browser/issues/4404) ([#4412](https://github.com/DataBiosphere/data-browser/issues/4412)) ([accf9c7](https://github.com/DataBiosphere/data-browser/commit/accf9c79ca64eaf3352cb87e428057fae2684441))
+
 ## [2.11.0](https://github.com/DataBiosphere/data-browser/compare/v2.10.0...v2.11.0) (2025-03-03)
 
 
