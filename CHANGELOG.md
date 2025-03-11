@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.1](https://github.com/DataBiosphere/data-browser/compare/v2.12.0...v2.12.1) (2025-03-11)
+
+
+### Bug Fixes
+
+* poorly formatted markdown can cause an error rendering ([#4415](https://github.com/DataBiosphere/data-browser/issues/4415)) ([#4417](https://github.com/DataBiosphere/data-browser/issues/4417)) ([e7a9ad7](https://github.com/DataBiosphere/data-browser/commit/e7a9ad7b777c0c503e855fde805c2d648a32bf8e))
+
 ## [2.12.0](https://github.com/DataBiosphere/data-browser/compare/v2.11.0...v2.12.0) (2025-03-10)
 
 
