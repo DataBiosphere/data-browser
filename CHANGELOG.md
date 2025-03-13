@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.2](https://github.com/DataBiosphere/data-browser/compare/v2.12.1...v2.12.2) (2025-03-13)
+
+
+### Bug Fixes
+
+* use up-to-date column names for formatting call in analytics reports ([#4421](https://github.com/DataBiosphere/data-browser/issues/4421)) ([#4422](https://github.com/DataBiosphere/data-browser/issues/4422)) ([d943aca](https://github.com/DataBiosphere/data-browser/commit/d943aca65eb905ab4ff9bd0817fe5457d1d4c222))
+
 ## [2.12.1](https://github.com/DataBiosphere/data-browser/compare/v2.12.0...v2.12.1) (2025-03-11)
 
 
