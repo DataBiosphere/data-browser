@@ -2,7 +2,71 @@ import pandas as pd
 
 from ._sheets_utils import *
 from .entities import *
+from .sheets_api import COLUMN_FORMAT_OPTIONS
 from urllib.parse import urlparse
+
+OUTBOUND_LINKS_CHANGE_FORMATTING = {
+    SYNTHETIC_METRIC_CLICKS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+    METRIC_TOTAL_USERS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+}
+
+PAGE_VIEWS_CHANGE_FORMATTING = {
+    METRIC_PAGE_VIEWS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+    METRIC_TOTAL_USERS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+}
+
+PAGE_VIEWS_OVER_TIME_FORMATTING = {
+    DIMENSION_YEAR_MONTH["alias"]: COLUMN_FORMAT_OPTIONS.YEAR_MONTH_DATE,
+    METRIC_ACTIVE_USERS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+    METRIC_PAGE_VIEWS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+}
+
+LANDING_PAGE_CHANGE_FORMATTING = {
+    METRIC_SESSIONS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+}
+
+INDEX_TABLE_DOWNLOAD_CHANGE_FORMATTING = {
+    METRIC_EVENT_COUNT["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+    METRIC_TOTAL_USERS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+}
+
+INDEX_ENTITY_SELECTED_CHANGE_FORMATTING = {
+    METRIC_EVENT_COUNT["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+    METRIC_TOTAL_USERS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+}
+
+INDEX_ENTITY_TABLE_SORTED_CHANGE_FORMATTING = {
+    METRIC_EVENT_COUNT["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+    METRIC_TOTAL_USERS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+}
+
+INDEX_ENTITY_TABLE_PAGINATED_CHANGE_FORMATTING = {
+    METRIC_EVENT_COUNT["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+    METRIC_TOTAL_USERS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+}
+
+INDEX_FILTER_SELECTED_CHANGE_FORMATTING = {
+    METRIC_EVENT_COUNT["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+    METRIC_TOTAL_USERS["change_alias"]: COLUMN_FORMAT_OPTIONS.PERCENT_COLORED,
+}
+
+def get_bounds_for_month_and_prev(month):
+    """
+    Get dates of the first and last day of the given month and the month preceding it.
+
+    :param month: The month to get dates for, represented as a string in YYYY-MM format.
+    :return: A dict containing entries "start_current", "end_current", "start_previous", and "end_previous", each holding a string in YYYY-MM-DD format.
+    """
+    start_current = pd.to_datetime(month)
+    end_current = start_current + pd.DateOffset(months=1) - pd.DateOffset(days=1)
+    start_previous = start_current - pd.DateOffset(months=1)
+    end_previous = start_current - pd.DateOffset(days=1)
+    return {
+        "start_current": start_current.strftime("%Y-%m-%d"),
+        "end_current": end_current.strftime("%Y-%m-%d"),
+        "start_previous": start_previous.strftime("%Y-%m-%d"),
+        "end_previous": end_previous.strftime("%Y-%m-%d")
+    }
 
 def get_outbound_links_df(analytics_params, ignore_index=True):
     """
