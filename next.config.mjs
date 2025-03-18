@@ -82,9 +82,9 @@ export default withPlugins(
         process.cwd(),
         "node_modules/uuid"
       );
-      config.resolve.alias["validate.js"] = path.resolve(
+      config.resolve.alias["yup"] = path.resolve(
         process.cwd(),
-        "node_modules/validate.js"
+        "node_modules/yup"
       );
       return config;
     },
