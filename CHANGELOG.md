@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.13.0](https://github.com/DataBiosphere/data-browser/compare/v2.12.1...v2.13.0) (2025-03-18)
+
+
+### Features
+
+* add predefined formatting options and function to get periods to analytics package ([#4430](https://github.com/DataBiosphere/data-browser/issues/4430)) ([#4431](https://github.com/DataBiosphere/data-browser/issues/4431)) ([873daa0](https://github.com/DataBiosphere/data-browser/commit/873daa0f382dd6bdc675220ead09735d411fdcef))
+* remove download buttons from files tab ([#4429](https://github.com/DataBiosphere/data-browser/issues/4429)) ([#4432](https://github.com/DataBiosphere/data-browser/issues/4432)) ([782e46d](https://github.com/DataBiosphere/data-browser/commit/782e46dd91a8aaf744c4704b520019941748e5c2))
+
+
+### Bug Fixes
+
+* use up-to-date column names for formatting call in analytics reports ([#4421](https://github.com/DataBiosphere/data-browser/issues/4421)) ([#4422](https://github.com/DataBiosphere/data-browser/issues/4422)) ([d943aca](https://github.com/DataBiosphere/data-browser/commit/d943aca65eb905ab4ff9bd0817fe5457d1d4c222))
+
+
+### Chores
+
+* update finable-ui to latest v22.0.0 ([#4428](https://github.com/DataBiosphere/data-browser/issues/4428)) ([#4433](https://github.com/DataBiosphere/data-browser/issues/4433)) ([202eea8](https://github.com/DataBiosphere/data-browser/commit/202eea817f63e62231548eed81492b34312a78d8))
+
 ## [2.12.1](https://github.com/DataBiosphere/data-browser/compare/v2.12.0...v2.12.1) (2025-03-11)
 
 
