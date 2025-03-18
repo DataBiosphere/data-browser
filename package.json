@@ -32,7 +32,7 @@
     "check-system-status:anvil-cmg": "esrun e2e/anvil/anvil-check-system-status.ts"
   },
   "dependencies": {
-    "@databiosphere/findable-ui": "21.4.0",
+    "@databiosphere/findable-ui": "22.0.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mdx-js/loader": "^3.0.1",
@@ -44,7 +44,7 @@
     "@types/fhir": "^0.0.35",
     "copy-to-clipboard": "3.3.1",
     "csv-parse": "^5.0.4",
-    "isomorphic-dompurify": "0.24.0",
+    "isomorphic-dompurify": "^2.22.0",
     "jwt-decode": "^3.1.2",
     "ky": "^1.7.2",
     "match-sorter": "^6.3.1",
