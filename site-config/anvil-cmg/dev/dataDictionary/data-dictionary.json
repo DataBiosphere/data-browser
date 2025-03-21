@@ -2,7 +2,7 @@
   "classes": [
     {
       "name": "Activity",
-      "description": "A table describing the activities performed on biosamples or files that resulted in the generation of additional files. The anvil_activity table is used to capture activity provenance that does not fit into the other activity tables described in the schema (such as file indexing, file checksums, etc.).",
+      "description": "Information about the activities performed on biosamples or files that resulted in the generation of additional files.",
       "key": "activities",
       "label": "Activity",
       "attributes": [
@@ -14,13 +14,13 @@
         {
           "key": "activities.data_modality",
           "label": "Data Modality",
-          "description": "A table describing the activities performed on biosamples or files that resulted in the generation of additional files. The anvil_activity table is used to capture activity provenance that does not fit into the other activity tables described in the schema (such as file indexing, file checksums, etc.)."
+          "description": "Data modality describes the biological nature of the information gathered as the result of an Activity, independent of the technology or methods used to produce the information."
         }
       ]
     },
     {
       "name": "BioSample",
-      "description": "Contains information about the sample(s) included in the dataset.",
+      "description": "Information about the sample(s) included in the dataset.",
       "key": "biosamples",
       "label": "BioSample",
       "attributes": [
@@ -43,15 +43,10 @@
     },
     {
       "name": "Dataset",
-      "description": "A dataset is a collection of related files and associated metadata that share the same consent and access permissions.",
+      "description": "A collection of related files and associated metadata that share the same consent and access permissions.",
       "key": "datasets",
       "label": "Dataset",
       "attributes": [
-        {
-          "key": "accessible",
-          "label": "Access",
-          "description": "Indicates whether the user has permission to access the given dataset. For open-access datasets, this value will always be \"Granted\". For controlled-access datasets, it will be \"Required\" if the user is not logged in. If the user is logged in, the value will reflect their specific access permissions for the dataset."
-        },
         {
           "key": "datasets.accessible",
           "label": "Access",
@@ -71,17 +66,12 @@
           "key": "datasets.title",
           "label": "Title",
           "description": "A human-readable property that identifies the dataset which the dataset belongs to."
-        },
-        {
-          "key": "diagnoses.disease",
-          "label": "Diagnosis",
-          "description": "A human-readable property that identifies a disease or condition has been reported in this entity."
         }
       ]
     },
     {
       "name": "Diagnosis",
-      "description": "Contains information about conditions or diagnoses related to the donor of a biosample.",
+      "description": "Information about conditions or diagnoses related to the donor of a biosample.",
       "key": "diagnoses",
       "label": "Diagnosis",
       "attributes": [
@@ -127,7 +117,7 @@
       "label": "File",
       "attributes": [
         {
-          "key": "drs_uri",
+          "key": "files.drs_uri",
           "label": "DRS URI",
           "description": "A Uniform Resource Identifier (URI) that follows the GA4GH Data Repository Service (DRS) specification. It provides a standardized way to reference and access digital objects, such as files, within compliant data repositories. The DRS URI enables interoperability across systems by allowing authorized users and tools to retrieve dataset contents through a consistent interface."
         },
