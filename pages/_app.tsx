@@ -14,7 +14,6 @@ import { ConfigProvider as DXConfigProvider } from "@databiosphere/findable-ui/l
 import { ExploreStateProvider } from "@databiosphere/findable-ui/lib/providers/exploreState";
 import { FileManifestStateProvider } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import { GoogleSignInAuthenticationProvider } from "@databiosphere/findable-ui/lib/providers/googleSignInAuthentication/provider";
-import { LayoutStateProvider } from "@databiosphere/findable-ui/lib/providers/layoutState";
 import { LoginGuardProvider } from "@databiosphere/findable-ui/lib/providers/loginGuard/provider";
 import { SystemStatusProvider } from "@databiosphere/findable-ui/lib/providers/systemStatus";
 import { createAppTheme } from "@databiosphere/findable-ui/lib/theme/theme";
@@ -30,6 +29,7 @@ import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import TagManager from "react-gtm-module";
 import { BREAKPOINTS } from "../site-config/common/constants";
+import { LayoutDimensionsProvider } from "@databiosphere/findable-ui/lib/providers/layoutDimensions/provider";
 
 const FEATURE_FLAGS = Object.values(FEATURES);
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
@@ -77,7 +77,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
               timeout={SESSION_TIMEOUT}
             >
               <LoginGuardProvider>
-                <LayoutStateProvider>
+                <LayoutDimensionsProvider>
                   <AppLayout>
                     <ThemeProvider
                       theme={(theme: Theme): Theme =>
@@ -117,7 +117,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
                     </ExploreStateProvider>
                     <Footer {...footer} />
                   </AppLayout>
-                </LayoutStateProvider>
+                </LayoutDimensionsProvider>
               </LoginGuardProvider>
             </GoogleSignInAuthenticationProvider>
           </SystemStatusProvider>
