@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.14.0](https://github.com/DataBiosphere/data-browser/compare/v2.13.0...v2.14.0) (2025-03-21)
+
+
+### Features
+
+* add anvil data dictionary ([#4416](https://github.com/DataBiosphere/data-browser/issues/4416)) ([#4435](https://github.com/DataBiosphere/data-browser/issues/4435)) ([25d8e30](https://github.com/DataBiosphere/data-browser/commit/25d8e3097be97b3c5b7e2376a98d21f30e099cfa))
+
+
+### Chores
+
+* bump anvil catalog to anvil9 ([#4437](https://github.com/DataBiosphere/data-browser/issues/4437)) ([#4440](https://github.com/DataBiosphere/data-browser/issues/4440)) ([4a7fe47](https://github.com/DataBiosphere/data-browser/commit/4a7fe4737ac80d3957e225c62a22c7c37e5d7ed3))
+
+
+### Documentation
+
+* udpated data dictionary [#4438](https://github.com/DataBiosphere/data-browser/issues/4438) ([#4439](https://github.com/DataBiosphere/data-browser/issues/4439)) ([7662161](https://github.com/DataBiosphere/data-browser/commit/7662161e6ea3e1844e722148d64d77834caf1fb3))
+
 ## [2.13.0](https://github.com/DataBiosphere/data-browser/compare/v2.12.1...v2.13.0) (2025-03-18)
 
 
