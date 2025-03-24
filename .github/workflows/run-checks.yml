@@ -1,5 +1,5 @@
 name: Run checks
-on: [ pull_request ]
+on: [pull_request]
 
 jobs:
   build:
@@ -10,7 +10,6 @@ jobs:
         with:
           node-version: "20.10.0"
       - run: |
-          cd explorer
           npm ci
           npm run check-format
           npm run lint

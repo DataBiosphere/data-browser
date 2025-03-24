@@ -1,0 +1,15 @@
+echo "Checking commit message"
+
+# Check for issue number
+
+commit_regex='#[0-9]'
+error_msg="Aborting commit. Your commit message is missing a '#xxx' reference to a corresponding GitHub issue. Add '--no-verify' to your git commit command if you wish to skip this check."
+
+if ! grep -iqE "$commit_regex" "$1"; then
+    echo "$error_msg" >&2
+    exit 1
+fi
+
+# Check for Conventional Commits format
+
+npx commitlint --config ./commitlint.config.js --edit $1

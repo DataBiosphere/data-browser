@@ -1,20 +1,62 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
 node_modules
-node_modules_bak
-.tmp
+/.pnp
+.pnp.js
 
-# IDEs and editors
-.idea
+# testing
+/coverage
+/test-results/*
 
-#Typescript
-typings
+# next.js
+/.next/
+/out/
+
+# production
+/build
 
 # misc
-npm-debug.log
-downloads/*
+.DS_Store
+*.pem
+.tmp
+/downloads/*
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
 #System Files
 .DS_Store
 Thumbs.db
+
+# env files
+/.env*.local
+/.env.development
+/.env.production
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# IDEs and editors
+.idea
+/.vscode
+
+# hygen
+_templates
+
+# nvm
+.nvmrc
+
+# favicons
+/public/favicons/*
+
+/files/**/out/
 
 #Python
 __pycache__/

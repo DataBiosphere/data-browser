@@ -1,9 +1,9 @@
 name: Playwright Tests anvil-catalog
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 jobs:
   test:
     timeout-minutes: 60
@@ -15,25 +15,23 @@ jobs:
           node-version: "20.10.0"
       - name: Install dependencies
         run: |
-            cd explorer
-            npm ci
+          npm ci
       - name: Install Playwright Browsers
         run: |
-            cd explorer
-            npx playwright install --with-deps
+          npx playwright install --with-deps
       - name: Build AnVIL-catalog database
         run: |
-            cd ./explorer/files
-            npm ci
-            mkdir ./anvil-catalog/out
-            npm run build-anvil-db
+          cd ./files
+          npm ci
+          mkdir ./anvil-catalog/out
+          npm run build-anvil-db
       - name: Run Playwright tests
         run: |
-          cd explorer
           npm run test:anvil-catalog
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
-          path: explorer/playwright-report/
+          path: playwright-report/
+          overwrite: true
           retention-days: 30

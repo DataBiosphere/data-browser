@@ -1,0 +1,74 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "sonarjs",
+    "jsdoc",
+    "sort-destructure-keys",
+    "typescript-sort-keys",
+    "react-hooks"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:prettier/recommended",
+    "next",
+    "plugin:sonarjs/recommended-legacy",
+    "plugin:eslint-comments/recommended"
+  ],
+  "rules": {
+    "sort-keys": [
+      "error",
+      "asc",
+      {
+        "caseSensitive": true,
+        "minKeys": 2,
+        "natural": false
+      }
+    ],
+    "sort-destructure-keys/sort-destructure-keys": [
+      "error",
+      {
+        "caseSensitive": false
+      }
+    ],
+    "typescript-sort-keys/interface": [
+      "error",
+      "asc",
+      {
+        "caseSensitive": false
+      }
+    ],
+    "typescript-sort-keys/string-enum": [
+      "error",
+      "asc",
+      {
+        "caseSensitive": false
+      }
+    ],
+    "eslint-comments/require-description": "error",
+    "jsdoc/require-description": "error",
+    "jsdoc/require-param": "error",
+    "jsdoc/require-param-name": "error",
+    "jsdoc/require-param-description": "error",
+    "jsdoc/require-hyphen-before-param-description": "error",
+    "jsdoc/require-returns": "error",
+    "jsdoc/require-returns-description": "error",
+    "jsdoc/check-alignment": "error",
+    "jsdoc/check-param-names": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "sonarjs/todo-tag": "warn",
+    "sonarjs/redundant-type-aliases": "warn",
+    "sonarjs/no-nested-conditional": "off"
+  },
+  "overrides": [
+    {
+      "files": "**",
+      "excludedFiles": "*.styles.ts?(x)",
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "error"
+      }
+    }
+  ]
+}
