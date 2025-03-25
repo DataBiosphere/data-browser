@@ -185,6 +185,10 @@ export function makeConfig(
                   url: "/guides",
                 },
                 {
+                  label: "Data Dictionary",
+                  url: "/data-dictionary",
+                },
+                {
                   label: "Terms of service",
                   url: "/terms-of-service",
                 },

@@ -1,5 +1,40 @@
 # Changelog
 
+## [2.14.0](https://github.com/DataBiosphere/data-browser/compare/v2.13.0...v2.14.0) (2025-03-21)
+
+
+### Features
+
+* add anvil data dictionary ([#4416](https://github.com/DataBiosphere/data-browser/issues/4416)) ([#4435](https://github.com/DataBiosphere/data-browser/issues/4435)) ([25d8e30](https://github.com/DataBiosphere/data-browser/commit/25d8e3097be97b3c5b7e2376a98d21f30e099cfa))
+
+
+### Chores
+
+* bump anvil catalog to anvil9 ([#4437](https://github.com/DataBiosphere/data-browser/issues/4437)) ([#4440](https://github.com/DataBiosphere/data-browser/issues/4440)) ([4a7fe47](https://github.com/DataBiosphere/data-browser/commit/4a7fe4737ac80d3957e225c62a22c7c37e5d7ed3))
+
+
+### Documentation
+
+* udpated data dictionary [#4438](https://github.com/DataBiosphere/data-browser/issues/4438) ([#4439](https://github.com/DataBiosphere/data-browser/issues/4439)) ([7662161](https://github.com/DataBiosphere/data-browser/commit/7662161e6ea3e1844e722148d64d77834caf1fb3))
+
+## [2.13.0](https://github.com/DataBiosphere/data-browser/compare/v2.12.1...v2.13.0) (2025-03-18)
+
+
+### Features
+
+* add predefined formatting options and function to get periods to analytics package ([#4430](https://github.com/DataBiosphere/data-browser/issues/4430)) ([#4431](https://github.com/DataBiosphere/data-browser/issues/4431)) ([873daa0](https://github.com/DataBiosphere/data-browser/commit/873daa0f382dd6bdc675220ead09735d411fdcef))
+* remove download buttons from files tab ([#4429](https://github.com/DataBiosphere/data-browser/issues/4429)) ([#4432](https://github.com/DataBiosphere/data-browser/issues/4432)) ([782e46d](https://github.com/DataBiosphere/data-browser/commit/782e46dd91a8aaf744c4704b520019941748e5c2))
+
+
+### Bug Fixes
+
+* use up-to-date column names for formatting call in analytics reports ([#4421](https://github.com/DataBiosphere/data-browser/issues/4421)) ([#4422](https://github.com/DataBiosphere/data-browser/issues/4422)) ([d943aca](https://github.com/DataBiosphere/data-browser/commit/d943aca65eb905ab4ff9bd0817fe5457d1d4c222))
+
+
+### Chores
+
+* update finable-ui to latest v22.0.0 ([#4428](https://github.com/DataBiosphere/data-browser/issues/4428)) ([#4433](https://github.com/DataBiosphere/data-browser/issues/4433)) ([202eea8](https://github.com/DataBiosphere/data-browser/commit/202eea817f63e62231548eed81492b34312a78d8))
+
 ## [2.12.1](https://github.com/DataBiosphere/data-browser/compare/v2.12.0...v2.12.1) (2025-03-11)
 
 
