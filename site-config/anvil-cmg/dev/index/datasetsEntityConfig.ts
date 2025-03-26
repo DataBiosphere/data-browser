@@ -121,15 +121,6 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE,
         width: { max: "1fr", min: "200px" },
       },
-      {
-        componentConfig: {
-          component: C.NTagCell,
-          viewBuilder: V.buildDataModality,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-        width: { max: "1fr", min: "148px" },
-      },
     ],
     tableOptions: {
       initialState: {
