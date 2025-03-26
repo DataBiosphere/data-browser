@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.15.0](https://github.com/DataBiosphere/data-browser/compare/v2.14.0...v2.15.0) (2025-03-26)
+
+
+### Features
+
+* added direct request access link to DUOS dataset [#4441](https://github.com/DataBiosphere/data-browser/issues/4441) ([#4442](https://github.com/DataBiosphere/data-browser/issues/4442)) ([b323967](https://github.com/DataBiosphere/data-browser/commit/b3239675e2a66683e471a05c667febc72d7f8b10))
+* removed data modality [#4444](https://github.com/DataBiosphere/data-browser/issues/4444) ([#4447](https://github.com/DataBiosphere/data-browser/issues/4447)) ([c894a83](https://github.com/DataBiosphere/data-browser/commit/c894a831ee4ad7411c3d4716268e9f6512435717))
+
+
+### Chores
+
+* add playwright report to gitignore and prettierignore ([#4434](https://github.com/DataBiosphere/data-browser/issues/4434)) ([#4445](https://github.com/DataBiosphere/data-browser/issues/4445)) ([7f302b2](https://github.com/DataBiosphere/data-browser/commit/7f302b23ad7f28f80048c5f3b5ffef8b1f984a4c))
+
 ## [2.14.0](https://github.com/DataBiosphere/data-browser/compare/v2.13.0...v2.14.0) (2025-03-21)
 
 
