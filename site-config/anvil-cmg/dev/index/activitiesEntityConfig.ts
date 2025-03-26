@@ -51,15 +51,6 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       },
       {
         componentConfig: {
-          component: C.NTagCell,
-          viewBuilder: V.buildDataModality,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildBioSampleTypes,
         } as ComponentConfig<typeof C.BasicCell>,

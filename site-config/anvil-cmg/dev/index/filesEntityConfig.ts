@@ -86,15 +86,6 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildFileDataModality,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-        width: { max: "1fr", min: "140px" },
-      },
-      {
-        componentConfig: {
-          component: C.NTagCell,
           viewBuilder: V.buildOrganismTypes,
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
