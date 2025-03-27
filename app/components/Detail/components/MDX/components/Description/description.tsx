@@ -7,6 +7,7 @@ import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import remarkGfm from "remark-gfm";
 import { MDX_COMPONENTS } from "./common/constants";
 import { DescriptionProps } from "./types";
+import DOMPurify from "isomorphic-dompurify";
 
 type ReactMDXContent = (props: MDXProps) => ReactNode;
 type Runtime = Pick<EvaluateOptions, "jsx" | "jsxs" | "Fragment">;
@@ -19,8 +20,14 @@ export const Description = ({ content }: DescriptionProps): JSX.Element => {
   );
 
   useEffect(() => {
-    evaluate(content, { ...runtime, remarkPlugins: [remarkGfm] }).then((r) =>
-      setMdxContent(() => r.default)
+    const sanitizedContent = DOMPurify.sanitize(content)
+      // escape curly braces
+      .replace(/{/g, "&lcub;")
+      .replace(/}/g, "&rcub;")
+      // escape backticks
+      .replace(/`/g, "&#96;");
+    evaluate(sanitizedContent, { ...runtime, remarkPlugins: [remarkGfm] }).then(
+      (r) => setMdxContent(() => r.default)
     );
   }, [content]);
 

@@ -86,15 +86,6 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildFileDataModality,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-        width: { max: "1fr", min: "140px" },
-      },
-      {
-        componentConfig: {
-          component: C.NTagCell,
           viewBuilder: V.buildOrganismTypes,
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
@@ -141,6 +132,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     tableOptions: {
       initialState: {
         columnVisibility: {
+          [ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
           [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE]: false,
