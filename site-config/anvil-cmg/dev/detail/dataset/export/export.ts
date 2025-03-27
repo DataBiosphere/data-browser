@@ -54,7 +54,7 @@ export const exportConfig: ExportConfig = {
               children: [
                 {
                   component: C.ExportToTerra,
-                  viewBuilder: V.builDatasetTerraExport,
+                  viewBuilder: V.buildDatasetTerraExport,
                 } as ComponentConfig<typeof C.ExportToTerra>,
               ],
               component: C.BackPageContentMainColumn,

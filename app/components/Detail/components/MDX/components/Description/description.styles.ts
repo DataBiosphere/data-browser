@@ -44,6 +44,13 @@ export const H4 = styled.h4`
   margin: 16px 0; /* Matching margin-bottom of H4 in docs */
 `;
 
+/*
+ * Image styled component.
+ */
+export const Image = styled.img`
+  max-width: 100%;
+`;
+
 /**
  * P styled component.
  */

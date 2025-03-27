@@ -18,6 +18,7 @@ import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { summary } from "./index/summary";
 import { floating } from "./layout/floating";
+import dataDictionary from "./dataDictionary/data-dictionary.json";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -52,10 +53,6 @@ export function makeConfig(
             {
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
-            },
-            {
-              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
             },
             {
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
@@ -129,6 +126,7 @@ export function makeConfig(
       key: "anvil-cmg",
     },
     contentDir: "anvil-cmg",
+    dataDictionary,
     dataSource: {
       defaultListParams: {
         size: "25",
@@ -156,10 +154,6 @@ export function makeConfig(
         Branding: C.ANVILBranding({ portalURL: portalUrl }),
         navLinks: [
           {
-            label: "Help",
-            url: `${browserUrl}/help`,
-          },
-          {
             label: "Privacy",
             url: `${browserUrl}/privacy`,
           },
@@ -185,6 +179,10 @@ export function makeConfig(
                 {
                   label: "Guides",
                   url: "/guides",
+                },
+                {
+                  label: "Data Dictionary",
+                  url: "/data-dictionary",
                 },
                 {
                   label: "Terms of service",

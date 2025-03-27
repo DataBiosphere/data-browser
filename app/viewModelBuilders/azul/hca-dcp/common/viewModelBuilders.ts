@@ -1519,7 +1519,7 @@ function calculateEstimatedCellCount(
 export function filterBioNetworks(
   responseValues: (NetworkKey | null)[]
 ): NetworkKey[] {
-  return responseValues.filter(isBioNetwork);
+  return Array.from(new Set(responseValues.filter(isBioNetwork)));
 }
 
 /**
@@ -2180,12 +2180,20 @@ function getProjectCallToAction(
   if (!isReady || isAccessGranted) {
     return null;
   }
+
+  // Get the DUOS ID from the project API response. Use the generic DUOS URL if the project does not hav
+  // a DUOS ID.
+  const duosId = getProjectDuosId(projectsResponse);
+  const ctaUrl = duosId
+    ? `https://duos.org/dataset/${duosId}`
+    : "https://duos.org/datalibrary/HCA";
+
   return C.BackPageHeroActions({
     callToActionProps: {
       callToAction: {
         label: "Request Access",
         target: ANCHOR_TARGET.BLANK,
-        url: "https://duos.org/datalibrary/HCA",
+        url: ctaUrl,
       },
     },
     linkProps: {
@@ -2194,6 +2202,15 @@ function getProjectCallToAction(
       label: "Need Help?",
     },
   });
+}
+
+/**
+ * Returns the DUOS ID from the project API response.
+ * @param projectsResponse - Response model return from project API.
+ * @returns DUOS ID.
+ */
+function getProjectDuosId(projectsResponse: ProjectsResponse): string {
+  return processEntityValue(projectsResponse.projects, "duosId", LABEL.EMPTY);
 }
 
 /**
