@@ -11,6 +11,7 @@ import {
 import {
   MUI_ALERT_ROOT,
   MUI_BUTTON_GROUP_ROOT,
+  MUI_FORM_CONTROL_ROOT,
   MUI_TABLE_CELL_ROOT,
   MUI_TABLE_ROOT,
   MUI_TABLE_ROW_ROOT,
@@ -151,11 +152,26 @@ describe("Dataset", () => {
     // Confirm Terra export method is visible and click it.
     await clickLink(page, BUTTON_TEXT_ANALYZE_IN_TERRA);
 
-    // Confirm the analyze in Terra page is loaded: check the "coming soon"
-    // message is displayed.
-    await expect(
-      page.locator(`${MUI_ALERT_ROOT}:has-text("under development")`)
-    ).toBeVisible();
+    // Confirm the analyze in Terra page is loaded: check for form elements.
+    await expect(page.locator(MUI_FORM_CONTROL_ROOT).first()).toBeVisible();
+  });
+
+  test("displays analyze in Terra selected data", async ({ page }) => {
+    await goToDataset(page, CHIP_TEXT_ACCESS_GRANTED);
+
+    // Confirm export button is visible and click it.
+    await clickLink(page, BUTTON_TEXT_EXPORT);
+
+    // Wait for the summary request once the file manifest button is clicked.
+    const [request] = await Promise.all([
+      page.waitForRequest((request) =>
+        request.url().includes(API_ENDPOINT_SUMMARY)
+      ),
+      clickLink(page, BUTTON_TEXT_ANALYZE_IN_TERRA),
+    ]);
+
+    // Confirm summary request has dataset ID request param.
+    verifySummaryRequest(request);
   });
 });
 

@@ -40,6 +40,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     top: [],
   },
   exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
+  key: "files",
   label: "Files",
   list: {
     columns: [
@@ -140,6 +141,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     tableOptions: {
       initialState: {
         columnVisibility: {
+          [ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
           [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE]: false,

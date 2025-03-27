@@ -167,7 +167,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
     url: "/donors",
   },
   FILES: {
-    emptyFirstColumn: true,
+    emptyFirstColumn: false,
     indexExportPage: ANVIL_INDEX_EXPORT_BUTTONS,
     maxPages: 25,
     preselectedColumns: ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME,

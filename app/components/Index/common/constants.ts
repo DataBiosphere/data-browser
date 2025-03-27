@@ -87,7 +87,7 @@ export const NETWORK_KEYS = [
   "Lung",
   "Musculoskeletal",
   "Nervous System",
-  "Oral",
+  "Oral and Craniofacial",
   "Organoid",
   "Pancreas",
   "Reproduction",
@@ -108,7 +108,8 @@ export const NETWORK_ICONS: { [key in NetworkKey]: string } = {
   Lung: "/images/icons/hca-bio-networks/lung.png",
   Musculoskeletal: "/images/icons/hca-bio-networks/musculoskeletal.png",
   "Nervous System": "/images/icons/hca-bio-networks/nervous-system.png",
-  Oral: "/images/icons/hca-bio-networks/oral-and-craniofacial.png",
+  "Oral and Craniofacial":
+    "/images/icons/hca-bio-networks/oral-and-craniofacial.png",
   Organoid: "/images/icons/hca-bio-networks/organoid.png",
   Pancreas: "/images/icons/hca-bio-networks/pancreas.png",
   Reproduction: "/images/icons/hca-bio-networks/reproduction.png",
