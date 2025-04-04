@@ -3,7 +3,6 @@ import { ColumnDescription } from "e2e/testInterfaces";
 export const ANVIL_DATASETS_BACKPAGE_HEADER_NAMES = {
   CONSENT_GROUP: "Consent group",
   DATASET_ID: "Dataset Id",
-  DATA_MODALITY: "Data modality",
   DIAGNOSIS: "Diagnosis",
   ORGANISM_TYPE: "Organism type",
   PHENOTYPIC_SEX: "Phenotypic sex",
@@ -18,7 +17,6 @@ export const ANVIL_COLUMN_NAMES = {
   BIOSAMPLE_TYPE: "BioSample Type",
   CONSENT_GROUP: "Consent Group",
   DATASET: "Dataset",
-  DATA_MODALITY: "Data Modality",
   DIAGNOSIS: "Diagnosis",
   DOCUMENT_ID: "Document Id",
   DONOR_ID: "Donor Id",
@@ -34,7 +32,6 @@ export const ANVIL_COLUMN_NAMES = {
 
 export const PLURALIZED_METADATA_LABEL = {
   [ANVIL_COLUMN_NAMES.DIAGNOSIS]: "diagnoses",
-  [ANVIL_COLUMN_NAMES.DATA_MODALITY]: "data modalities",
   [ANVIL_COLUMN_NAMES.DATASET]: "dataset names",
   [ANVIL_COLUMN_NAMES.CONSENT_GROUP]: "consent codes",
   [ANVIL_COLUMN_NAMES.ORGANISM_TYPE]: "organism types",
@@ -50,12 +47,6 @@ export const ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME = {
   [ANVIL_COLUMN_NAMES.DIAGNOSIS]: {
     name: ANVIL_COLUMN_NAMES.DIAGNOSIS,
     pluralizedLabel: PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.DIAGNOSIS],
-    sortable: true,
-  },
-  [ANVIL_COLUMN_NAMES.DATA_MODALITY]: {
-    name: ANVIL_COLUMN_NAMES.DATA_MODALITY,
-    pluralizedLabel:
-      PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.DATA_MODALITY],
     sortable: true,
   },
   [ANVIL_COLUMN_NAMES.DATASET]: {
@@ -111,12 +102,6 @@ export const ANVIL_ACTIVITIES_PRESELECTED_COLUMNS_BY_NAME = {
     name: ANVIL_COLUMN_NAMES.ACTIVITY_TYPE,
     pluralizedLabel:
       PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.ACTIVITY_TYPE],
-    sortable: true,
-  },
-  [ANVIL_COLUMN_NAMES.DATA_MODALITY]: {
-    name: ANVIL_COLUMN_NAMES.DATA_MODALITY,
-    pluralizedLabel:
-      PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.DATA_MODALITY],
     sortable: true,
   },
   [ANVIL_COLUMN_NAMES.BIOSAMPLE_TYPE]: {
@@ -262,12 +247,6 @@ export const ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME = {
   [ANVIL_COLUMN_NAMES.DRS_URI]: {
     name: ANVIL_COLUMN_NAMES.DRS_URI,
     sortable: false,
-  },
-  [ANVIL_COLUMN_NAMES.DATA_MODALITY]: {
-    name: ANVIL_COLUMN_NAMES.DATA_MODALITY,
-    pluralizedLabel:
-      PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.DATA_MODALITY],
-    sortable: true,
   },
   [ANVIL_COLUMN_NAMES.ORGANISM_TYPE]: {
     name: ANVIL_COLUMN_NAMES.ORGANISM_TYPE,
