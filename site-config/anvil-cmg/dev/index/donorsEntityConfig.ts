@@ -27,6 +27,7 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
     top: [],
   },
   exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
+  key: "donors",
   label: "Donors",
   list: {
     columns: [

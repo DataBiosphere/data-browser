@@ -15,8 +15,6 @@ import hcaDcpMaProd from "../../site-config/hca-dcp/ma-prod/config";
 import hcaDcpProd from "../../site-config/hca-dcp/prod/config";
 import lungMapDev from "../../site-config/lungmap/dev/config";
 import lungMapProd from "../../site-config/lungmap/prod/config";
-import ncpiMapDev from "../../site-config/ncpi-catalog/dev/config";
-import ncpiMapProd from "../../site-config/ncpi-catalog/prod/config";
 
 const CONFIGS: { [k: string]: SiteConfig } = {
   "anvil-catalog-dev": anvilCatalogDev,
@@ -34,8 +32,6 @@ const CONFIGS: { [k: string]: SiteConfig } = {
   "hca-dcp-prod": hcaDcpProd,
   "lungmap-dev": lungMapDev,
   "lungmap-prod": lungMapProd,
-  "ncpi-catalog-dev": ncpiMapDev,
-  "ncpi-catalog-prod": ncpiMapProd,
 };
 
 let appConfig: SiteConfig | null = null;

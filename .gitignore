@@ -8,6 +8,7 @@ node_modules
 # testing
 /coverage
 /test-results/*
+/playwright-report
 
 # next.js
 /.next/
@@ -56,8 +57,7 @@ _templates
 # favicons
 /public/favicons/*
 
-/files/anvil-catalog/out/
-/files/ncpi-catalog/out/
+/files/**/out/
 
 #Python
 __pycache__/

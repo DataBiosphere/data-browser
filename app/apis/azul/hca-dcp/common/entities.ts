@@ -88,6 +88,7 @@ export interface ProjectResponse {
   contributedAnalyses: ProjectResponseContributedAnalyses;
   contributors: ContributorResponse[];
   dataUseRestriction: string | null;
+  duosId: string | null;
   estimatedCellCount: number | null;
   laboratory: (string | null)[];
   matrices: ProjectResponseMatrices;

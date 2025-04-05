@@ -27,6 +27,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
     top: [],
   },
   exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
+  key: "activities",
   label: "Activities",
   list: {
     columns: [
@@ -46,15 +47,6 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_ACTIVITY_TYPE,
         id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_ACTIVITY_TYPE,
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        componentConfig: {
-          component: C.NTagCell,
-          viewBuilder: V.buildDataModality,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
         width: { max: "1fr", min: "200px" },
       },
       {
