@@ -106,10 +106,6 @@ export function getDatasetDetails(
   );
   details.set("Diagnosis", stringifyValues(getAggregatedDiagnoses(response)));
   details.set(
-    "Data modality",
-    stringifyValues(getAggregatedActivityDataModalities(response))
-  );
-  details.set(
     "Phenotypic sex",
     stringifyValues(getAggregatedPhenotypicSexes(response))
   );

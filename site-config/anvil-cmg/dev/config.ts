@@ -55,10 +55,6 @@ export function makeConfig(
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
             },
             {
-              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-            },
-            {
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
             },
@@ -158,10 +154,6 @@ export function makeConfig(
         Branding: C.ANVILBranding({ portalURL: portalUrl }),
         navLinks: [
           {
-            label: "Help",
-            url: `${browserUrl}/help`,
-          },
-          {
             label: "Privacy",
             url: `${browserUrl}/privacy`,
           },
@@ -187,6 +179,10 @@ export function makeConfig(
                 {
                   label: "Guides",
                   url: "/guides",
+                },
+                {
+                  label: "Data Dictionary",
+                  url: "/data-dictionary",
                 },
                 {
                   label: "Terms of service",

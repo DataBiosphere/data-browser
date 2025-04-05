@@ -1,6 +1,6 @@
 import { Link } from "../../../../../../Layout/components/Content/components/Link/link";
 import { Table } from "../../Table/table";
-import { H1, H2, H3, H4, P } from "./../description.styles";
+import { H1, H2, H3, H4, Image, P } from "../description.styles";
 
 /**
  * Components used when rendering MDX content in Description. Note when
@@ -12,6 +12,7 @@ export const MDX_COMPONENTS = {
   h2: H2,
   h3: H3,
   h4: H4,
+  img: Image,
   p: P,
   table: Table,
 };

@@ -19,7 +19,7 @@ export const ANVIL_CMG_CATEGORY_KEY = {
   DONOR_ORGANISM_TYPE: "donors.organism_type",
   DONOR_PHENOTYPIC_SEX: "donors.phenotypic_sex",
   DONOR_REPORTED_ETHNICITY: "donors.reported_ethnicity",
-  DRS_URI: "drs_uri",
+  DRS_URI: "files.drs_uri",
   FILE_FILE_FORMAT: "files.file_format",
   FILE_FILE_NAME: "files.file_name",
   FILE_FILE_SIZE: "files.file_size",

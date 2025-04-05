@@ -1,5 +1,68 @@
 # Changelog
 
+## [2.15.0](https://github.com/DataBiosphere/data-browser/compare/v2.14.0...v2.15.0) (2025-03-26)
+
+
+### Features
+
+* added direct request access link to DUOS dataset [#4441](https://github.com/DataBiosphere/data-browser/issues/4441) ([#4442](https://github.com/DataBiosphere/data-browser/issues/4442)) ([b323967](https://github.com/DataBiosphere/data-browser/commit/b3239675e2a66683e471a05c667febc72d7f8b10))
+* removed data modality [#4444](https://github.com/DataBiosphere/data-browser/issues/4444) ([#4447](https://github.com/DataBiosphere/data-browser/issues/4447)) ([c894a83](https://github.com/DataBiosphere/data-browser/commit/c894a831ee4ad7411c3d4716268e9f6512435717))
+
+
+### Chores
+
+* add playwright report to gitignore and prettierignore ([#4434](https://github.com/DataBiosphere/data-browser/issues/4434)) ([#4445](https://github.com/DataBiosphere/data-browser/issues/4445)) ([7f302b2](https://github.com/DataBiosphere/data-browser/commit/7f302b23ad7f28f80048c5f3b5ffef8b1f984a4c))
+
+## [2.14.0](https://github.com/DataBiosphere/data-browser/compare/v2.13.0...v2.14.0) (2025-03-21)
+
+
+### Features
+
+* add anvil data dictionary ([#4416](https://github.com/DataBiosphere/data-browser/issues/4416)) ([#4435](https://github.com/DataBiosphere/data-browser/issues/4435)) ([25d8e30](https://github.com/DataBiosphere/data-browser/commit/25d8e3097be97b3c5b7e2376a98d21f30e099cfa))
+
+
+### Chores
+
+* bump anvil catalog to anvil9 ([#4437](https://github.com/DataBiosphere/data-browser/issues/4437)) ([#4440](https://github.com/DataBiosphere/data-browser/issues/4440)) ([4a7fe47](https://github.com/DataBiosphere/data-browser/commit/4a7fe4737ac80d3957e225c62a22c7c37e5d7ed3))
+
+
+### Documentation
+
+* udpated data dictionary [#4438](https://github.com/DataBiosphere/data-browser/issues/4438) ([#4439](https://github.com/DataBiosphere/data-browser/issues/4439)) ([7662161](https://github.com/DataBiosphere/data-browser/commit/7662161e6ea3e1844e722148d64d77834caf1fb3))
+
+## [2.13.0](https://github.com/DataBiosphere/data-browser/compare/v2.12.1...v2.13.0) (2025-03-18)
+
+
+### Features
+
+* add predefined formatting options and function to get periods to analytics package ([#4430](https://github.com/DataBiosphere/data-browser/issues/4430)) ([#4431](https://github.com/DataBiosphere/data-browser/issues/4431)) ([873daa0](https://github.com/DataBiosphere/data-browser/commit/873daa0f382dd6bdc675220ead09735d411fdcef))
+* remove download buttons from files tab ([#4429](https://github.com/DataBiosphere/data-browser/issues/4429)) ([#4432](https://github.com/DataBiosphere/data-browser/issues/4432)) ([782e46d](https://github.com/DataBiosphere/data-browser/commit/782e46dd91a8aaf744c4704b520019941748e5c2))
+
+
+### Bug Fixes
+
+* use up-to-date column names for formatting call in analytics reports ([#4421](https://github.com/DataBiosphere/data-browser/issues/4421)) ([#4422](https://github.com/DataBiosphere/data-browser/issues/4422)) ([d943aca](https://github.com/DataBiosphere/data-browser/commit/d943aca65eb905ab4ff9bd0817fe5457d1d4c222))
+
+
+### Chores
+
+* update finable-ui to latest v22.0.0 ([#4428](https://github.com/DataBiosphere/data-browser/issues/4428)) ([#4433](https://github.com/DataBiosphere/data-browser/issues/4433)) ([202eea8](https://github.com/DataBiosphere/data-browser/commit/202eea817f63e62231548eed81492b34312a78d8))
+
+## [2.12.1](https://github.com/DataBiosphere/data-browser/compare/v2.12.0...v2.12.1) (2025-03-11)
+
+
+### Bug Fixes
+
+* poorly formatted markdown can cause an error rendering ([#4415](https://github.com/DataBiosphere/data-browser/issues/4415)) ([#4417](https://github.com/DataBiosphere/data-browser/issues/4417)) ([e7a9ad7](https://github.com/DataBiosphere/data-browser/commit/e7a9ad7b777c0c503e855fde805c2d648a32bf8e))
+
+## [2.12.0](https://github.com/DataBiosphere/data-browser/compare/v2.11.0...v2.12.0) (2025-03-10)
+
+
+### Features
+
+* remove help link in footer ([#4405](https://github.com/DataBiosphere/data-browser/issues/4405)) ([#4410](https://github.com/DataBiosphere/data-browser/issues/4410)) ([d1e31bd](https://github.com/DataBiosphere/data-browser/commit/d1e31bdc50f454ae897f0c46da00a27da39e03f6))
+* updated AnVIL guides PFB text [#4404](https://github.com/DataBiosphere/data-browser/issues/4404) ([#4412](https://github.com/DataBiosphere/data-browser/issues/4412)) ([accf9c7](https://github.com/DataBiosphere/data-browser/commit/accf9c79ca64eaf3352cb87e428057fae2684441))
+
 ## [2.11.0](https://github.com/DataBiosphere/data-browser/compare/v2.10.0...v2.11.0) (2025-03-03)
 
 
