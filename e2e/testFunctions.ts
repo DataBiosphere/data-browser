@@ -140,9 +140,6 @@ export async function testTab(
   }
 }
 
-// The test id for the column sorted icon
-const COLUMN_SORT_ICON_TEST_ID = "SouthRoundedIcon";
-
 /**
  * Checks that sorting the tab causes the sort icon to appear
  * This test does not check whether the sort order is correct.
@@ -189,8 +186,8 @@ export async function testSortAzul(
         name: columnObject.name,
       });
       // Locator for the column sort icon
-      const sortIconLocator = columnSortLocator.getByTestId(
-        COLUMN_SORT_ICON_TEST_ID
+      const sortIconLocator = columnSortLocator.locator(
+        ".MuiTableSortLabel-icon"
       );
       // If on the first cell, expect the sort icon to be visible. Otherwise, expect it not to be
       if (columnPosition === 0) {
