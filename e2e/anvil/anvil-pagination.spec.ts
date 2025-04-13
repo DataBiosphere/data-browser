@@ -34,7 +34,11 @@ test.describe("AnVIL Data Explorer pagination", () => {
   });
 
   test("back becomes enabled after going to page 2", async ({ page }) => {
-    await navigateAndSettlePage(page, buttons.last(), displayedRows(page));
+    await triggerActionAndWaitForUpdate(
+      page,
+      buttons.last(),
+      displayedRows(page)
+    );
     await expect(buttons.first()).toBeEnabled();
   });
 
@@ -45,7 +49,7 @@ test.describe("AnVIL Data Explorer pagination", () => {
       await expect(pagination).toHaveText(getPaginationRegex(pageNo));
 
       if (pageNo < 4) {
-        await navigateAndSettlePage(page, buttons.last(), results);
+        await triggerActionAndWaitForUpdate(page, buttons.last(), results);
       }
     }
   });
@@ -57,7 +61,7 @@ test.describe("AnVIL Data Explorer pagination", () => {
     values.push(await firstCell.textContent());
 
     for (let i = 0; i < 3; i++) {
-      await navigateAndSettlePage(page, buttons.last(), firstCell);
+      await triggerActionAndWaitForUpdate(page, buttons.last(), firstCell);
       values.push(await firstCell.textContent());
     }
 
@@ -73,33 +77,80 @@ test.describe("AnVIL Data Explorer pagination", () => {
     values.push(getTotalPages(await pagination.textContent())!);
 
     for (let i = 0; i < 3; i++) {
-      await navigateAndSettlePage(page, buttons.last(), results);
+      await triggerActionAndWaitForUpdate(page, buttons.last(), results);
       values.push(getTotalPages(await pagination.textContent())!);
     }
 
     expect(new Set(values).size).toEqual(1);
   });
 
-  test("something", async ({ page }) => {
+  test("updates total pages correctly after applying filter", async ({
+    page,
+  }) => {
+    const results = displayedRows(page);
+
+    await openSearchAllFilters(page);
+    const { button, count } = await getFilterWithCountInRange(page);
+    expect(button).toBeDefined();
+
+    await triggerActionAndWaitForUpdate(page, button, results);
+    await page.keyboard.press(KEYBOARD_KEY.ESCAPE);
+
+    const text = await pagination.textContent();
+    expect(getTotalPages(text)).toEqual(Math.ceil(count / 25));
+  });
+
+  test("forward button is disabled when on the last page", async ({ page }) => {
     const results = displayedRows(page);
     await openSearchAllFilters(page);
-    const listItemButtons = page
-      .getByTestId(TEST_ID.FILTER_ITEM)
-      .filter({ hasNotText: "Required" });
-    let button, count;
-    for (let i = 0; i < (await listItemButtons.count()); i++) {
-      button = listItemButtons.nth(i);
-      count = await button.getByTestId(TEST_ID.FILTER_COUNT).textContent();
-      const value = Number(count);
-      if (value > 25 && value < 120) break;
-    }
+
+    const { button } = await getFilterWithCountInRange(page);
     expect(button).toBeDefined();
-    await navigateAndSettlePage(page, button!, results);
+
+    await triggerActionAndWaitForUpdate(page, button, results);
     await page.keyboard.press(KEYBOARD_KEY.ESCAPE);
+
     const text = await pagination.textContent();
-    expect(getTotalPages(text)).toEqual(Math.ceil(Number(count) / 25));
+    const totalPages = getTotalPages(text) || 0;
+
+    if (totalPages > 1) {
+      for (let i = 1; i < totalPages; i++) {
+        await triggerActionAndWaitForUpdate(page, buttons.last(), results);
+      }
+    }
+
+    await expect(buttons.last()).toBeDisabled();
   });
 });
+
+/**
+ * Finds a filter item button with a count between the specified range.
+ * @param page - The Playwright page.
+ * @param min - Minimum count.
+ * @param max - Maximum count.
+ * @returns An object with the matching button and its numeric count.
+ */
+export async function getFilterWithCountInRange(
+  page: Page,
+  min = 25,
+  max = 120
+): Promise<{ button: Locator; count: number }> {
+  const listItemButtons = page
+    .getByTestId(TEST_ID.FILTER_ITEM)
+    .filter({ hasNotText: "Required" });
+
+  for (let i = 0; i < (await listItemButtons.count()); i++) {
+    const button = listItemButtons.nth(i);
+    const text = await button.getByTestId(TEST_ID.FILTER_COUNT).textContent();
+    const count = Number(text);
+
+    if (count > min && count < max) {
+      return { button, count };
+    }
+  }
+
+  throw new Error(`No filter found with count between ${min} and ${max}`);
+}
 
 /**
  * Returns a RegExp that matches:  "Page <current> of <any‑positive‑integer>"
@@ -147,7 +198,7 @@ const urlOrPredicate = (r: Response): boolean =>
  * @param control - Control.
  * @param targetLocator - Locator for the element whose text content is expected to change.
  */
-async function navigateAndSettlePage(
+async function triggerActionAndWaitForUpdate(
   page: Page,
   control: Locator,
   targetLocator: Locator
