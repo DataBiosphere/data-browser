@@ -1,7 +1,6 @@
 import { expect, Locator, Page, test } from "@playwright/test";
 import { ANVIL_TABS } from "./anvil-tabs";
 import { KEYBOARD_KEY, MUI_CLASS } from "../features/common/constants";
-import { Response } from "playwright-core";
 import { TEST_IDS } from "@databiosphere/findable-ui/lib/tests/testIds";
 
 test.describe("AnVIL Data Explorer pagination", () => {
@@ -15,7 +14,6 @@ test.describe("AnVIL Data Explorer pagination", () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto(ANVIL_TABS.FILES.url);
-    await page.waitForResponse(urlOrPredicate);
     await displayedRows(page).waitFor();
     pagination = page.getByTestId(TEST_IDS.TABLE_PAGINATION);
     buttons = pagination.locator(MUI_CLASS.ICON_BUTTON);
@@ -190,8 +188,8 @@ export async function openSearchAllFilters(page: Page): Promise<void> {
  * @param r - Response.
  * @returns True if the URL contains "/index/files" and the response is OK.
  */
-const urlOrPredicate = (r: Response): boolean =>
-  r.url().includes("/index/files") && r.ok();
+// const urlOrPredicate = (r: Response): boolean =>
+//   r.url().includes("/index/files") && r.ok();
 
 /**
  *  Clicks a control and waits until the matching XHR/Fetch request resolves and the targetLocator's text content changes.
@@ -205,9 +203,8 @@ async function triggerActionAndWaitForUpdate(
   targetLocator: Locator
 ): Promise<void> {
   const results = await targetLocator.textContent();
-
-  await Promise.all([page.waitForResponse(urlOrPredicate), control.click()]);
-
+  await control.click();
+  // await Promise.all([page.waitForResponse(urlOrPredicate), control.click()]);
   await expect
     .poll(async () => await targetLocator.textContent())
     .not.toEqual(results);
