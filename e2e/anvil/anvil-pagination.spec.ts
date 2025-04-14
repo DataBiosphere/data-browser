@@ -1,22 +1,23 @@
 import { expect, Locator, Page, test } from "@playwright/test";
 import { ANVIL_TABS } from "./anvil-tabs";
-import { KEYBOARD_KEY, MUI_CLASS, TEST_ID } from "../features/common/constants";
+import { KEYBOARD_KEY, MUI_CLASS } from "../features/common/constants";
 import { Response } from "playwright-core";
+import { TEST_IDS } from "@databiosphere/findable-ui/lib/tests/testIds";
 
 test.describe("AnVIL Data Explorer pagination", () => {
   let pagination: Locator;
   let buttons: Locator;
 
   const displayedRows = (page: Page): Locator =>
-    page.getByTestId(TEST_ID.PAGINATION_RESULTS);
+    page.getByTestId(TEST_IDS.TABLE_PAGINATION_RESULTS);
   const tableFirstCell = (page: Page): Locator =>
-    page.getByTestId(TEST_ID.TABLE_FIRST_CELL);
+    page.getByTestId(TEST_IDS.TABLE_FIRST_CELL);
 
   test.beforeEach(async ({ page }) => {
     await page.goto(ANVIL_TABS.FILES.url);
     await page.waitForResponse(urlOrPredicate);
     await displayedRows(page).waitFor();
-    pagination = page.getByTestId(TEST_ID.PAGINATION);
+    pagination = page.getByTestId(TEST_IDS.TABLE_PAGINATION);
     buttons = pagination.locator(MUI_CLASS.ICON_BUTTON);
   });
 
@@ -136,12 +137,12 @@ export async function getFilterWithCountInRange(
   max = 120
 ): Promise<{ button: Locator; count: number }> {
   const listItemButtons = page
-    .getByTestId(TEST_ID.FILTER_ITEM)
+    .getByTestId(TEST_IDS.FILTER_ITEM)
     .filter({ hasNotText: "Required" });
 
   for (let i = 0; i < (await listItemButtons.count()); i++) {
     const button = listItemButtons.nth(i);
-    const text = await button.getByTestId(TEST_ID.FILTER_COUNT).textContent();
+    const text = await button.getByTestId(TEST_IDS.FILTER_COUNT).textContent();
     const count = Number(text);
 
     if (count > min && count < max) {
