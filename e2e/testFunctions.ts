@@ -1,7 +1,10 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { ColumnDescription, TabDescription } from "./testInterfaces";
-import { TEST_IDS } from "@databiosphere/findable-ui/lib/tests/testIds";
-import { KEYBOARD_KEYS, MUI_CLASSES } from "./features/common/constants";
+import {
+  KEYBOARD_KEYS,
+  MUI_CLASSES,
+  TEST_IDS,
+} from "./features/common/constants";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
@@ -993,8 +996,6 @@ export async function testIndexExportSummary(
 }
 
 const PAGE_COUNT_REGEX = /Page \d+ of \d+/;
-const BACK_BUTTON_TEST_ID = "WestRoundedIcon";
-const FORWARD_BUTTON_TEST_ID = "EastRoundedIcon";
 const MAX_PAGINATIONS = 200;
 
 /**
@@ -1015,14 +1016,16 @@ export async function testFirstPagePagination(
   // Forward button should start enabled
   await expect(
     page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+      .getByTestId(TEST_IDS.TABLE_PAGINATION)
+      .locator(MUI_CLASSES.ICON_BUTTON)
+      .last()
   ).toBeEnabled();
   // Back Button should start disabled
   await expect(
     page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
+      .getByTestId(TEST_IDS.TABLE_PAGINATION)
+      .locator(MUI_CLASSES.ICON_BUTTON)
+      .first()
   ).toBeDisabled();
 }
 
