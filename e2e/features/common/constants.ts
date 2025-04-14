@@ -16,4 +16,6 @@ export const MUI_CLASSES = {
   TABLE_CELL: ".MuiTableCell-root",
   TABLE_CONTAINER: ".MuiTableContainer-root",
   TABLE_ROW: ".MuiTableRow-root",
+  TABLE_SORT_LABEL: ".MuiTableSortLabel-root",
+  TABLE_SORT_LABEL_ICON: ".MuiTableSortLabel-icon",
 };

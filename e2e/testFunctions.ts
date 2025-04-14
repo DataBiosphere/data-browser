@@ -118,6 +118,7 @@ export async function testTab(
 ): Promise<void> {
   // Run the "Expect each tab to become selected, to go to the correct url, and to show all of its columns when selected" test
   await page.goto(startTab.url);
+  await page.getByTestId(TEST_IDS.TABLE_FIRST_CELL).waitFor();
   await expect(getFirstRowNthColumnCellLocator(page, 1)).toBeVisible();
   await getTabByText(page, endTab.tabName).click();
   await expect(page).toHaveURL(endTab.url);
@@ -183,13 +184,12 @@ export async function testSortAzul(
     }
     if (columnObject?.sortable) {
       // Locator that can be clicked to sort the column
-      const columnSortLocator = page.getByRole("button", {
-        exact: true,
-        name: columnObject.name,
-      });
+      const columnSortLocator = page
+        .locator(MUI_CLASSES.TABLE_SORT_LABEL)
+        .filter({ hasText: columnObject.name });
       // Locator for the column sort icon
       const sortIconLocator = columnSortLocator.locator(
-        ".MuiTableSortLabel-icon"
+        MUI_CLASSES.TABLE_SORT_LABEL_ICON
       );
       // If on the first cell, expect the sort icon to be visible. Otherwise, expect it not to be
       if (columnPosition === 0) {
@@ -1245,9 +1245,7 @@ export async function testPaginationContent(
  * @returns - a Playwright locator object for the tab with the specified text.
  */
 export const getTabByText = (page: Page, tabText: string): Locator => {
-  return page.locator("[role='tab']", {
-    has: page.locator(`text="${tabText}"`),
-  });
+  return page.locator("[role='tab']").filter({ hasText: tabText });
 };
 
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/
