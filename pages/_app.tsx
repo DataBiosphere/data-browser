@@ -82,9 +82,9 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
                     <ThemeProvider
                       theme={(theme: Theme): Theme => {
                         // eslint-disable-next-line @typescript-eslint/no-unused-vars -- MUI internal property 'vars' is automatically added when cssVariables is enabled.
-                        const { vars, ...cleanTheme } = theme;
+                        const { vars, ...themeWithoutVars } = theme;
                         return createTheme(
-                          deepmerge(cleanTheme, {
+                          deepmerge(themeWithoutVars, {
                             breakpoints: createBreakpoints(BREAKPOINTS),
                           })
                         );
