@@ -2,7 +2,10 @@ import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/en
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
-import { mapSelectCategoryValue } from "../../../app/config/utils";
+import {
+  buildColumnDefs,
+  mapSelectCategoryValue,
+} from "../../../app/config/utils";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
 import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
@@ -19,6 +22,7 @@ import { filesEntityConfig } from "./index/filesEntityConfig";
 import { summary } from "./index/summary";
 import { floating } from "./layout/floating";
 import dataDictionary from "./dataDictionary/data-dictionary.json";
+import columnDefs from "./dataDictionary/column-defs.json";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -129,7 +133,12 @@ export function makeConfig(
       key: "anvil-cmg",
     },
     contentDir: "anvil-cmg",
-    dataDictionary,
+    dataDictionaries: [
+      {
+        columnDefs: buildColumnDefs(columnDefs),
+        dataDictionary,
+      },
+    ],
     dataSource: {
       defaultListParams: {
         size: "25",
