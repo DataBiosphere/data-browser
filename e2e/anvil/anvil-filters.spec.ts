@@ -10,8 +10,8 @@ import {
 } from "../testFunctions";
 import {
   ANVIL_FILTER_NAMES,
-  ANVIL_TABS,
   ANVIL_TAB_TEST_ORDER,
+  ANVIL_TABS,
   BIOSAMPLE_TYPE_INDEX,
   CONSENT_GROUP_INDEX,
   DATASET_INDEX,
