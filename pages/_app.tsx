@@ -80,13 +80,15 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
                 <LayoutDimensionsProvider>
                   <AppLayout>
                     <ThemeProvider
-                      theme={(theme: Theme): Theme =>
-                        createTheme(
-                          deepmerge(theme, {
+                      theme={(theme: Theme): Theme => {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars -- MUI internal property 'vars' is automatically added when cssVariables is enabled.
+                        const { vars, ...themeWithoutVars } = theme;
+                        return createTheme(
+                          deepmerge(themeWithoutVars, {
                             breakpoints: createBreakpoints(BREAKPOINTS),
                           })
-                        )
-                      }
+                        );
+                      }}
                     >
                       <Header {...header} />
                     </ThemeProvider>
