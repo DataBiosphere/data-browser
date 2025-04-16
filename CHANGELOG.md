@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.17.0](https://github.com/DataBiosphere/data-browser/compare/v2.16.0...v2.17.0) (2025-04-16)
+
+
+### Features
+
+* implement chart view for LungMAP ([#4463](https://github.com/DataBiosphere/data-browser/issues/4463)) ([#4464](https://github.com/DataBiosphere/data-browser/issues/4464)) ([274a498](https://github.com/DataBiosphere/data-browser/commit/274a498cbfcc5b25bf34f9cd74616a7ed6d4a986))
+
 ## [2.16.0](https://github.com/DataBiosphere/data-browser/compare/v2.15.0...v2.16.0) (2025-04-15)
 
 
