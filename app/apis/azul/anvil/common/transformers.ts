@@ -5,7 +5,7 @@ import {
   KeyValues,
   Value,
 } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-import { MetadataValue } from "@databiosphere/findable-ui/lib/components/Index/components/NTagCell/nTagCell";
+import { MetadataValue } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/NTagCell/nTagCell";
 import { Description } from "@databiosphere/findable-ui/lib/components/Project/common/entities";
 import {
   processAggregatedOrArrayValue,
