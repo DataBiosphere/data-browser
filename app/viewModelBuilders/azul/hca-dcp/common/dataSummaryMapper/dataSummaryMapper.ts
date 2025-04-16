@@ -1,7 +1,7 @@
 import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { stringifyValues } from "@databiosphere/findable-ui/lib/common/utils";
 import { Value } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-import { NTagCell } from "@databiosphere/findable-ui/lib/components/Index/components/NTagCell/nTagCell";
+import { NTagCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/NTagCell/nTagCell";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { Links } from "@databiosphere/findable-ui/lib/components/Links/links";
 import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";

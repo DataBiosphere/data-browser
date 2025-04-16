@@ -47,14 +47,17 @@ export function makeConfig(
         {
           categoryConfigs: [
             {
+              enableChartView: false,
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
             },
             {
+              enableChartView: false,
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
             },
             {
+              enableChartView: false,
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
             },
@@ -137,6 +140,7 @@ export function makeConfig(
       },
       url: `${dataUrl}/`,
     },
+    enableEntitiesView: true,
     entities: [
       datasetsEntityConfig,
       donorsEntityConfig,

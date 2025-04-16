@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.16.0](https://github.com/DataBiosphere/data-browser/compare/v2.15.0...v2.16.0) (2025-04-15)
+
+
+### Features
+
+* implement chart view ([#4454](https://github.com/DataBiosphere/data-browser/issues/4454)) ([#4458](https://github.com/DataBiosphere/data-browser/issues/4458)) ([c663da1](https://github.com/DataBiosphere/data-browser/commit/c663da18dc940e92f974e27afcfc771cd2ee8acd))
+* implement chart view ([#4455](https://github.com/DataBiosphere/data-browser/issues/4455)) ([#4459](https://github.com/DataBiosphere/data-browser/issues/4459)) ([5199c30](https://github.com/DataBiosphere/data-browser/commit/5199c303e1c52a2dbb33f1b024c8b4dc2b024f1a))
+
+
+### Chores
+
+* set default catalog to dcp47 for HCA ([#4457](https://github.com/DataBiosphere/data-browser/issues/4457)) ([#4462](https://github.com/DataBiosphere/data-browser/issues/4462)) ([99210f9](https://github.com/DataBiosphere/data-browser/commit/99210f9d7b9b4b26ef52450653d1edb5e818d602))
+* update findable-ui to latest v25.1.0 ([#4453](https://github.com/DataBiosphere/data-browser/issues/4453)) ([#4456](https://github.com/DataBiosphere/data-browser/issues/4456)) ([d820a28](https://github.com/DataBiosphere/data-browser/commit/d820a28867c6b1f3a1ccc4d39b8fdeb622845674))
+
 ## [2.15.0](https://github.com/DataBiosphere/data-browser/compare/v2.14.0...v2.15.0) (2025-03-26)
 
 
