@@ -40,6 +40,7 @@
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
     "@next/mdx": "^14.2.28",
+    "@observablehq/plot": "^0.6.17",
     "@tanstack/react-table": "^8.19.2",
     "@types/fhir": "^0.0.35",
     "copy-to-clipboard": "3.3.1",
