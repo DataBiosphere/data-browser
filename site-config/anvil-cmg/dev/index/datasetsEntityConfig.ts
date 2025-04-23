@@ -4,7 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { DatasetsResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import { getDatasetEntryId } from "../../../../app/apis/azul/anvil-cmg/common/transformers";
 import { getTitle } from "../../../../app/apis/azul/anvil-cmg/common/utils";

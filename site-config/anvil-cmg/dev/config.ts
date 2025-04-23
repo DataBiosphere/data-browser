@@ -18,7 +18,7 @@ import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { summary } from "./index/summary";
 import { floating } from "./layout/floating";
-import dataDictionary from "./dataDictionary/data-dictionary.json";
+// import dataDictionary from "./dataDictionary/data-dictionary.json";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -129,7 +129,7 @@ export function makeConfig(
       key: "anvil-cmg",
     },
     contentDir: "anvil-cmg",
-    dataDictionary,
+    // dataDictionary,
     dataSource: {
       defaultListParams: {
         size: "25",
