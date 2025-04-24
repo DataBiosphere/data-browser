@@ -1,0 +1,26 @@
+[
+  {
+    "attributeDisplayName": "Label",
+    "attributeSlotName": "label",
+    "width": {
+      "max": "1fr",
+      "min": "200px"
+    }
+  },
+  {
+    "attributeDisplayName": "Description",
+    "attributeSlotName": "description",
+    "width": {
+      "max": "2fr",
+      "min": "480px"
+    }
+  },
+  {
+    "attributeDisplayName": "Key",
+    "attributeSlotName": "key",
+    "width": {
+      "max": "1fr",
+      "min": "180px"
+    }
+  }
+]
