@@ -5,6 +5,7 @@ import path from "path";
 const ESM_PACKAGES = [
   "ky",
   "@databiosphere/findable-ui",
+  "@observablehq/plot",
   "@tanstack/react-table",
 ];
 

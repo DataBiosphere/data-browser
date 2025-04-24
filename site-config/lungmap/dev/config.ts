@@ -53,6 +53,7 @@ export function makeConfig(
       },
       url: `${dataUrl}/`,
     },
+    enableEntitiesView: true,
     entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
     explorerTitle: "Explore Data",
     export: exportConfig,
