@@ -1,4 +1,4 @@
-import { smokeMain } from "@databiosphere/findable-ui/lib/styles/common/mixins/colors";
+import { PALETTE } from "@databiosphere/findable-ui/lib/styles/common/constants/palette";
 import {
   textBody400,
   textBody500,
@@ -18,7 +18,7 @@ export const TableContainer = styled(MTableContainer)`
     tr {
       td,
       th {
-        border-bottom: 1px solid ${smokeMain};
+        border-bottom: 1px solid ${PALETTE.SMOKE_MAIN};
         padding: 12px;
         text-align: left;
 
