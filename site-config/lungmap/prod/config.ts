@@ -14,6 +14,7 @@ const CATALOG = "lm8";
 
 const config: SiteConfig = {
   ...makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, GIT_HUB_REPO_URL, CATALOG),
+  exportToTerraUrl: "https://anvil.terra.bio/",
 };
 
 // Update gtmAuth for the prod environment lookup.
