@@ -1,6 +1,6 @@
 import {
   Attribute,
-  AttributeValue,
+  AttributeValueTypes,
   DataDictionaryColumnDef,
   SelectCategoryValue,
 } from "@databiosphere/findable-ui/lib/common/entities";
@@ -32,7 +32,7 @@ export function mapSelectCategoryValue(
  */
 export function buildColumnDefs(
   columnDefConfigs: DataDictionaryColumnDef[]
-): ColumnDef<Attribute, AttributeValue>[] {
+): ColumnDef<Attribute, AttributeValueTypes>[] {
   return columnDefConfigs.map((columnDefConfig) => {
     const {
       attributeDisplayName: header,
@@ -41,7 +41,7 @@ export function buildColumnDefs(
     } = columnDefConfig;
     return {
       accessorFn: (row) => row[key as keyof Attribute],
-      cell: (props: CellContext<Attribute, AttributeValue>) =>
+      cell: (props: CellContext<Attribute, AttributeValueTypes>) =>
         BasicCell({ ...props }),
       header: `${header}`,
       id: key,
