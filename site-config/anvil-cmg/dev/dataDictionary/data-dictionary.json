@@ -1,140 +1,183 @@
 {
+  "name": "anvil_data_dictionary",
+  "title": "AnVIL Data Dictionary",
   "classes": [
     {
-      "name": "Activity",
       "description": "Information about the activities performed on biosamples or files that resulted in the generation of additional files.",
-      "key": "activities",
-      "label": "Activity",
+      "name": "activities",
+      "title": "Activity",
       "attributes": [
         {
-          "key": "activities.activity_type",
-          "label": "Activity Type",
-          "description": "A reference to the type of activity, preferably using an identifier in a recommended standard ontology."
+          "description": "A reference to the type of activity, preferably using an identifier in a recommended standard ontology.",
+          "multivalued": false,
+          "name": "activities.activity_type",
+          "range": "string",
+          "required": false,
+          "title": "Activity Type"
         },
         {
-          "key": "activities.data_modality",
-          "label": "Data Modality",
-          "description": "Data modality describes the biological nature of the information gathered as the result of an Activity, independent of the technology or methods used to produce the information."
+          "description": "Data modality describes the biological nature of the information gathered as the result of an Activity, independent of the technology or methods used to produce the information.",
+          "name": "activities.data_modality",
+          "multivalued": true,
+          "range": "string",
+          "required": false,
+          "title": "Data Modality"
         }
       ]
     },
     {
-      "name": "BioSample",
       "description": "Information about the sample(s) included in the dataset.",
-      "key": "biosamples",
-      "label": "BioSample",
+      "name": "biosamples",
+      "title": "BioSample",
       "attributes": [
         {
-          "key": "biosamples.anatomical_site",
-          "label": "Anatomical Site",
-          "description": "A human-readable reference to the site within the organism from which the biosample was taken."
+          "description": "A human-readable reference to the site within the organism from which the biosample was taken.",
+          "name": "biosamples.anatomical_site",
+          "multivalued": false,
+          "range": "string",
+          "required": false,
+          "title": "Anatomical Site"
         },
         {
-          "key": "biosamples.biosample_id",
-          "label": "BioSample Id",
-          "description": "A unique identifier for the biosample."
+          "description": "A unique identifier for the biosample.",
+          "name": "biosamples.biosample_id",
+          "multivalued": false,
+          "range": "string",
+          "required": true,
+          "title": "BioSample Id"
         },
         {
-          "key": "biosamples.biosample_type",
-          "label": "BioSample Type",
-          "description": "A human-readable reference to the type of biosample represented by the record."
+          "description": "A human-readable reference to the type of biosample represented by the record.",
+          "name": "biosamples.biosample_type",
+          "multivalued": false,
+          "range": "string",
+          "required": false,
+          "title": "BioSample Type"
+        },
+        {
+          "description": "A human-readable property that identifies a disease or condition has been reported in this entity.",
+          "name": "biosamples.disease",
+          "multivalued": false,
+          "range": "string",
+          "required": false,
+          "title": "Diagnosis"
         }
       ]
     },
     {
-      "name": "Dataset",
       "description": "A collection of related files and associated metadata that share the same consent and access permissions.",
-      "key": "datasets",
-      "label": "Dataset",
+      "name": "datasets",
+      "title": "Dataset",
       "attributes": [
         {
-          "key": "datasets.accessible",
-          "label": "Access",
-          "description": "Indicates whether the user has permission to access the given dataset. For open-access datasets, this value will always be \"Granted\". For controlled-access datasets, it will be \"Required\" if the user is not logged in. If the user is logged in, the value will reflect their specific access permissions for the dataset."
+          "description": "Indicates whether the user has permission to access the given dataset. For open-access datasets, this value will always be \"Granted\". For controlled-access datasets, it will be \"Required\" if the user is not logged in. If the user is logged in, the value will reflect their specific access permissions for the dataset.",
+          "multivalued": false,
+          "name": "datasets.accessible",
+          "range": "boolean",
+          "required": true,
+          "title": "Access"
         },
         {
-          "key": "datasets.consent_group",
-          "label": "Consent Group",
-          "description": "Consent group or consent groups related to a dataset."
+          "description": "Consent group or consent groups related to a dataset.",
+          "multivalued": true,
+          "name": "datasets.consent_group",
+          "range": "string",
+          "required": false,
+          "title": "Consent Group"
         },
         {
-          "key": "datasets.registered_identifier",
-          "label": "Registered Identifier",
-          "description": "Unique ID used to identify this dataset in an external database. For example, the DUOS identifier for datasets registered in DUOS."
+          "description": "Unique ID used to identify this dataset in an external database. For example, the DUOS identifier for datasets registered in DUOS.",
+          "name": "datasets.registered_identifier",
+          "multivalued": true,
+          "range": "string",
+          "required": false,
+          "title": "Registered Identifier"
         },
         {
-          "key": "datasets.title",
-          "label": "Title",
-          "description": "A human-readable property that identifies the dataset which the dataset belongs to."
+          "description": "A human-readable property that identifies the dataset which the dataset belongs to.",
+          "multivalued": false,
+          "name": "datasets.title",
+          "range": "string",
+          "required": false,
+          "title": "Title"
         }
       ]
     },
     {
-      "name": "Diagnosis",
-      "description": "Information about conditions or diagnoses related to the donor of a biosample.",
-      "key": "diagnoses",
-      "label": "Diagnosis",
-      "attributes": [
-        {
-          "key": "diagnoses.disease",
-          "label": "Diagnosis",
-          "description": "A human-readable property that identifies a disease or condition has been reported in this entity."
-        }
-      ]
-    },
-    {
-      "name": "Donor",
       "description": "Demographic and phenotypic information about the donor.",
-      "key": "donors",
-      "label": "Donor",
+      "name": "donors",
+      "title": "Donor",
       "attributes": [
         {
-          "key": "donors.donor_id",
-          "label": "Donor Id",
-          "description": "A unique identifier for the donor."
+          "description": "A unique identifier for the donor.",
+          "multivalued": false,
+          "name": "donors.donor_id",
+          "range": "string",
+          "required": true,
+          "title": "Donor Id"
         },
         {
-          "key": "donors.organism_type",
-          "label": "Organism Type",
-          "description": "A human-readable reference to the organism type."
+          "description": "A human-readable reference to the organism type.",
+          "name": "donors.organism_type",
+          "multivalued": false,
+          "range": "string",
+          "required": false,
+          "title": "Organism Type"
         },
         {
-          "key": "donors.phenotypic_sex",
-          "label": "Phenotypic Sex",
-          "description": "A reference to the BiologicalSex of the Donor organism. \"An organismal quality inhering in a bearer by virtue of the bearer's physical expression of sexual characteristics. [PATO_0001894]"
+          "description": "A reference to the BiologicalSex of the Donor organism. \"An organismal quality inhering in a bearer by virtue of the bearer's physical expression of sexual characteristics. [PATO_0001894]",
+          "multivalued": false,
+          "name": "donors.phenotypic_sex",
+          "range": "string",
+          "required": false,
+          "title": "Phenotypic Sex"
         },
         {
-          "key": "donors.reported_ethnicity",
-          "label": "Reported Ethnicity",
-          "description": "A property that relects a Human Donor's reported ethnic origins. Note this may contain both Race and Ethnicity information as define by the US Department of Interior (DOI) https://www.doi.gov/pmb/eeo/directives/race-data"
+          "description": "A property that relects a Human Donor's reported ethnic origins. Note this may contain both Race and Ethnicity information as define by the US Department of Interior (DOI) https://www.doi.gov/pmb/eeo/directives/race-data",
+          "multivalued": true,
+          "name": "donors.reported_ethnicity",
+          "range": "string",
+          "required": false,
+          "title": "Reported Ethnicity"
         }
       ]
     },
     {
-      "name": "File",
       "description": "Information for files associated with the dataset.",
-      "key": "files",
-      "label": "File",
+      "name": "files",
+      "title": "File",
       "attributes": [
         {
-          "key": "files.drs_uri",
-          "label": "DRS URI",
-          "description": "A Uniform Resource Identifier (URI) that follows the GA4GH Data Repository Service (DRS) specification. It provides a standardized way to reference and access digital objects, such as files, within compliant data repositories. The DRS URI enables interoperability across systems by allowing authorized users and tools to retrieve dataset contents through a consistent interface."
+          "description": "A Uniform Resource Identifier (URI) that follows the GA4GH Data Repository Service (DRS) specification. It provides a standardized way to reference and access digital objects, such as files, within compliant data repositories. The DRS URI enables interoperability across systems by allowing authorized users and tools to retrieve dataset contents through a consistent interface.",
+          "multivalued": false,
+          "name": "files.drs_uri",
+          "range": "string",
+          "required": true,
+          "title": "DRS URI"
         },
         {
-          "key": "files.file_format",
-          "label": "File Format",
-          "description": "An indication of the format of an electronic file; include the full file extension including compression extensions. Usually aligns with file extension (e.g. bam, sam, text, csv, etc.)"
+          "description": "An indication of the format of an electronic file; include the full file extension including compression extensions. Usually aligns with file extension (e.g. bam, sam, text, csv, etc.)",
+          "multivalued": false,
+          "name": "files.file_format",
+          "range": "string",
+          "required": false,
+          "title": "File Format"
         },
         {
-          "key": "files.file_name",
-          "label": "File Name",
-          "description": "The name of the file."
+          "description": "The name of the file.",
+          "multivalued": false,
+          "name": "files.file_name",
+          "range": "string",
+          "required": false,
+          "title": "File Name"
         },
         {
-          "key": "files.file_size",
-          "label": "File Size",
-          "description": "Size of file in megabytes."
+          "description": "Size of file in megabytes.",
+          "multivalued": false,
+          "name": "files.file_size",
+          "range": "integer",
+          "required": false,
+          "title": "File Size"
         }
       ]
     }
