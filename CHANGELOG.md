@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.17.1](https://github.com/DataBiosphere/data-browser/compare/v2.17.0...v2.17.1) (2025-05-07)
+
+
+### Bug Fixes
+
+* corrected prod terra url [#4469](https://github.com/DataBiosphere/data-browser/issues/4469) ([#4470](https://github.com/DataBiosphere/data-browser/issues/4470)) ([57f883b](https://github.com/DataBiosphere/data-browser/commit/57f883b164db656dff0626514f139b28bad06632))
+
+
+### Chores
+
+* upgraded findable 29.0.2 [#4473](https://github.com/DataBiosphere/data-browser/issues/4473) ([#4474](https://github.com/DataBiosphere/data-browser/issues/4474)) ([7ea519c](https://github.com/DataBiosphere/data-browser/commit/7ea519c6bdef380e3504206205eb6b17bb93a675))
+
 ## [2.17.0](https://github.com/DataBiosphere/data-browser/compare/v2.16.0...v2.17.0) (2025-04-24)
 
 
