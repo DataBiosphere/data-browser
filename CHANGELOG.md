@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.17.2](https://github.com/DataBiosphere/data-browser/compare/v2.17.1...v2.17.2) (2025-05-09)
+
+
+### Bug Fixes
+
+* corrected prod LM terra url [#4469](https://github.com/DataBiosphere/data-browser/issues/4469) ([#4476](https://github.com/DataBiosphere/data-browser/issues/4476)) ([0bc64ab](https://github.com/DataBiosphere/data-browser/commit/0bc64ab1361eed67b4dd59a3e1659d3dd73eaa51))
+
 ## [2.17.1](https://github.com/DataBiosphere/data-browser/compare/v2.17.0...v2.17.1) (2025-05-07)
 
 
