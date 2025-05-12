@@ -22,5 +22,12 @@
       "max": "1fr",
       "min": "180px"
     }
+  },
+  {
+    "attributeAccessorFnName": "requiredAccessorFn",
+    "attributeCellName": "chipCell",
+    "attributeDisplayName": "Required",
+    "attributeSlotName": "required",
+    "width": "auto"
   }
 ]

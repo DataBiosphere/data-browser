@@ -23,6 +23,10 @@ import { summary } from "./index/summary";
 import { floating } from "./layout/floating";
 import dataDictionary from "./dataDictionary/data-dictionary.json";
 import columnDefs from "./dataDictionary/column-defs.json";
+import {
+  ACCESSOR_FNS,
+  CELLS,
+} from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/constants";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -135,7 +139,7 @@ export function makeConfig(
     contentDir: "anvil-cmg",
     dataDictionaries: [
       {
-        columnDefs: buildColumnDefs(columnDefs),
+        columnDefs: buildColumnDefs(columnDefs, ACCESSOR_FNS, CELLS),
         dataDictionary,
       },
     ],

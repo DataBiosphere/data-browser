@@ -1,12 +1,19 @@
 import {
-  Attribute,
-  AttributeValueTypes,
   DataDictionaryColumnDef,
   SelectCategoryValue,
 } from "@databiosphere/findable-ui/lib/common/entities";
-import { CellContext, ColumnDef } from "@tanstack/react-table";
-import { BasicCell } from "@databiosphere/findable-ui/lib/components/DataDictionary/components/Table/components/BasicCell/basicCell";
+import {
+  AccessorFn,
+  CellContext,
+  ColumnDef,
+  ColumnDefTemplate,
+  RowData,
+} from "@tanstack/react-table";
 import { GridTrackSize } from "@databiosphere/findable-ui/lib/config/entities";
+import {
+  mapAccessorFn,
+  mapCell,
+} from "app/viewModelBuilders/common/dataDictionaryMapper/utils";
 
 /**
  * Returns select category value with formatted label.
@@ -30,21 +37,26 @@ export function mapSelectCategoryValue(
  * @param columnDefConfigs - Array of column def configurations.
  * @returns Array of column defs.
  */
-export function buildColumnDefs(
-  columnDefConfigs: DataDictionaryColumnDef[]
-): ColumnDef<Attribute, AttributeValueTypes>[] {
+export function buildColumnDefs<T extends RowData, TValue>(
+  columnDefConfigs: DataDictionaryColumnDef[],
+  accessorFns: Record<string, AccessorFn<T, TValue>>,
+  cells: Record<string, ColumnDefTemplate<CellContext<T, TValue>>>
+): ColumnDef<T, TValue>[] {
   return columnDefConfigs.map((columnDefConfig) => {
     const {
+      attributeAccessorFnName,
+      attributeCellName,
       attributeDisplayName: header,
-      attributeSlotName: key,
+      attributeSlotName: accessorKey,
       width,
     } = columnDefConfig;
+    const accessorFn = mapAccessorFn(attributeAccessorFnName, accessorFns);
     return {
-      accessorFn: (row) => row[key as keyof Attribute],
-      cell: (props: CellContext<Attribute, AttributeValueTypes>) =>
-        BasicCell({ ...props }),
+      accessorKey: accessorFn ? undefined : accessorKey, // Configured with either AccessorKeyConfig or AccessorFnConfig.
+      accessorFn,
+      cell: mapCell(attributeCellName, cells),
       header: `${header}`,
-      id: key,
+      id: accessorKey,
       meta: { width: width as GridTrackSize },
     };
   });
