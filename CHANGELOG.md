@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.17.3](https://github.com/DataBiosphere/data-browser/compare/v2.17.2...v2.17.3) (2025-05-16)
+
+
+### Chores
+
+* set default catalog to dcp48 for HCA [#4478](https://github.com/DataBiosphere/data-browser/issues/4478) ([#4479](https://github.com/DataBiosphere/data-browser/issues/4479)) ([82f6a33](https://github.com/DataBiosphere/data-browser/commit/82f6a334e221c87477c71881fe5ca81972ffc6d5))
+
 ## [2.17.2](https://github.com/DataBiosphere/data-browser/compare/v2.17.1...v2.17.2) (2025-05-09)
 
 
