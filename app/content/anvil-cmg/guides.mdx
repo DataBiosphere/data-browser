@@ -5,139 +5,27 @@
   ]}
 />
 
-# Introducing The AnVIL Data Explorer (Beta Release)
+# About the AnVIL Data Explorer
+The AnVIL Data Explorer enables faceted searches of open and managed access datasets hosted in AnVIL, making them easier to find and analyze. You’ll now be able to streamline your data-gathering process with custom cohorts to keep your workspaces efficient and organized. You’ll be able to choose exactly the data you want to work with
 
-We are excited to introduce users of the [AnVIL Portal]({portalURL}) to the [AnVIL Data Explorer]({browserURL}/datasets) — the AnVIL Data Explorer’s faceted search feature that allows you to create cohorts across datasets based on your sample-level needs.
-
-## What is the AnVIL Data Explorer?
-
-You’ll now be able to streamline your data-gathering process in a way that allows you to create custom cohorts to keep your workspaces efficient and organized. You’ll be able to choose exactly the data you want to work with!
-
-With the [AnVIL Data Explorer]({browserURL}), you’ll be able to sort the datasets you’re browsing based on the following managed access categories:
-
+Sort the datasets you’re browsing  in the <a href="https://explore.anvilproject.org/datasets" target="blank">AnVIL Data Explorer</a> based on the following managed access categories:
 - Datasets
 - Donors
 - BioSamples
 - Activities
 - Files
+     
+The AnVIL program is actively receiving and ingesting additional datasets. The AnVIL Data Explorer will be updated periodically as new datasets are released.     
 
-## What are the Best Practices for working with NIH data?
+# How to find and use data with the AnVIL Data Explorer
+Documentation for using the AnVIL Data Explorer can be found in a series of articles in [Terra Support’s AnVIL documentation](https://support.terra.bio/hc/en-us/sections/25968420865691-AnVIL-Researchers).     
+- <a href="https://support.terra.bio/hc/en-us/articles/34594440468635-Finding-and-using-AnVIL-data" target="blank">Finding and using AnVIL data</a>     
+- <a href="https://support.terra.bio/hc/en-us/articles/34595554957723-Part-1-Set-up-billing-and-data-access-in-Terra" target="blank">Part 1: Set up billing and access in Terra</a>     
+- <a href="https://support.terra.bio/hc/en-us/articles/34596321862427-Part-2-Search-and-select-data-in-AnVIL-Data-Explorer" target="blank">Part 2: Search and select data in the AnVIL Data Explorer</a>      
+- <a href="https://support.terra.bio/hc/en-us/articles/34607573660827-Part-3-Export-AnVIL-data-to-Terra-for-analysis" target="_blank">Part 3: Export data for analysis</a>      
 
-When working with NIH data, particularly managed access data, users must follow their data use agreements. Terra users working with NIH data agree to our [Terms of Service](https://terra.bio/about/customer-security-requirements/), and we request that users leverage [extra security features](https://support.terra.bio/hc/en-us/articles/360026775691) when working with NIH data.
+# Limitations of the Data Explorer
+At the time of this writing, known limitations of the AnVIL Data Explorer are     
 
-## How do I use the AnVIL Data Explorer?
-
-Below, you’ll find step-by-step instructions for navigating the AnVIL Data Explorer and exporting data to Terra.
-
-### Step 1: Finding the AnVIL Data Explorer
-
-The [AnVIL Data Explorer]({browserURL}) can be found by navigating to the [AnVIL Portal]({portalURL}), and clicking on the Datasets button:
-
-<Figure alt="Data Explorer" src="/guides/find-the-explorer.png" />
-
-### Step 2: Authentication
-
-Ensure you have completed the necessary Terra [registration](https://support.terra.bio/hc/en-us/articles/360028235911-How-to-register-on-Terra) steps.
-
-Note for AnVIL Data Custodians: In many cases, AnVIL users that were part of data-generating consortia will be granted access to workspaces that are already configured to receive data. However, if you intend to add data to workspaces of your own, you may need to configure your own Terra Billing Project. For detailed instructions on setting up Billing Projects, please refer to our article on “[How to set up billing in Terra](https://support.terra.bio/hc/en-us/articles/360026182251-How-to-set-up-billing-in-Terra).”
-
-### Step 3: Selecting Data
-
-#### Search and Filtering Data
-
-You can sort and filter studies based on a wide range of facets, from sample- and donor-level information to any of the fields in the editable column view.
-
-<Figure alt="Search and Filter" src="/guides/search-and-filter.png" />
-
-The facets are visible in the screen above in the column on the left. If you click on any of these facets, you can see a more detailed view of studies that fall into the filters you’ve chosen.
-
-<Figure alt="Select Filter" src="/guides/select-filter.png" />
-
-When you select multiple facets, only data matching all selected facets is displayed (e.g. filter by Anatomical Site AND BioSample Type). When you select multiple values within a facet, data matching any of the facet values is displayed (e.g. selecting both Blood and Tissue above will list studies that include Blood OR Tissue samples).
-
-#### Exploring Datasets
-
-When you click on a dataset, you’ll be taken a summary page where you can find a variety of information and helpful links, including but not limited to:
-
-- What consortium the dataset is associated with
-- The quantity and types of data
-- Links to APIs for accessing the data programmatically
-- Links to request access
-- A button for exporting the dataset to a Terra workspace
-
-<Figure alt="Exploring Datasets" src="/guides/exploring-studies.png" />
-
-### Step 4: Exporting Data
-
-#### Exporting from The AnVIL Data Explorer
-
-<Alert severity="info">
-  <AlertTitle>Note</AlertTitle>
-  <div>
-    To export all data for the selected datasets, you must:
-
-    1. Choose only one or more “Dataset” filters.
-    2. Select all organisms and file types available on the Analyze in Terra page.
-
-    Support for finer-grained export selections is being developed. Currently, finer-grained export selections may
-    result in incomplete exports.
-
-  </div>
-</Alert>
-
-Once you’re ready to export the data, you can click Export to Terra from within a particular dataset, or you can also select one or more datasets from the "Datasets" filter and click the Export button at the top right of your screen when you are on the AnVIL Data Explorer’s main page.
-
-<Figure alt="Exporting with Terra" src="/guides/exporting-with-terra.png" />
-
-Clicking this button will take you to a window where you can export to a Terra workspace through the user interface.
-
-<Figure alt="Chose Export Method" src="/guides/exporting-method.png" />
-
-Once you select Analyze in Terra, you’ll see a button labeled “Request Link”.
-
-_Note, for full export, be sure to select all species and file types._
-
-<Figure alt="Export to Terra Process" src="/guides/export-to-terra1.png" />
-
-After you click this button, you will be prompted to wait while the system generates a link to Terra. Once this link is ready, you’ll see a page with a button labeled “Open Terra”. Clicking this button will take you to a workspace selection screen in Terra, where you’ll be able to select the workspace to which you’d like to add this data.
-
-<Figure
-  alt="Export to Terra Process Complete"
-  src="/guides/export-to-terra2.png"
-/>
-
-### Working with the Data in Terra
-
-Until recently, AnVIL data has been hosted and shared from multiple Terra workspaces making it hard to generate cohorts across differing studies. To resolve this, we created the AnVIL Data Explorer enabling you to create custom cohorts and then hand them off to your own Terra workspaces.
-
-Depending on the AnVIL dataset/study, the data in question have varying schemas (different columns and structure to the data). In an effort to ingest all of the AnVIL datasets, the Broad's Data Sciences Platform created a common subset schema across all AnVIL datasets. When you use the AnVIL Data Explorer, it actually searches through a specialized subset - called the Findability Subset (FSS) - that only contains the attributes which are most commonly used by researchers across a broad range of study data types and for diverse analyses.
-
-#### Working with NIH Data in Terra
-
-When working with NIH data in Terra, we require users to import data to workspaces with the checkbox for protected data marked. Optionally, an Authorization Domain may be applied and is highly recommended if working with controlled access data.
-
-In the data handoff from the AnVIL Data Explorer, you will transition to the Terra import screen. When importing from an NIH repository, you will see on the left-hand side the message “The data you chose to import to Terra are identified as protected and require additional security settings. Please select a workspace that has an Authorization Domain and/or protected data setting.”
-
-<Figure
-  alt="Working with NIH Data in Terra"
-  src="/guides/working-with-data.png"
-/>
-
-#### Selecting Workspace
-
-Next, you’ll see a workspace selection screen where you can either choose an existing workspace or create a new workspace to receive the data.
-
-<Figure alt="Selecting Workspace" src="/guides/selecting-workspace.png" />
-
-If you choose to “start with an existing workspace”, you can only select workspaces for which you have write access and that have the required security settings. If you cannot select a workspace of interest (it is grayed out), it means this workspace is non-compliant and you should create a new one with the required security settings.
-
-<Figure
-  alt="Start with Existing Workspace"
-  src="/guides/existing-workspace.png"
-/>
-
-If you choose to “start with a new workspace”, you will see that the import was recognized as coming from an NIH repository and the protected data checkbox is added. You can optionally add an Authorization Domain.
-
-<Figure alt="Create New Workspace" src="/guides/create-new-workspace.png" />
-
-Once you’ve completed this step, your workspace will spin up and you can go to the Data tab of your workspace to see a set of tables have been successfully imported into the workspace.
+- Some dataset descriptions are incomplete or missing. These are in the process of being populated.
+- The complete metadata for a dataset is exported when the complete dataset is selected, but custom cohort building using finer-grained facets (e.g., subject, sample, or file) may result in incomplete metadata export.
