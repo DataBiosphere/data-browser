@@ -33,9 +33,6 @@ export function makeManagedAccessConfig(config: SiteConfig): SiteConfig {
   // Add authentication to the config.
   cloneConfig.authentication = getAuthenticationConfig();
 
-  // Require authentication for exports
-  cloneConfig.exportsRequireAuth = true;
-
   // Update categoryGroupConfig.
   cloneConfig.categoryGroupConfig = getMACategoryGroupConfig(
     cloneConfig.categoryGroupConfig
