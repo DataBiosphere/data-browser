@@ -2,7 +2,6 @@ export { Section } from "../../MDXMarkdown/components/Section/mdxSection.styles"
 export { default as Alert } from "../common/alert.mdx";
 export { default as ExportToTerraStart } from "../common/exportToTerraStart.mdx";
 export { default as ExportToTerraSuccess } from "../common/exportToTerraSuccess.mdx";
-export { default as AlertBetaAnnouncement } from "./alertBetaAnnouncement.mdx";
 export { default as AlertEntityListWarning } from "./alertEntityListWarning.mdx";
 export { default as AlertExportWarning } from "./alertExportWarning.mdx";
 export { default as AlertExportWarningContent } from "./alertExportWarningContent.mdx";
