@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.18.0](https://github.com/DataBiosphere/data-browser/compare/v2.17.3...v2.18.0) (2025-06-02)
+
+
+### Features
+
+* remove 'beta' banner for anvil data explorer ([#4487](https://github.com/DataBiosphere/data-browser/issues/4487)) ([#4490](https://github.com/DataBiosphere/data-browser/issues/4490)) ([f3f6174](https://github.com/DataBiosphere/data-browser/commit/f3f61746a60547e9ee0780f320aa6d4fc2ad8c45))
+* removed auth for exports [#4482](https://github.com/DataBiosphere/data-browser/issues/4482) ([#4483](https://github.com/DataBiosphere/data-browser/issues/4483)) ([6d0426f](https://github.com/DataBiosphere/data-browser/commit/6d0426f741a65d15a0216b732ed3d57e53d3ae07))
+
+
+### Chores
+
+* set default catalog to dcp49 for HCA [#4491](https://github.com/DataBiosphere/data-browser/issues/4491) ([#4494](https://github.com/DataBiosphere/data-browser/issues/4494)) ([67aae8e](https://github.com/DataBiosphere/data-browser/commit/67aae8edab132172cf7b9e0cb331252750cb85f2))
+
 ## [2.17.3](https://github.com/DataBiosphere/data-browser/compare/v2.17.2...v2.17.3) (2025-05-16)
 
 
