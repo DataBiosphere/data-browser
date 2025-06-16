@@ -91,7 +91,6 @@ import {
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { DATE_TIME_FORMAT_OPTIONS } from "../../../common/contants";
-import { Unused, Void } from "../../../common/entities";
 import { formatDate } from "../../../common/utils";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
@@ -533,8 +532,8 @@ export const buildAggregateSubmissionDate = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertExportEntityWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.Alert> => {
   const content = isUserAuthenticated(viewContext)
     ? "To export this project, please request access."
@@ -553,7 +552,7 @@ export const buildAlertExportEntityWarning = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertExportWarning = (
-  _: Unused,
+  _: unknown,
   viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.AlertExportWarning> => {
   const isAuthenticated = isUserAuthenticated(viewContext);
@@ -815,13 +814,13 @@ export const buildDetails = (
 
 /**
  * Build props for DownloadCurlCommand component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the DownloadCurlCommand component.
  */
 export const buildDownloadCurlCommand = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.DownloadCurlCommand> => {
   const {
     exploreState: { filterState },
@@ -888,8 +887,8 @@ export const buildEstimateCellCount = (
  * @returns model to be used as props for the ExportCurrentQuery component.
  */
 export const buildExportCurrentQuery = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportCurrentQuery> => {
   const {
     fileManifestState: { filesFacets, filters, isFacetsLoading },
@@ -931,13 +930,13 @@ export const buildExportEntityToTerra = (
 
 /**
  * Build props for export BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export function buildExportHero(
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> {
   const { exploreState } = viewContext;
   const { tabValue } = exploreState || {};
@@ -952,13 +951,13 @@ export function buildExportHero(
 
 /**
  * Build props for ExportMethod component for display of the download to curl command section.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodBulkDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -972,13 +971,13 @@ export const buildExportMethodBulkDownload = (
 
 /**
  * Build props for download curl command BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroCurlCommand = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = 'Download Selected Data Using "curl"';
   const {
@@ -989,13 +988,13 @@ export const buildExportMethodHeroCurlCommand = (
 
 /**
  * Build props for manifest download BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Request File Manifest";
   const {
@@ -1006,13 +1005,13 @@ export const buildExportMethodHeroManifestDownload = (
 
 /**
  * Build props for export to terra BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Export to Terra";
   const {
@@ -1023,13 +1022,13 @@ export const buildExportMethodHeroTerra = (
 
 /**
  * Build props for ExportMethod component for display of the manifest download section.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -1044,13 +1043,13 @@ export const buildExportMethodManifestDownload = (
 
 /**
  * Build props for ExportMethod component for display of the export to terra section.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -1070,8 +1069,8 @@ export const buildExportMethodTerra = (
  * @returns model to be used as props for the ExportSelectedDataSummary component.
  */
 export const buildExportSelectedDataSummary = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportSelectedDataSummary> => {
   const {
     fileManifestState: {
@@ -1089,13 +1088,13 @@ export const buildExportSelectedDataSummary = (
 
 /**
  * Build props for ExportToTerra component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportToTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   const {
     exploreState: { filterState },
@@ -1292,13 +1291,13 @@ export const buildMAHero = (
 
 /**
  * Build props for ManifestDownload component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ManifestDownload component.
  */
 export const buildManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ManifestDownload> => {
   const {
     exploreState: { filterState },
@@ -1828,7 +1827,7 @@ function getExportEntityFilters(projectsResponse: ProjectsResponse): Filters {
  * @returns export method accessibility.
  */
 function getExportMethodAccessibility(
-  viewContext: ViewContext<Void>
+  viewContext: ViewContext<unknown>
 ): Partial<typeof C.ExportMethod> {
   const { fileManifestState } = viewContext;
   const { isFacetsSuccess } = fileManifestState;
@@ -2427,8 +2426,8 @@ export const renderExportEntityWarning = (
  * @returns model to be used as props for the ConditionalComponent component.
  */
 export const renderWhenUnAuthenticated = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
     isIn: !isUserAuthenticated(viewContext),

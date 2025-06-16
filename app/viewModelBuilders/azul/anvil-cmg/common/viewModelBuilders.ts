@@ -107,7 +107,6 @@ import { Description } from "../../../../components/Detail/components/MDX/compon
 import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
-import { Unused, Void } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
 import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
@@ -133,8 +132,8 @@ export const buildActivityType = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertDatasetExportWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.Alert> => {
   const content = isUserAuthenticated(viewContext)
     ? "To export this dataset, please request access."
@@ -153,8 +152,8 @@ export const buildAlertDatasetExportWarning = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertDatasetManifestDownloadWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.Alert> => {
   const content = isUserAuthenticated(viewContext)
     ? "To download this dataset manifest, please request access."
@@ -173,7 +172,7 @@ export const buildAlertDatasetManifestDownloadWarning = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertEntityListWarning = (
-  _: Unused,
+  _: unknown,
   viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.AlertEntityListWarning> => {
   return {
@@ -190,7 +189,7 @@ export const buildAlertEntityListWarning = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertExportWarning = (
-  _: Unused,
+  _: unknown,
   viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.AlertExportWarning> => {
   const isAuthenticated = isUserAuthenticated(viewContext);
@@ -648,13 +647,13 @@ export const buildExportCurrentQuery = (
 
 /**
  * Build props for export BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export function buildExportHero(
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> {
   const { exploreState } = viewContext;
   const { tabValue } = exploreState || {};
@@ -669,13 +668,13 @@ export function buildExportHero(
 
 /**
  * Build props for manifest download BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Request File Manifest";
   const {
@@ -686,13 +685,13 @@ export const buildExportMethodHeroManifestDownload = (
 
 /**
  * Build props for export to terra BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Export to Terra";
   const {
@@ -703,13 +702,13 @@ export const buildExportMethodHeroTerra = (
 
 /**
  * Build props for ExportMethod component for display of the manifest download section.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -723,13 +722,13 @@ export const buildExportMethodManifestDownload = (
 
 /**
  * Build props for ExportMethod component for display of the export to terra metadata section.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -743,13 +742,13 @@ export const buildExportMethodTerra = (
 
 /**
  * Build props for ExportSelectedDataSummary component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportSelectedDataSummary component.
  */
 export const buildExportSelectedDataSummary = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportSelectedDataSummary> => {
   const {
     fileManifestState: {
@@ -767,13 +766,13 @@ export const buildExportSelectedDataSummary = (
 
 /**
  * Build props for ExportToTerra component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportToTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   const {
     exploreState: { filterState },
@@ -880,13 +879,13 @@ export const buildLibraryId = (
 
 /**
  * Build props for ManifestDownload component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ManifestDownload component.
  */
 export const buildManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ManifestDownload> => {
   const {
     exploreState: { filterState },
@@ -1211,7 +1210,7 @@ function getExportEntityFilters(datasetsResponse: DatasetsResponse): Filters {
  * @returns export method accessibility.
  */
 function getExportMethodAccessibility(
-  viewContext: ViewContext<Void>
+  viewContext: ViewContext<unknown>
 ): Partial<typeof C.ExportMethod> {
   const { fileManifestState } = viewContext;
   const { isFacetsSuccess } = fileManifestState;
@@ -1480,8 +1479,8 @@ function processRawEntityArrayValue<
  * @returns model to be used as props for the ConditionalComponent component.
  */
 export const renderWhenUnAuthenticated = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
     isIn: !isUserAuthenticated(viewContext),
