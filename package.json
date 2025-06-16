@@ -32,7 +32,7 @@
     "check-system-status:anvil-cmg": "esrun e2e/anvil/anvil-check-system-status.ts"
   },
   "dependencies": {
-    "@databiosphere/findable-ui": "^29.0.2",
+    "@databiosphere/findable-ui": "^35.1.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mdx-js/loader": "^3.0.1",
@@ -59,7 +59,13 @@
     "react-dropzone": "^14.2.3",
     "react-gtm-module": "2.0.11",
     "react-window": "1.8.9",
-    "remark-gfm": "^4.0.0",
+    "rehype-raw": "^7.0.0",
+    "rehype-react": "^7.2.0",
+    "rehype-sanitize": "^5.0.1",
+    "remark-gfm": "^3.0.1",
+    "remark-parse": "^10.0.2",
+    "remark-rehype": "^10.1.0",
+    "unified": "^10.1.2",
     "uuid": "8.3.2",
     "yup": "^1.6.1"
   },
@@ -99,7 +105,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.4.2",
     "prettier-plugin-organize-imports": "^4.1.0",
-    "typescript": "^5.7.2",
+    "typescript": "^5.5.4",
     "url-loader": "^4.1.1"
   },
   "engines": {
