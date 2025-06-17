@@ -8,7 +8,6 @@ import {
 import { ProjectsResponse } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/lungmap";
-import { Void } from "../../../common/entities";
 import {
   groupProjectMatrixViewsBySpecies,
   projectMatrixMapper,
@@ -67,16 +66,16 @@ function buildContributorGeneratedMatricesTableColumns<T>(): ColumnDef<T>[] {
 
 /**
  * Build props for DownloadCurlCommand component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the DownloadCurlCommand component.
  */
 export const buildDownloadCurlCommand = (
-  _: Void,
-  viewContext?: ViewContext<Void>
+  _: unknown,
+  viewContext?: ViewContext<unknown>
 ): React.ComponentProps<typeof C.DownloadCurlCommand> => {
   return {
-    ...buildHCADownloadCurlCommand(_, viewContext as ViewContext<Void>),
+    ...buildHCADownloadCurlCommand(_, viewContext as ViewContext<unknown>),
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
   };
 };
@@ -99,16 +98,16 @@ export const buildDownloadEntityCurlCommand = (
 
 /**
  * Build props for ExportToTerra component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportToTerra = (
-  _: Void,
-  viewContext?: ViewContext<Void>
+  _: unknown,
+  viewContext?: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   return {
-    ...buildHCAExportToTerra(_, viewContext as ViewContext<Void>),
+    ...buildHCAExportToTerra(_, viewContext as ViewContext<unknown>),
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccessWithWarning,
   };
@@ -116,16 +115,16 @@ export const buildExportToTerra = (
 
 /**
  * Build props for ManifestDownload component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ManifestDownload component.
  */
 export const buildManifestDownload = (
-  _: Void,
-  viewContext?: ViewContext<Void>
+  _: unknown,
+  viewContext?: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ManifestDownload> => {
   return {
-    ...buildHCAManifestDownload(_, viewContext as ViewContext<Void>),
+    ...buildHCAManifestDownload(_, viewContext as ViewContext<unknown>),
     ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
   };
 };
