@@ -1750,4 +1750,86 @@ export const baseProjectEdits: ProjectEdit[] = [
     ],
     entryId: "fdadee7e-2097-45d5-bf81-cc280bd8348e",
   },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?experiment_id=LMEX0000004402",
+      },
+      {
+        ...SHINY,
+        url: "https://app.lungmap.net/app/shinycell-mouse-post-flu",
+      },
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/606dc65c-ebd8-4f93-ac86-d0789c04863f",
+      },
+    ],
+    entryId: "4fb36692-6240-4146-a7e6-54543543230c",
+    publications: [
+      {
+        publicationTitle:
+          "Longitudinal single-cell profiles of lung regeneration after viral infection reveal persistent injury-associated cell states",
+        publicationUrl: "https://pubmed.ncbi.nlm.nih.gov/39818203/",
+      },
+    ],
+  },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?experiment_id=LMEX0000004403",
+      },
+      {
+        ...SHINY,
+        url: "https://app.lungmap.net/app/shinycell-ild-natri-2024",
+      },
+    ],
+    entryId: "5134c97d-bbdb-4d9d-b483-cdebeaf667b3",
+    publications: [
+      {
+        publicationTitle:
+          "Cell-type-specific and disease-associated expression quantitative trait loci in the human lung",
+        publicationUrl: "https://pubmed.ncbi.nlm.nih.gov/38548990/",
+      },
+    ],
+  },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?experiment_id=LMEX0000004390",
+      },
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/28e9d721-6816-48a2-8d0b-43bf0b0c0ebc",
+      },
+    ],
+    entryId: "0229ea32-ef02-489e-b11e-ff15819e22c1",
+  },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?experiment_id=LMEX0000003691",
+      },
+    ],
+    entryId: "e68d2111-316f-4ded-bf49-0ab332488665",
+    publications: [
+      {
+        publicationTitle:
+          "Bulk RNA sequencing of human pediatric lung cell populations reveals unique transcriptomic signature associated with postnatal pulmonary development",
+        publicationUrl: "https://pubmed.ncbi.nlm.nih.gov/38442187/",
+      },
+    ],
+  },
+  {
+    analysisPortals: [
+      {
+        ...LGEA,
+        url: "https://research.cchmc.org/pbge/lunggens/LCA/LCA.html",
+      },
+    ],
+    entryId: "ccea5717-a848-4c06-8d2d-d1b694e89441",
+  },
 ];
