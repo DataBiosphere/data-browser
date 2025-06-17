@@ -1,5 +1,30 @@
 # Changelog
 
+## [2.19.0](https://github.com/DataBiosphere/data-browser/compare/v2.18.0...v2.19.0) (2025-06-17)
+
+
+### Features
+
+* added LM portals [#4496](https://github.com/DataBiosphere/data-browser/issues/4496) ([#4500](https://github.com/DataBiosphere/data-browser/issues/4500)) ([39bcfcf](https://github.com/DataBiosphere/data-browser/commit/39bcfcfcfbf3b67c825d218672ee369db8ee096f))
+
+
+### Bug Fixes
+
+* temporarily disable test anvilcatalog-sort.spec.ts ([#4507](https://github.com/DataBiosphere/data-browser/issues/4507)) ([#4508](https://github.com/DataBiosphere/data-browser/issues/4508)) ([dd0f800](https://github.com/DataBiosphere/data-browser/commit/dd0f8003f8073f25da889b643dc8441ca42153ef))
+
+
+### Chores
+
+* set default catalog to dcp50 for HCA [#4498](https://github.com/DataBiosphere/data-browser/issues/4498) ([#4499](https://github.com/DataBiosphere/data-browser/issues/4499)) ([340a2c3](https://github.com/DataBiosphere/data-browser/commit/340a2c395e138b35309dd44007476bc05dd4ee1a))
+* update findable to 35.2.0 ([#4510](https://github.com/DataBiosphere/data-browser/issues/4510)) ([#4511](https://github.com/DataBiosphere/data-browser/issues/4511)) ([68519c7](https://github.com/DataBiosphere/data-browser/commit/68519c7b77692d7805f57e20a02f61ab952db948))
+* update LungMAP default catalog to lm9 [#4497](https://github.com/DataBiosphere/data-browser/issues/4497) ([#4504](https://github.com/DataBiosphere/data-browser/issues/4504)) ([2311f51](https://github.com/DataBiosphere/data-browser/commit/2311f51a04694715e127ed2cf4ab9bb34bef9090))
+* upgrade findable to 35.1.0 ([#4502](https://github.com/DataBiosphere/data-browser/issues/4502)) ([#4505](https://github.com/DataBiosphere/data-browser/issues/4505)) ([5e42b25](https://github.com/DataBiosphere/data-browser/commit/5e42b25e6c35906471dae3f42df7ebeb91b2689f))
+
+
+### Documentation
+
+* updated AnVIL beta announcement [#4493](https://github.com/DataBiosphere/data-browser/issues/4493) ([#4503](https://github.com/DataBiosphere/data-browser/issues/4503)) ([e8268a6](https://github.com/DataBiosphere/data-browser/commit/e8268a6849895144c35e6965fa74f0fd90c5f23b))
+
 ## [2.18.0](https://github.com/DataBiosphere/data-browser/compare/v2.17.3...v2.18.0) (2025-06-02)
 
 
