@@ -235,9 +235,6 @@ export async function testSortCatalog(
   page: Page,
   tab: TabDescription
 ): Promise<boolean> {
-  // Get the current tab, and go to it's URL
-  await page.goto(tab.url);
-  await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
   const columnNameArray = (
     await page.getByRole("columnheader").allInnerTexts()
   ).map((entry) => entry.trim());
