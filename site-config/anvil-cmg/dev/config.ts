@@ -2,10 +2,7 @@ import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/en
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
-import {
-  buildColumnDefs,
-  mapSelectCategoryValue,
-} from "../../../app/config/utils";
+import { mapSelectCategoryValue } from "../../../app/config/utils";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
 import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
@@ -22,7 +19,9 @@ import { filesEntityConfig } from "./index/filesEntityConfig";
 import { summary } from "./index/summary";
 import { floating } from "./layout/floating";
 import dataDictionary from "./dataDictionary/data-dictionary.json";
-import columnDefs from "./dataDictionary/column-defs.json";
+import { TABLE_OPTIONS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/tableOptions";
+import { buildDataDictionary } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/dataDictionaryMapper";
+import { COLUMN_DEFS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/constants";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -135,8 +134,10 @@ export function makeConfig(
     contentDir: "anvil-cmg",
     dataDictionaries: [
       {
-        columnDefs: buildColumnDefs(columnDefs),
-        dataDictionary,
+        columnDefs: COLUMN_DEFS,
+        dataDictionary: buildDataDictionary(dataDictionary),
+        path: "anvil-findability-subset",
+        tableOptions: TABLE_OPTIONS,
       },
     ],
     dataSource: {
@@ -195,7 +196,7 @@ export function makeConfig(
                 },
                 {
                   label: "Data Dictionary",
-                  url: "/data-dictionary",
+                  url: "/data-dictionary/anvil-findability-subset",
                 },
                 {
                   label: "Terms of service",
