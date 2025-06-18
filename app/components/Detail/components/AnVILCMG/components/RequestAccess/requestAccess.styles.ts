@@ -27,6 +27,7 @@ export const StyledButton = styled(Button, {
 
   .MuiButton-endIcon {
     margin-left: -6px;
+    margin-right: 0;
   }
 
   ${({ open }) =>
