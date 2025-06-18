@@ -10,8 +10,6 @@ import fs from "fs";
 
 type ReturnType = string | number | boolean;
 
-type FieldKey = string;
-
 /**
  * Returns the file contents parsed into a model shaped by FIELD, or as row arrays if FIELD is omitted.
  *
@@ -24,8 +22,8 @@ type FieldKey = string;
 export const parseContentRows = async function parseContentRows<T>(
   content: Buffer | string,
   delimiter = ",",
-  FIELD: { [key: FieldKey]: string },
-  FIELD_TYPE: { [key: FieldKey]: string }
+  FIELD: { [key: string]: string },
+  FIELD_TYPE: { [key: string]: string }
 ): Promise<T[]> {
   if (!FIELD) return parseCsv(content, { delimiter, relax_quotes: true });
   const keyTypes = Object.fromEntries(
