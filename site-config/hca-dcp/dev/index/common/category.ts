@@ -1,7 +1,5 @@
-import {
-  CategoryConfig,
-  CategoryGroup,
-} from "@databiosphere/findable-ui/lib/config/entities";
+import { CategoryGroup } from "@databiosphere/findable-ui/lib/config/entities";
+import { CategoryConfig } from "@databiosphere/findable-ui/lib/common/categories/config/types";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,

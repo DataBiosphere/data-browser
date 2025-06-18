@@ -4,6 +4,7 @@ import {
   BUTTON_TEXT_EXPORT,
   BUTTON_TEXT_REQUEST_ACCESS,
   BUTTON_TEXT_REQUEST_FILE_MANIFEST,
+  BUTTON_TEXT_REQUEST_LINK,
   CHIP_TEXT_ACCESS_GRANTED,
   CHIP_TEXT_ACCESS_REQUIRED,
   DatasetAccess,
@@ -106,16 +107,16 @@ describe("Dataset", () => {
     // Confirm file manifest export method is visible and click it.
     await clickLink(page, BUTTON_TEXT_REQUEST_FILE_MANIFEST);
 
-    // Confirm the file manifest page is loaded: check there are two buttons
-    // (one for download, one for copy to clipboard).
-    const buttons = page.locator(`${MUI_CLASSES.BUTTON_GROUP} button`);
+    // Confirm the file manifest page is loaded: check there is one button to request the manifest.
+    const buttons = page.locator(`${MUI_CLASSES.BUTTON}`, {
+      hasText: BUTTON_TEXT_REQUEST_LINK,
+    });
 
-    // Ensure there are exactly two buttons.
-    await expect(buttons).toHaveCount(2);
+    // Ensure there is exactly one button.
+    await expect(buttons).toHaveCount(1);
 
-    // Ensure both buttons are visible.
-    await expect(buttons.nth(0)).toBeVisible();
-    await expect(buttons.nth(1)).toBeVisible();
+    // Ensure the button is visible.
+    await expect(buttons).toBeVisible();
   });
 
   test("displays download file manifest selected data", async ({ page }) => {
