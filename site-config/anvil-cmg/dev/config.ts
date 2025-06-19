@@ -21,7 +21,6 @@ import { floating } from "./layout/floating";
 import dataDictionary from "./dataDictionary/data-dictionary.json";
 import { TABLE_OPTIONS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/tableOptions";
 import { buildDataDictionary } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/dataDictionaryMapper";
-import { COLUMN_DEFS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/constants";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -134,7 +133,6 @@ export function makeConfig(
     contentDir: "anvil-cmg",
     dataDictionaries: [
       {
-        columnDefs: COLUMN_DEFS,
         dataDictionary: buildDataDictionary(dataDictionary),
         path: "anvil-findability-subset",
         tableOptions: TABLE_OPTIONS,

@@ -543,6 +543,7 @@ export const buildDatasetTerraExport = (
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB],
+    speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
   };
 };
 
@@ -791,6 +792,7 @@ export const buildExportToTerra = (
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB],
+    speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
   };
 };
 
@@ -902,6 +904,7 @@ export const buildManifestDownload = (
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters: filterState,
     formFacet,
+    speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
   };
 };
 
