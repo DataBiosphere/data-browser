@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.19.1](https://github.com/DataBiosphere/data-browser/compare/v2.19.0...v2.19.1) (2025-06-23)
+
+
+### Bug Fixes
+
+* file format filter dropped from curl manifest request ([#4481](https://github.com/DataBiosphere/data-browser/issues/4481)) ([#4512](https://github.com/DataBiosphere/data-browser/issues/4512)) ([3667ebd](https://github.com/DataBiosphere/data-browser/commit/3667ebd83e00cd7bcbf610f360bf81edf2390518))
+
+
+### Chores
+
+* update findable to 37.1.0 ([#441](https://github.com/DataBiosphere/data-browser/issues/441)) ([3667ebd](https://github.com/DataBiosphere/data-browser/commit/3667ebd83e00cd7bcbf610f360bf81edf2390518))
+
 ## [2.19.0](https://github.com/DataBiosphere/data-browser/compare/v2.18.0...v2.19.0) (2025-06-17)
 
 
