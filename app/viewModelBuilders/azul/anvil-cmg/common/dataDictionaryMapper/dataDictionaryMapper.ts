@@ -1,7 +1,4 @@
-import {
-  Attribute,
-  DataDictionary,
-} from "@databiosphere/findable-ui/lib/common/entities";
+import { DataDictionary } from "@databiosphere/findable-ui/lib/common/entities";
 
 /**
  * Returns a data dictionary built from the given data dictionary.
@@ -10,7 +7,7 @@ import {
  */
 export function buildDataDictionary(
   dataDictionary: DataDictionary
-): DataDictionary<Attribute> {
+): DataDictionary {
   return {
     ...dataDictionary,
     classes: dataDictionary.classes.map((classData) => {
