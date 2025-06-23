@@ -837,6 +837,7 @@ export const buildDownloadCurlCommand = (
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters: filterState,
     formFacet,
+    speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
   };
 };
 
@@ -864,6 +865,7 @@ export const buildDownloadEntityCurlCommand = (
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters,
     formFacet,
+    speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
   };
 };
 
@@ -925,6 +927,7 @@ export const buildExportEntityToTerra = (
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
+    speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
   };
 };
 
@@ -1113,6 +1116,7 @@ export const buildExportToTerra = (
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
+    speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
   };
 };
 
@@ -1314,6 +1318,7 @@ export const buildManifestDownload = (
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters: filterState,
     formFacet,
+    speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
   };
 };
 
