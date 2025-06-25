@@ -34,9 +34,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- dictionary will be used by DataDictionaryView in future findable-ui releases.
 const Page = ({ dictionary }: Props): JSX.Element => {
-  return <DataDictionaryView />;
+  return <DataDictionaryView dictionary={dictionary} />;
 };
 
 Page.Main = Main;
