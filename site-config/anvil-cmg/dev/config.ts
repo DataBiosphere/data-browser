@@ -185,8 +185,8 @@ export function makeConfig(
               label: "Help & Documentation",
               menuItems: [
                 {
-                  label: "Beta Announcement",
-                  url: "/beta-announcement",
+                  label: "GA Announcement",
+                  url: "/ga-announcement",
                 },
                 {
                   label: "Guides",
