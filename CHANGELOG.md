@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.19.2](https://github.com/DataBiosphere/data-browser/compare/v2.19.1...v2.19.2) (2025-07-03)
+
+
+### Chores
+
+* update analytics reports to specify time periods based on current month ([#4525](https://github.com/DataBiosphere/data-browser/issues/4525)) ([#4526](https://github.com/DataBiosphere/data-browser/issues/4526)) ([3a803fd](https://github.com/DataBiosphere/data-browser/commit/3a803fd9274a5703f4f04833fda2a485cd1cc74d))
+
+
+### Documentation
+
+* updated GA announcement [#4521](https://github.com/DataBiosphere/data-browser/issues/4521) ([#4522](https://github.com/DataBiosphere/data-browser/issues/4522)) ([5531715](https://github.com/DataBiosphere/data-browser/commit/5531715febd6355cc3bf0a1f18f005ef6fb6b91a))
+
 ## [2.19.1](https://github.com/DataBiosphere/data-browser/compare/v2.19.0...v2.19.1) (2025-06-23)
 
 
