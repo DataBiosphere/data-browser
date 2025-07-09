@@ -12,8 +12,8 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
-import { listHero } from "../listView/listHero";
-import { subTitleHero } from "../listView/subTitleHero";
+import { entityListSlot } from "../ui/entityList";
+import { entityViewSlot } from "../ui/entityView";
 
 /**
  * Entity config object responsible for config related to the /biosamples route.
@@ -119,9 +119,14 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
       },
     },
   } as ListConfig<BioSamplesResponse>,
-  listView: {
-    listHero,
-    subTitleHero,
-  },
   route: "biosamples",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+    slots: {
+      entityListSlot,
+      entityViewSlot,
+    },
+  },
 };

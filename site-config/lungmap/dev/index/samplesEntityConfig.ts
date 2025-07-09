@@ -214,4 +214,9 @@ export const samplesEntityConfig: EntityConfig = {
     },
   } as ListConfig<SamplesResponse>,
   route: "samples",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+  },
 };

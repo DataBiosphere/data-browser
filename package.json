@@ -32,7 +32,7 @@
     "check-system-status:anvil-cmg": "esrun e2e/anvil/anvil-check-system-status.ts"
   },
   "dependencies": {
-    "@databiosphere/findable-ui": "^37.1.0",
+    "@databiosphere/findable-ui": "^38.0.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mdx-js/loader": "^3.0.1",
@@ -42,6 +42,7 @@
     "@next/mdx": "^14.2.28",
     "@observablehq/plot": "^0.6.17",
     "@tanstack/react-table": "^8.19.2",
+    "@tanstack/react-virtual": "^3.13.12",
     "@types/fhir": "^0.0.35",
     "copy-to-clipboard": "3.3.1",
     "csv-parse": "^5.0.4",

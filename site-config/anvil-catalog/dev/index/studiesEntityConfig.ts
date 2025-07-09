@@ -159,4 +159,5 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
   },
   route: "studies",
   staticLoadFile: "files/anvil-catalog/out/anvil-studies.json",
+  ui: { enableTabs: true },
 };

@@ -24,7 +24,7 @@ import { sideColumn as overviewSideColumn } from "../detail/project/overviewSide
 import { mainColumn as projectFilesMainColumn } from "../detail/project/projectFilesMainColumn";
 import { sideColumn as projectFilesSideColumn } from "../detail/project/projectFilesSideColumn";
 import { top } from "../detail/project/top";
-import { subTitleHero } from "../listView/subTitleHero";
+import { entityViewSlot } from "../ui/entityView";
 
 export const PROJECT_ENTITY_ROUTE = {
   EXPORT_TO_TERRA: "export-to-terra",
@@ -277,9 +277,14 @@ export const projectsEntityConfig: EntityConfig = {
       },
     },
   } as ListConfig<ProjectsResponse>,
-  listView: {
-    subTitleHero,
-  },
   overrides: projectEdits,
   route: "projects",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+    slots: {
+      entityViewSlot,
+    },
+  },
 };
