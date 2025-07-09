@@ -12,8 +12,8 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
-import { listHero } from "../listView/listHero";
-import { subTitleHero } from "../listView/subTitleHero";
+import { entityListSlot } from "../ui/entityList";
+import { entityViewSlot } from "../ui/entityView";
 
 /**
  * Entity config object responsible for config related to the /activities route.
@@ -120,9 +120,14 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       },
     },
   } as ListConfig<ActivitiesResponse>,
-  listView: {
-    listHero,
-    subTitleHero,
-  },
   route: "activities",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+    slots: {
+      entityListSlot,
+      entityViewSlot,
+    },
+  },
 };

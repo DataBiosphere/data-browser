@@ -54,7 +54,6 @@ export { ManifestDownloadEntity } from "@databiosphere/findable-ui/lib/component
 export { ManifestDownloadForm } from "@databiosphere/findable-ui/lib/components/Export/components/ManifestDownload/components/ManifestDownloadForm/manifestDownloadForm";
 export { ManifestDownload } from "@databiosphere/findable-ui/lib/components/Export/components/ManifestDownload/manifestDownload";
 export { AzulFileDownload } from "@databiosphere/findable-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
-export { Summaries } from "@databiosphere/findable-ui/lib/components/Index/components/Hero/components/Summaries/summaries";
 export {
   BackPageContentMainColumn,
   BackPageContentSideColumn,

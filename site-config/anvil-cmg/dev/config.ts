@@ -16,11 +16,11 @@ import { mapAccessibleValue } from "./index/common/utils";
 import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
-import { summary } from "./index/summary";
 import { floating } from "./layout/floating";
 import dataDictionary from "./dataDictionary/data-dictionary.json";
 import { TABLE_OPTIONS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/tableOptions";
 import { buildDataDictionary } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/dataDictionaryMapper";
+import { buildSummaries } from "./index/summaryViewModelBuilder";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -156,7 +156,6 @@ export function makeConfig(
       activitiesEntityConfig,
       filesEntityConfig,
     ],
-    explorerTitle: "Explore Data",
     export: exportConfig,
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
     gitHubUrl,
@@ -217,7 +216,7 @@ export function makeConfig(
     redirectRootToPath: "/datasets",
     summaryConfig: {
       apiPath: "index/summary",
-      components: summary,
+      mapResponse: buildSummaries,
     },
     systemStatus: {
       apiPath: `${dataUrl}${APIEndpoints.INDEX_STATUS}`,

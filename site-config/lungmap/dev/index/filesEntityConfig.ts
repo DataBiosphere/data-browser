@@ -276,4 +276,9 @@ export const filesEntityConfig: EntityConfig = {
     },
   } as ListConfig<FilesResponse>,
   route: "files",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+  },
 };

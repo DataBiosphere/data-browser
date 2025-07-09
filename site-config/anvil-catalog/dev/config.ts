@@ -86,7 +86,6 @@ export function makeConfig(
       studiesEntityConfig,
       workspaceEntityConfig,
     ],
-    explorerTitle: APP_TITLE,
     export: exportConfig, // TODO(cc) export config should be optional, we should add notFound to export pages.
     gitHubUrl,
     layout: {

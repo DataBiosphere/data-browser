@@ -3,12 +3,12 @@ import {
   ComponentConfig,
   ComponentsConfig,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { DatasetsResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
+import { ProjectsResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../app/components";
-import * as MDX from "../../../../app/components/common/MDXContent/anvil-cmg";
-import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import * as MDX from "../../../../app/components/common/MDXContent/hca-dcp";
+import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 
-export const listHero: ComponentsConfig = [
+export const entityListSlot: ComponentsConfig = [
   {
     children: [
       {
@@ -21,5 +21,5 @@ export const listHero: ComponentsConfig = [
     ],
     component: C.ConditionalComponent,
     viewBuilder: V.renderWhenUnAuthenticated,
-  } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
+  } as ComponentConfig<typeof C.ConditionalComponent, ProjectsResponse>,
 ];

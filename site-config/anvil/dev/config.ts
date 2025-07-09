@@ -9,7 +9,6 @@ import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { librariesEntityConfig } from "./index/librariesEntityConfig";
-import { summary } from "./index/summary";
 import { socialMedia } from "./socialMedia";
 
 // Template constants
@@ -82,7 +81,6 @@ const config: SiteConfig = {
     activitiesEntityConfig,
     filesEntityConfig,
   ],
-  explorerTitle: APP_TITLE,
   export: exportConfig,
   exportToTerraUrl: "https://app.terra.bio",
   layout: {
@@ -159,10 +157,6 @@ const config: SiteConfig = {
     },
   },
   redirectRootToPath: "/datasets",
-  summaryConfig: {
-    apiPath: "index/summary",
-    components: summary,
-  },
   themeOptions: {
     palette: {
       primary: {

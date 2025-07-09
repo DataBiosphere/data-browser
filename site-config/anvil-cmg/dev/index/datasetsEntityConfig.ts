@@ -17,8 +17,8 @@ import {
 import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
-import { listHero } from "../listView/datasetsListHero";
-import { subTitleHero } from "../listView/subTitleHero";
+import { entityListSlot } from "../ui/datasetsEntityList";
+import { entityViewSlot } from "../ui/entityView";
 import { exportConfig } from "../detail/dataset/export/export";
 
 /**
@@ -137,9 +137,14 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       },
     },
   } as ListConfig<DatasetsResponse>,
-  listView: {
-    listHero,
-    subTitleHero,
-  },
   route: "datasets",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+    slots: {
+      entityListSlot,
+      entityViewSlot,
+    },
+  },
 };
