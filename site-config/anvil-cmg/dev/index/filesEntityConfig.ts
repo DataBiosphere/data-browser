@@ -13,8 +13,8 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
-import { listHero } from "../listView/listHero";
-import { subTitleHero } from "../listView/subTitleHero";
+import { entityListSlot } from "../ui/entityList";
+import { entityViewSlot } from "../ui/entityView";
 
 export const downloadColumn: ColumnConfig<FilesResponse> = {
   componentConfig: {
@@ -146,9 +146,14 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       },
     },
   } as ListConfig<FilesResponse>,
-  listView: {
-    listHero,
-    subTitleHero,
-  },
   route: "files",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+    slots: {
+      entityListSlot,
+      entityViewSlot,
+    },
+  },
 };
