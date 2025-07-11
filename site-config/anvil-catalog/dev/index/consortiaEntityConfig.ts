@@ -169,4 +169,5 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
   },
   route: "consortia",
   staticLoadFile: "files/anvil-catalog/out/anvil-consortia.json",
+  ui: { enableTabs: true },
 };

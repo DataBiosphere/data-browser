@@ -264,4 +264,9 @@ export const projectsEntityConfig: EntityConfig = {
   },
   overrides: hcaProjectEdits,
   route: "projects",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+  },
 };

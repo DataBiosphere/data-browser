@@ -10,8 +10,8 @@ import { CATEGORY_GROUPS } from "./index/common/category";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
-import { summary } from "./index/summary";
 import { socialMedia } from "./socialMedia";
+import { buildSummaries } from "./index/summaryViewModelBuilder";
 
 // Template constants
 const APP_TITLE = "LungMAP Data Explorer";
@@ -55,7 +55,6 @@ export function makeConfig(
     },
     enableEntitiesView: true,
     entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
-    explorerTitle: "Explore Data",
     export: exportConfig,
     exportToTerraUrl: EXPORT_TO_TERRA_URL,
     gitHubUrl,
@@ -117,7 +116,7 @@ export function makeConfig(
     redirectRootToPath: HOME_PAGE_PATH,
     summaryConfig: {
       apiPath: "index/summary",
-      components: summary,
+      mapResponse: buildSummaries,
     },
   };
 }

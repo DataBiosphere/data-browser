@@ -940,61 +940,6 @@ export async function testBulkDownloadIndexExportWorkflow(
   return true;
 }
 
-/**
- * Check that the summary box on the "Choose Export Method" page has numbers that match those on the index page
- * @param page - a Playwright page object
- * @param tab - the tab to test on
- * @returns - true if the test passes, false if it should fail but does not fail an assertion
- */
-export async function testIndexExportSummary(
-  page: Page,
-  tab: TabDescription
-): Promise<boolean> {
-  if (tab?.indexExportPage === undefined) {
-    console.log(
-      "testIndexExportSummmary Error: indexExportPage not specified for given tab, so test cannot run"
-    );
-    return false;
-  }
-  await page.goto(tab.url);
-  const headers: { header: string; value: string }[] = [];
-  const indexExportButtonLocator = page.getByRole("link", {
-    name: tab.indexExportPage.indexExportButtonText,
-  });
-  await expect(indexExportButtonLocator).toBeVisible();
-  for (const detail of tab.indexExportPage.detailsToCheck) {
-    // This Regexp gets a decimal number, some whitespace, then the name of the detail, matching how the detail box appears to Playwright.
-    const detailBoxRegexp = RegExp(`^(\\d+\\.\\d+k)\\s*${detail}$`);
-    // This gets the detail's value. The .trim() is necessary since innertext adds extraneous whitespace on Webkit
-    const headerValueArray = (await page.getByText(detailBoxRegexp).innerText())
-      .trim()
-      .match(detailBoxRegexp);
-    // Check that the regex matches the expected format
-    if (headerValueArray === null || headerValueArray.length !== 2) {
-      console.log(
-        "testIndexExportSummmary Error: The detail box text does not match the expected format"
-      );
-      return false;
-    }
-    // Save the header value and detail for later comparison
-    headers.push({
-      header: detail,
-      value: headerValueArray[1],
-    });
-  }
-  await indexExportButtonLocator.click();
-  for (const headerValue of headers) {
-    // Expect the correct value to be below the correct header in the dataset values table
-    await expect(
-      page
-        .locator(`:below(:text('${headerValue.header}'))`)
-        .getByText(headerValue.value)
-        .first()
-    ).toBeVisible();
-  }
-  return true;
-}
-
 const PAGE_COUNT_REGEX = /Page \d+ of \d+/;
 const MAX_PAGINATIONS = 200;
 
