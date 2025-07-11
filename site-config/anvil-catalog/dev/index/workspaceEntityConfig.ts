@@ -142,4 +142,5 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
   },
   route: "workspaces",
   staticLoadFile: "files/anvil-catalog/out/anvil-workspaces.json",
+  ui: { enableTabs: true },
 };
