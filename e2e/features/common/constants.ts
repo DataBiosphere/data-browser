@@ -18,12 +18,15 @@ export const MUI_CLASSES = {
   TABLE_ROW: ".MuiTableRow-root",
   TABLE_SORT_LABEL: ".MuiTableSortLabel-root",
   TABLE_SORT_LABEL_ICON: ".MuiTableSortLabel-icon",
+  TYPOGRAPHY: ".MuiTypography-root",
 };
 
 export const TEST_IDS = {
   CLEAR_ALL_FILTERS: "clear-all-filters",
   ENTITIES_VIEW: "entities-view",
+  ENTITY_SUMMARY: "entity-summary",
   EXPORT_BUTTON: "export-button",
+  EXPORT_SUMMARY: "export-summary",
   FILTERS: "filters",
   FILTER_CONTROLS: "filter-controls",
   FILTER_COUNT: "filter-count",

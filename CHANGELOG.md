@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.19.2](https://github.com/DataBiosphere/data-browser/compare/v2.19.1...v2.19.2) (2025-07-09)
+
+
+### Chores
+
+* update analytics reports to specify time periods based on current month ([#4525](https://github.com/DataBiosphere/data-browser/issues/4525)) ([#4526](https://github.com/DataBiosphere/data-browser/issues/4526)) ([3a803fd](https://github.com/DataBiosphere/data-browser/commit/3a803fd9274a5703f4f04833fda2a485cd1cc74d))
+* update findable to latest version v38.1.1 ([#4533](https://github.com/DataBiosphere/data-browser/issues/4533)) ([#4534](https://github.com/DataBiosphere/data-browser/issues/4534)) ([dca9e67](https://github.com/DataBiosphere/data-browser/commit/dca9e67f25b7b5ef5cf8662208f612dfccf2879d))
+* update findable-ui to latest v38.0.0 ([#4528](https://github.com/DataBiosphere/data-browser/issues/4528)) ([#4532](https://github.com/DataBiosphere/data-browser/issues/4532)) ([50c56dd](https://github.com/DataBiosphere/data-browser/commit/50c56dd1ad329b4190c14b0d3be7df2bf31d60a5))
+
+
+### Documentation
+
+* updated GA announcement [#4521](https://github.com/DataBiosphere/data-browser/issues/4521) ([#4522](https://github.com/DataBiosphere/data-browser/issues/4522)) ([5531715](https://github.com/DataBiosphere/data-browser/commit/5531715febd6355cc3bf0a1f18f005ef6fb6b91a))
+
 ## [2.19.1](https://github.com/DataBiosphere/data-browser/compare/v2.19.0...v2.19.1) (2025-06-23)
 
 
