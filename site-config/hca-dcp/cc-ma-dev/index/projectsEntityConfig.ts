@@ -4,7 +4,7 @@ import {
 } from "@databiosphere/findable-ui/lib/config/entities";
 import { getMAProjectDetailTabs } from "../detail/project/mainColumn";
 import { getMAProjectDetailTop } from "../detail/project/top";
-import { listHero } from "../listView/projectsListHero";
+import { entityListSlot } from "../ui/projectsEntityList";
 import { CATEGORY_GROUPS } from "./common/category";
 import { COLUMN } from "./common/column";
 import { getMAFilesEntityConfig } from "./filesEntityConfig";
@@ -65,10 +65,13 @@ export function getMAProjectsEntityConfig(
   cloneColumns.splice(2, 0, COLUMN.DATA_USE_RESTRICTION); // Data use restriction column.
   cloneList.columns = cloneColumns;
   cloneEntity.list = cloneList;
-  // Update list view.
-  cloneEntity.listView = {
-    ...cloneEntity.listView,
-    listHero,
+  // Update entity ui.
+  cloneEntity.ui = {
+    ...cloneEntity.ui,
+    slots: {
+      ...cloneEntity.ui?.slots,
+      entityListSlot,
+    },
   };
   // Clone detail.
   const cloneDetail = { ...cloneEntity.detail };

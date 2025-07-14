@@ -5,7 +5,7 @@ import {
 import * as MDX from "../../../../app/components/common/MDXContent/anvil-cmg";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
-export const listHero: ComponentsConfig = [
+export const entityListSlot: ComponentsConfig = [
   {
     component: MDX.AlertEntityListWarning,
     viewBuilder: V.buildAlertEntityListWarning,
