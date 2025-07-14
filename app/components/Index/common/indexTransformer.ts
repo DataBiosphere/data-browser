@@ -1,5 +1,4 @@
 import { AzulSummaryResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import { Summary } from "@databiosphere/findable-ui/lib/components/Index/components/Hero/components/Summaries/summaries";
 import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
 import {
   BIND_SUMMARY_RESPONSE,
@@ -20,23 +19,19 @@ export function getPluralizedMetadataLabel(
 }
 
 /**
- * Maps index summaries from summary API response.
+ * Maps entity list summaries from summary API response.
  * @param summaries - Summary list.
  * @param summaryResponse - Response model return from summary API.
- * @returns summary counts.
+ * @returns summary key-value pairs (count, label).
  */
-export function getSummaries(
+export function mapSummary(
   summaries: Array<keyof typeof SUMMARY>,
   summaryResponse: AzulSummaryResponse
-): Summary[] {
+): [string, string][] {
   return summaries.map((summary) => {
     const summaryBinderFn = BIND_SUMMARY_RESPONSE[summary];
-    const count = summaryBinderFn(summaryResponse);
-    const formattedCount = formatCountSize(count);
+    const count = formatCountSize(summaryBinderFn(summaryResponse));
     const label = SUMMARY_LABEL[summary];
-    return {
-      count: formattedCount,
-      label,
-    };
+    return [count, label];
   });
 }
