@@ -1,5 +1,5 @@
 import { SocialMedia } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/common/entities";
-import * as C from "../../../app/components/index";
+import * as C from "../../../../app/components/index";
 
 export const SOCIALS = {
   DISCOURSE: {
