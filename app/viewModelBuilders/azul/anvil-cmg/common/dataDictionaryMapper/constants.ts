@@ -1,6 +1,6 @@
 import { MarkdownCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/MarkdownCell/markdownCell";
 import { Attribute } from "@databiosphere/findable-ui/lib/common/entities";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, CellContext } from "@tanstack/react-table";
 
 export const COLUMN_DEFS: ColumnDef<Attribute>[] = [
   {
@@ -21,8 +21,9 @@ export const COLUMN_DEFS: ColumnDef<Attribute>[] = [
     },
   },
   {
-    accessorFn: (row: Attribute) => ({ values: row.description }),
-    cell: MarkdownCell,
+    accessorKey: "description",
+    cell: (cellContext) =>
+      MarkdownCell(cellContext as CellContext<Attribute, string>),
     enableColumnFilter: false,
     header: "Description",
     meta: {
