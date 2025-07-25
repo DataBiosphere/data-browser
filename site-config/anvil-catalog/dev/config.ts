@@ -1,5 +1,5 @@
 import * as C from "../../../app/components/index";
-import { socialMedia } from "../../anvil/dev/socialMedia";
+import { socialMedia } from "./socials/socialMedia";
 import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import {

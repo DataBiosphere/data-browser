@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.20.0](https://github.com/DataBiosphere/data-browser/compare/v2.19.2...v2.20.0) (2025-07-25)
+
+
+### Features
+
+* remove anvil from site config ([#4527](https://github.com/DataBiosphere/data-browser/issues/4527)) ([#4539](https://github.com/DataBiosphere/data-browser/issues/4539)) ([e6873ec](https://github.com/DataBiosphere/data-browser/commit/e6873ec3ba280e662169d818d07c27af2e81a2b7))
+
+
+### Chores
+
+* update findable-ui to latest version v40.0.0 ([#4538](https://github.com/DataBiosphere/data-browser/issues/4538)) ([#4540](https://github.com/DataBiosphere/data-browser/issues/4540)) ([58ac415](https://github.com/DataBiosphere/data-browser/commit/58ac415e9458650bf3a470e25891812e35cb6608))
+
 ## [2.19.2](https://github.com/DataBiosphere/data-browser/compare/v2.19.1...v2.19.2) (2025-07-09)
 
 
