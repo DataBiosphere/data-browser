@@ -1,7 +1,7 @@
 import { NavLinkItem } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Navigation/navigation";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import * as C from "../../../../../../../app/components";
-import { SOCIALS } from "../../../../../../anvil/dev/socialMedia";
+import { SOCIALS } from "../../../../socials/socialMedia";
 
 export const SOCIAL: NavLinkItem = {
   label: "Follow Us",
