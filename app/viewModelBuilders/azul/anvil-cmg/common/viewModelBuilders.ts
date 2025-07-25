@@ -49,7 +49,6 @@ import {
   ROUTE_EXPORT_TO_TERRA,
   ROUTE_MANIFEST_DOWNLOAD,
 } from "../../../../../site-config/anvil-cmg/dev/export/constants";
-import { URL_DATASETS } from "../../../../../site-config/anvil/dev/config";
 import {
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
@@ -358,7 +357,7 @@ export function buildDatasetExportBreadcrumbs(
   const datasetPath = buildDatasetPath(datasetsResponse);
   const datasetTitle = getDatasetTitle(datasetsResponse);
   return [
-    { path: URL_DATASETS, text: "Datasets" },
+    { path: "/datasets", text: "Datasets" },
     { path: datasetPath, text: datasetTitle },
   ];
 }
@@ -514,7 +513,7 @@ export const buildDatasetIds = (
  */
 export function buildDatasetPath(datasetsResponse: DatasetsResponse): string {
   const datasetId = getDatasetEntryId(datasetsResponse);
-  return `${URL_DATASETS}/${datasetId}`;
+  return `/datasets/${datasetId}`;
 }
 
 /**
@@ -1042,7 +1041,7 @@ export function getDatasetBreadcrumbs(
   datasetsResponse: DatasetsResponse
 ): Breadcrumb[] {
   return [
-    { path: URL_DATASETS, text: "Datasets" },
+    { path: "/datasets", text: "Datasets" },
     { path: "", text: getDatasetTitle(datasetsResponse) },
   ];
 }
