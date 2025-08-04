@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.20.1](https://github.com/DataBiosphere/data-browser/compare/v2.20.0...v2.20.1) (2025-08-01)
+
+
+### Bug Fixes
+
+* fix data dictionary table overflow on smaller viewports ([#4542](https://github.com/DataBiosphere/data-browser/issues/4542)) ([#4545](https://github.com/DataBiosphere/data-browser/issues/4545)) ([ba438c6](https://github.com/DataBiosphere/data-browser/commit/ba438c6ca2e988a4f3722486af9c8dd3f1aa3ece))
+
+
+### Chores
+
+* update findable-ui to latest version 41.2.0 ([#4547](https://github.com/DataBiosphere/data-browser/issues/4547)) ([#4548](https://github.com/DataBiosphere/data-browser/issues/4548)) ([9b1966b](https://github.com/DataBiosphere/data-browser/commit/9b1966bb18771ebef34032cee6e454070f8b518f))
+
 ## [2.20.0](https://github.com/DataBiosphere/data-browser/compare/v2.19.2...v2.20.0) (2025-07-25)
 
 
