@@ -82,7 +82,6 @@ export { AlertTitle } from "@mui/material";
 export { Announcements } from "./common/Banner/components/Announcements/announcements";
 export { ButtonOutline } from "./common/Button/components/ButtonOutline/buttonOutline";
 export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
-export { RenderComponents } from "./common/RenderComponents/renderComponents";
 export { AccessibilityBadge } from "./Detail/components/AccessibilityBadge/accessibilityBadge";
 export { ConsentCodeList } from "./Detail/components/ConsentCodeList/consentCodeList";
 export { ConsentTooltip } from "./Detail/components/ConsentTooltip/consentTooltip";
