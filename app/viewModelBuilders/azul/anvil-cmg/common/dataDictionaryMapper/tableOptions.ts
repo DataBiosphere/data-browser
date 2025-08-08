@@ -8,10 +8,12 @@ export const TABLE_OPTIONS: Omit<
 > = {
   columns: COLUMN_DEFS,
   enableColumnFilters: false,
+  enableExpanding: false,
   enableGlobalFilter: false,
+  getRowCanExpand: () => false,
+  getRowId: (row) => row.name,
   initialState: {
     columnVisibility: { classKey: false },
-    expanded: true,
     grouping: ["classKey"],
   },
 };

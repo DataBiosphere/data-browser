@@ -1,6 +1,7 @@
 import { MarkdownCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/MarkdownCell/markdownCell";
 import { Attribute } from "@databiosphere/findable-ui/lib/common/entities";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, CellContext } from "@tanstack/react-table";
+import { BasicCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/BasicCell/basicCell";
 
 export const COLUMN_DEFS: ColumnDef<Attribute>[] = [
   {
@@ -21,8 +22,9 @@ export const COLUMN_DEFS: ColumnDef<Attribute>[] = [
     },
   },
   {
-    accessorFn: (row: Attribute) => ({ values: row.description }),
-    cell: MarkdownCell,
+    accessorKey: "description",
+    cell: (cellContext) =>
+      MarkdownCell(cellContext as CellContext<Attribute, string>),
     enableColumnFilter: false,
     header: "Description",
     meta: {
@@ -34,12 +36,17 @@ export const COLUMN_DEFS: ColumnDef<Attribute>[] = [
   },
   {
     accessorKey: "name",
+    cell: (cellContext) =>
+      BasicCell({
+        TypographyProps: { noWrap: true },
+        value: cellContext.getValue() as string,
+      }),
     enableColumnFilter: false,
     header: "Name",
     meta: {
       width: {
         max: "1fr",
-        min: "180px",
+        min: "240px",
       },
     },
   },
