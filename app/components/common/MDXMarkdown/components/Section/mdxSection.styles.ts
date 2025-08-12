@@ -2,18 +2,15 @@ import {
   sectionMargin,
   sectionMarginSm,
 } from "@databiosphere/findable-ui/lib/components/common/Section/section.styles";
-import {
-  textBody4002Lines,
-  textBody500,
-  textBodyLarge500,
-} from "@databiosphere/findable-ui/lib/styles/common/mixins/fonts";
-import { TABLET } from "@databiosphere/findable-ui/lib/theme/common/breakpoints";
+import { bpUpSm } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
 import styled from "@emotion/styled";
+import { FONT } from "@databiosphere/findable-ui/lib/styles/common/constants/font";
 
 export const Section = styled("div")`
-  ${sectionMargin}
-  ${({ theme }) => theme.breakpoints.up(TABLET)} {
-    ${sectionMarginSm}
+  ${sectionMargin};
+
+  ${bpUpSm} {
+    ${sectionMarginSm};
   }
 
   h3,
@@ -22,16 +19,16 @@ export const Section = styled("div")`
   }
 
   h3 {
-    ${textBodyLarge500};
+    font: ${FONT.BODY_LARGE_500};
   }
 
   h4 {
-    ${textBody500};
+    font: ${FONT.BODY_500};
     margin-top: 20px;
   }
 
   p {
-    ${textBody4002Lines};
+    font: ${FONT.BODY_400_2_LINES};
     margin: 0 0 8px;
   }
 

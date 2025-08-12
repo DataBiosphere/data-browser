@@ -1,10 +1,10 @@
 import { AccessibilityBadge as DXAccessibilityBadge } from "@databiosphere/findable-ui/lib/components/Detail/components/AccessibilityBadge/accessibilityBadge";
-import { mediaTabletUp } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
+import { bpUpSm } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
 import styled from "@emotion/styled";
 
 export const AccessibilityBadge = styled(DXAccessibilityBadge)`
   &.MuiChip-root {
-    ${mediaTabletUp} {
+    ${bpUpSm} {
       margin-top: -8px;
     }
   }

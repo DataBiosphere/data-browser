@@ -1,15 +1,10 @@
-import {
-  textBodyLarge4002Lines,
-  textBodyLarge500,
-  textHeading,
-  textHeadingLarge,
-  textHeadingSmall,
-} from "@databiosphere/findable-ui/lib/styles/common/mixins/fonts";
-import { ThemeProps } from "@databiosphere/findable-ui/lib/theme/theme";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { FONT } from "@databiosphere/findable-ui/lib/styles/common/constants/font";
+import { ThemeProps } from "@databiosphere/findable-ui/lib/theme/types";
+import { typographyToCSS } from "../../../../styles/mixins/typography";
 
-const muiAlert = (props: ThemeProps) => css`
+const muiAlert = ({ theme }: ThemeProps) => css`
   .MuiAlert-root {
     margin: 24px 0;
     padding: 24px;
@@ -23,11 +18,11 @@ const muiAlert = (props: ThemeProps) => css`
     }
 
     .MuiAlert-message {
-      ${textBodyLarge4002Lines(props)};
+      font: ${FONT.BODY_LARGE_400_2_LINES};
       gap: 16px;
 
       .MuiAlertTitle-root {
-        ${textHeadingSmall(props)};
+        ${css(theme.typography["heading-small"])};
       }
 
       ol > li,
@@ -46,7 +41,7 @@ const muiAlert = (props: ThemeProps) => css`
   }
 `;
 
-const muiBreadcrumbs = () => css`
+const muiBreadcrumbs = css`
   .MuiBreadcrumbs-root {
     margin-bottom: 8px;
 
@@ -62,22 +57,22 @@ const muiBreadcrumbs = () => css`
 
 export const Content = styled.div`
   h1 {
-    ${textHeadingLarge};
+    ${typographyToCSS("heading-large")};
     margin: 0 0 16px;
   }
 
   h2 {
-    ${textHeading};
+    ${typographyToCSS("heading")};
     margin: 32px 0 16px;
   }
 
   h3 {
-    ${textHeadingSmall};
+    ${typographyToCSS("heading-small")};
     margin: 40px 0 16px;
   }
 
   h4 {
-    ${textBodyLarge500};
+    font: ${FONT.BODY_LARGE_500};
     margin: 16px 0;
   }
 
@@ -95,7 +90,7 @@ export const Content = styled.div`
   }
 
   p {
-    ${textBodyLarge4002Lines};
+    font: ${FONT.BODY_LARGE_400_2_LINES};
     margin: 0 0 16px;
 
     &:last-of-type {
@@ -104,7 +99,7 @@ export const Content = styled.div`
   }
 
   ul {
-    ${textBodyLarge4002Lines};
+    font: ${FONT.BODY_LARGE_400_2_LINES};
     margin: 16px 0;
     padding: 0 0 0 24px;
 
