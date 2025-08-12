@@ -21,7 +21,7 @@ export const Section = styled(DXSection)`
 export const SectionContent = styled.div`
   text-align: center;
 
-  .MuiTypography-text-heading-xlarge {
+  .MuiTypography-heading-xlarge {
     margin-top: -8px;
   }
 
