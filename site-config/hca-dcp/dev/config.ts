@@ -24,7 +24,7 @@ import { buildSummaries } from "./index/summaryViewModelBuilder";
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
-const CATALOG = "dcp50";
+const CATALOG = "dcp51";
 const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
 const DATA_URL = "https://service.azul.data.humancellatlas.org";
 const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
