@@ -7,9 +7,9 @@ import {
   LinkProps,
 } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
 import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
-import { TEXT_BODY_500 } from "@databiosphere/findable-ui/lib/theme/common/typography";
 import { SiteConfig } from "../../../../../../../../../site-config/common/entities";
 import { StyledBackPageHeroActions } from "./backPageHeroActions.styles";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 export interface BackPageHeroActionsProps {
   callToActionProps: CallToActionButtonProps;
@@ -27,7 +27,7 @@ export const BackPageHeroActions = ({
     <StyledBackPageHeroActions>
       {linkUrl && (
         <Link
-          TypographyProps={{ variant: TEXT_BODY_500 }}
+          TypographyProps={{ variant: TYPOGRAPHY_PROPS.VARIANT.BODY_500 }}
           {...otherProps}
           label={label}
           url={linkUrl}

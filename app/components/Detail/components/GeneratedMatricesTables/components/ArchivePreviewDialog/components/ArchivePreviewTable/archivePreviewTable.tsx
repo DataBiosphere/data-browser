@@ -11,6 +11,7 @@ import { humanFileSize } from "../../../../../../../../utils/fileSize";
 import { ProjectMatrixView } from "../../../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 import { FileNameCell } from "../../../FileNameCell/fileNameCell";
 import { ArchivePreviewNotAvailable as PreviewNotAvailable } from "./archivePreviewTable.styles";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 export type SetLoadingFn = Dispatch<SetStateAction<boolean>>;
 
@@ -80,7 +81,7 @@ export const ArchivePreviewTable = ({
           />
         </GridPaper>
       ) : (
-        <PreviewNotAvailable variant="text-body-400">
+        <PreviewNotAvailable variant={TYPOGRAPHY_PROPS.VARIANT.BODY_400}>
           Preview not available.
         </PreviewNotAvailable>
       )}
