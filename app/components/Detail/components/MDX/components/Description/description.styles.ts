@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { FONT } from "@databiosphere/findable-ui/lib/styles/common/constants/font";
-import { typographyToCSS } from "../../../../../../styles/mixins/typography";
+import { typographyToCSS } from "@databiosphere/findable-ui/lib/styles/common/mixins/typography";
 
 /**
  * H1 styled component. Matches H1 in the Portal.
