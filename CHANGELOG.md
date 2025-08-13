@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.20.3](https://github.com/DataBiosphere/data-browser/compare/v2.20.2...v2.20.3) (2025-08-13)
+
+
+### Chores
+
+* update findable-ui to latest version 42.1.0 ([#4553](https://github.com/DataBiosphere/data-browser/issues/4553)) ([#4554](https://github.com/DataBiosphere/data-browser/issues/4554)) ([f31fb80](https://github.com/DataBiosphere/data-browser/commit/f31fb8049653e7a74c853ec82cd59e7f334cefb0))
+
 ## [2.20.2](https://github.com/DataBiosphere/data-browser/compare/v2.20.1...v2.20.2) (2025-08-11)
 
 
