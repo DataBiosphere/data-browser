@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.20.3](https://github.com/DataBiosphere/data-browser/compare/v2.20.2...v2.20.3) (2025-08-22)
+
+
+### Chores
+
+* set default catalog to dcp52 for HCA [#4556](https://github.com/DataBiosphere/data-browser/issues/4556) ([#4557](https://github.com/DataBiosphere/data-browser/issues/4557)) ([82f30e9](https://github.com/DataBiosphere/data-browser/commit/82f30e9973054a3bd100053c38ac9171d3221958))
+* update findable-ui to latest version 42.1.0 ([#4553](https://github.com/DataBiosphere/data-browser/issues/4553)) ([#4554](https://github.com/DataBiosphere/data-browser/issues/4554)) ([f31fb80](https://github.com/DataBiosphere/data-browser/commit/f31fb8049653e7a74c853ec82cd59e7f334cefb0))
+
 ## [2.20.2](https://github.com/DataBiosphere/data-browser/compare/v2.20.1...v2.20.2) (2025-08-11)
 
 
