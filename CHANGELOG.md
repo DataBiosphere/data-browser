@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.20.4](https://github.com/DataBiosphere/data-browser/compare/v2.20.3...v2.20.4) (2025-08-25)
+
+
+### Chores
+
+* bump anvil catalog to anvil11 [#4558](https://github.com/DataBiosphere/data-browser/issues/4558) ([#4559](https://github.com/DataBiosphere/data-browser/issues/4559)) ([f295ca9](https://github.com/DataBiosphere/data-browser/commit/f295ca98a45b3bb4ae00532477925c2bcc151fd0))
+
 ## [2.20.3](https://github.com/DataBiosphere/data-browser/compare/v2.20.2...v2.20.3) (2025-08-22)
 
 
