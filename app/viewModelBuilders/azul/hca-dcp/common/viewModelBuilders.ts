@@ -39,10 +39,6 @@ import {
 } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/utils";
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import { SIZE } from "@databiosphere/findable-ui/lib/styles/common/constants/size";
-import {
-  TEXT_BODY_400,
-  TEXT_BODY_400_2_LINES,
-} from "@databiosphere/findable-ui/lib/theme/common/typography";
 import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
 import { CategoryKeyLabel } from "@databiosphere/findable-ui/lib/viewModelBuilders/common/entities";
 import {
@@ -121,6 +117,7 @@ import {
   bindFileSummaryResponse,
   mapExportSummary,
 } from "./summaryMapper/summaryMapper";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 /**
  * Build props for the KeyValuePairs component for displaying the project accessions.
@@ -582,7 +579,9 @@ export const buildAnalysisPortals = (
     KeyValuesElType: Fragment,
     ValueElType: (props) =>
       C.ValueElType({
-        variant: analysisPortals ? TEXT_BODY_400 : TEXT_BODY_400_2_LINES,
+        variant: analysisPortals
+          ? TYPOGRAPHY_PROPS.VARIANT.BODY_400
+          : TYPOGRAPHY_PROPS.VARIANT.BODY_400_2_LINES,
         ...props,
       }),
     keyValuePairs,
