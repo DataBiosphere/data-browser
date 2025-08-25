@@ -1,5 +1,5 @@
 import { Logo } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
-import { mediaTabletDown } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
+import { bpDownSm } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
 import styled from "@emotion/styled";
 
 export const Brands = styled.div`
@@ -8,7 +8,7 @@ export const Brands = styled.div`
   flex-wrap: wrap;
   gap: 8px 16px;
 
-  ${mediaTabletDown} {
+  ${bpDownSm} {
     a {
       padding-left: 0;
       padding-right: 0;
@@ -19,7 +19,7 @@ export const Brands = styled.div`
 export const PortalLogo = styled(Logo)`
   padding: 5px 8px;
 
-  ${mediaTabletDown} {
+  ${bpDownSm} {
     flex-basis: 100%;
     order: 1;
 
@@ -32,7 +32,7 @@ export const PortalLogo = styled(Logo)`
 export const NHGRILogo = styled(Logo)`
   padding: 8px;
 
-  ${mediaTabletDown} {
+  ${bpDownSm} {
     img {
       height: 20px;
     }
@@ -42,7 +42,7 @@ export const NHGRILogo = styled(Logo)`
 export const NIHLogo = styled(Logo)`
   padding: 8px;
 
-  ${mediaTabletDown} {
+  ${bpDownSm} {
     img {
       height: 20px;
     }
@@ -52,7 +52,7 @@ export const NIHLogo = styled(Logo)`
 export const HHSLogo = styled(Logo)`
   padding: 4px;
 
-  ${mediaTabletDown} {
+  ${bpDownSm} {
     img {
       height: 28px;
     }
@@ -62,7 +62,7 @@ export const HHSLogo = styled(Logo)`
 export const USAGOVLogo = styled(Logo)`
   padding: 4px;
 
-  ${mediaTabletDown} {
+  ${bpDownSm} {
     img {
       height: 28px;
     }
