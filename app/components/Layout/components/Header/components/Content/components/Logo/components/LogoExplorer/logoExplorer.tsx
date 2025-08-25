@@ -4,7 +4,6 @@ import {
   BREAKPOINT_FN_NAME,
   useBreakpointHelper,
 } from "@databiosphere/findable-ui/lib/hooks/useBreakpointHelper";
-import { DESKTOP_SM } from "@databiosphere/findable-ui/lib/theme/common/breakpoints";
 
 export interface LogoExplorerProps {
   alt: string;
@@ -19,13 +18,13 @@ export const LogoExplorer = ({
   src,
   url,
 }: LogoExplorerProps): JSX.Element => {
-  const smDesktop = useBreakpointHelper(BREAKPOINT_FN_NAME.UP, DESKTOP_SM);
+  const bpMdUp = useBreakpointHelper(BREAKPOINT_FN_NAME.UP, "md");
   return (
     <Logo
       alt={alt}
-      height={smDesktop ? height[1] : height[0]}
+      height={bpMdUp ? height[1] : height[0]}
       link={url}
-      src={smDesktop ? src[1] : src[0]}
+      src={bpMdUp ? src[1] : src[0]}
     />
   );
 };
