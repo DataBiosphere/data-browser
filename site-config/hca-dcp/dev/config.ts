@@ -1,14 +1,6 @@
 import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
-import { tabletUp } from "@databiosphere/findable-ui/lib/theme/common/breakpoints";
-import {
-  TEXT_BODY_LARGE_500,
-  TEXT_HEADING,
-  TEXT_HEADING_LARGE,
-  TEXT_HEADING_SMALL,
-  TEXT_HEADING_XLARGE,
-} from "@databiosphere/findable-ui/lib/theme/common/typography";
 import * as C from "../../../app/components/index";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
 import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
@@ -21,10 +13,11 @@ import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { floating } from "./layout/floating";
 import { buildSummaries } from "./index/summaryViewModelBuilder";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
-const CATALOG = "dcp51";
+const CATALOG = "dcp52";
 const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
 const DATA_URL = "https://service.azul.data.humancellatlas.org";
 const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
@@ -153,49 +146,53 @@ export function makeConfig(
         },
       },
       typography: {
-        [TEXT_BODY_LARGE_500]: {
+        [TYPOGRAPHY_PROPS.VARIANT.BODY_LARGE_500]: {
           fontFamily: FONT_FAMILY_DIN,
-          fontSize: 18,
+          fontSize: "18px",
           fontWeight: 400,
         },
-        [TEXT_HEADING]: {
+        [TYPOGRAPHY_PROPS.VARIANT.HEADING]: {
           fontFamily: FONT_FAMILY_DIN,
-          fontSize: 22,
+          fontSize: "22px",
           fontWeight: 400,
           letterSpacing: "normal",
-          [tabletUp]: {
-            fontSize: 26,
+          // eslint-disable-next-line sort-keys -- disabling key order for readability
+          "@media (min-width: 768px)": {
+            fontSize: "26px",
             letterSpacing: "normal",
           },
         },
-        [TEXT_HEADING_LARGE]: {
+        [TYPOGRAPHY_PROPS.VARIANT.HEADING_LARGE]: {
           fontFamily: FONT_FAMILY_DIN,
-          fontSize: 26,
+          fontSize: "26px",
           fontWeight: 400,
           letterSpacing: "normal",
           lineHeight: "34px",
-          [tabletUp]: {
-            fontSize: 32,
+          // eslint-disable-next-line sort-keys -- disabling key order for readability
+          "@media (min-width: 768px)": {
+            fontSize: "32px",
             letterSpacing: "normal",
           },
         },
-        [TEXT_HEADING_SMALL]: {
+        [TYPOGRAPHY_PROPS.VARIANT.HEADING_SMALL]: {
           fontFamily: FONT_FAMILY_DIN,
-          fontSize: 20,
+          fontSize: "20px",
           fontWeight: 400,
           letterSpacing: "normal",
-          [tabletUp]: {
-            fontSize: 22,
+          // eslint-disable-next-line sort-keys -- disabling key order for readability
+          "@media (min-width: 768px)": {
+            fontSize: "22px",
             letterSpacing: "normal",
           },
         },
-        [TEXT_HEADING_XLARGE]: {
+        [TYPOGRAPHY_PROPS.VARIANT.HEADING_XLARGE]: {
           fontFamily: FONT_FAMILY_DIN,
-          fontSize: 32,
+          fontSize: "32px",
           fontWeight: 400,
           letterSpacing: "normal",
-          [tabletUp]: {
-            fontSize: 42,
+          // eslint-disable-next-line sort-keys -- disabling key order for readability
+          "@media (min-width: 768px)": {
+            fontSize: "42px",
             letterSpacing: "-0.4px",
           },
         },

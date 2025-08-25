@@ -1,5 +1,5 @@
 import { Section as DXSection } from "@databiosphere/findable-ui/lib/components/common/Section/section.styles";
-import { mediaTabletUp } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
+import { bpUpSm } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
 import styled from "@emotion/styled";
 
 export const Notice = styled.div`
@@ -13,7 +13,7 @@ export const Section = styled(DXSection)`
   align-items: center;
   padding: 0;
 
-  ${mediaTabletUp} {
+  ${bpUpSm} {
     padding: 0;
   }
 `;
@@ -21,7 +21,7 @@ export const Section = styled(DXSection)`
 export const SectionContent = styled.div`
   text-align: center;
 
-  .MuiTypography-text-heading-xlarge {
+  .MuiTypography-heading-xlarge {
     margin-top: -8px;
   }
 

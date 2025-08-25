@@ -2,29 +2,28 @@ import {
   sectionMargin,
   sectionMarginSm,
 } from "@databiosphere/findable-ui/lib/components/common/Section/section.styles";
-import {
-  textBody4002Lines,
-  textBody500,
-} from "@databiosphere/findable-ui/lib/styles/common/mixins/fonts";
-import { TABLET } from "@databiosphere/findable-ui/lib/theme/common/breakpoints";
+import { bpUpSm } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
 import styled from "@emotion/styled";
 import { Alert } from "@mui/material";
+import { FONT } from "@databiosphere/findable-ui/lib/styles/common/constants/font";
 
 export const SectionTitle = styled("h4")`
-  ${textBody500}
-  ${sectionMargin}
-  ${({ theme }) => theme.breakpoints.up(TABLET)} {
-    ${sectionMarginSm}
+  ${sectionMargin};
+  font: ${FONT.BODY_500};
+
+  ${bpUpSm} {
+    ${sectionMarginSm};
   }
 `;
 
 export const StyledAlert = styled(Alert)`
   .MuiAlert-message {
-    ${textBody4002Lines};
+    font: ${FONT.BODY_400_2_LINES};
   }
 
-  ${sectionMargin}
-  ${({ theme }) => theme.breakpoints.up(TABLET)} {
-    ${sectionMarginSm}
+  ${sectionMargin};
+
+  ${bpUpSm} {
+    ${sectionMarginSm};
   }
 `;
