@@ -182,7 +182,7 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
         const azulCatalogResponse = await fetchCatalog();
         const catalogs = getCatalogs(azulCatalogResponse, defaultCatalog);
         // Define the list params.
-        const listParams = { size: "100" };
+        const listParams = { size: "75" };
         // Fetch entities for each catalog and process the paths.
         for (const catalog of catalogs) {
           const entitiesResponse = await getEntities(
