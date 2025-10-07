@@ -5,6 +5,8 @@ import {
   calculateSummaryTotalCellCount,
   getSummaryCount,
 } from "./utils";
+import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
+import { formatFileSize } from "@databiosphere/findable-ui/lib/utils/formatFileSize";
 
 // Template constants
 const {
@@ -53,24 +55,29 @@ const {
   FILES,
   SPECIES,
   SPECIMENS,
+  TOTAL_FILE_SIZE,
 } = SUMMARY;
 
 /**
  * Functions binding summary response API to summary count.
  */
 export const BIND_SUMMARY_RESPONSE = {
-  [BIOSAMPLES]: (r: AzulSummaryResponse): number =>
-    getSummaryCount(r, SUMMARY_KEY.BIOSAMPLES),
-  [DONORS]: (r: AzulSummaryResponse): number =>
-    getSummaryCount(r, SUMMARY_KEY.DONORS),
-  [ESTIMATED_CELLS]: calculateSummaryTotalCellCount,
-  [FILES]: (r: AzulSummaryResponse): number =>
-    getSummaryCount(r, SUMMARY_KEY.FILES),
-  [FILE_FORMATS]: calculateSummaryFileFormatsCount,
-  [SPECIES]: (r: AzulSummaryResponse): number =>
-    getSummaryCount(r, SUMMARY_KEY.SPECIES),
-  [SPECIMENS]: (r: AzulSummaryResponse): number =>
-    getSummaryCount(r, SUMMARY_KEY.SPECIMENS),
+  [BIOSAMPLES]: (r: AzulSummaryResponse): string =>
+    formatCountSize(getSummaryCount(r, SUMMARY_KEY.BIOSAMPLES)),
+  [DONORS]: (r: AzulSummaryResponse): string =>
+    formatCountSize(getSummaryCount(r, SUMMARY_KEY.DONORS)),
+  [ESTIMATED_CELLS]: (r: AzulSummaryResponse): string =>
+    formatCountSize(calculateSummaryTotalCellCount(r)),
+  [FILES]: (r: AzulSummaryResponse): string =>
+    formatCountSize(getSummaryCount(r, SUMMARY_KEY.FILES)),
+  [FILE_FORMATS]: (r: AzulSummaryResponse): string =>
+    formatCountSize(calculateSummaryFileFormatsCount(r)),
+  [SPECIES]: (r: AzulSummaryResponse): string =>
+    formatCountSize(getSummaryCount(r, SUMMARY_KEY.SPECIES)),
+  [SPECIMENS]: (r: AzulSummaryResponse): string =>
+    formatCountSize(getSummaryCount(r, SUMMARY_KEY.SPECIMENS)),
+  [TOTAL_FILE_SIZE]: (r: AzulSummaryResponse): string =>
+    formatFileSize(getSummaryCount(r, SUMMARY_KEY.TOTAL_FILE_SIZE)),
 };
 
 export const NETWORK_KEYS = [
@@ -162,13 +169,14 @@ export const PLURALIZED_METADATA_LABEL = {
 /**
  * Set of possible summary keys.
  */
-export const SUMMARY_KEY = {
+export const SUMMARY_KEY: Record<string, keyof AzulSummaryResponse> = {
   [BIOSAMPLES]: "biosampleCount",
   [DONORS]: "donorCount",
   [FILES]: "fileCount",
   [FILE_FORMATS]: "fileFormats",
   [SPECIES]: "speciesCount",
   [SPECIMENS]: "specimenCount",
+  [TOTAL_FILE_SIZE]: "totalFileSize",
 } as const;
 
 /**
@@ -182,4 +190,5 @@ export const SUMMARY_LABEL = {
   [FILE_FORMATS]: "Files",
   [SPECIES]: "Species",
   [SPECIMENS]: "Specimens",
+  [TOTAL_FILE_SIZE]: "",
 };
