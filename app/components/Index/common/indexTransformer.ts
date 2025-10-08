@@ -1,5 +1,4 @@
 import { AzulSummaryResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
 import {
   BIND_SUMMARY_RESPONSE,
   PLURALIZED_METADATA_LABEL,
@@ -30,7 +29,7 @@ export function mapSummary(
 ): [string, string][] {
   return summaries.map((summary) => {
     const summaryBinderFn = BIND_SUMMARY_RESPONSE[summary];
-    const count = formatCountSize(summaryBinderFn(summaryResponse));
+    const count = summaryBinderFn(summaryResponse);
     const label = SUMMARY_LABEL[summary];
     return [count, label];
   });
