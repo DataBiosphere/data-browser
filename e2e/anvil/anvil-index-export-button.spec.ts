@@ -60,6 +60,8 @@ test.describe("AnVIL Data Explorer Export", () => {
     // Test that each summary item is present in the export summary
     // with corresponding count.
     for (const [label, count] of summary) {
+      // Total file size summary item has no label.
+      if (!label) continue;
       const summaryItem = exportSummaryLocator
         .locator("> div")
         .filter({ hasText: label });
