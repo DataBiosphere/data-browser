@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.21.0](https://github.com/DataBiosphere/data-browser/compare/v2.20.4...v2.21.0) (2025-10-07)
+
+
+### Features
+
+* add a total file size summary to the summary statistics line for the anvil explorer ([#4495](https://github.com/DataBiosphere/data-browser/issues/4495)) ([#4571](https://github.com/DataBiosphere/data-browser/issues/4571)) ([cd8b42e](https://github.com/DataBiosphere/data-browser/commit/cd8b42edb3faf7ed928a72efc815b06071bb23df))
+
+
+### Bug Fixes
+
+* build error due to oversized response ([#4570](https://github.com/DataBiosphere/data-browser/issues/4570)) ([#4572](https://github.com/DataBiosphere/data-browser/issues/4572)) ([417aa7d](https://github.com/DataBiosphere/data-browser/commit/417aa7d37308537ae21b9ed06095e15f6efc91a3))
+
+
+### Chores
+
+* set default catalog to dcp53 for HCA [#4567](https://github.com/DataBiosphere/data-browser/issues/4567) ([#4568](https://github.com/DataBiosphere/data-browser/issues/4568)) ([48864a1](https://github.com/DataBiosphere/data-browser/commit/48864a1c53365885fad54add5a7fa907feb1099f))
+
 ## [2.20.4](https://github.com/DataBiosphere/data-browser/compare/v2.20.3...v2.20.4) (2025-08-25)
 
 
