@@ -1276,7 +1276,7 @@ function getExportTerraEntityFilters(
 
   filters.push(...getExportEntityFilters(datasetsResponse));
 
-  // Add donor organism type filter if donor organism type values are available on the dataset.
+  // Add donor organism type filter (add `[null]` if no values are available).
   const donorOrganismType = processRawEntityArrayValue(
     datasetsResponse.donors,
     "organism_type"
