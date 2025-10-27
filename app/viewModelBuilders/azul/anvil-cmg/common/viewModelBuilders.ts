@@ -1272,20 +1272,27 @@ export function getExportSelectedDataSummary(
 function getExportTerraEntityFilters(
   datasetsResponse: DatasetsResponse
 ): Filters {
-  return [
-    ...getExportEntityFilters(datasetsResponse),
-    {
-      categoryKey: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
-      value: processRawEntityArrayValue(
-        datasetsResponse.donors,
-        "organism_type"
-      ),
-    },
-    {
-      categoryKey: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
-      value: processRawEntityArrayValue(datasetsResponse.files, "file_format"),
-    },
-  ];
+  const filters: Filters = [];
+
+  filters.push(...getExportEntityFilters(datasetsResponse));
+
+  // Add donor organism type filter (add `[null]` if no values are available).
+  const donorOrganismType = processRawEntityArrayValue(
+    datasetsResponse.donors,
+    "organism_type"
+  );
+  filters.push({
+    categoryKey: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+    value: donorOrganismType.length > 0 ? donorOrganismType : [null],
+  });
+
+  // Add file format filter.
+  filters.push({
+    categoryKey: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    value: processRawEntityArrayValue(datasetsResponse.files, "file_format"),
+  });
+
+  return filters;
 }
 
 /**
