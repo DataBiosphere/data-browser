@@ -89,6 +89,7 @@ export interface DonorSpecies {
  */
 export interface FileEntity {
   accessible: boolean;
+  azul_url: string;
   data_modality: string[];
   date_created: string;
   document_id: string;
@@ -98,7 +99,6 @@ export interface FileEntity {
   file_name: string;
   file_size: number;
   file_type: string;
-  url: string;
 }
 
 /**

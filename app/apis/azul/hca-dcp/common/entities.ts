@@ -41,6 +41,7 @@ export interface FilesEntityResponse {
  */
 export interface FileResponse {
   accessible: boolean;
+  azul_url: string;
   contentDescription: (string | null)[];
   drs_uri: string;
   fileSource: string | null;
@@ -50,7 +51,6 @@ export interface FileResponse {
   name: string;
   sha256: string;
   size: number;
-  url: string | null; // TODO confirm null is possible.
   uuid: string;
   version: string;
 }
