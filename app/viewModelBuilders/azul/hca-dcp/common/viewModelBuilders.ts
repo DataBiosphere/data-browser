@@ -1176,7 +1176,7 @@ export const buildFileDownload = (
     entityName: processEntityValue(filesResponse.files, "name"),
     relatedEntityId: project.projectId[0],
     relatedEntityName: project.projectTitle[0],
-    url: processEntityValue(filesResponse.files, "url", LABEL.EMPTY),
+    url: processEntityValue(filesResponse.files, "azul_url", LABEL.EMPTY),
   };
 };
 
