@@ -822,7 +822,7 @@ export const buildFileDownload = (
     entityName: processEntityValue(response.files, "file_name"),
     relatedEntityId: dataset.dataset_id[0],
     relatedEntityName: dataset.title[0],
-    url: processEntityValue(response.files, "url", LABEL.EMPTY),
+    url: processEntityValue(response.files, "azul_url", LABEL.EMPTY),
   };
 };
 

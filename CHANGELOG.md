@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.22.0](https://github.com/DataBiosphere/data-browser/compare/v2.21.1...v2.22.0) (2025-11-03)
+
+
+### Features
+
+* switch from files.url to files.azul_url ([#4575](https://github.com/DataBiosphere/data-browser/issues/4575)) ([#4581](https://github.com/DataBiosphere/data-browser/issues/4581)) ([dbaa7a1](https://github.com/DataBiosphere/data-browser/commit/dbaa7a13a55bc35c52dd8bf09ce516dad26d5109))
+
 ## [2.21.1](https://github.com/DataBiosphere/data-browser/compare/v2.21.0...v2.21.1) (2025-10-27)
 
 
