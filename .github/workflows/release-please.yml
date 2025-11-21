@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # Enable manual triggering
 
 permissions:
   contents: write
@@ -17,8 +18,4 @@ jobs:
         id: release
         with:
           config-file: release-please-config.json
-          # this assumes that you have created a personal access token
-          # (PAT) and configured it as a GitHub action secret named
-          # `MY_RELEASE_PLEASE_TOKEN` (this secret name is not important).
-          token: ${{ secrets.HCA_RELEASE_PLEASE_TOKEN }}
-          # This is a built-in strategy in release-please, see "Action Inputs" for more options
+          token: ${{ secrets.GITHUB_TOKEN }}
