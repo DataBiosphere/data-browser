@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.22.2](https://github.com/DataBiosphere/data-browser/compare/v2.22.1...v2.22.2) (2025-11-21)
+
+
+### Chores
+
+* update default catalog from dcp54 to dcp55 (4594) ([#4595](https://github.com/DataBiosphere/data-browser/issues/4595)) ([2355368](https://github.com/DataBiosphere/data-browser/commit/2355368a36968a595196b466f384a34604068161))
+
+## [2.22.1](https://github.com/DataBiosphere/data-browser/compare/v2.22.0...v2.22.1) (2025-11-20)
+
+
+### Chores
+
+* bump anvil catalog to anvil12 [#4590](https://github.com/DataBiosphere/data-browser/issues/4590) ([#4591](https://github.com/DataBiosphere/data-browser/issues/4591)) ([b65f85c](https://github.com/DataBiosphere/data-browser/commit/b65f85c5a5e1f5abbe954f22cb3dff3acc6e0c12))
+
 ## [2.22.0](https://github.com/DataBiosphere/data-browser/compare/v2.21.1...v2.22.0) (2025-11-03)
 
 
