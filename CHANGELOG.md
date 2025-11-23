@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.22.3](https://github.com/DataBiosphere/data-browser/compare/v2.22.2...v2.22.3) (2025-11-23)
+
+
+### Continuous Integration
+
+* update release-please workflow to use default github token and allow manual triggering ([#4597](https://github.com/DataBiosphere/data-browser/issues/4597)) ([#4598](https://github.com/DataBiosphere/data-browser/issues/4598)) ([93b247c](https://github.com/DataBiosphere/data-browser/commit/93b247c45ecb3126e738f474340113df23616d0e))
+
 ## [2.22.2](https://github.com/DataBiosphere/data-browser/compare/v2.22.1...v2.22.2) (2025-11-21)
 
 
