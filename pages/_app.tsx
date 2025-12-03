@@ -97,29 +97,29 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
                       </ThemeProvider>
                       <ExploreStateProvider entityListType={entityListType}>
                         <DataDictionaryStateProvider>
-                          <FileManifestStateProvider>
-                            <Main>
-                              <ErrorBoundary
-                                fallbackRender={({
-                                  error,
-                                  reset,
-                                }: {
-                                  error: DataExplorerError;
-                                  reset: () => void;
-                                }): JSX.Element => (
-                                  <Error
-                                    errorMessage={error.message}
-                                    requestUrlMessage={error.requestUrlMessage}
-                                    rootPath={redirectRootToPath}
-                                    onReset={reset}
-                                  />
-                                )}
-                              >
+                          <Main>
+                            <ErrorBoundary
+                              fallbackRender={({
+                                error,
+                                reset,
+                              }: {
+                                error: DataExplorerError;
+                                reset: () => void;
+                              }): JSX.Element => (
+                                <Error
+                                  errorMessage={error.message}
+                                  requestUrlMessage={error.requestUrlMessage}
+                                  rootPath={redirectRootToPath}
+                                  onReset={reset}
+                                />
+                              )}
+                            >
+                              <FileManifestStateProvider>
                                 <Component {...pageProps} />
                                 <Floating {...floating} />
-                              </ErrorBoundary>
-                            </Main>
-                          </FileManifestStateProvider>
+                              </FileManifestStateProvider>
+                            </ErrorBoundary>
+                          </Main>
                         </DataDictionaryStateProvider>
                       </ExploreStateProvider>
                       <Footer {...footer} />
