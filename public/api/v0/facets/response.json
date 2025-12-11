@@ -1,0 +1,54 @@
+{
+  "query": "public bam files for latino foobar patients with diabetes or foobaz",
+  "facets": [
+    {
+      "facet": "Access",
+      "selectedValues": [
+        {
+          "term": "Granted",
+          "mention": "public"
+        }
+      ]
+    },
+    {
+      "facet": "Diagnosis",
+      "selectedValues": [
+        {
+          "term": "MONDO:0005015",
+          "mention": "diabetes"
+        },
+        {
+          "term": "unknown",
+          "mention": "foobaz"
+        }
+      ]
+    },
+    {
+      "facet": "File Format",
+      "selectedValues": [
+        {
+          "term": ".bam",
+          "mention": "bam"
+        }
+      ]
+    },
+    {
+      "facet": "Reported Ethnicity",
+      "selectedValues": [
+        {
+          "term": "Hispanic or Latino",
+          "mention": "latino"
+        }
+      ]
+    },
+    {
+      "facet": "unknown",
+      "selectedValues": [
+        {
+          "term": "unknown",
+          "mention": "foobar"
+        }
+      ]
+    }
+  ]
+}
