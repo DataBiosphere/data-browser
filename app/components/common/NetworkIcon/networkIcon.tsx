@@ -5,8 +5,10 @@ import {
 import { NETWORK_ICONS } from "../../Index/common/constants";
 import { NetworkKey } from "../../Index/common/entities";
 
-export interface NetworkIconProps
-  extends Pick<StaticImageProps, "height" | "width"> {
+export interface NetworkIconProps extends Pick<
+  StaticImageProps,
+  "height" | "width"
+> {
   networkKey: NetworkKey;
 }
 

@@ -11,14 +11,12 @@ Entity lists display result sets from either an API endpoint or a TSV and can be
 The Azul entity list API endpoint returns entities (`hits`) in a format that can be modeled as a response object containing a core entity and multiple aggregated entities. For example:
 
 - A `hits` value returned from the `/index/files` endpoint contains:
-
   1. File entity
   2. Aggregated projects
   3. Aggregated samples
   4. Aggregated values for all other entities...
 
 - A `hits` value returned from the `/index/projects` endpoint contains:
-
   1. Project entity
   2. Aggregated files
   3. Aggregated samples
