@@ -14,6 +14,7 @@ import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { floating } from "./layout/floating";
 import { buildSummaries } from "./index/summaryViewModelBuilder";
 import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
+import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
@@ -60,6 +61,7 @@ export function makeConfig(
     entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
     export: exportConfig,
     exportToTerraUrl: EXPORT_TO_TERRA_URL,
+    filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
     layout: {
       floating,
