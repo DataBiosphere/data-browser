@@ -76,7 +76,6 @@ import {
   getAggregatedDatasetTitles,
   getAggregatedDiagnoses,
   getAggregatedOrganismTypes,
-  getAggregatedPhenotypes,
   getAggregatedPhenotypicSexes,
   getAggregatedReportedEthnicities,
   getAnatomicalSite,
@@ -98,6 +97,7 @@ import {
   getReportedEthnicities,
 } from "../../../../apis/azul/anvil-cmg/common/transformers";
 import {
+  processAggregatedOrArrayValue,
   processEntityArrayValue,
   processEntityValue,
 } from "../../../../apis/azul/common/utils";
@@ -599,7 +599,7 @@ export const buildDiagnosesPhenotype = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.PHENOTYPE),
-    values: getAggregatedPhenotypes(response),
+    values: processAggregatedOrArrayValue(response.diagnoses, "phenotype"),
   };
 };
 

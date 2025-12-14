@@ -265,17 +265,6 @@ export function getAggregatedDiagnoses(
 }
 
 /**
- * Maps phenotypes from aggregated diagnoses values returned from endpoints other than index/diagnosis.
- * @param response - Response model return from Azul that includes diagnoses.
- * @returns Phenotypes.
- */
-export function getAggregatedPhenotypes(
-  response: AggregatedDiagnosisResponse
-): string[] {
-  return processAggregatedOrArrayValue(response.diagnoses, "phenotype");
-}
-
-/**
  * Maps prep material name from the core library value returned from the /index/libraries API response.
  * @param response - Response model return from index/libraries API endpoint.
  * @returns Prep material name.
