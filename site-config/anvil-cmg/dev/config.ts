@@ -84,6 +84,10 @@ export function makeConfig(
               label: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
             },
             {
+              key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
+              label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
+            },
+            {
               key: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
               label: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
             },

@@ -113,6 +113,15 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
+          viewBuilder: V.buildDiagnosesPhenotype,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_PHENOTYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE,
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: C.NTagCell,
           viewBuilder: V.buildDiagnoses,
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
@@ -135,6 +144,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           [ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
+          [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE]: false,
           [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE]: false,
         },
         sorting: [

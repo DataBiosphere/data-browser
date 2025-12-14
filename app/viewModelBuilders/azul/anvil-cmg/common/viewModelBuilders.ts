@@ -76,6 +76,7 @@ import {
   getAggregatedDatasetTitles,
   getAggregatedDiagnoses,
   getAggregatedOrganismTypes,
+  getAggregatedPhenotypes,
   getAggregatedPhenotypicSexes,
   getAggregatedReportedEthnicities,
   getAnatomicalSite,
@@ -585,6 +586,20 @@ export const buildDiagnoses = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DIAGNOSIS),
     values: getAggregatedDiagnoses(response),
+  };
+};
+
+/**
+ * Build props for phenotype type NTagCell component from the given entity response.
+ * @param response - Response model return from Azul that includes aggregated diagnoses.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildDiagnosesPhenotype = (
+  response: AggregatedDiagnosisResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.PHENOTYPE),
+    values: getAggregatedPhenotypes(response),
   };
 };
 
