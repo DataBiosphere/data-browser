@@ -118,7 +118,6 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         columnVisibility: {
           [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
-          [ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE]: false,
         },
         sorting: [
           {

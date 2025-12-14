@@ -144,7 +144,6 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           [ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
-          [ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE]: false,
           [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE]: false,
         },
         sorting: [
