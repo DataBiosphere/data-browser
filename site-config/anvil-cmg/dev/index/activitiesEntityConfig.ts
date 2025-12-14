@@ -73,7 +73,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
           viewBuilder: V.buildPhenotypicSexes,
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
-        id: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
+        id: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
         width: { max: "1fr", min: "200px" },
       },
       {
@@ -116,7 +116,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
     tableOptions: {
       initialState: {
         columnVisibility: {
-          [ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX]: false,
+          [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
           [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_PHENOTYPE]: false,
           [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE]: false,
