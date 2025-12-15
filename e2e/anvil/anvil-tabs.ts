@@ -20,9 +20,11 @@ import {
 } from "./constants";
 
 export const ANVIL_FILTER_NAMES: string[] = [
+  "Access",
   "Anatomical Site",
   "BioSample Type",
   "Consent Group",
+  "Data Modality",
   "Dataset",
   "Diagnosis",
   "File Format",
