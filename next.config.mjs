@@ -4,6 +4,13 @@ import withPlugins from "next-compose-plugins";
 const ESM_PACKAGES = [
   "ky",
   "@databiosphere/findable-ui",
+  "@mui/icons-material",
+  "@mui/material",
+  "@mui/system",
+  "@mui/types",
+  "@mui/utils",
+  "@emotion/react",
+  "@emotion/styled",
   "@observablehq/plot",
   "@tanstack/react-table",
   "@tanstack/react-virtual",
@@ -12,6 +19,8 @@ const ESM_PACKAGES = [
   "@mui/icons-material",
   "@mui/utils",
 ];
+
+const r = (pkg) => path.resolve(process.cwd(), "node_modules", pkg);
 
 const withMDX = nextMDX({
   extension: /\.mdx?$/,
@@ -34,6 +43,8 @@ export default withPlugins(
     staticPageGenerationTimeout: 120,
     transpilePackages: [...ESM_PACKAGES],
     webpack: (config) => {
+      config.resolve.alias["react"] = r("react");
+      config.resolve.alias["react-dom"] = r("react-dom");
       return config;
     },
   }

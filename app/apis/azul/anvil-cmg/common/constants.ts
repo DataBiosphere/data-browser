@@ -1,4 +1,4 @@
 /**
  * Default AnVIL catalog.
  */
-export const CATALOG_DEFAULT = "anvil";
+export const CATALOG_DEFAULT = "anvil12";

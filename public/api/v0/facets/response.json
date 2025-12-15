@@ -2,21 +2,22 @@
   "query": "public bam files for latino foobar patients with diabetes or foobaz",
   "facets": [
     {
-      "facet": "Access",
+      "facet": "accessible",
       "selectedValues": [
         {
-          "term": "Granted",
+          "term": "false",
           "mention": "public"
         }
       ]
     },
     {
-      "facet": "Diagnosis",
+      "facet": "diagnoses.disease",
       "selectedValues": [
         {
-          "term": "MONDO:0005015",
+          "term": "Facial palsy",
           "mention": "diabetes"
         },
+        { "term": "Cortical dysplasia", "mention": "foobar" },
         {
           "term": "unknown",
           "mention": "foobaz"
@@ -24,7 +25,7 @@
       ]
     },
     {
-      "facet": "File Format",
+      "facet": "files.file_format",
       "selectedValues": [
         {
           "term": ".bam",
@@ -33,7 +34,7 @@
       ]
     },
     {
-      "facet": "Reported Ethnicity",
+      "facet": "donors.reported_ethnicity",
       "selectedValues": [
         {
           "term": "Hispanic or Latino",

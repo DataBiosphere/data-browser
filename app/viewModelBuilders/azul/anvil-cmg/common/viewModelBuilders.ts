@@ -567,8 +567,12 @@ export const buildDatasetTerraExport = (
  * @returns model to be used as props for the Link component.
  */
 export const buildDatasetTitle = (
-  datasetsResponse: DatasetsResponse
+  datasetsResponse: DatasetsResponse,
 ): React.ComponentProps<typeof C.Link> => {
+  //{"Access":{"is":["Granted"]},
+  // "Diagnosis":{"is":["MONDO:0005015"]},
+  // "File Format":{"is":[".bam"]},
+  // "Reported Ethnicity":{"is":["Hispanic or Latino"]}}
   return {
     label: getDatasetTitle(datasetsResponse),
     url: `/datasets/${getDatasetEntryId(datasetsResponse)}`,

@@ -25,7 +25,7 @@ import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
-const DATA_URL = "https://service.anvil.gi.ucsc.edu";
+const DATA_URL = "https://service.explore.anvilproject.org";
 const BROWSER_URL = "https://explore.anvil.gi.ucsc.edu";
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 
