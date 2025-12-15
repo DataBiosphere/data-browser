@@ -34,7 +34,7 @@ export function makeConfig(
   portalUrl: string,
   dataUrl: string,
   gitHubUrl: string,
-  catalog: string = CATALOG_DEFAULT
+  catalog: string = "anvil12"
 ): SiteConfig {
   return {
     analytics: {
