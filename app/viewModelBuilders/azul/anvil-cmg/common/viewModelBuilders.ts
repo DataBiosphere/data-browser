@@ -604,6 +604,20 @@ export const buildDiagnoses = (
 };
 
 /**
+ * Build props for phenotype type NTagCell component from the given entity response.
+ * @param response - Response model return from Azul that includes aggregated diagnoses.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildDiagnosesPhenotype = (
+  response: AggregatedDiagnosisResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.PHENOTYPE),
+    values: processAggregatedOrArrayValue(response.diagnoses, "phenotype"),
+  };
+};
+
+/**
  * Build props for donor ID BasicCell component from the given donors response.
  * @param response - Response model return from index/donors API endpoint.
  * @returns model to be used as props for the BasicCell component.

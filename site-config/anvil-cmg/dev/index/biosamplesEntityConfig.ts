@@ -88,6 +88,15 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
+          viewBuilder: V.buildDiagnosesPhenotype,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSIS_PHENOTYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE,
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: C.NTagCell,
           viewBuilder: V.buildDiagnoses,
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
