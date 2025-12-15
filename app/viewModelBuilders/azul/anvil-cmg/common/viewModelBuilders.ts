@@ -65,11 +65,11 @@ import {
 } from "../../../../apis/azul/anvil-cmg/common/entities";
 import {
   DatasetsResponse,
+  EntityResponse,
   FilesResponse,
   SummaryResponse,
 } from "../../../../apis/azul/anvil-cmg/common/responses";
 import {
-  getActivityDataModalities,
   getActivityType,
   getAggregatedBioSampleTypes,
   getAggregatedDatasetIds,
@@ -122,6 +122,20 @@ export const buildActivityType = (
 ): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getActivityType(response),
+  };
+};
+
+/**
+ * Build props for aggregated data modality NTagCell component from the given response.
+ * @param response - Response model return from API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedDataModality = (
+  response: Exclude<EntityResponse, FilesResponse>
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
+    values: processAggregatedOrArrayValue(response.files, "data_modality"),
   };
 };
 
@@ -268,16 +282,16 @@ export const buildConsentGroup = (
 };
 
 /**
- * Build props for data modality NTagCell component from the given activities response.
- * @param response - Response model return from index/activities API.
+ * Build props for data modality NTagCell component from the given response.
+ * @param response - Response model return from API.
  * @returns model to be used as props for the NTagCell component.
  */
 export const buildDataModality = (
-  response: ActivityEntityResponse
+  response: FilesResponse
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
-    values: getActivityDataModalities(response),
+    values: processEntityArrayValue(response.files, "data_modality"),
   };
 };
 

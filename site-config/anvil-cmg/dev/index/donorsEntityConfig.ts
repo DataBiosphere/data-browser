@@ -94,6 +94,15 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
         id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
         width: { max: "1fr", min: "200px" },
       },
+      {
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedDataModality,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
+        width: { max: "1fr", min: "200px" },
+      },
     ],
     tableOptions: {
       initialState: {

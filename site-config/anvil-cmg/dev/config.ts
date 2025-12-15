@@ -117,6 +117,10 @@ export function makeConfig(
               key: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
               label: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT,
             },
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
+              label: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
+            },
           ],
           label: "File",
         },
