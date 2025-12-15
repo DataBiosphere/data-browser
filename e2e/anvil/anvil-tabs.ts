@@ -28,6 +28,7 @@ export const ANVIL_FILTER_NAMES: string[] = [
   "File Format",
   "Identifier",
   "Organism Type",
+  "Phenotype",
   "Phenotypic Sex",
   "Reported Ethnicity",
 ];
@@ -39,8 +40,9 @@ export const DIAGNOSIS_INDEX = 4;
 export const FILE_FORMAT_INDEX = 5;
 export const IDENTIFIER_INDEX = 6;
 export const ORGANISM_TYPE_INDEX = 7;
-export const PHENOTYPIC_SEX_INDEX = 8;
-export const REPORTED_ETHNICITY_INDEX = 9;
+export const PHENOTYPE_INDEX = 8;
+export const PHENOTYPIC_SEX_INDEX = 9;
+export const REPORTED_ETHNICITY_INDEX = 10;
 
 const ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT = "Search all filters...";
 
