@@ -21,6 +21,7 @@ export const ANVIL_COLUMN_NAMES = {
   DOCUMENT_ID: "Document Id",
   DONOR_ID: "Donor Id",
   DRS_URI: "DRS URI",
+  FILE_DATA_MODALITY: "Data Modality",
   FILE_FORMAT: "File Format",
   IDENTIFIER: "Identifier",
   NAME: "Name",
@@ -33,6 +34,7 @@ export const ANVIL_COLUMN_NAMES = {
 export const PLURALIZED_METADATA_LABEL = {
   [ANVIL_COLUMN_NAMES.DIAGNOSIS]: "diagnoses",
   [ANVIL_COLUMN_NAMES.DATASET]: "dataset names",
+  [ANVIL_COLUMN_NAMES.FILE_DATA_MODALITY]: "data modalities",
   [ANVIL_COLUMN_NAMES.CONSENT_GROUP]: "consent codes",
   [ANVIL_COLUMN_NAMES.ORGANISM_TYPE]: "organism types",
   [ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX]: "phenotypic sexes",
@@ -224,6 +226,12 @@ export const ANVIL_DONORS_PRESELECTED_COLUMNS_BY_NAME = {
   [ANVIL_COLUMN_NAMES.DATASET]: {
     name: ANVIL_COLUMN_NAMES.DATASET,
     pluralizedLabel: PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.DATASET],
+    sortable: true,
+  },
+  [ANVIL_COLUMN_NAMES.FILE_DATA_MODALITY]: {
+    name: ANVIL_COLUMN_NAMES.FILE_DATA_MODALITY,
+    pluralizedLabel:
+      PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.FILE_DATA_MODALITY],
     sortable: true,
   },
 };
