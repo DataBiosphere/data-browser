@@ -1,6 +1,6 @@
 {
   "name": "explorer",
-  "version": "2.22.2",
+  "version": "2.23.0",
   "private": true,
   "scripts": {
     "dev:anvil-catalog": "./scripts/dev.sh anvil-catalog dev && ./scripts/set-version.sh dev && next dev",
