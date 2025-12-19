@@ -18,7 +18,7 @@ import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
-const CATALOG = "dcp55";
+const CATALOG = "dcp56";
 const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
 const DATA_URL = "https://service.azul.data.humancellatlas.org";
 const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
