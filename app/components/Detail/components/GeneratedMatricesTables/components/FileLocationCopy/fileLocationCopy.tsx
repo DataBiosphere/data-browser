@@ -30,7 +30,7 @@ export const FileLocationCopy = ({
       action="Copy project matrix"
       label={<ContentCopyIconSmall />}
       loading={isLoading}
-      onClick={() => requireLogin(run)}
+      onClick={() => requireLogin(() => run())}
     />
   );
 };

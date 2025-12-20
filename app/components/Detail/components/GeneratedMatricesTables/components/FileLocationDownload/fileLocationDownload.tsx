@@ -24,7 +24,7 @@ export const FileLocationDownload = ({
         action="Download project matrix"
         label={<DownloadIconSmall />}
         loading={isLoading}
-        onClick={() => requireLogin(run)}
+        onClick={() => requireLogin(() => run())}
       />
       <FileDownloadButton fileName={fileName} fileUrl={fileUrl} />
     </>
