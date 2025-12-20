@@ -149,6 +149,8 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
       },
     ],
     tableOptions: {
+      downloadFilename: "consortia",
+      enableTableDownload: true,
       initialState: {
         columnVisibility: {
           [ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME]: false,
@@ -165,7 +167,6 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
   } as ListConfig<AnVILCatalogConsortium>,
   listView: {
     disablePagination: true,
-    enableDownload: true,
   },
   route: "consortia",
   staticLoadFile: "files/anvil-catalog/out/anvil-consortia.json",
