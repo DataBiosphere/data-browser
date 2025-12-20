@@ -20,27 +20,31 @@ import {
 } from "./constants";
 
 export const ANVIL_FILTER_NAMES: string[] = [
+  "Access",
   "Anatomical Site",
   "BioSample Type",
   "Consent Group",
+  "Data Modality",
   "Dataset",
   "Diagnosis",
   "File Format",
   "Identifier",
   "Organism Type",
+  "Phenotype",
   "Phenotypic Sex",
   "Reported Ethnicity",
 ];
-export const ANATOMICAL_SITE_INDEX = 0;
-export const BIOSAMPLE_TYPE_INDEX = 1;
-export const CONSENT_GROUP_INDEX = 2;
-export const DATASET_INDEX = 3;
-export const DIAGNOSIS_INDEX = 4;
-export const FILE_FORMAT_INDEX = 5;
-export const IDENTIFIER_INDEX = 6;
-export const ORGANISM_TYPE_INDEX = 7;
-export const PHENOTYPIC_SEX_INDEX = 8;
-export const REPORTED_ETHNICITY_INDEX = 9;
+export const ANATOMICAL_SITE_INDEX = 1;
+export const BIOSAMPLE_TYPE_INDEX = 2;
+export const CONSENT_GROUP_INDEX = 3;
+export const DATASET_INDEX = 5;
+export const DIAGNOSIS_INDEX = 6;
+export const FILE_FORMAT_INDEX = 7;
+export const IDENTIFIER_INDEX = 8;
+export const ORGANISM_TYPE_INDEX = 9;
+export const PHENOTYPE_INDEX = 10;
+export const PHENOTYPIC_SEX_INDEX = 11;
+export const REPORTED_ETHNICITY_INDEX = 12;
 
 const ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT = "Search all filters...";
 

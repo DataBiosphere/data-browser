@@ -65,8 +65,6 @@ export const readFile = async function readFile(
   options = null
 ): Promise<Buffer | undefined> {
   try {
-    // const filePath = path.resolve(__dirname, file);
-    // const jsonDirectory = path.join(process.cwd(), "files");
     const jsonDirectory = process.cwd();
     return fs.readFileSync(jsonDirectory + "/" + file, options);
     // eslint-disable-next-line no-empty -- copied from anvil-portal

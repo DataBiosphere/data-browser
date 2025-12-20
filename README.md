@@ -6,7 +6,7 @@ The HCA Data Browser is built using [Next.js](https://nextjs.org/).
 
 ## Prerequisites
 
-Node.js 20.10.0 is required to run the app.
+Node.js 22.12.0 is required to run the app.
 
 ### 1. Clone the Repo
 

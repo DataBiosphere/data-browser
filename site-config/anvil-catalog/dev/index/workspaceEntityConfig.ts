@@ -126,6 +126,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
       },
     ],
     tableOptions: {
+      downloadFilename: "workspaces",
+      enableTableDownload: true,
       initialState: {
         sorting: [
           {
@@ -138,7 +140,6 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
   } as ListConfig<AnVILCatalogWorkspace>,
   listView: {
     disablePagination: true,
-    enableDownload: true,
   },
   route: "workspaces",
   staticLoadFile: "files/anvil-catalog/out/anvil-workspaces.json",

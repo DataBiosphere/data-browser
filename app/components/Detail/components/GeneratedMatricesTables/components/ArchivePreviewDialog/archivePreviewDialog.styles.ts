@@ -1,4 +1,4 @@
-import styled from "@emotion/styled/dist/emotion-styled.cjs";
+import styled from "@emotion/styled";
 import { Dialog, DialogActions, DialogContent } from "@mui/material";
 
 export const ArchivePreviewDialog = styled(Dialog)`
