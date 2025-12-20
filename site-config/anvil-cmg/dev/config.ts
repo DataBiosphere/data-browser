@@ -21,6 +21,7 @@ import dataDictionary from "./dataDictionary/data-dictionary.json";
 import { TABLE_OPTIONS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/tableOptions";
 import { buildDataDictionary } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/dataDictionaryMapper";
 import { buildSummaries } from "./index/summaryViewModelBuilder";
+import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -83,6 +84,10 @@ export function makeConfig(
               label: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
             },
             {
+              key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE,
+              label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSIS_PHENOTYPE,
+            },
+            {
               key: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
               label: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
             },
@@ -111,6 +116,10 @@ export function makeConfig(
             {
               key: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
               label: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT,
+            },
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
+              label: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
             },
           ],
           label: "File",
@@ -158,6 +167,7 @@ export function makeConfig(
     ],
     export: exportConfig,
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
+    filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
     layout: {
       floating,

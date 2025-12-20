@@ -21,6 +21,16 @@ import {
 } from "./entities";
 
 /**
+ * Model of response returned from /index/files or /index/samples or index/projects API endpoint.
+ */
+export type EntityResponse =
+  | ActivitiesResponse
+  | BioSamplesResponse
+  | DatasetsResponse
+  | DonorsResponse
+  | FilesResponse;
+
+/**
  * Model of response returned from the /index/activities API endpoint.
  */
 export type ActivitiesResponse = AzulHit &

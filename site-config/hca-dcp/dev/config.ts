@@ -14,10 +14,11 @@ import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { floating } from "./layout/floating";
 import { buildSummaries } from "./index/summaryViewModelBuilder";
 import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
+import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
-const CATALOG = "dcp54";
+const CATALOG = "dcp56";
 const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
 const DATA_URL = "https://service.azul.data.humancellatlas.org";
 const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
@@ -60,6 +61,7 @@ export function makeConfig(
     entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
     export: exportConfig,
     exportToTerraUrl: EXPORT_TO_TERRA_URL,
+    filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
     layout: {
       floating,
