@@ -1,5 +1,37 @@
 # Changelog
 
+## [2.23.0](https://github.com/DataBiosphere/data-browser/compare/v2.22.2...v2.23.0) (2025-12-19)
+
+
+### Features
+
+* anvil explorer - add files.data_modality to the facets and tables ([#4618](https://github.com/DataBiosphere/data-browser/issues/4618)) ([#4623](https://github.com/DataBiosphere/data-browser/issues/4623)) ([9e44bb3](https://github.com/DataBiosphere/data-browser/commit/9e44bb30c3a94531c56b9164cd49b546238acf9c))
+
+
+### Chores
+
+* update findable-ui to latest 47.0.2 ([#4613](https://github.com/DataBiosphere/data-browser/issues/4613)) ([#4614](https://github.com/DataBiosphere/data-browser/issues/4614)) ([19f089d](https://github.com/DataBiosphere/data-browser/commit/19f089dbdbc16729a0a5820ade07c6602b05b9f1))
+* update findable-ui to latest version v46.1.3 ([#4603](https://github.com/DataBiosphere/data-browser/issues/4603)) ([#4604](https://github.com/DataBiosphere/data-browser/issues/4604)) ([184cd4e](https://github.com/DataBiosphere/data-browser/commit/184cd4e8100e1179e5b2374b518db1d3e59022c3))
+
+
+### Continuous Integration
+
+* update release-please workflow to use default github token and allow manual triggering ([#4597](https://github.com/DataBiosphere/data-browser/issues/4597)) ([#4598](https://github.com/DataBiosphere/data-browser/issues/4598)) ([93b247c](https://github.com/DataBiosphere/data-browser/commit/93b247c45ecb3126e738f474340113df23616d0e))
+
+## [2.22.2](https://github.com/DataBiosphere/data-browser/compare/v2.22.1...v2.22.2) (2025-11-21)
+
+
+### Chores
+
+* update default catalog from dcp54 to dcp55 (4594) ([#4595](https://github.com/DataBiosphere/data-browser/issues/4595)) ([2355368](https://github.com/DataBiosphere/data-browser/commit/2355368a36968a595196b466f384a34604068161))
+
+## [2.22.1](https://github.com/DataBiosphere/data-browser/compare/v2.22.0...v2.22.1) (2025-11-20)
+
+
+### Chores
+
+* bump anvil catalog to anvil12 [#4590](https://github.com/DataBiosphere/data-browser/issues/4590) ([#4591](https://github.com/DataBiosphere/data-browser/issues/4591)) ([b65f85c](https://github.com/DataBiosphere/data-browser/commit/b65f85c5a5e1f5abbe954f22cb3dff3acc6e0c12))
+
 ## [2.22.0](https://github.com/DataBiosphere/data-browser/compare/v2.21.1...v2.22.0) (2025-11-03)
 
 

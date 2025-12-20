@@ -11,7 +11,7 @@ const config: SiteConfig = {
     "https://anvilproject.org",
     "https://service.explore.anvilproject.org",
     GIT_HUB_REPO_URL,
-    "anvil11"
+    "anvil12"
   ),
   exportToTerraUrl: "https://anvil.terra.bio/",
 };

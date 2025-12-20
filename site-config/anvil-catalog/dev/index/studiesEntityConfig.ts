@@ -143,6 +143,8 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
       },
     ],
     tableOptions: {
+      downloadFilename: "studies",
+      enableTableDownload: true,
       initialState: {
         sorting: [
           {
@@ -155,7 +157,6 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
   } as ListConfig<AnVILCatalogStudy>,
   listView: {
     disablePagination: true,
-    enableDownload: true,
   },
   route: "studies",
   staticLoadFile: "files/anvil-catalog/out/anvil-studies.json",
