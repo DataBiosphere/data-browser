@@ -84,9 +84,9 @@ function findOverride(
 function isOverride(override: Override): boolean {
   return Boolean(
     override.deprecated ||
-      override.duplicateOf ||
-      override.supersededBy ||
-      override.withdrawn
+    override.duplicateOf ||
+    override.supersededBy ||
+    override.withdrawn
   );
 }
 
