@@ -8,7 +8,7 @@ rm -rf ./out
 echo \"Deleting ./build/\"
 rm -rf ./build
 
-n 20.10.0
+n 22.12.0
 npm ci
 
 mkdir -p build/explore/anvil-cmg

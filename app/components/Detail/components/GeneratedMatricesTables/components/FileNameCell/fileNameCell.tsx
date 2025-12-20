@@ -6,14 +6,6 @@ export interface FileNameCellProps {
   fileName: string;
 }
 
-export const FileNameCell = ({
-  // archivePreview,
-  fileName,
-}: FileNameCellProps): JSX.Element => {
-  return (
-    <Cell>
-      {fileName}
-      {/*{archivePreview}*/}
-    </Cell>
-  );
+export const FileNameCell = ({ fileName }: FileNameCellProps): JSX.Element => {
+  return <Cell>{fileName}</Cell>;
 };

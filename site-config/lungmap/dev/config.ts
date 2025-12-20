@@ -12,6 +12,7 @@ import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
 import { socialMedia } from "./socialMedia";
 import { buildSummaries } from "./index/summaryViewModelBuilder";
+import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 
 // Template constants
 const APP_TITLE = "LungMAP Data Explorer";
@@ -57,6 +58,7 @@ export function makeConfig(
     entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
     export: exportConfig,
     exportToTerraUrl: EXPORT_TO_TERRA_URL,
+    filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
     layout: {
       footer: {
