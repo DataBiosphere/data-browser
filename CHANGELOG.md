@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.1](https://github.com/DataBiosphere/data-browser/compare/v2.23.0...v2.23.1) (2025-12-20)
+
+
+### Bug Fixes
+
+* hca download matrices and copy to clipboard buttons not working ([#4628](https://github.com/DataBiosphere/data-browser/issues/4628)) ([#4630](https://github.com/DataBiosphere/data-browser/issues/4630)) ([c68d8d3](https://github.com/DataBiosphere/data-browser/commit/c68d8d30e7aaf722556cc1b76dec36e66c71d357))
+
 ## [2.23.0](https://github.com/DataBiosphere/data-browser/compare/v2.22.2...v2.23.0) (2025-12-19)
 
 

@@ -69,11 +69,11 @@ export interface FileTypeSummary {
  * Model of file "leaf" values in matrix tree response from Azul.
  */
 export interface ProjectMatrixFileResponse {
+  azul_url: string;
   contentDescription: string[];
   matrixCellCount?: number;
   name: string;
   size: number;
-  url: string;
   uuid: string;
   version: string;
 }
