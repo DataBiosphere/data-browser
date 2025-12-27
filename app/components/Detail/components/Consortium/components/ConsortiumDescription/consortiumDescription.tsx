@@ -3,6 +3,7 @@ import {
   MDXSerializeResult,
 } from "../../../../../common/MDXMarkdown/mdxMarkdown";
 import { SectionText } from "./consortiumDescription.styles";
+import { JSX } from "react";
 
 interface ConsortiumDescriptionProps {
   source: MDXSerializeResult;

@@ -10,12 +10,14 @@ import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { readFile } from "../../app/utils/tsvParser";
+import { JSX } from "react";
 
 interface PageUrl extends ParsedUrlQuery {
   entityListType: string;
 }
 
-interface ListPageProps extends AzulEntitiesStaticResponse {
+interface ListPageProps<T = unknown> {
+  data?: T[];
   entityListType: string;
   pageTitle?: string;
 }
@@ -61,7 +63,7 @@ const IndexPage = ({
   ...props
 }: ListPageProps): JSX.Element => {
   if (!entityListType) return <></>;
-  return <ExploreView entityListType={entityListType} {...props} />;
+  return <ExploreView data={props.data} entityListType={entityListType} />;
 };
 
 /**

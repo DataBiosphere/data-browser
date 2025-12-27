@@ -3,6 +3,7 @@ import {
   StaticImageProps,
 } from "@databiosphere/findable-ui/lib/components/common/StaticImage/staticImage";
 import { Figure as FigureWithCaption } from "./figure.styles";
+import { JSX } from "react";
 
 export interface ImageProps extends StaticImageProps {
   caption?: string;

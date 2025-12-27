@@ -28,6 +28,7 @@ import { ParsedUrlQuery } from "querystring";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { readFile } from "../../app/utils/tsvParser";
 import { useRouter } from "next/router";
+import { JSX } from "react";
 
 const setOfProcessedIds = new Set<string>();
 

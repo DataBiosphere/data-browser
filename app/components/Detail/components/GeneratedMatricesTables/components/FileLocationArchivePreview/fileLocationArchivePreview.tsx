@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 import { ArchivePreviewDialog } from "../ArchivePreviewDialog/archivePreviewDialog";
 import { FileLocationArchivePreviewButton as Button } from "./fileLocationArchivePreview.styles";
+import { JSX } from "react";
 
 const ARCHIVE_FILE_TYPE_REGEX = /\.(zip|tar|tar\.gz)$/;
 

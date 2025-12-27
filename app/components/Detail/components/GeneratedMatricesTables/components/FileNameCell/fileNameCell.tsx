@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { FileNameCell as Cell } from "./fileNameCell.styles";
+import { JSX } from "react";
 
 export interface FileNameCellProps {
   archivePreview?: ReactNode;

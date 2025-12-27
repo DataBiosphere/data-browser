@@ -12,6 +12,7 @@ import { ProjectMatrixView } from "../../../../../../../../viewModelBuilders/azu
 import { FileNameCell } from "../../../FileNameCell/fileNameCell";
 import { ArchivePreviewNotAvailable as PreviewNotAvailable } from "./archivePreviewTable.styles";
 import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
+import { JSX } from "react";
 
 export type SetLoadingFn = Dispatch<SetStateAction<boolean>>;
 

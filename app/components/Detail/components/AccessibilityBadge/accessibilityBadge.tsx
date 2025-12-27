@@ -1,5 +1,6 @@
 import { AccessibilityBadgeProps } from "@databiosphere/findable-ui/lib/components/Detail/components/AccessibilityBadge/accessibilityBadge";
 import { AccessibilityBadge as Badge } from "./accessibilityBadge.styles";
+import { JSX } from "react";
 
 export const AccessibilityBadge = ({
   badgeProps,

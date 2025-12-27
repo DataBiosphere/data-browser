@@ -5,6 +5,7 @@ import {
 import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { replaceParameters } from "@databiosphere/findable-ui/lib/utils/replaceParameters";
 import { SiteConfig } from "../../../../../../../site-config/common/entities";
+import { JSX } from "react";
 
 export const HelpIconButton = ({
   url,

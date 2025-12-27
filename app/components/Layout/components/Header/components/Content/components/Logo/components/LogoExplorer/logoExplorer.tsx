@@ -4,6 +4,7 @@ import {
   BREAKPOINT_FN_NAME,
   useBreakpointHelper,
 } from "@databiosphere/findable-ui/lib/hooks/useBreakpointHelper";
+import { JSX } from "react";
 
 export interface LogoExplorerProps {
   alt: string;

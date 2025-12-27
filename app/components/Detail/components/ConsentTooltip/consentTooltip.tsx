@@ -1,4 +1,5 @@
 import { Tooltip } from "@mui/material";
+import { JSX } from "react";
 
 interface ConsentTooltipProps {
   consentCode: string;

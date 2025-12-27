@@ -11,6 +11,7 @@ import { Link as MLink, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Notice, Section, SectionContent } from "../../entityGuard.styles";
+import { JSX } from "react";
 
 interface EntityDeprecatedProps {
   override: Override;

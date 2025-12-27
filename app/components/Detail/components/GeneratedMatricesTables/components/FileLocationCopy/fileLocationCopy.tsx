@@ -3,7 +3,7 @@ import { ContentCopyIconSmall } from "@databiosphere/findable-ui/lib/components/
 import { useFileLocation } from "@databiosphere/findable-ui/lib/hooks/useFileLocation";
 import { useLoginGuard } from "@databiosphere/findable-ui/lib/providers/loginGuard/hook";
 import copy from "copy-to-clipboard";
-import { useEffect } from "react";
+import { JSX, useEffect } from "react";
 import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 
 export interface FileLocationCopyProps {

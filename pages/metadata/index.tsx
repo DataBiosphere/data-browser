@@ -6,6 +6,7 @@ import { Content } from "../../app/components/Layout/components/Content/content"
 import { MDX_COMPONENTS, MDX_SCOPE } from "../../app/content/common/constants";
 import { getContentStaticProps } from "../../app/content/common/contentPages";
 import NotFoundPage from "../404";
+import { JSX } from "react";
 
 const slug = ["metadata"];
 

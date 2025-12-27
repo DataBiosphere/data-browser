@@ -4,6 +4,7 @@ import { DownloadIconSmall } from "@databiosphere/findable-ui/lib/components/com
 import { useFileLocation } from "@databiosphere/findable-ui/lib/hooks/useFileLocation";
 import { useLoginGuard } from "@databiosphere/findable-ui/lib/providers/loginGuard/hook";
 import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
+import { JSX } from "react";
 
 export interface FileLocationDownloadProps {
   projectMatrixView: ProjectMatrixView;

@@ -4,6 +4,7 @@ import { NTagCell } from "../../../../components/index";
 import { NetworkIcon } from "../../../common/NetworkIcon/networkIcon";
 import { NetworkKey } from "../../common/entities";
 import { Cell, Network } from "./bioNetworkCell.styles";
+import { JSX } from "react";
 
 const MAX_DISPLAYABLE_VALUES = 1;
 

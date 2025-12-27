@@ -2,6 +2,7 @@ import { CollapsableSection } from "@databiosphere/findable-ui/lib/components/co
 import { MarkdownRenderer } from "@databiosphere/findable-ui/lib/components/MarkdownRenderer/markdownRenderer";
 import { DescriptionProps } from "./types";
 import { MDX_COMPONENTS } from "./common/constants";
+import { JSX } from "react";
 
 export const Description = ({ content }: DescriptionProps): JSX.Element => {
   return (

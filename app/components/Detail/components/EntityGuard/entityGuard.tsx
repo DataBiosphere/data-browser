@@ -1,6 +1,6 @@
 import { Override } from "@databiosphere/findable-ui/lib/config/entities";
 import Router from "next/router";
-import { Fragment, useEffect } from "react";
+import { JSX, Fragment, useEffect } from "react";
 import { ENTITY_STATUS } from "./common/entities";
 import { EntityDeprecated } from "./components/EntityDeprecated/entityDeprecated";
 import { EntityWithdrawn } from "./components/EntityWithdrawn/entityWithdrawn";

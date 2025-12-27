@@ -4,6 +4,7 @@ import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { replaceParameters } from "@databiosphere/findable-ui/lib/utils/replaceParameters";
 import { useRouter } from "next/router";
 import { SiteConfig } from "../../../../../../../site-config/common/entities";
+import { JSX } from "react";
 
 /**
  * Basic anchor link component, used by MDX for all anchor links.

@@ -1,4 +1,5 @@
 import { LogoExplorer } from "../../logoExplorer";
+import { JSX } from "react";
 
 const anvilExplorer = "/images/anvilExplorer.png";
 const NHGRI_ANVIL = "NHGRI Analysis Visualization and Informatics Lab-space";

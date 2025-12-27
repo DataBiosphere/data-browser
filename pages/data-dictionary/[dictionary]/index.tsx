@@ -7,6 +7,7 @@ import {
   GetStaticPropsResult,
 } from "next";
 import { config } from "../../../app/config/config";
+import { JSX } from "react";
 
 interface PageUrlParams extends ParsedUrlQuery {
   dictionary: string;

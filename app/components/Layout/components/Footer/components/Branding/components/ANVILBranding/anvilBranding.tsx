@@ -7,6 +7,7 @@ import {
   PortalLogo,
   USAGOVLogo,
 } from "./anvilBranding.styles";
+import { JSX } from "react";
 
 export interface ANVILBrandingProps {
   portalURL?: string;

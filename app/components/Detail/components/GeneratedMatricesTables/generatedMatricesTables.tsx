@@ -8,6 +8,7 @@ import { Fragment } from "react";
 import { GenusSpecies } from "../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/constants";
 import { ProjectMatrixTableView } from "../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 import { SectionTitle, StyledAlert } from "./generatedMatricesTables.styles";
+import { JSX } from "react";
 
 interface GeneratedMatricesTablesProps<T extends object> {
   columns: ColumnDef<T>[];

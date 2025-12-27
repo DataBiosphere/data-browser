@@ -10,6 +10,7 @@ import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { SiteConfig } from "../../../../../../../../../site-config/common/entities";
 import { StyledBackPageHeroActions } from "./backPageHeroActions.styles";
 import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
+import { JSX } from "react";
 
 export interface BackPageHeroActionsProps {
   callToActionProps: CallToActionButtonProps;

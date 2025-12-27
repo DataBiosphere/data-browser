@@ -12,6 +12,7 @@ import {
   ArchivePreviewTable,
   SetLoadingFn,
 } from "./components/ArchivePreviewTable/archivePreviewTable";
+import { JSX } from "react";
 
 export interface FileLocationArchivePreviewModalProps {
   onClose: () => void;

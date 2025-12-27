@@ -15,6 +15,7 @@ import {
   SVG_ICON_PROPS,
 } from "./constants";
 import { getRequestAccessOptions } from "./utils";
+import { JSX } from "react";
 
 export const RequestAccess = ({
   datasetsResponse,

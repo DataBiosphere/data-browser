@@ -11,6 +11,7 @@ import { Link as MLink, Typography } from "@mui/material";
 import Link from "next/link";
 import { Notice, Section, SectionContent } from "../../entityGuard.styles";
 import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
+import { JSX } from "react";
 
 interface EntityWithdrawnProps {
   override: Override;

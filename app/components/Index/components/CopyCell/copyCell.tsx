@@ -1,4 +1,5 @@
 import { Cell, CellText, CopyToClipboard } from "./copyCell.styles";
+import { JSX } from "react";
 
 interface CopyCellProps {
   value: string;

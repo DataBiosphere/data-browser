@@ -4,6 +4,7 @@ import {
 } from "@databiosphere/findable-ui/lib/components/common/StaticImage/staticImage";
 import { NETWORK_ICONS } from "../../Index/common/constants";
 import { NetworkKey } from "../../Index/common/entities";
+import { JSX } from "react";
 
 export interface NetworkIconProps extends Pick<
   StaticImageProps,

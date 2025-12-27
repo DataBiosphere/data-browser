@@ -25,6 +25,7 @@ import * as C from "../../../../components";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { formatSizeToTB } from "../../../../utils/fileSize";
+import { JSX } from "react";
 
 /**
  * Build props for bucket size BasicCell component from the given AnVIL entity.
