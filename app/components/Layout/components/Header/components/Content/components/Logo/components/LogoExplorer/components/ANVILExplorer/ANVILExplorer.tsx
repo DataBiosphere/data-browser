@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { LogoExplorer } from "../../logoExplorer";
 
 const anvilExplorer = "/images/anvilExplorer.png";

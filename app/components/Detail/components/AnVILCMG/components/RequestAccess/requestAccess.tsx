@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { Props } from "./types";
 import { ListItemText, MenuItem } from "@mui/material";
 import { Actions } from "@databiosphere/findable-ui/lib/components/Layout/components/BackPage/components/BackPageHero/components/Actions/actions";
