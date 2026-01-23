@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.23.2](https://github.com/DataBiosphere/data-browser/compare/v2.23.1...v2.23.2) (2026-01-23)
+
+
+### Bug Fixes
+
+* allow errors from file manifest state provider to be caught by error boundary ([#4601](https://github.com/DataBiosphere/data-browser/issues/4601)) ([#4607](https://github.com/DataBiosphere/data-browser/issues/4607)) ([328ad08](https://github.com/DataBiosphere/data-browser/commit/328ad08c7f0e0f70d769e9937703cee3d04a334e))
+* move file manifest state provider to be inside error boundary ([#4601](https://github.com/DataBiosphere/data-browser/issues/4601)) ([328ad08](https://github.com/DataBiosphere/data-browser/commit/328ad08c7f0e0f70d769e9937703cee3d04a334e))
+
+
+### Chores
+
+* update findable-ui to latest ([#4651](https://github.com/DataBiosphere/data-browser/issues/4651)) ([#4652](https://github.com/DataBiosphere/data-browser/issues/4652)) ([ffd92e1](https://github.com/DataBiosphere/data-browser/commit/ffd92e1a09e46f122e0c4d4cdcf90b33e3800a88))
+
 ## [2.23.1](https://github.com/DataBiosphere/data-browser/compare/v2.23.0...v2.23.1) (2025-12-20)
 
 
