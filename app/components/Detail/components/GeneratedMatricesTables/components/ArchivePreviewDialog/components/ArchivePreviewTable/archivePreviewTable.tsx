@@ -1,7 +1,7 @@
 import { GridPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/paper.styles";
 import { Table } from "@databiosphere/findable-ui/lib/components/Detail/components/Table/table";
 import { ColumnDef, RowData } from "@tanstack/react-table";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, JSX, SetStateAction, useEffect } from "react";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,

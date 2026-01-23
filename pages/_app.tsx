@@ -26,7 +26,7 @@ import { config } from "app/config/config";
 import { FEATURES } from "app/shared/entities";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
-import { useEffect } from "react";
+import { JSX, useEffect } from "react";
 import TagManager from "react-gtm-module";
 import { BREAKPOINTS } from "../site-config/common/constants";
 import { LayoutDimensionsProvider } from "@databiosphere/findable-ui/lib/providers/layoutDimensions/provider";
