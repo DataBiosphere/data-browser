@@ -27,7 +27,7 @@ defusedxml==0.7.1
 docutils==0.20.1
 executing==2.1.0
 fastjsonschema==2.20.0
-fonttools==4.53.1
+fonttools==4.61.0
 fqdn==1.5.1
 google-api-core==2.19.2
 google-api-python-client==2.146.0
