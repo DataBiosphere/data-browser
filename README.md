@@ -14,7 +14,7 @@ Node.js 22.12.0 is required to run the app.
 
 ### 2. Install Client-Side Dependencies
 
-Navigate to the `explorer` directory and install client-side dependencies.
+From the project root directory, install client-side dependencies:
 
 		npm install
 
