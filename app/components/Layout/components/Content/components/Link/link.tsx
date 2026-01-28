@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { TypographyWordBreak } from "@databiosphere/findable-ui/lib/components/common/Typography/TypographyWordBreak/TypographyWordBreak";
 import { Link as DXLink } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
 import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";

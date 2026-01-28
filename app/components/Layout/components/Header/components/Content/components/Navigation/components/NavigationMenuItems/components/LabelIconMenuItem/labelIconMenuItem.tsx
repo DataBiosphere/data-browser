@@ -1,5 +1,5 @@
 import { OpenInNewIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
-import { ElementType } from "react";
+import { ElementType, JSX } from "react";
 import { Label, Text } from "./labelIconMenuItem.styles";
 
 export interface LabelIconMenuItemProps {

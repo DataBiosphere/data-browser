@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { SectionTitle } from "@databiosphere/findable-ui/lib/components/common/Section/components/SectionTitle/sectionTitle";
 import { Grid, Typography } from "@mui/material";
 import { NetworkIcon } from "../../../../../common/NetworkIcon/networkIcon";
