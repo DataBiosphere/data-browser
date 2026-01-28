@@ -52,7 +52,7 @@
     "jwt-decode": "^3.1.2",
     "ky": "^1",
     "match-sorter": "^6.3.1",
-    "next": "^15",
+    "next": "^16",
     "next-auth": "^4",
     "next-compose-plugins": "^2.2.1",
     "next-mdx-remote": "^5",
