@@ -41,7 +41,7 @@ export async function getMDXByFilename(
       throw new Error(`File ${fileName} not found`);
     }
     const mdxSource = await serialize(file, {
-      mdxOptions: { development: false }, // See https://github.com/hashicorp/next-mdx-remote/issues/307#issuecomment-1363415249 and https://github.com/hashicorp/next-mdx-remote/issues/307#issuecomment-1378362096.
+      mdxOptions: { development: process.env.NODE_ENV === "development" }, // See https://github.com/hashicorp/next-mdx-remote/issues/307#issuecomment-1363415249 and https://github.com/hashicorp/next-mdx-remote/issues/307#issuecomment-1378362096.
     });
     const name = fileName.split(".")[0].toLowerCase();
     mdxSourceByFilename.set(name, mdxSource);

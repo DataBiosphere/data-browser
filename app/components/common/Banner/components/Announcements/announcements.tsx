@@ -1,7 +1,7 @@
 import { Banner } from "@databiosphere/findable-ui/lib/components/common/Banner/banner";
 import { useSessionTimeout } from "@databiosphere/findable-ui/lib/hooks/authentication/session/useSessionTimeout";
 import { useSystemStatus } from "@databiosphere/findable-ui/lib/hooks/useSystemStatus";
-import { Fragment, ReactNode } from "react";
+import { Fragment, JSX, ReactNode } from "react";
 
 interface AnnouncementsProps {
   generalAnnouncement: ReactNode;

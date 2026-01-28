@@ -23,14 +23,14 @@ const COUNT_MATRIX = "Count Matrix";
 const LARGE_INTESTINE = "large intestine";
 const LYMPH_NODE = "lymph node";
 const MOCK_PROJECT_MATRIX_FILE_0 = {
+  azul_url: "https://path/to/file0?version=0&catalog=dcp2ebi",
   name: "123.loom",
   size: 254147853,
-  url: "https://path/to/file0?version=0&catalog=dcp2ebi",
 };
 const MOCK_PROJECT_MATRIX_FILE_1 = {
+  azul_url: "https://path/to/file1?version=0&catalog=dcp2ebi",
   name: "456.loom",
   size: 254147854,
-  url: "https://path/to/file1?version=0&catalog=dcp2ebi",
 };
 const CONTRIBUTED_ANALYSES = {
   genusSpecies: {
@@ -42,16 +42,16 @@ const CONTRIBUTED_ANALYSES = {
               libraryConstructionApproach: {
                 [LibraryConstructionApproach.TENX_V2]: [
                   {
+                    azul_url: MOCK_PROJECT_MATRIX_FILE_0.azul_url,
                     name: MOCK_PROJECT_MATRIX_FILE_0.name,
                     size: MOCK_PROJECT_MATRIX_FILE_0.size,
-                    url: MOCK_PROJECT_MATRIX_FILE_0.url,
                   },
                 ],
                 [LibraryConstructionApproach.SMART_SEQ2]: [
                   {
+                    azul_url: MOCK_PROJECT_MATRIX_FILE_1.azul_url,
                     name: MOCK_PROJECT_MATRIX_FILE_1.name,
                     size: MOCK_PROJECT_MATRIX_FILE_1.size,
-                    url: MOCK_PROJECT_MATRIX_FILE_1.url,
                   },
                 ],
               },
@@ -60,14 +60,14 @@ const CONTRIBUTED_ANALYSES = {
               libraryConstructionApproach: {
                 [LibraryConstructionApproach.TENX_V2]: [
                   {
+                    azul_url: MOCK_PROJECT_MATRIX_FILE_0.azul_url,
                     name: MOCK_PROJECT_MATRIX_FILE_0.name,
                     size: MOCK_PROJECT_MATRIX_FILE_0.size,
-                    url: MOCK_PROJECT_MATRIX_FILE_0.url,
                   },
                   {
+                    azul_url: MOCK_PROJECT_MATRIX_FILE_1.azul_url,
                     name: MOCK_PROJECT_MATRIX_FILE_1.name,
                     size: MOCK_PROJECT_MATRIX_FILE_1.size,
-                    url: MOCK_PROJECT_MATRIX_FILE_1.url,
                   },
                 ],
               },
@@ -99,7 +99,7 @@ describe("MatrixMapper", () => {
     expect(matrixView0.stage[0]).toEqual("adult");
     expect(matrixView0.fileName).toEqual(MOCK_PROJECT_MATRIX_FILE_0.name);
     expect(matrixView0.size).toEqual(MOCK_PROJECT_MATRIX_FILE_0.size);
-    expect(matrixView0.url).toEqual(MOCK_PROJECT_MATRIX_FILE_0.url);
+    expect(matrixView0.url).toEqual(MOCK_PROJECT_MATRIX_FILE_0.azul_url);
 
     const matrixView1 = matrixViews[1];
     expect(matrixView0.libraryConstructionApproach.length).toEqual(1);
@@ -112,7 +112,7 @@ describe("MatrixMapper", () => {
     expect(matrixView1.stage[0]).toEqual("adult");
     expect(matrixView1.fileName).toEqual(MOCK_PROJECT_MATRIX_FILE_1.name);
     expect(matrixView1.size).toEqual(MOCK_PROJECT_MATRIX_FILE_1.size);
-    expect(matrixView1.url).toEqual(MOCK_PROJECT_MATRIX_FILE_1.url);
+    expect(matrixView1.url).toEqual(MOCK_PROJECT_MATRIX_FILE_1.azul_url);
 
     const matrixView2 = matrixViews[2];
     expect(matrixView0.libraryConstructionApproach.length).toEqual(1);
@@ -125,7 +125,7 @@ describe("MatrixMapper", () => {
     expect(matrixView2.stage[0]).toEqual("adult");
     expect(matrixView2.fileName).toEqual(MOCK_PROJECT_MATRIX_FILE_0.name);
     expect(matrixView2.size).toEqual(MOCK_PROJECT_MATRIX_FILE_0.size);
-    expect(matrixView2.url).toEqual(MOCK_PROJECT_MATRIX_FILE_0.url);
+    expect(matrixView2.url).toEqual(MOCK_PROJECT_MATRIX_FILE_0.azul_url);
 
     const matrixView3 = matrixViews[3];
     expect(matrixView0.libraryConstructionApproach.length).toEqual(1);
@@ -138,7 +138,7 @@ describe("MatrixMapper", () => {
     expect(matrixView3.stage[0]).toEqual("adult");
     expect(matrixView3.fileName).toEqual(MOCK_PROJECT_MATRIX_FILE_1.name);
     expect(matrixView3.size).toEqual(MOCK_PROJECT_MATRIX_FILE_1.size);
-    expect(matrixView3.url).toEqual(MOCK_PROJECT_MATRIX_FILE_1.url);
+    expect(matrixView3.url).toEqual(MOCK_PROJECT_MATRIX_FILE_1.azul_url);
   });
 
   /**
@@ -153,7 +153,7 @@ describe("MatrixMapper", () => {
     const matrixView0 = matrixViews[0];
     expect(matrixView0.fileName).toEqual(MOCK_PROJECT_MATRIX_FILE_0.name);
     expect(matrixView0.size).toEqual(MOCK_PROJECT_MATRIX_FILE_0.size);
-    expect(matrixView0.url).toEqual(MOCK_PROJECT_MATRIX_FILE_0.url);
+    expect(matrixView0.url).toEqual(MOCK_PROJECT_MATRIX_FILE_0.azul_url);
     expect(matrixView0.organ.length).toEqual(2);
     expect(matrixView0.organ.indexOf(LARGE_INTESTINE)).not.toEqual(-1);
     expect(matrixView0.organ.indexOf(LYMPH_NODE)).not.toEqual(-1);
@@ -166,7 +166,7 @@ describe("MatrixMapper", () => {
     const matrixView1 = matrixViews[1];
     expect(matrixView1.fileName).toEqual(MOCK_PROJECT_MATRIX_FILE_1.name);
     expect(matrixView1.size).toEqual(MOCK_PROJECT_MATRIX_FILE_1.size);
-    expect(matrixView1.url).toEqual(MOCK_PROJECT_MATRIX_FILE_1.url);
+    expect(matrixView1.url).toEqual(MOCK_PROJECT_MATRIX_FILE_1.azul_url);
     expect(matrixView1.organ.length).toEqual(2);
     expect(matrixView1.organ.indexOf(LARGE_INTESTINE)).not.toEqual(-1);
     expect(matrixView1.organ.indexOf(LYMPH_NODE)).not.toEqual(-1);
@@ -200,7 +200,7 @@ describe("MatrixMapper", () => {
         ],
         organ: [LYMPH_NODE, LARGE_INTESTINE],
         size: MOCK_PROJECT_MATRIX_FILE_0.size,
-        url: MOCK_PROJECT_MATRIX_FILE_0.url,
+        url: MOCK_PROJECT_MATRIX_FILE_0.azul_url,
         version: "1",
       },
     ];
@@ -223,8 +223,8 @@ describe("MatrixMapper", () => {
       genusSpecies: {
         "Homo sapiens,Mus musculus": [
           {
+            azul_url: MOCK_PROJECT_MATRIX_FILE_0.azul_url,
             name: MOCK_PROJECT_MATRIX_FILE_0.name,
-            url: MOCK_PROJECT_MATRIX_FILE_0.url,
           },
         ],
       },
@@ -246,8 +246,8 @@ describe("MatrixMapper", () => {
       genusSpecies: {
         "Mus musculus,Homo sapiens": [
           {
+            azul_url: MOCK_PROJECT_MATRIX_FILE_0.azul_url,
             name: MOCK_PROJECT_MATRIX_FILE_0.name,
-            url: MOCK_PROJECT_MATRIX_FILE_0.url,
           },
         ],
       },
@@ -273,7 +273,7 @@ describe("MatrixMapper", () => {
         libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
         organ: [LYMPH_NODE, LARGE_INTESTINE],
         size: MOCK_PROJECT_MATRIX_FILE_0.size,
-        url: MOCK_PROJECT_MATRIX_FILE_0.url,
+        url: MOCK_PROJECT_MATRIX_FILE_0.azul_url,
         version: "1",
       },
       {
@@ -284,7 +284,7 @@ describe("MatrixMapper", () => {
         libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
         organ: [LYMPH_NODE, LARGE_INTESTINE],
         size: MOCK_PROJECT_MATRIX_FILE_1.size,
-        url: MOCK_PROJECT_MATRIX_FILE_1.url,
+        url: MOCK_PROJECT_MATRIX_FILE_1.azul_url,
         version: "1",
       },
     ];
@@ -308,7 +308,7 @@ describe("MatrixMapper", () => {
         libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
         organ: [LYMPH_NODE],
         size: MOCK_PROJECT_MATRIX_FILE_0.size,
-        url: MOCK_PROJECT_MATRIX_FILE_0.url,
+        url: MOCK_PROJECT_MATRIX_FILE_0.azul_url,
         version: "1",
       },
       {
@@ -319,7 +319,7 @@ describe("MatrixMapper", () => {
         libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2],
         organ: [LARGE_INTESTINE],
         size: MOCK_PROJECT_MATRIX_FILE_1.size,
-        url: MOCK_PROJECT_MATRIX_FILE_1.url,
+        url: MOCK_PROJECT_MATRIX_FILE_1.azul_url,
         version: "1",
       },
     ];
@@ -343,7 +343,7 @@ describe("MatrixMapper", () => {
         libraryConstructionApproach: [LibraryConstructionApproach.SMART_SEQ2],
         organ: [LYMPH_NODE],
         size: MOCK_PROJECT_MATRIX_FILE_0.size,
-        url: MOCK_PROJECT_MATRIX_FILE_0.url,
+        url: MOCK_PROJECT_MATRIX_FILE_0.azul_url,
         version: "1",
       },
       {
@@ -354,7 +354,7 @@ describe("MatrixMapper", () => {
         libraryConstructionApproach: [LibraryConstructionApproach.TENX_V2], // "10x .."
         organ: [LYMPH_NODE],
         size: MOCK_PROJECT_MATRIX_FILE_1.size,
-        url: MOCK_PROJECT_MATRIX_FILE_1.url,
+        url: MOCK_PROJECT_MATRIX_FILE_1.azul_url,
         version: "1",
       },
     ];
@@ -391,14 +391,14 @@ describe("MatrixMapper", () => {
       genusSpecies: {
         "Homo sapiens": [
           {
+            azul_url: MOCK_PROJECT_MATRIX_FILE_0.azul_url,
             name: MOCK_PROJECT_MATRIX_FILE_0.name,
             size: MOCK_PROJECT_MATRIX_FILE_0.size,
-            url: MOCK_PROJECT_MATRIX_FILE_0.url,
           },
           {
+            azul_url: MOCK_PROJECT_MATRIX_FILE_1.azul_url,
             name: MOCK_PROJECT_MATRIX_FILE_1.name,
             size: MOCK_PROJECT_MATRIX_FILE_1.size,
-            url: MOCK_PROJECT_MATRIX_FILE_1.url,
           },
         ],
       },
