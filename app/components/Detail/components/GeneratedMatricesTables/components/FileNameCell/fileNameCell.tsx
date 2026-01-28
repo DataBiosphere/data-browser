@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { JSX, ReactNode } from "react";
 import { FileNameCell as Cell } from "./fileNameCell.styles";
 
 export interface FileNameCellProps {

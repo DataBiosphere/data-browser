@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { ConsentTooltip } from "../ConsentTooltip/consentTooltip";
 
 interface ConsentCodeListProps {

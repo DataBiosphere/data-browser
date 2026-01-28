@@ -26,7 +26,7 @@ import { config } from "app/config/config";
 import { FEATURES } from "app/shared/entities";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
-import { useEffect } from "react";
+import { JSX, useEffect } from "react";
 import TagManager from "react-gtm-module";
 import { BREAKPOINTS } from "../site-config/common/constants";
 import { LayoutDimensionsProvider } from "@databiosphere/findable-ui/lib/providers/layoutDimensions/provider";
@@ -97,29 +97,29 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
                       </ThemeProvider>
                       <ExploreStateProvider entityListType={entityListType}>
                         <DataDictionaryStateProvider>
-                          <FileManifestStateProvider>
-                            <Main>
-                              <ErrorBoundary
-                                fallbackRender={({
-                                  error,
-                                  reset,
-                                }: {
-                                  error: DataExplorerError;
-                                  reset: () => void;
-                                }): JSX.Element => (
-                                  <Error
-                                    errorMessage={error.message}
-                                    requestUrlMessage={error.requestUrlMessage}
-                                    rootPath={redirectRootToPath}
-                                    onReset={reset}
-                                  />
-                                )}
-                              >
+                          <Main>
+                            <ErrorBoundary
+                              fallbackRender={({
+                                error,
+                                reset,
+                              }: {
+                                error: DataExplorerError;
+                                reset: () => void;
+                              }): JSX.Element => (
+                                <Error
+                                  errorMessage={error.message}
+                                  requestUrlMessage={error.requestUrlMessage}
+                                  rootPath={redirectRootToPath}
+                                  onReset={reset}
+                                />
+                              )}
+                            >
+                              <FileManifestStateProvider>
                                 <Component {...pageProps} />
                                 <Floating {...floating} />
-                              </ErrorBoundary>
-                            </Main>
-                          </FileManifestStateProvider>
+                              </FileManifestStateProvider>
+                            </ErrorBoundary>
+                          </Main>
                         </DataDictionaryStateProvider>
                       </ExploreStateProvider>
                       <Footer {...footer} />

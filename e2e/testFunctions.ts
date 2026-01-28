@@ -785,7 +785,12 @@ export async function testDeselectFiltersThroughSearchBar(
     );
     await expect(searchFiltersInputLocator).toBeVisible();
     await searchFiltersInputLocator.fill(filterOptionName);
-    await getNamedFilterOptionLocator(page, filterOptionName)
+    const filterOptionLocator = getNamedFilterOptionLocator(
+      page,
+      filterOptionName
+    );
+    await expect(filterOptionLocator).toBeVisible();
+    await filterOptionLocator
       .locator("input[type='checkbox']:checked")
       .first()
       .click();

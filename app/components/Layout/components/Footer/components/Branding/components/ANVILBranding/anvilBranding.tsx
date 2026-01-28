@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import {
   Brands,
