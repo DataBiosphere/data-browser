@@ -6,10 +6,7 @@ import { sideColumn as exportSideColumn } from "../../../export/exportSideColumn
 import * as V from "../../../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import * as C from "../../../../../../app/components";
 import { DatasetsResponse } from "app/apis/azul/anvil-cmg/common/responses";
-import {
-  ROUTE_EXPORT_TO_TERRA,
-  ROUTE_MANIFEST_DOWNLOAD,
-} from "../../../export/constants";
+import { ROUTES } from "../../../export/routes";
 import * as MDX from "../../../../../../app/components/common/MDXContent/anvil-cmg";
 
 /**
@@ -66,7 +63,7 @@ export const exportConfig: ExportConfig = {
           viewBuilder: V.renderDatasetExport,
         } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
       ],
-      route: ROUTE_EXPORT_TO_TERRA,
+      route: ROUTES.TERRA,
       top: [
         {
           children: [DATASET_ACCESSIBILITY_BADGE],
@@ -119,7 +116,7 @@ export const exportConfig: ExportConfig = {
           viewBuilder: V.renderDatasetExport,
         } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
       ],
-      route: ROUTE_MANIFEST_DOWNLOAD,
+      route: ROUTES.MANIFEST_DOWNLOAD,
       top: [
         {
           children: [DATASET_ACCESSIBILITY_BADGE],

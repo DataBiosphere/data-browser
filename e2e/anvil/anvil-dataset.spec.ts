@@ -10,7 +10,7 @@ import {
   DatasetAccess,
 } from "./common/constants";
 import { MUI_CLASSES } from "../features/common/constants";
-import { ROUTE_MANIFEST_DOWNLOAD } from "../../site-config/anvil-cmg/dev/export/constants";
+import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 import { ANVIL_CMG_CATEGORY_KEY } from "../../site-config/anvil-cmg/category";
 
 const { describe } = test;
@@ -88,7 +88,7 @@ describe("Dataset", () => {
 
     // Navigate to the export file manifest page.
     const currentUrl = page.url();
-    await page.goto(`${currentUrl}${ROUTE_MANIFEST_DOWNLOAD}`);
+    await page.goto(`${currentUrl}${ROUTES.MANIFEST_DOWNLOAD}`);
 
     // Confirm the login alert is displayed.
     await expect(

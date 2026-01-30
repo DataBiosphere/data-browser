@@ -1,4 +1,6 @@
 /**
  * Set of possible feature flags.
  */
-export enum FEATURES {}
+export enum FEATURES {
+  NCPI_EXPORT = "ncpiexport",
+}

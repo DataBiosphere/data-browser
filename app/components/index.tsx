@@ -13,6 +13,7 @@ export {
   DownloadIconSmall,
   InventoryIconSmall,
 } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/common/constants";
+export { ExportToPlatform } from "./Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
 export { DiscourseIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/DiscourseIcon/discourseIcon";
 export { GitHubIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/GitHubIcon/gitHubIcon";
 export { OpenInNewIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
