@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.3](https://github.com/DataBiosphere/data-browser/compare/v2.23.2...v2.23.3) (2026-01-30)
+
+
+### Bug Fixes
+
+* flaky filter deselection tests - add wait states and replace css selector race conditions ([#4656](https://github.com/DataBiosphere/data-browser/issues/4656)) ([#4657](https://github.com/DataBiosphere/data-browser/issues/4657)) ([1fc0b45](https://github.com/DataBiosphere/data-browser/commit/1fc0b45e00223ca9f9937f8c8b5b16ac2120649a))
+
 ## [2.23.2](https://github.com/DataBiosphere/data-browser/compare/v2.23.1...v2.23.2) (2026-01-23)
 
 
