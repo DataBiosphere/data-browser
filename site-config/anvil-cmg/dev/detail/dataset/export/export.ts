@@ -140,6 +140,58 @@ export const exportConfig: ExportConfig = {
               children: [
                 {
                   component: MDX.Alert,
+                  viewBuilder: V.buildAlertDatasetExportWarning,
+                } as ComponentConfig<typeof MDX.Alert, DatasetsResponse>,
+              ],
+              component: C.BackPageContentSingleColumn,
+            } as ComponentConfig<typeof C.BackPageContentSingleColumn>,
+          ],
+          component: C.ConditionalComponent,
+          viewBuilder: V.renderDatasetExportWarning,
+        } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
+        /* ------ */
+        /* Dataset is accessible; render CAVATICA export method */
+        /* ------ */
+        {
+          children: [
+            {
+              children: [
+                {
+                  component: ExportToPlatform,
+                  viewBuilder: V.buildDatasetExportToPlatform(EXPORTS.CAVATICA),
+                } as ComponentConfig<typeof ExportToPlatform>,
+              ],
+              component: C.BackPageContentMainColumn,
+            } as ComponentConfig<typeof C.BackPageContentMainColumn>,
+            /* sideColumn */
+            ...exportSideColumn,
+          ],
+          component: C.ConditionalComponent,
+          viewBuilder: V.renderDatasetExport,
+        } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
+      ],
+      route: ROUTES.CAVATICA,
+      top: [
+        {
+          children: [DATASET_ACCESSIBILITY_BADGE],
+          component: C.BackPageHero,
+          viewBuilder: V.buildDatasetExportToPlatformHero(
+            EXPORTS.CAVATICA.title
+          ),
+        } as ComponentConfig<typeof C.BackPageHero>,
+      ],
+    },
+    {
+      mainColumn: [
+        /* --------- */
+        /* Dataset is not accessible; render warning */
+        /* --------- */
+        {
+          children: [
+            {
+              children: [
+                {
+                  component: MDX.Alert,
                   viewBuilder: V.buildAlertDatasetManifestDownloadWarning,
                 } as ComponentConfig<typeof MDX.Alert, DatasetsResponse>,
               ],
@@ -226,6 +278,12 @@ export const exportConfig: ExportConfig = {
                   component: ExportMethod,
                   viewBuilder: V.buildDatasetExportToPlatformMethod(
                     EXPORT_METHODS.BIO_DATA_CATALYST
+                  ),
+                } as ComponentConfig<typeof ExportMethod>,
+                {
+                  component: ExportMethod,
+                  viewBuilder: V.buildDatasetExportToPlatformMethod(
+                    EXPORT_METHODS.CAVATICA
                   ),
                 } as ComponentConfig<typeof ExportMethod>,
                 {
