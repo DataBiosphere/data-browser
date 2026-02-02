@@ -489,6 +489,75 @@ export const buildDatasetExportMethodTerra = (
 };
 
 /**
+ * Build props for the dataset ExportToPlatform component.
+ * @param props - Props to pass to the ExportToPlatform component.
+ * @returns model to be used as props for the ExportToPlatform component.
+ */
+export const buildDatasetExportToPlatform = (
+  props: Pick<
+    ComponentProps<typeof C.ExportToPlatform>,
+    "buttonLabel" | "description" | "successTitle" | "title"
+  >
+): ((
+  response: DatasetsResponse,
+  viewContext: ViewContext<unknown>
+) => ComponentProps<typeof C.ExportToPlatform>) => {
+  return (response: DatasetsResponse, viewContext: ViewContext<unknown>) => {
+    const { fileManifestState } = viewContext;
+    return {
+      ...props,
+      fileManifestState,
+      fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+      filters: getExportTerraEntityFilters(response),
+      formFacet: getFormFacets(fileManifestState),
+      speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+    };
+  };
+};
+
+/**
+ * Build props for dataset ExportToPlatform BackPageHero component.
+ * @param title - Title of the export method.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildDatasetExportToPlatformHero = (
+  title: string
+): ((
+  response: DatasetsResponse,
+  viewContext: ViewContext<unknown>
+) => React.ComponentProps<typeof C.BackPageHero>) => {
+  return (response: DatasetsResponse) => {
+    return getDatasetExportMethodHero(response, title);
+  };
+};
+
+/**
+ * Build props for dataset ExportMethod component for display of the export to [platform] metadata section.
+ * @param props - Props to pass to the ExportMethod component.
+ * @param props.route - Route to the export method.
+ * @returns model to be used as props for the dataset ExportMethod component.
+ */
+export const buildDatasetExportToPlatformMethod = ({
+  route,
+  ...props
+}: Pick<
+  ComponentProps<typeof ExportMethod>,
+  "buttonLabel" | "description" | "route" | "title"
+>): ((
+  response: DatasetsResponse,
+  viewContext: ViewContext<unknown>
+) => ComponentProps<typeof ExportMethod>) => {
+  return (response: DatasetsResponse, viewContext: ViewContext<unknown>) => {
+    const datasetPath = buildDatasetPath(response);
+    return {
+      ...props,
+      ...getExportMethodAccessibility(viewContext),
+      route: `${datasetPath}${route}`,
+    };
+  };
+};
+
+/**
  * Build props for BackPageHero component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the BackPageHero component.
