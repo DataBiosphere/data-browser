@@ -97,6 +97,35 @@ export const exportConfig: ExportConfig = {
         {
           children: [
             {
+              component: C.ExportToPlatform,
+              viewBuilder: V.buildExportToPlatform(
+                EXPORTS.CANCER_GENOMICS_CLOUD
+              ),
+            } as ComponentConfig<typeof C.ExportToPlatform>,
+          ],
+          component: C.BackPageContentMainColumn,
+        } as ComponentConfig<typeof C.BackPageContentMainColumn>,
+        /* sideColumn */
+        ...exportSideColumn,
+      ],
+      route: ROUTES.CANCER_GENOMICS_CLOUD,
+      top: [
+        {
+          component: C.BackPageHero,
+          viewBuilder: V.buildExportToPlatformHero(
+            "Export to Cancer Genomics Cloud"
+          ),
+        } as ComponentConfig<typeof C.BackPageHero>,
+      ],
+    },
+    {
+      mainColumn: [
+        /* mainColumn - top section - warning - some datasets are not available */
+        ...exportMainColumn,
+        /* mainColumn */
+        {
+          children: [
+            {
               component: C.ManifestDownload,
               viewBuilder: V.buildManifestDownload,
             } as ComponentConfig<typeof C.ManifestDownload>,
@@ -139,6 +168,12 @@ export const exportConfig: ExportConfig = {
               component: ExportMethod,
               viewBuilder: V.buildExportToPlatformMethod(
                 EXPORT_METHODS.CAVATICA
+              ),
+            } as ComponentConfig<typeof ExportMethod>,
+            {
+              component: ExportMethod,
+              viewBuilder: V.buildExportToPlatformMethod(
+                EXPORT_METHODS.CANCER_GENOMICS_CLOUD
               ),
             } as ComponentConfig<typeof ExportMethod>,
             {
