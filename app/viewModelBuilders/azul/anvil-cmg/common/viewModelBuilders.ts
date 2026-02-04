@@ -39,16 +39,13 @@ import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,
 } from "@mui/material";
-import React, { ReactNode } from "react";
+import React, { ComponentProps, ReactNode } from "react";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
   DATASET_RESPONSE,
 } from "../../../../../site-config/anvil-cmg/category";
-import {
-  ROUTE_EXPORT_TO_TERRA,
-  ROUTE_MANIFEST_DOWNLOAD,
-} from "../../../../../site-config/anvil-cmg/dev/export/constants";
+import { ROUTES } from "../../../../../site-config/anvil-cmg/dev/export/routes";
 import {
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
@@ -452,7 +449,7 @@ export const buildDatasetExportMethodManifestDownload = (
     buttonLabel: "Request File Manifest",
     description:
       "Request a file manifest suitable for downloading this dataset to your HPC cluster or local machine.",
-    route: `${datasetPath}${ROUTE_MANIFEST_DOWNLOAD}`,
+    route: `${datasetPath}${ROUTES.MANIFEST_DOWNLOAD}`,
     title: "Download a File Manifest with Metadata",
   };
 };
@@ -486,7 +483,7 @@ export const buildDatasetExportMethodTerra = (
     buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-    route: `${datasetPath}${ROUTE_EXPORT_TO_TERRA}`,
+    route: `${datasetPath}${ROUTES.TERRA}`,
     title: "Export Dataset Data and Metadata to Terra Workspace",
   };
 };
@@ -744,7 +741,7 @@ export const buildExportMethodManifestDownload = (
     buttonLabel: "Request File Manifest",
     description:
       "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
-    route: ROUTE_MANIFEST_DOWNLOAD,
+    route: ROUTES.MANIFEST_DOWNLOAD,
     title: "Download a File Manifest with Metadata for the Selected Data",
   };
 };
@@ -764,7 +761,7 @@ export const buildExportMethodTerra = (
     buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-    route: ROUTE_EXPORT_TO_TERRA,
+    route: ROUTES.TERRA,
     title: "Export Study Data and Metadata to Terra Workspace",
   };
 };
@@ -790,6 +787,77 @@ export const buildExportSelectedDataSummary = (
   return {
     isLoading: isFacetsLoading || isSummaryLoading,
     summaries: getExportSelectedDataSummary(filesFacets, summary),
+  };
+};
+
+/**
+ * Build props for ExportToPlatform component.
+ * @param props - Props to pass to the ExportToPlatform component.
+ * @returns model to be used as props for the ExportToPlatform component.
+ */
+export const buildExportToPlatform = (
+  props: Pick<
+    ComponentProps<typeof C.ExportToPlatform>,
+    "buttonLabel" | "description" | "successTitle" | "title"
+  >
+): ((
+  _: unknown,
+  viewContext: ViewContext<unknown>
+) => ComponentProps<typeof C.ExportToPlatform>) => {
+  return (_: unknown, viewContext: ViewContext<unknown>) => {
+    const {
+      exploreState: { filterState },
+      fileManifestState,
+    } = viewContext;
+    return {
+      ...props,
+      fileManifestState,
+      fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+      filters: filterState,
+      formFacet: getFormFacets(fileManifestState),
+      speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+    };
+  };
+};
+
+/**
+ * Build props for ExportToPlatform BackPageHero component.
+ * @param title - Title of the export method.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildExportToPlatformHero = (
+  title: string
+): ((
+  _: unknown,
+  viewContext: ViewContext<unknown>
+) => React.ComponentProps<typeof C.BackPageHero>) => {
+  return (_, viewContext) => {
+    const {
+      exploreState: { tabValue },
+    } = viewContext;
+    return getExportMethodHero(tabValue, title);
+  };
+};
+
+/**
+ * Build props for ExportMethod component for display of the export to [platform] metadata section.
+ * @param props - Props to pass to the ExportMethod component.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportToPlatformMethod = (
+  props: Pick<
+    ComponentProps<typeof ExportMethod>,
+    "buttonLabel" | "description" | "route" | "title"
+  >
+): ((
+  _: unknown,
+  viewContext: ViewContext<unknown>
+) => ComponentProps<typeof ExportMethod>) => {
+  return (_: unknown, viewContext: ViewContext<unknown>) => {
+    return {
+      ...props,
+      ...getExportMethodAccessibility(viewContext),
+    };
   };
 };
 
