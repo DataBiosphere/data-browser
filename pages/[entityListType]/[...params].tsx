@@ -29,8 +29,18 @@ import { ParsedUrlQuery } from "querystring";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { readFile } from "../../app/utils/tsvParser";
 import { useRouter } from "next/router";
+import { useFeatureFlag } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/useFeatureFlag";
+import { FEATURES } from "../../app/shared/entities";
+import NextError from "next/error";
+import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 
 const setOfProcessedIds = new Set<string>();
+
+const NCPI_EXPORT_PATHS = [
+  ROUTES.BIO_DATA_CATALYST,
+  ROUTES.CANCER_GENOMICS_CLOUD,
+  ROUTES.CAVATICA,
+];
 
 interface StaticPath {
   params: PageUrl;
@@ -53,9 +63,12 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  * @returns Entity detail view component.
  */
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
+  const isNCPIExportEnabled = useFeatureFlag(FEATURES.NCPI_EXPORT);
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
+  if (!isNCPIExportEnabled && isNCPIExportRoute(query))
+    return <NextError statusCode={404} />;
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
   return <EntityDetailView {...props} />;
@@ -75,6 +88,19 @@ function findOverride(
     return;
   }
   return overrides.find(({ entryId }) => entryId === entityId);
+}
+
+/**
+ * Returns true if the current route is an NCPI export route.
+ * @param query - Parsed URL query.
+ * @returns True if the route matches an NCPI export path.
+ */
+function isNCPIExportRoute(query: ParsedUrlQuery): boolean {
+  const params = query.params as string[] | undefined;
+  const lastParam = params?.[params.length - 1] || "";
+  return NCPI_EXPORT_PATHS.map((path) => path.replace("/export/", "")).includes(
+    lastParam
+  );
 }
 
 /**

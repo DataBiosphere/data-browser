@@ -8,6 +8,9 @@ import * as C from "../../../../../../app/components";
 import { DatasetsResponse } from "app/apis/azul/anvil-cmg/common/responses";
 import { ROUTES } from "../../../export/routes";
 import * as MDX from "../../../../../../app/components/common/MDXContent/anvil-cmg";
+import { ExportMethod } from "../../../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
+import { EXPORT_METHODS, EXPORTS } from "../../../export/constants";
+import { ExportToPlatform } from "../../../../../../app/components/Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
 
 /**
  * Badge indicating dataset accessibility.
@@ -69,6 +72,60 @@ export const exportConfig: ExportConfig = {
           children: [DATASET_ACCESSIBILITY_BADGE],
           component: C.BackPageHero,
           viewBuilder: V.buildDatasetExportMethodHeroTerraExport,
+        } as ComponentConfig<typeof C.BackPageHero>,
+      ],
+    },
+    {
+      mainColumn: [
+        /* --------- */
+        /* Dataset is not accessible; render warning */
+        /* --------- */
+        {
+          children: [
+            {
+              children: [
+                {
+                  component: MDX.Alert,
+                  viewBuilder: V.buildAlertDatasetExportWarning,
+                } as ComponentConfig<typeof MDX.Alert, DatasetsResponse>,
+              ],
+              component: C.BackPageContentSingleColumn,
+            } as ComponentConfig<typeof C.BackPageContentSingleColumn>,
+          ],
+          component: C.ConditionalComponent,
+          viewBuilder: V.renderDatasetExportWarning,
+        } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
+        /* ------ */
+        /* Dataset is accessible; render BioData Catalyst export method */
+        /* ------ */
+        {
+          children: [
+            {
+              children: [
+                {
+                  component: ExportToPlatform,
+                  viewBuilder: V.buildDatasetExportToPlatform(
+                    EXPORTS.BIO_DATA_CATALYST
+                  ),
+                } as ComponentConfig<typeof ExportToPlatform>,
+              ],
+              component: C.BackPageContentMainColumn,
+            } as ComponentConfig<typeof C.BackPageContentMainColumn>,
+            /* sideColumn */
+            ...exportSideColumn,
+          ],
+          component: C.ConditionalComponent,
+          viewBuilder: V.renderDatasetExport,
+        } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
+      ],
+      route: ROUTES.BIO_DATA_CATALYST,
+      top: [
+        {
+          children: [DATASET_ACCESSIBILITY_BADGE],
+          component: C.BackPageHero,
+          viewBuilder: V.buildDatasetExportToPlatformHero(
+            EXPORTS.BIO_DATA_CATALYST.title
+          ),
         } as ComponentConfig<typeof C.BackPageHero>,
       ],
     },
@@ -165,6 +222,12 @@ export const exportConfig: ExportConfig = {
                   component: C.ExportMethod,
                   viewBuilder: V.buildDatasetExportMethodTerra,
                 } as ComponentConfig<typeof C.ExportMethod>,
+                {
+                  component: ExportMethod,
+                  viewBuilder: V.buildDatasetExportToPlatformMethod(
+                    EXPORT_METHODS.BIO_DATA_CATALYST
+                  ),
+                } as ComponentConfig<typeof ExportMethod>,
                 {
                   component: C.ExportMethod,
                   viewBuilder: V.buildDatasetExportMethodManifestDownload,
