@@ -17,6 +17,13 @@ export const EXPORTS: Record<
     successTitle: "Your BioData Catalyst Workspace Link is Ready",
     title: "Analyze in BioData Catalyst",
   },
+  CAVATICA: {
+    buttonLabel: "Open CAVATICA",
+    description:
+      "CAVATICA is a cloud workspace for analysis, storage, and computation using workflows, Jupyter Notebooks, and RStudio.",
+    successTitle: "Your CAVATICA Workspace Link is Ready",
+    title: "Analyze in CAVATICA",
+  },
 };
 
 export const EXPORT_METHODS: Record<
@@ -31,5 +38,11 @@ export const EXPORT_METHODS: Record<
     description: EXPORTS.BIO_DATA_CATALYST.description,
     route: ROUTES.BIO_DATA_CATALYST,
     title: "Export to BioData Catalyst Powered by Seven Bridges (BDC-SB)",
+  },
+  CAVATICA: {
+    buttonLabel: "Analyze in CAVATICA",
+    description: EXPORTS.CAVATICA.description,
+    route: ROUTES.CAVATICA,
+    title: "Export to CAVATICA",
   },
 };

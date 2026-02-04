@@ -72,6 +72,31 @@ export const exportConfig: ExportConfig = {
         {
           children: [
             {
+              component: C.ExportToPlatform,
+              viewBuilder: V.buildExportToPlatform(EXPORTS.CAVATICA),
+            } as ComponentConfig<typeof C.ExportToPlatform>,
+          ],
+          component: C.BackPageContentMainColumn,
+        } as ComponentConfig<typeof C.BackPageContentMainColumn>,
+        /* sideColumn */
+        ...exportSideColumn,
+      ],
+      route: ROUTES.CAVATICA,
+      top: [
+        {
+          component: C.BackPageHero,
+          viewBuilder: V.buildExportToPlatformHero("Export to CAVATICA"),
+        } as ComponentConfig<typeof C.BackPageHero>,
+      ],
+    },
+    {
+      mainColumn: [
+        /* mainColumn - top section - warning - some datasets are not available */
+        ...exportMainColumn,
+        /* mainColumn */
+        {
+          children: [
+            {
               component: C.ManifestDownload,
               viewBuilder: V.buildManifestDownload,
             } as ComponentConfig<typeof C.ManifestDownload>,
@@ -108,6 +133,12 @@ export const exportConfig: ExportConfig = {
               component: ExportMethod,
               viewBuilder: V.buildExportToPlatformMethod(
                 EXPORT_METHODS.BIO_DATA_CATALYST
+              ),
+            } as ComponentConfig<typeof ExportMethod>,
+            {
+              component: ExportMethod,
+              viewBuilder: V.buildExportToPlatformMethod(
+                EXPORT_METHODS.CAVATICA
               ),
             } as ComponentConfig<typeof ExportMethod>,
             {
