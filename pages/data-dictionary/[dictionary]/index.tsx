@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { DataDictionaryView } from "@databiosphere/findable-ui/lib/views/DataDictionaryView/dataDictionaryView";
 import { Main } from "@databiosphere/findable-ui/lib/components/Layout/components/ContentLayout/components/Main/main";
 import { ParsedUrlQuery } from "querystring";
