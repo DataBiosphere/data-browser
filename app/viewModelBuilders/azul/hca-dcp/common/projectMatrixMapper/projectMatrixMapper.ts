@@ -84,11 +84,11 @@ function createMatrixView(
 ): ProjectMatrixView {
   // Create matrix view, starting with core file values.
   const {
+    azul_url,
     contentDescription,
     matrixCellCount,
     name,
     size,
-    url,
     uuid,
     version,
   } = file;
@@ -98,7 +98,7 @@ function createMatrixView(
     id: uuid,
     matrixCellCount,
     size,
-    url,
+    url: azul_url,
     version,
   };
   // Convert meta values into arrays. There may be identical files in separate branches of the tree and we'll
