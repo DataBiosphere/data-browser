@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { Filters } from "@databiosphere/findable-ui/lib/common/entities";
 import { useFileManifest } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifest";
 

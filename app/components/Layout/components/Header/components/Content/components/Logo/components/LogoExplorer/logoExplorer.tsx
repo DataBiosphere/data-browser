@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { ImageSrc } from "@databiosphere/findable-ui/lib/components/common/StaticImage/staticImage";
 import { Logo } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
 import {

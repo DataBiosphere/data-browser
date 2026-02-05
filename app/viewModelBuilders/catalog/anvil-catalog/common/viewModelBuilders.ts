@@ -8,7 +8,7 @@ import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/c
 import { COLUMN_IDENTIFIER } from "@databiosphere/findable-ui/lib/components/Table/common/columnIdentifier";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { ColumnDef } from "@tanstack/react-table";
-import React, { ReactElement } from "react";
+import React, { JSX, ReactElement } from "react";
 import {
   ANVIL_CATALOG_CATEGORY_KEY,
   ANVIL_CATALOG_CATEGORY_LABEL,
