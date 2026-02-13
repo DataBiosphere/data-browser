@@ -1,5 +1,32 @@
 # Changelog
 
+## [2.24.0](https://github.com/DataBiosphere/data-browser/compare/v2.23.2...v2.24.0) (2026-02-12)
+
+
+### Features
+
+* export cohort to biodata catalyst ([#4640](https://github.com/DataBiosphere/data-browser/issues/4640)) ([#4653](https://github.com/DataBiosphere/data-browser/issues/4653)) ([2b49367](https://github.com/DataBiosphere/data-browser/commit/2b4936701c4f504b4a2657b67dce299b1196122a))
+* export cohort to cancer genomics cloud ([#4644](https://github.com/DataBiosphere/data-browser/issues/4644)) ([#4660](https://github.com/DataBiosphere/data-browser/issues/4660)) ([f4f6aba](https://github.com/DataBiosphere/data-browser/commit/f4f6aba28946c703657b7c26bae2315457a9543d))
+* export cohot to cavatica ([#4642](https://github.com/DataBiosphere/data-browser/issues/4642)) ([#4661](https://github.com/DataBiosphere/data-browser/issues/4661)) ([1920876](https://github.com/DataBiosphere/data-browser/commit/19208765080d7fdca4be5dc80ee3f577dad65d6f))
+* export dataset to biodata catalyst ([#4641](https://github.com/DataBiosphere/data-browser/issues/4641)) ([#4662](https://github.com/DataBiosphere/data-browser/issues/4662)) ([8f5c21b](https://github.com/DataBiosphere/data-browser/commit/8f5c21bfd9d9838130f18d20cf017ccc3f110721))
+* export dataset to cancer genomics cloud (cgc) ([#4645](https://github.com/DataBiosphere/data-browser/issues/4645)) ([#4664](https://github.com/DataBiosphere/data-browser/issues/4664)) ([03b1dc0](https://github.com/DataBiosphere/data-browser/commit/03b1dc05f2519f1a379c210cd5d7c53e712223b8))
+* export dataset to cavatica ([#4643](https://github.com/DataBiosphere/data-browser/issues/4643)) ([#4663](https://github.com/DataBiosphere/data-browser/issues/4663)) ([573571c](https://github.com/DataBiosphere/data-browser/commit/573571ccd4b62e17cde422979521a77f079cd3d1))
+
+
+### Bug Fixes
+
+* flaky filter deselection tests - add wait states and replace css selector race conditions ([#4656](https://github.com/DataBiosphere/data-browser/issues/4656)) ([#4657](https://github.com/DataBiosphere/data-browser/issues/4657)) ([1fc0b45](https://github.com/DataBiosphere/data-browser/commit/1fc0b45e00223ca9f9937f8c8b5b16ac2120649a))
+
+
+### Chores
+
+* update LungMAP default catalog to lm10 ([#4668](https://github.com/DataBiosphere/data-browser/issues/4668)) ([#4670](https://github.com/DataBiosphere/data-browser/issues/4670)) ([13a0184](https://github.com/DataBiosphere/data-browser/commit/13a0184aa64c431d53de4a3dc08e701505001a36))
+
+
+### Documentation
+
+* describe correct installation location in readme ([#4654](https://github.com/DataBiosphere/data-browser/issues/4654)) ([b85cba6](https://github.com/DataBiosphere/data-browser/commit/b85cba61858a00478666f61ffddf4c10c75d31b7))
+
 ## [2.23.2](https://github.com/DataBiosphere/data-browser/compare/v2.23.1...v2.23.2) (2026-01-23)
 
 
