@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.25.0](https://github.com/DataBiosphere/data-browser/compare/v2.24.0...v2.25.0) (2026-02-19)
+
+
+### Features
+
+* add lungmap analysis portals ([#4669](https://github.com/DataBiosphere/data-browser/issues/4669)) ([#4675](https://github.com/DataBiosphere/data-browser/issues/4675)) ([f34bd3b](https://github.com/DataBiosphere/data-browser/commit/f34bd3b836854af78de46d1377f03eb8d89af7a1))
+* add ras banner ([#4674](https://github.com/DataBiosphere/data-browser/issues/4674)) ([#4677](https://github.com/DataBiosphere/data-browser/issues/4677)) ([cd71aff](https://github.com/DataBiosphere/data-browser/commit/cd71aff489528fbeb0bcc12eb97fb29fd6ab8c84))
+
 ## [2.24.0](https://github.com/DataBiosphere/data-browser/compare/v2.23.2...v2.24.0) (2026-02-12)
 
 
