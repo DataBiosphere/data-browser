@@ -1,7 +1,11 @@
 import { ANALYSIS_PORTAL, AnalysisPortal, ProjectEdit } from "./entities";
 
+const azimuthIcon = "/images/icons/azimuth.png";
+const bioDataCatalystIcon = "/images/icons/bio-data-catalyst.png";
 const cxgIcon = "/images/icons/cxg.png";
 const genomeBrowserIcon = "/images/icons/ucsc-genome.svg";
+const jbrowseIcon = "/images/icons/jbrowse.png";
+const lcaIcon = "/images/icons/lca.png";
 const lgeaIcon = "/images/icons/lgea.png";
 const lungmapIcon = "/images/icons/lungmap.svg";
 const shinyIcon = "/images/icons/shiny.png";
@@ -9,6 +13,24 @@ const singleCellIcon = "/images/icons/single-cell.png";
 const stemCellHubIcon = "/images/icons/stem.svg";
 const toppCellIcon = "/images/icons/toppcell.png";
 const ucscCellBrowserIcon = "/images/icons/ucsc-cell.svg";
+
+/**
+ * Azimuth analysis portal.
+ */
+const AZIMUTH: Omit<AnalysisPortal, "url"> = {
+  icon: azimuthIcon,
+  label: "Azimuth",
+  name: ANALYSIS_PORTAL.AZIMUTH,
+};
+
+/**
+ * BioData Catalyst analysis portal.
+ */
+const BIO_DATA_CATALYST: Omit<AnalysisPortal, "url"> = {
+  icon: bioDataCatalystIcon,
+  label: "BioData Catalyst",
+  name: ANALYSIS_PORTAL.BIO_DATA_CATALYST,
+};
 
 /**
  * CZ CELLxGENE analysis portal.
@@ -26,6 +48,24 @@ const GENOME_BROWSER: Omit<AnalysisPortal, "url"> = {
   icon: genomeBrowserIcon,
   label: "Genome Browser",
   name: ANALYSIS_PORTAL.GENOME_BROWSER,
+};
+
+/**
+ * JBrowse analysis portal.
+ */
+const JBROWSE: Omit<AnalysisPortal, "url"> = {
+  icon: jbrowseIcon,
+  label: "JBrowse",
+  name: ANALYSIS_PORTAL.JBROWSE,
+};
+
+/**
+ * LCA analysis portal.
+ */
+const LCA: Omit<AnalysisPortal, "url"> = {
+  icon: lcaIcon,
+  label: "LCA",
+  name: ANALYSIS_PORTAL.LCA,
 };
 
 /**
@@ -608,6 +648,10 @@ export const baseProjectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
+        ...BIO_DATA_CATALYST,
+        url: "https://gen3.biodatacatalyst.nhlbi.nih.gov/",
+      },
+      {
         ...CZ_CELLXGENE,
         url: "https://cellxgene.cziscience.com/collections/48d354f5-a5ca-4f35-a3bb-fa3687502252",
       },
@@ -650,12 +694,24 @@ export const baseProjectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
+        ...AZIMUTH,
+        url: "https://app.lungmap.net/app/azimuth-mouse-lung-cellref-seed",
+      },
+      {
+        ...CZ_CELLXGENE,
+        url: "https://app.lungmap.net/app/cellxgene-mouse-cellref",
+      },
+      {
         ...LGEA,
         url: "https://research.cchmc.org/pbge/lunggens/SCLAB.html",
       },
       {
         ...LUNGMAP_APPS,
         url: "https://lungmap.net/breath-omics-experiment-page/?experiment_id=LMEX0000001222",
+      },
+      {
+        ...SHINY,
+        url: "https://app.lungmap.net/app/shinycell-mouse-lung-cellref",
       },
     ],
     entryId: "1bdcecde-16be-4208-88f4-78cd2133d11d",
@@ -1672,6 +1728,14 @@ export const baseProjectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
+        ...BIO_DATA_CATALYST,
+        url: "https://gen3.biodatacatalyst.nhlbi.nih.gov/",
+      },
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?dataset_id=LMEX0000004409",
+      },
+      {
         ...SINGLE_CELL,
         url: "https://singlecell.broadinstitute.org/single_cell/study/SCP1157/bronchiolitis-obliterans-syndrome-lungmap",
       },
@@ -1685,16 +1749,21 @@ export const baseProjectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...LUNGMAP_APPS,
-        url: "https://www.lungmap.net/omics/?experiment_id=LMEX0000004396",
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/f86d6317-7215-409e-bfda-3f4ded3dadaa",
+      },
+      {
+        ...JBROWSE,
+        // eslint-disable-next-line sonarjs/no-hardcoded-passwords -- shared session link, not a secret
+        url: "https://jbrowse.lungmap.net/?session=share-U7sOFrqK09&password=4cHnL",
       },
       {
         ...LGEA,
         url: "https://research.cchmc.org/pbge/lunggens/tools/lung_at_glance.html?tab=reference&species=Human",
       },
       {
-        ...CZ_CELLXGENE,
-        url: "https://cellxgene.cziscience.com/collections/f86d6317-7215-409e-bfda-3f4ded3dadaa",
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/omics/?experiment_id=LMEX0000004396",
       },
       {
         ...SHINY,
@@ -1710,16 +1779,20 @@ export const baseProjectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
+        ...BIO_DATA_CATALYST,
+        url: "https://gen3.biodatacatalyst.nhlbi.nih.gov/",
+      },
+      {
+        ...CZ_CELLXGENE,
+        url: "https://cellxgene.cziscience.com/collections/3a5dbf8a-9b3e-4309-b4c5-d8a024f83734",
+      },
+      {
         ...LUNGMAP_APPS,
         url: "https://www.lungmap.net/omics/?experiment_id=LMEX0000004400",
       },
       {
         ...SHINY,
         url: "https://app.lungmap.net/app/shinycell-bpd",
-      },
-      {
-        ...CZ_CELLXGENE,
-        url: "https://cellxgene.cziscience.com/collections/3a5dbf8a-9b3e-4309-b4c5-d8a024f83734",
       },
     ],
     entryId: "1977dc47-8414-4263-a870-6b0f207d8ab3",
@@ -1826,10 +1899,84 @@ export const baseProjectEdits: ProjectEdit[] = [
   {
     analysisPortals: [
       {
-        ...LGEA,
+        ...LCA,
         url: "https://research.cchmc.org/pbge/lunggens/LCA/LCA.html",
+      },
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?dataset_id=LMEX0000004412",
       },
     ],
     entryId: "ccea5717-a848-4c06-8d2d-d1b694e89441",
+  },
+  {
+    analysisPortals: [
+      {
+        ...CZ_CELLXGENE,
+        url: "https://lungcells.app.vumc.org/",
+      },
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?dataset_id=LMEX0000004401",
+      },
+      {
+        ...SHINY,
+        url: "https://app.lungmap.net/app/shinycell-bpd-vanderbilt",
+      },
+    ],
+    entryId: "9393acbf-e8d8-4b96-9c71-996e245e5f23",
+  },
+  {
+    analysisPortals: [
+      {
+        ...BIO_DATA_CATALYST,
+        url: "https://gen3.biodatacatalyst.nhlbi.nih.gov/",
+      },
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?dataset_id=LMEX0000004406",
+      },
+    ],
+    entryId: "834e0d16-71b6-4425-a8ab-022b5000961c",
+  },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?dataset_id=LMEX0000004415",
+      },
+    ],
+    entryId: "e651ac3e-03aa-46fa-9ed3-70c6fda4e440",
+  },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?dataset_id=LMEX0000004407",
+      },
+    ],
+    entryId: "3a02d15f-9c6a-4ef7-852b-4ddec733b70b",
+  },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://www.lungmap.net/dataset/?dataset_id=LMEX0000004414",
+      },
+      {
+        ...SHINY,
+        url: "https://app.lungmap.net/app/shinycell-iaec2",
+      },
+    ],
+    entryId: "1f009151-2206-4294-929a-9c720f19a13f",
+  },
+  {
+    analysisPortals: [
+      {
+        ...LUNGMAP_APPS,
+        url: "https://lungmap-data-submissions.s3.us-east-1.amazonaws.com/tmp/spatial_data_new.html?name=Xenium+Pilot",
+      },
+    ],
+    entryId: "e99faee2-7706-4c1a-9d28-76c68320f549",
   },
 ];
