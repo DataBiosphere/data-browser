@@ -8,6 +8,6 @@ import { RAS } from "../../../../app/components/anvil/banner/RAS/ras";
 export const announcements: ComponentsConfig = [
   {
     component: C.Announcements,
-    props: { generalAnnouncement: RAS() },
+    props: { generalAnnouncement: <RAS /> },
   } as ComponentConfig<typeof C.Announcements>,
 ];
