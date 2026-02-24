@@ -12,6 +12,6 @@ export const filesEntityListSlot: ComponentsConfig = [
     viewBuilder: V.buildAlertEntityListWarning,
   } as ComponentConfig<typeof MDX.AlertEntityListWarning>,
   {
-    component: C.AzulFileDownloadController,
-  } as ComponentConfig<typeof C.AzulFileDownloadController>,
+    component: C.AzulFileDownloadVisibilityController,
+  } as ComponentConfig<typeof C.AzulFileDownloadVisibilityController>,
 ];

@@ -10,7 +10,7 @@ import { ANVIL_CMG_CATEGORY_KEY } from "../../../../../site-config/anvil-cmg/cat
  * Renders nothing but manages the download column visibility based on the feature flag.
  * @returns Empty fragment.
  */
-export const AzulFileDownloadController = (): JSX.Element => {
+export const AzulFileDownload = (): JSX.Element => {
   const isDownloadEnabled = useFeatureFlag(FEATURES.AZUL_DOWNLOAD);
   const { exploreDispatch } = useExploreState();
 
