@@ -13,8 +13,8 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
-import { entityListSlot } from "../ui/entityList";
 import { entityViewSlot } from "../ui/entityView";
+import { filesEntityListSlot } from "../ui/filesEntityList";
 
 export const downloadColumn: ColumnConfig<FilesResponse> = {
   componentConfig: {
@@ -44,7 +44,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
   label: "Files",
   list: {
     columns: [
-      // downloadColumn,
+      downloadColumn,
       {
         columnPinned: true,
         componentConfig: {
@@ -171,7 +171,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
     enableSummary: true,
     enableTabs: true,
     slots: {
-      entityListSlot,
+      entityListSlot: filesEntityListSlot,
       entityViewSlot,
     },
   },

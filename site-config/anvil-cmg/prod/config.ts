@@ -1,8 +1,6 @@
-import { EntityConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { makeConfig } from "../dev/config";
-import { downloadColumn } from "../dev/index/filesEntityConfig";
 import { authenticationConfig } from "./authentication/authentication";
 
 const config: SiteConfig = {
@@ -17,11 +15,6 @@ const config: SiteConfig = {
 };
 
 config.authentication = authenticationConfig;
-
-const filesEntityConfig = config.entities.find(
-  (c) => c.apiPath == "index/files"
-) as EntityConfig;
-filesEntityConfig.list.columns.splice(0, 0, downloadColumn);
 
 // Update gtmAuth for the prod environment lookup.
 if (config.analytics) {
