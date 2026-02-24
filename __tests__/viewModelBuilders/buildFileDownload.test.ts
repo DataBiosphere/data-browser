@@ -77,7 +77,7 @@ describe("buildFileDownload", () => {
 
     it("returns undefined url when azul_mirror_uri is empty string", () => {
       const response = createMockFilesResponse({
-        azul_mirror_uri: "" as unknown as null, // Cast to satisfy type while testing empty string behavior
+        azul_mirror_uri: "",
         azul_url: "https://service.azul.data/repository/files/file-123",
       });
 
