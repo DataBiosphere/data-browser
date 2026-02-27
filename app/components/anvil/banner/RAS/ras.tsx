@@ -13,8 +13,8 @@ export const RAS = (): JSX.Element => {
         As part of new federal government security policies, Terra is required
         to integrate with the NIH Researcher Authentication Service (RAS) for
         identity proofing and enhanced security. In order to link your NIH
-        authorization to Terra, users of eRA Commons must transition to the use
-        of{" "}
+        authorization to Terra, users of eRA Commons must transition by March
+        25, 2026 to the use of{" "}
         <Link
           href="https://login.gov"
           rel={REL_ATTRIBUTE.NO_OPENER_NO_REFERRER}

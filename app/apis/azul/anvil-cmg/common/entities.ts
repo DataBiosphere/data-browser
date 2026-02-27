@@ -89,6 +89,7 @@ export interface DonorSpecies {
  */
 export interface FileEntity {
   accessible: boolean;
+  azul_mirror_uri: string | null;
   azul_url: string;
   data_modality: string[];
   date_created: string;
