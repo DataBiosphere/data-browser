@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.26.0](https://github.com/DataBiosphere/data-browser/compare/v2.25.0...v2.26.0) (2026-02-27)
+
+
+### Features
+
+* add conditional file download for anvil-cmg ([#4635](https://github.com/DataBiosphere/data-browser/issues/4635)) ([#4679](https://github.com/DataBiosphere/data-browser/issues/4679)) ([90b3cff](https://github.com/DataBiosphere/data-browser/commit/90b3cff6acad1bf1b8175e1ab72bc9dbf74f28e0))
+
+
+### Bug Fixes
+
+* add deadline date to RAS banner ([#4681](https://github.com/DataBiosphere/data-browser/issues/4681)) ([#4682](https://github.com/DataBiosphere/data-browser/issues/4682)) ([8e4aa01](https://github.com/DataBiosphere/data-browser/commit/8e4aa012275c6b04b383360c55296101935e1654))
+
+
+### Chores
+
+* update anvil-cmg catalog to anvil13 ([#4683](https://github.com/DataBiosphere/data-browser/issues/4683)) ([7699401](https://github.com/DataBiosphere/data-browser/commit/76994014f6d2c0bce3e30c0ebf4c53e7cb4cb5c5))
+* update anvil-cmg catalog to anvil13 ([#4684](https://github.com/DataBiosphere/data-browser/issues/4684)) ([7699401](https://github.com/DataBiosphere/data-browser/commit/76994014f6d2c0bce3e30c0ebf4c53e7cb4cb5c5))
+
 ## [2.25.0](https://github.com/DataBiosphere/data-browser/compare/v2.24.0...v2.25.0) (2026-02-19)
 
 
