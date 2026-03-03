@@ -47,6 +47,7 @@ Thumbs.db
 # IDEs and editors
 .idea
 /.vscode
+.claude
 
 # hygen
 _templates
