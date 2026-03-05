@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.26.1](https://github.com/DataBiosphere/data-browser/compare/v2.26.0...v2.26.1) (2026-03-05)
+
+
+### Chores
+
+* update hca-dcp catalog to dcp57 ([#4688](https://github.com/DataBiosphere/data-browser/issues/4688)) ([b69ac23](https://github.com/DataBiosphere/data-browser/commit/b69ac239a8db165fa295d915c68285f38d38229f))
+* update hca-dcp catalog to dcp57 [#4685](https://github.com/DataBiosphere/data-browser/issues/4685) ([b69ac23](https://github.com/DataBiosphere/data-browser/commit/b69ac239a8db165fa295d915c68285f38d38229f))
+
 ## [2.26.0](https://github.com/DataBiosphere/data-browser/compare/v2.25.0...v2.26.0) (2026-02-27)
 
 
