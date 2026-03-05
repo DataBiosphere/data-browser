@@ -977,6 +977,7 @@ export const buildFileDataModality = (
 
 /**
  * Build props for file download AzulFileDownload component.
+ * Downloads use azul_url but are only enabled when azul_mirror_uri is present.
  * @param response - Response model returned from index/files API endpoint.
  * @returns model to be used as props for the AzulFileDownload component.
  */
@@ -984,11 +985,20 @@ export const buildFileDownload = (
   response: FilesResponse
 ): React.ComponentProps<typeof C.AzulFileDownload> => {
   const dataset = response.datasets[0];
+  const mirrorUri = processEntityValue(
+    response.files,
+    "azul_mirror_uri",
+    LABEL.EMPTY
+  );
+  // Only provide download URL if mirror URI exists (enables the download button)
+  const url = mirrorUri
+    ? processEntityValue(response.files, "azul_url", LABEL.EMPTY)
+    : undefined;
   return {
     entityName: processEntityValue(response.files, "file_name"),
     relatedEntityId: dataset.dataset_id[0],
     relatedEntityName: dataset.title[0],
-    url: processEntityValue(response.files, "azul_url", LABEL.EMPTY),
+    url,
   };
 };
 
