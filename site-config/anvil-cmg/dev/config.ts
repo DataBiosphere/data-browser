@@ -50,14 +50,17 @@ export function makeConfig(
         {
           categoryConfigs: [
             {
+              chart: { enable: false },
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
             },
             {
+              chart: { enable: false },
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
             },
             {
+              chart: { enable: false },
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
             },
