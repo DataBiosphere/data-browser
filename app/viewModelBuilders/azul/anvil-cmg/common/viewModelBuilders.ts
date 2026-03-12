@@ -19,10 +19,7 @@ import { CurrentQuery } from "@databiosphere/findable-ui/lib/components/Export/c
 import { Summary } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
-import {
-  FILE_MANIFEST_TYPE,
-  FileFacet,
-} from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
+import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import {
   findFacet,
   isFacetTermSelected,
@@ -617,7 +614,6 @@ export const buildDatasetTerraExport = (
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters,
     formFacet,
@@ -951,7 +947,6 @@ export const buildExportToTerra = (
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters: filterState,
     formFacet,
@@ -1075,7 +1070,6 @@ export const buildManifestDownload = (
     ManifestDownloadStart: MDX.ManifestDownloadStart,
     ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.DOWNLOAD_MANIFEST,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters: filterState,
     formFacet,
