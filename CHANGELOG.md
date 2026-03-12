@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.27.0](https://github.com/DataBiosphere/data-browser/compare/v2.26.1...v2.27.0) (2026-03-12)
+
+
+### Features
+
+* update anvil cmg auth config to use ecm endpoint ([#4694](https://github.com/DataBiosphere/data-browser/issues/4694)) ([#4696](https://github.com/DataBiosphere/data-browser/issues/4696)) ([ed2262a](https://github.com/DataBiosphere/data-browser/commit/ed2262aecda61eb9377c950ae206d05c05e684b1))
+
+
+### Chores
+
+* upgrade findable-ui to 49.4.1 ([#4693](https://github.com/DataBiosphere/data-browser/issues/4693)) ([e7176c6](https://github.com/DataBiosphere/data-browser/commit/e7176c6b420de7515b4d6563fb236cbd6b2a4924))
+
 ## [2.26.1](https://github.com/DataBiosphere/data-browser/compare/v2.26.0...v2.26.1) (2026-03-05)
 
 
