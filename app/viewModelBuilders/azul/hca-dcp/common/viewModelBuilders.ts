@@ -28,10 +28,7 @@ import {
 } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { getConfig } from "@databiosphere/findable-ui/lib/config/config";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
-import {
-  FILE_MANIFEST_TYPE,
-  FileFacet,
-} from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
+import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import {
   findFacet,
   isFacetTermSelected,
@@ -832,7 +829,6 @@ export const buildDownloadCurlCommand = (
     DownloadCurlStart: MDX.DownloadCurlCommandStart,
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.BULK_DOWNLOAD,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters: filterState,
     formFacet,
@@ -860,7 +856,6 @@ export const buildDownloadEntityCurlCommand = (
     DownloadCurlStart: MDX.DownloadCurlCommandStart,
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_BULK_DOWNLOAD,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters,
     formFacet,
@@ -920,7 +915,6 @@ export const buildExportEntityToTerra = (
     ExportToTerraStart: MDX.ExportToTerra,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters,
     formFacet,
@@ -1109,7 +1103,6 @@ export const buildExportToTerra = (
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccessWithWarning,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters: filterState,
     formFacet,
@@ -1313,7 +1306,6 @@ export const buildManifestDownload = (
     ManifestDownloadStart: MDX.ManifestDownloadStart,
     ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.DOWNLOAD_MANIFEST,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters: filterState,
     formFacet,
@@ -1334,7 +1326,6 @@ export const buildManifestDownloadEntity = (
   // Get the metadata filters.
   const metadataFilters = getMetadataFilters(filters);
   return {
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_DOWNLOAD_MANIFEST,
     filters,
     metadataFilters,
   };
