@@ -16,7 +16,7 @@ export const GOOGLE_PROVIDER: OAuthProvider<GoogleProfile> = {
 export const TERRA_SERVICE = {
   endpoint: {
     nihStatus:
-      "https://firecloud-orchestration.dsde-prod.broadinstitute.org/api/nih/status",
+      "https://externalcreds.dsde-prod.broadinstitute.org/api/oauth/v1/ras",
     profile: "https://sam.dsde-prod.broadinstitute.org/register/user/v1",
     tos: "https://sam.dsde-prod.broadinstitute.org/register/user/v2/self/termsOfServiceDetails",
   },
