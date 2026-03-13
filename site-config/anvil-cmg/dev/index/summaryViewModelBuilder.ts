@@ -26,5 +26,5 @@ export const buildSummaries = (
 function sumFileFormatCounts(summaryResponse: SummaryResponse): number {
   return (summaryResponse.fileFormats ?? []).reduce((accum, { count }) => {
     return accum + count;
-  }, 0 as number);
+  }, 0);
 }
