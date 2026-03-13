@@ -1,0 +1,257 @@
+{
+  "hits": [
+    {
+      "entryId": "3e1a790a-8680-4dd2-b6f1-93ea3cba5e01",
+      "sources": [
+        {
+          "source_prefix": "/0",
+          "source_spec": "tdr:bigquery:gcp:datarepo-3ef65a17:ANVIL_CCDG_Broad_NP_Epilepsy_LEBABM_GRU_GSA_MD_20250721_ANV5_202508051741",
+          "source_id": "7ea46791-7b08-4955-95a6-b606f7b916d6"
+        }
+      ],
+      "bundles": [
+        {
+          "bundle_uuid": "003db4c0-075b-a933-8993-697726aa77e0",
+          "bundle_version": "2022-06-01T00:00:00.000000Z"
+        }
+      ],
+      "studies": [
+        {
+          "study_name": "Center for Common Disease Genomics [CCDG] - Neuropsychiatric: Epilepsy: Epi25 Consortium (phs001489)",
+          "registered_identifier": "phs001489",
+          "consortia": ["CCDG"]
+        }
+      ],
+      "datasets": [
+        {
+          "document_id": "3e1a790a-8680-4dd2-b6f1-93ea3cba5e01",
+          "source_datarepo_row_ids": [
+            "workspace_attributes:2fb99410-4515-4db6-90c5-e4401947d7b3"
+          ],
+          "dataset_id": "00866376-c7ba-997e-44d3-819c1c33d67c",
+          "consent_group": ["GRU"],
+          "data_use_permission": ["GRU"],
+          "owner": [null],
+          "principal_investigator": [null],
+          "registered_identifier": ["phs001489"],
+          "title": "ANVIL_CCDG_Broad_NP_Epilepsy_LEBABM_GRU_GSA_MD",
+          "data_modality": [null],
+          "description": "[Description currently not available]",
+          "duos_id": "DUOS-000710",
+          "accessible": false
+        }
+      ],
+      "activities": [
+        {
+          "activity_type": ["Unknown"],
+          "assay_type": [null],
+          "data_modality": [null]
+        }
+      ],
+      "biosamples": [
+        {
+          "anatomical_site": [null],
+          "biosample_type": [null],
+          "disease": [null],
+          "donor_age_at_collection_unit": [null],
+          "donor_age_at_collection": [{ "gte": null, "lte": null }]
+        }
+      ],
+      "diagnoses": [],
+      "donors": [],
+      "files": [
+        {
+          "data_modality": [null],
+          "file_format": [".vcf.gz"],
+          "file_size": 117027877144,
+          "reference_assembly": [null],
+          "is_supplementary": [false, true],
+          "count": 849
+        },
+        {
+          "data_modality": [null],
+          "file_format": [".idat"],
+          "file_size": 15633649608,
+          "reference_assembly": [null],
+          "is_supplementary": [false],
+          "count": 1692
+        }
+      ]
+    }
+  ],
+  "termFacets": {
+    "studies.study_name": {
+      "terms": [
+        {
+          "term": "Center for Common Disease Genomics [CCDG] - Neuropsychiatric: Epilepsy: Epi25 Consortium (phs001489)",
+          "count": 149
+        }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "studies.consortia": {
+      "terms": [
+        { "term": "CCDG", "count": 283 },
+        { "term": "CMG", "count": 20 },
+        { "term": "CSER", "count": 8 },
+        { "term": "GREGoR", "count": 7 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "studies.study_design": {
+      "terms": [
+        { "term": "Case-Control", "count": "..." },
+        { "term": "Cohort", "count": "..." }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "datasets.consent_group": {
+      "terms": [
+        { "term": "GRU", "count": 107 },
+        { "term": "HMB", "count": 27 },
+        { "term": "HMB-MDS", "count": 27 },
+        { "term": "HMB-NPU-MDS", "count": 18 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "datasets.data_use_permission": {
+      "terms": [
+        { "term": "GRU", "count": 107 },
+        { "term": "HMB", "count": 27 },
+        { "term": "HMB-MDS", "count": 27 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "datasets.title": {
+      "terms": [
+        {
+          "term": "ANVIL_CCDG_Broad_NP_Epilepsy_LEBABM_GRU_GSA_MD",
+          "count": 1
+        }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "biosamples.disease": {
+      "terms": [{ "term": null, "count": 382 }],
+      "total": 382,
+      "type": "terms"
+    },
+    "biosamples.anatomical_site": {
+      "terms": [
+        { "term": null, "count": 262 },
+        { "term": "Unknown", "count": 137 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "biosamples.biosample_type": {
+      "terms": [
+        { "term": null, "count": 259 },
+        { "term": "Blood", "count": 125 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "diagnoses.disease": {
+      "terms": [
+        { "term": "Autism spectrum disorder", "count": 37 },
+        { "term": "Inflammatory bowel disease", "count": 15 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "diagnoses.phenotype": {
+      "terms": [
+        { "term": null, "count": 370 },
+        { "term": "Agenesis of the Corpus Callosum", "count": 2 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "diagnoses.phenopacket": {
+      "terms": [{ "term": null, "count": 382 }],
+      "total": 382,
+      "type": "terms"
+    },
+    "files.data_modality": {
+      "terms": [
+        { "term": null, "count": 377 },
+        { "term": "single-cell RNA sequencing assay", "count": 4 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "files.file_format": {
+      "terms": [
+        { "term": ".vcf.gz", "count": 288 },
+        { "term": ".tbi", "count": 277 },
+        { "term": ".cram", "count": 233 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "files.is_supplementary": {
+      "terms": [
+        { "term": "true", "count": 347 },
+        { "term": "false", "count": 344 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "activities.activity_type": {
+      "terms": [
+        { "term": "Indexing", "count": 283 },
+        { "term": "Unknown", "count": 210 },
+        { "term": "Sequencing", "count": 130 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "activities.assay_type": {
+      "terms": [
+        { "term": null, "count": 382 },
+        { "term": "WGS", "count": 1 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "activities.data_modality": {
+      "terms": [
+        { "term": null, "count": 382 },
+        { "term": "Genomic", "count": 7 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "donors.organism_type": {
+      "terms": [
+        { "term": "Human", "count": 199 },
+        { "term": null, "count": 180 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "donors.phenotypic_sex": {
+      "terms": [
+        { "term": "Female", "count": 190 },
+        { "term": "Male", "count": 190 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "donors.reported_ethnicity": {
+      "terms": [
+        { "term": null, "count": 334 },
+        { "term": "Black or African American", "count": 54 }
+      ],
+      "total": 382,
+      "type": "terms"
+    }
+  }
+}
