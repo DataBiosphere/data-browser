@@ -107,9 +107,8 @@ export type SummaryResponse = {
   biosampleCount: number;
   datasetCount: number;
   donorCount: number;
-  donorDiagnosisDiseases: unknown[]; // TODO - when type is known.
-  donorDiagnosisPhenotypes: unknown[]; // TODO - when type is known.
   donorSpecies: DonorSpecies[];
   fileCount: number;
   fileFormats: FileFormat[];
+  totalFileSize: number;
 };
