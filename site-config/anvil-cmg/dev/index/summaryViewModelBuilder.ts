@@ -1,6 +1,6 @@
-import { SummaryResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
 import { formatFileSize } from "@databiosphere/findable-ui/lib/utils/formatFileSize";
+import { SummaryResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 
 /**
  * Maps the AnVIL-CMG summary response to summary display key-value pairs.
