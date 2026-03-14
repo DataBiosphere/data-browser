@@ -5,10 +5,8 @@ Fetch all AnVIL datasets, extract unique studies from DUOS, and report coverage.
 Requires: gcloud auth login, pip install requests
 """
 
-import json
 import subprocess
 import sys
-from collections import Counter
 
 import requests
 
