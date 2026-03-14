@@ -76,7 +76,9 @@ These fields already exist on dataset entity responses. On `/index/studies`, the
 
 #### New facets
 
-The following new facets are sourced from the DUOS study entity. These are singleton-valued per study, so their values are propagated down to all child entities for filtering. These facets apply to all entity endpoints: `/index/studies`, `/index/datasets`, `/index/biosamples`, `/index/donors`, `/index/activities`, `/index/files`.
+The following new facets are sourced from the DUOS study entity. Study-level values are propagated down to child entities for filtering, matching the pattern where `datasets.registered_identifier` appears on child endpoints but not on `/index/datasets` itself.
+
+Facets propagated to all entity endpoints (`/index/studies`, `/index/datasets`, `/index/biosamples`, `/index/donors`, `/index/activities`, `/index/files`):
 
 | Facet                            | Source                                                                  |
 | -------------------------------- | ----------------------------------------------------------------------- |

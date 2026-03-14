@@ -80,6 +80,14 @@
     }
   ],
   "termFacets": {
+    "studies.registered_identifier": {
+      "terms": [
+        { "term": "phs001489", "count": 149 },
+        { "term": "phs000920", "count": 20 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
     "studies.study_name": {
       "terms": [
         {
@@ -104,6 +112,31 @@
       "terms": [
         { "term": "Case-Control", "count": "..." },
         { "term": "Cohort", "count": "..." }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "studies.phenotype_indication": {
+      "terms": [
+        { "term": "Epilepsy", "count": "..." },
+        { "term": "Inflammatory Bowel Disease", "count": "..." }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "studies.data_types": {
+      "terms": [
+        { "term": "WES", "count": "..." },
+        { "term": "WGS", "count": "..." },
+        { "term": "GSA-MD", "count": "..." }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "studies.principal_investigator": {
+      "terms": [
+        { "term": "Ben Neale", "count": 149 },
+        { "term": "Daniel MacArthur", "count": "..." }
       ],
       "total": 382,
       "type": "terms"
