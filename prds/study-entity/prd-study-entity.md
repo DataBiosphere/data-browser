@@ -4,7 +4,7 @@
 
 On the AnVIL Data Explorer, multiple datasets share the same parent study (`registered_identifier` / phsId). Currently there is no study-level entity in the API — partial study-level info is only available as repeated fields across dataset hits. A study entity collapses these into a single browsable entry with aggregated statistics.
 
-It is also difficult for consortia to link directly to their collection of studies — they can only link to individual datasets, which may span multiple studies.
+It is also difficult for consortia to link directly to their collection of studies — they can only link to list of datasets, which may span multiple studies.
 
 As of 2026-03-12: 382 datasets map to **73 unique studies** in DUOS. 4 datasets have no `registered_identifier`.
 
@@ -13,21 +13,21 @@ As of 2026-03-12: 382 datasets map to **73 unique studies** in DUOS. 4 datasets 
 1. Add a `studies` entity to the Azul index with study-level fields and aggregations.
 2. Enable studies and their child entities (datasets, biosamples, donors, activities, files) to be filterable by the key study-level properties including a consortia filter enableing consortia to share direct links to the collection of their datasets in the explorer.
 
+## Sudies Data Source
+
+Study info can be sourced from the DUOS API (`GET /api/tdr/{DUOS-ID}` → `response.study`). In the DUOS API, study info is embedded in the dataset response — there is no "list all studies" endpoint, so studies must be deduped from dataset responses.
+
 ## API Changes
 
 ### New endpoint: `/index/studies`
 
 The new `/index/studies` endpoint returns study entities with the same filtering and facet structure as the other entity endpoints. Hits and termFacets are updated as outlined below.
 
-#### Sudies Data Source
-
-Study info can be sourced from the DUOS API (`GET /api/tdr/{DUOS-ID}` → `response.study`). In the DUOS API, study info is embedded in the dataset response — there is no "list all studies" endpoint, so studies must be deduped from dataset responses.
-
 ### Hits
 
 #### New hit fields
 
-These new study-level fields are sourced from DUOS and appear in full on the `/index/studies` hit response. On other entity endpoints (`/index/datasets`, `/index/files`, etc.), a `studies` object is included in hits but abbreviated to just `study_name`, `registered_identifier`, and `consortia`.
+These new study-level fields are sourced from DUOS and appear in full on the `/index/studies` hit response. On other entity endpoints (`/index/datasets`, `/index/files`, etc.), a `studies` object is included in hits but abbreviated to just `study_name`, `registered_identifier`, and `consortia`, following the existing practice of including summary parent objects on child entity hits.
 
 | Field                  | Azul Key                         | DUOS Path                                                               | Notes                                                                                |
 | ---------------------- | -------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
@@ -74,11 +74,13 @@ These fields already exist on dataset entity responses. On `/index/studies`, the
 
 ### TermFacets
 
+> **Note:** Hit abbreviation and facet propagation are independent. On child entity endpoints, the `studies` hit object is abbreviated to 3 fields (`study_name`, `registered_identifier`, `consortia`), but _all_ 7 `studies.*` facets are available for filtering. This matches the existing pattern: e.g., `/index/files` hits abbreviate `datasets` to just `dataset_id` and `title`, yet all dataset-level facets (`datasets.consent_group`, `datasets.data_use_permission`, etc.) appear as termFacets on `/index/files`.
+
 #### New facets
 
-The following new facets are sourced from the DUOS study entity. Study-level values are propagated down to child entities for filtering, matching the pattern where `datasets.registered_identifier` appears on child endpoints but not on `/index/datasets` itself.
+The following new facets are sourced from the DUOS study entity. Study-level values are propagated down to child entities for filtering, matching the pattern where `datasets.registered_identifier` appears on child endpoints but not on `/index/datasets` itself. For array-valued fields (`consortia`, `study_design`, `data_types`), the full array is propagated to every child entity — the `studies.*` prefix makes the semantics clear (e.g., `studies.data_types: WES` means "belongs to a study tagged with WES," not that the child entity itself is WES).
 
-Facets propagated to all entity endpoints (`/index/studies`, `/index/datasets`, `/index/biosamples`, `/index/donors`, `/index/activities`, `/index/files`):
+Facets propagated to all entity endpoints, following the current practice of propagating all parent facets to children (`/index/studies`, `/index/datasets`, `/index/biosamples`, `/index/donors`, `/index/activities`, `/index/files`):
 
 | Facet                            | Source                                                                  |
 | -------------------------------- | ----------------------------------------------------------------------- |
