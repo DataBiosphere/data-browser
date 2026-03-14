@@ -94,7 +94,7 @@ Facets propagated to all entity endpoints, following the current practice of pro
 
 #### Existing facets
 
-All existing termFacets from current entity endpoints are also available on `/index/studies`, aggregated from child entities using the same roll-up rules as the hit fields above. Note: child entity endpoints (biosamples, donors, files, activities) have 3 additional facets beyond what `/index/datasets` exposes: `datasets.registered_identifier`, `files.reference_assembly`, and `accessible`.
+All existing termFacets from current entity endpoints are also available on `/index/studies`, aggregated from child entities using the same roll-up rules as the hit fields above. All entity endpoints share the same set of existing facets.
 
 | Facet                            | Source field                     |
 | -------------------------------- | -------------------------------- |

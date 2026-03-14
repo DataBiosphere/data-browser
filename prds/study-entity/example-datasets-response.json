@@ -285,6 +285,27 @@
       ],
       "total": 382,
       "type": "terms"
+    },
+    "datasets.registered_identifier": {
+      "terms": [
+        { "term": "phs001489", "count": 149 },
+        { "term": "phs000920", "count": 20 }
+      ],
+      "total": 382,
+      "type": "terms"
+    },
+    "files.reference_assembly": {
+      "terms": [{ "term": "...", "count": "..." }],
+      "total": 382,
+      "type": "terms"
+    },
+    "accessible": {
+      "terms": [
+        { "term": "true", "count": "..." },
+        { "term": "false", "count": "..." }
+      ],
+      "total": 382,
+      "type": "terms"
     }
   }
 }
