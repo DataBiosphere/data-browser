@@ -4,7 +4,7 @@
 
 On the AnVIL Data Explorer, multiple datasets share the same parent study (`registered_identifier` / phsId). Currently there is no study-level entity in the API — partial study-level info is only available as repeated fields across dataset hits. A study entity collapses these into a single browsable entry with aggregated statistics.
 
-It is also difficult for consortia to link directly to their collection of studies — they can only link to list of datasets, which may span multiple studies.
+It is also difficult for consortia to link directly to their collection of studies — they can only link to a list of datasets, which may span multiple studies.
 
 As of 2026-03-12: 382 datasets map to **73 unique studies** in DUOS. 4 datasets have no `registered_identifier`.
 
