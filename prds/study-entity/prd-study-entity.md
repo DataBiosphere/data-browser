@@ -11,9 +11,9 @@ As of 2026-03-12: 382 datasets map to **73 unique studies** in DUOS. 4 datasets 
 ## Goals
 
 1. Add a `studies` entity to the Azul index with study-level fields and aggregations.
-2. Enable studies and their child entities (datasets, biosamples, donors, activities, files) to be filterable by the key study-level properties including a consortia filter enableing consortia to share direct links to the collection of their datasets in the explorer.
+2. Enable studies and their child entities (datasets, biosamples, donors, activities, files) to be filterable by the key study-level properties including a consortia filter enabling consortia to share direct links to the collection of their datasets in the explorer.
 
-## Sudies Data Source
+## Studies Data Source
 
 Study info can be sourced from the DUOS API (`GET /api/tdr/{DUOS-ID}` → `response.study`). In the DUOS API, study info is embedded in the dataset response — there is no "list all studies" endpoint, so studies must be deduped from dataset responses.
 
@@ -33,7 +33,7 @@ These new study-level fields are sourced from DUOS and appear in full on the `/i
 | ---------------------- | -------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | Registered Identifier  | `studies.registered_identifier`  | `study.properties[key=dbGaPPhsID].value`                                | 66/73 studies (90% coverage). See open question below for studies missing this field |
 | Study Name             | `studies.study_name`             | `study.name`                                                            | 73 unique values, 100% coverage                                                      |
-| Consortia              | `studies.consortia`              | `study.properties[key=collaboratingSites].value`                        | 19 unique values, 95.5% coverage                                                     |
+| Consortia              | `studies.consortia`              | `study.properties[key=collaboratingSites].value`                        | 19 unique values, 65/73 studies (89%), 365/382 datasets (95.5%)                      |
 | Study Design           | `studies.study_design`           | `study.properties[key=data].value.tags` (prefix `dbGaP_study_design: `) | 11 unique values, 90% coverage                                                       |
 | Description            | `studies.description`            | `study.description`                                                     | 100% coverage                                                                        |
 | Phenotype Indication   | `studies.phenotype_indication`   | `study.properties[key=phenotypeIndication].value`                       | 72/73 studies (99% coverage). String type in DUOS (single value, not array)          |

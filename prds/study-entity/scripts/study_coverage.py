@@ -24,7 +24,7 @@ url = (
     "?size=100&sort=datasets.title&catalog=anvil13&order=asc&filters=%7B%7D"
 )
 while url:
-    resp = requests.get(url)
+    resp = requests.get(url, timeout=30)
     resp.raise_for_status()
     data = resp.json()
     all_hits.extend(data["hits"])
@@ -56,6 +56,7 @@ for i, duos_id in enumerate(unique_duos_ids):
         r = requests.get(
             f"https://consent.dsde-prod.broadinstitute.org/api/tdr/{duos_id}",
             headers=headers,
+            timeout=30,
         )
         r.raise_for_status()
         data = r.json()
@@ -77,7 +78,7 @@ for i, duos_id in enumerate(unique_duos_ids):
                 "datasetCount": len(study.get("datasetIds", [])),
             }
     except Exception as e:
-        print(f"  Error on {duos_id}: {e}")
+        print(f"  Error on {duos_id}: {e}", file=sys.stderr)
 
 print(f"\nUnique studies: {len(studies)}")
 

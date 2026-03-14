@@ -25,7 +25,7 @@ url = (
     "?size=100&sort=datasets.title&catalog=anvil13&order=asc&filters=%7B%7D"
 )
 while url:
-    resp = requests.get(url)
+    resp = requests.get(url, timeout=30)
     resp.raise_for_status()
     data = resp.json()
     all_hits.extend(data["hits"])
@@ -38,7 +38,6 @@ for h in all_hits:
             {
                 "title": ds.get("title"),
                 "duos_id": ds.get("duos_id"),
-                "registered_identifier": ds.get("registered_identifier", []),
             }
         )
 
@@ -63,6 +62,7 @@ for i, duos_id in enumerate(unique_duos_ids):
         r = requests.get(
             f"https://consent.dsde-prod.broadinstitute.org/api/tdr/{duos_id}",
             headers=headers,
+            timeout=30,
         )
         r.raise_for_status()
         data = r.json()

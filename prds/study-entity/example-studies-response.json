@@ -105,10 +105,10 @@
     },
     "studies.consortia": {
       "terms": [
-        { "term": "CCDG", "count": 283 },
-        { "term": "CMG", "count": 20 },
-        { "term": "CSER", "count": 8 },
-        { "term": "GREGoR", "count": 7 }
+        { "term": "CCDG", "count": "..." },
+        { "term": "CMG", "count": "..." },
+        { "term": "CSER", "count": "..." },
+        { "term": "GREGoR", "count": "..." }
       ],
       "total": 73,
       "type": "terms"
