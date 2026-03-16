@@ -1,6 +1,6 @@
-import { SummaryResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
-import { ProjectSummary } from "../../../../app/apis/azul/hca-dcp/common/entities";
 import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
+import { ProjectSummary } from "../../../../app/apis/azul/hca-dcp/common/entities";
+import { SummaryResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 
 /**
  * Maps the HCA-DCP summary response to summary display key-value pairs.
