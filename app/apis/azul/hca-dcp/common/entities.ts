@@ -119,7 +119,7 @@ export interface ProjectsEntityResponse {
  */
 export interface ProjectSummary {
   cellSuspensions: { totalCells: number | null };
-  projects: { estimatedCellCount: number };
+  projects: { estimatedCellCount: number | null };
 }
 
 /**
