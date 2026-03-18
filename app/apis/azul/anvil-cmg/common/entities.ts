@@ -81,7 +81,7 @@ export interface DonorEntityResponse {
  */
 export interface DonorSpecies {
   count: number;
-  species: null; // TODO - when species type is known (currently returns null value).
+  species: string | null;
 }
 
 /**
