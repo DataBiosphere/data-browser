@@ -75,5 +75,5 @@ export type SummaryResponse = {
   projects: ProjectSummary[];
   speciesCount: number;
   specimenCount: number;
-  totalFileSize: number | string;
+  totalFileSize: number;
 };

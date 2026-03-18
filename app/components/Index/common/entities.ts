@@ -45,17 +45,3 @@ export enum METADATA_KEY {
 }
 
 export type NetworkKey = (typeof NETWORK_KEYS)[number];
-
-/**
- * Set of possible summary counts and other summary values as part of summary response.
- */
-export enum SUMMARY {
-  BIOSAMPLES = "BIOSAMPLES",
-  DONORS = "DONORS",
-  ESTIMATED_CELLS = "ESTIMATED_CELLS",
-  FILE_FORMATS = "FILE_FORMATS",
-  FILES = "FILES",
-  SPECIES = "SPECIES",
-  SPECIMENS = "SPECIMENS",
-  TOTAL_FILE_SIZE = "TOTAL_FILE_SIZE",
-}
