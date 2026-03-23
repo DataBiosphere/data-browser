@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.29.0](https://github.com/DataBiosphere/data-browser/compare/v2.28.1...v2.29.0) (2026-03-23)
+
+
+### Features
+
+* track dataset exports for anvil-cmg and hca-dcp ([#4717](https://github.com/DataBiosphere/data-browser/issues/4717)) ([a9f9695](https://github.com/DataBiosphere/data-browser/commit/a9f9695bee96a76d13f52a0dc766de5d3ee81498))
+* track dataset exports for anvil-cmg and hca-dcp [#4711](https://github.com/DataBiosphere/data-browser/issues/4711) ([a9f9695](https://github.com/DataBiosphere/data-browser/commit/a9f9695bee96a76d13f52a0dc766de5d3ee81498))
+
+
+### Chores
+
+* update findable-ui to latest version ([#4721](https://github.com/DataBiosphere/data-browser/issues/4721)) ([c01bb77](https://github.com/DataBiosphere/data-browser/commit/c01bb77742f92f94f557a58c00258fc3494586d3))
+* update findable-ui to latest version [#4720](https://github.com/DataBiosphere/data-browser/issues/4720) ([c01bb77](https://github.com/DataBiosphere/data-browser/commit/c01bb77742f92f94f557a58c00258fc3494586d3))
+
 ## [2.28.1](https://github.com/DataBiosphere/data-browser/compare/v2.28.0...v2.28.1) (2026-03-20)
 
 
