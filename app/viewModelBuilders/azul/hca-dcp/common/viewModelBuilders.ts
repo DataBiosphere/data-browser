@@ -918,6 +918,7 @@ export const buildExportEntityToTerra = (
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters,
     formFacet,
+    isDatasetExport: true,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
     speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
