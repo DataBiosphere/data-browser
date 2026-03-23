@@ -28,10 +28,7 @@ import {
 } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { getConfig } from "@databiosphere/findable-ui/lib/config/config";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
-import {
-  FILE_MANIFEST_TYPE,
-  FileFacet,
-} from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
+import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import {
   findFacet,
   isFacetTermSelected,
@@ -39,10 +36,6 @@ import {
 } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/utils";
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import { SIZE } from "@databiosphere/findable-ui/lib/styles/common/constants/size";
-import {
-  TEXT_BODY_400,
-  TEXT_BODY_400_2_LINES,
-} from "@databiosphere/findable-ui/lib/theme/common/typography";
 import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
 import { CategoryKeyLabel } from "@databiosphere/findable-ui/lib/viewModelBuilders/common/entities";
 import {
@@ -91,7 +84,6 @@ import {
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { humanFileSize } from "../../../../utils/fileSize";
 import { DATE_TIME_FORMAT_OPTIONS } from "../../../common/contants";
-import { Unused, Void } from "../../../common/entities";
 import { formatDate } from "../../../common/utils";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
@@ -122,6 +114,7 @@ import {
   bindFileSummaryResponse,
   mapExportSummary,
 } from "./summaryMapper/summaryMapper";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 /**
  * Build props for the KeyValuePairs component for displaying the project accessions.
@@ -533,8 +526,8 @@ export const buildAggregateSubmissionDate = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertExportEntityWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.Alert> => {
   const content = isUserAuthenticated(viewContext)
     ? "To export this project, please request access."
@@ -553,7 +546,7 @@ export const buildAlertExportEntityWarning = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertExportWarning = (
-  _: Unused,
+  _: unknown,
   viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.AlertExportWarning> => {
   const isAuthenticated = isUserAuthenticated(viewContext);
@@ -583,7 +576,9 @@ export const buildAnalysisPortals = (
     KeyValuesElType: Fragment,
     ValueElType: (props) =>
       C.ValueElType({
-        variant: analysisPortals ? TEXT_BODY_400 : TEXT_BODY_400_2_LINES,
+        variant: analysisPortals
+          ? TYPOGRAPHY_PROPS.VARIANT.BODY_400
+          : TYPOGRAPHY_PROPS.VARIANT.BODY_400_2_LINES,
         ...props,
       }),
     keyValuePairs,
@@ -815,13 +810,13 @@ export const buildDetails = (
 
 /**
  * Build props for DownloadCurlCommand component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the DownloadCurlCommand component.
  */
 export const buildDownloadCurlCommand = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.DownloadCurlCommand> => {
   const {
     exploreState: { filterState },
@@ -834,10 +829,10 @@ export const buildDownloadCurlCommand = (
     DownloadCurlStart: MDX.DownloadCurlCommandStart,
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.BULK_DOWNLOAD,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters: filterState,
     formFacet,
+    speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
   };
 };
 
@@ -861,10 +856,10 @@ export const buildDownloadEntityCurlCommand = (
     DownloadCurlStart: MDX.DownloadCurlCommandStart,
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_BULK_DOWNLOAD,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters,
     formFacet,
+    speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
   };
 };
 
@@ -888,8 +883,8 @@ export const buildEstimateCellCount = (
  * @returns model to be used as props for the ExportCurrentQuery component.
  */
 export const buildExportCurrentQuery = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportCurrentQuery> => {
   const {
     fileManifestState: { filesFacets, filters, isFacetsLoading },
@@ -920,24 +915,25 @@ export const buildExportEntityToTerra = (
     ExportToTerraStart: MDX.ExportToTerra,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters,
     formFacet,
+    isDatasetExport: true,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
+    speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
   };
 };
 
 /**
  * Build props for export BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export function buildExportHero(
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> {
   const { exploreState } = viewContext;
   const { tabValue } = exploreState || {};
@@ -952,13 +948,13 @@ export function buildExportHero(
 
 /**
  * Build props for ExportMethod component for display of the download to curl command section.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodBulkDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -972,13 +968,13 @@ export const buildExportMethodBulkDownload = (
 
 /**
  * Build props for download curl command BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroCurlCommand = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = 'Download Selected Data Using "curl"';
   const {
@@ -989,13 +985,13 @@ export const buildExportMethodHeroCurlCommand = (
 
 /**
  * Build props for manifest download BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Request File Manifest";
   const {
@@ -1006,13 +1002,13 @@ export const buildExportMethodHeroManifestDownload = (
 
 /**
  * Build props for export to terra BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Export to Terra";
   const {
@@ -1023,13 +1019,13 @@ export const buildExportMethodHeroTerra = (
 
 /**
  * Build props for ExportMethod component for display of the manifest download section.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -1044,13 +1040,13 @@ export const buildExportMethodManifestDownload = (
 
 /**
  * Build props for ExportMethod component for display of the export to terra section.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
@@ -1070,8 +1066,8 @@ export const buildExportMethodTerra = (
  * @returns model to be used as props for the ExportSelectedDataSummary component.
  */
 export const buildExportSelectedDataSummary = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportSelectedDataSummary> => {
   const {
     fileManifestState: {
@@ -1089,13 +1085,13 @@ export const buildExportSelectedDataSummary = (
 
 /**
  * Build props for ExportToTerra component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportToTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   const {
     exploreState: { filterState },
@@ -1108,12 +1104,12 @@ export const buildExportToTerra = (
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccessWithWarning,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters: filterState,
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.TERRA_PFB],
+    speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
   };
 };
 
@@ -1174,7 +1170,7 @@ export const buildFileDownload = (
     entityName: processEntityValue(filesResponse.files, "name"),
     relatedEntityId: project.projectId[0],
     relatedEntityName: project.projectTitle[0],
-    url: processEntityValue(filesResponse.files, "url", LABEL.EMPTY),
+    url: processEntityValue(filesResponse.files, "azul_url", LABEL.EMPTY),
   };
 };
 
@@ -1292,13 +1288,13 @@ export const buildMAHero = (
 
 /**
  * Build props for ManifestDownload component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ManifestDownload component.
  */
 export const buildManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ManifestDownload> => {
   const {
     exploreState: { filterState },
@@ -1311,10 +1307,10 @@ export const buildManifestDownload = (
     ManifestDownloadStart: MDX.ManifestDownloadStart,
     ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.DOWNLOAD_MANIFEST,
     fileSummaryFacetName: HCA_DCP_CATEGORY_KEY.FILE_FORMAT,
     filters: filterState,
     formFacet,
+    speciesFacetName: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
   };
 };
 
@@ -1331,7 +1327,6 @@ export const buildManifestDownloadEntity = (
   // Get the metadata filters.
   const metadataFilters = getMetadataFilters(filters);
   return {
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_DOWNLOAD_MANIFEST,
     filters,
     metadataFilters,
   };
@@ -1828,7 +1823,7 @@ function getExportEntityFilters(projectsResponse: ProjectsResponse): Filters {
  * @returns export method accessibility.
  */
 function getExportMethodAccessibility(
-  viewContext: ViewContext<Void>
+  viewContext: ViewContext<unknown>
 ): Partial<typeof C.ExportMethod> {
   const { fileManifestState } = viewContext;
   const { isFacetsSuccess } = fileManifestState;
@@ -2180,12 +2175,20 @@ function getProjectCallToAction(
   if (!isReady || isAccessGranted) {
     return null;
   }
+
+  // Get the DUOS ID from the project API response. Use the generic DUOS URL if the project does not hav
+  // a DUOS ID.
+  const duosId = getProjectDuosId(projectsResponse);
+  const ctaUrl = duosId
+    ? `https://duos.org/dataset/${duosId}`
+    : "https://duos.org/datalibrary/HCA";
+
   return C.BackPageHeroActions({
     callToActionProps: {
       callToAction: {
         label: "Request Access",
         target: ANCHOR_TARGET.BLANK,
-        url: "https://duos.org/datalibrary/HCA",
+        url: ctaUrl,
       },
     },
     linkProps: {
@@ -2194,6 +2197,15 @@ function getProjectCallToAction(
       label: "Need Help?",
     },
   });
+}
+
+/**
+ * Returns the DUOS ID from the project API response.
+ * @param projectsResponse - Response model return from project API.
+ * @returns DUOS ID.
+ */
+function getProjectDuosId(projectsResponse: ProjectsResponse): string {
+  return processEntityValue(projectsResponse.projects, "duosId", LABEL.EMPTY);
 }
 
 /**
@@ -2410,8 +2422,8 @@ export const renderExportEntityWarning = (
  * @returns model to be used as props for the ConditionalComponent component.
  */
 export const renderWhenUnAuthenticated = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
     isIn: !isUserAuthenticated(viewContext),

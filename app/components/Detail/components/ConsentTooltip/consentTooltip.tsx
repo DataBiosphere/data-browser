@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { Tooltip } from "@mui/material";
 
 interface ConsentTooltipProps {

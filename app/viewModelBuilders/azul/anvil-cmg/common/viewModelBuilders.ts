@@ -19,10 +19,7 @@ import { CurrentQuery } from "@databiosphere/findable-ui/lib/components/Export/c
 import { Summary } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
-import {
-  FILE_MANIFEST_TYPE,
-  FileFacet,
-} from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
+import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import {
   findFacet,
   isFacetTermSelected,
@@ -39,17 +36,13 @@ import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,
 } from "@mui/material";
-import React, { ReactNode } from "react";
+import React, { ComponentProps, ReactNode } from "react";
 import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
   DATASET_RESPONSE,
 } from "../../../../../site-config/anvil-cmg/category";
-import {
-  ROUTE_EXPORT_TO_TERRA,
-  ROUTE_MANIFEST_DOWNLOAD,
-} from "../../../../../site-config/anvil-cmg/dev/export/constants";
-import { URL_DATASETS } from "../../../../../site-config/anvil/dev/config";
+import { ROUTES } from "../../../../../site-config/anvil-cmg/dev/export/routes";
 import {
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
@@ -66,11 +59,11 @@ import {
 } from "../../../../apis/azul/anvil-cmg/common/entities";
 import {
   DatasetsResponse,
+  EntityResponse,
   FilesResponse,
   SummaryResponse,
 } from "../../../../apis/azul/anvil-cmg/common/responses";
 import {
-  getActivityDataModalities,
   getActivityType,
   getAggregatedBioSampleTypes,
   getAggregatedDatasetIds,
@@ -98,6 +91,7 @@ import {
   getReportedEthnicities,
 } from "../../../../apis/azul/anvil-cmg/common/transformers";
 import {
+  processAggregatedOrArrayValue,
   processEntityArrayValue,
   processEntityValue,
 } from "../../../../apis/azul/common/utils";
@@ -107,7 +101,6 @@ import { Description } from "../../../../components/Detail/components/MDX/compon
 import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
-import { Unused, Void } from "../../../common/entities";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
 import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
@@ -127,14 +120,28 @@ export const buildActivityType = (
 };
 
 /**
+ * Build props for aggregated data modality NTagCell component from the given response.
+ * @param response - Response model return from API.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildAggregatedDataModality = (
+  response: Exclude<EntityResponse, FilesResponse>
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
+    values: processAggregatedOrArrayValue(response.files, "data_modality"),
+  };
+};
+
+/**
  * Build props for dataset-related export warning Alert component.
  * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertDatasetExportWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.Alert> => {
   const content = isUserAuthenticated(viewContext)
     ? "To export this dataset, please request access."
@@ -153,8 +160,8 @@ export const buildAlertDatasetExportWarning = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertDatasetManifestDownloadWarning = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.Alert> => {
   const content = isUserAuthenticated(viewContext)
     ? "To download this dataset manifest, please request access."
@@ -173,7 +180,7 @@ export const buildAlertDatasetManifestDownloadWarning = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertEntityListWarning = (
-  _: Unused,
+  _: unknown,
   viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.AlertEntityListWarning> => {
   return {
@@ -190,7 +197,7 @@ export const buildAlertEntityListWarning = (
  * @returns model to be used as props for the Alert component.
  */
 export const buildAlertExportWarning = (
-  _: Unused,
+  _: unknown,
   viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof MDX.AlertExportWarning> => {
   const isAuthenticated = isUserAuthenticated(viewContext);
@@ -269,16 +276,16 @@ export const buildConsentGroup = (
 };
 
 /**
- * Build props for data modality NTagCell component from the given activities response.
- * @param response - Response model return from index/activities API.
+ * Build props for data modality NTagCell component from the given response.
+ * @param response - Response model return from API.
  * @returns model to be used as props for the NTagCell component.
  */
 export const buildDataModality = (
-  response: ActivityEntityResponse
+  response: FilesResponse
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
-    values: getActivityDataModalities(response),
+    values: processEntityArrayValue(response.files, "data_modality"),
   };
 };
 
@@ -359,7 +366,7 @@ export function buildDatasetExportBreadcrumbs(
   const datasetPath = buildDatasetPath(datasetsResponse);
   const datasetTitle = getDatasetTitle(datasetsResponse);
   return [
-    { path: URL_DATASETS, text: "Datasets" },
+    { path: "/datasets", text: "Datasets" },
     { path: datasetPath, text: datasetTitle },
   ];
 }
@@ -439,7 +446,7 @@ export const buildDatasetExportMethodManifestDownload = (
     buttonLabel: "Request File Manifest",
     description:
       "Request a file manifest suitable for downloading this dataset to your HPC cluster or local machine.",
-    route: `${datasetPath}${ROUTE_MANIFEST_DOWNLOAD}`,
+    route: `${datasetPath}${ROUTES.MANIFEST_DOWNLOAD}`,
     title: "Download a File Manifest with Metadata",
   };
 };
@@ -473,8 +480,77 @@ export const buildDatasetExportMethodTerra = (
     buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-    route: `${datasetPath}${ROUTE_EXPORT_TO_TERRA}`,
+    route: `${datasetPath}${ROUTES.TERRA}`,
     title: "Export Dataset Data and Metadata to Terra Workspace",
+  };
+};
+
+/**
+ * Build props for the dataset ExportToPlatform component.
+ * @param props - Props to pass to the ExportToPlatform component.
+ * @returns model to be used as props for the ExportToPlatform component.
+ */
+export const buildDatasetExportToPlatform = (
+  props: Pick<
+    ComponentProps<typeof C.ExportToPlatform>,
+    "buttonLabel" | "description" | "successTitle" | "title"
+  >
+): ((
+  response: DatasetsResponse,
+  viewContext: ViewContext<unknown>
+) => ComponentProps<typeof C.ExportToPlatform>) => {
+  return (response: DatasetsResponse, viewContext: ViewContext<unknown>) => {
+    const { fileManifestState } = viewContext;
+    return {
+      ...props,
+      fileManifestState,
+      fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+      filters: getExportTerraEntityFilters(response),
+      formFacet: getFormFacets(fileManifestState),
+      speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+    };
+  };
+};
+
+/**
+ * Build props for dataset ExportToPlatform BackPageHero component.
+ * @param title - Title of the export method.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildDatasetExportToPlatformHero = (
+  title: string
+): ((
+  response: DatasetsResponse,
+  viewContext: ViewContext<unknown>
+) => React.ComponentProps<typeof C.BackPageHero>) => {
+  return (response: DatasetsResponse) => {
+    return getDatasetExportMethodHero(response, title);
+  };
+};
+
+/**
+ * Build props for dataset ExportMethod component for display of the export to [platform] metadata section.
+ * @param props - Props to pass to the ExportMethod component.
+ * @param props.route - Route to the export method.
+ * @returns model to be used as props for the dataset ExportMethod component.
+ */
+export const buildDatasetExportToPlatformMethod = ({
+  route,
+  ...props
+}: Pick<
+  ComponentProps<typeof ExportMethod>,
+  "buttonLabel" | "description" | "route" | "title"
+>): ((
+  response: DatasetsResponse,
+  viewContext: ViewContext<unknown>
+) => ComponentProps<typeof ExportMethod>) => {
+  return (response: DatasetsResponse, viewContext: ViewContext<unknown>) => {
+    const datasetPath = buildDatasetPath(response);
+    return {
+      ...props,
+      ...getExportMethodAccessibility(viewContext),
+      route: `${datasetPath}${route}`,
+    };
   };
 };
 
@@ -515,7 +591,7 @@ export const buildDatasetIds = (
  */
 export function buildDatasetPath(datasetsResponse: DatasetsResponse): string {
   const datasetId = getDatasetEntryId(datasetsResponse);
-  return `${URL_DATASETS}/${datasetId}`;
+  return `/datasets/${datasetId}`;
 }
 
 /**
@@ -538,12 +614,13 @@ export const buildDatasetTerraExport = (
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters,
     formFacet,
+    isDatasetExport: true,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB],
+    speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
   };
 };
 
@@ -586,6 +663,20 @@ export const buildDiagnoses = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DIAGNOSIS),
     values: getAggregatedDiagnoses(response),
+  };
+};
+
+/**
+ * Build props for phenotype type NTagCell component from the given entity response.
+ * @param response - Response model return from Azul that includes aggregated diagnoses.
+ * @returns model to be used as props for the NTagCell component.
+ */
+export const buildDiagnosesPhenotype = (
+  response: AggregatedDiagnosisResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.PHENOTYPE),
+    values: processAggregatedOrArrayValue(response.diagnoses, "phenotype"),
   };
 };
 
@@ -648,13 +739,13 @@ export const buildExportCurrentQuery = (
 
 /**
  * Build props for export BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export function buildExportHero(
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> {
   const { exploreState } = viewContext;
   const { tabValue } = exploreState || {};
@@ -669,13 +760,13 @@ export function buildExportHero(
 
 /**
  * Build props for manifest download BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Request File Manifest";
   const {
@@ -686,13 +777,13 @@ export const buildExportMethodHeroManifestDownload = (
 
 /**
  * Build props for export to terra BackPageHero component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the BackPageHero component.
  */
 export const buildExportMethodHeroTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
   const title = "Export to Terra";
   const {
@@ -703,53 +794,53 @@ export const buildExportMethodHeroTerra = (
 
 /**
  * Build props for ExportMethod component for display of the manifest download section.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
     buttonLabel: "Request File Manifest",
     description:
       "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
-    route: ROUTE_MANIFEST_DOWNLOAD,
+    route: ROUTES.MANIFEST_DOWNLOAD,
     title: "Download a File Manifest with Metadata for the Selected Data",
   };
 };
 
 /**
  * Build props for ExportMethod component for display of the export to terra metadata section.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportMethod component.
  */
 export const buildExportMethodTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
     buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-    route: ROUTE_EXPORT_TO_TERRA,
+    route: ROUTES.TERRA,
     title: "Export Study Data and Metadata to Terra Workspace",
   };
 };
 
 /**
  * Build props for ExportSelectedDataSummary component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportSelectedDataSummary component.
  */
 export const buildExportSelectedDataSummary = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportSelectedDataSummary> => {
   const {
     fileManifestState: {
@@ -766,14 +857,85 @@ export const buildExportSelectedDataSummary = (
 };
 
 /**
+ * Build props for ExportToPlatform component.
+ * @param props - Props to pass to the ExportToPlatform component.
+ * @returns model to be used as props for the ExportToPlatform component.
+ */
+export const buildExportToPlatform = (
+  props: Pick<
+    ComponentProps<typeof C.ExportToPlatform>,
+    "buttonLabel" | "description" | "successTitle" | "title"
+  >
+): ((
+  _: unknown,
+  viewContext: ViewContext<unknown>
+) => ComponentProps<typeof C.ExportToPlatform>) => {
+  return (_: unknown, viewContext: ViewContext<unknown>) => {
+    const {
+      exploreState: { filterState },
+      fileManifestState,
+    } = viewContext;
+    return {
+      ...props,
+      fileManifestState,
+      fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+      filters: filterState,
+      formFacet: getFormFacets(fileManifestState),
+      speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+    };
+  };
+};
+
+/**
+ * Build props for ExportToPlatform BackPageHero component.
+ * @param title - Title of the export method.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildExportToPlatformHero = (
+  title: string
+): ((
+  _: unknown,
+  viewContext: ViewContext<unknown>
+) => React.ComponentProps<typeof C.BackPageHero>) => {
+  return (_, viewContext) => {
+    const {
+      exploreState: { tabValue },
+    } = viewContext;
+    return getExportMethodHero(tabValue, title);
+  };
+};
+
+/**
+ * Build props for ExportMethod component for display of the export to [platform] metadata section.
+ * @param props - Props to pass to the ExportMethod component.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportToPlatformMethod = (
+  props: Pick<
+    ComponentProps<typeof ExportMethod>,
+    "buttonLabel" | "description" | "route" | "title"
+  >
+): ((
+  _: unknown,
+  viewContext: ViewContext<unknown>
+) => ComponentProps<typeof ExportMethod>) => {
+  return (_: unknown, viewContext: ViewContext<unknown>) => {
+    return {
+      ...props,
+      ...getExportMethodAccessibility(viewContext),
+    };
+  };
+};
+
+/**
  * Build props for ExportToTerra component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ExportToTerra component.
  */
 export const buildExportToTerra = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ExportToTerra> => {
   const {
     exploreState: { filterState },
@@ -786,12 +948,12 @@ export const buildExportToTerra = (
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters: filterState,
     formFacet,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB],
+    speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
   };
 };
 
@@ -811,6 +973,7 @@ export const buildFileDataModality = (
 
 /**
  * Build props for file download AzulFileDownload component.
+ * Downloads use azul_url but are only enabled when azul_mirror_uri is present.
  * @param response - Response model returned from index/files API endpoint.
  * @returns model to be used as props for the AzulFileDownload component.
  */
@@ -818,11 +981,20 @@ export const buildFileDownload = (
   response: FilesResponse
 ): React.ComponentProps<typeof C.AzulFileDownload> => {
   const dataset = response.datasets[0];
+  const mirrorUri = processEntityValue(
+    response.files,
+    "azul_mirror_uri",
+    LABEL.EMPTY
+  );
+  // Only provide download URL if mirror URI exists (enables the download button)
+  const url = mirrorUri
+    ? processEntityValue(response.files, "azul_url", LABEL.EMPTY)
+    : undefined;
   return {
     entityName: processEntityValue(response.files, "file_name"),
     relatedEntityId: dataset.dataset_id[0],
     relatedEntityName: dataset.title[0],
-    url: processEntityValue(response.files, "url", LABEL.EMPTY),
+    url,
   };
 };
 
@@ -880,13 +1052,13 @@ export const buildLibraryId = (
 
 /**
  * Build props for ManifestDownload component.
- * @param _ - Void.
+ * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ManifestDownload component.
  */
 export const buildManifestDownload = (
-  _: Void,
-  viewContext: ViewContext<Void>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ManifestDownload> => {
   const {
     exploreState: { filterState },
@@ -899,10 +1071,10 @@ export const buildManifestDownload = (
     ManifestDownloadStart: MDX.ManifestDownloadStart,
     ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.DOWNLOAD_MANIFEST,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters: filterState,
     formFacet,
+    speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
   };
 };
 
@@ -1040,7 +1212,7 @@ export function getDatasetBreadcrumbs(
   datasetsResponse: DatasetsResponse
 ): Breadcrumb[] {
   return [
-    { path: URL_DATASETS, text: "Datasets" },
+    { path: "/datasets", text: "Datasets" },
     { path: "", text: getDatasetTitle(datasetsResponse) },
   ];
 }
@@ -1211,7 +1383,7 @@ function getExportEntityFilters(datasetsResponse: DatasetsResponse): Filters {
  * @returns export method accessibility.
  */
 function getExportMethodAccessibility(
-  viewContext: ViewContext<Void>
+  viewContext: ViewContext<unknown>
 ): Partial<typeof C.ExportMethod> {
   const { fileManifestState } = viewContext;
   const { isFacetsSuccess } = fileManifestState;
@@ -1271,20 +1443,27 @@ export function getExportSelectedDataSummary(
 function getExportTerraEntityFilters(
   datasetsResponse: DatasetsResponse
 ): Filters {
-  return [
-    ...getExportEntityFilters(datasetsResponse),
-    {
-      categoryKey: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
-      value: processRawEntityArrayValue(
-        datasetsResponse.donors,
-        "organism_type"
-      ),
-    },
-    {
-      categoryKey: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
-      value: processRawEntityArrayValue(datasetsResponse.files, "file_format"),
-    },
-  ];
+  const filters: Filters = [];
+
+  filters.push(...getExportEntityFilters(datasetsResponse));
+
+  // Add donor organism type filter (add `[null]` if no values are available).
+  const donorOrganismType = processRawEntityArrayValue(
+    datasetsResponse.donors,
+    "organism_type"
+  );
+  filters.push({
+    categoryKey: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+    value: donorOrganismType.length > 0 ? donorOrganismType : [null],
+  });
+
+  // Add file format filter.
+  filters.push({
+    categoryKey: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    value: processRawEntityArrayValue(datasetsResponse.files, "file_format"),
+  });
+
+  return filters;
 }
 
 /**
@@ -1480,8 +1659,8 @@ function processRawEntityArrayValue<
  * @returns model to be used as props for the ConditionalComponent component.
  */
 export const renderWhenUnAuthenticated = (
-  _: Unused,
-  viewContext: ViewContext<Unused>
+  _: unknown,
+  viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
     isIn: !isUserAuthenticated(viewContext),

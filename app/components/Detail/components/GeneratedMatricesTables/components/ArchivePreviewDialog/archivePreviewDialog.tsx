@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { ButtonGroup } from "@databiosphere/findable-ui/lib/components/common/ButtonGroup/buttonGroup";
 import { DialogTitle } from "@databiosphere/findable-ui/lib/components/common/Dialog/components/DialogTitle/dialogTitle";
 import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";

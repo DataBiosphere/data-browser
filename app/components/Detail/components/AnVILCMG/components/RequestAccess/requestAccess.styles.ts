@@ -1,8 +1,8 @@
 import { Button } from "@mui/material";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { primaryDark } from "@databiosphere/findable-ui/lib/styles/common/mixins/colors";
 import { DropdownMenu } from "@databiosphere/findable-ui/lib/components/common/DropdownMenu/dropdownMenu";
+import { PALETTE } from "@databiosphere/findable-ui/lib/styles/common/constants/palette";
 
 interface Props {
   open?: boolean;
@@ -27,11 +27,12 @@ export const StyledButton = styled(Button, {
 
   .MuiButton-endIcon {
     margin-left: -6px;
+    margin-right: 0;
   }
 
-  ${(props) =>
-    props.open &&
+  ${({ open }) =>
+    open &&
     css`
-      background-color: ${primaryDark(props)};
+      background-color: ${PALETTE.PRIMARY_DARK};
     `}
 `;

@@ -9,8 +9,12 @@ import {
  * Set of analysis portal names.
  */
 export enum ANALYSIS_PORTAL {
+  AZIMUTH = "AZIMUTH",
+  BIO_DATA_CATALYST = "BIO_DATA_CATALYST",
   CZ_CELLXGENE = "CZ_CELLXGENE",
   GENOME_BROWSER = "GENOME_BROWSER",
+  JBROWSE = "JBROWSE",
+  LCA = "LCA",
   LGEA = "LGEA",
   LUNGMAP_APPS = "LUNGMAP_APPS",
   SHINY = "SHINY",

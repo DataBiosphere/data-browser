@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import {
   AzulCatalogResponse,
   AzulEntitiesResponse,
@@ -17,7 +18,7 @@ import {
 import { getEntityConfig } from "@databiosphere/findable-ui/lib/config/utils";
 import { fetchCatalog } from "@databiosphere/findable-ui/lib/entity/api/service";
 import { getEntityService } from "@databiosphere/findable-ui/lib/hooks/useEntityService";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { database } from "@databiosphere/findable-ui/lib/utils/database";
 import { EntityDetailView } from "@databiosphere/findable-ui/lib/views/EntityDetailView/entityDetailView";
 import { EntityExportView } from "@databiosphere/findable-ui/lib/views/EntityExportView/entityExportView";
@@ -28,8 +29,18 @@ import { ParsedUrlQuery } from "querystring";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { readFile } from "../../app/utils/tsvParser";
 import { useRouter } from "next/router";
+import { useFeatureFlag } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/useFeatureFlag";
+import { FEATURES } from "../../app/shared/entities";
+import NextError from "next/error";
+import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 
 const setOfProcessedIds = new Set<string>();
+
+const NCPI_EXPORT_PATHS = [
+  ROUTES.BIO_DATA_CATALYST,
+  ROUTES.CANCER_GENOMICS_CLOUD,
+  ROUTES.CAVATICA,
+];
 
 interface StaticPath {
   params: PageUrl;
@@ -52,9 +63,12 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  * @returns Entity detail view component.
  */
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
+  const isNCPIExportEnabled = useFeatureFlag(FEATURES.NCPI_EXPORT);
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
+  if (!isNCPIExportEnabled && isNCPIExportRoute(query))
+    return <NextError statusCode={404} />;
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
   return <EntityDetailView {...props} />;
@@ -77,6 +91,19 @@ function findOverride(
 }
 
 /**
+ * Returns true if the current route is an NCPI export route.
+ * @param query - Parsed URL query.
+ * @returns True if the route matches an NCPI export path.
+ */
+function isNCPIExportRoute(query: ParsedUrlQuery): boolean {
+  const params = query.params as string[] | undefined;
+  const lastParam = params?.[params.length - 1] || "";
+  return NCPI_EXPORT_PATHS.map((path) => path.replace("/export/", "")).includes(
+    lastParam
+  );
+}
+
+/**
  * Returns true if the entity is a special case e.g. an "override".
  * @param override - Override.
  * @returns true if the entity is an override.
@@ -84,9 +111,9 @@ function findOverride(
 function isOverride(override: Override): boolean {
   return Boolean(
     override.deprecated ||
-      override.duplicateOf ||
-      override.supersededBy ||
-      override.withdrawn
+    override.duplicateOf ||
+    override.supersededBy ||
+    override.withdrawn
   );
 }
 
@@ -182,7 +209,7 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
         const azulCatalogResponse = await fetchCatalog();
         const catalogs = getCatalogs(azulCatalogResponse, defaultCatalog);
         // Define the list params.
-        const listParams = { size: "100" };
+        const listParams = { size: "75" };
         // Fetch entities for each catalog and process the paths.
         for (const catalog of catalogs) {
           const entitiesResponse = await getEntities(

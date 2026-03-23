@@ -30,6 +30,7 @@ export enum METADATA_KEY {
   ORGAN_PART = "ORGAN_PART",
   ORGANISM_AGE = "ORGANISM_AGE",
   ORGANISM_TYPE = "ORGANISM_TYPE",
+  PHENOTYPE = "PHENOTYPE",
   PHENOTYPIC_SEX = "PHENOTYPIC_SEX",
   PLATFORM = "PLATFORM",
   REPORTED_ETHNICITY = "REPORTED_ETHNICITY",
@@ -44,16 +45,3 @@ export enum METADATA_KEY {
 }
 
 export type NetworkKey = (typeof NETWORK_KEYS)[number];
-
-/**
- * Set of possible summary counts and other summary values as part of summary response.
- */
-export enum SUMMARY {
-  BIOSAMPLES = "BIOSAMPLES",
-  DONORS = "DONORS",
-  ESTIMATED_CELLS = "ESTIMATED_CELLS",
-  FILE_FORMATS = "FILE_FORMATS",
-  FILES = "FILES",
-  SPECIES = "SPECIES",
-  SPECIMENS = "SPECIMENS",
-}

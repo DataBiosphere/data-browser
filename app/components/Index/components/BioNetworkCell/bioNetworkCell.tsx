@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { TypographyProps } from "@databiosphere/findable-ui/lib/components/common/Typography/common/entities";
 import { NTagCell } from "../../../../components/index";

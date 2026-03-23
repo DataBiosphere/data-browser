@@ -10,10 +10,11 @@ import { makeConfig } from "../dev/config";
 const BROWSER_URL = "https://data-browser.lungmap.net";
 const DATA_URL = HCA_DATA_URL;
 const PORTAL_URL = HCA_PORTAL_URL;
-const CATALOG = "lm8";
+const CATALOG = "lm10";
 
 const config: SiteConfig = {
   ...makeConfig(BROWSER_URL, PORTAL_URL, DATA_URL, GIT_HUB_REPO_URL, CATALOG),
+  exportToTerraUrl: "https://app.terra.bio/",
 };
 
 // Update gtmAuth for the prod environment lookup.

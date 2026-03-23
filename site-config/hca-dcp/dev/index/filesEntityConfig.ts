@@ -4,12 +4,12 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { FilesResponse } from "../../../../app/apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 import { HCA_DCP_CATEGORY_KEY, HCA_DCP_CATEGORY_LABEL } from "../../category";
-import { subTitleHero } from "../listView/subTitleHero";
+import { entityViewSlot } from "../ui/entityView";
 
 /**
  * Entity config object responsible to config anything related to the /files route.
@@ -276,8 +276,13 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       },
     },
   } as ListConfig<FilesResponse>,
-  listView: {
-    subTitleHero,
-  },
   route: "files",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+    slots: {
+      entityViewSlot,
+    },
+  },
 };

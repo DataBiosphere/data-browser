@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { ButtonPrimary } from "@databiosphere/findable-ui/lib/components/common/Button/components/ButtonPrimary/buttonPrimary";
 import { AlertIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/AlertIcon/alertIcon";
 import { SectionActions } from "@databiosphere/findable-ui/lib/components/common/Section/section.styles";
@@ -6,10 +7,7 @@ import {
   StatusIcon,
 } from "@databiosphere/findable-ui/lib/components/common/StatusIcon/statusIcon";
 import { Override } from "@databiosphere/findable-ui/lib/config/entities";
-import {
-  TEXT_BODY_LARGE_400,
-  TEXT_HEADING_XLARGE,
-} from "@databiosphere/findable-ui/lib/theme/common/typography";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 import { Link as MLink, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -32,10 +30,13 @@ export const EntityDeprecated = ({
       <Section>
         <StatusIcon priority={PRIORITY.MEDIUM} StatusIcon={AlertIcon} />
         <SectionContent>
-          <Typography component="h2" variant={TEXT_HEADING_XLARGE}>
+          <Typography
+            component="h2"
+            variant={TYPOGRAPHY_PROPS.VARIANT.HEADING_XLARGE}
+          >
             {title}
           </Typography>
-          <Typography variant={TEXT_BODY_LARGE_400}>
+          <Typography variant={TYPOGRAPHY_PROPS.VARIANT.BODY_LARGE_400}>
             {supersededBy ? (
               <>
                 The project you are requesting has been permanently moved and

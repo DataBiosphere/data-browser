@@ -1,5 +1,5 @@
 import { Stack as MStack } from "@mui/material";
-import { ReactNode } from "react";
+import { JSX, ReactNode } from "react";
 
 interface StackProps {
   children: ReactNode | ReactNode[];

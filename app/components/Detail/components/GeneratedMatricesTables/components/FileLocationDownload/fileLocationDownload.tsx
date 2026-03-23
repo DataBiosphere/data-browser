@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { FileDownloadButton } from "@databiosphere/findable-ui/lib/components/common/Button/components/FileDownloadButton/fileDownloadButton";
 import { ButtonGroupButton } from "@databiosphere/findable-ui/lib/components/common/ButtonGroup/components/ButtonGroupButton/buttonGroupButton";
 import { DownloadIconSmall } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/common/constants";

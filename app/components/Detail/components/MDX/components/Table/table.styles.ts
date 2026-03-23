@@ -1,10 +1,7 @@
-import { smokeMain } from "@databiosphere/findable-ui/lib/styles/common/mixins/colors";
-import {
-  textBody400,
-  textBody500,
-} from "@databiosphere/findable-ui/lib/styles/common/mixins/fonts";
+import { PALETTE } from "@databiosphere/findable-ui/lib/styles/common/constants/palette";
 import styled from "@emotion/styled";
 import { TableContainer as MTableContainer } from "@mui/material";
+import { FONT } from "@databiosphere/findable-ui/lib/styles/common/constants/font";
 
 /**
  * Table style component. TODO De-dupe with Table component in the Portal.
@@ -18,7 +15,7 @@ export const TableContainer = styled(MTableContainer)`
     tr {
       td,
       th {
-        border-bottom: 1px solid ${smokeMain};
+        border-bottom: 1px solid ${PALETTE.SMOKE_MAIN};
         padding: 12px;
         text-align: left;
 
@@ -32,7 +29,7 @@ export const TableContainer = styled(MTableContainer)`
       }
 
       th {
-        ${textBody500};
+        font: ${FONT.BODY_500};
 
         &:empty {
           padding: 0;
@@ -40,7 +37,7 @@ export const TableContainer = styled(MTableContainer)`
       }
 
       td {
-        ${textBody400};
+        font: ${FONT.BODY_400};
       }
     }
   }

@@ -1,9 +1,10 @@
+import { JSX } from "react";
 import { AzulEntitiesStaticResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { Main as DXMain } from "@databiosphere/findable-ui/lib/components/Layout/components/Main/main.styles";
 import { EntityConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { getEntityConfig } from "@databiosphere/findable-ui/lib/config/utils";
 import { getEntityService } from "@databiosphere/findable-ui/lib/hooks/useEntityService";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { database } from "@databiosphere/findable-ui/lib/utils/database";
 import { ExploreView } from "@databiosphere/findable-ui/lib/views/ExploreView/exploreView";
 import { config } from "app/config/config";

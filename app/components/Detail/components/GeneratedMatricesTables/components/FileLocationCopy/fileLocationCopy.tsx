@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { ButtonGroupButton } from "@databiosphere/findable-ui/lib/components/common/ButtonGroup/components/ButtonGroupButton/buttonGroupButton";
 import { ContentCopyIconSmall } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/common/constants";
 import { useFileLocation } from "@databiosphere/findable-ui/lib/hooks/useFileLocation";

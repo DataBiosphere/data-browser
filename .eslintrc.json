@@ -5,8 +5,7 @@
     "sonarjs",
     "jsdoc",
     "sort-destructure-keys",
-    "typescript-sort-keys",
-    "react-hooks"
+    "typescript-sort-keys"
   ],
   "extends": [
     "eslint:recommended",
@@ -57,7 +56,6 @@
     "jsdoc/require-returns-description": "error",
     "jsdoc/check-alignment": "error",
     "jsdoc/check-param-names": "error",
-    "react-hooks/exhaustive-deps": "error",
     "sonarjs/todo-tag": "warn",
     "sonarjs/redundant-type-aliases": "warn",
     "sonarjs/no-nested-conditional": "off"

@@ -4,7 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { DatasetsResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import { getDatasetEntryId } from "../../../../app/apis/azul/anvil-cmg/common/transformers";
 import { getTitle } from "../../../../app/apis/azul/anvil-cmg/common/utils";
@@ -17,8 +17,8 @@ import {
 import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
-import { listHero } from "../listView/datasetsListHero";
-import { subTitleHero } from "../listView/subTitleHero";
+import { entityListSlot } from "../ui/datasetsEntityList";
+import { entityViewSlot } from "../ui/entityView";
 import { exportConfig } from "../detail/dataset/export/export";
 
 /**
@@ -115,6 +115,15 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
+          viewBuilder: V.buildDiagnosesPhenotype,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSIS_PHENOTYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE,
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: C.NTagCell,
           viewBuilder: V.buildDiagnoses,
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
@@ -124,11 +133,11 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildDataModality,
+          viewBuilder: V.buildAggregatedDataModality,
         } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-        width: { max: "1fr", min: "148px" },
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
+        width: { max: "1fr", min: "200px" },
       },
     ],
     tableOptions: {
@@ -136,6 +145,7 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
         columnVisibility: {
           [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
+          [ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY]: false,
         },
         sorting: [
           {
@@ -146,9 +156,14 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
       },
     },
   } as ListConfig<DatasetsResponse>,
-  listView: {
-    listHero,
-    subTitleHero,
-  },
   route: "datasets",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+    slots: {
+      entityListSlot,
+      entityViewSlot,
+    },
+  },
 };

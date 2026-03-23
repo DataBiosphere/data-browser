@@ -1,5 +1,5 @@
 import { BackPageHeroActions } from "@databiosphere/findable-ui/lib/components/Layout/components/BackPage/components/BackPageHero/components/Actions/actions.styles";
-import { mediaTabletUp } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
+import { bpUpSm } from "@databiosphere/findable-ui/lib/styles/common/mixins/breakpoints";
 import styled from "@emotion/styled";
 
 export const StyledBackPageHeroActions = styled(BackPageHeroActions)`
@@ -16,7 +16,7 @@ export const StyledBackPageHeroActions = styled(BackPageHeroActions)`
     width: fit-content;
   }
 
-  ${mediaTabletUp} {
+  ${bpUpSm} {
     display: flex;
 
     .MuiLink-root {

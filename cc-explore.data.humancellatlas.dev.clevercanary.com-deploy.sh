@@ -5,7 +5,7 @@ set -e
 echo \"Deleting ./out/\"
 rm -rf ./out
 
-n 20.10.0
+n 22.12.0
 npm ci
 
 # Build

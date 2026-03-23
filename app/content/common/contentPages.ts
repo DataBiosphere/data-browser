@@ -36,7 +36,7 @@ export async function getContentStaticProps(
   const { content } = matter(markdownWithMeta);
   const mdxSource = await serialize(content, {
     mdxOptions: {
-      development: false, // See https://github.com/hashicorp/next-mdx-remote/issues/307#issuecomment-1363415249 and https://github.com/hashicorp/next-mdx-remote/issues/307#issuecomment-1378362096.
+      development: process.env.NODE_ENV === "development",
       rehypePlugins: [],
       remarkPlugins: [],
     },

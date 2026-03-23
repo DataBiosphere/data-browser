@@ -1,7 +1,5 @@
-import {
-  CategoryConfig,
-  CategoryGroup,
-} from "@databiosphere/findable-ui/lib/config/entities";
+import { CategoryGroup } from "@databiosphere/findable-ui/lib/config/entities";
+import { CategoryConfig } from "@databiosphere/findable-ui/lib/common/categories/config/types";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
@@ -28,6 +26,7 @@ export const BIONETWORK_NAME: CategoryConfig = {
 };
 
 export const CONTACT_NAME: CategoryConfig = {
+  chart: { enable: false },
   key: HCA_DCP_CATEGORY_KEY.CONTACT_NAME,
   label: HCA_DCP_CATEGORY_LABEL.CONTACT_NAME,
 };
@@ -38,11 +37,13 @@ export const CONTENT_DESCRIPTION: CategoryConfig = {
 };
 
 export const DEVELOPMENT_STAGE: CategoryConfig = {
+  chart: { enable: false },
   key: HCA_DCP_CATEGORY_KEY.DEVELOPMENT_STAGE,
   label: HCA_DCP_CATEGORY_LABEL.DEVELOPMENT_STAGE,
 };
 
 export const DONOR_DISEASE: CategoryConfig = {
+  chart: { enable: false },
   key: HCA_DCP_CATEGORY_KEY.DONOR_DISEASE,
   label: HCA_DCP_CATEGORY_LABEL.DONOR_DISEASE,
 };
@@ -63,6 +64,7 @@ export const GENUS_SPECIES: CategoryConfig = {
 };
 
 export const INSTITUTION: CategoryConfig = {
+  chart: { enable: false },
   key: HCA_DCP_CATEGORY_KEY.INSTITUTION,
   label: HCA_DCP_CATEGORY_LABEL.INSTITUTION,
 };
@@ -103,6 +105,7 @@ export const PRESERVATION_METHOD: CategoryConfig = {
 };
 
 export const PROJECT_TITLE: CategoryConfig = {
+  chart: { enable: false },
   key: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
   label: HCA_DCP_CATEGORY_LABEL.PROJECT_TITLE,
 };

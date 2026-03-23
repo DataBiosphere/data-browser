@@ -4,7 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { AnVILCatalogConsortium } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
 import {
   anvilCatalogConsortiumInputMapper,
@@ -149,6 +149,8 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
       },
     ],
     tableOptions: {
+      downloadFilename: "consortia",
+      enableTableDownload: true,
       initialState: {
         columnVisibility: {
           [ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME]: false,
@@ -165,8 +167,8 @@ export const consortiaEntityConfig: EntityConfig<AnVILCatalogConsortium> = {
   } as ListConfig<AnVILCatalogConsortium>,
   listView: {
     disablePagination: true,
-    enableDownload: true,
   },
   route: "consortia",
   staticLoadFile: "files/anvil-catalog/out/anvil-consortia.json",
+  ui: { enableTabs: true },
 };

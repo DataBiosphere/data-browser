@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { LoginView } from "@databiosphere/findable-ui/lib/views/LoginView/loginView";
 import { GetStaticProps } from "next";
 

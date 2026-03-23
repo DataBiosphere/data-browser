@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { ExportView as ExportPageView } from "@databiosphere/findable-ui/lib/views/ExportView/exportView";
 import { GetStaticProps } from "next";
 

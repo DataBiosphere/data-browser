@@ -1,18 +1,30 @@
-import { AzulSummaryResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import React from "react";
-import * as C from "../../../../app/components";
-import { getSummaries } from "../../../../app/components/Index/common/indexTransformer";
-import { SUMMARIES } from "./common/constants";
+import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
+import { formatFileSize } from "@databiosphere/findable-ui/lib/utils/formatFileSize";
+import { SummaryResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 
 /**
- * Build props for index Summaries component from the given summary response.
- * @param summaryResponse - Response model return from summary API.
- * @returns model to be used as props for the Summaries component.
+ * Maps the AnVIL-CMG summary response to summary display key-value pairs.
+ * @param summaryResponse - Response model returned from the summary API.
+ * @returns summary key-value pairs of [count, label].
  */
 export const buildSummaries = (
-  summaryResponse: AzulSummaryResponse
-): React.ComponentProps<typeof C.Summaries> => {
-  return {
-    summaries: getSummaries(SUMMARIES, summaryResponse),
-  };
+  summaryResponse: SummaryResponse
+): [string, string][] => {
+  return [
+    [formatCountSize(summaryResponse.biosampleCount), "BioSamples"],
+    [formatCountSize(summaryResponse.donorCount), "Donors"],
+    [formatCountSize(sumFileFormatCounts(summaryResponse)), "Files"],
+    [formatFileSize(summaryResponse.totalFileSize), ""],
+  ];
 };
+
+/**
+ * Sums the file counts across all file formats in the summary response.
+ * @param summaryResponse - Response model returned from the summary API.
+ * @returns total file count across all formats.
+ */
+function sumFileFormatCounts(summaryResponse: SummaryResponse): number {
+  return (summaryResponse.fileFormats ?? []).reduce((accum, { count }) => {
+    return accum + count;
+  }, 0);
+}

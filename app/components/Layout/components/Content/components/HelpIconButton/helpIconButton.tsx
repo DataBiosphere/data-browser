@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import {
   HelpIconButton as DXHelpIconButton,
   HelpIconButtonProps as DXHelpIconButtonProps,

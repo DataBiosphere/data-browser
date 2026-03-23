@@ -5,7 +5,6 @@ import {
   KeyValues,
   Value,
 } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-import { MetadataValue } from "@databiosphere/findable-ui/lib/components/Index/components/NTagCell/nTagCell";
 import { humanFileSize } from "../../../../utils/fileSize";
 import {
   processAggregatedOrArrayValue,
@@ -13,7 +12,6 @@ import {
   processNumberEntityValue,
 } from "../../common/utils";
 import {
-  AggregatedActivityResponse,
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
   AggregatedDiagnosisResponse,
@@ -106,10 +104,6 @@ export function getDatasetDetails(
   );
   details.set("Diagnosis", stringifyValues(getAggregatedDiagnoses(response)));
   details.set(
-    "Data modality",
-    stringifyValues(getAggregatedActivityDataModalities(response))
-  );
-  details.set(
     "Phenotypic sex",
     stringifyValues(getAggregatedPhenotypicSexes(response))
   );
@@ -118,28 +112,6 @@ export function getDatasetDetails(
     stringifyValues(getAggregatedReportedEthnicities(response))
   );
   return details;
-}
-
-/**
- * Maps data modality from index/activities API response.
- * @param response - Response model return from index/activities API.
- * @returns a list of data modalities.
- */
-export function getActivityDataModalities(
-  response: ActivityEntityResponse
-): MetadataValue[] {
-  return processAggregatedOrArrayValue(response.activities, "data_modality");
-}
-
-/**
- * Maps data modalities from aggregated activities values returned from endpoints other than index/activities.
- * @param response - Response model return from Azul that includes aggregated activities.
- * @returns Data modalities.
- */
-export function getAggregatedActivityDataModalities(
-  response: AggregatedActivityResponse
-): MetadataValue[] {
-  return processAggregatedOrArrayValue(response.activities, "data_modality");
 }
 
 /**

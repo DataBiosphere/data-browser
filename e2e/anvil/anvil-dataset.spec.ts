@@ -4,19 +4,13 @@ import {
   BUTTON_TEXT_EXPORT,
   BUTTON_TEXT_REQUEST_ACCESS,
   BUTTON_TEXT_REQUEST_FILE_MANIFEST,
+  BUTTON_TEXT_REQUEST_LINK,
   CHIP_TEXT_ACCESS_GRANTED,
   CHIP_TEXT_ACCESS_REQUIRED,
   DatasetAccess,
 } from "./common/constants";
-import {
-  MUI_ALERT_ROOT,
-  MUI_BUTTON_GROUP_ROOT,
-  MUI_FORM_CONTROL_ROOT,
-  MUI_TABLE_CELL_ROOT,
-  MUI_TABLE_ROOT,
-  MUI_TABLE_ROW_ROOT,
-} from "../features/common/constants";
-import { ROUTE_MANIFEST_DOWNLOAD } from "../../site-config/anvil-cmg/dev/export/constants";
+import { MUI_CLASSES } from "../features/common/constants";
+import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 import { ANVIL_CMG_CATEGORY_KEY } from "../../site-config/anvil-cmg/category";
 
 const { describe } = test;
@@ -54,7 +48,7 @@ describe("Dataset", () => {
     // Confirm the login alert is displayed.
     await expect(
       page.locator(
-        `${MUI_ALERT_ROOT}:has-text("To export this dataset, please sign in and, if necessary, request access.")`
+        `${MUI_CLASSES.ALERT}:has-text("To export this dataset, please sign in and, if necessary, request access.")`
       )
     ).toBeVisible();
   });
@@ -94,12 +88,12 @@ describe("Dataset", () => {
 
     // Navigate to the export file manifest page.
     const currentUrl = page.url();
-    await page.goto(`${currentUrl}${ROUTE_MANIFEST_DOWNLOAD}`);
+    await page.goto(`${currentUrl}${ROUTES.MANIFEST_DOWNLOAD}`);
 
     // Confirm the login alert is displayed.
     await expect(
       page.locator(
-        `${MUI_ALERT_ROOT}:has-text("To download this dataset manifest, please sign in and, if necessary, request access.")`
+        `${MUI_CLASSES.ALERT}:has-text("To download this dataset manifest, please sign in and, if necessary, request access.")`
       )
     ).toBeVisible();
   });
@@ -113,16 +107,16 @@ describe("Dataset", () => {
     // Confirm file manifest export method is visible and click it.
     await clickLink(page, BUTTON_TEXT_REQUEST_FILE_MANIFEST);
 
-    // Confirm the file manifest page is loaded: check there are two buttons
-    // (one for download, one for copy to clipboard).
-    const buttons = page.locator(`${MUI_BUTTON_GROUP_ROOT} button`);
+    // Confirm the file manifest page is loaded: check there is one button to request the manifest.
+    const buttons = page.locator(`${MUI_CLASSES.BUTTON}`, {
+      hasText: BUTTON_TEXT_REQUEST_LINK,
+    });
 
-    // Ensure there are exactly two buttons.
-    await expect(buttons).toHaveCount(2);
+    // Ensure there is exactly one button.
+    await expect(buttons).toHaveCount(1);
 
-    // Ensure both buttons are visible.
-    await expect(buttons.nth(0)).toBeVisible();
-    await expect(buttons.nth(1)).toBeVisible();
+    // Ensure the button is visible.
+    await expect(buttons).toBeVisible();
   });
 
   test("displays download file manifest selected data", async ({ page }) => {
@@ -153,7 +147,7 @@ describe("Dataset", () => {
     await clickLink(page, BUTTON_TEXT_ANALYZE_IN_TERRA);
 
     // Confirm the analyze in Terra page is loaded: check for form elements.
-    await expect(page.locator(MUI_FORM_CONTROL_ROOT).first()).toBeVisible();
+    await expect(page.locator(MUI_CLASSES.FORM_CONTROL).first()).toBeVisible();
   });
 
   test("displays analyze in Terra selected data", async ({ page }) => {
@@ -213,12 +207,12 @@ async function goToDataset(page: Page, access: DatasetAccess): Promise<void> {
   // Find a dataset that user has access to.
   const datasetRow = page
     .locator(
-      `${MUI_TABLE_ROOT} ${MUI_TABLE_ROW_ROOT}:has(${MUI_TABLE_CELL_ROOT}:has-text("${access}"))`
+      `${MUI_CLASSES.TABLE} ${MUI_CLASSES.TABLE_ROW}:has(${MUI_CLASSES.TABLE_CELL}:has-text("${access}"))`
     )
     .first();
   await expect(datasetRow).toBeVisible(); // Confirm at least one dataset has been found.
   const datasetLink = datasetRow.locator(
-    `${MUI_TABLE_CELL_ROOT}:first-child a`
+    `${MUI_CLASSES.TABLE_CELL}:first-child a`
   );
   const datasetTitle = await datasetLink.innerText();
   await datasetLink.click();

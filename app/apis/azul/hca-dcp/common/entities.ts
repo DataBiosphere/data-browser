@@ -41,6 +41,7 @@ export interface FilesEntityResponse {
  */
 export interface FileResponse {
   accessible: boolean;
+  azul_url: string;
   contentDescription: (string | null)[];
   drs_uri: string;
   fileSource: string | null;
@@ -50,7 +51,6 @@ export interface FileResponse {
   name: string;
   sha256: string;
   size: number;
-  url: string | null; // TODO confirm null is possible.
   uuid: string;
   version: string;
 }
@@ -69,11 +69,11 @@ export interface FileTypeSummary {
  * Model of file "leaf" values in matrix tree response from Azul.
  */
 export interface ProjectMatrixFileResponse {
+  azul_url: string;
   contentDescription: string[];
   matrixCellCount?: number;
   name: string;
   size: number;
-  url: string;
   uuid: string;
   version: string;
 }
@@ -88,6 +88,7 @@ export interface ProjectResponse {
   contributedAnalyses: ProjectResponseContributedAnalyses;
   contributors: ContributorResponse[];
   dataUseRestriction: string | null;
+  duosId: string | null;
   estimatedCellCount: number | null;
   laboratory: (string | null)[];
   matrices: ProjectResponseMatrices;
@@ -117,8 +118,8 @@ export interface ProjectsEntityResponse {
  * Model of project summary in the response from /index/summary API endpoint.
  */
 export interface ProjectSummary {
-  cellSuspensions: { totalCells: number };
-  projects: { estimatedCellCount: number };
+  cellSuspensions: { totalCells: number | null };
+  projects: { estimatedCellCount: number | null };
 }
 
 /**

@@ -16,9 +16,12 @@ import { mapAccessibleValue } from "./index/common/utils";
 import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
-import { summary } from "./index/summary";
 import { floating } from "./layout/floating";
 import dataDictionary from "./dataDictionary/data-dictionary.json";
+import { TABLE_OPTIONS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/tableOptions";
+import { buildDataDictionary } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/dataDictionaryMapper";
+import { buildSummaries } from "./index/summaryViewModelBuilder";
+import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -47,18 +50,17 @@ export function makeConfig(
         {
           categoryConfigs: [
             {
+              chart: { enable: false },
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
             },
             {
+              chart: { enable: false },
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
             },
             {
-              key: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-              label: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-            },
-            {
+              chart: { enable: false },
               key: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
               label: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
             },
@@ -80,6 +82,10 @@ export function makeConfig(
             {
               key: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
               label: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
+            },
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE,
+              label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSIS_PHENOTYPE,
             },
             {
               key: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
@@ -111,6 +117,10 @@ export function makeConfig(
               key: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
               label: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT,
             },
+            {
+              key: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
+              label: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
+            },
           ],
           label: "File",
         },
@@ -130,7 +140,13 @@ export function makeConfig(
       key: "anvil-cmg",
     },
     contentDir: "anvil-cmg",
-    dataDictionary,
+    dataDictionaries: [
+      {
+        dataDictionary: buildDataDictionary(dataDictionary),
+        path: "anvil-findability-subset",
+        tableOptions: TABLE_OPTIONS,
+      },
+    ],
     dataSource: {
       defaultListParams: {
         size: "25",
@@ -141,6 +157,7 @@ export function makeConfig(
       },
       url: `${dataUrl}/`,
     },
+    enableEntitiesView: true,
     entities: [
       datasetsEntityConfig,
       donorsEntityConfig,
@@ -148,9 +165,9 @@ export function makeConfig(
       activitiesEntityConfig,
       filesEntityConfig,
     ],
-    explorerTitle: "Explore Data",
     export: exportConfig,
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
+    filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
     layout: {
       floating,
@@ -177,8 +194,8 @@ export function makeConfig(
               label: "Help & Documentation",
               menuItems: [
                 {
-                  label: "Beta Announcement",
-                  url: "/beta-announcement",
+                  label: "GA Announcement",
+                  url: "/ga-announcement",
                 },
                 {
                   label: "Guides",
@@ -186,7 +203,7 @@ export function makeConfig(
                 },
                 {
                   label: "Data Dictionary",
-                  url: "/data-dictionary",
+                  url: "/data-dictionary/anvil-findability-subset",
                 },
                 {
                   label: "Terms of service",
@@ -209,7 +226,7 @@ export function makeConfig(
     redirectRootToPath: "/datasets",
     summaryConfig: {
       apiPath: "index/summary",
-      components: summary,
+      mapResponse: buildSummaries,
     },
     systemStatus: {
       apiPath: `${dataUrl}${APIEndpoints.INDEX_STATUS}`,

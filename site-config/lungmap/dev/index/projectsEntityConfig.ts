@@ -3,7 +3,7 @@ import {
   EntityConfig,
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
@@ -264,4 +264,9 @@ export const projectsEntityConfig: EntityConfig = {
   },
   overrides: hcaProjectEdits,
   route: "projects",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+  },
 };

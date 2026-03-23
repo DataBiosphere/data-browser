@@ -5,7 +5,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { FilesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
@@ -13,8 +13,8 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
-import { listHero } from "../listView/listHero";
-import { subTitleHero } from "../listView/subTitleHero";
+import { entityViewSlot } from "../ui/entityView";
+import { filesEntityListSlot } from "../ui/filesEntityList";
 
 export const downloadColumn: ColumnConfig<FilesResponse> = {
   componentConfig: {
@@ -44,7 +44,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
   label: "Files",
   list: {
     columns: [
-      // downloadColumn,
+      downloadColumn,
       {
         columnPinned: true,
         componentConfig: {
@@ -86,15 +86,6 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildFileDataModality,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DATA_MODALITY,
-        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DATA_MODALITY,
-        width: { max: "1fr", min: "140px" },
-      },
-      {
-        componentConfig: {
-          component: C.NTagCell,
           viewBuilder: V.buildOrganismTypes,
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
@@ -122,6 +113,15 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
+          viewBuilder: V.buildDiagnosesPhenotype,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSIS_PHENOTYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE,
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: C.NTagCell,
           viewBuilder: V.buildDiagnoses,
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
@@ -137,6 +137,15 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
         width: { max: "1fr", min: "240px" },
       },
+      {
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildDataModality,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
+        width: { max: "1fr", min: "200px" },
+      },
     ],
     tableOptions: {
       initialState: {
@@ -145,6 +154,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
           [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE]: false,
+          [ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY]: false,
         },
         sorting: [
           {
@@ -155,9 +165,14 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       },
     },
   } as ListConfig<FilesResponse>,
-  listView: {
-    listHero,
-    subTitleHero,
-  },
   route: "files",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+    slots: {
+      entityListSlot: filesEntityListSlot,
+      entityViewSlot,
+    },
+  },
 };

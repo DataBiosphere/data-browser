@@ -4,7 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { BioSamplesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
@@ -12,8 +12,8 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
-import { listHero } from "../listView/listHero";
-import { subTitleHero } from "../listView/subTitleHero";
+import { entityListSlot } from "../ui/entityList";
+import { entityViewSlot } from "../ui/entityView";
 
 /**
  * Entity config object responsible for config related to the /biosamples route.
@@ -88,6 +88,15 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
       {
         componentConfig: {
           component: C.NTagCell,
+          viewBuilder: V.buildDiagnosesPhenotype,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSIS_PHENOTYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE,
+        width: { max: "1fr", min: "200px" },
+      },
+      {
+        componentConfig: {
+          component: C.NTagCell,
           viewBuilder: V.buildDiagnoses,
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
@@ -103,12 +112,22 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
         id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
         width: { max: "1fr", min: "200px" },
       },
+      {
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildAggregatedDataModality,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
+        width: { max: "1fr", min: "200px" },
+      },
     ],
     tableOptions: {
       initialState: {
         columnVisibility: {
           [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
+          [ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY]: false,
         },
         sorting: [
           {
@@ -119,9 +138,14 @@ export const biosamplesEntityConfig: EntityConfig<BioSamplesResponse> = {
       },
     },
   } as ListConfig<BioSamplesResponse>,
-  listView: {
-    listHero,
-    subTitleHero,
-  },
   route: "biosamples",
+  ui: {
+    enableExportButton: true,
+    enableSummary: true,
+    enableTabs: true,
+    slots: {
+      entityListSlot,
+      entityViewSlot,
+    },
+  },
 };

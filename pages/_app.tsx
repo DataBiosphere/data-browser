@@ -26,10 +26,12 @@ import { config } from "app/config/config";
 import { FEATURES } from "app/shared/entities";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
-import { useEffect } from "react";
+import { JSX, useEffect } from "react";
 import TagManager from "react-gtm-module";
 import { BREAKPOINTS } from "../site-config/common/constants";
 import { LayoutDimensionsProvider } from "@databiosphere/findable-ui/lib/providers/layoutDimensions/provider";
+import { ServicesProvider } from "@databiosphere/findable-ui/lib/providers/services/provider";
+import { DataDictionaryStateProvider } from "@databiosphere/findable-ui/lib/providers/dataDictionaryState/provider";
 
 const FEATURE_FLAGS = Object.values(FEATURES);
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
@@ -71,56 +73,62 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
         <DXConfigProvider config={appConfig} entityListType={entityListType}>
           <Head pageTitle={pageTitle} />
           <CssBaseline />
-          <SystemStatusProvider>
-            <GoogleSignInAuthenticationProvider
-              SessionController={TerraProfileProvider}
-              timeout={SESSION_TIMEOUT}
-            >
-              <LoginGuardProvider>
-                <LayoutDimensionsProvider>
-                  <AppLayout>
-                    <ThemeProvider
-                      theme={(theme: Theme): Theme =>
-                        createTheme(
-                          deepmerge(theme, {
-                            breakpoints: createBreakpoints(BREAKPOINTS),
-                          })
-                        )
-                      }
-                    >
-                      <Header {...header} />
-                    </ThemeProvider>
-                    <ExploreStateProvider entityListType={entityListType}>
-                      <FileManifestStateProvider>
-                        <Main>
-                          <ErrorBoundary
-                            fallbackRender={({
-                              error,
-                              reset,
-                            }: {
-                              error: DataExplorerError;
-                              reset: () => void;
-                            }): JSX.Element => (
-                              <Error
-                                errorMessage={error.message}
-                                requestUrlMessage={error.requestUrlMessage}
-                                rootPath={redirectRootToPath}
-                                onReset={reset}
-                              />
-                            )}
-                          >
-                            <Component {...pageProps} />
-                            <Floating {...floating} />
-                          </ErrorBoundary>
-                        </Main>
-                      </FileManifestStateProvider>
-                    </ExploreStateProvider>
-                    <Footer {...footer} />
-                  </AppLayout>
-                </LayoutDimensionsProvider>
-              </LoginGuardProvider>
-            </GoogleSignInAuthenticationProvider>
-          </SystemStatusProvider>
+          <ServicesProvider>
+            <SystemStatusProvider>
+              <GoogleSignInAuthenticationProvider
+                SessionController={TerraProfileProvider}
+                timeout={SESSION_TIMEOUT}
+              >
+                <LoginGuardProvider>
+                  <LayoutDimensionsProvider>
+                    <AppLayout>
+                      <ThemeProvider
+                        theme={(theme: Theme): Theme => {
+                          // eslint-disable-next-line @typescript-eslint/no-unused-vars -- MUI internal property 'vars' is automatically added when cssVariables is enabled.
+                          const { vars, ...themeWithoutVars } = theme;
+                          return createTheme(
+                            deepmerge(themeWithoutVars, {
+                              breakpoints: createBreakpoints(BREAKPOINTS),
+                            })
+                          );
+                        }}
+                      >
+                        <Header {...header} />
+                      </ThemeProvider>
+                      <ExploreStateProvider entityListType={entityListType}>
+                        <DataDictionaryStateProvider>
+                          <Main>
+                            <ErrorBoundary
+                              fallbackRender={({
+                                error,
+                                reset,
+                              }: {
+                                error: DataExplorerError;
+                                reset: () => void;
+                              }): JSX.Element => (
+                                <Error
+                                  errorMessage={error.message}
+                                  requestUrlMessage={error.requestUrlMessage}
+                                  rootPath={redirectRootToPath}
+                                  onReset={reset}
+                                />
+                              )}
+                            >
+                              <FileManifestStateProvider>
+                                <Component {...pageProps} />
+                                <Floating {...floating} />
+                              </FileManifestStateProvider>
+                            </ErrorBoundary>
+                          </Main>
+                        </DataDictionaryStateProvider>
+                      </ExploreStateProvider>
+                      <Footer {...footer} />
+                    </AppLayout>
+                  </LayoutDimensionsProvider>
+                </LoginGuardProvider>
+              </GoogleSignInAuthenticationProvider>
+            </SystemStatusProvider>
+          </ServicesProvider>
         </DXConfigProvider>
       </ThemeProvider>
     </EmotionThemeProvider>

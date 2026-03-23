@@ -1,5 +1,376 @@
 # Changelog
 
+## [2.29.0](https://github.com/DataBiosphere/data-browser/compare/v2.28.1...v2.29.0) (2026-03-23)
+
+
+### Features
+
+* track dataset exports for anvil-cmg and hca-dcp ([#4717](https://github.com/DataBiosphere/data-browser/issues/4717)) ([a9f9695](https://github.com/DataBiosphere/data-browser/commit/a9f9695bee96a76d13f52a0dc766de5d3ee81498))
+* track dataset exports for anvil-cmg and hca-dcp [#4711](https://github.com/DataBiosphere/data-browser/issues/4711) ([a9f9695](https://github.com/DataBiosphere/data-browser/commit/a9f9695bee96a76d13f52a0dc766de5d3ee81498))
+
+
+### Chores
+
+* update findable-ui to latest version ([#4721](https://github.com/DataBiosphere/data-browser/issues/4721)) ([c01bb77](https://github.com/DataBiosphere/data-browser/commit/c01bb77742f92f94f557a58c00258fc3494586d3))
+* update findable-ui to latest version [#4720](https://github.com/DataBiosphere/data-browser/issues/4720) ([c01bb77](https://github.com/DataBiosphere/data-browser/commit/c01bb77742f92f94f557a58c00258fc3494586d3))
+
+## [2.28.1](https://github.com/DataBiosphere/data-browser/compare/v2.28.0...v2.28.1) (2026-03-20)
+
+
+### Chores
+
+* update findable-ui to latest version ([#4712](https://github.com/DataBiosphere/data-browser/issues/4712)) ([#4713](https://github.com/DataBiosphere/data-browser/issues/4713)) ([09b7174](https://github.com/DataBiosphere/data-browser/commit/09b7174201b6db64e65adeeba32b4e40e813fb73))
+
+## [2.28.0](https://github.com/DataBiosphere/data-browser/compare/v2.27.0...v2.28.0) (2026-03-18)
+
+
+### Features
+
+* decouple anvil-cmg summary mapping from shared constants ([#4529](https://github.com/DataBiosphere/data-browser/issues/4529)) ([#4697](https://github.com/DataBiosphere/data-browser/issues/4697)) ([7538049](https://github.com/DataBiosphere/data-browser/commit/7538049ff1a27101309e15b5ec7f8bd010064493))
+* decouple hca-dcp summary mapping from shared constants ([#4530](https://github.com/DataBiosphere/data-browser/issues/4530)) ([#4698](https://github.com/DataBiosphere/data-browser/issues/4698)) ([db0864f](https://github.com/DataBiosphere/data-browser/commit/db0864fa0155dda4bd4146c94276745130d084e5))
+* decouple lungmap summary mapping from shared constants ([#4531](https://github.com/DataBiosphere/data-browser/issues/4531)) ([#4699](https://github.com/DataBiosphere/data-browser/issues/4699)) ([5856fd4](https://github.com/DataBiosphere/data-browser/commit/5856fd40caea06ee9181d1ec8764cc371966cf0a))
+
+
+### Chores
+
+* update findable-ui to latest version ([#4704](https://github.com/DataBiosphere/data-browser/issues/4704)) ([#4705](https://github.com/DataBiosphere/data-browser/issues/4705)) ([decdce3](https://github.com/DataBiosphere/data-browser/commit/decdce35b1509cde7194b4ef74ef78f5be71e77c))
+
+## [2.27.0](https://github.com/DataBiosphere/data-browser/compare/v2.26.1...v2.27.0) (2026-03-12)
+
+
+### Features
+
+* update anvil cmg auth config to use ecm endpoint ([#4694](https://github.com/DataBiosphere/data-browser/issues/4694)) ([#4696](https://github.com/DataBiosphere/data-browser/issues/4696)) ([ed2262a](https://github.com/DataBiosphere/data-browser/commit/ed2262aecda61eb9377c950ae206d05c05e684b1))
+
+
+### Chores
+
+* upgrade findable-ui to 49.4.1 ([#4693](https://github.com/DataBiosphere/data-browser/issues/4693)) ([e7176c6](https://github.com/DataBiosphere/data-browser/commit/e7176c6b420de7515b4d6563fb236cbd6b2a4924))
+
+## [2.26.1](https://github.com/DataBiosphere/data-browser/compare/v2.26.0...v2.26.1) (2026-03-05)
+
+
+### Chores
+
+* update hca-dcp catalog to dcp57 ([#4688](https://github.com/DataBiosphere/data-browser/issues/4688)) ([b69ac23](https://github.com/DataBiosphere/data-browser/commit/b69ac239a8db165fa295d915c68285f38d38229f))
+* update hca-dcp catalog to dcp57 [#4685](https://github.com/DataBiosphere/data-browser/issues/4685) ([b69ac23](https://github.com/DataBiosphere/data-browser/commit/b69ac239a8db165fa295d915c68285f38d38229f))
+
+## [2.26.0](https://github.com/DataBiosphere/data-browser/compare/v2.25.0...v2.26.0) (2026-02-27)
+
+
+### Features
+
+* add conditional file download for anvil-cmg ([#4635](https://github.com/DataBiosphere/data-browser/issues/4635)) ([#4679](https://github.com/DataBiosphere/data-browser/issues/4679)) ([90b3cff](https://github.com/DataBiosphere/data-browser/commit/90b3cff6acad1bf1b8175e1ab72bc9dbf74f28e0))
+
+
+### Bug Fixes
+
+* add deadline date to RAS banner ([#4681](https://github.com/DataBiosphere/data-browser/issues/4681)) ([#4682](https://github.com/DataBiosphere/data-browser/issues/4682)) ([8e4aa01](https://github.com/DataBiosphere/data-browser/commit/8e4aa012275c6b04b383360c55296101935e1654))
+
+
+### Chores
+
+* update anvil-cmg catalog to anvil13 ([#4683](https://github.com/DataBiosphere/data-browser/issues/4683)) ([7699401](https://github.com/DataBiosphere/data-browser/commit/76994014f6d2c0bce3e30c0ebf4c53e7cb4cb5c5))
+* update anvil-cmg catalog to anvil13 ([#4684](https://github.com/DataBiosphere/data-browser/issues/4684)) ([7699401](https://github.com/DataBiosphere/data-browser/commit/76994014f6d2c0bce3e30c0ebf4c53e7cb4cb5c5))
+
+## [2.25.0](https://github.com/DataBiosphere/data-browser/compare/v2.24.0...v2.25.0) (2026-02-19)
+
+
+### Features
+
+* add lungmap analysis portals ([#4669](https://github.com/DataBiosphere/data-browser/issues/4669)) ([#4675](https://github.com/DataBiosphere/data-browser/issues/4675)) ([f34bd3b](https://github.com/DataBiosphere/data-browser/commit/f34bd3b836854af78de46d1377f03eb8d89af7a1))
+* add ras banner ([#4674](https://github.com/DataBiosphere/data-browser/issues/4674)) ([#4677](https://github.com/DataBiosphere/data-browser/issues/4677)) ([cd71aff](https://github.com/DataBiosphere/data-browser/commit/cd71aff489528fbeb0bcc12eb97fb29fd6ab8c84))
+
+## [2.24.0](https://github.com/DataBiosphere/data-browser/compare/v2.23.2...v2.24.0) (2026-02-12)
+
+
+### Features
+
+* export cohort to biodata catalyst ([#4640](https://github.com/DataBiosphere/data-browser/issues/4640)) ([#4653](https://github.com/DataBiosphere/data-browser/issues/4653)) ([2b49367](https://github.com/DataBiosphere/data-browser/commit/2b4936701c4f504b4a2657b67dce299b1196122a))
+* export cohort to cancer genomics cloud ([#4644](https://github.com/DataBiosphere/data-browser/issues/4644)) ([#4660](https://github.com/DataBiosphere/data-browser/issues/4660)) ([f4f6aba](https://github.com/DataBiosphere/data-browser/commit/f4f6aba28946c703657b7c26bae2315457a9543d))
+* export cohot to cavatica ([#4642](https://github.com/DataBiosphere/data-browser/issues/4642)) ([#4661](https://github.com/DataBiosphere/data-browser/issues/4661)) ([1920876](https://github.com/DataBiosphere/data-browser/commit/19208765080d7fdca4be5dc80ee3f577dad65d6f))
+* export dataset to biodata catalyst ([#4641](https://github.com/DataBiosphere/data-browser/issues/4641)) ([#4662](https://github.com/DataBiosphere/data-browser/issues/4662)) ([8f5c21b](https://github.com/DataBiosphere/data-browser/commit/8f5c21bfd9d9838130f18d20cf017ccc3f110721))
+* export dataset to cancer genomics cloud (cgc) ([#4645](https://github.com/DataBiosphere/data-browser/issues/4645)) ([#4664](https://github.com/DataBiosphere/data-browser/issues/4664)) ([03b1dc0](https://github.com/DataBiosphere/data-browser/commit/03b1dc05f2519f1a379c210cd5d7c53e712223b8))
+* export dataset to cavatica ([#4643](https://github.com/DataBiosphere/data-browser/issues/4643)) ([#4663](https://github.com/DataBiosphere/data-browser/issues/4663)) ([573571c](https://github.com/DataBiosphere/data-browser/commit/573571ccd4b62e17cde422979521a77f079cd3d1))
+
+
+### Bug Fixes
+
+* flaky filter deselection tests - add wait states and replace css selector race conditions ([#4656](https://github.com/DataBiosphere/data-browser/issues/4656)) ([#4657](https://github.com/DataBiosphere/data-browser/issues/4657)) ([1fc0b45](https://github.com/DataBiosphere/data-browser/commit/1fc0b45e00223ca9f9937f8c8b5b16ac2120649a))
+
+
+### Chores
+
+* update LungMAP default catalog to lm10 ([#4668](https://github.com/DataBiosphere/data-browser/issues/4668)) ([#4670](https://github.com/DataBiosphere/data-browser/issues/4670)) ([13a0184](https://github.com/DataBiosphere/data-browser/commit/13a0184aa64c431d53de4a3dc08e701505001a36))
+
+
+### Documentation
+
+* describe correct installation location in readme ([#4654](https://github.com/DataBiosphere/data-browser/issues/4654)) ([b85cba6](https://github.com/DataBiosphere/data-browser/commit/b85cba61858a00478666f61ffddf4c10c75d31b7))
+
+## [2.23.2](https://github.com/DataBiosphere/data-browser/compare/v2.23.1...v2.23.2) (2026-01-23)
+
+
+### Bug Fixes
+
+* allow errors from file manifest state provider to be caught by error boundary ([#4601](https://github.com/DataBiosphere/data-browser/issues/4601)) ([#4607](https://github.com/DataBiosphere/data-browser/issues/4607)) ([328ad08](https://github.com/DataBiosphere/data-browser/commit/328ad08c7f0e0f70d769e9937703cee3d04a334e))
+* move file manifest state provider to be inside error boundary ([#4601](https://github.com/DataBiosphere/data-browser/issues/4601)) ([328ad08](https://github.com/DataBiosphere/data-browser/commit/328ad08c7f0e0f70d769e9937703cee3d04a334e))
+
+
+### Chores
+
+* update findable-ui to latest ([#4651](https://github.com/DataBiosphere/data-browser/issues/4651)) ([#4652](https://github.com/DataBiosphere/data-browser/issues/4652)) ([ffd92e1](https://github.com/DataBiosphere/data-browser/commit/ffd92e1a09e46f122e0c4d4cdcf90b33e3800a88))
+
+## [2.23.1](https://github.com/DataBiosphere/data-browser/compare/v2.23.0...v2.23.1) (2025-12-20)
+
+
+### Bug Fixes
+
+* hca download matrices and copy to clipboard buttons not working ([#4628](https://github.com/DataBiosphere/data-browser/issues/4628)) ([#4630](https://github.com/DataBiosphere/data-browser/issues/4630)) ([c68d8d3](https://github.com/DataBiosphere/data-browser/commit/c68d8d30e7aaf722556cc1b76dec36e66c71d357))
+
+## [2.23.0](https://github.com/DataBiosphere/data-browser/compare/v2.22.2...v2.23.0) (2025-12-19)
+
+
+### Features
+
+* anvil explorer - add files.data_modality to the facets and tables ([#4618](https://github.com/DataBiosphere/data-browser/issues/4618)) ([#4623](https://github.com/DataBiosphere/data-browser/issues/4623)) ([9e44bb3](https://github.com/DataBiosphere/data-browser/commit/9e44bb30c3a94531c56b9164cd49b546238acf9c))
+
+
+### Chores
+
+* update findable-ui to latest 47.0.2 ([#4613](https://github.com/DataBiosphere/data-browser/issues/4613)) ([#4614](https://github.com/DataBiosphere/data-browser/issues/4614)) ([19f089d](https://github.com/DataBiosphere/data-browser/commit/19f089dbdbc16729a0a5820ade07c6602b05b9f1))
+* update findable-ui to latest version v46.1.3 ([#4603](https://github.com/DataBiosphere/data-browser/issues/4603)) ([#4604](https://github.com/DataBiosphere/data-browser/issues/4604)) ([184cd4e](https://github.com/DataBiosphere/data-browser/commit/184cd4e8100e1179e5b2374b518db1d3e59022c3))
+
+
+### Continuous Integration
+
+* update release-please workflow to use default github token and allow manual triggering ([#4597](https://github.com/DataBiosphere/data-browser/issues/4597)) ([#4598](https://github.com/DataBiosphere/data-browser/issues/4598)) ([93b247c](https://github.com/DataBiosphere/data-browser/commit/93b247c45ecb3126e738f474340113df23616d0e))
+
+## [2.22.2](https://github.com/DataBiosphere/data-browser/compare/v2.22.1...v2.22.2) (2025-11-21)
+
+
+### Chores
+
+* update default catalog from dcp54 to dcp55 (4594) ([#4595](https://github.com/DataBiosphere/data-browser/issues/4595)) ([2355368](https://github.com/DataBiosphere/data-browser/commit/2355368a36968a595196b466f384a34604068161))
+
+## [2.22.1](https://github.com/DataBiosphere/data-browser/compare/v2.22.0...v2.22.1) (2025-11-20)
+
+
+### Chores
+
+* bump anvil catalog to anvil12 [#4590](https://github.com/DataBiosphere/data-browser/issues/4590) ([#4591](https://github.com/DataBiosphere/data-browser/issues/4591)) ([b65f85c](https://github.com/DataBiosphere/data-browser/commit/b65f85c5a5e1f5abbe954f22cb3dff3acc6e0c12))
+
+## [2.22.0](https://github.com/DataBiosphere/data-browser/compare/v2.21.1...v2.22.0) (2025-11-03)
+
+
+### Features
+
+* switch from files.url to files.azul_url ([#4575](https://github.com/DataBiosphere/data-browser/issues/4575)) ([#4581](https://github.com/DataBiosphere/data-browser/issues/4581)) ([dbaa7a1](https://github.com/DataBiosphere/data-browser/commit/dbaa7a13a55bc35c52dd8bf09ce516dad26d5109))
+
+## [2.21.1](https://github.com/DataBiosphere/data-browser/compare/v2.21.0...v2.21.1) (2025-10-27)
+
+
+### Bug Fixes
+
+* error exporting datasets with 'unspecified' organism_type in anvil explorer ([#4579](https://github.com/DataBiosphere/data-browser/issues/4579)) ([#4580](https://github.com/DataBiosphere/data-browser/issues/4580)) ([a0e58cc](https://github.com/DataBiosphere/data-browser/commit/a0e58cc9d56fe1d5121d1d25767d627fc960cc31))
+
+
+### Chores
+
+* set default catalog to dcp54 for HCA [#4576](https://github.com/DataBiosphere/data-browser/issues/4576) ([#4577](https://github.com/DataBiosphere/data-browser/issues/4577)) ([02f1cc7](https://github.com/DataBiosphere/data-browser/commit/02f1cc77a005e247c6232abcc027a47b80e91bd0))
+
+## [2.21.0](https://github.com/DataBiosphere/data-browser/compare/v2.20.4...v2.21.0) (2025-10-07)
+
+
+### Features
+
+* add a total file size summary to the summary statistics line for the anvil explorer ([#4495](https://github.com/DataBiosphere/data-browser/issues/4495)) ([#4571](https://github.com/DataBiosphere/data-browser/issues/4571)) ([cd8b42e](https://github.com/DataBiosphere/data-browser/commit/cd8b42edb3faf7ed928a72efc815b06071bb23df))
+
+
+### Bug Fixes
+
+* build error due to oversized response ([#4570](https://github.com/DataBiosphere/data-browser/issues/4570)) ([#4572](https://github.com/DataBiosphere/data-browser/issues/4572)) ([417aa7d](https://github.com/DataBiosphere/data-browser/commit/417aa7d37308537ae21b9ed06095e15f6efc91a3))
+
+
+### Chores
+
+* set default catalog to dcp53 for HCA [#4567](https://github.com/DataBiosphere/data-browser/issues/4567) ([#4568](https://github.com/DataBiosphere/data-browser/issues/4568)) ([48864a1](https://github.com/DataBiosphere/data-browser/commit/48864a1c53365885fad54add5a7fa907feb1099f))
+
+## [2.20.4](https://github.com/DataBiosphere/data-browser/compare/v2.20.3...v2.20.4) (2025-08-25)
+
+
+### Chores
+
+* bump anvil catalog to anvil11 [#4558](https://github.com/DataBiosphere/data-browser/issues/4558) ([#4559](https://github.com/DataBiosphere/data-browser/issues/4559)) ([f295ca9](https://github.com/DataBiosphere/data-browser/commit/f295ca98a45b3bb4ae00532477925c2bcc151fd0))
+
+## [2.20.3](https://github.com/DataBiosphere/data-browser/compare/v2.20.2...v2.20.3) (2025-08-22)
+
+
+### Chores
+
+* set default catalog to dcp52 for HCA [#4556](https://github.com/DataBiosphere/data-browser/issues/4556) ([#4557](https://github.com/DataBiosphere/data-browser/issues/4557)) ([82f30e9](https://github.com/DataBiosphere/data-browser/commit/82f30e9973054a3bd100053c38ac9171d3221958))
+* update findable-ui to latest version 42.1.0 ([#4553](https://github.com/DataBiosphere/data-browser/issues/4553)) ([#4554](https://github.com/DataBiosphere/data-browser/issues/4554)) ([f31fb80](https://github.com/DataBiosphere/data-browser/commit/f31fb8049653e7a74c853ec82cd59e7f334cefb0))
+
+## [2.20.2](https://github.com/DataBiosphere/data-browser/compare/v2.20.1...v2.20.2) (2025-08-11)
+
+
+### Chores
+
+* set default catalog to dcp51 for HCA [#4549](https://github.com/DataBiosphere/data-browser/issues/4549) ([#4551](https://github.com/DataBiosphere/data-browser/issues/4551)) ([8d224cf](https://github.com/DataBiosphere/data-browser/commit/8d224cf2f5f5ad58fafd5b421d9fd47e453c643b))
+
+## [2.20.1](https://github.com/DataBiosphere/data-browser/compare/v2.20.0...v2.20.1) (2025-08-01)
+
+
+### Bug Fixes
+
+* fix data dictionary table overflow on smaller viewports ([#4542](https://github.com/DataBiosphere/data-browser/issues/4542)) ([#4545](https://github.com/DataBiosphere/data-browser/issues/4545)) ([ba438c6](https://github.com/DataBiosphere/data-browser/commit/ba438c6ca2e988a4f3722486af9c8dd3f1aa3ece))
+
+
+### Chores
+
+* update findable-ui to latest version 41.2.0 ([#4547](https://github.com/DataBiosphere/data-browser/issues/4547)) ([#4548](https://github.com/DataBiosphere/data-browser/issues/4548)) ([9b1966b](https://github.com/DataBiosphere/data-browser/commit/9b1966bb18771ebef34032cee6e454070f8b518f))
+
+## [2.20.0](https://github.com/DataBiosphere/data-browser/compare/v2.19.2...v2.20.0) (2025-07-25)
+
+
+### Features
+
+* remove anvil from site config ([#4527](https://github.com/DataBiosphere/data-browser/issues/4527)) ([#4539](https://github.com/DataBiosphere/data-browser/issues/4539)) ([e6873ec](https://github.com/DataBiosphere/data-browser/commit/e6873ec3ba280e662169d818d07c27af2e81a2b7))
+
+
+### Chores
+
+* update findable-ui to latest version v40.0.0 ([#4538](https://github.com/DataBiosphere/data-browser/issues/4538)) ([#4540](https://github.com/DataBiosphere/data-browser/issues/4540)) ([58ac415](https://github.com/DataBiosphere/data-browser/commit/58ac415e9458650bf3a470e25891812e35cb6608))
+
+## [2.19.2](https://github.com/DataBiosphere/data-browser/compare/v2.19.1...v2.19.2) (2025-07-09)
+
+
+### Chores
+
+* update analytics reports to specify time periods based on current month ([#4525](https://github.com/DataBiosphere/data-browser/issues/4525)) ([#4526](https://github.com/DataBiosphere/data-browser/issues/4526)) ([3a803fd](https://github.com/DataBiosphere/data-browser/commit/3a803fd9274a5703f4f04833fda2a485cd1cc74d))
+* update findable to latest version v38.1.1 ([#4533](https://github.com/DataBiosphere/data-browser/issues/4533)) ([#4534](https://github.com/DataBiosphere/data-browser/issues/4534)) ([dca9e67](https://github.com/DataBiosphere/data-browser/commit/dca9e67f25b7b5ef5cf8662208f612dfccf2879d))
+* update findable-ui to latest v38.0.0 ([#4528](https://github.com/DataBiosphere/data-browser/issues/4528)) ([#4532](https://github.com/DataBiosphere/data-browser/issues/4532)) ([50c56dd](https://github.com/DataBiosphere/data-browser/commit/50c56dd1ad329b4190c14b0d3be7df2bf31d60a5))
+
+
+### Documentation
+
+* updated GA announcement [#4521](https://github.com/DataBiosphere/data-browser/issues/4521) ([#4522](https://github.com/DataBiosphere/data-browser/issues/4522)) ([5531715](https://github.com/DataBiosphere/data-browser/commit/5531715febd6355cc3bf0a1f18f005ef6fb6b91a))
+
+## [2.19.1](https://github.com/DataBiosphere/data-browser/compare/v2.19.0...v2.19.1) (2025-06-23)
+
+
+### Bug Fixes
+
+* file format filter dropped from curl manifest request ([#4481](https://github.com/DataBiosphere/data-browser/issues/4481)) ([#4512](https://github.com/DataBiosphere/data-browser/issues/4512)) ([3667ebd](https://github.com/DataBiosphere/data-browser/commit/3667ebd83e00cd7bcbf610f360bf81edf2390518))
+
+
+### Chores
+
+* update findable to 37.1.0 ([#441](https://github.com/DataBiosphere/data-browser/issues/441)) ([3667ebd](https://github.com/DataBiosphere/data-browser/commit/3667ebd83e00cd7bcbf610f360bf81edf2390518))
+
+## [2.19.0](https://github.com/DataBiosphere/data-browser/compare/v2.18.0...v2.19.0) (2025-06-17)
+
+
+### Features
+
+* added LM portals [#4496](https://github.com/DataBiosphere/data-browser/issues/4496) ([#4500](https://github.com/DataBiosphere/data-browser/issues/4500)) ([39bcfcf](https://github.com/DataBiosphere/data-browser/commit/39bcfcfcfbf3b67c825d218672ee369db8ee096f))
+
+
+### Bug Fixes
+
+* temporarily disable test anvilcatalog-sort.spec.ts ([#4507](https://github.com/DataBiosphere/data-browser/issues/4507)) ([#4508](https://github.com/DataBiosphere/data-browser/issues/4508)) ([dd0f800](https://github.com/DataBiosphere/data-browser/commit/dd0f8003f8073f25da889b643dc8441ca42153ef))
+
+
+### Chores
+
+* set default catalog to dcp50 for HCA [#4498](https://github.com/DataBiosphere/data-browser/issues/4498) ([#4499](https://github.com/DataBiosphere/data-browser/issues/4499)) ([340a2c3](https://github.com/DataBiosphere/data-browser/commit/340a2c395e138b35309dd44007476bc05dd4ee1a))
+* update findable to 35.2.0 ([#4510](https://github.com/DataBiosphere/data-browser/issues/4510)) ([#4511](https://github.com/DataBiosphere/data-browser/issues/4511)) ([68519c7](https://github.com/DataBiosphere/data-browser/commit/68519c7b77692d7805f57e20a02f61ab952db948))
+* update LungMAP default catalog to lm9 [#4497](https://github.com/DataBiosphere/data-browser/issues/4497) ([#4504](https://github.com/DataBiosphere/data-browser/issues/4504)) ([2311f51](https://github.com/DataBiosphere/data-browser/commit/2311f51a04694715e127ed2cf4ab9bb34bef9090))
+* upgrade findable to 35.1.0 ([#4502](https://github.com/DataBiosphere/data-browser/issues/4502)) ([#4505](https://github.com/DataBiosphere/data-browser/issues/4505)) ([5e42b25](https://github.com/DataBiosphere/data-browser/commit/5e42b25e6c35906471dae3f42df7ebeb91b2689f))
+
+
+### Documentation
+
+* updated AnVIL beta announcement [#4493](https://github.com/DataBiosphere/data-browser/issues/4493) ([#4503](https://github.com/DataBiosphere/data-browser/issues/4503)) ([e8268a6](https://github.com/DataBiosphere/data-browser/commit/e8268a6849895144c35e6965fa74f0fd90c5f23b))
+
+## [2.18.0](https://github.com/DataBiosphere/data-browser/compare/v2.17.3...v2.18.0) (2025-06-02)
+
+
+### Features
+
+* remove 'beta' banner for anvil data explorer ([#4487](https://github.com/DataBiosphere/data-browser/issues/4487)) ([#4490](https://github.com/DataBiosphere/data-browser/issues/4490)) ([f3f6174](https://github.com/DataBiosphere/data-browser/commit/f3f61746a60547e9ee0780f320aa6d4fc2ad8c45))
+* removed auth for exports [#4482](https://github.com/DataBiosphere/data-browser/issues/4482) ([#4483](https://github.com/DataBiosphere/data-browser/issues/4483)) ([6d0426f](https://github.com/DataBiosphere/data-browser/commit/6d0426f741a65d15a0216b732ed3d57e53d3ae07))
+
+
+### Chores
+
+* set default catalog to dcp49 for HCA [#4491](https://github.com/DataBiosphere/data-browser/issues/4491) ([#4494](https://github.com/DataBiosphere/data-browser/issues/4494)) ([67aae8e](https://github.com/DataBiosphere/data-browser/commit/67aae8edab132172cf7b9e0cb331252750cb85f2))
+
+## [2.17.3](https://github.com/DataBiosphere/data-browser/compare/v2.17.2...v2.17.3) (2025-05-16)
+
+
+### Chores
+
+* set default catalog to dcp48 for HCA [#4478](https://github.com/DataBiosphere/data-browser/issues/4478) ([#4479](https://github.com/DataBiosphere/data-browser/issues/4479)) ([82f6a33](https://github.com/DataBiosphere/data-browser/commit/82f6a334e221c87477c71881fe5ca81972ffc6d5))
+
+## [2.17.2](https://github.com/DataBiosphere/data-browser/compare/v2.17.1...v2.17.2) (2025-05-09)
+
+
+### Bug Fixes
+
+* corrected prod LM terra url [#4469](https://github.com/DataBiosphere/data-browser/issues/4469) ([#4476](https://github.com/DataBiosphere/data-browser/issues/4476)) ([0bc64ab](https://github.com/DataBiosphere/data-browser/commit/0bc64ab1361eed67b4dd59a3e1659d3dd73eaa51))
+
+## [2.17.1](https://github.com/DataBiosphere/data-browser/compare/v2.17.0...v2.17.1) (2025-05-07)
+
+
+### Bug Fixes
+
+* corrected prod terra url [#4469](https://github.com/DataBiosphere/data-browser/issues/4469) ([#4470](https://github.com/DataBiosphere/data-browser/issues/4470)) ([57f883b](https://github.com/DataBiosphere/data-browser/commit/57f883b164db656dff0626514f139b28bad06632))
+
+
+### Chores
+
+* upgraded findable 29.0.2 [#4473](https://github.com/DataBiosphere/data-browser/issues/4473) ([#4474](https://github.com/DataBiosphere/data-browser/issues/4474)) ([7ea519c](https://github.com/DataBiosphere/data-browser/commit/7ea519c6bdef380e3504206205eb6b17bb93a675))
+
+## [2.17.0](https://github.com/DataBiosphere/data-browser/compare/v2.16.0...v2.17.0) (2025-04-24)
+
+
+### Features
+
+* implement chart view for LungMAP ([#4463](https://github.com/DataBiosphere/data-browser/issues/4463)) ([#4464](https://github.com/DataBiosphere/data-browser/issues/4464)) ([274a498](https://github.com/DataBiosphere/data-browser/commit/274a498cbfcc5b25bf34f9cd74616a7ed6d4a986))
+
+
+### Chores
+
+* update findable-ui package to latest version v27.0.0 ([#4466](https://github.com/DataBiosphere/data-browser/issues/4466)) ([#4467](https://github.com/DataBiosphere/data-browser/issues/4467)) ([ee24206](https://github.com/DataBiosphere/data-browser/commit/ee24206b9c0c065474be251a8549f16cbe9037fe))
+
+## [2.16.0](https://github.com/DataBiosphere/data-browser/compare/v2.15.0...v2.16.0) (2025-04-15)
+
+
+### Features
+
+* implement chart view ([#4454](https://github.com/DataBiosphere/data-browser/issues/4454)) ([#4458](https://github.com/DataBiosphere/data-browser/issues/4458)) ([c663da1](https://github.com/DataBiosphere/data-browser/commit/c663da18dc940e92f974e27afcfc771cd2ee8acd))
+* implement chart view ([#4455](https://github.com/DataBiosphere/data-browser/issues/4455)) ([#4459](https://github.com/DataBiosphere/data-browser/issues/4459)) ([5199c30](https://github.com/DataBiosphere/data-browser/commit/5199c303e1c52a2dbb33f1b024c8b4dc2b024f1a))
+
+
+### Chores
+
+* set default catalog to dcp47 for HCA ([#4457](https://github.com/DataBiosphere/data-browser/issues/4457)) ([#4462](https://github.com/DataBiosphere/data-browser/issues/4462)) ([99210f9](https://github.com/DataBiosphere/data-browser/commit/99210f9d7b9b4b26ef52450653d1edb5e818d602))
+* update findable-ui to latest v25.1.0 ([#4453](https://github.com/DataBiosphere/data-browser/issues/4453)) ([#4456](https://github.com/DataBiosphere/data-browser/issues/4456)) ([d820a28](https://github.com/DataBiosphere/data-browser/commit/d820a28867c6b1f3a1ccc4d39b8fdeb622845674))
+
+## [2.15.0](https://github.com/DataBiosphere/data-browser/compare/v2.14.0...v2.15.0) (2025-03-26)
+
+
+### Features
+
+* added direct request access link to DUOS dataset [#4441](https://github.com/DataBiosphere/data-browser/issues/4441) ([#4442](https://github.com/DataBiosphere/data-browser/issues/4442)) ([b323967](https://github.com/DataBiosphere/data-browser/commit/b3239675e2a66683e471a05c667febc72d7f8b10))
+* removed data modality [#4444](https://github.com/DataBiosphere/data-browser/issues/4444) ([#4447](https://github.com/DataBiosphere/data-browser/issues/4447)) ([c894a83](https://github.com/DataBiosphere/data-browser/commit/c894a831ee4ad7411c3d4716268e9f6512435717))
+
+
+### Chores
+
+* add playwright report to gitignore and prettierignore ([#4434](https://github.com/DataBiosphere/data-browser/issues/4434)) ([#4445](https://github.com/DataBiosphere/data-browser/issues/4445)) ([7f302b2](https://github.com/DataBiosphere/data-browser/commit/7f302b23ad7f28f80048c5f3b5ffef8b1f984a4c))
+
 ## [2.14.0](https://github.com/DataBiosphere/data-browser/compare/v2.13.0...v2.14.0) (2025-03-21)
 
 

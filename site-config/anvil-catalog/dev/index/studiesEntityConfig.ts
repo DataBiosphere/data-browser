@@ -4,7 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { AnVILCatalogStudy } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
 import {
   anvilCatalogStudyInputMapper,
@@ -143,6 +143,8 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
       },
     ],
     tableOptions: {
+      downloadFilename: "studies",
+      enableTableDownload: true,
       initialState: {
         sorting: [
           {
@@ -155,8 +157,8 @@ export const studiesEntityConfig: EntityConfig<AnVILCatalogStudy> = {
   } as ListConfig<AnVILCatalogStudy>,
   listView: {
     disablePagination: true,
-    enableDownload: true,
   },
   route: "studies",
   staticLoadFile: "files/anvil-catalog/out/anvil-studies.json",
+  ui: { enableTabs: true },
 };

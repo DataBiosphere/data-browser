@@ -13,6 +13,7 @@ export {
   DownloadIconSmall,
   InventoryIconSmall,
 } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/common/constants";
+export { ExportToPlatform } from "./Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
 export { DiscourseIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/DiscourseIcon/discourseIcon";
 export { GitHubIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/GitHubIcon/gitHubIcon";
 export { OpenInNewIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
@@ -54,7 +55,7 @@ export { ManifestDownloadEntity } from "@databiosphere/findable-ui/lib/component
 export { ManifestDownloadForm } from "@databiosphere/findable-ui/lib/components/Export/components/ManifestDownload/components/ManifestDownloadForm/manifestDownloadForm";
 export { ManifestDownload } from "@databiosphere/findable-ui/lib/components/Export/components/ManifestDownload/manifestDownload";
 export { AzulFileDownload } from "@databiosphere/findable-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
-export { Summaries } from "@databiosphere/findable-ui/lib/components/Index/components/Hero/components/Summaries/summaries";
+export { AzulFileDownload as AzulFileDownloadVisibilityController } from "./Index/components/AzulFileDownload/azulFileDownload";
 export {
   BackPageContentMainColumn,
   BackPageContentSideColumn,
@@ -83,7 +84,6 @@ export { AlertTitle } from "@mui/material";
 export { Announcements } from "./common/Banner/components/Announcements/announcements";
 export { ButtonOutline } from "./common/Button/components/ButtonOutline/buttonOutline";
 export { MdxMarkdown } from "./common/MDXMarkdown/mdxMarkdown";
-export { RenderComponents } from "./common/RenderComponents/renderComponents";
 export { AccessibilityBadge } from "./Detail/components/AccessibilityBadge/accessibilityBadge";
 export { ConsentCodeList } from "./Detail/components/ConsentCodeList/consentCodeList";
 export { ConsentTooltip } from "./Detail/components/ConsentTooltip/consentTooltip";

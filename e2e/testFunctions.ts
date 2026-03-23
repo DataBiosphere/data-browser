@@ -1,5 +1,10 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { ColumnDescription, TabDescription } from "./testInterfaces";
+import {
+  KEYBOARD_KEYS,
+  MUI_CLASSES,
+  TEST_IDS,
+} from "./features/common/constants";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
@@ -116,6 +121,7 @@ export async function testTab(
 ): Promise<void> {
   // Run the "Expect each tab to become selected, to go to the correct url, and to show all of its columns when selected" test
   await page.goto(startTab.url);
+  await page.getByTestId(TEST_IDS.TABLE_FIRST_CELL).waitFor();
   await expect(getFirstRowNthColumnCellLocator(page, 1)).toBeVisible();
   await getTabByText(page, endTab.tabName).click();
   await expect(page).toHaveURL(endTab.url);
@@ -139,9 +145,6 @@ export async function testTab(
     );
   }
 }
-
-// The test id for the column sorted icon
-const COLUMN_SORT_ICON_TEST_ID = "SouthRoundedIcon";
 
 /**
  * Checks that sorting the tab causes the sort icon to appear
@@ -184,13 +187,12 @@ export async function testSortAzul(
     }
     if (columnObject?.sortable) {
       // Locator that can be clicked to sort the column
-      const columnSortLocator = page.getByRole("button", {
-        exact: true,
-        name: columnObject.name,
-      });
+      const columnSortLocator = page
+        .locator(MUI_CLASSES.TABLE_SORT_LABEL)
+        .filter({ hasText: columnObject.name });
       // Locator for the column sort icon
-      const sortIconLocator = columnSortLocator.getByTestId(
-        COLUMN_SORT_ICON_TEST_ID
+      const sortIconLocator = columnSortLocator.locator(
+        MUI_CLASSES.TABLE_SORT_LABEL_ICON
       );
       // If on the first cell, expect the sort icon to be visible. Otherwise, expect it not to be
       if (columnPosition === 0) {
@@ -775,6 +777,7 @@ export async function testDeselectFiltersThroughSearchBar(
       firstFilterOptionLocator
     );
     await firstFilterOptionLocator.click();
+    await page.waitForLoadState("load");
     await page.locator("body").click();
     // Search for and check the selected filter
     const searchFiltersInputLocator = page.getByPlaceholder(
@@ -783,10 +786,14 @@ export async function testDeselectFiltersThroughSearchBar(
     );
     await expect(searchFiltersInputLocator).toBeVisible();
     await searchFiltersInputLocator.fill(filterOptionName);
-    await getNamedFilterOptionLocator(page, filterOptionName)
-      .locator("input[type='checkbox']:checked")
-      .first()
-      .click();
+    const filterOptionLocator = getNamedFilterOptionLocator(
+      page,
+      filterOptionName
+    );
+    await expect(filterOptionLocator).toBeVisible();
+    const checkboxLocator = filterOptionLocator.getByRole("checkbox");
+    await expect(checkboxLocator).toBeChecked();
+    await checkboxLocator.click();
     await page.locator("body").click();
     const filterTagLocator = getFilterTagLocator(page, filterOptionName);
     await expect(filterTagLocator).not.toBeVisible();
@@ -938,64 +945,7 @@ export async function testBulkDownloadIndexExportWorkflow(
   return true;
 }
 
-/**
- * Check that the summary box on the "Choose Export Method" page has numbers that match those on the index page
- * @param page - a Playwright page object
- * @param tab - the tab to test on
- * @returns - true if the test passes, false if it should fail but does not fail an assertion
- */
-export async function testIndexExportSummary(
-  page: Page,
-  tab: TabDescription
-): Promise<boolean> {
-  if (tab?.indexExportPage === undefined) {
-    console.log(
-      "testIndexExportSummmary Error: indexExportPage not specified for given tab, so test cannot run"
-    );
-    return false;
-  }
-  await page.goto(tab.url);
-  const headers: { header: string; value: string }[] = [];
-  const indexExportButtonLocator = page.getByRole("link", {
-    name: tab.indexExportPage.indexExportButtonText,
-  });
-  await expect(indexExportButtonLocator).toBeVisible();
-  for (const detail of tab.indexExportPage.detailsToCheck) {
-    // This Regexp gets a decimal number, some whitespace, then the name of the detail, matching how the detail box appears to Playwright.
-    const detailBoxRegexp = RegExp(`^(\\d+\\.\\d+k)\\s*${detail}$`);
-    // This gets the detail's value. The .trim() is necessary since innertext adds extraneous whitespace on Webkit
-    const headerValueArray = (await page.getByText(detailBoxRegexp).innerText())
-      .trim()
-      .match(detailBoxRegexp);
-    // Check that the regex matches the expected format
-    if (headerValueArray === null || headerValueArray.length !== 2) {
-      console.log(
-        "testIndexExportSummmary Error: The detail box text does not match the expected format"
-      );
-      return false;
-    }
-    // Save the header value and detail for later comparison
-    headers.push({
-      header: detail,
-      value: headerValueArray[1],
-    });
-  }
-  await indexExportButtonLocator.click();
-  for (const headerValue of headers) {
-    // Expect the correct value to be below the correct header in the dataset values table
-    await expect(
-      page
-        .locator(`:below(:text('${headerValue.header}'))`)
-        .getByText(headerValue.value)
-        .first()
-    ).toBeVisible();
-  }
-  return true;
-}
-
 const PAGE_COUNT_REGEX = /Page \d+ of \d+/;
-const BACK_BUTTON_TEST_ID = "WestRoundedIcon";
-const FORWARD_BUTTON_TEST_ID = "EastRoundedIcon";
 const MAX_PAGINATIONS = 200;
 
 /**
@@ -1016,14 +966,16 @@ export async function testFirstPagePagination(
   // Forward button should start enabled
   await expect(
     page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+      .getByTestId(TEST_IDS.TABLE_PAGINATION)
+      .locator(MUI_CLASSES.ICON_BUTTON)
+      .last()
   ).toBeEnabled();
   // Back Button should start disabled
   await expect(
     page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
+      .getByTestId(TEST_IDS.TABLE_PAGINATION)
+      .locator(MUI_CLASSES.ICON_BUTTON)
+      .first()
   ).toBeDisabled();
 }
 
@@ -1041,7 +993,10 @@ export async function filterAndTestLastPagePagination(
 ): Promise<boolean> {
   // Filter to reduce the number of pages that must be selected
   await page.goto(tab.url);
-  await page.getByText(filterRegex(filterName)).click();
+  await page
+    .getByTestId(TEST_IDS.FILTERS)
+    .getByText(filterRegex(filterName))
+    .click();
   await expect(page.getByRole("checkbox").first()).toBeVisible();
   const filterTexts = await page
     .getByRole("button")
@@ -1072,25 +1027,41 @@ export async function filterAndTestLastPagePagination(
     return false;
   }
   const minFilterValue = Math.min(...validFilterCounts);
+
+  const results = await page
+    .getByTestId(TEST_IDS.TABLE_PAGINATION_RESULTS)
+    .textContent();
+
   await page
     .getByRole("button")
     .filter({ hasText: RegExp(`${minFilterValue}[\\s]*$`) })
     .click();
-  await page.locator("body").click();
-  await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
+
+  await expect
+    .poll(
+      async () =>
+        await page.getByTestId(TEST_IDS.TABLE_PAGINATION_RESULTS).textContent()
+    )
+    .not.toEqual(results);
+
+  await page.keyboard.press(KEYBOARD_KEYS.ESCAPE);
 
   // Should start on first page, and there should be multiple pages available
   await expect(
-    page.locator(".MuiPaper-table").getByText(PAGE_COUNT_REGEX, { exact: true })
+    page
+      .getByTestId(TEST_IDS.TABLE_PAGINATION_PAGE)
+      .getByText(PAGE_COUNT_REGEX, { exact: true })
   ).toHaveText(/Page 1 of \d+/);
   await expect(
-    page.locator(".MuiPaper-table").getByText(PAGE_COUNT_REGEX, { exact: true })
+    page
+      .getByTestId(TEST_IDS.TABLE_PAGINATION_PAGE)
+      .getByText(PAGE_COUNT_REGEX, { exact: true })
   ).not.toHaveText("Page 1 of 1");
 
   // Detect number of pages
   const splitStartingPageText = (
     await page
-      .locator(".MuiPaper-table")
+      .getByTestId(TEST_IDS.TABLE_PAGINATION_PAGE)
       .getByText(PAGE_COUNT_REGEX, { exact: true })
       .innerText()
   ).split(" ");
@@ -1101,30 +1072,37 @@ export async function filterAndTestLastPagePagination(
   for (let i = 2; i < maxPages + 1; i++) {
     // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
     await page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+      .getByTestId(TEST_IDS.TABLE_PAGINATION)
+      .locator(MUI_CLASSES.ICON_BUTTON)
+      .last()
       .dispatchEvent("click");
     await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
     // Expect the page count to have incremented
-    await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
-      `Page ${i} of ${maxPages}`
-    );
+    await expect(
+      page
+        .getByTestId(TEST_IDS.TABLE_PAGINATION_PAGE)
+        .getByText(PAGE_COUNT_REGEX, { exact: true })
+    ).toHaveText(`Page ${i} of ${maxPages}`);
   }
   // Expect to be on the last page
-  await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toContainText(
-    `Page ${maxPages} of ${maxPages}`
-  );
+  await expect(
+    page
+      .getByTestId(TEST_IDS.TABLE_PAGINATION_PAGE)
+      .getByText(PAGE_COUNT_REGEX, { exact: true })
+  ).toContainText(`Page ${maxPages} of ${maxPages}`);
   // Expect the back button to be enabled on the last page
   await expect(
     page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
+      .getByTestId(TEST_IDS.TABLE_PAGINATION)
+      .locator(MUI_CLASSES.ICON_BUTTON)
+      .first()
   ).toBeEnabled();
   // Expect the forward button to be disabled
   await expect(
     page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+      .getByTestId(TEST_IDS.TABLE_PAGINATION)
+      .locator(MUI_CLASSES.ICON_BUTTON)
+      .last()
   ).toBeDisabled();
   return true;
 }
@@ -1145,7 +1123,9 @@ export async function testPaginationContent(
     "true"
   );
 
-  const firstElementTextLocator = getFirstRowNthColumnCellLocator(page, 0);
+  await page.getByTestId(TEST_IDS.TABLE_FIRST_CELL).waitFor();
+
+  const firstElementTextLocator = page.getByTestId(TEST_IDS.TABLE_FIRST_CELL);
 
   // Should start on first page
   await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
@@ -1161,8 +1141,9 @@ export async function testPaginationContent(
     // Click the next button
     // dispatchEvent necessary because the table loading component sometimes interrupts a click event
     await page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+      .getByTestId(TEST_IDS.TABLE_PAGINATION)
+      .locator(MUI_CLASSES.ICON_BUTTON)
+      .last()
       .dispatchEvent("click");
     // Expect the page count to have incremented
     await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
@@ -1171,15 +1152,17 @@ export async function testPaginationContent(
     // Expect the back button to be enabled
     await expect(
       page
-        .getByRole("button")
-        .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
+        .getByTestId(TEST_IDS.TABLE_PAGINATION)
+        .locator(MUI_CLASSES.ICON_BUTTON)
+        .first()
     ).toBeEnabled();
     // Expect the forwards button to be enabled
     if (i != maxPages) {
       await expect(
         page
-          .getByRole("button")
-          .filter({ has: page.getByTestId(FORWARD_BUTTON_TEST_ID) })
+          .getByTestId(TEST_IDS.TABLE_PAGINATION)
+          .locator(MUI_CLASSES.ICON_BUTTON)
+          .last()
       ).toBeEnabled();
     }
     // Expect the first entry to have changed on the new page
@@ -1194,9 +1177,11 @@ export async function testPaginationContent(
   for (let i = 0; i < maxPages - 1; i++) {
     const OldFirstTableEntry = FirstTableEntries[maxPages - i - 2];
     await page
-      .getByRole("button")
-      .filter({ has: page.getByTestId(BACK_BUTTON_TEST_ID) })
+      .getByTestId(TEST_IDS.TABLE_PAGINATION)
+      .locator(MUI_CLASSES.ICON_BUTTON)
+      .first()
       .click();
+    await page.getByTestId(TEST_IDS.TABLE_PAGINATION_RESULTS).waitFor();
     // Expect page number to be correct
     await expect(page.getByText(PAGE_COUNT_REGEX, { exact: true })).toHaveText(
       RegExp(`Page ${maxPages - i - 1} of \\d+`)
@@ -1213,9 +1198,7 @@ export async function testPaginationContent(
  * @returns - a Playwright locator object for the tab with the specified text.
  */
 export const getTabByText = (page: Page, tabText: string): Locator => {
-  return page.locator("[role='tab']", {
-    has: page.locator(`text="${tabText}"`),
-  });
+  return page.locator("[role='tab']").filter({ hasText: tabText });
 };
 
 /* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/

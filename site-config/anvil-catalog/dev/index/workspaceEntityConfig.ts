@@ -4,7 +4,7 @@ import {
   ListConfig,
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode";
+import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { AnVILCatalogWorkspace } from "../../../../app/apis/catalog/anvil-catalog/common/entities";
 import {
   anvilCatalogWorkspaceInputMapper,
@@ -126,6 +126,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
       },
     ],
     tableOptions: {
+      downloadFilename: "workspaces",
+      enableTableDownload: true,
       initialState: {
         sorting: [
           {
@@ -138,8 +140,8 @@ export const workspaceEntityConfig: EntityConfig<AnVILCatalogWorkspace> = {
   } as ListConfig<AnVILCatalogWorkspace>,
   listView: {
     disablePagination: true,
-    enableDownload: true,
   },
   route: "workspaces",
   staticLoadFile: "files/anvil-catalog/out/anvil-workspaces.json",
+  ui: { enableTabs: true },
 };

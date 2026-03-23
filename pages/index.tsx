@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { Redirect } from "@databiosphere/findable-ui/lib/components/Redirect/redirect";
 import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 

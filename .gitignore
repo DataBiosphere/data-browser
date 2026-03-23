@@ -8,6 +8,7 @@ node_modules
 # testing
 /coverage
 /test-results/*
+/playwright-report
 
 # next.js
 /.next/
@@ -46,6 +47,7 @@ Thumbs.db
 # IDEs and editors
 .idea
 /.vscode
+.claude
 
 # hygen
 _templates

@@ -4,10 +4,7 @@ import {
   MenuProps,
   SvgIconProps,
 } from "@mui/material";
-import {
-  TEXT_BODY_500,
-  TEXT_BODY_SMALL_400_2_LINES,
-} from "@databiosphere/findable-ui/lib/theme/common/typography";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 export const BUTTON_PROPS: ButtonProps = {
   color: "primary",
@@ -15,8 +12,10 @@ export const BUTTON_PROPS: ButtonProps = {
 };
 
 export const LIST_ITEM_TEXT_PROPS: ListItemTextProps = {
-  primaryTypographyProps: { variant: TEXT_BODY_500 },
-  secondaryTypographyProps: { variant: TEXT_BODY_SMALL_400_2_LINES },
+  primaryTypographyProps: { variant: TYPOGRAPHY_PROPS.VARIANT.BODY_500 },
+  secondaryTypographyProps: {
+    variant: TYPOGRAPHY_PROPS.VARIANT.BODY_SMALL_400_2_LINES,
+  },
 };
 
 export const MENU_PROPS: Partial<MenuProps> = {

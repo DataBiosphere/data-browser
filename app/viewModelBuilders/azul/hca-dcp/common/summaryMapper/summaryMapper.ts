@@ -4,7 +4,7 @@ import {
   listSelectedTermsOfFacet,
 } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/common/utils";
 import { SummaryValue } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
-import { NTagCell } from "@databiosphere/findable-ui/lib/components/Index/components/NTagCell/nTagCell";
+import { NTagCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/NTagCell/nTagCell";
 import {
   FileFacet,
   Term,

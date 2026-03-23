@@ -1,10 +1,4 @@
-import { AzulSummaryResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import { METADATA_KEY, NetworkKey, SUMMARY } from "./entities";
-import {
-  calculateSummaryFileFormatsCount,
-  calculateSummaryTotalCellCount,
-  getSummaryCount,
-} from "./utils";
+import { METADATA_KEY, NetworkKey } from "./entities";
 
 // Template constants
 const {
@@ -34,6 +28,7 @@ const {
   ORGAN_PART,
   ORGANISM_AGE,
   ORGANISM_TYPE,
+  PHENOTYPE,
   PHENOTYPIC_SEX,
   PLATFORM,
   REPORTED_ETHNICITY,
@@ -45,33 +40,6 @@ const {
   WORKFLOW,
   WORKSPACE_NAME,
 } = METADATA_KEY;
-const {
-  BIOSAMPLES,
-  DONORS,
-  ESTIMATED_CELLS,
-  FILE_FORMATS,
-  FILES,
-  SPECIES,
-  SPECIMENS,
-} = SUMMARY;
-
-/**
- * Functions binding summary response API to summary count.
- */
-export const BIND_SUMMARY_RESPONSE = {
-  [BIOSAMPLES]: (r: AzulSummaryResponse): number =>
-    getSummaryCount(r, SUMMARY_KEY.BIOSAMPLES),
-  [DONORS]: (r: AzulSummaryResponse): number =>
-    getSummaryCount(r, SUMMARY_KEY.DONORS),
-  [ESTIMATED_CELLS]: calculateSummaryTotalCellCount,
-  [FILES]: (r: AzulSummaryResponse): number =>
-    getSummaryCount(r, SUMMARY_KEY.FILES),
-  [FILE_FORMATS]: calculateSummaryFileFormatsCount,
-  [SPECIES]: (r: AzulSummaryResponse): number =>
-    getSummaryCount(r, SUMMARY_KEY.SPECIES),
-  [SPECIMENS]: (r: AzulSummaryResponse): number =>
-    getSummaryCount(r, SUMMARY_KEY.SPECIMENS),
-};
 
 export const NETWORK_KEYS = [
   "Adipose",
@@ -146,6 +114,7 @@ export const PLURALIZED_METADATA_LABEL = {
   [ORGANISM_AGE]: "ages",
   [ORGANISM_TYPE]: "organism types",
   [ORGAN_PART]: "organ parts",
+  [PHENOTYPE]: "phenotypes",
   [PHENOTYPIC_SEX]: "phenotypic sexes",
   [PLATFORM]: "platforms",
   [REPORTED_ETHNICITY]: "reported ethnicities",
@@ -157,29 +126,4 @@ export const PLURALIZED_METADATA_LABEL = {
   [METADATA_KEY.SPECIES]: "species",
   [WORKFLOW]: "analysis protocols",
   [WORKSPACE_NAME]: "workspaces",
-};
-
-/**
- * Set of possible summary keys.
- */
-export const SUMMARY_KEY = {
-  [BIOSAMPLES]: "biosampleCount",
-  [DONORS]: "donorCount",
-  [FILES]: "fileCount",
-  [FILE_FORMATS]: "fileFormats",
-  [SPECIES]: "speciesCount",
-  [SPECIMENS]: "specimenCount",
-} as const;
-
-/**
- * Set of possible summary labels.
- */
-export const SUMMARY_LABEL = {
-  [BIOSAMPLES]: "BioSamples",
-  [DONORS]: "Donors",
-  [ESTIMATED_CELLS]: "Estimated Cells",
-  [FILES]: "Files",
-  [FILE_FORMATS]: "Files",
-  [SPECIES]: "Species",
-  [SPECIMENS]: "Specimens",
 };
