@@ -15,6 +15,7 @@ import {
   FileSummaryTerm,
   FormFacet,
 } from "@databiosphere/findable-ui/lib/components/Export/common/entities";
+import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
 import { CurrentQuery } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 import { Summary } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
@@ -36,6 +37,7 @@ import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,
 } from "@mui/material";
+import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
 import React, { ComponentProps, ReactNode } from "react";
 import {
   ANVIL_CMG_CATEGORY_KEY,
@@ -43,6 +45,7 @@ import {
   DATASET_RESPONSE,
 } from "../../../../../site-config/anvil-cmg/category";
 import { ROUTES } from "../../../../../site-config/anvil-cmg/dev/export/routes";
+import { mapDiagnosisValue } from "../../../../../site-config/anvil-cmg/dev/index/common/utils";
 import {
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
@@ -97,14 +100,12 @@ import {
 } from "../../../../apis/azul/common/utils";
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/anvil-cmg";
+import { RequestAccess } from "../../../../components/Detail/components/AnVILCMG/components/RequestAccess/requestAccess";
 import { Description } from "../../../../components/Detail/components/MDX/components/Description/description";
-import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
-import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
-import { RequestAccess } from "../../../../components/Detail/components/AnVILCMG/components/RequestAccess/requestAccess";
 
 /**
  * Build props for activity type BasicCell component from the given activities response.
@@ -662,7 +663,7 @@ export const buildDiagnoses = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DIAGNOSIS),
-    values: getAggregatedDiagnoses(response),
+    values: getAggregatedDiagnoses(response).map(mapDiagnosisValue),
   };
 };
 
