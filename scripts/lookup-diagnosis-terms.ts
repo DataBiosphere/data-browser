@@ -140,7 +140,9 @@ function generateJs(mapping: Map<string, string>): string {
   lines.push(" *   - OMIM terms: phenotype.hpoa from HPO project");
   lines.push(" *   - Term IDs: AnVIL Azul API (explore.anvilproject.org)");
   lines.push(" */");
-  lines.push("export const defined: Record<string, string> = {");
+  lines.push(
+    "export const DIAGNOSIS_DISPLAY_VALUE: Record<string, string> = {"
+  );
 
   const sortedKeys = [...mapping.keys()].sort();
   for (const termId of sortedKeys) {

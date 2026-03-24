@@ -5,7 +5,7 @@
  *   - OMIM terms: phenotype.hpoa from HPO project
  *   - Term IDs: AnVIL Azul API (explore.anvilproject.org)
  */
-export const defined: Record<string, string> = {
+export const DIAGNOSIS_DISPLAY_VALUE: Record<string, string> = {
   "HP:0000003": "Multicystic kidney dysplasia",
   "HP:0000011": "Neurogenic bladder",
   "HP:0000054": "Micropenis",
@@ -246,7 +246,8 @@ export const defined: Record<string, string> = {
   "HP:0003326": "Myalgia",
   "HP:0003365": "Arthralgia of the hip",
   "HP:0003401": "Paresthesia",
-  "HP:0003403": "EMG: decremental response of compound muscle action potential to repetitive nerve stimulation",
+  "HP:0003403":
+    "EMG: decremental response of compound muscle action potential to repetitive nerve stimulation",
   "HP:0003457": "EMG abnormality",
   "HP:0003458": "EMG: myopathic abnormalities",
   "HP:0003508": "Proportionate short stature",
@@ -389,7 +390,8 @@ export const defined: Record<string, string> = {
   "OMIM:161800": "Nemaline myopathy 3",
   "OMIM:163950": "Noonan syndrome 1",
   "OMIM:164230": "Obsessive-Compulsive disorder 1",
-  "OMIM:175780": "Brain small vessel disease 1 with or without ocular anomalies",
+  "OMIM:175780":
+    "Brain small vessel disease 1 with or without ocular anomalies",
   "OMIM:180849": "Rubinstein-Taybi syndrome 1",
   "OMIM:200990": "Acrocallosal syndrome",
   "OMIM:206200": "Iron-Refractory iron deficiency anemia",
@@ -399,7 +401,8 @@ export const defined: Record<string, string> = {
   "OMIM:227650": "Fanconi anemia",
   "OMIM:231300": "Glaucoma 3, primary congenital, A",
   "OMIM:235730": "Mowat-Wilson syndrome",
-  "OMIM:242150": "Ichthyosiform erythroderma, corneal involvement, and deafness",
+  "OMIM:242150":
+    "Ichthyosiform erythroderma, corneal involvement, and deafness",
   "OMIM:242840": "Vici syndrome",
   "OMIM:243310": "Baraitser-Winter syndrome 1",
   "OMIM:252350": "Moyamoya disease 1",
@@ -419,16 +422,21 @@ export const defined: Record<string, string> = {
   "OMIM:300215": "Lissencephaly, X-linked, 2",
   "OMIM:300352": "Cerebral creatine deficiency syndrome 1",
   "OMIM:300558": "Intellectual developmental disorder, X-linked 30",
-  "OMIM:300699": "Intellectual developmental disorder, X-linked syndromic, Wu type",
+  "OMIM:300699":
+    "Intellectual developmental disorder, X-linked syndromic, Wu type",
   "OMIM:300705": "Xp11.22 microduplication syndrome",
   "OMIM:300751": "Anemia, sideroblastic, X-linked",
-  "OMIM:300860": "Intellectual developmental disorder, X-linked syndromic, Nascimento type",
+  "OMIM:300860":
+    "Intellectual developmental disorder, X-linked syndromic, Nascimento type",
   "OMIM:300894": "Neurodegeneration with brain iron accumulation 5",
   "OMIM:300919": "Intellectual developmental disorder, X-linked 99",
-  "OMIM:300957": "Intellectual developmental disorder, X-linked syndromic, Kumar type",
-  "OMIM:300958": "Intellectual developmental disorder, X-linked, syndrome, snijders Blok type",
+  "OMIM:300957":
+    "Intellectual developmental disorder, X-linked syndromic, Kumar type",
+  "OMIM:300958":
+    "Intellectual developmental disorder, X-linked, syndrome, snijders Blok type",
   "OMIM:300960": "Mend syndrome",
-  "OMIM:300968": "Intellectual developmental disorder, X-linked 99, syndromic, female-restricted",
+  "OMIM:300968":
+    "Intellectual developmental disorder, X-linked 99, syndromic, female-restricted",
   "OMIM:304100": "Corpus callosum, partial agenesis of, X-linked",
   "OMIM:304110": "Craniofrontonasal syndrome",
   "OMIM:305100": "Ectodermal dysplasia 1, hypohidrotic, X-linked",
@@ -453,11 +461,13 @@ export const defined: Record<string, string> = {
   "OMIM:604498": "Amegakaryocytic thrombocytopenia, congenital",
   "OMIM:605309": "Macrocephaly/autism syndrome",
   "OMIM:605820": "Nonaka myopathy",
-  "OMIM:606053": "Intellectual developmental disorder with autism and speech delay",
+  "OMIM:606053":
+    "Intellectual developmental disorder with autism and speech delay",
   "OMIM:606069": "Hemochromatosis, type 4",
   "OMIM:606170": "Genitopatellar syndrome",
   "OMIM:606232": "Phelan-Mcdermid syndrome",
-  "OMIM:607208": "Epileptic encephalopathy, early infantile, 6 (Dravet syndrome)",
+  "OMIM:607208":
+    "Epileptic encephalopathy, early infantile, 6 (Dravet syndrome)",
   "OMIM:607872": "Chromosome 1p36 deletion syndrome",
   "OMIM:608099": "Muscular dystrophy, limb-girdle, type 2D",
   "OMIM:608358": "Myopathy, myosin storage, autosomal dominant",
@@ -481,14 +491,17 @@ export const defined: Record<string, string> = {
   "OMIM:613215": "Chromosome 17p13.3 duplication syndrome",
   "OMIM:613229": "TRICHOTILLOMANIA",
   "OMIM:613309": "Diamond-blackfan anemia 10",
-  "OMIM:613443": "Neurodevelopmental disorder with hypotonia, stereotypic hand movements, and impaired language",
+  "OMIM:613443":
+    "Neurodevelopmental disorder with hypotonia, stereotypic hand movements, and impaired language",
   "OMIM:613454": "Rett syndrome, congenital variant",
-  "OMIM:613670": "Intellectual developmental disorder with language impairment with or without autistic features",
+  "OMIM:613670":
+    "Intellectual developmental disorder with language impairment with or without autistic features",
   "OMIM:613680": "Beaulieu-Boycott-Innes syndrome",
   "OMIM:613684": "Rubinstein-Taybi syndrome 2",
   "OMIM:613735": "Brain malformations with or without urinary tract defects",
   "OMIM:613985": "BETA-THALASSEMIA",
-  "OMIM:614039": "Cortical dysplasia, complex, with other brain malformations 1",
+  "OMIM:614039":
+    "Cortical dysplasia, complex, with other brain malformations 1",
   "OMIM:614219": "Adams-Oliver syndrome 2",
   "OMIM:614226": "Holoprosencephaly 11",
   "OMIM:614255": "NESCAV syndrome",
@@ -500,22 +513,28 @@ export const defined: Record<string, string> = {
   "OMIM:614753": "Malan syndrome",
   "OMIM:614932": "Combined oxidative phosphorylation deficiency 13",
   "OMIM:614945": "Deafness, autosomal recessive 18B",
-  "OMIM:615032": "Intellectual developmental disorder with autism and macrocephaly",
-  "OMIM:615181": "Muscular dystrophy-dystroglycanopathy (congenital with brain and eye anomalies, type A, 11)",
+  "OMIM:615032":
+    "Intellectual developmental disorder with autism and macrocephaly",
+  "OMIM:615181":
+    "Muscular dystrophy-dystroglycanopathy (congenital with brain and eye anomalies, type A, 11)",
   "OMIM:615237": "Congenital short bowel syndrome",
-  "OMIM:615350": "Muscular dystrophy-dystroglycanopathy (congenital with brain and eye anomalies), type A, 14",
+  "OMIM:615350":
+    "Muscular dystrophy-dystroglycanopathy (congenital with brain and eye anomalies), type A, 14",
   "OMIM:615369": "Develomental and epileptic encephalopathy 94",
   "OMIM:615476": "Developmental and epileptic encephalopathy 18",
   "OMIM:615544": "Periventricular nodular heterotopia 6",
   "OMIM:615546": "Van maldergem syndrome 2",
   "OMIM:615604": "L-ferritin deficiency, dominant and recessive",
-  "OMIM:615688": "Vasculitis, autoinflammation, immunodeficiency, and hematologic defects syndrome",
+  "OMIM:615688":
+    "Vasculitis, autoinflammation, immunodeficiency, and hematologic defects syndrome",
   "OMIM:615722": "Bosch-Boonstra-Schaaf optic atrophy syndrome",
-  "OMIM:615771": "Cortical dysplasia, complex, with other brain malformations 6",
+  "OMIM:615771":
+    "Cortical dysplasia, complex, with other brain malformations 6",
   "OMIM:615803": "Pontocerebellar hypoplasia, type 10",
   "OMIM:615829": "Xia-Gibbs syndrome",
   "OMIM:615879": "Tatton-Brown-Rahman syndrome",
-  "OMIM:615937": "Megalencephaly-Polymicrogyria-Polydactyly-Hydrocephalus syndrome 2",
+  "OMIM:615937":
+    "Megalencephaly-Polymicrogyria-Polydactyly-Hydrocephalus syndrome 2",
   "OMIM:615959": "Centronuclear myopathy 5",
   "OMIM:616199": "Polyglucosan body myopathy 2",
   "OMIM:616211": "Developmental and epileptic encephalopathy 28",
@@ -528,35 +547,50 @@ export const defined: Record<string, string> = {
   "OMIM:616863": "Chromosome 16p13.2 deletion syndrome",
   "OMIM:616938": "Coffin-Siris syndrome 5",
   "OMIM:617030": "Myopathy, distal, 5",
-  "OMIM:617061": "Intellectual developmental disorder, autosomal dominant 44, with microcephaly",
+  "OMIM:617061":
+    "Intellectual developmental disorder, autosomal dominant 44, with microcephaly",
   "OMIM:617090": "Microcephaly 17, primary, autosomal recessive",
   "OMIM:617140": "Zttk syndrome",
   "OMIM:617190": "Shashi-Pena syndrome",
-  "OMIM:617296": "Spastic paraplegia, intellectual disability, nystagmus, and obesity",
+  "OMIM:617296":
+    "Spastic paraplegia, intellectual disability, nystagmus, and obesity",
   "OMIM:617330": "Hypotonia, ataxia, and delayed development syndrome",
-  "OMIM:617333": "Intellectual developmental disorder with dysmorphic facies and ptosis",
-  "OMIM:617360": "Congenital heart defects, dysmorphic facial features, and intellectual developmental disorder",
+  "OMIM:617333":
+    "Intellectual developmental disorder with dysmorphic facies and ptosis",
+  "OMIM:617360":
+    "Congenital heart defects, dysmorphic facial features, and intellectual developmental disorder",
   "OMIM:617675": "Myopathy, mitochondrial, and ataxia",
   "OMIM:617751": "Intellectual developmental disorder, autosomal dominant 48",
-  "OMIM:617802": "Neurodevelopmental disorder with microcephaly, seizures, and cortical atrophy",
-  "OMIM:617807": "Neurodevelopmental disorder with ataxic gait, absent speech, and decreased cortical white matter",
+  "OMIM:617802":
+    "Neurodevelopmental disorder with microcephaly, seizures, and cortical atrophy",
+  "OMIM:617807":
+    "Neurodevelopmental disorder with ataxic gait, absent speech, and decreased cortical white matter",
   "OMIM:617822": "Alkuraya-Kucinskas syndrome",
   "OMIM:617938": "Developmental and epileptic encephalopathy 62",
   "OMIM:618004": "Epileptic encephalopathy, early infantile, 64",
-  "OMIM:618090": "Neurodevelopmental disorder with epilepsy and hypoplasia of the corpus callosum",
+  "OMIM:618090":
+    "Neurodevelopmental disorder with epilepsy and hypoplasia of the corpus callosum",
   "OMIM:618129": "Muscular dystrophy, limb-girdle, autosomal dominant 4",
-  "OMIM:618147": "Intellectual developmental disorder with hypertelorism and distinctive facies",
-  "OMIM:618158": "Intellectual developmental disorder with macrocephaly, seizures, and speech delay",
-  "OMIM:618273": "Mega-corpus-callosum syndrome with cerebellar hypoplasia and cortical malformations",
+  "OMIM:618147":
+    "Intellectual developmental disorder with hypertelorism and distinctive facies",
+  "OMIM:618158":
+    "Intellectual developmental disorder with macrocephaly, seizures, and speech delay",
+  "OMIM:618273":
+    "Mega-corpus-callosum syndrome with cerebellar hypoplasia and cortical malformations",
   "OMIM:618285": "Developmental and epileptic encephalopathy 69",
-  "OMIM:618286": "Macrocephaly, acquired, with impaired intellectual development",
+  "OMIM:618286":
+    "Macrocephaly, acquired, with impaired intellectual development",
   "OMIM:618325": "Lissencephaly 9 with complex brainstem malformation",
-  "OMIM:618451": "Neurodegeneration, early-onset, with choreoathetoid movements and microcytic anemia",
+  "OMIM:618451":
+    "Neurodegeneration, early-onset, with choreoathetoid movements and microcytic anemia",
   "OMIM:618512": "O'donnell-Luria-Rodan syndrome",
   "OMIM:618619": "Weiss-Kruszka syndrome",
-  "OMIM:618672": "Intellectual developmental disorder with speech delay, autism, and dysmorphic facies",
-  "OMIM:618727": "Ectodermal dysplasia with facial dysmorphism and acral, ocular, and brain anomalies, somatic mosaic",
-  "OMIM:618748": "Intellectual developmental disorder with hypotonia and behavioral abnormalities",
+  "OMIM:618672":
+    "Intellectual developmental disorder with speech delay, autism, and dysmorphic facies",
+  "OMIM:618727":
+    "Ectodermal dysplasia with facial dysmorphism and acral, ocular, and brain anomalies, somatic mosaic",
+  "OMIM:618748":
+    "Intellectual developmental disorder with hypotonia and behavioral abnormalities",
   "OMIM:618793": "Intellectual developmental disorder 62",
   "OMIM:618845": "Vertebral, cardiac, renal, and limb defects syndrome 3",
   "OMIM:618914": "Neurodevelopmental, jaw, eye, and digital syndrome",
