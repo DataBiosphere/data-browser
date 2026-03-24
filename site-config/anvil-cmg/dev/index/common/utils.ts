@@ -18,7 +18,7 @@ export function mapAccessibleValue(value: string): string {
  * @returns select category label.
  */
 export function mapDiagnosisValue(value: string): string {
-  const mappedValue = DIAGNOSIS_DISPLAY_VALUE[value];
+  const mappedValue = DIAGNOSIS_DISPLAY_VALUE[value.trim()];
 
   if (mappedValue) {
     return `${mappedValue} (${value})`;
