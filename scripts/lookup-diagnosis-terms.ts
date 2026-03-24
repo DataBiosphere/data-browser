@@ -86,7 +86,7 @@ async function buildHpMap(hpIds: Set<string>): Promise<Map<string, string>> {
     } else if (trimmed.startsWith("id: HP:")) {
       currentId = trimmed.slice(4);
     } else if (trimmed.startsWith("name: ") && currentId) {
-      currentName = trimmed.slice(6);
+      currentName = trimmed.slice(6).replace(/^obsolete\s+/, "");
     } else if (trimmed.startsWith("alt_id: HP:")) {
       altIds.push(trimmed.slice(8));
     }
