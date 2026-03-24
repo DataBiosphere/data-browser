@@ -21,7 +21,7 @@ export function mapDiagnosisValue(value: string): string {
   const mappedValue = DIAGNOSIS_DISPLAY_VALUE[value];
 
   if (mappedValue) {
-    return mappedValue;
+    return `${mappedValue} (${value})`;
   }
 
   return value;
