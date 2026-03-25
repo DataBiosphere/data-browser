@@ -118,8 +118,8 @@ export interface ProjectsEntityResponse {
  * Model of project summary in the response from /index/summary API endpoint.
  */
 export interface ProjectSummary {
-  cellSuspensions: { totalCells: number };
-  projects: { estimatedCellCount: number };
+  cellSuspensions: { totalCells: number | null };
+  projects: { estimatedCellCount: number | null };
 }
 
 /**
