@@ -8,6 +8,7 @@ import * as C from "../../../../../../app/components";
 import { DatasetsResponse } from "app/apis/azul/anvil-cmg/common/responses";
 import { ROUTES } from "../../../export/routes";
 import * as MDX from "../../../../../../app/components/common/MDXContent/anvil-cmg";
+import { CurlDownloadExportMethod } from "../../../../../../app/components/Export/components/AnVILExplorer/CurlDownload/curlDownloadExportMethod";
 import { ExportMethod } from "../../../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
 import { EXPORT_METHODS, EXPORTS } from "../../../export/constants";
 import { ExportToPlatform } from "../../../../../../app/components/Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
@@ -25,6 +26,59 @@ const DATASET_ACCESSIBILITY_BADGE = {
  */
 export const exportConfig: ExportConfig = {
   exportMethods: [
+    {
+      mainColumn: [
+        /* --------- */
+        /* Dataset is not accessible; render warning */
+        /* --------- */
+        {
+          children: [
+            {
+              children: [
+                {
+                  component: MDX.Alert,
+                  viewBuilder: V.buildAlertDatasetExportWarning,
+                } as ComponentConfig<typeof MDX.Alert, DatasetsResponse>,
+              ],
+              component: C.BackPageContentSingleColumn,
+            } as ComponentConfig<typeof C.BackPageContentSingleColumn>,
+          ],
+          component: C.ConditionalComponent,
+          viewBuilder: V.renderDatasetExportWarning,
+        } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
+        /* ------ */
+        /* Dataset is accessible; render curl download method */
+        /* ------ */
+        {
+          children: [
+            {
+              children: [
+                {
+                  component: C.DownloadCurlCommand,
+                  viewBuilder: V.buildDatasetDownloadCurlCommand,
+                } as ComponentConfig<
+                  typeof C.DownloadCurlCommand,
+                  DatasetsResponse
+                >,
+              ],
+              component: C.BackPageContentMainColumn,
+            } as ComponentConfig<typeof C.BackPageContentMainColumn>,
+            /* sideColumn */
+            ...exportSideColumn,
+          ],
+          component: C.ConditionalComponent,
+          viewBuilder: V.renderDatasetExport,
+        } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
+      ],
+      route: ROUTES.CURL_DOWNLOAD,
+      top: [
+        {
+          children: [DATASET_ACCESSIBILITY_BADGE],
+          component: C.BackPageHero,
+          viewBuilder: V.buildDatasetExportMethodHeroCurlCommand,
+        } as ComponentConfig<typeof C.BackPageHero>,
+      ],
+    },
     {
       mainColumn: [
         /* --------- */
@@ -324,6 +378,10 @@ export const exportConfig: ExportConfig = {
                   component: C.AnVILExportEntity,
                   viewBuilder: V.buildDatasetExportPropsWithFilter,
                 } as ComponentConfig<typeof C.AnVILExportEntity>,
+                {
+                  component: CurlDownloadExportMethod,
+                  viewBuilder: V.buildDatasetExportMethodCurlCommand,
+                } as ComponentConfig<typeof CurlDownloadExportMethod>,
                 {
                   component: C.ExportMethod,
                   viewBuilder: V.buildDatasetExportMethodTerra,

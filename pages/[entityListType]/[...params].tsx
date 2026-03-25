@@ -42,6 +42,8 @@ const NCPI_EXPORT_PATHS = [
   ROUTES.CAVATICA,
 ];
 
+const CURL_DOWNLOAD_PATH = ROUTES.CURL_DOWNLOAD;
+
 interface StaticPath {
   params: PageUrl;
 }
@@ -64,10 +66,13 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  */
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const isNCPIExportEnabled = useFeatureFlag(FEATURES.NCPI_EXPORT);
+  const isCurlDownloadEnabled = useFeatureFlag(FEATURES.CURL_DOWNLOAD);
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
   if (!isNCPIExportEnabled && isNCPIExportRoute(query))
+    return <NextError statusCode={404} />;
+  if (!isCurlDownloadEnabled && isCurlDownloadRoute(query))
     return <NextError statusCode={404} />;
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
@@ -101,6 +106,17 @@ function isNCPIExportRoute(query: ParsedUrlQuery): boolean {
   return NCPI_EXPORT_PATHS.map((path) => path.replace("/export/", "")).includes(
     lastParam
   );
+}
+
+/**
+ * Returns true if the current route is a curl download route.
+ * @param query - Parsed URL query.
+ * @returns True if the route matches the curl download path.
+ */
+function isCurlDownloadRoute(query: ParsedUrlQuery): boolean {
+  const params = query.params as string[] | undefined;
+  const lastParam = params?.[params.length - 1] || "";
+  return lastParam === CURL_DOWNLOAD_PATH.replace("/export/", "");
 }
 
 /**
