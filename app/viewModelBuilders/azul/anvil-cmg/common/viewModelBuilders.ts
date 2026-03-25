@@ -889,6 +889,69 @@ export const buildExportMethodTerra = (
 };
 
 /**
+ * Build props for DownloadCurlCommand component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the DownloadCurlCommand component.
+ */
+export const buildDownloadCurlCommand = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof C.DownloadCurlCommand> => {
+  const {
+    exploreState: { filterState },
+    fileManifestState,
+  } = viewContext;
+  const formFacet = getFormFacets(fileManifestState);
+  return {
+    DownloadCurlForm: C.DownloadCurlCommandForm,
+    DownloadCurlStart: MDX.DownloadCurlCommandStart,
+    DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
+    fileManifestState,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    filters: filterState,
+    formFacet,
+    speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+  };
+};
+
+/**
+ * Build props for ExportMethod component for display of the bulk download section.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportMethodBulkDownload = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof C.ExportMethod> => {
+  return {
+    ...getExportMethodAccessibility(viewContext),
+    buttonLabel: "Request curl Command",
+    description: "Obtain a curl command for downloading the selected data.",
+    route: ROUTES.CURL_DOWNLOAD,
+    title: "Download Study Data and Metadata (curl Command)",
+  };
+};
+
+/**
+ * Build props for download curl command BackPageHero component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildExportMethodHeroCurlCommand = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof C.BackPageHero> => {
+  const title = 'Download Selected Data Using "curl"';
+  const {
+    exploreState: { tabValue },
+  } = viewContext;
+  return getExportMethodHero(tabValue, title);
+};
+
+/**
  * Build props for ExportSelectedDataSummary component.
  * @param _ - Unused.
  * @param viewContext - View context.

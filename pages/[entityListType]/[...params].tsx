@@ -29,6 +29,7 @@ import { ParsedUrlQuery } from "querystring";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { readFile } from "../../app/utils/tsvParser";
 import { useRouter } from "next/router";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { useFeatureFlag } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/useFeatureFlag";
 import { FEATURES } from "../../app/shared/entities";
 import NextError from "next/error";
@@ -65,6 +66,8 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  * @returns Entity detail view component.
  */
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
+  const { config } = useConfig();
+  const isAnVIL = config.appTitle?.includes("AnVIL");
   const isNCPIExportEnabled = useFeatureFlag(FEATURES.NCPI_EXPORT);
   const isCurlDownloadEnabled = useFeatureFlag(FEATURES.CURL_DOWNLOAD);
   const { query } = useRouter();
@@ -72,7 +75,8 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   if (props.override) return <EntityGuard override={props.override} />;
   if (!isNCPIExportEnabled && isNCPIExportRoute(query))
     return <NextError statusCode={404} />;
-  if (!isCurlDownloadEnabled && isCurlDownloadRoute(query))
+  // Feature flag only applies to AnVIL sites
+  if (isAnVIL && !isCurlDownloadEnabled && isCurlDownloadRoute(query))
     return <NextError statusCode={404} />;
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
