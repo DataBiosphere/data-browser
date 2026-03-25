@@ -1,6 +1,6 @@
 {
   "name": "explorer",
-  "version": "2.26.1",
+  "version": "2.29.0",
   "private": true,
   "scripts": {
     "dev:anvil-catalog": "./scripts/dev.sh anvil-catalog dev && ./scripts/set-version.sh dev && next dev",
@@ -32,14 +32,14 @@
     "check-system-status:anvil-cmg": "esrun e2e/anvil/anvil-check-system-status.ts"
   },
   "dependencies": {
-    "@databiosphere/findable-ui": "^48",
+    "@databiosphere/findable-ui": "^50.1.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@mdx-js/loader": "^3",
     "@mdx-js/react": "^3",
     "@mui/icons-material": "^7",
     "@mui/material": "^7",
-    "@next/mdx": "^15",
+    "@next/mdx": "^15.5.13",
     "@observablehq/plot": "^0",
     "@tanstack/match-sorter-utils": "^8",
     "@tanstack/react-table": "^8",
@@ -79,7 +79,7 @@
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
     "@digitak/esrun": "^3.2.26",
-    "@next/eslint-plugin-next": "^15.5.9",
+    "@next/eslint-plugin-next": "^15.5.13",
     "@playwright/test": "^1.49.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^16.3.1",
@@ -90,7 +90,7 @@
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "babel-loader": "^9.2.1",
     "eslint": "^8.57.1",
-    "eslint-config-next": "^15.5.9",
+    "eslint-config-next": "^15.5.13",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-jsdoc": "^61.5.0",

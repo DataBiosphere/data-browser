@@ -1,5 +1,52 @@
 # Changelog
 
+## [2.29.0](https://github.com/DataBiosphere/data-browser/compare/v2.28.1...v2.29.0) (2026-03-23)
+
+
+### Features
+
+* track dataset exports for anvil-cmg and hca-dcp ([#4717](https://github.com/DataBiosphere/data-browser/issues/4717)) ([a9f9695](https://github.com/DataBiosphere/data-browser/commit/a9f9695bee96a76d13f52a0dc766de5d3ee81498))
+* track dataset exports for anvil-cmg and hca-dcp [#4711](https://github.com/DataBiosphere/data-browser/issues/4711) ([a9f9695](https://github.com/DataBiosphere/data-browser/commit/a9f9695bee96a76d13f52a0dc766de5d3ee81498))
+
+
+### Chores
+
+* update findable-ui to latest version ([#4721](https://github.com/DataBiosphere/data-browser/issues/4721)) ([c01bb77](https://github.com/DataBiosphere/data-browser/commit/c01bb77742f92f94f557a58c00258fc3494586d3))
+* update findable-ui to latest version [#4720](https://github.com/DataBiosphere/data-browser/issues/4720) ([c01bb77](https://github.com/DataBiosphere/data-browser/commit/c01bb77742f92f94f557a58c00258fc3494586d3))
+
+## [2.28.1](https://github.com/DataBiosphere/data-browser/compare/v2.28.0...v2.28.1) (2026-03-20)
+
+
+### Chores
+
+* update findable-ui to latest version ([#4712](https://github.com/DataBiosphere/data-browser/issues/4712)) ([#4713](https://github.com/DataBiosphere/data-browser/issues/4713)) ([09b7174](https://github.com/DataBiosphere/data-browser/commit/09b7174201b6db64e65adeeba32b4e40e813fb73))
+
+## [2.28.0](https://github.com/DataBiosphere/data-browser/compare/v2.27.0...v2.28.0) (2026-03-18)
+
+
+### Features
+
+* decouple anvil-cmg summary mapping from shared constants ([#4529](https://github.com/DataBiosphere/data-browser/issues/4529)) ([#4697](https://github.com/DataBiosphere/data-browser/issues/4697)) ([7538049](https://github.com/DataBiosphere/data-browser/commit/7538049ff1a27101309e15b5ec7f8bd010064493))
+* decouple hca-dcp summary mapping from shared constants ([#4530](https://github.com/DataBiosphere/data-browser/issues/4530)) ([#4698](https://github.com/DataBiosphere/data-browser/issues/4698)) ([db0864f](https://github.com/DataBiosphere/data-browser/commit/db0864fa0155dda4bd4146c94276745130d084e5))
+* decouple lungmap summary mapping from shared constants ([#4531](https://github.com/DataBiosphere/data-browser/issues/4531)) ([#4699](https://github.com/DataBiosphere/data-browser/issues/4699)) ([5856fd4](https://github.com/DataBiosphere/data-browser/commit/5856fd40caea06ee9181d1ec8764cc371966cf0a))
+
+
+### Chores
+
+* update findable-ui to latest version ([#4704](https://github.com/DataBiosphere/data-browser/issues/4704)) ([#4705](https://github.com/DataBiosphere/data-browser/issues/4705)) ([decdce3](https://github.com/DataBiosphere/data-browser/commit/decdce35b1509cde7194b4ef74ef78f5be71e77c))
+
+## [2.27.0](https://github.com/DataBiosphere/data-browser/compare/v2.26.1...v2.27.0) (2026-03-12)
+
+
+### Features
+
+* update anvil cmg auth config to use ecm endpoint ([#4694](https://github.com/DataBiosphere/data-browser/issues/4694)) ([#4696](https://github.com/DataBiosphere/data-browser/issues/4696)) ([ed2262a](https://github.com/DataBiosphere/data-browser/commit/ed2262aecda61eb9377c950ae206d05c05e684b1))
+
+
+### Chores
+
+* upgrade findable-ui to 49.4.1 ([#4693](https://github.com/DataBiosphere/data-browser/issues/4693)) ([e7176c6](https://github.com/DataBiosphere/data-browser/commit/e7176c6b420de7515b4d6563fb236cbd6b2a4924))
+
 ## [2.26.1](https://github.com/DataBiosphere/data-browser/compare/v2.26.0...v2.26.1) (2026-03-05)
 
 
