@@ -19,10 +19,7 @@ import { CurrentQuery } from "@databiosphere/findable-ui/lib/components/Export/c
 import { Summary } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
-import {
-  FILE_MANIFEST_TYPE,
-  FileFacet,
-} from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
+import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import {
   findFacet,
   isFacetTermSelected,
@@ -617,10 +614,10 @@ export const buildDatasetTerraExport = (
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.ENTITY_EXPORT_TO_TERRA,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters,
     formFacet,
+    isDatasetExport: true,
     manifestDownloadFormat: MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB,
     manifestDownloadFormats: [MANIFEST_DOWNLOAD_FORMAT.VERBATIM_PFB],
     speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
@@ -951,7 +948,6 @@ export const buildExportToTerra = (
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.EXPORT_TO_TERRA,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters: filterState,
     formFacet,
@@ -977,6 +973,7 @@ export const buildFileDataModality = (
 
 /**
  * Build props for file download AzulFileDownload component.
+ * Downloads use azul_url but are only enabled when azul_mirror_uri is present.
  * @param response - Response model returned from index/files API endpoint.
  * @returns model to be used as props for the AzulFileDownload component.
  */
@@ -984,11 +981,20 @@ export const buildFileDownload = (
   response: FilesResponse
 ): React.ComponentProps<typeof C.AzulFileDownload> => {
   const dataset = response.datasets[0];
+  const mirrorUri = processEntityValue(
+    response.files,
+    "azul_mirror_uri",
+    LABEL.EMPTY
+  );
+  // Only provide download URL if mirror URI exists (enables the download button)
+  const url = mirrorUri
+    ? processEntityValue(response.files, "azul_url", LABEL.EMPTY)
+    : undefined;
   return {
     entityName: processEntityValue(response.files, "file_name"),
     relatedEntityId: dataset.dataset_id[0],
     relatedEntityName: dataset.title[0],
-    url: processEntityValue(response.files, "azul_url", LABEL.EMPTY),
+    url,
   };
 };
 
@@ -1065,7 +1071,6 @@ export const buildManifestDownload = (
     ManifestDownloadStart: MDX.ManifestDownloadStart,
     ManifestDownloadSuccess: MDX.ManifestDownloadSuccess,
     fileManifestState,
-    fileManifestType: FILE_MANIFEST_TYPE.DOWNLOAD_MANIFEST,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
     filters: filterState,
     formFacet,

@@ -81,7 +81,7 @@ export interface DonorEntityResponse {
  */
 export interface DonorSpecies {
   count: number;
-  species: null; // TODO - when species type is known (currently returns null value).
+  species: string | null;
 }
 
 /**
@@ -89,6 +89,7 @@ export interface DonorSpecies {
  */
 export interface FileEntity {
   accessible: boolean;
+  azul_mirror_uri: string | null;
   azul_url: string;
   data_modality: string[];
   date_created: string;
