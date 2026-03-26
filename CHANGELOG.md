@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.30.0](https://github.com/DataBiosphere/data-browser/compare/v2.29.0...v2.30.0) (2026-03-26)
+
+
+### Features
+
+* enable curl download for anvil-cmg cohort export ([#4727](https://github.com/DataBiosphere/data-browser/issues/4727)) ([71a71f7](https://github.com/DataBiosphere/data-browser/commit/71a71f7e7776b377331d19c28f90cb7dfc77080e))
+* enable curl download for anvil-cmg datasets ([#4725](https://github.com/DataBiosphere/data-browser/issues/4725)) ([6f6ada2](https://github.com/DataBiosphere/data-browser/commit/6f6ada2e6515fd876503a848c4ea200e19379573))
+
 ## [2.29.0](https://github.com/DataBiosphere/data-browser/compare/v2.28.1...v2.29.0) (2026-03-23)
 
 
