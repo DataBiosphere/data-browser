@@ -508,9 +508,9 @@ export const buildDatasetExportMethodCurlCommand = (
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
     buttonLabel: "Request curl Command",
-    description: "Obtain a curl command for downloading the selected data.",
+    description: "Obtain a curl command for downloading the dataset.",
     route: `${datasetPath}${ROUTES.CURL_DOWNLOAD}`,
-    title: "Download Study Data and Metadata (curl Command)",
+    title: "Download Open-Access Data and Metadata (curl Command)",
   };
 };
 
@@ -531,7 +531,7 @@ export const buildDatasetDownloadCurlCommand = (
   const formFacet = getFormFacets(fileManifestState);
   return {
     DownloadCurlForm: C.DownloadCurlCommandForm,
-    DownloadCurlStart: MDX.DownloadCurlCommandStart,
+    DownloadCurlStart: MDX.DownloadCurlCommandDatasetStart,
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
     fileManifestState,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
@@ -928,9 +928,10 @@ export const buildExportMethodBulkDownload = (
   return {
     ...getExportMethodAccessibility(viewContext),
     buttonLabel: "Request curl Command",
-    description: "Obtain a curl command for downloading the selected data.",
+    description:
+      "Obtain a curl command for downloading the open-access portion of the selected data.",
     route: ROUTES.CURL_DOWNLOAD,
-    title: "Download Study Data and Metadata (curl Command)",
+    title: "Download Open-Access Data and Metadata (curl Command)",
   };
 };
 
