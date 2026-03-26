@@ -29,10 +29,13 @@ import { ParsedUrlQuery } from "querystring";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { readFile } from "../../app/utils/tsvParser";
 import { useRouter } from "next/router";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { useFeatureFlag } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/useFeatureFlag";
 import { FEATURES } from "../../app/shared/entities";
 import NextError from "next/error";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
+import { getConsentGroup } from "../../app/apis/azul/anvil-cmg/common/transformers";
+import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 
 const setOfProcessedIds = new Set<string>();
 
@@ -41,6 +44,8 @@ const NCPI_EXPORT_PATHS = [
   ROUTES.CANCER_GENOMICS_CLOUD,
   ROUTES.CAVATICA,
 ];
+
+const CURL_DOWNLOAD_PATH = ROUTES.CURL_DOWNLOAD;
 
 interface StaticPath {
   params: PageUrl;
@@ -63,12 +68,21 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  * @returns Entity detail view component.
  */
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
+  const { config: siteConfig } = useConfig();
+  const isAnVIL = siteConfig.appTitle?.includes("AnVIL");
   const isNCPIExportEnabled = useFeatureFlag(FEATURES.NCPI_EXPORT);
+  const isCurlDownloadEnabled = useFeatureFlag(FEATURES.CURL_DOWNLOAD);
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
   if (!isNCPIExportEnabled && isNCPIExportRoute(query))
     return <NextError statusCode={404} />;
+  // Curl download requires feature flag AND NRES consent group (AnVIL only)
+  if (isAnVIL && isCurlDownloadRoute(query)) {
+    if (!isCurlDownloadEnabled || !isNRESDataset(props.data)) {
+      return <NextError statusCode={404} />;
+    }
+  }
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
   return <EntityDetailView {...props} />;
@@ -101,6 +115,28 @@ function isNCPIExportRoute(query: ParsedUrlQuery): boolean {
   return NCPI_EXPORT_PATHS.map((path) => path.replace("/export/", "")).includes(
     lastParam
   );
+}
+
+/**
+ * Returns true if the current route is a curl download route.
+ * @param query - Parsed URL query.
+ * @returns True if the route matches the curl download path.
+ */
+function isCurlDownloadRoute(query: ParsedUrlQuery): boolean {
+  const params = query.params as string[] | undefined;
+  const lastParam = params?.[params.length - 1] || "";
+  return lastParam === CURL_DOWNLOAD_PATH.replace("/export/", "");
+}
+
+/**
+ * Returns true if the dataset has NRES consent group.
+ * @param data - Entity response data.
+ * @returns True if the dataset has NRES consent group.
+ */
+function isNRESDataset(data: AzulEntityStaticResponse | undefined): boolean {
+  if (!data) return false;
+  const consentGroups = getConsentGroup(data as DatasetsResponse);
+  return consentGroups.includes("NRES");
 }
 
 /**
@@ -240,6 +276,7 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   const slug = (params as PageUrl).params;
   const entityConfig = getEntityConfig(entities, entityListType);
   const entityTab = getSlugPath(slug, PARAMS_INDEX_TAB);
+  const entityExportMethod = getSlugPath(slug, PARAMS_INDEX_EXPORT_METHOD);
   const entityId = getSlugPath(slug, PARAMS_INDEX_UUID);
 
   if (!entityConfig || !entityId) return { notFound: true };
@@ -252,7 +289,13 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   if (props.override) return { props };
 
   // Process entity props.
-  await processEntityProps(entityConfig, entityTab, entityId, props);
+  await processEntityProps(
+    entityConfig,
+    entityTab,
+    entityExportMethod,
+    entityId,
+    props
+  );
 
   return {
     props,
@@ -456,12 +499,14 @@ function processEntityPaths(
  * Processes the entity props for the given entity page.
  * @param entityConfig - Entity config.
  * @param entityTab - Entity tab.
+ * @param entityExportMethod - Entity export method.
  * @param entityId - Entity ID.
  * @param props - Entity detail page props.
  */
 async function processEntityProps(
   entityConfig: EntityConfig,
   entityTab = "",
+  entityExportMethod = "",
   entityId: string,
   props: EntityDetailPageProps
 ): Promise<void> {
@@ -471,8 +516,16 @@ async function processEntityProps(
   } = entityConfig;
   // Early exit; return if the entity is not to be statically loaded.
   if (!staticLoad) return;
-  // When the entity detail is to be fetched from API, we only do so for the first tab.
-  if (exploreMode === EXPLORE_MODE.SS_FETCH_SS_FILTERING && entityTab) return;
+  // When the entity detail is to be fetched from API, we only do so for the first tab,
+  // unless it's the curl download route which needs data for NRES check.
+  const isCurlDownload =
+    entityExportMethod === CURL_DOWNLOAD_PATH.replace("/export/", "");
+  if (
+    exploreMode === EXPLORE_MODE.SS_FETCH_SS_FILTERING &&
+    entityTab &&
+    !isCurlDownload
+  )
+    return;
   if (exploreMode === EXPLORE_MODE.CS_FETCH_CS_FILTERING) {
     // Seed database.
     await seedDatabase(entityConfig.route, entityConfig);
