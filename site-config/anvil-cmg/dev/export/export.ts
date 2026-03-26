@@ -8,10 +8,36 @@ import { ROUTES } from "./routes";
 import { mainColumn as exportMainColumn } from "./exportMainColumn";
 import { sideColumn as exportSideColumn } from "./exportSideColumn";
 import { ExportMethod } from "../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
+import { CurlDownloadExportMethod } from "../../../../app/components/Export/components/AnVILExplorer/CurlDownload/curlDownloadExportMethod";
 import { EXPORT_METHODS, EXPORTS } from "./constants";
 
 export const exportConfig: ExportConfig = {
   exportMethods: [
+    {
+      mainColumn: [
+        /* mainColumn - top section - warning - some datasets are not available */
+        ...exportMainColumn,
+        /* mainColumn */
+        {
+          children: [
+            {
+              component: C.DownloadCurlCommand,
+              viewBuilder: V.buildDownloadCurlCommand,
+            } as ComponentConfig<typeof C.DownloadCurlCommand>,
+          ],
+          component: C.BackPageContentMainColumn,
+        } as ComponentConfig<typeof C.BackPageContentMainColumn>,
+        /* sideColumn */
+        ...exportSideColumn,
+      ],
+      route: ROUTES.CURL_DOWNLOAD,
+      top: [
+        {
+          component: C.BackPageHero,
+          viewBuilder: V.buildExportMethodHeroCurlCommand,
+        } as ComponentConfig<typeof C.BackPageHero>,
+      ],
+    },
     {
       mainColumn: [
         /* mainColumn - top section - warning - some datasets are not available */
@@ -154,6 +180,10 @@ export const exportConfig: ExportConfig = {
         /* mainColumn */
         {
           children: [
+            {
+              component: CurlDownloadExportMethod,
+              viewBuilder: V.buildExportMethodBulkDownload,
+            } as ComponentConfig<typeof CurlDownloadExportMethod>,
             {
               component: C.ExportMethod,
               viewBuilder: V.buildExportMethodTerra,

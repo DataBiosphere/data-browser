@@ -47,7 +47,7 @@ export const exportConfig: ExportConfig = {
           viewBuilder: V.renderDatasetExportWarning,
         } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
         /* ------ */
-        /* Dataset is accessible; render curl download method */
+        /* Dataset is accessible and NRES; render curl download method */
         /* ------ */
         {
           children: [
@@ -67,7 +67,7 @@ export const exportConfig: ExportConfig = {
             ...exportSideColumn,
           ],
           component: C.ConditionalComponent,
-          viewBuilder: V.renderDatasetExport,
+          viewBuilder: V.renderDatasetCurlDownload,
         } as ComponentConfig<typeof C.ConditionalComponent, DatasetsResponse>,
       ],
       route: ROUTES.CURL_DOWNLOAD,
@@ -379,9 +379,18 @@ export const exportConfig: ExportConfig = {
                   viewBuilder: V.buildDatasetExportPropsWithFilter,
                 } as ComponentConfig<typeof C.AnVILExportEntity>,
                 {
-                  component: CurlDownloadExportMethod,
-                  viewBuilder: V.buildDatasetExportMethodCurlCommand,
-                } as ComponentConfig<typeof CurlDownloadExportMethod>,
+                  children: [
+                    {
+                      component: CurlDownloadExportMethod,
+                      viewBuilder: V.buildDatasetExportMethodCurlCommand,
+                    } as ComponentConfig<typeof CurlDownloadExportMethod>,
+                  ],
+                  component: C.ConditionalComponent,
+                  viewBuilder: V.renderDatasetCurlDownload,
+                } as ComponentConfig<
+                  typeof C.ConditionalComponent,
+                  DatasetsResponse
+                >,
                 {
                   component: C.ExportMethod,
                   viewBuilder: V.buildDatasetExportMethodTerra,

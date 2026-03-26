@@ -7,6 +7,7 @@ export { default as AlertExportWarning } from "./alertExportWarning.mdx";
 export { default as AlertExportWarningContent } from "./alertExportWarningContent.mdx";
 export { default as AlertLoginReminder } from "./alertLoginReminder.mdx";
 export { default as DataReleasePolicy } from "./dataReleasePolicy.mdx";
+export { default as DownloadCurlCommandDatasetStart } from "./downloadCurlCommandDatasetStart.mdx";
 export { default as DownloadCurlCommandStart } from "./downloadCurlCommandStart.mdx";
 export { default as DownloadCurlCommandSuccess } from "./downloadCurlCommandSuccess.mdx";
 export { default as LoginTermsOfService } from "./loginTermsOfService.mdx";

@@ -508,9 +508,9 @@ export const buildDatasetExportMethodCurlCommand = (
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
     buttonLabel: "Request curl Command",
-    description: "Obtain a curl command for downloading the selected data.",
+    description: "Obtain a curl command for downloading the dataset.",
     route: `${datasetPath}${ROUTES.CURL_DOWNLOAD}`,
-    title: "Download Study Data and Metadata (curl Command)",
+    title: "Download Open-Access Data and Metadata (curl Command)",
   };
 };
 
@@ -531,7 +531,7 @@ export const buildDatasetDownloadCurlCommand = (
   const formFacet = getFormFacets(fileManifestState);
   return {
     DownloadCurlForm: C.DownloadCurlCommandForm,
-    DownloadCurlStart: MDX.DownloadCurlCommandStart,
+    DownloadCurlStart: MDX.DownloadCurlCommandDatasetStart,
     DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
     fileManifestState,
     fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
@@ -886,6 +886,70 @@ export const buildExportMethodTerra = (
     route: ROUTES.TERRA,
     title: "Export Study Data and Metadata to Terra Workspace",
   };
+};
+
+/**
+ * Build props for DownloadCurlCommand component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the DownloadCurlCommand component.
+ */
+export const buildDownloadCurlCommand = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof C.DownloadCurlCommand> => {
+  const {
+    exploreState: { filterState },
+    fileManifestState,
+  } = viewContext;
+  const formFacet = getFormFacets(fileManifestState);
+  return {
+    DownloadCurlForm: C.DownloadCurlCommandForm,
+    DownloadCurlStart: MDX.DownloadCurlCommandStart,
+    DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
+    fileManifestState,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    filters: filterState,
+    formFacet,
+    speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+  };
+};
+
+/**
+ * Build props for ExportMethod component for display of the bulk download section.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportMethodBulkDownload = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof C.ExportMethod> => {
+  return {
+    ...getExportMethodAccessibility(viewContext),
+    buttonLabel: "Request curl Command",
+    description:
+      "Obtain a curl command for downloading the open-access portion of the selected data.",
+    route: ROUTES.CURL_DOWNLOAD,
+    title: "Download Open-Access Data and Metadata (curl Command)",
+  };
+};
+
+/**
+ * Build props for download curl command BackPageHero component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildExportMethodHeroCurlCommand = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof C.BackPageHero> => {
+  const title = 'Download Selected Data Using "curl"';
+  const {
+    exploreState: { tabValue },
+  } = viewContext;
+  return getExportMethodHero(tabValue, title);
 };
 
 /**
@@ -1720,6 +1784,22 @@ export const renderWhenUnAuthenticated = (
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
     isIn: !isUserAuthenticated(viewContext),
+  };
+};
+
+/**
+ * Renders dataset curl download components when the given dataset is accessible
+ * and has NRES consent group.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderDatasetCurlDownload = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  const consentGroups = getConsentGroup(datasetsResponse);
+  const isNRES = consentGroups.includes("NRES");
+  return {
+    isIn: isDatasetAccessible(datasetsResponse) && isNRES,
   };
 };
 
