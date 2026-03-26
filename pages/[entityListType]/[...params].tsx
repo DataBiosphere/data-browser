@@ -68,8 +68,8 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  * @returns Entity detail view component.
  */
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
-  const { config } = useConfig();
-  const isAnVIL = config.appTitle?.includes("AnVIL");
+  const { config: siteConfig } = useConfig();
+  const isAnVIL = siteConfig.appTitle?.includes("AnVIL");
   const isNCPIExportEnabled = useFeatureFlag(FEATURES.NCPI_EXPORT);
   const isCurlDownloadEnabled = useFeatureFlag(FEATURES.CURL_DOWNLOAD);
   const { query } = useRouter();
@@ -518,7 +518,8 @@ async function processEntityProps(
   if (!staticLoad) return;
   // When the entity detail is to be fetched from API, we only do so for the first tab,
   // unless it's the curl download route which needs data for NRES check.
-  const isCurlDownload = entityExportMethod === "get-curl-command";
+  const isCurlDownload =
+    entityExportMethod === CURL_DOWNLOAD_PATH.replace("/export/", "");
   if (
     exploreMode === EXPLORE_MODE.SS_FETCH_SS_FILTERING &&
     entityTab &&
