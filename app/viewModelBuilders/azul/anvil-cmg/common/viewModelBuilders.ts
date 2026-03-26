@@ -1787,6 +1787,22 @@ export const renderWhenUnAuthenticated = (
 };
 
 /**
+ * Renders dataset curl download components when the given dataset is accessible
+ * and has NRES consent group.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderDatasetCurlDownload = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  const consentGroups = getConsentGroup(datasetsResponse);
+  const isNRES = consentGroups.includes("NRES");
+  return {
+    isIn: isDatasetAccessible(datasetsResponse) && isNRES,
+  };
+};
+
+/**
  * Renders dataset export-related components (either the choose export method component,
  * or specific export components) when the given dataset is accessble.
  * @param datasetsResponse - Response model return from datasets API.
