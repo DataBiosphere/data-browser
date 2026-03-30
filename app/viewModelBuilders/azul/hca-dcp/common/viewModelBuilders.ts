@@ -36,6 +36,7 @@ import {
 } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/utils";
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import { SIZE } from "@databiosphere/findable-ui/lib/styles/common/constants/size";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
 import { CategoryKeyLabel } from "@databiosphere/findable-ui/lib/viewModelBuilders/common/entities";
 import {
@@ -114,7 +115,6 @@ import {
   bindFileSummaryResponse,
   mapExportSummary,
 } from "./summaryMapper/summaryMapper";
-import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 /**
  * Build props for the KeyValuePairs component for displaying the project accessions.
@@ -958,7 +958,6 @@ export const buildExportMethodBulkDownload = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
-    buttonLabel: "Request curl Command",
     description: "Obtain a curl command for downloading the selected data.",
     route: ROUTE_BULK_DOWNLOAD,
     title: "Download Study Data and Metadata (Curl Command)",
@@ -1029,7 +1028,6 @@ export const buildExportMethodManifestDownload = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
-    buttonLabel: "Request File Manifest",
     description:
       "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
     route: ROUTE_MANIFEST_DOWNLOAD,
@@ -1050,7 +1048,6 @@ export const buildExportMethodTerra = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
-    buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     route: ROUTE_EXPORT_TO_TERRA,

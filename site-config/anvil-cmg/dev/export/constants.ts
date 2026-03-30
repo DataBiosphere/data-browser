@@ -1,7 +1,7 @@
-import { ROUTES } from "./routes";
-import { ComponentProps } from "react";
 import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
+import { ComponentProps } from "react";
 import { ExportToPlatform } from "../../../../app/components";
+import { ROUTES } from "./routes";
 
 export const EXPORTS: Record<
   string,
@@ -35,25 +35,19 @@ export const EXPORTS: Record<
 
 export const EXPORT_METHODS: Record<
   string,
-  Pick<
-    ComponentProps<typeof ExportMethod>,
-    "buttonLabel" | "description" | "route" | "title"
-  >
+  Pick<ComponentProps<typeof ExportMethod>, "description" | "route" | "title">
 > = {
   BIO_DATA_CATALYST: {
-    buttonLabel: "Analyze in NHLBI BioData Catalyst",
     description: EXPORTS.BIO_DATA_CATALYST.description,
     route: ROUTES.BIO_DATA_CATALYST,
     title: "Export to BioData Catalyst Powered by Seven Bridges (BDC-SB)",
   },
   CANCER_GENOMICS_CLOUD: {
-    buttonLabel: "Analyze in Cancer Genomics Cloud",
     description: EXPORTS.CANCER_GENOMICS_CLOUD.description,
     route: ROUTES.CANCER_GENOMICS_CLOUD,
     title: "Export to Cancer Genomics Cloud (CGC)",
   },
   CAVATICA: {
-    buttonLabel: "Analyze in CAVATICA",
     description: EXPORTS.CAVATICA.description,
     route: ROUTES.CAVATICA,
     title: "Export to CAVATICA",
