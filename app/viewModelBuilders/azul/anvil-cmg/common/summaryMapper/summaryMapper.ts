@@ -45,7 +45,7 @@ export function bindFileSummaryResponse(
     donorCount: summaryResponse.donorCount,
     fileCount: summaryResponse.fileCount,
     fileFormats: bindFileFormatSummaryResponse(summaryResponse),
-    fileSize: summaryResponse.totalFileSize,
+    totalFileSize: summaryResponse.totalFileSize,
   };
 }
 
@@ -65,7 +65,7 @@ export function mapExportSummary(
   const donorCount = fileSummary.donorCount;
   const fileCount = fileSummary.fileCount;
   const fileFormats = fileSummary.fileFormats;
-  const fileSize = fileSummary.fileSize;
+  const totalFileSize = fileSummary.totalFileSize;
   const organismType = listSelectedTermsOfFacet(
     filesFacets,
     ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE
@@ -92,7 +92,10 @@ export function mapExportSummary(
       values: fileFormats,
     })
   ); // Formats
-  summaryBySummaryKey.set(SUMMARY.FILE_SIZE, formatFileSize(fileSize)); // File Size
+  summaryBySummaryKey.set(
+    SUMMARY.TOTAL_FILE_SIZE,
+    formatFileSize(totalFileSize)
+  ); // Total file Size
   return summaryBySummaryKey;
 }
 

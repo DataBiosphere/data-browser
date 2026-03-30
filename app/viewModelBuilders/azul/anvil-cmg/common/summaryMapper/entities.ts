@@ -6,7 +6,7 @@ export interface FileSummary {
   donorCount: number;
   fileCount: number;
   fileFormats: string[];
-  fileSize: number;
+  totalFileSize: number;
 }
 
 /**
@@ -17,6 +17,6 @@ export const enum SUMMARY {
   DONOR_COUNT = "DONOR_COUNT",
   FILE_COUNT = "FILE_COUNT",
   FILE_FORMATS = "FILE_FORMATS",
-  FILE_SIZE = "FILE_SIZE",
   ORGANISM_TYPE = "ORGANISM_TYPE",
+  TOTAL_FILE_SIZE = "TOTAL_FILE_SIZE",
 }
