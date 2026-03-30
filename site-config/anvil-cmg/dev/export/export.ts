@@ -8,7 +8,6 @@ import { ROUTES } from "./routes";
 import { mainColumn as exportMainColumn } from "./exportMainColumn";
 import { sideColumn as exportSideColumn } from "./exportSideColumn";
 import { ExportMethod } from "../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
-import { CurlDownloadExportMethod } from "../../../../app/components/Export/components/AnVILExplorer/CurlDownload/curlDownloadExportMethod";
 import { EXPORT_METHODS, EXPORTS } from "./constants";
 
 export const exportConfig: ExportConfig = {
@@ -181,9 +180,9 @@ export const exportConfig: ExportConfig = {
         {
           children: [
             {
-              component: CurlDownloadExportMethod,
+              component: C.ExportMethod,
               viewBuilder: V.buildExportMethodBulkDownload,
-            } as ComponentConfig<typeof CurlDownloadExportMethod>,
+            } as ComponentConfig<typeof C.ExportMethod>,
             {
               component: C.ExportMethod,
               viewBuilder: V.buildExportMethodTerra,

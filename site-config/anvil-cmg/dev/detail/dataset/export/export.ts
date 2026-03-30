@@ -8,7 +8,6 @@ import * as C from "../../../../../../app/components";
 import { DatasetsResponse } from "app/apis/azul/anvil-cmg/common/responses";
 import { ROUTES } from "../../../export/routes";
 import * as MDX from "../../../../../../app/components/common/MDXContent/anvil-cmg";
-import { CurlDownloadExportMethod } from "../../../../../../app/components/Export/components/AnVILExplorer/CurlDownload/curlDownloadExportMethod";
 import { ExportMethod } from "../../../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
 import { EXPORT_METHODS, EXPORTS } from "../../../export/constants";
 import { ExportToPlatform } from "../../../../../../app/components/Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
@@ -381,9 +380,9 @@ export const exportConfig: ExportConfig = {
                 {
                   children: [
                     {
-                      component: CurlDownloadExportMethod,
+                      component: C.ExportMethod,
                       viewBuilder: V.buildDatasetExportMethodCurlCommand,
-                    } as ComponentConfig<typeof CurlDownloadExportMethod>,
+                    } as ComponentConfig<typeof C.ExportMethod>,
                   ],
                   component: C.ConditionalComponent,
                   viewBuilder: V.renderDatasetCurlDownload,
