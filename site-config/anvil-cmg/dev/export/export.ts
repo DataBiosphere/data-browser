@@ -3,12 +3,12 @@ import {
   ExportConfig,
 } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
+import { ExportMethod } from "../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import { ROUTES } from "./routes";
+import { EXPORT_METHODS, EXPORTS } from "./constants";
 import { mainColumn as exportMainColumn } from "./exportMainColumn";
 import { sideColumn as exportSideColumn } from "./exportSideColumn";
-import { ExportMethod } from "../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
-import { EXPORT_METHODS, EXPORTS } from "./constants";
+import { ROUTES } from "./routes";
 
 export const exportConfig: ExportConfig = {
   exportMethods: [

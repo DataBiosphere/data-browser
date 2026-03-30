@@ -15,6 +15,7 @@ import {
   FileSummaryTerm,
   FormFacet,
 } from "@databiosphere/findable-ui/lib/components/Export/common/entities";
+import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
 import { CurrentQuery } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 import { Summary } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
@@ -36,6 +37,7 @@ import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,
 } from "@mui/material";
+import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
 import React, { ComponentProps, ReactNode } from "react";
 import {
   ANVIL_CMG_CATEGORY_KEY,
@@ -97,14 +99,12 @@ import {
 } from "../../../../apis/azul/common/utils";
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/anvil-cmg";
+import { RequestAccess } from "../../../../components/Detail/components/AnVILCMG/components/RequestAccess/requestAccess";
 import { Description } from "../../../../components/Detail/components/MDX/components/Description/description";
-import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
-import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
-import { RequestAccess } from "../../../../components/Detail/components/AnVILCMG/components/RequestAccess/requestAccess";
 
 /**
  * Build props for activity type BasicCell component from the given activities response.
@@ -443,7 +443,6 @@ export const buildDatasetExportMethodManifestDownload = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
-    buttonLabel: "Request File Manifest",
     description:
       "Request a file manifest suitable for downloading this dataset to your HPC cluster or local machine.",
     route: `${datasetPath}${ROUTES.MANIFEST_DOWNLOAD}`,
@@ -477,7 +476,6 @@ export const buildDatasetExportMethodTerra = (
 ): React.ComponentProps<typeof ExportMethod> => {
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
-    buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     route: `${datasetPath}${ROUTES.TERRA}`,
@@ -507,10 +505,15 @@ export const buildDatasetExportMethodCurlCommand = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
-    buttonLabel: "Request curl Command",
-    description: "Obtain a curl command for downloading the dataset.",
+    description: (
+      <div>
+        Generate a <code>curl</code> command to download this dataset. This
+        open-access dataset is hosted through the AWS Open Data Sponsorship
+        Program, which covers storage and data transfer costs.
+      </div>
+    ),
     route: `${datasetPath}${ROUTES.CURL_DOWNLOAD}`,
-    title: "Download Open-Access Data and Metadata (curl Command)",
+    title: "Download Open-Access Data and Metadata (No Egress Fees)",
   };
 };
 
@@ -595,7 +598,7 @@ export const buildDatasetExportToPlatformMethod = ({
   ...props
 }: Pick<
   ComponentProps<typeof ExportMethod>,
-  "buttonLabel" | "description" | "route" | "title"
+  "description" | "route" | "title"
 >): ((
   response: DatasetsResponse,
   viewContext: ViewContext<unknown>
@@ -860,7 +863,6 @@ export const buildExportMethodManifestDownload = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
-    buttonLabel: "Request File Manifest",
     description:
       "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
     route: ROUTES.MANIFEST_DOWNLOAD,
@@ -880,7 +882,6 @@ export const buildExportMethodTerra = (
 ): React.ComponentProps<typeof ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
-    buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     route: ROUTES.TERRA,
@@ -927,9 +928,8 @@ export const buildExportMethodBulkDownload = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
-    buttonLabel: "Request curl Command",
     description:
-      "Obtain a curl command for downloading the open-access portion of the selected data.",
+      "Generate a curl command for downloading the open-access portion of the selected data. Open-access datasets are hosted through the AWS Open Data Sponsorship Program, which covers storage and data transfer costs.",
     route: ROUTES.CURL_DOWNLOAD,
     title: "Download Open-Access Data and Metadata (curl Command)",
   };
@@ -1033,7 +1033,7 @@ export const buildExportToPlatformHero = (
 export const buildExportToPlatformMethod = (
   props: Pick<
     ComponentProps<typeof ExportMethod>,
-    "buttonLabel" | "description" | "route" | "title"
+    "description" | "route" | "title"
   >
 ): ((
   _: unknown,

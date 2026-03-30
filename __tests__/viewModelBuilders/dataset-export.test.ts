@@ -2,12 +2,12 @@ import { Breadcrumb } from "@databiosphere/findable-ui/lib/components/common/Bre
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
+import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import {
   buildDatasetExportToPlatform,
   buildDatasetExportToPlatformHero,
   buildDatasetExportToPlatformMethod,
 } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import { ANVIL_CMG_CATEGORY_KEY } from "../../site-config/anvil-cmg/category";
 import {
   EXPORTS,
@@ -284,17 +284,6 @@ describe("buildDatasetExportToPlatformMethod", () => {
     );
   });
 
-  it("returns buttonLabel from props", () => {
-    const props = EXPORT_METHODS.CAVATICA;
-    const builder = buildDatasetExportToPlatformMethod(props);
-    const response = createMockDatasetsResponse();
-    const viewContext = createMockViewContext();
-
-    const result = builder(response, viewContext);
-
-    expect(result.buttonLabel).toBe(props.buttonLabel);
-  });
-
   it("returns description from props", () => {
     const props = EXPORT_METHODS.CANCER_GENOMICS_CLOUD;
     const builder = buildDatasetExportToPlatformMethod(props);
@@ -359,7 +348,6 @@ describe("buildDatasetExportToPlatformMethod", () => {
 
       const result = builder(response, viewContext);
 
-      expect(result.buttonLabel).toBe("Analyze in NHLBI BioData Catalyst");
       expect(result.route).toBe(
         "/datasets/test-dataset-id/export/biodata-catalyst"
       );
@@ -374,7 +362,6 @@ describe("buildDatasetExportToPlatformMethod", () => {
 
       const result = builder(response, viewContext);
 
-      expect(result.buttonLabel).toBe("Analyze in CAVATICA");
       expect(result.route).toBe("/datasets/test-dataset-id/export/cavatica");
     });
 
@@ -387,7 +374,6 @@ describe("buildDatasetExportToPlatformMethod", () => {
 
       const result = builder(response, viewContext);
 
-      expect(result.buttonLabel).toBe("Analyze in Cancer Genomics Cloud");
       expect(result.route).toBe(
         "/datasets/test-dataset-id/export/cancer-genomics-cloud"
       );
