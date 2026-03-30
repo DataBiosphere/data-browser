@@ -34,6 +34,7 @@ import { useFeatureFlag } from "@databiosphere/findable-ui/lib/hooks/useFeatureF
 import { FEATURES } from "../../app/shared/entities";
 import NextError from "next/error";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
+
 import { getConsentGroup } from "../../app/apis/azul/anvil-cmg/common/transformers";
 import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 
@@ -71,17 +72,14 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const { config: siteConfig } = useConfig();
   const isAnVIL = siteConfig.appTitle?.includes("AnVIL");
   const isNCPIExportEnabled = useFeatureFlag(FEATURES.NCPI_EXPORT);
-  const isCurlDownloadEnabled = useFeatureFlag(FEATURES.CURL_DOWNLOAD);
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
   if (!isNCPIExportEnabled && isNCPIExportRoute(query))
     return <NextError statusCode={404} />;
-  // Curl download requires feature flag AND NRES consent group (AnVIL only)
-  if (isAnVIL && isCurlDownloadRoute(query)) {
-    if (!isCurlDownloadEnabled || !isNRESDataset(props.data)) {
-      return <NextError statusCode={404} />;
-    }
+  // Curl download requires NRES consent group (AnVIL only)
+  if (isAnVIL && isCurlDownloadRoute(query) && !isNRESDataset(props.data)) {
+    return <NextError statusCode={404} />;
   }
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
