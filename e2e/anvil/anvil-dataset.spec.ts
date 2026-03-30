@@ -1,17 +1,17 @@
 import { expect, Locator, Page, Request, test } from "@playwright/test";
+import { ANVIL_CMG_CATEGORY_KEY } from "../../site-config/anvil-cmg/category";
+import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
+import { MUI_CLASSES } from "../features/common/constants";
 import {
-  BUTTON_TEXT_ANALYZE_IN_TERRA,
   BUTTON_TEXT_EXPORT,
   BUTTON_TEXT_REQUEST_ACCESS,
-  BUTTON_TEXT_REQUEST_FILE_MANIFEST,
   BUTTON_TEXT_REQUEST_LINK,
   CHIP_TEXT_ACCESS_GRANTED,
   CHIP_TEXT_ACCESS_REQUIRED,
   DatasetAccess,
+  TITLE_TEXT_ANALYZE_IN_TERRA,
+  TITLE_TEXT_REQUEST_FILE_MANIFEST,
 } from "./common/constants";
-import { MUI_CLASSES } from "../features/common/constants";
-import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
-import { ANVIL_CMG_CATEGORY_KEY } from "../../site-config/anvil-cmg/category";
 
 const { describe } = test;
 
@@ -61,10 +61,10 @@ describe("Dataset", () => {
 
     // Confim Terra and file manifest export methods are listed.
     await expect(
-      getLinkWithText(page, BUTTON_TEXT_ANALYZE_IN_TERRA)
+      getHeadingWithText(page, TITLE_TEXT_ANALYZE_IN_TERRA)
     ).toBeVisible();
     await expect(
-      getLinkWithText(page, BUTTON_TEXT_REQUEST_FILE_MANIFEST)
+      getHeadingWithText(page, TITLE_TEXT_REQUEST_FILE_MANIFEST)
     ).toBeVisible();
   });
 
@@ -105,7 +105,7 @@ describe("Dataset", () => {
     await clickLink(page, BUTTON_TEXT_EXPORT);
 
     // Confirm file manifest export method is visible and click it.
-    await clickLink(page, BUTTON_TEXT_REQUEST_FILE_MANIFEST);
+    await clickCard(page, TITLE_TEXT_REQUEST_FILE_MANIFEST);
 
     // Confirm the file manifest page is loaded: check there is one button to request the manifest.
     const buttons = page.locator(`${MUI_CLASSES.BUTTON}`, {
@@ -130,7 +130,7 @@ describe("Dataset", () => {
       page.waitForRequest((request) =>
         request.url().includes(API_ENDPOINT_SUMMARY)
       ),
-      clickLink(page, BUTTON_TEXT_REQUEST_FILE_MANIFEST),
+      clickCard(page, TITLE_TEXT_REQUEST_FILE_MANIFEST),
     ]);
 
     // Confirm summary request has dataset ID request param.
@@ -144,7 +144,7 @@ describe("Dataset", () => {
     await clickLink(page, BUTTON_TEXT_EXPORT);
 
     // Confirm Terra export method is visible and click it.
-    await clickLink(page, BUTTON_TEXT_ANALYZE_IN_TERRA);
+    await clickCard(page, TITLE_TEXT_ANALYZE_IN_TERRA);
 
     // Confirm the analyze in Terra page is loaded: check for form elements.
     await expect(page.locator(MUI_CLASSES.FORM_CONTROL).first()).toBeVisible();
@@ -161,7 +161,7 @@ describe("Dataset", () => {
       page.waitForRequest((request) =>
         request.url().includes(API_ENDPOINT_SUMMARY)
       ),
-      clickLink(page, BUTTON_TEXT_ANALYZE_IN_TERRA),
+      clickCard(page, TITLE_TEXT_ANALYZE_IN_TERRA),
     ]);
 
     // Confirm summary request has dataset ID request param.
@@ -170,12 +170,33 @@ describe("Dataset", () => {
 });
 
 /**
- * Click the link wit the given text.
+ * Click the card with the given heading text.
+ * @param page - Playwright page object.
+ * @param headingText - Heading text.
+ */
+async function clickCard(page: Page, headingText: string): Promise<void> {
+  await getHeadingWithText(page, headingText)
+    .locator("xpath=ancestor::a")
+    .click();
+}
+
+/**
+ * Click the link with the given text.
  * @param page - Playwright page object.
  * @param buttonText - The text of the button to click.
  */
 async function clickLink(page: Page, buttonText: string): Promise<void> {
   await getLinkWithText(page, buttonText).click();
+}
+
+/**
+ * Return the heading with the given text.
+ * @param page - Playwright page object.
+ * @param headingText - Heading text.
+ * @returns - Playwright locator object for the dataset export method.
+ */
+function getHeadingWithText(page: Page, headingText: string): Locator {
+  return page.locator(`h3:has-text("${headingText}")`);
 }
 
 /**
