@@ -36,6 +36,7 @@ import {
 import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,
+  Tooltip,
 } from "@mui/material";
 import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
 import React, { ComponentProps, ReactNode } from "react";
@@ -1115,6 +1116,28 @@ export const buildFileDownload = (
     relatedEntityId: dataset.dataset_id[0],
     relatedEntityName: dataset.title[0],
     url,
+  };
+};
+
+/**
+ * Build props for file download tooltip. If there is no mirror URI, the tooltip will display a message indicating that the file is not available for download.
+ * @param response - Response model returned from index/files API endpoint.
+ * @returns model to be used as props for the Tooltip component.
+ */
+export const buildFileDownloadTooltip = (
+  response: FilesResponse
+): Omit<ComponentProps<typeof Tooltip>, "children"> => {
+  // Render tooltip with message, if there is no URL to download (i.e. mirror URI is not present).
+  const url = processEntityValue(response.files, "azul_mirror_uri", LABEL.EMPTY)
+    ? processEntityValue(response.files, "azul_url", LABEL.EMPTY)
+    : undefined;
+
+  if (url) return { title: null };
+
+  return {
+    arrow: true,
+    title:
+      "Direct file downloads are currently only available for open-access files.",
   };
 };
 

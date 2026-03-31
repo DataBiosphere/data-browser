@@ -6,6 +6,7 @@ import {
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
 import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
+import { Tooltip } from "@mui/material";
 import { FilesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
@@ -18,9 +19,15 @@ import { filesEntityListSlot } from "../ui/filesEntityList";
 
 export const downloadColumn: ColumnConfig<FilesResponse> = {
   componentConfig: {
-    component: C.AzulFileDownload,
-    viewBuilder: V.buildFileDownload,
-  } as ComponentConfig<typeof C.AzulFileDownload>,
+    children: [
+      {
+        component: C.AzulFileDownload,
+        viewBuilder: V.buildFileDownload,
+      } as ComponentConfig<typeof C.AzulFileDownload>,
+    ],
+    component: Tooltip,
+    viewBuilder: V.buildFileDownloadTooltip,
+  },
   enableHiding: false,
   enableSorting: false,
   header: ANVIL_CMG_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
