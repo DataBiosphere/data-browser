@@ -18,6 +18,7 @@ import {
 import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
 import { CurrentQuery } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 import { Summary } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
+import { AzulFileDownload } from "@databiosphere/findable-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
@@ -36,6 +37,7 @@ import {
 import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,
+  Tooltip,
 } from "@mui/material";
 import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
 import React, { ComponentProps, ReactNode } from "react";
@@ -1092,14 +1094,14 @@ export const buildFileDataModality = (
 };
 
 /**
- * Build props for file download AzulFileDownload component.
+ * Build props for file download AzulFileDownload component, with a tooltip component used to display a message when the file is not available for download.
  * Downloads use azul_url but are only enabled when azul_mirror_uri is present.
  * @param response - Response model returned from index/files API endpoint.
  * @returns model to be used as props for the AzulFileDownload component.
  */
-export const buildFileDownload = (
+export const buildFileDownloadWithTooltip = (
   response: FilesResponse
-): React.ComponentProps<typeof C.AzulFileDownload> => {
+): ComponentProps<typeof Tooltip> => {
   const dataset = response.datasets[0];
   const mirrorUri = processEntityValue(
     response.files,
@@ -1110,11 +1112,25 @@ export const buildFileDownload = (
   const url = mirrorUri
     ? processEntityValue(response.files, "azul_url", LABEL.EMPTY)
     : undefined;
+  // Determine the entity name
+  const entityName = processEntityValue(response.files, "file_name");
+  // Determine the tooltip title based on whether the file is available for download or not.
+  const title = url
+    ? "This open-access file is freely downloadable from AWS Open Data, with no data transfer fees."
+    : "Direct file downloads are currently only available for open-access files.";
+
+  // Return the download component as a child component of the tooltip.
   return {
-    entityName: processEntityValue(response.files, "file_name"),
-    relatedEntityId: dataset.dataset_id[0],
-    relatedEntityName: dataset.title[0],
-    url,
+    arrow: true,
+    children: (
+      <AzulFileDownload
+        entityName={entityName}
+        relatedEntityId={dataset.dataset_id[0]}
+        relatedEntityName={dataset.title[0]}
+        url={url}
+      />
+    ),
+    title,
   };
 };
 
