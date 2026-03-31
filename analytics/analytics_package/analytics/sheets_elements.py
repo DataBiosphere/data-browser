@@ -172,7 +172,7 @@ def get_outbound_links_change(analytics_params, start_current, end_current, star
         sort_results=[SYNTHETIC_METRIC_CLICKS, METRIC_TOTAL_USERS]
     )
 
-def get_page_views_df(analytics_params, ignore_index=False):
+def get_page_views_df(analytics_params, ignore_index=False, *, additional_dimensions=[]):
     """
     Get a DataFrame with page views from the Analytics API
 
@@ -183,17 +183,19 @@ def get_page_views_df(analytics_params, ignore_index=False):
         Metrics: METRIC_PAGE_VIEWS, METRIC_TOTAL_USERS
     """
     assert "dimension_filter" not in analytics_params
+    default_dimensions = [DIMENSION_PAGE_PATH, DIMENSION_EVENT_NAME]
+    additional_dimensions = [dim for dim in additional_dimensions if dim not in default_dimensions]
     df_response = get_data_df_from_fields(
         [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS, METRIC_PAGE_VIEWS],
-        [DIMENSION_PAGE_PATH, DIMENSION_EVENT_NAME],
+        [*default_dimensions, *additional_dimensions],
         **analytics_params,
         dimension_filter=f"eventName=={EVENT_PAGE_VIEW['id']}",
-    )[[DIMENSION_PAGE_PATH["alias"], METRIC_PAGE_VIEWS["alias"], METRIC_TOTAL_USERS["alias"]]].copy()
+    )[[DIMENSION_PAGE_PATH["alias"], *(dim["alias"] for dim in additional_dimensions), METRIC_PAGE_VIEWS["alias"], METRIC_TOTAL_USERS["alias"]]].copy()
     if not ignore_index:
         df_response = df_response.set_index(DIMENSION_PAGE_PATH["alias"])
     return df_response
 
-def get_page_views_change(analytics_params, start_current, end_current, start_previous, end_previous):
+def get_page_views_change(analytics_params, start_current, end_current, start_previous, end_previous, *, additional_dimensions=[]):
     """
     Get a DataFrame with page views from the Analytics API and a comparison for the prior month
 
@@ -202,6 +204,7 @@ def get_page_views_change(analytics_params, start_current, end_current, start_pr
     :param end_current: the end date for the current month
     :param start_previous: the start date for the previous month
     :param end_previous: the end date for the previous month
+    :param additional_dimensions: additional dimension constants to include when getting the report
     :return: a DataFrame with the response from the Analytics API. By default, dimensions and metrics both form columns
         Columns are present for both metric values and metric changes from the prior period
         Dimensions: DIMENSION_PAGE_PATH
@@ -215,10 +218,11 @@ def get_page_views_change(analytics_params, start_current, end_current, start_pr
         end_current, 
         start_previous, 
         end_previous,
-        sort_results=[METRIC_PAGE_VIEWS, METRIC_TOTAL_USERS]
+        sort_results=[METRIC_PAGE_VIEWS, METRIC_TOTAL_USERS],
+        additional_params={"additional_dimensions": additional_dimensions}
     )
 
-def get_one_period_change_df(df_function, change_metrics, analytics_params, start_current, end_current, start_previous, end_previous, sort_results=None, sort_ascending=False, ignore_index=False):
+def get_one_period_change_df(df_function, change_metrics, analytics_params, start_current, end_current, start_previous, end_previous, sort_results=None, sort_ascending=False, ignore_index=False, *, additional_params={}):
     """
     Get a DataFrame with the change between two periods for the given metrics, renamed to match titles
     :param df_function: a function that returns a dataframe, with numerical columns matching the aliases of change_metrics
@@ -233,6 +237,7 @@ def get_one_period_change_df(df_function, change_metrics, analytics_params, star
         If a boolean value is provided, all metrics will be sorted in the same order
         If an iterable is provided, values of the iterable correspond to values of sort_results
     :param ignore_index: if true, the index will be an arbitrary range index. If false, the index will be the dimensions
+    :param additional_params: additional keyword parameters to pass to the DF function
     :return: a DataFrame with the change between two periods for the given metrics, renamed to match titles
         Columns are dimension aliases (as strings), metric aliases (as ints), and metric change aliases (as floats)
     """
@@ -250,11 +255,13 @@ def get_one_period_change_df(df_function, change_metrics, analytics_params, star
 
     df_current = df_function(
         analytics_params_current,
-        ignore_index=False
+        ignore_index=False,
+        **additional_params
     )
     df_previous = df_function(
         analytics_params_previous,
-        ignore_index=False
+        ignore_index=False,
+        **additional_params
     )
     df_changes = pd.concat(
         [
