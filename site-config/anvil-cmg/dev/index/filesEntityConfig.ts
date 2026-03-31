@@ -19,14 +19,8 @@ import { filesEntityListSlot } from "../ui/filesEntityList";
 
 export const downloadColumn: ColumnConfig<FilesResponse> = {
   componentConfig: {
-    children: [
-      {
-        component: C.AzulFileDownload,
-        viewBuilder: V.buildFileDownload,
-      } as ComponentConfig<typeof C.AzulFileDownload>,
-    ],
     component: Tooltip,
-    viewBuilder: V.buildFileDownloadTooltip,
+    viewBuilder: V.buildFileDownloadWithTooltip,
   },
   enableHiding: false,
   enableSorting: false,
