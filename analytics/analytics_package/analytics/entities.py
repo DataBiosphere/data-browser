@@ -137,6 +137,11 @@ DIMENSION_BUILTIN_URL = {
     "id": "linkUrl",
     "alias": "URL",
 }
+# The title of the page the user is on when the event occurs
+DIMENSION_PAGE_TITLE = {
+    "id": "pageTitle",
+    "alias": "Page Title",
+}
 # The name of the event. See GA4 docs for event names
 DIMENSION_EVENT_NAME = {
     "id": "eventName",
