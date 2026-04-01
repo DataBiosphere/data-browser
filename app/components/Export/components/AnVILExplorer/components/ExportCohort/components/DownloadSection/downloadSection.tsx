@@ -22,7 +22,7 @@ export const DownloadSection = ({ viewContext }: Props): JSX.Element => {
       </Typography>
       <Typography variant={TYPOGRAPHY_PROPS.VARIANT.BODY_LARGE_400}>
         {isNRES ? (
-          <div>
+          <span>
             First, download the open-access data files in the current selection
             using a <code>curl</code> command. Then download a TSV manifest
             containing metadata for all data files in the current selection,
@@ -30,12 +30,12 @@ export const DownloadSection = ({ viewContext }: Props): JSX.Element => {
             and does not include file data. Open-access data files are hosted
             through AWS Open Data, with storage and data transfer costs covered
             by the AWS Open Data Sponsorship Program.
-          </div>
+          </span>
         ) : (
-          <div>
+          <span>
             Download a TSV manifest containing metadata for all selected files.
             The manifest contains metadata only and does not include file data.
-          </div>
+          </span>
         )}
       </Typography>
     </Stack>
