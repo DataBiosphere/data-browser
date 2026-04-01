@@ -218,7 +218,7 @@ export const exportConfig: ExportConfig = {
                 } as ComponentConfig<typeof C.ExportMethod>,
               ],
               component: C.ConditionalComponent,
-              viewBuilder: V.renderCurlDownload,
+              viewBuilder: V.renderCohortCurlDownload,
             },
             {
               component: C.ExportMethod,

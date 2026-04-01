@@ -1865,12 +1865,12 @@ export const renderWhenUnAuthenticated = (
 };
 
 /**
- * Renders dataset export-related components when the given dataset has NRES consent group.
+ * Renders cohort curl download component when the current query includes NRES or Unrestricted access consent groups.
  * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ConditionalComponent component.
  */
-export const renderCurlDownload = (
+export const renderCohortCurlDownload = (
   _: unknown,
   viewContext: ViewContext<DatasetsResponse>
 ): ComponentProps<typeof C.ConditionalComponent> => {
