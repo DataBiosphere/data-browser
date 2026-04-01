@@ -25,8 +25,11 @@ describe("Dataset", () => {
   test("displays request access button", async ({ page }) => {
     await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
 
-    // Confirm request access button is visible.
-    const exportButton = getLinkWithText(page, BUTTON_TEXT_REQUEST_ACCESS);
+    // Confirm request access button is visible (can be link or dropdown button).
+    const exportButton = getLinkOrButtonWithText(
+      page,
+      BUTTON_TEXT_REQUEST_ACCESS
+    );
     await expect(exportButton).toBeVisible();
   });
 
@@ -208,6 +211,16 @@ function getHeadingWithText(page: Page, headingText: string): Locator {
  */
 function getLinkWithText(page: Page, buttonText: string): Locator {
   return page.locator(`a:has-text("${buttonText}")`);
+}
+
+/**
+ * Return the link or button with the given text.
+ * @param page - Playwright page object.
+ * @param buttonText - The text of the element to find.
+ * @returns - Playwright locator object for the link or button.
+ */
+function getLinkOrButtonWithText(page: Page, buttonText: string): Locator {
+  return page.locator(`:is(a, button):has-text("${buttonText}")`);
 }
 
 /**
