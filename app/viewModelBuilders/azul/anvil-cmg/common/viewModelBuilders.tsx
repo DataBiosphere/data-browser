@@ -279,6 +279,19 @@ export const buildConsentGroup = (
 };
 
 /**
+ * Build props for the cohort DownloadSection component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the DownloadSection component.
+ */
+export const buildCohortDownloadSectionProps = (
+  _: unknown,
+  viewContext: ViewContext<DatasetsResponse>
+): { viewContext: ViewContext<DatasetsResponse> } => {
+  return { viewContext };
+};
+
+/**
  * Build props for data modality NTagCell component from the given response.
  * @param response - Response model return from API.
  * @returns model to be used as props for the NTagCell component.
@@ -340,6 +353,17 @@ export const buildDatasetDescription = (
         LABEL.EMPTY
       ) || "To be provided.",
   };
+};
+
+/**
+ * Build props for the dataset detail DownloadSection component.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the DownloadSection component.
+ */
+export const buildDatasetDownloadSectionProps = (
+  datasetsResponse: DatasetsResponse
+): { dataset: DatasetsResponse } => {
+  return { dataset: datasetsResponse };
 };
 
 /**
@@ -447,9 +471,9 @@ export const buildDatasetExportMethodManifestDownload = (
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
     description:
-      "Request a file manifest suitable for downloading this dataset to your HPC cluster or local machine.",
+      "Download a TSV manifest containing metadata for all data files in the dataset.",
     route: `${datasetPath}${ROUTES.MANIFEST_DOWNLOAD}`,
-    title: "Download a File Manifest with Metadata",
+    title: "Download TSV Manifest",
   };
 };
 
@@ -482,7 +506,7 @@ export const buildDatasetExportMethodTerra = (
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     route: `${datasetPath}${ROUTES.TERRA}`,
-    title: "Export Dataset Data and Metadata to Terra Workspace",
+    title: "Export to Terra",
   };
 };
 
@@ -508,15 +532,10 @@ export const buildDatasetExportMethodCurlCommand = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
-    description: (
-      <div>
-        Generate a <code>curl</code> command to download this dataset. This
-        open-access dataset is hosted through the AWS Open Data Sponsorship
-        Program, which covers storage and data transfer costs.
-      </div>
-    ),
+    description:
+      "Generate a curl command to download all files in this open-access dataset.",
     route: `${datasetPath}${ROUTES.CURL_DOWNLOAD}`,
-    title: "Download Open-Access Data and Metadata (No Egress Fees)",
+    title: "Download Open-Access Data Files (No Data Transfer Fees)",
   };
 };
 
@@ -867,9 +886,9 @@ export const buildExportMethodManifestDownload = (
   return {
     ...getExportMethodAccessibility(viewContext),
     description:
-      "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
+      "Download a TSV manifest containing metadata for all data files in the current selection, including managed-access files.",
     route: ROUTES.MANIFEST_DOWNLOAD,
-    title: "Download a File Manifest with Metadata for the Selected Data",
+    title: "Download TSV Manifest for All Selected Data Files",
   };
 };
 
@@ -888,7 +907,7 @@ export const buildExportMethodTerra = (
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     route: ROUTES.TERRA,
-    title: "Export Study Data and Metadata to Terra Workspace",
+    title: "Export to Terra",
   };
 };
 
@@ -931,10 +950,14 @@ export const buildExportMethodBulkDownload = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
-    description:
-      "Generate a curl command for downloading the open-access portion of the selected data. Open-access datasets are hosted through the AWS Open Data Sponsorship Program, which covers storage and data transfer costs.",
+    description: (
+      <div>
+        Generate a <code>curl</code> command to download the open-access data
+        files in the current selection.
+      </div>
+    ),
     route: ROUTES.CURL_DOWNLOAD,
-    title: "Download Open-Access Data and Metadata (curl Command)",
+    title: "Download Open-Access Data Files (No Data Transfer Fees)",
   };
 };
 
@@ -1712,6 +1735,21 @@ function isDatasetAccessible(datasetsResponse: DatasetsResponse): boolean {
 }
 
 /**
+ * Returns true if the dataset has NRES or Unrestricted access consent group.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns true if the dataset has NRES or Unrestricted access consent group.
+ */
+export function isDatasetNRESConsentGroup(
+  datasetsResponse: DatasetsResponse
+): boolean {
+  const consentGroups = getConsentGroup(datasetsResponse);
+  return (
+    consentGroups.includes("NRES") ||
+    consentGroups.includes("Unrestricted access")
+  );
+}
+
+/**
  * Returns true if the "accessible" file facet has a term value of "true".
  * @param fileManifestState - File manifest state.
  * @returns true if the "accessible" file facet has a term value of "true".
@@ -1732,6 +1770,28 @@ function isFileManifestSummaryFileCountValid(
 ): boolean {
   const { summary: { fileCount } = {} } = fileManifestState;
   return fileCount > 0;
+}
+
+/**
+ * Returns true if the dataset has NRES or Unrestricted access consent group.
+ * @param viewContext - View context.
+ * @returns true if the dataset has NRES or Unrestricted access consent group.
+ */
+export function isNRESConsentGroup(
+  viewContext: ViewContext<DatasetsResponse>
+): boolean {
+  const { fileManifestState } = viewContext;
+
+  const facet = findFacet(
+    fileManifestState.filesFacets,
+    ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP
+  );
+
+  if (!facet) return false;
+
+  const termsByName = facet.termsByName;
+
+  return termsByName.has("NRES") || termsByName.has("Unrestricted access");
 }
 
 /**
@@ -1805,18 +1865,28 @@ export const renderWhenUnAuthenticated = (
 };
 
 /**
- * Renders dataset curl download components when the given dataset is accessible
- * and has NRES consent group.
+ * Renders dataset export-related components when the given dataset has NRES consent group.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderCurlDownload = (
+  _: unknown,
+  viewContext: ViewContext<DatasetsResponse>
+): ComponentProps<typeof C.ConditionalComponent> => {
+  return { isIn: isNRESConsentGroup(viewContext) };
+};
+
+/**
+ * Renders dataset curl download components when the given dataset has NRES consent group.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the ConditionalComponent component.
  */
 export const renderDatasetCurlDownload = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
-  const consentGroups = getConsentGroup(datasetsResponse);
-  const isNRES = consentGroups.includes("NRES");
   return {
-    isIn: isDatasetAccessible(datasetsResponse) && isNRES,
+    isIn: isDatasetNRESConsentGroup(datasetsResponse),
   };
 };
 

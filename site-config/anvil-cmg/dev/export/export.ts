@@ -3,6 +3,8 @@ import {
   ExportConfig,
 } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
+import { DownloadSection } from "../../../../app/components/Export/components/AnVILExplorer/components/ExportCohort/components/DownloadSection/downloadSection";
+import { ExportSection } from "../../../../app/components/Export/components/AnVILExplorer/components/ExportCohort/components/ExportSection/exportSection";
 import { ExportMethod } from "../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import { EXPORT_METHODS, EXPORTS } from "./constants";
@@ -180,9 +182,8 @@ export const exportConfig: ExportConfig = {
         {
           children: [
             {
-              component: C.ExportMethod,
-              viewBuilder: V.buildExportMethodBulkDownload,
-            } as ComponentConfig<typeof C.ExportMethod>,
+              component: ExportSection,
+            },
             {
               component: C.ExportMethod,
               viewBuilder: V.buildExportMethodTerra,
@@ -205,6 +206,20 @@ export const exportConfig: ExportConfig = {
                 EXPORT_METHODS.CANCER_GENOMICS_CLOUD
               ),
             } as ComponentConfig<typeof ExportMethod>,
+            {
+              component: DownloadSection,
+              viewBuilder: V.buildCohortDownloadSectionProps,
+            },
+            {
+              children: [
+                {
+                  component: C.ExportMethod,
+                  viewBuilder: V.buildExportMethodBulkDownload,
+                } as ComponentConfig<typeof C.ExportMethod>,
+              ],
+              component: C.ConditionalComponent,
+              viewBuilder: V.renderCurlDownload,
+            },
             {
               component: C.ExportMethod,
               viewBuilder: V.buildExportMethodManifestDownload,
