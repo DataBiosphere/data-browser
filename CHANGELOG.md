@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.31.0](https://github.com/DataBiosphere/data-browser/compare/v2.30.0...v2.31.0) (2026-04-02)
+
+
+### Features
+
+* add tooltip to direct file download ([#4742](https://github.com/DataBiosphere/data-browser/issues/4742)) ([#4745](https://github.com/DataBiosphere/data-browser/issues/4745)) ([7cf193a](https://github.com/DataBiosphere/data-browser/commit/7cf193abdc440e18cbf1303ac7fbaf662eebe6cd))
+* map diagnosis facet term values to display value ([#4722](https://github.com/DataBiosphere/data-browser/issues/4722)) ([#4723](https://github.com/DataBiosphere/data-browser/issues/4723)) ([8417a5b](https://github.com/DataBiosphere/data-browser/commit/8417a5ba365cf9791561b6f4bb64c7c29bd1a242))
+* optionally add logos on exports list ([#4741](https://github.com/DataBiosphere/data-browser/issues/4741)) ([#4752](https://github.com/DataBiosphere/data-browser/issues/4752)) ([d9d4175](https://github.com/DataBiosphere/data-browser/commit/d9d417585d277ef896be295c5a857754b33ab6e6))
+* show ncpi exports, as disabled with coming soon ([#4754](https://github.com/DataBiosphere/data-browser/issues/4754)) ([#4755](https://github.com/DataBiosphere/data-browser/issues/4755)) ([bee7eff](https://github.com/DataBiosphere/data-browser/commit/bee7eff38888c95a3bdfa18b9ceff5c4c37e9e89))
+* update curl download export text ([#4735](https://github.com/DataBiosphere/data-browser/issues/4735)) ([#4736](https://github.com/DataBiosphere/data-browser/issues/4736)) ([451482d](https://github.com/DataBiosphere/data-browser/commit/451482d59107f7e32f79c9319755e8594c666d5f))
+* update ordering and wording of cohort and dataset export options ([#4744](https://github.com/DataBiosphere/data-browser/issues/4744)) ([#4748](https://github.com/DataBiosphere/data-browser/issues/4748)) ([0959188](https://github.com/DataBiosphere/data-browser/commit/0959188937a3bf7adcc5cb8e2f73c77b033dfc1b))
+
+
+### Bug Fixes
+
+* fix flaky deselect filters e2e test ([#4751](https://github.com/DataBiosphere/data-browser/issues/4751)) ([#4753](https://github.com/DataBiosphere/data-browser/issues/4753)) ([ec6aae6](https://github.com/DataBiosphere/data-browser/commit/ec6aae67b901cb6c23ef301337c291d54b193a9f))
+
+
+### Chores
+
+* update HCA catalog to dcp58 ([#4747](https://github.com/DataBiosphere/data-browser/issues/4747)) ([91219c3](https://github.com/DataBiosphere/data-browser/commit/91219c348af3480afac364db9abcdb546793fde1))
+* update HCA catalog to dcp58 [#4724](https://github.com/DataBiosphere/data-browser/issues/4724) ([91219c3](https://github.com/DataBiosphere/data-browser/commit/91219c348af3480afac364db9abcdb546793fde1))
+
 ## [2.30.0](https://github.com/DataBiosphere/data-browser/compare/v2.29.0...v2.30.0) (2026-03-26)
 
 

@@ -144,12 +144,7 @@ describe("EXPORTS constants", () => {
 });
 
 describe("EXPORT_METHODS constants", () => {
-  const REQUIRED_METHOD_KEYS = [
-    "buttonLabel",
-    "description",
-    "route",
-    "title",
-  ] as const;
+  const REQUIRED_METHOD_KEYS = ["description", "route", "title"] as const;
 
   describe("structure validation", () => {
     it("has all three platform methods defined", () => {
@@ -208,12 +203,6 @@ describe("EXPORT_METHODS constants", () => {
   });
 
   describe("BioData Catalyst method config", () => {
-    it("has correct buttonLabel", () => {
-      expect(EXPORT_METHODS.BIO_DATA_CATALYST.buttonLabel).toBe(
-        "Analyze in NHLBI BioData Catalyst"
-      );
-    });
-
     it("has correct title mentioning Seven Bridges", () => {
       expect(EXPORT_METHODS.BIO_DATA_CATALYST.title).toContain("Seven Bridges");
       expect(EXPORT_METHODS.BIO_DATA_CATALYST.title).toContain("BDC-SB");
@@ -221,22 +210,12 @@ describe("EXPORT_METHODS constants", () => {
   });
 
   describe("CAVATICA method config", () => {
-    it("has correct buttonLabel", () => {
-      expect(EXPORT_METHODS.CAVATICA.buttonLabel).toBe("Analyze in CAVATICA");
-    });
-
     it("has correct title", () => {
       expect(EXPORT_METHODS.CAVATICA.title).toBe("Export to CAVATICA");
     });
   });
 
   describe("Cancer Genomics Cloud method config", () => {
-    it("has correct buttonLabel", () => {
-      expect(EXPORT_METHODS.CANCER_GENOMICS_CLOUD.buttonLabel).toBe(
-        "Analyze in Cancer Genomics Cloud"
-      );
-    });
-
     it("has correct title mentioning CGC", () => {
       expect(EXPORT_METHODS.CANCER_GENOMICS_CLOUD.title).toContain("CGC");
     });
