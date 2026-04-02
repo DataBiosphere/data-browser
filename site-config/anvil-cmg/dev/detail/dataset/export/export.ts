@@ -2,15 +2,17 @@ import {
   ComponentConfig,
   ExportConfig,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import { sideColumn as exportSideColumn } from "../../../export/exportSideColumn";
-import * as V from "../../../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import { DatasetsResponse } from "../../../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../../../app/components";
-import { DatasetsResponse } from "app/apis/azul/anvil-cmg/common/responses";
-import { ROUTES } from "../../../export/routes";
 import * as MDX from "../../../../../../app/components/common/MDXContent/anvil-cmg";
+import { DownloadSection } from "../../../../../../app/components/Export/components/AnVILExplorer/components/ExportEntity/components/DownloadSection/downloadSection";
+import { ExportSection } from "../../../../../../app/components/Export/components/AnVILExplorer/components/ExportEntity/components/ExportSection/exportSection";
 import { ExportMethod } from "../../../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
-import { EXPORT_METHODS, EXPORTS } from "../../../export/constants";
 import { ExportToPlatform } from "../../../../../../app/components/Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
+import * as V from "../../../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import { EXPORT_METHODS, EXPORTS } from "../../../export/constants";
+import { sideColumn as exportSideColumn } from "../../../export/exportSideColumn";
+import { ROUTES } from "../../../export/routes";
 
 /**
  * Badge indicating dataset accessibility.
@@ -378,18 +380,8 @@ export const exportConfig: ExportConfig = {
                   viewBuilder: V.buildDatasetExportPropsWithFilter,
                 } as ComponentConfig<typeof C.AnVILExportEntity>,
                 {
-                  children: [
-                    {
-                      component: C.ExportMethod,
-                      viewBuilder: V.buildDatasetExportMethodCurlCommand,
-                    } as ComponentConfig<typeof C.ExportMethod>,
-                  ],
-                  component: C.ConditionalComponent,
-                  viewBuilder: V.renderDatasetCurlDownload,
-                } as ComponentConfig<
-                  typeof C.ConditionalComponent,
-                  DatasetsResponse
-                >,
+                  component: ExportSection,
+                },
                 {
                   component: C.ExportMethod,
                   viewBuilder: V.buildDatasetExportMethodTerra,
@@ -412,6 +404,23 @@ export const exportConfig: ExportConfig = {
                     EXPORT_METHODS.CANCER_GENOMICS_CLOUD
                   ),
                 } as ComponentConfig<typeof ExportMethod>,
+                {
+                  component: DownloadSection,
+                  viewBuilder: V.buildDatasetDownloadSectionProps,
+                },
+                {
+                  children: [
+                    {
+                      component: C.ExportMethod,
+                      viewBuilder: V.buildDatasetExportMethodCurlCommand,
+                    } as ComponentConfig<typeof C.ExportMethod>,
+                  ],
+                  component: C.ConditionalComponent,
+                  viewBuilder: V.renderDatasetCurlDownload,
+                } as ComponentConfig<
+                  typeof C.ConditionalComponent,
+                  DatasetsResponse
+                >,
                 {
                   component: C.ExportMethod,
                   viewBuilder: V.buildDatasetExportMethodManifestDownload,
