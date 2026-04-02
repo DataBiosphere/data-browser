@@ -47,6 +47,7 @@ import {
   DATASET_RESPONSE,
 } from "../../../../../site-config/anvil-cmg/category";
 import { ROUTES } from "../../../../../site-config/anvil-cmg/dev/export/routes";
+import { mapDiagnosisValue } from "../../../../../site-config/anvil-cmg/dev/index/common/utils";
 import {
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
@@ -723,7 +724,7 @@ export const buildDiagnoses = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DIAGNOSIS),
-    values: getAggregatedDiagnoses(response),
+    values: getAggregatedDiagnoses(response).map(mapDiagnosisValue),
   };
 };
 
