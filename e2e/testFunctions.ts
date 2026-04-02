@@ -1199,7 +1199,9 @@ export async function testPaginationContent(
  * @returns - Playwright locator object for the card with the given heading text.
  */
 function getCard(page: Page, headingText: string): Locator {
-  return getHeadingWithText(page, headingText).locator("xpath=ancestor::a");
+  return getHeadingWithText(page, headingText)
+    .locator("xpath=ancestor::*[contains(@class,'MuiPaper-root')]")
+    .locator(".MuiCardActionArea-root");
 }
 
 /**

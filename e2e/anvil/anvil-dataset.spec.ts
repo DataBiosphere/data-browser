@@ -176,7 +176,8 @@ describe("Dataset", () => {
  */
 async function clickCard(page: Page, headingText: string): Promise<void> {
   await getHeadingWithText(page, headingText)
-    .locator("xpath=ancestor::a")
+    .locator("xpath=ancestor::*[contains(@class,'MuiPaper-root')]")
+    .locator(".MuiCardActionArea-root")
     .click();
 }
 
