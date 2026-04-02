@@ -15,8 +15,10 @@ import {
   FileSummaryTerm,
   FormFacet,
 } from "@databiosphere/findable-ui/lib/components/Export/common/entities";
+import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
 import { CurrentQuery } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 import { Summary } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
+import { AzulFileDownload } from "@databiosphere/findable-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
@@ -35,6 +37,7 @@ import {
 import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,
+  Tooltip,
 } from "@mui/material";
 import React, { ComponentProps, ReactNode } from "react";
 import {
@@ -43,6 +46,7 @@ import {
   DATASET_RESPONSE,
 } from "../../../../../site-config/anvil-cmg/category";
 import { ROUTES } from "../../../../../site-config/anvil-cmg/dev/export/routes";
+import { mapDiagnosisValue } from "../../../../../site-config/anvil-cmg/dev/index/common/utils";
 import {
   AggregatedBioSampleResponse,
   AggregatedDatasetResponse,
@@ -97,14 +101,14 @@ import {
 } from "../../../../apis/azul/common/utils";
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/anvil-cmg";
+import { RequestAccess } from "../../../../components/Detail/components/AnVILCMG/components/RequestAccess/requestAccess";
 import { Description } from "../../../../components/Detail/components/MDX/components/Description/description";
-import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
+import { ExportEntity } from "../../../../components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
+import { ExportIcon } from "../../../../components/Export/components/AnVILExplorer/components/ExportMethod/components/ExportIcon/exportIcon";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
-import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
-import { RequestAccess } from "../../../../components/Detail/components/AnVILCMG/components/RequestAccess/requestAccess";
 
 /**
  * Build props for activity type BasicCell component from the given activities response.
@@ -276,6 +280,19 @@ export const buildConsentGroup = (
 };
 
 /**
+ * Build props for the cohort DownloadSection component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the DownloadSection component.
+ */
+export const buildCohortDownloadSectionProps = (
+  _: unknown,
+  viewContext: ViewContext<DatasetsResponse>
+): { viewContext: ViewContext<DatasetsResponse> } => {
+  return { viewContext };
+};
+
+/**
  * Build props for data modality NTagCell component from the given response.
  * @param response - Response model return from API.
  * @returns model to be used as props for the NTagCell component.
@@ -337,6 +354,17 @@ export const buildDatasetDescription = (
         LABEL.EMPTY
       ) || "To be provided.",
   };
+};
+
+/**
+ * Build props for the dataset detail DownloadSection component.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the DownloadSection component.
+ */
+export const buildDatasetDownloadSectionProps = (
+  datasetsResponse: DatasetsResponse
+): { dataset: DatasetsResponse } => {
+  return { dataset: datasetsResponse };
 };
 
 /**
@@ -443,11 +471,11 @@ export const buildDatasetExportMethodManifestDownload = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
-    buttonLabel: "Request File Manifest",
     description:
-      "Request a file manifest suitable for downloading this dataset to your HPC cluster or local machine.",
+      "Download a TSV manifest containing metadata for all data files in the dataset.",
+    icon: <ExportIcon alt="Manifest" src="/export/manifest.webp" width={24} />,
     route: `${datasetPath}${ROUTES.MANIFEST_DOWNLOAD}`,
-    title: "Download a File Manifest with Metadata",
+    title: "Download TSV Manifest",
   };
 };
 
@@ -477,11 +505,68 @@ export const buildDatasetExportMethodTerra = (
 ): React.ComponentProps<typeof ExportMethod> => {
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
-    buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+    icon: <ExportIcon alt="Terra" src="/export/terra.webp" width={24} />,
     route: `${datasetPath}${ROUTES.TERRA}`,
-    title: "Export Dataset Data and Metadata to Terra Workspace",
+    title: "Export to Terra",
+  };
+};
+
+/**
+ * Build props for dataset curl download BackPageHero component.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildDatasetExportMethodHeroCurlCommand = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.BackPageHero> => {
+  const title = 'Download Selected Data Using "curl"';
+  return getDatasetExportMethodHero(datasetsResponse, title);
+};
+
+/**
+ * Build props for ExportMethod component for display of the dataset curl download section.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the dataset curl download export method component.
+ */
+export const buildDatasetExportMethodCurlCommand = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ExportMethod> => {
+  const datasetPath = buildDatasetPath(datasetsResponse);
+  return {
+    description:
+      "Generate a curl command to download all files in this open-access dataset.",
+    icon: <ExportIcon alt="curl" src="/export/curl.webp" width={24} />,
+    route: `${datasetPath}${ROUTES.CURL_DOWNLOAD}`,
+    title: "Download Open-Access Data Files (No Data Transfer Fees)",
+  };
+};
+
+/**
+ * Build props for DownloadCurlCommand component from the given datasets response.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the DownloadCurlCommand component.
+ */
+export const buildDatasetDownloadCurlCommand = (
+  datasetsResponse: DatasetsResponse,
+  viewContext: ViewContext<DatasetsResponse>
+): React.ComponentProps<typeof C.DownloadCurlCommand> => {
+  const { fileManifestState } = viewContext;
+  // Get the initial filters.
+  const filters = getExportEntityFilters(datasetsResponse);
+  // Get the form facets.
+  const formFacet = getFormFacets(fileManifestState);
+  return {
+    DownloadCurlForm: C.DownloadCurlCommandForm,
+    DownloadCurlStart: MDX.DownloadCurlCommandDatasetStart,
+    DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
+    fileManifestState,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    filters,
+    formFacet,
+    speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
   };
 };
 
@@ -539,7 +624,7 @@ export const buildDatasetExportToPlatformMethod = ({
   ...props
 }: Pick<
   ComponentProps<typeof ExportMethod>,
-  "buttonLabel" | "description" | "route" | "title"
+  "description" | "icon" | "route" | "title"
 >): ((
   response: DatasetsResponse,
   viewContext: ViewContext<unknown>
@@ -549,6 +634,7 @@ export const buildDatasetExportToPlatformMethod = ({
     return {
       ...props,
       ...getExportMethodAccessibility(viewContext),
+      comingSoon: true,
       route: `${datasetPath}${route}`,
     };
   };
@@ -662,7 +748,7 @@ export const buildDiagnoses = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.DIAGNOSIS),
-    values: getAggregatedDiagnoses(response),
+    values: getAggregatedDiagnoses(response).map(mapDiagnosisValue),
   };
 };
 
@@ -804,11 +890,11 @@ export const buildExportMethodManifestDownload = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
-    buttonLabel: "Request File Manifest",
     description:
-      "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
+      "Download a TSV manifest containing metadata for all data files in the current selection, including managed-access files.",
+    icon: <ExportIcon alt="Manifest" src="/export/manifest.webp" width={24} />,
     route: ROUTES.MANIFEST_DOWNLOAD,
-    title: "Download a File Manifest with Metadata for the Selected Data",
+    title: "Download TSV Manifest for All Selected Data Files",
   };
 };
 
@@ -824,12 +910,80 @@ export const buildExportMethodTerra = (
 ): React.ComponentProps<typeof ExportMethod> => {
   return {
     ...getExportMethodAccessibility(viewContext),
-    buttonLabel: "Analyze in Terra",
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+    icon: <ExportIcon alt="Terra" src="/export/terra.webp" width={24} />,
     route: ROUTES.TERRA,
-    title: "Export Study Data and Metadata to Terra Workspace",
+    title: "Export to Terra",
   };
+};
+
+/**
+ * Build props for DownloadCurlCommand component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the DownloadCurlCommand component.
+ */
+export const buildDownloadCurlCommand = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof C.DownloadCurlCommand> => {
+  const {
+    exploreState: { filterState },
+    fileManifestState,
+  } = viewContext;
+  const formFacet = getFormFacets(fileManifestState);
+  return {
+    DownloadCurlForm: C.DownloadCurlCommandForm,
+    DownloadCurlStart: MDX.DownloadCurlCommandStart,
+    DownloadCurlSuccess: MDX.DownloadCurlCommandSuccess,
+    fileManifestState,
+    fileSummaryFacetName: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+    filters: filterState,
+    formFacet,
+    speciesFacetName: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
+  };
+};
+
+/**
+ * Build props for ExportMethod component for display of the bulk download section.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ExportMethod component.
+ */
+export const buildExportMethodBulkDownload = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof C.ExportMethod> => {
+  return {
+    ...getExportMethodAccessibility(viewContext),
+    description: (
+      <div>
+        Generate a <code>curl</code> command to download the open-access data
+        files in the current selection.
+      </div>
+    ),
+    icon: <ExportIcon alt="curl" src="/export/curl.webp" width={24} />,
+    route: ROUTES.CURL_DOWNLOAD,
+    title: "Download Open-Access Data Files (No Data Transfer Fees)",
+  };
+};
+
+/**
+ * Build props for download curl command BackPageHero component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildExportMethodHeroCurlCommand = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof C.BackPageHero> => {
+  const title = 'Download Selected Data Using "curl"';
+  const {
+    exploreState: { tabValue },
+  } = viewContext;
+  return getExportMethodHero(tabValue, title);
 };
 
 /**
@@ -913,7 +1067,7 @@ export const buildExportToPlatformHero = (
 export const buildExportToPlatformMethod = (
   props: Pick<
     ComponentProps<typeof ExportMethod>,
-    "buttonLabel" | "description" | "route" | "title"
+    "description" | "icon" | "route" | "title"
   >
 ): ((
   _: unknown,
@@ -923,6 +1077,7 @@ export const buildExportToPlatformMethod = (
     return {
       ...props,
       ...getExportMethodAccessibility(viewContext),
+      comingSoon: true,
     };
   };
 };
@@ -972,14 +1127,14 @@ export const buildFileDataModality = (
 };
 
 /**
- * Build props for file download AzulFileDownload component.
+ * Build props for file download AzulFileDownload component, with a tooltip component used to display a message when the file is not available for download.
  * Downloads use azul_url but are only enabled when azul_mirror_uri is present.
  * @param response - Response model returned from index/files API endpoint.
  * @returns model to be used as props for the AzulFileDownload component.
  */
-export const buildFileDownload = (
+export const buildFileDownloadWithTooltip = (
   response: FilesResponse
-): React.ComponentProps<typeof C.AzulFileDownload> => {
+): ComponentProps<typeof Tooltip> => {
   const dataset = response.datasets[0];
   const mirrorUri = processEntityValue(
     response.files,
@@ -990,11 +1145,25 @@ export const buildFileDownload = (
   const url = mirrorUri
     ? processEntityValue(response.files, "azul_url", LABEL.EMPTY)
     : undefined;
+  // Determine the entity name
+  const entityName = processEntityValue(response.files, "file_name");
+  // Determine the tooltip title based on whether the file is available for download or not.
+  const title = url
+    ? "This open-access file is freely downloadable from AWS Open Data, with no data transfer fees."
+    : "Direct file downloads are currently only available for open-access files.";
+
+  // Return the download component as a child component of the tooltip.
   return {
-    entityName: processEntityValue(response.files, "file_name"),
-    relatedEntityId: dataset.dataset_id[0],
-    relatedEntityName: dataset.title[0],
-    url,
+    arrow: true,
+    children: (
+      <AzulFileDownload
+        entityName={entityName}
+        relatedEntityId={dataset.dataset_id[0]}
+        relatedEntityName={dataset.title[0]}
+        url={url}
+      />
+    ),
+    title,
   };
 };
 
@@ -1575,6 +1744,21 @@ function isDatasetAccessible(datasetsResponse: DatasetsResponse): boolean {
 }
 
 /**
+ * Returns true if the dataset has NRES or Unrestricted access consent group.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns true if the dataset has NRES or Unrestricted access consent group.
+ */
+export function isDatasetNRESConsentGroup(
+  datasetsResponse: DatasetsResponse
+): boolean {
+  const consentGroups = getConsentGroup(datasetsResponse);
+  return (
+    consentGroups.includes("NRES") ||
+    consentGroups.includes("Unrestricted access")
+  );
+}
+
+/**
  * Returns true if the "accessible" file facet has a term value of "true".
  * @param fileManifestState - File manifest state.
  * @returns true if the "accessible" file facet has a term value of "true".
@@ -1595,6 +1779,28 @@ function isFileManifestSummaryFileCountValid(
 ): boolean {
   const { summary: { fileCount } = {} } = fileManifestState;
   return fileCount > 0;
+}
+
+/**
+ * Returns true if the dataset has NRES or Unrestricted access consent group.
+ * @param viewContext - View context.
+ * @returns true if the dataset has NRES or Unrestricted access consent group.
+ */
+export function isNRESConsentGroup(
+  viewContext: ViewContext<DatasetsResponse>
+): boolean {
+  const { fileManifestState } = viewContext;
+
+  const facet = findFacet(
+    fileManifestState.filesFacets,
+    ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP
+  );
+
+  if (!facet) return false;
+
+  const termsByName = facet.termsByName;
+
+  return termsByName.has("NRES") || termsByName.has("Unrestricted access");
 }
 
 /**
@@ -1664,6 +1870,32 @@ export const renderWhenUnAuthenticated = (
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
     isIn: !isUserAuthenticated(viewContext),
+  };
+};
+
+/**
+ * Renders cohort curl download component when the current query includes NRES or Unrestricted access consent groups.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderCohortCurlDownload = (
+  _: unknown,
+  viewContext: ViewContext<DatasetsResponse>
+): ComponentProps<typeof C.ConditionalComponent> => {
+  return { isIn: isNRESConsentGroup(viewContext) };
+};
+
+/**
+ * Renders dataset curl download components when the given dataset has NRES consent group.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderDatasetCurlDownload = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn: isDatasetNRESConsentGroup(datasetsResponse),
   };
 };
 

@@ -1,18 +1,13 @@
-import test, { ElementHandle, Response, Page } from "@playwright/test";
-import { expect } from "@playwright/test";
-import { testBulkDownloadIndexExportWorkflow } from "../testFunctions";
-import { ANVIL_TABS } from "./anvil-tabs";
+import test, { ElementHandle, expect, Page, Response } from "@playwright/test";
 import { MUI_CLASSES, TEST_IDS } from "../features/common/constants";
+import { testBulkDownloadFileManifestWorkflow } from "../testFunctions";
 
 test.describe("AnVIL Data Explorer Export", () => {
   test("Smoke test File Manifest Request index export workflow on the Files tab", async ({
     page,
   }) => {
     test.setTimeout(120000);
-    const testResult = await testBulkDownloadIndexExportWorkflow(
-      page,
-      ANVIL_TABS.FILES
-    );
+    const testResult = await testBulkDownloadFileManifestWorkflow(page);
     if (!testResult) {
       test.fail();
     }

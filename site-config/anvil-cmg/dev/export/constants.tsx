@@ -1,7 +1,8 @@
-import { ROUTES } from "./routes";
-import { ComponentProps } from "react";
 import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
+import { ComponentProps } from "react";
 import { ExportToPlatform } from "../../../../app/components";
+import { ExportIcon } from "../../../../app/components/Export/components/AnVILExplorer/components/ExportMethod/components/ExportIcon/exportIcon";
+import { ROUTES } from "./routes";
 
 export const EXPORTS: Record<
   string,
@@ -37,24 +38,24 @@ export const EXPORT_METHODS: Record<
   string,
   Pick<
     ComponentProps<typeof ExportMethod>,
-    "buttonLabel" | "description" | "route" | "title"
+    "description" | "icon" | "route" | "title"
   >
 > = {
   BIO_DATA_CATALYST: {
-    buttonLabel: "Analyze in NHLBI BioData Catalyst",
     description: EXPORTS.BIO_DATA_CATALYST.description,
+    icon: <ExportIcon alt="BDC" src="/export/bdc.webp" width={24} />,
     route: ROUTES.BIO_DATA_CATALYST,
     title: "Export to BioData Catalyst Powered by Seven Bridges (BDC-SB)",
   },
   CANCER_GENOMICS_CLOUD: {
-    buttonLabel: "Analyze in Cancer Genomics Cloud",
     description: EXPORTS.CANCER_GENOMICS_CLOUD.description,
+    icon: <ExportIcon alt="CGC" src="/export/cgc.webp" width={24} />,
     route: ROUTES.CANCER_GENOMICS_CLOUD,
     title: "Export to Cancer Genomics Cloud (CGC)",
   },
   CAVATICA: {
-    buttonLabel: "Analyze in CAVATICA",
     description: EXPORTS.CAVATICA.description,
+    icon: <ExportIcon alt="CAVATICA" src="/export/cavatica.webp" width={24} />,
     route: ROUTES.CAVATICA,
     title: "Export to CAVATICA",
   },
