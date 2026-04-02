@@ -3,15 +3,41 @@ import {
   ExportConfig,
 } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
+import { DownloadSection } from "../../../../app/components/Export/components/AnVILExplorer/components/ExportCohort/components/DownloadSection/downloadSection";
+import { ExportSection } from "../../../../app/components/Export/components/AnVILExplorer/components/ExportCohort/components/ExportSection/exportSection";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import { ROUTES } from "./routes";
+import { EXPORT_METHODS, EXPORTS } from "./constants";
 import { mainColumn as exportMainColumn } from "./exportMainColumn";
 import { sideColumn as exportSideColumn } from "./exportSideColumn";
-import { ExportMethod } from "../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
-import { EXPORT_METHODS, EXPORTS } from "./constants";
+import { ROUTES } from "./routes";
 
 export const exportConfig: ExportConfig = {
   exportMethods: [
+    {
+      mainColumn: [
+        /* mainColumn - top section - warning - some datasets are not available */
+        ...exportMainColumn,
+        /* mainColumn */
+        {
+          children: [
+            {
+              component: C.DownloadCurlCommand,
+              viewBuilder: V.buildDownloadCurlCommand,
+            } as ComponentConfig<typeof C.DownloadCurlCommand>,
+          ],
+          component: C.BackPageContentMainColumn,
+        } as ComponentConfig<typeof C.BackPageContentMainColumn>,
+        /* sideColumn */
+        ...exportSideColumn,
+      ],
+      route: ROUTES.CURL_DOWNLOAD,
+      top: [
+        {
+          component: C.BackPageHero,
+          viewBuilder: V.buildExportMethodHeroCurlCommand,
+        } as ComponentConfig<typeof C.BackPageHero>,
+      ],
+    },
     {
       mainColumn: [
         /* mainColumn - top section - warning - some datasets are not available */
@@ -155,27 +181,44 @@ export const exportConfig: ExportConfig = {
         {
           children: [
             {
+              component: ExportSection,
+            },
+            {
               component: C.ExportMethod,
               viewBuilder: V.buildExportMethodTerra,
             } as ComponentConfig<typeof C.ExportMethod>,
             {
-              component: ExportMethod,
+              component: C.ExportMethod,
               viewBuilder: V.buildExportToPlatformMethod(
                 EXPORT_METHODS.BIO_DATA_CATALYST
               ),
-            } as ComponentConfig<typeof ExportMethod>,
+            } as ComponentConfig<typeof C.ExportMethod>,
             {
-              component: ExportMethod,
+              component: C.ExportMethod,
               viewBuilder: V.buildExportToPlatformMethod(
                 EXPORT_METHODS.CAVATICA
               ),
-            } as ComponentConfig<typeof ExportMethod>,
+            } as ComponentConfig<typeof C.ExportMethod>,
             {
-              component: ExportMethod,
+              component: C.ExportMethod,
               viewBuilder: V.buildExportToPlatformMethod(
                 EXPORT_METHODS.CANCER_GENOMICS_CLOUD
               ),
-            } as ComponentConfig<typeof ExportMethod>,
+            } as ComponentConfig<typeof C.ExportMethod>,
+            {
+              component: DownloadSection,
+              viewBuilder: V.buildCohortDownloadSectionProps,
+            },
+            {
+              children: [
+                {
+                  component: C.ExportMethod,
+                  viewBuilder: V.buildExportMethodBulkDownload,
+                } as ComponentConfig<typeof C.ExportMethod>,
+              ],
+              component: C.ConditionalComponent,
+              viewBuilder: V.renderCohortCurlDownload,
+            },
             {
               component: C.ExportMethod,
               viewBuilder: V.buildExportMethodManifestDownload,
