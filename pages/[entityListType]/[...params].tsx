@@ -30,20 +30,13 @@ import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/
 import { readFile } from "../../app/utils/tsvParser";
 import { useRouter } from "next/router";
 import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
-import { useFeatureFlag } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/useFeatureFlag";
-import { FEATURES } from "../../app/shared/entities";
 import NextError from "next/error";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
+
 import { getConsentGroup } from "../../app/apis/azul/anvil-cmg/common/transformers";
 import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 
 const setOfProcessedIds = new Set<string>();
-
-const NCPI_EXPORT_PATHS = [
-  ROUTES.BIO_DATA_CATALYST,
-  ROUTES.CANCER_GENOMICS_CLOUD,
-  ROUTES.CAVATICA,
-];
 
 const CURL_DOWNLOAD_PATH = ROUTES.CURL_DOWNLOAD;
 
@@ -70,18 +63,12 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const { config: siteConfig } = useConfig();
   const isAnVIL = siteConfig.appTitle?.includes("AnVIL");
-  const isNCPIExportEnabled = useFeatureFlag(FEATURES.NCPI_EXPORT);
-  const isCurlDownloadEnabled = useFeatureFlag(FEATURES.CURL_DOWNLOAD);
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
-  if (!isNCPIExportEnabled && isNCPIExportRoute(query))
+  // Curl download requires NRES consent group (AnVIL only)
+  if (isAnVIL && isCurlDownloadRoute(query) && !isNRESDataset(props.data)) {
     return <NextError statusCode={404} />;
-  // Curl download requires feature flag AND NRES consent group (AnVIL only)
-  if (isAnVIL && isCurlDownloadRoute(query)) {
-    if (!isCurlDownloadEnabled || !isNRESDataset(props.data)) {
-      return <NextError statusCode={404} />;
-    }
   }
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
@@ -102,19 +89,6 @@ function findOverride(
     return;
   }
   return overrides.find(({ entryId }) => entryId === entityId);
-}
-
-/**
- * Returns true if the current route is an NCPI export route.
- * @param query - Parsed URL query.
- * @returns True if the route matches an NCPI export path.
- */
-function isNCPIExportRoute(query: ParsedUrlQuery): boolean {
-  const params = query.params as string[] | undefined;
-  const lastParam = params?.[params.length - 1] || "";
-  return NCPI_EXPORT_PATHS.map((path) => path.replace("/export/", "")).includes(
-    lastParam
-  );
 }
 
 /**

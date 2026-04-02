@@ -239,16 +239,6 @@ describe("buildExportToPlatformMethod", () => {
     expect(result.route).toBe(props.route);
   });
 
-  it("returns buttonLabel from props", () => {
-    const props = EXPORT_METHODS.CAVATICA;
-    const builder = buildExportToPlatformMethod(props);
-    const viewContext = createMockViewContext();
-
-    const result = builder(undefined, viewContext);
-
-    expect(result.buttonLabel).toBe(props.buttonLabel);
-  });
-
   it("returns description from props", () => {
     const props = EXPORT_METHODS.CANCER_GENOMICS_CLOUD;
     const builder = buildExportToPlatformMethod(props);
@@ -325,7 +315,6 @@ describe("buildExportToPlatformMethod", () => {
 
       const result = builder(undefined, viewContext);
 
-      expect(result.buttonLabel).toBe("Analyze in NHLBI BioData Catalyst");
       expect(result.route).toBe("/export/biodata-catalyst");
     });
 
@@ -335,7 +324,6 @@ describe("buildExportToPlatformMethod", () => {
 
       const result = builder(undefined, viewContext);
 
-      expect(result.buttonLabel).toBe("Analyze in CAVATICA");
       expect(result.route).toBe("/export/cavatica");
     });
 
@@ -347,7 +335,6 @@ describe("buildExportToPlatformMethod", () => {
 
       const result = builder(undefined, viewContext);
 
-      expect(result.buttonLabel).toBe("Analyze in Cancer Genomics Cloud");
       expect(result.route).toBe("/export/cancer-genomics-cloud");
     });
   });
