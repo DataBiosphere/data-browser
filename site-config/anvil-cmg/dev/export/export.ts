@@ -5,7 +5,6 @@ import {
 import * as C from "../../../../app/components";
 import { DownloadSection } from "../../../../app/components/Export/components/AnVILExplorer/components/ExportCohort/components/DownloadSection/downloadSection";
 import { ExportSection } from "../../../../app/components/Export/components/AnVILExplorer/components/ExportCohort/components/ExportSection/exportSection";
-import { ExportMethod } from "../../../../app/components/Export/components/AnVILExplorer/platform/ExportMethod/exportMethod";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import { EXPORT_METHODS, EXPORTS } from "./constants";
 import { mainColumn as exportMainColumn } from "./exportMainColumn";
@@ -189,23 +188,23 @@ export const exportConfig: ExportConfig = {
               viewBuilder: V.buildExportMethodTerra,
             } as ComponentConfig<typeof C.ExportMethod>,
             {
-              component: ExportMethod,
+              component: C.ExportMethod,
               viewBuilder: V.buildExportToPlatformMethod(
                 EXPORT_METHODS.BIO_DATA_CATALYST
               ),
-            } as ComponentConfig<typeof ExportMethod>,
+            } as ComponentConfig<typeof C.ExportMethod>,
             {
-              component: ExportMethod,
+              component: C.ExportMethod,
               viewBuilder: V.buildExportToPlatformMethod(
                 EXPORT_METHODS.CAVATICA
               ),
-            } as ComponentConfig<typeof ExportMethod>,
+            } as ComponentConfig<typeof C.ExportMethod>,
             {
-              component: ExportMethod,
+              component: C.ExportMethod,
               viewBuilder: V.buildExportToPlatformMethod(
                 EXPORT_METHODS.CANCER_GENOMICS_CLOUD
               ),
-            } as ComponentConfig<typeof ExportMethod>,
+            } as ComponentConfig<typeof C.ExportMethod>,
             {
               component: DownloadSection,
               viewBuilder: V.buildCohortDownloadSectionProps,
