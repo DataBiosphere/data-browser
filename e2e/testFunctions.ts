@@ -781,6 +781,8 @@ export async function testDeselectFiltersThroughSearchBar(
     await firstFilterOptionLocator.click();
     await page.waitForLoadState("load");
     await page.locator("body").click();
+    // Wait for the filter tag to confirm the filter was applied before searching.
+    await expect(getFilterTagLocator(page, filterOptionName)).toBeVisible();
     // Search for and check the selected filter
     const searchFiltersInputLocator = page.getByPlaceholder(
       tab.searchFiltersPlaceholderText,
