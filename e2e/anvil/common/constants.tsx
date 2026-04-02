@@ -5,6 +5,8 @@ export const BUTTON_TEXT_EXPORT = "Export";
 export const BUTTON_TEXT_REQUEST_ACCESS = "Request Access";
 export const BUTTON_TEXT_REQUEST_LINK = "Request Link";
 export const BUTTON_TEXT_REQUEST_FILE_MANIFEST = "Request File Manifest";
+export const TITLE_TEXT_ANALYZE_IN_TERRA = "Export to Terra";
+export const TITLE_TEXT_REQUEST_FILE_MANIFEST = "Download TSV Manifest";
 
 export type DatasetAccess =
   | typeof CHIP_TEXT_ACCESS_GRANTED
