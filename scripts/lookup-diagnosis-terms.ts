@@ -2,11 +2,33 @@
 /**
  * Fetch HP and OMIM term names from authoritative sources and generate a JS constant.
  *
- * - HP terms: parsed from the official hp.obo file (obophenotype GitHub)
- * - OMIM terms: parsed from the HPO phenotype.hpoa annotations file
- * - Term IDs: extracted live from the AnVIL Azul API
+ * Sources
+ * -------
+ * - HP terms: hp.obo from obophenotype/human-phenotype-ontology (GitHub).
+ *   This is the canonical release artifact for the Human Phenotype Ontology —
+ *   the same file used by Monarch, OMIM, ClinVar, and other biomedical databases.
+ *   alt_id entries are resolved so that retired/merged term IDs still get a name.
+ *   Terms marked "obsolete" in the OBO name field have that prefix stripped.
  *
- * Usage: npx ts-node scripts/lookup-diagnosis-terms.ts > site-config/anvil-cmg/dev/index/common/diagnosis.ts
+ * - OMIM terms: phenotype.hpoa from the HPO project's latest release.
+ *   This file maps OMIM disease IDs (e.g. OMIM:143100) to human-readable disease
+ *   names. It is maintained by the HPO team and sourced from OMIM with permission,
+ *   making it the standard cross-reference between OMIM IDs and display names.
+ *
+ * - Term IDs: fetched live from the AnVIL Azul API (termFacets for
+ *   diagnoses.disease and diagnoses.phenotype). Only IDs actually present in the
+ *   AnVIL catalog are included in the output — the lookup table stays minimal.
+ *
+ * When to re-run
+ * --------------
+ * Re-run whenever:
+ *   - New AnVIL datasets are ingested that introduce diagnosis codes not yet in
+ *     the mapping (the UI will fall back to showing the raw ID for unknown terms).
+ *   - The HPO releases a new version with updated or renamed terms.
+ *
+ * Usage
+ * -----
+ * npx ts-node scripts/lookup-diagnosis-terms.ts > site-config/anvil-cmg/dev/index/common/diagnosis.ts
  */
 
 const AZUL_URL =
