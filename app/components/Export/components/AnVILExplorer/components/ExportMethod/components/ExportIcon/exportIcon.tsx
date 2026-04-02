@@ -6,7 +6,7 @@ import type { ComponentProps, JSX } from "react";
  * @param props - Component props.
  * @returns JSX element representing the icon.
  */
-export const Icon = (
+export const ExportIcon = (
   props: ComponentProps<typeof StaticImage>
 ): JSX.Element => {
   return <StaticImage {...props} />;
