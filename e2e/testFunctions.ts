@@ -779,10 +779,10 @@ export async function testDeselectFiltersThroughSearchBar(
       firstFilterOptionLocator
     );
     await firstFilterOptionLocator.click();
+    // Wait for the checkbox to be checked, confirming the filter state update completed.
+    await expect(firstFilterOptionLocator.getByRole("checkbox")).toBeChecked();
     await page.waitForLoadState("load");
     await page.locator("body").click();
-    // Wait for the filter tag to confirm the filter was applied before searching.
-    await expect(getFilterTagLocator(page, filterOptionName)).toBeVisible();
     // Search for and check the selected filter
     const searchFiltersInputLocator = page.getByPlaceholder(
       tab.searchFiltersPlaceholderText,
