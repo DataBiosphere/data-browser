@@ -16,7 +16,8 @@ test("Check first page has disabled back and enabled forward pagination buttons 
   await testFirstPagePagination(page, ANVIL_TABS.DONORS);
 });
 
-test("Paginate through the entire Files tab to confirm that the page number stays consistent and that paginating forwards is disabled on the last page. Uses filters to reduce the amount of calls necessary", async ({
+// TODO #4749 - re-enable when cc-dev is reverted to dev backend
+test.skip("Paginate through the entire Files tab to confirm that the page number stays consistent and that paginating forwards is disabled on the last page. Uses filters to reduce the amount of calls necessary", async ({
   page,
 }) => {
   const result = await filterAndTestLastPagePagination(
@@ -28,6 +29,7 @@ test("Paginate through the entire Files tab to confirm that the page number stay
     test.fail();
   }
 });
+// end TODO #4749
 
 test("Check forward and backwards pagination causes the page content to change on the Biosamples page", async ({
   page,

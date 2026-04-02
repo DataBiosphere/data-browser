@@ -45,19 +45,22 @@ test("Check that all filters exist on the Donors tab and are clickable", async (
   await testFilterPresence(page, ANVIL_TABS.DONORS, ANVIL_FILTER_NAMES);
 });
 
-test("Check that all filters exist on the BioSamples tab and are clickable", async ({
+// TODO #4749 - re-enable when cc-dev is reverted to dev backend
+test.skip("Check that all filters exist on the BioSamples tab and are clickable", async ({
   page,
 }) => {
   await testFilterPresence(page, ANVIL_TABS.BIOSAMPLES, ANVIL_FILTER_NAMES);
 });
 
-test("Check that all filters exist on the Activities tab and are clickable", async ({
+// TODO #4749 - re-enable when cc-dev is reverted to dev backend
+test.skip("Check that all filters exist on the Activities tab and are clickable", async ({
   page,
 }) => {
   await testFilterPresence(page, ANVIL_TABS.ACTIVITIES, ANVIL_FILTER_NAMES);
 });
 
-test("Check that all filters exist on the Files tab and are clickable", async ({
+// TODO #4749 - re-enable when cc-dev is reverted to dev backend
+test.skip("Check that all filters exist on the Files tab and are clickable", async ({
   page,
 }) => {
   await testFilterPresence(page, ANVIL_TABS.FILES, ANVIL_FILTER_NAMES);
