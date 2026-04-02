@@ -624,7 +624,7 @@ export const buildDatasetExportToPlatformMethod = ({
   ...props
 }: Pick<
   ComponentProps<typeof ExportMethod>,
-  "description" | "route" | "title"
+  "description" | "icon" | "route" | "title"
 >): ((
   response: DatasetsResponse,
   viewContext: ViewContext<unknown>
@@ -1066,7 +1066,7 @@ export const buildExportToPlatformHero = (
 export const buildExportToPlatformMethod = (
   props: Pick<
     ComponentProps<typeof ExportMethod>,
-    "description" | "route" | "title"
+    "description" | "icon" | "route" | "title"
   >
 ): ((
   _: unknown,
