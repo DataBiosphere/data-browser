@@ -39,7 +39,6 @@ import {
   FadeProps as MFadeProps,
   Tooltip,
 } from "@mui/material";
-import { ExportEntity } from "app/components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
 import React, { ComponentProps, ReactNode } from "react";
 import {
   ANVIL_CMG_CATEGORY_KEY,
@@ -104,6 +103,8 @@ import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/anvil-cmg";
 import { RequestAccess } from "../../../../components/Detail/components/AnVILCMG/components/RequestAccess/requestAccess";
 import { Description } from "../../../../components/Detail/components/MDX/components/Description/description";
+import { ExportEntity } from "../../../../components/Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
+import { Icon } from "../../../../components/Export/components/AnVILExplorer/components/ExportMethod/components/Icon/icon";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
@@ -472,6 +473,7 @@ export const buildDatasetExportMethodManifestDownload = (
   return {
     description:
       "Download a TSV manifest containing metadata for all data files in the dataset.",
+    icon: <Icon alt="Manifest" src="/export/manifest.webp" width={24} />,
     route: `${datasetPath}${ROUTES.MANIFEST_DOWNLOAD}`,
     title: "Download TSV Manifest",
   };
@@ -505,6 +507,7 @@ export const buildDatasetExportMethodTerra = (
   return {
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+    icon: <Icon alt="Terra" src="/export/terra.webp" width={24} />,
     route: `${datasetPath}${ROUTES.TERRA}`,
     title: "Export to Terra",
   };
@@ -534,6 +537,7 @@ export const buildDatasetExportMethodCurlCommand = (
   return {
     description:
       "Generate a curl command to download all files in this open-access dataset.",
+    icon: <Icon alt="curl" src="/export/curl.webp" width={24} />,
     route: `${datasetPath}${ROUTES.CURL_DOWNLOAD}`,
     title: "Download Open-Access Data Files (No Data Transfer Fees)",
   };
@@ -887,6 +891,7 @@ export const buildExportMethodManifestDownload = (
     ...getExportMethodAccessibility(viewContext),
     description:
       "Download a TSV manifest containing metadata for all data files in the current selection, including managed-access files.",
+    icon: <Icon alt="Manifest" src="/export/manifest.webp" width={24} />,
     route: ROUTES.MANIFEST_DOWNLOAD,
     title: "Download TSV Manifest for All Selected Data Files",
   };
@@ -906,6 +911,7 @@ export const buildExportMethodTerra = (
     ...getExportMethodAccessibility(viewContext),
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+    icon: <Icon alt="Terra" src="/export/terra.webp" width={24} />,
     route: ROUTES.TERRA,
     title: "Export to Terra",
   };
@@ -956,6 +962,7 @@ export const buildExportMethodBulkDownload = (
         files in the current selection.
       </div>
     ),
+    icon: <Icon alt="curl" src="/export/curl.webp" width={24} />,
     route: ROUTES.CURL_DOWNLOAD,
     title: "Download Open-Access Data Files (No Data Transfer Fees)",
   };
