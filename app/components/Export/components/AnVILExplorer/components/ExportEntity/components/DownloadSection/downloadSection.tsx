@@ -23,19 +23,16 @@ export const DownloadSection = ({ dataset }: Props): JSX.Element => {
       <Typography variant={TYPOGRAPHY_PROPS.VARIANT.BODY_LARGE_400}>
         {isNRES ? (
           <span>
-            First, download the open-access data files in the current selection
-            using a <code>curl</code> command. Then download a TSV manifest
-            containing metadata for all data files in the current selection,
-            including managed-access files. The manifest contains metadata only
-            and does not include file data. Open-access data files are hosted
-            through AWS Open Data, with storage and data transfer costs covered
-            by the AWS Open Data Sponsorship Program.
+            To download data from this dataset, first download the open-access
+            data files using the <code>curl</code> command option. Then download
+            the TSV metadata manifest for the dataset. Open-access data files
+            are hosted through AWS Open Data, with storage and data transfer
+            costs covered by the AWS Open Data Sponsorship Program.
           </span>
         ) : (
           <span>
-            Download a TSV manifest containing metadata for all files in the
-            dataset. The manifest contains metadata only and does not include
-            file data.
+            Download a TSV manifest with metadata for all files in the
+            managed-access dataset. No file data is included.
           </span>
         )}
       </Typography>
