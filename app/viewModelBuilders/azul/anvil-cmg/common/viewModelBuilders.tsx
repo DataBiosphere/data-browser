@@ -634,6 +634,7 @@ export const buildDatasetExportToPlatformMethod = ({
     return {
       ...props,
       ...getExportMethodAccessibility(viewContext),
+      comingSoon: true,
       route: `${datasetPath}${route}`,
     };
   };
@@ -1076,6 +1077,7 @@ export const buildExportToPlatformMethod = (
     return {
       ...props,
       ...getExportMethodAccessibility(viewContext),
+      comingSoon: true,
     };
   };
 };
