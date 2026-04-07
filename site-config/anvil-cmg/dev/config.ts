@@ -214,8 +214,8 @@ export function makeConfig(
                       visible: VISIBLE.MD_DOWN,
                     },
                     {
-                      label: "Dataset Manifest Download",
-                      url: "/guides/dataset-manifest-download",
+                      label: "TSV File Manifest Download",
+                      url: "/guides/tsv-file-manifest-download",
                       visible: VISIBLE.MD_DOWN,
                     },
                     {

@@ -10,9 +10,9 @@ export const DATA_DOWNLOAD_OPTIONS: NavItem = {
   url: "/guides/data-download-options",
 };
 
-export const DATASET_MANIFEST_DOWNLOAD: NavItem = {
-  label: "Dataset Manifest Download",
-  url: "/guides/dataset-manifest-download",
+export const TSV_FILE_MANIFEST_DOWNLOAD: NavItem = {
+  label: "TSV File Manifest Download",
+  url: "/guides/tsv-file-manifest-download",
 };
 
 export const DATA_DOWNLOAD_VIA_CURL: NavItem = {

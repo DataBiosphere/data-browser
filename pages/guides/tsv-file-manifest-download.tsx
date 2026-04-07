@@ -10,18 +10,18 @@ import { getContentStaticProps } from "../../app/content/common/contentPages";
 import {
   DATA_DOWNLOAD_OPTIONS,
   DATA_DOWNLOAD_VIA_CURL,
-  DATASET_MANIFEST_DOWNLOAD,
   GUIDES,
   INDIVIDUAL_FILE_DOWNLOAD,
+  TSV_FILE_MANIFEST_DOWNLOAD,
 } from "../../site-config/anvil-cmg/dev/layout/navigationItem";
 import NotFoundPage from "../404";
 
-const slug = ["guides", "dataset-manifest-download"];
+const slug = ["guides", "tsv-file-manifest-download"];
 
 export const getStaticProps: GetStaticProps = async () => {
   return getContentStaticProps(
     { params: { slug } },
-    "Dataset Manifest Download"
+    "TSV File Manifest Download"
   );
 };
 
@@ -42,7 +42,7 @@ const Page = ({
           navigation={[
             GUIDES,
             DATA_DOWNLOAD_OPTIONS,
-            { active: true, ...DATASET_MANIFEST_DOWNLOAD },
+            { active: true, ...TSV_FILE_MANIFEST_DOWNLOAD },
             DATA_DOWNLOAD_VIA_CURL,
             INDIVIDUAL_FILE_DOWNLOAD,
           ]}
