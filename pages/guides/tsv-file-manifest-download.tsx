@@ -14,8 +14,6 @@ import {
   INDIVIDUAL_FILE_DOWNLOAD,
   TSV_FILE_MANIFEST_DOWNLOAD,
 } from "../../site-config/anvil-cmg/dev/layout/navigationItem";
-import NotFoundPage from "../404";
-
 const slug = ["guides", "tsv-file-manifest-download"];
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -29,7 +27,6 @@ const Page = ({
   layoutStyle,
   mdxSource,
 }: InferGetStaticPropsType<typeof getStaticProps>): JSX.Element => {
-  if (!mdxSource) return <NotFoundPage />;
   return (
     <ContentView
       content={
