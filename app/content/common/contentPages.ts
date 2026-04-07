@@ -23,13 +23,7 @@ export async function getContentStaticProps(
     !contentPathname ||
     !isContentPathnameExists(contentPathname, slug)
   ) {
-    return {
-      props: {
-        mdxSource: null,
-        pageTitle,
-        slug: null,
-      },
-    };
+    return { notFound: true };
   }
   const markdownPathname = getMarkdownPathname(contentPathname, slug);
   const markdownWithMeta = fs.readFileSync(markdownPathname, "utf-8");
