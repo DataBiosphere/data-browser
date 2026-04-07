@@ -219,8 +219,8 @@ export function makeConfig(
                       visible: VISIBLE.MD_DOWN,
                     },
                     {
-                      label: "File Manifest Download",
-                      url: "/guides/file-manifest-download",
+                      label: "Data Download via curl",
+                      url: "/guides/data-download-via-curl",
                       visible: VISIBLE.MD_DOWN,
                     },
                     {
