@@ -203,7 +203,7 @@ export function makeConfig(
                   label: "Guides",
                   menuItems: [
                     {
-                      label: "Overview",
+                      label: "About AnVIL Explorer",
                       selectedMatch: SELECTED_MATCH.EQUALS,
                       url: "/guides",
                       visible: VISIBLE.MD_DOWN,

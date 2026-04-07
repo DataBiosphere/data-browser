@@ -1,6 +1,9 @@
 import { NavItem } from "@databiosphere/findable-ui/lib/components/Layout/components/Nav/nav";
 
-export const GUIDES: NavItem = { label: "Guides", url: "/guides" };
+export const GUIDES: NavItem = {
+  label: "About AnVIL Explorer",
+  url: "/guides",
+};
 
 export const DATA_DOWNLOAD_OPTIONS: NavItem = {
   label: "Data Download Options",
