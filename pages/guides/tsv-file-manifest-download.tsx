@@ -14,10 +14,13 @@ import {
   INDIVIDUAL_FILE_DOWNLOAD,
   TSV_FILE_MANIFEST_DOWNLOAD,
 } from "../../site-config/anvil-cmg/dev/layout/navigationItem";
-const slug = ["guides"];
+const slug = ["guides", "tsv-file-manifest-download"];
 
 export const getStaticProps: GetStaticProps = async () => {
-  return getContentStaticProps({ params: { slug } }, "Guides");
+  return getContentStaticProps(
+    { params: { slug } },
+    "TSV File Manifest Download"
+  );
 };
 
 const Page = ({
@@ -34,9 +37,9 @@ const Page = ({
       navigation={
         <Nav
           navigation={[
-            { active: true, ...ABOUT_ANVIL_EXPLORER },
+            ABOUT_ANVIL_EXPLORER,
             DATA_DOWNLOAD_OPTIONS,
-            TSV_FILE_MANIFEST_DOWNLOAD,
+            { active: true, ...TSV_FILE_MANIFEST_DOWNLOAD },
             DATA_DOWNLOAD_VIA_CURL,
             INDIVIDUAL_FILE_DOWNLOAD,
           ]}

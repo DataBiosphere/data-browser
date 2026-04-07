@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.0](https://github.com/DataBiosphere/data-browser/compare/v2.31.0...v2.32.0) (2026-04-07)
+
+
+### Features
+
+* add download guide pages for anvil-cmg ([#4758](https://github.com/DataBiosphere/data-browser/issues/4758)) ([9ae6192](https://github.com/DataBiosphere/data-browser/commit/9ae6192bf7603a8a5214c0e03ea419a0f47a57f5))
+
 ## [2.31.0](https://github.com/DataBiosphere/data-browser/compare/v2.30.0...v2.31.0) (2026-04-02)
 
 
