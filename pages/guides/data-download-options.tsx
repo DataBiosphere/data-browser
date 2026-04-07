@@ -8,9 +8,9 @@ import { Content } from "../../app/components/Layout/components/Content/content"
 import { MDX_COMPONENTS } from "../../app/content/common/constants";
 import { getContentStaticProps } from "../../app/content/common/contentPages";
 import {
+  ABOUT_ANVIL_EXPLORER,
   DATA_DOWNLOAD_OPTIONS,
   DATA_DOWNLOAD_VIA_CURL,
-  GUIDES,
   INDIVIDUAL_FILE_DOWNLOAD,
   TSV_FILE_MANIFEST_DOWNLOAD,
 } from "../../site-config/anvil-cmg/dev/layout/navigationItem";
@@ -34,7 +34,7 @@ const Page = ({
       navigation={
         <Nav
           navigation={[
-            GUIDES,
+            ABOUT_ANVIL_EXPLORER,
             { active: true, ...DATA_DOWNLOAD_OPTIONS },
             TSV_FILE_MANIFEST_DOWNLOAD,
             DATA_DOWNLOAD_VIA_CURL,
