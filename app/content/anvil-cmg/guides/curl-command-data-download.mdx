@@ -1,0 +1,103 @@
+<Breadcrumbs
+  breadcrumbs={[
+    { path: "/datasets", text: "AnVIL Data Explorer" },
+    { path: "/guides", text: "Guides" },
+    { path: "", text: "curl Command Data Download" },
+  ]}
+/>
+
+# curl Command Data Download
+
+The **Download Open-Access Data (curl Command)** enables the user to select the organism type and file formats they wish to transfer to a local or institutional system. Complete datasets can be downloaded by selecting all available file types.
+
+**NOTE:** At this time, this option is available only for open-access datasets.
+
+## Prerequisites
+
+curl must be installed on the destination system where the command will be run. Most Mac, Linux, Windows 10 & 11 systems include curl by default. Older Windows users can download it from the curl website or use Windows Subsystem for Linux (WSL).
+
+## Example
+
+### Downloading The Full Dataset
+
+1. Visit the dataset of interest by clicking on the dataset name in the Data Explorer.
+
+<Figure
+  alt="Visit the dataset of interest"
+  src="/guides/curl-command-download/single-dataset-download-01.webp"
+  width="100%"
+/>
+
+2. On the dataset description page, click on the "Export" button in the upper right-hand corner of that page.
+
+<Figure
+  alt="Click the Export button"
+  src="/guides/curl-command-download/single-dataset-download-02.webp"
+  width="100%"
+/>
+
+3. Then click on "Download Open-Access Data Files (No Data Transfer Fees)" in the "Download" section near the bottom of the page.
+
+<Figure
+  alt="Click Download Open-Access Data Files"
+  src="/guides/curl-command-download/single-dataset-download-03.webp"
+  width="100%"
+/>
+
+4. This will display a screen that allows some refinement of the data to download.
+
+<Figure
+  alt="Refine the data to download"
+  src="/guides/curl-command-download/single-dataset-download-04.webp"
+  width="100%"
+/>
+
+5. Select all of the organism type(s) at the top of the page.
+
+6. Check the box next to the Name heading. This will select all of the file types.
+   - If the user wants to download only specific file types, select only those file types and leave the others unchecked.
+
+7. Select Bash<sup>[1](#footnote-1)</sup> if you are on Mac, Linux, or Windows Subsystem for Linux; select cmd.exe if you are on Windows Command Prompt.
+
+8. Click on the Request curl Command button.
+
+<Figure
+  alt="Click the Request curl Command button"
+  src="/guides/curl-command-download/single-dataset-download-08.webp"
+  width="100%"
+/>
+
+This will generate a curl manifest and the command needed to transfer the files. The resulting command will be similar to this:
+
+```
+curl --location --fail https://service.explore.anvilproject.org/manifest/files/ksQylKdhbnZpbDEzpGN1cmzEEKxolyZNG12_p9nHuKrRpbDEEH2f6ZDL2lSzofvXZ80pfgXEIJHlLajfJ07ut9ZEMwSwDDAdmSZQam5pZbCxG3WZeFBl | curl --retry 15 --retry-delay 10 --config -
+```
+
+On the destination system, issue the specified curl command. Clicking the text box containing the curl command copies it to your clipboard so you can paste it into a terminal window.
+
+<Figure
+  alt="Copy the curl command to clipboard"
+  src="/guides/curl-command-download/single-dataset-download-08b.webp"
+  width="100%"
+/>
+
+For single-dataset downloads, a series of subdirectories will be created containing the selected files from that dataset.
+
+### Downloading Files From Multiple Datasets
+
+Downloading files from multiple datasets works the same way as downloading from a single dataset, except for how you select the datasets.
+
+In this case, on the Data Explorer's main page, use the faceted search feature in the right-hand column to select the datasets of interest and then click on the "Export" button on the top right of the page.
+
+<Figure
+  alt="Select datasets and click Export"
+  src="/guides/curl-command-download/multiple-datasets-download-01.webp"
+  width="100%"
+/>
+
+From this point on, the interface is the same as the single dataset download above. Continue with Step 3 above.
+
+---
+
+<sup id="footnote-1">1</sup> The Bash shell will work for most of the common
+Unix/Linux command-line shells.

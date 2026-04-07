@@ -7,7 +7,7 @@ import { mapSelectCategoryValue } from "../../../app/config/utils";
 import { buildDataDictionary } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/dataDictionaryMapper";
 import { TABLE_OPTIONS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/tableOptions";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
-import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
+import { FLATTEN, GIT_HUB_REPO_URL, VISIBLE } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
@@ -200,6 +200,33 @@ export function makeConfig(
                 },
                 {
                   label: "Guides",
+                  menuItems: [
+                    {
+                      label: "Overview",
+                      url: "/guides",
+                      visible: VISIBLE.MD_DOWN,
+                    },
+                    {
+                      label: "Data Download Options",
+                      url: "/guides/data-download-options",
+                      visible: VISIBLE.MD_DOWN,
+                    },
+                    {
+                      label: "Dataset Manifest Download",
+                      url: "/guides/dataset-manifest-download",
+                      visible: VISIBLE.MD_DOWN,
+                    },
+                    {
+                      label: "curl Command Data Download",
+                      url: "/guides/curl-command-data-download",
+                      visible: VISIBLE.MD_DOWN,
+                    },
+                    {
+                      label: "Individual File Download",
+                      url: "/guides/individual-file-download",
+                      visible: VISIBLE.MD_DOWN,
+                    },
+                  ],
                   url: "/guides",
                 },
                 {
