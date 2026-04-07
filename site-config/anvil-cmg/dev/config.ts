@@ -1,5 +1,6 @@
 import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
+import { SELECTED_MATCH } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/common/entities";
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
@@ -7,7 +8,7 @@ import { mapSelectCategoryValue } from "../../../app/config/utils";
 import { buildDataDictionary } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/dataDictionaryMapper";
 import { TABLE_OPTIONS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/tableOptions";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
-import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
+import { FLATTEN, GIT_HUB_REPO_URL, VISIBLE } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
@@ -200,6 +201,34 @@ export function makeConfig(
                 },
                 {
                   label: "Guides",
+                  menuItems: [
+                    {
+                      label: "About AnVIL Explorer",
+                      selectedMatch: SELECTED_MATCH.EQUALS,
+                      url: "/guides",
+                      visible: VISIBLE.MD_DOWN,
+                    },
+                    {
+                      label: "Data Download Options",
+                      url: "/guides/data-download-options",
+                      visible: VISIBLE.MD_DOWN,
+                    },
+                    {
+                      label: "TSV File Manifest Download",
+                      url: "/guides/tsv-file-manifest-download",
+                      visible: VISIBLE.MD_DOWN,
+                    },
+                    {
+                      label: "Data Download via curl",
+                      url: "/guides/data-download-via-curl",
+                      visible: VISIBLE.MD_DOWN,
+                    },
+                    {
+                      label: "Individual File Download",
+                      url: "/guides/individual-file-download",
+                      visible: VISIBLE.MD_DOWN,
+                    },
+                  ],
                   url: "/guides",
                 },
                 {
