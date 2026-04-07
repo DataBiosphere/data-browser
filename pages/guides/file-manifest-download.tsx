@@ -8,21 +8,18 @@ import { Content } from "../../app/components/Layout/components/Content/content"
 import { MDX_COMPONENTS } from "../../app/content/common/constants";
 import { getContentStaticProps } from "../../app/content/common/contentPages";
 import {
-  CURL_COMMAND_DATA_DOWNLOAD,
   DATA_DOWNLOAD_OPTIONS,
   DATASET_MANIFEST_DOWNLOAD,
+  FILE_MANIFEST_DOWNLOAD,
   GUIDES,
   INDIVIDUAL_FILE_DOWNLOAD,
 } from "../../site-config/anvil-cmg/dev/layout/navigationItem";
 import NotFoundPage from "../404";
 
-const slug = ["guides", "curl-command-data-download"];
+const slug = ["guides", "file-manifest-download"];
 
 export const getStaticProps: GetStaticProps = async () => {
-  return getContentStaticProps(
-    { params: { slug } },
-    "curl Command Data Download"
-  );
+  return getContentStaticProps({ params: { slug } }, "File Manifest Download");
 };
 
 const Page = ({
@@ -43,7 +40,7 @@ const Page = ({
             GUIDES,
             DATA_DOWNLOAD_OPTIONS,
             DATASET_MANIFEST_DOWNLOAD,
-            { active: true, ...CURL_COMMAND_DATA_DOWNLOAD },
+            { active: true, ...FILE_MANIFEST_DOWNLOAD },
             INDIVIDUAL_FILE_DOWNLOAD,
           ]}
         />

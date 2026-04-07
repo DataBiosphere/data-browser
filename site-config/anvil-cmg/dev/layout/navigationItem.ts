@@ -15,9 +15,9 @@ export const DATASET_MANIFEST_DOWNLOAD: NavItem = {
   url: "/guides/dataset-manifest-download",
 };
 
-export const CURL_COMMAND_DATA_DOWNLOAD: NavItem = {
-  label: "curl Command Data Download",
-  url: "/guides/curl-command-data-download",
+export const FILE_MANIFEST_DOWNLOAD: NavItem = {
+  label: "File Manifest Download",
+  url: "/guides/file-manifest-download",
 };
 
 export const INDIVIDUAL_FILE_DOWNLOAD: NavItem = {
