@@ -1,8 +1,8 @@
+import { FONT } from "@databiosphere/findable-ui/lib/styles/common/constants/font";
+import { typographyToCSS } from "@databiosphere/findable-ui/lib/styles/common/mixins/typography";
+import { ThemeProps } from "@databiosphere/findable-ui/lib/theme/types";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { FONT } from "@databiosphere/findable-ui/lib/styles/common/constants/font";
-import { ThemeProps } from "@databiosphere/findable-ui/lib/theme/types";
-import { typographyToCSS } from "@databiosphere/findable-ui/lib/styles/common/mixins/typography";
 
 const muiAlert = ({ theme }: ThemeProps) => css`
   .MuiAlert-root {
@@ -89,6 +89,10 @@ export const Content = styled.div`
     }
   }
 
+  hr {
+    margin: 20px 0;
+  }
+
   p {
     font: ${FONT.BODY_LARGE_400_2_LINES};
     margin: 0 0 16px;
@@ -96,6 +100,10 @@ export const Content = styled.div`
     &:last-of-type {
       margin-bottom: 0;
     }
+  }
+
+  pre + p {
+    margin-top: 16px;
   }
 
   ul {
