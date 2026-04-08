@@ -2,7 +2,6 @@ import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/en
 import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 import { SELECTED_MATCH } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/common/entities";
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
-import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
 import { mapSelectCategoryValue } from "../../../app/config/utils";
 import { buildDataDictionary } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/dataDictionaryMapper";
@@ -26,7 +25,7 @@ import { floating } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
-const DATA_URL = "https://service.anvil.gi.ucsc.edu";
+const DATA_URL = "https://service.explore.anvilproject.org";
 const BROWSER_URL = "https://explore.anvil.gi.ucsc.edu";
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 
@@ -35,7 +34,7 @@ export function makeConfig(
   portalUrl: string,
   dataUrl: string,
   gitHubUrl: string,
-  catalog: string = CATALOG_DEFAULT
+  catalog: string = "anvil13"
 ): SiteConfig {
   return {
     analytics: {
