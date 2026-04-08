@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.33.0](https://github.com/DataBiosphere/data-browser/compare/v2.32.0...v2.33.0) (2026-04-08)
+
+
+### Features
+
+* add dataset titles to anvil analytics report ([#3909](https://github.com/DataBiosphere/data-browser/issues/3909)) ([aed9256](https://github.com/DataBiosphere/data-browser/commit/aed92565ffcc99ddd27aba0d3e84f6816de7159f))
+* add dataset titles to anvil analytics report (anvilproject/anvil-portal[#3909](https://github.com/DataBiosphere/data-browser/issues/3909)) ([#4746](https://github.com/DataBiosphere/data-browser/issues/4746)) ([aed9256](https://github.com/DataBiosphere/data-browser/commit/aed92565ffcc99ddd27aba0d3e84f6816de7159f))
+
 ## [2.32.0](https://github.com/DataBiosphere/data-browser/compare/v2.31.0...v2.32.0) (2026-04-07)
 
 
