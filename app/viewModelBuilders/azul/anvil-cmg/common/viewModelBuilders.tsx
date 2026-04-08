@@ -470,9 +470,11 @@ export const buildDatasetExportMethodManifestDownload = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.ExportMethod> => {
   const datasetPath = buildDatasetPath(datasetsResponse);
+  const isNRES = isDatasetNRESConsentGroup(datasetsResponse);
   return {
-    description:
-      "Download a TSV manifest containing metadata for all data files in the dataset.",
+    description: isNRES
+      ? "Download a TSV manifest containing metadata for all data files in the dataset. For open-access data files, the manifest also includes S3 URIs."
+      : "Download a TSV manifest containing metadata for all data files in the dataset.",
     icon: <ExportIcon alt="Manifest" src="/export/manifest.webp" width={24} />,
     route: `${datasetPath}${ROUTES.MANIFEST_DOWNLOAD}`,
     title: "Download TSV Manifest",
@@ -535,8 +537,13 @@ export const buildDatasetExportMethodCurlCommand = (
 ): React.ComponentProps<typeof C.ExportMethod> => {
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
-    description:
-      "Generate a curl command to download all files in this open-access dataset.",
+    description: (
+      <div>
+        Generate a <code>curl</code> command to download all files in this
+        open-access dataset for analysis in AWS EC2, your HPC, or your local
+        compute environment.
+      </div>
+    ),
     icon: <ExportIcon alt="curl" src="/export/curl.webp" width={24} />,
     route: `${datasetPath}${ROUTES.CURL_DOWNLOAD}`,
     title: "Download Open-Access Data Files (No Data Transfer Fees)",
@@ -891,7 +898,7 @@ export const buildExportMethodManifestDownload = (
   return {
     ...getExportMethodAccessibility(viewContext),
     description:
-      "Download a TSV manifest containing metadata for all data files in the current selection, including managed-access files.",
+      "Download a TSV manifest containing metadata for all data files in the current selection, including managed-access files. For open-access data files, the manifest also includes S3 URIs.",
     icon: <ExportIcon alt="Manifest" src="/export/manifest.webp" width={24} />,
     route: ROUTES.MANIFEST_DOWNLOAD,
     title: "Download TSV Manifest for All Selected Data Files",
@@ -960,7 +967,8 @@ export const buildExportMethodBulkDownload = (
     description: (
       <div>
         Generate a <code>curl</code> command to download the open-access data
-        files in the current selection.
+        files in the current selection for analysis in AWS EC2, your HPC, or
+        your local compute environment.
       </div>
     ),
     icon: <ExportIcon alt="curl" src="/export/curl.webp" width={24} />,
