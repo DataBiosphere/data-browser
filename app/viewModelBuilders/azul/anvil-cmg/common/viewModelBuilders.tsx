@@ -464,15 +464,13 @@ export const buildDatasetExportMethodHeroTerraExport = (
 /**
  * Build props for ExportMethod component for display of the dataset manifest download section.
  * @param datasetsResponse - Response model return from datasets API.
- * @param viewContext - View context.
  * @returns model to be used as props for the dataset file manifest export method component.
  */
 export const buildDatasetExportMethodManifestDownload = (
-  datasetsResponse: DatasetsResponse,
-  viewContext: ViewContext<DatasetsResponse>
+  datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.ExportMethod> => {
   const datasetPath = buildDatasetPath(datasetsResponse);
-  const isNRES = isNRESConsentGroup(viewContext);
+  const isNRES = isDatasetNRESConsentGroup(datasetsResponse);
   return {
     description: isNRES
       ? "Download a TSV manifest containing metadata for all data files in the dataset. For open-access data files, the manifest also includes S3 URIs."
