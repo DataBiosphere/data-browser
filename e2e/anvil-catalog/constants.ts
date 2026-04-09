@@ -1,6 +1,6 @@
 export const ANVIL_CATALOG_CATEGORY_NAMES = {
   CONSENT_CODE: "Consent Code",
-  DB_GAP_ID: "dbGap Id",
+  DBGAP_ID: "dbGap Id",
   TERRA_WORKSPACE_NAME: "Terra Workspace Name",
 };
 
