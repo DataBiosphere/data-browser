@@ -1,4 +1,5 @@
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
+import { Divider } from "@mui/material";
 import * as C from "../../components";
 import { Figure } from "../../components/common/Figure/figure";
 import { Link } from "../../components/Layout/components/Content/components/Link/link";
@@ -11,6 +12,7 @@ export const MDX_COMPONENTS = {
   Breadcrumbs: C.Breadcrumbs,
   Figure,
   a: Link,
+  hr: Divider,
 };
 
 export const MDX_SCOPE = { ANCHOR_TARGET };

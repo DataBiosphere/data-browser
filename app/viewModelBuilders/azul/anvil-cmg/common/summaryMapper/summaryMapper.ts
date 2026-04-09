@@ -7,6 +7,7 @@ import {
   Term,
 } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import { formatCountSize } from "@databiosphere/findable-ui/lib/utils/formatCountSize";
+import { formatFileSize } from "@databiosphere/findable-ui/lib/utils/formatFileSize";
 import { ANVIL_CMG_CATEGORY_KEY } from "../../../../../../site-config/anvil-cmg/category";
 import { SummaryResponse } from "../../../../../apis/azul/anvil-cmg/common/responses";
 import { METADATA_KEY } from "../../../../../components/Index/common/entities";
@@ -44,6 +45,7 @@ export function bindFileSummaryResponse(
     donorCount: summaryResponse.donorCount,
     fileCount: summaryResponse.fileCount,
     fileFormats: bindFileFormatSummaryResponse(summaryResponse),
+    totalFileSize: summaryResponse.totalFileSize,
   };
 }
 
@@ -63,6 +65,7 @@ export function mapExportSummary(
   const donorCount = fileSummary.donorCount;
   const fileCount = fileSummary.fileCount;
   const fileFormats = fileSummary.fileFormats;
+  const totalFileSize = fileSummary.totalFileSize;
   const organismType = listSelectedTermsOfFacet(
     filesFacets,
     ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE
@@ -89,6 +92,10 @@ export function mapExportSummary(
       values: fileFormats,
     })
   ); // Formats
+  summaryBySummaryKey.set(
+    SUMMARY.TOTAL_FILE_SIZE,
+    formatFileSize(totalFileSize)
+  ); // Total file Size
   return summaryBySummaryKey;
 }
 

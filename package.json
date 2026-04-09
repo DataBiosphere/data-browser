@@ -1,6 +1,6 @@
 {
   "name": "explorer",
-  "version": "2.29.0",
+  "version": "2.33.0",
   "private": true,
   "scripts": {
     "dev:anvil-catalog": "./scripts/dev.sh anvil-catalog dev && ./scripts/set-version.sh dev && next dev",
@@ -32,7 +32,7 @@
     "check-system-status:anvil-cmg": "esrun e2e/anvil/anvil-check-system-status.ts"
   },
   "dependencies": {
-    "@databiosphere/findable-ui": "^50.1.1",
+    "@databiosphere/findable-ui": "^50.6.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@mdx-js/loader": "^3",

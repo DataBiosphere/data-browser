@@ -1,10 +1,12 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { ColumnDescription, TabDescription } from "./testInterfaces";
+import { ANVIL_TABS } from "./anvil/anvil-tabs";
+import { TITLE_TEXT_REQUEST_FILE_MANIFEST } from "./anvil/common/constants";
 import {
   KEYBOARD_KEYS,
   MUI_CLASSES,
   TEST_IDS,
 } from "./features/common/constants";
+import { ColumnDescription, TabDescription } from "./testInterfaces";
 
 /* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 
@@ -777,6 +779,8 @@ export async function testDeselectFiltersThroughSearchBar(
       firstFilterOptionLocator
     );
     await firstFilterOptionLocator.click();
+    // Wait for the checkbox to be checked, confirming the filter state update completed.
+    await expect(firstFilterOptionLocator.getByRole("checkbox")).toBeChecked();
     await page.waitForLoadState("load");
     await page.locator("body").click();
     // Search for and check the selected filter
@@ -891,47 +895,44 @@ const hoverAndGetText = async (
 };
 
 /**
- * Test that the Bulk Download index export workflow can be initiated and results in a download on the specified tab
+ *  Tests bulk download of a file manifest from the files tab.
  * @param page - a Playwright page object
- * @param tab - the tab to run the test on
- * @returns - true if the test passes, false if the test fails but does not fail an assertion
+ * @returns - True if the test passes, false if the test fails.
  */
-export async function testBulkDownloadIndexExportWorkflow(
-  page: Page,
-  tab: TabDescription
+export async function testBulkDownloadFileManifestWorkflow(
+  page: Page
 ): Promise<boolean> {
-  if (tab?.indexExportPage === undefined) {
-    console.log(
-      "testBulkIndexExportWorkflow Error: indexExportPage not specified for given tab, so test cannot run"
-    );
-    return false;
-  }
-  await page.goto(tab.url);
-  const exportButtonLocator = page.getByRole("link", {
-    name: tab.indexExportPage.indexExportButtonText,
-  });
-  await expect(exportButtonLocator).toBeVisible();
-  await exportButtonLocator.click();
-  await expect(
-    page.getByText(tab.indexExportPage.requestLandingMessage)
-  ).toBeVisible();
-  await expect(
-    page.getByRole("link", {
-      name: tab.indexExportPage.exportOptionButtonText,
-    })
-  ).toBeEnabled();
-  await page
-    .getByRole("link", { name: tab.indexExportPage.exportOptionButtonText })
-    .click();
+  await page.goto(ANVIL_TABS.FILES.url);
+
+  const buttonLocator = page.getByRole("link", { name: "Export" });
+  await expect(buttonLocator).toBeVisible();
+  await buttonLocator.click();
+
+  // Select the file manifest export method.
+  const cardLocator = getCard(page, TITLE_TEXT_REQUEST_FILE_MANIFEST);
+
+  // Check that the card link is not disabled.
+  await expect(cardLocator).not.toHaveClass(/Mui-disabled/);
+
+  // Click the card to go to the export request form.
+  await cardLocator.click();
+
+  await page.waitForURL("**/export/download-manifest");
+
   const exportRequestButtonLocator = page.getByRole("button", {
-    name: tab.indexExportPage.exportRequestButtonText,
+    name: "Prepare Manifest",
   });
+
+  await expect(exportRequestButtonLocator).toBeVisible();
+
   // Complete the export request form
   await makeMinimalExportRequest(page, exportRequestButtonLocator);
+
   // Click the Export Action button and check that a download occurs
   const exportActionButtonLocator = page.getByRole("link", {
-    name: tab.indexExportPage?.exportActionButtonText,
+    name: "Download Manifest",
   });
+
   await expect(exportActionButtonLocator).toBeEnabled({
     timeout: TIMEOUT_EXPORT_REQUEST,
   });
@@ -1189,6 +1190,28 @@ export async function testPaginationContent(
     // Expect page entry to be consistent with forward pagination
     await expect(firstElementTextLocator).toHaveText(OldFirstTableEntry);
   }
+}
+
+/**
+ * Return the card with the given heading text.
+ * @param page - Playwright page object.
+ * @param headingText - Heading text.
+ * @returns - Playwright locator object for the card with the given heading text.
+ */
+function getCard(page: Page, headingText: string): Locator {
+  return getHeadingWithText(page, headingText)
+    .locator("xpath=ancestor::*[contains(@class,'MuiPaper-root')]")
+    .locator(".MuiCardActionArea-root");
+}
+
+/**
+ * Return the heading with the given text.
+ * @param page - Playwright page object.
+ * @param headingText - Heading text.
+ * @returns - Playwright locator object for the dataset export method.
+ */
+function getHeadingWithText(page: Page, headingText: string): Locator {
+  return page.locator(`h3:has-text("${headingText}")`);
 }
 
 /**

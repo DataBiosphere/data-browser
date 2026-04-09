@@ -6,6 +6,7 @@ export const DEFAULT_SUMMARY: FileSummary = {
   donorCount: 0,
   fileCount: 0,
   fileFormats: [LABEL.UNSPECIFIED],
+  totalFileSize: 0,
 };
 
 /**
@@ -17,4 +18,5 @@ export const SUMMARY_DISPLAY_TEXT: Record<SUMMARY, string> = {
   [SUMMARY.FILE_COUNT]: "Files",
   [SUMMARY.FILE_FORMATS]: "File Formats",
   [SUMMARY.ORGANISM_TYPE]: "Organism Type",
+  [SUMMARY.TOTAL_FILE_SIZE]: "Total File Size",
 };
