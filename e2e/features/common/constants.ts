@@ -6,6 +6,7 @@ export const MUI_CLASSES = {
   ALERT: ".MuiAlert-root",
   BUTTON: ".MuiButton-root",
   BUTTON_GROUP: ".MuiButtonGroup-root",
+  CHIP: ".MuiChip-root",
   FORM_CONTROL: ".MuiFormControl-root",
   ICON_BUTTON: ".MuiIconButton-root",
   LIST: ".MuiList-root",
