@@ -109,6 +109,7 @@ import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
+import { isProductionEnvironment } from "../../../../config/utils";
 
 /**
  * Build props for activity type BasicCell component from the given activities response.
@@ -1790,15 +1791,13 @@ function isFileManifestSummaryFileCountValid(
 }
 
 /**
- * Returns true if the dataset has NRES or Unrestricted access consent group.
- * @param viewContext - View context.
- * @returns true if the dataset has NRES or Unrestricted access consent group.
+ * Returns true if the file manifest state includes NRES or Unrestricted access consent group.
+ * @param fileManifestState - File manifest state.
+ * @returns true if NRES or Unrestricted access consent group is present.
  */
-export function isNRESConsentGroup(
-  viewContext: ViewContext<DatasetsResponse>
+export function hasNRESConsentGroup(
+  fileManifestState: FileManifestState
 ): boolean {
-  const { fileManifestState } = viewContext;
-
   const facet = findFacet(
     fileManifestState.filesFacets,
     ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP
@@ -1809,6 +1808,17 @@ export function isNRESConsentGroup(
   const termsByName = facet.termsByName;
 
   return termsByName.has("NRES") || termsByName.has("Unrestricted access");
+}
+
+/**
+ * Returns true if the dataset has NRES or Unrestricted access consent group.
+ * @param viewContext - View context.
+ * @returns true if the dataset has NRES or Unrestricted access consent group.
+ */
+export function isNRESConsentGroup(
+  viewContext: ViewContext<DatasetsResponse>
+): boolean {
+  return hasNRESConsentGroup(viewContext.fileManifestState);
 }
 
 /**
@@ -1882,7 +1892,8 @@ export const renderWhenUnAuthenticated = (
 };
 
 /**
- * Renders cohort curl download component when the current query includes NRES or Unrestricted access consent groups.
+ * Renders cohort curl download component when the current query includes NRES or Unrestricted access consent groups,
+ * or when the environment is non-production.
  * @param _ - Unused.
  * @param viewContext - View context.
  * @returns model to be used as props for the ConditionalComponent component.
@@ -1891,11 +1902,14 @@ export const renderCohortCurlDownload = (
   _: unknown,
   viewContext: ViewContext<DatasetsResponse>
 ): ComponentProps<typeof C.ConditionalComponent> => {
-  return { isIn: isNRESConsentGroup(viewContext) };
+  return {
+    isIn: !isProductionEnvironment() || isNRESConsentGroup(viewContext),
+  };
 };
 
 /**
- * Renders dataset curl download components when the given dataset has NRES consent group.
+ * Renders dataset curl download components when the given dataset has NRES consent group,
+ * or when the environment is non-production.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns model to be used as props for the ConditionalComponent component.
  */
@@ -1903,7 +1917,8 @@ export const renderDatasetCurlDownload = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
-    isIn: isDatasetNRESConsentGroup(datasetsResponse),
+    isIn:
+      !isProductionEnvironment() || isDatasetNRESConsentGroup(datasetsResponse),
   };
 };
 
