@@ -33,7 +33,10 @@ import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import NextError from "next/error";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 
-import { getConsentGroup } from "../../app/apis/azul/anvil-cmg/common/transformers";
+import {
+  getConsentGroup,
+  isNRESOrUnrestrictedAccess,
+} from "../../app/apis/azul/anvil-cmg/common/transformers";
 import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import { isProductionEnvironment } from "../../app/config/utils";
 
@@ -109,14 +112,14 @@ function isCurlDownloadRoute(query: ParsedUrlQuery): boolean {
 }
 
 /**
- * Returns true if the dataset has NRES consent group.
+ * Returns true if the dataset has NRES or Unrestricted access consent group.
  * @param data - Entity response data.
- * @returns True if the dataset has NRES consent group.
+ * @returns True if the dataset has NRES or Unrestricted access consent group.
  */
 function isNRESDataset(data: AzulEntityStaticResponse | undefined): boolean {
   if (!data) return false;
   const consentGroups = getConsentGroup(data as DatasetsResponse);
-  return consentGroups.includes("NRES");
+  return isNRESOrUnrestrictedAccess(consentGroups);
 }
 
 /**

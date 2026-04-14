@@ -80,6 +80,7 @@ import {
   getBioSampleId,
   getBioSampleType,
   getConsentGroup,
+  isNRESOrUnrestrictedAccess,
   getDatasetDetails,
   getDatasetEntryId,
   getDocumentId,
@@ -1805,20 +1806,9 @@ export function hasNRESConsentGroup(
 
   if (!facet) return false;
 
-  const termsByName = facet.termsByName;
+  const consentGroups = [...facet.termsByName.keys()];
 
-  return termsByName.has("NRES") || termsByName.has("Unrestricted access");
-}
-
-/**
- * Returns true if the dataset has NRES or Unrestricted access consent group.
- * @param viewContext - View context.
- * @returns true if the dataset has NRES or Unrestricted access consent group.
- */
-export function isNRESConsentGroup(
-  viewContext: ViewContext<DatasetsResponse>
-): boolean {
-  return hasNRESConsentGroup(viewContext.fileManifestState);
+  return isNRESOrUnrestrictedAccess(consentGroups);
 }
 
 /**
@@ -1903,7 +1893,9 @@ export const renderCohortCurlDownload = (
   viewContext: ViewContext<DatasetsResponse>
 ): ComponentProps<typeof C.ConditionalComponent> => {
   return {
-    isIn: !isProductionEnvironment() || isNRESConsentGroup(viewContext),
+    isIn:
+      !isProductionEnvironment() ||
+      hasNRESConsentGroup(viewContext.fileManifestState),
   };
 };
 

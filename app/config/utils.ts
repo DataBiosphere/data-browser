@@ -1,13 +1,25 @@
 import { SelectCategoryValue } from "@databiosphere/findable-ui/lib/common/entities";
 
 /**
+ * Returns true if consent groups include NRES or Unrestricted access.
+ * @param consentGroups - Array of consent group strings.
+ * @returns true if NRES or Unrestricted access is present.
+ */
+export function hasNRESOrUnrestrictedAccess(consentGroups: string[]): boolean {
+  return (
+    consentGroups.includes("NRES") ||
+    consentGroups.includes("Unrestricted access")
+  );
+}
+
+/**
  * Returns true if the current environment is production.
- * Determined by checking if NEXT_PUBLIC_SITE_CONFIG contains "prod".
+ * Determined by checking if NEXT_PUBLIC_SITE_CONFIG ends with "-prod".
  * @returns true if production environment.
  */
 export function isProductionEnvironment(): boolean {
   const config = process.env.NEXT_PUBLIC_SITE_CONFIG ?? "";
-  return config.includes("prod");
+  return config.endsWith("-prod");
 }
 
 /**

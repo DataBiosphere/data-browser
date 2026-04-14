@@ -1,7 +1,7 @@
 import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 import { Stack, Typography } from "@mui/material";
 import type { JSX } from "react";
-import { isNRESConsentGroup } from "../../../../../../../../viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import { hasNRESConsentGroup } from "../../../../../../../../viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import { Props } from "./types";
 
 /**
@@ -11,7 +11,7 @@ import { Props } from "./types";
  * @returns Download section title and description.
  */
 export const DownloadSection = ({ viewContext }: Props): JSX.Element => {
-  const isNRES = isNRESConsentGroup(viewContext);
+  const isNRES = hasNRESConsentGroup(viewContext.fileManifestState);
   return (
     <Stack gap={1}>
       <Typography
