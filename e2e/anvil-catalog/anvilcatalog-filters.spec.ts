@@ -243,6 +243,19 @@ async function openFilterDropdown(
 }
 
 /**
+ * Returns a locator for a named filter item in the open filter popover.
+ * @param page - Page.
+ * @param optionName - The display name of the filter option.
+ * @returns A locator for the matching filter item.
+ */
+function namedPopoverFilterItem(page: Page, optionName: string): Locator {
+  return filterPopover(page)
+    .getByTestId(TEST_IDS.FILTER_ITEM)
+    .filter({ hasText: new RegExp(`^${escapeRegExp(optionName)}\\s*\\d+\\s*`) })
+    .first();
+}
+
+/**
  * Opens a sidebar filter dropdown, selects its first option, and returns the
  * option name. Waits for the item to be selected before returning.
  * @param filters - The filters container locator.
@@ -260,7 +273,10 @@ async function selectFirstOption(
   const name = await extractOptionName(option);
   await expectFilterItemNotSelected(option);
   await option.click();
-  await expectFilterItemSelected(option);
+  // Re-locate by name rather than position since the list may re-sort after
+  // selection, causing the positional `.first()` locator to resolve to a
+  // different (non-selected) element.
+  await expectFilterItemSelected(namedPopoverFilterItem(page, name));
   await page.keyboard.press(KEYBOARD_KEYS.ESCAPE);
   await expectFilterPopoverClosed(page);
   return name;
