@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.34.0](https://github.com/DataBiosphere/data-browser/compare/v2.33.0...v2.34.0) (2026-04-15)
+
+
+### Features
+
+* always show curl export option in non-production environments ([#4768](https://github.com/DataBiosphere/data-browser/issues/4768)) ([d7324b4](https://github.com/DataBiosphere/data-browser/commit/d7324b49c756d4dccfa338e70e997f97453305e0))
+
+
+### Bug Fixes
+
+* rewrite flaky anvil catalog filter e2e test ([#4763](https://github.com/DataBiosphere/data-browser/issues/4763)) ([7f9fd4e](https://github.com/DataBiosphere/data-browser/commit/7f9fd4ecab441ee6e5ab8431c35b363e9dc4ec46))
+
+
+### Chores
+
+* upgrade findable-ui to v50.7.0 and run npm audit fix ([#4769](https://github.com/DataBiosphere/data-browser/issues/4769)) ([75ee9c4](https://github.com/DataBiosphere/data-browser/commit/75ee9c4d691df531ee908e3a644db4ac41a348aa))
+* upgrade findable-ui to v50.7.0 and run npm audit fix ([#4772](https://github.com/DataBiosphere/data-browser/issues/4772)) ([75ee9c4](https://github.com/DataBiosphere/data-browser/commit/75ee9c4d691df531ee908e3a644db4ac41a348aa))
+
 ## [2.33.0](https://github.com/DataBiosphere/data-browser/compare/v2.32.0...v2.33.0) (2026-04-08)
 
 
