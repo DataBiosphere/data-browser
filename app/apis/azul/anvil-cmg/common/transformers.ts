@@ -72,6 +72,18 @@ export function getConsentGroup(response: DatasetsResponse): string[] {
 }
 
 /**
+ * Returns true if consent groups include NRES or Unrestricted access.
+ * @param consentGroups - Array of consent group strings.
+ * @returns true if NRES or Unrestricted access is present.
+ */
+export function isNRESOrUnrestrictedAccess(consentGroups: string[]): boolean {
+  return (
+    consentGroups.includes("NRES") ||
+    consentGroups.includes("Unrestricted access")
+  );
+}
+
+/**
  * Maps biosample type from an aggregated biosamples value returned from endpoints other than index/biosamples.
  * @param response - Response model return from Azul that includes aggregated biosamples.
  * @returns Set of aggregated biosample types.

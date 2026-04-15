@@ -10,25 +10,6 @@ import {
 } from "./constants";
 
 const ANVIL_CATALOG_SEARCH_FILTERS_PLACEHOLDER_TEXT = "Search all filters...";
-export const ANVIL_CATALOG_FILTERS = [
-  "Consent Code",
-  "Consortium",
-  "Data Type",
-  "dbGap Id",
-  "Disease (indication)",
-  "Study Design",
-  "Study",
-  "Terra Workspace Name",
-];
-
-export const CONSENT_CODE_INDEX = 0;
-export const CONSORTIUM_INDEX = 1;
-export const DATA_TYPE_INDEX = 2;
-export const DBGAP_ID_INDEX = 3;
-export const DISEASE_INDICATION_INDEX = 4;
-export const STUDY_DESIGN_INDEX = 5;
-export const STUDY_INDEX = 6;
-export const TERRA_WORKSPACE_INDEX = 7;
 
 export const ANVIL_CATALOG_TABS: AnvilCatalogTabCollection = {
   CONSORTIA: {

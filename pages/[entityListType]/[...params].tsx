@@ -33,8 +33,12 @@ import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import NextError from "next/error";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 
-import { getConsentGroup } from "../../app/apis/azul/anvil-cmg/common/transformers";
+import {
+  getConsentGroup,
+  isNRESOrUnrestrictedAccess,
+} from "../../app/apis/azul/anvil-cmg/common/transformers";
 import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
+import { isProductionEnvironment } from "../../app/config/utils";
 
 const setOfProcessedIds = new Set<string>();
 
@@ -66,8 +70,13 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
-  // Curl download requires NRES consent group (AnVIL only)
-  if (isAnVIL && isCurlDownloadRoute(query) && !isNRESDataset(props.data)) {
+  // Curl download requires NRES consent group (AnVIL production only)
+  if (
+    isAnVIL &&
+    isProductionEnvironment() &&
+    isCurlDownloadRoute(query) &&
+    !isNRESDataset(props.data)
+  ) {
     return <NextError statusCode={404} />;
   }
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
@@ -103,14 +112,14 @@ function isCurlDownloadRoute(query: ParsedUrlQuery): boolean {
 }
 
 /**
- * Returns true if the dataset has NRES consent group.
+ * Returns true if the dataset has NRES or Unrestricted access consent group.
  * @param data - Entity response data.
- * @returns True if the dataset has NRES consent group.
+ * @returns True if the dataset has NRES or Unrestricted access consent group.
  */
 function isNRESDataset(data: AzulEntityStaticResponse | undefined): boolean {
   if (!data) return false;
   const consentGroups = getConsentGroup(data as DatasetsResponse);
-  return consentGroups.includes("NRES");
+  return isNRESOrUnrestrictedAccess(consentGroups);
 }
 
 /**
