@@ -1,3 +1,4 @@
+import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 import {
   DATA_URL as HCA_DATA_URL,
   PORTAL_URL as HCA_PORTAL_URL,
@@ -10,9 +11,8 @@ import { CATEGORY_GROUPS } from "./index/common/category";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
-import { socialMedia } from "./socialMedia";
 import { buildSummaries } from "./index/summaryViewModelBuilder";
-import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
+import { socialMedia } from "./socialMedia";
 
 // Template constants
 const APP_TITLE = "LungMAP Data Explorer";

@@ -1,5 +1,5 @@
-import { TableOptions } from "@tanstack/react-table";
 import { Attribute } from "@databiosphere/findable-ui/lib/common/entities";
+import { TableOptions } from "@tanstack/react-table";
 import { COLUMN_DEFS } from "./constants";
 
 export const TABLE_OPTIONS: Omit<

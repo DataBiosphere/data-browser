@@ -1,4 +1,3 @@
-import { JSX } from "react";
 import {
   CallToActionButton,
   CallToActionButtonProps,
@@ -8,9 +7,10 @@ import {
   LinkProps,
 } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
 import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
+import { JSX } from "react";
 import { SiteConfig } from "../../../../../../../../../site-config/common/entities";
 import { StyledBackPageHeroActions } from "./backPageHeroActions.styles";
-import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 export interface BackPageHeroActionsProps {
   callToActionProps: CallToActionButtonProps;

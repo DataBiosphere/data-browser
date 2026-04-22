@@ -80,7 +80,6 @@ import {
   getBioSampleId,
   getBioSampleType,
   getConsentGroup,
-  isNRESOrUnrestrictedAccess,
   getDatasetDetails,
   getDatasetEntryId,
   getDocumentId,
@@ -94,6 +93,7 @@ import {
   getPhenotypicSex,
   getPrepMaterialName,
   getReportedEthnicities,
+  isNRESOrUnrestrictedAccess,
 } from "../../../../apis/azul/anvil-cmg/common/transformers";
 import {
   processAggregatedOrArrayValue,
@@ -108,9 +108,9 @@ import { ExportEntity } from "../../../../components/Export/components/AnVILExpl
 import { ExportIcon } from "../../../../components/Export/components/AnVILExplorer/components/ExportMethod/components/ExportIcon/exportIcon";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import { isProductionEnvironment } from "../../../../config/utils";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
-import { isProductionEnvironment } from "../../../../config/utils";
 
 /**
  * Build props for activity type BasicCell component from the given activities response.
