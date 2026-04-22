@@ -8,14 +8,17 @@ import { Floating } from "@databiosphere/findable-ui/lib/components/Layout/compo
 import { Footer } from "@databiosphere/findable-ui/lib/components/Layout/components/Footer/footer";
 import { Header } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/header";
 import { Main as DXMain } from "@databiosphere/findable-ui/lib/components/Layout/components/Main/main";
+import { GoogleSignInAuthenticationProvider } from "@databiosphere/findable-ui/lib/google/provider";
 import { setFeatureFlags } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/common/utils";
-import { TerraProfileProvider } from "@databiosphere/findable-ui/lib/providers/authentication/terra/provider";
 import { ConfigProvider as DXConfigProvider } from "@databiosphere/findable-ui/lib/providers/config";
+import { DataDictionaryStateProvider } from "@databiosphere/findable-ui/lib/providers/dataDictionaryState/provider";
 import { ExploreStateProvider } from "@databiosphere/findable-ui/lib/providers/exploreState";
 import { FileManifestStateProvider } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
-import { GoogleSignInAuthenticationProvider } from "@databiosphere/findable-ui/lib/providers/googleSignInAuthentication/provider";
+import { LayoutDimensionsProvider } from "@databiosphere/findable-ui/lib/providers/layoutDimensions/provider";
 import { LoginGuardProvider } from "@databiosphere/findable-ui/lib/providers/loginGuard/provider";
+import { ServicesProvider } from "@databiosphere/findable-ui/lib/providers/services/provider";
 import { SystemStatusProvider } from "@databiosphere/findable-ui/lib/providers/systemStatus";
+import { TerraProfileProvider } from "@databiosphere/findable-ui/lib/terra/provider";
 import { createAppTheme } from "@databiosphere/findable-ui/lib/theme/theme";
 import { DataExplorerError } from "@databiosphere/findable-ui/lib/types/error";
 import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
@@ -29,9 +32,6 @@ import type { AppProps } from "next/app";
 import { JSX, useEffect } from "react";
 import TagManager from "react-gtm-module";
 import { BREAKPOINTS } from "../site-config/common/constants";
-import { LayoutDimensionsProvider } from "@databiosphere/findable-ui/lib/providers/layoutDimensions/provider";
-import { ServicesProvider } from "@databiosphere/findable-ui/lib/providers/services/provider";
-import { DataDictionaryStateProvider } from "@databiosphere/findable-ui/lib/providers/dataDictionaryState/provider";
 
 const FEATURE_FLAGS = Object.values(FEATURES);
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
