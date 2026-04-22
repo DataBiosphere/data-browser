@@ -1,6 +1,6 @@
 import { OAuthProvider } from "@databiosphere/findable-ui/lib/config/entities";
-import { GoogleProfile } from "@databiosphere/findable-ui/lib/providers/googleSignInAuthentication/profile/types";
-import { GOOGLE_SIGN_IN_PROVIDER } from "@databiosphere/findable-ui/lib/providers/googleSignInAuthentication/service/constants";
+import { GoogleProfile } from "@databiosphere/findable-ui/lib/google/types";
+import { GOOGLE_SIGN_IN_PROVIDER } from "@databiosphere/findable-ui/lib/google/config";
 
 import { OAUTH_GOOGLE_SIGN_IN } from "../../../common/authentication";
 
