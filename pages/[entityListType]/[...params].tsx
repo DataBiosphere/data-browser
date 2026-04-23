@@ -1,4 +1,3 @@
-import { JSX } from "react";
 import {
   AzulCatalogResponse,
   AzulEntitiesResponse,
@@ -17,27 +16,28 @@ import {
 } from "@databiosphere/findable-ui/lib/config/entities";
 import { getEntityConfig } from "@databiosphere/findable-ui/lib/config/utils";
 import { fetchCatalog } from "@databiosphere/findable-ui/lib/entity/api/service";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { getEntityService } from "@databiosphere/findable-ui/lib/hooks/useEntityService";
 import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { database } from "@databiosphere/findable-ui/lib/utils/database";
 import { EntityDetailView } from "@databiosphere/findable-ui/lib/views/EntityDetailView/entityDetailView";
-import { EntityExportView } from "@databiosphere/findable-ui/lib/views/EntityExportView/entityExportView";
 import { EntityExportMethodView } from "@databiosphere/findable-ui/lib/views/EntityExportMethodView/entityExportMethodView";
+import { EntityExportView } from "@databiosphere/findable-ui/lib/views/EntityExportView/entityExportView";
 import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
+import NextError from "next/error";
+import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
+import { JSX } from "react";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { readFile } from "../../app/utils/tsvParser";
-import { useRouter } from "next/router";
-import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
-import NextError from "next/error";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 
+import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import {
   getConsentGroup,
   isNRESOrUnrestrictedAccess,
 } from "../../app/apis/azul/anvil-cmg/common/transformers";
-import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import { isProductionEnvironment } from "../../app/config/utils";
 
 const setOfProcessedIds = new Set<string>();

@@ -1,4 +1,3 @@
-import { JSX } from "react";
 import { ButtonPrimary } from "@databiosphere/findable-ui/lib/components/common/Button/components/ButtonPrimary/buttonPrimary";
 import { AlertIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/AlertIcon/alertIcon";
 import { SectionActions } from "@databiosphere/findable-ui/lib/components/common/Section/section.styles";
@@ -11,6 +10,7 @@ import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/m
 import { Link as MLink, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { JSX } from "react";
 import { Notice, Section, SectionContent } from "../../entityGuard.styles";
 
 interface EntityDeprecatedProps {

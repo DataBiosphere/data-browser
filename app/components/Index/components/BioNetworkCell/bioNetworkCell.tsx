@@ -1,6 +1,6 @@
-import { JSX } from "react";
 import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { TypographyProps } from "@databiosphere/findable-ui/lib/components/common/Typography/common/entities";
+import { JSX } from "react";
 import { NTagCell } from "../../../../components/index";
 import { NetworkIcon } from "../../../common/NetworkIcon/networkIcon";
 import { NetworkKey } from "../../common/entities";

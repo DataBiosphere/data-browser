@@ -14,12 +14,12 @@ import {
   ANVIL_CMG_CATEGORY_KEY,
   ANVIL_CMG_CATEGORY_LABEL,
 } from "../../category";
+import { exportConfig } from "../detail/dataset/export/export";
 import { mainColumn } from "../detail/dataset/overviewMainColumn";
 import { sideColumn } from "../detail/dataset/overviewSideColumn";
 import { top } from "../detail/dataset/top";
 import { entityListSlot } from "../ui/datasetsEntityList";
 import { entityViewSlot } from "../ui/entityView";
-import { exportConfig } from "../detail/dataset/export/export";
 
 /**
  * Entity config object responsible for config related to the /datasets route.
