@@ -1,20 +1,20 @@
-import { JSX } from "react";
-import { Props } from "./types";
-import { ListItemText, MenuItem } from "@mui/material";
 import { Actions } from "@databiosphere/findable-ui/lib/components/Layout/components/BackPage/components/BackPageHero/components/Actions/actions";
-import { CallToActionButton } from "@databiosphere/findable-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
-import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
-import { StyledButton, StyledDropdownMenu } from "./requestAccess.styles";
 import {
   ANCHOR_TARGET,
   REL_ATTRIBUTE,
 } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
+import { CallToActionButton } from "@databiosphere/findable-ui/lib/components/common/Button/components/CallToActionButton/callToActionButton";
+import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
+import { ListItemText, MenuItem } from "@mui/material";
+import { JSX } from "react";
 import {
   BUTTON_PROPS,
   LIST_ITEM_TEXT_PROPS,
   MENU_PROPS,
   SVG_ICON_PROPS,
 } from "./constants";
+import { StyledButton, StyledDropdownMenu } from "./requestAccess.styles";
+import { Props } from "./types";
 import { getRequestAccessOptions } from "./utils";
 
 export const RequestAccess = ({

@@ -1,6 +1,6 @@
-import { JSX } from "react";
 import { Logo } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
+import { JSX } from "react";
 import { Brands } from "./hcaBranding.styles";
 
 export interface HCABrandingProps {
