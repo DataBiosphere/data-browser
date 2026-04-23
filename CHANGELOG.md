@@ -1,5 +1,46 @@
 # Changelog
 
+## [3.0.0](https://github.com/DataBiosphere/data-browser/compare/v2.34.0...v3.0.0) (2026-04-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade findable-ui to v51.0.0 and remove next-auth ([#4780](https://github.com/DataBiosphere/data-browser/issues/4780))
+
+### Features
+
+* make dcp59 the default catalog for HCA ([#4785](https://github.com/DataBiosphere/data-browser/issues/4785)) ([dcaeb35](https://github.com/DataBiosphere/data-browser/commit/dcaeb3531203b1a3fdf8f3dec9860908a8494e87))
+* make dcp59 the default catalog for HCA [#4782](https://github.com/DataBiosphere/data-browser/issues/4782) ([dcaeb35](https://github.com/DataBiosphere/data-browser/commit/dcaeb3531203b1a3fdf8f3dec9860908a8494e87))
+
+
+### Bug Fixes
+
+* move providers inside ErrorBoundary to prevent crash loop ([#4783](https://github.com/DataBiosphere/data-browser/issues/4783)) ([31b2e80](https://github.com/DataBiosphere/data-browser/commit/31b2e80a43c737fadd11f679457fb28146875455))
+
+
+### Chores
+
+* `enable prettier-plugin-organize-imports` ([#4774](https://github.com/DataBiosphere/data-browser/issues/4774)) ([#4775](https://github.com/DataBiosphere/data-browser/issues/4775)) ([dfd3d1a](https://github.com/DataBiosphere/data-browser/commit/dfd3d1a89fe0fe2356ff845fe34b729da26f6bb0))
+* upgrade findable-ui to v51.0.0 and remove next-auth ([#4780](https://github.com/DataBiosphere/data-browser/issues/4780)) ([c43b1b8](https://github.com/DataBiosphere/data-browser/commit/c43b1b8af33beac1049f8698b7e49bcd19acac31))
+
+## [2.34.0](https://github.com/DataBiosphere/data-browser/compare/v2.33.0...v2.34.0) (2026-04-15)
+
+
+### Features
+
+* always show curl export option in non-production environments ([#4768](https://github.com/DataBiosphere/data-browser/issues/4768)) ([d7324b4](https://github.com/DataBiosphere/data-browser/commit/d7324b49c756d4dccfa338e70e997f97453305e0))
+
+
+### Bug Fixes
+
+* rewrite flaky anvil catalog filter e2e test ([#4763](https://github.com/DataBiosphere/data-browser/issues/4763)) ([7f9fd4e](https://github.com/DataBiosphere/data-browser/commit/7f9fd4ecab441ee6e5ab8431c35b363e9dc4ec46))
+
+
+### Chores
+
+* upgrade findable-ui to v50.7.0 and run npm audit fix ([#4769](https://github.com/DataBiosphere/data-browser/issues/4769)) ([75ee9c4](https://github.com/DataBiosphere/data-browser/commit/75ee9c4d691df531ee908e3a644db4ac41a348aa))
+* upgrade findable-ui to v50.7.0 and run npm audit fix ([#4772](https://github.com/DataBiosphere/data-browser/issues/4772)) ([75ee9c4](https://github.com/DataBiosphere/data-browser/commit/75ee9c4d691df531ee908e3a644db4ac41a348aa))
+
 ## [2.33.0](https://github.com/DataBiosphere/data-browser/compare/v2.32.0...v2.33.0) (2026-04-08)
 
 

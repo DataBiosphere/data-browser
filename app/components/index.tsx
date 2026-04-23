@@ -13,7 +13,6 @@ export {
   DownloadIconSmall,
   InventoryIconSmall,
 } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/common/constants";
-export { ExportToPlatform } from "./Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
 export { DiscourseIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/DiscourseIcon/discourseIcon";
 export { GitHubIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/GitHubIcon/gitHubIcon";
 export { OpenInNewIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
@@ -93,8 +92,9 @@ export { FileLocationDownload } from "./Detail/components/GeneratedMatricesTable
 export { FileNameCell } from "./Detail/components/GeneratedMatricesTables/components/FileNameCell/fileNameCell";
 export { GeneratedMatricesTables } from "./Detail/components/GeneratedMatricesTables/generatedMatricesTables";
 export { AtlasSection } from "./Detail/components/Section/components/AtlasSection/atlasSection";
-export { ManifestDownloadEntity as AnVILManifestDownloadEntity } from "./Export/components/AnVILExplorer/components/ManifestDownload/components/ManifestDownloadEntity/manifestDownloadEntity";
 export { ExportEntity as AnVILExportEntity } from "./Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
+export { ManifestDownloadEntity as AnVILManifestDownloadEntity } from "./Export/components/AnVILExplorer/components/ManifestDownload/components/ManifestDownloadEntity/manifestDownloadEntity";
+export { ExportToPlatform } from "./Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
 export { BioNetworkCell } from "./Index/components/BioNetworkCell/bioNetworkCell";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
 export { CopyCell } from "./Index/components/CopyCell/copyCell";
