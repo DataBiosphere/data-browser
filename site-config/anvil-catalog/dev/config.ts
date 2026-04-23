@@ -1,5 +1,4 @@
 import * as C from "../../../app/components/index";
-import { socialMedia } from "./socials/socialMedia";
 import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import {
@@ -13,6 +12,7 @@ import { studiesEntityConfig } from "./index/studiesEntityConfig";
 import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
 import { buildNavigation as buildFooterNavigation } from "./layout/footer/navigation/navigation";
 import { buildNavigation } from "./layout/header/navigation/navigation";
+import { socialMedia } from "./socials/socialMedia";
 
 // Template constants
 const APP_TITLE = "AnVIL Dataset Catalog";

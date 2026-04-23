@@ -1,3 +1,4 @@
+import { CategoryConfig } from "@databiosphere/findable-ui/lib/common/categories/config/types";
 import { CategoryGroup } from "@databiosphere/findable-ui/lib/config/entities";
 import { mapSelectCategoryValue } from "../../../../../app/config/utils";
 import {
@@ -6,7 +7,6 @@ import {
 } from "../../../category";
 import { CATEGORY_GROUP } from "../../../dev/index/common/category";
 import { mapAccessibleValue, mapDataUseRestrictionValue } from "./utils";
-import { CategoryConfig } from "@databiosphere/findable-ui/lib/common/categories/config/types";
 
 export const ACCESSIBLE: CategoryConfig = {
   key: HCA_DCP_CATEGORY_KEY.ACCESSIBLE,
