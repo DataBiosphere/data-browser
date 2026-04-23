@@ -1,11 +1,11 @@
+import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
+import { ListItemTextProps } from "@mui/material";
 import { DatasetsResponse } from "../../../../../../apis/azul/anvil-cmg/common/responses";
-import { takeArrayValueAt } from "../../../../../../viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import {
   processEntityArrayValue,
   processEntityValue,
 } from "../../../../../../apis/azul/common/utils";
-import { LABEL } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import { ListItemTextProps } from "@mui/material";
+import { takeArrayValueAt } from "../../../../../../viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
 /**
  * Generates a list of request access menu options based on the provided dataset response.

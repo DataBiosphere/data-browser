@@ -1,10 +1,10 @@
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 import {
   ButtonProps,
   ListItemTextProps,
   MenuProps,
   SvgIconProps,
 } from "@mui/material";
-import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 export const BUTTON_PROPS: ButtonProps = {
   color: "primary",

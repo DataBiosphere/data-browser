@@ -1,11 +1,10 @@
-import { JSX } from "react";
 import { ALERT_PROPS } from "@databiosphere/findable-ui/lib/components/common/Alert/constants";
 import { GridPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/paper.styles";
 import { Table } from "@databiosphere/findable-ui/lib/components/Detail/components/Table/table";
 import { COLUMN_IDENTIFIER } from "@databiosphere/findable-ui/lib/components/Table/common/columnIdentifier";
 import { Divider } from "@mui/material";
 import { ColumnDef } from "@tanstack/react-table";
-import { Fragment } from "react";
+import { Fragment, JSX } from "react";
 import { GenusSpecies } from "../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/constants";
 import { ProjectMatrixTableView } from "../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 import { SectionTitle, StyledAlert } from "./generatedMatricesTables.styles";
