@@ -1,5 +1,28 @@
 # Changelog
 
+## [3.0.0](https://github.com/DataBiosphere/data-browser/compare/v2.34.0...v3.0.0) (2026-04-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade findable-ui to v51.0.0 and remove next-auth ([#4780](https://github.com/DataBiosphere/data-browser/issues/4780))
+
+### Features
+
+* make dcp59 the default catalog for HCA ([#4785](https://github.com/DataBiosphere/data-browser/issues/4785)) ([dcaeb35](https://github.com/DataBiosphere/data-browser/commit/dcaeb3531203b1a3fdf8f3dec9860908a8494e87))
+* make dcp59 the default catalog for HCA [#4782](https://github.com/DataBiosphere/data-browser/issues/4782) ([dcaeb35](https://github.com/DataBiosphere/data-browser/commit/dcaeb3531203b1a3fdf8f3dec9860908a8494e87))
+
+
+### Bug Fixes
+
+* move providers inside ErrorBoundary to prevent crash loop ([#4783](https://github.com/DataBiosphere/data-browser/issues/4783)) ([31b2e80](https://github.com/DataBiosphere/data-browser/commit/31b2e80a43c737fadd11f679457fb28146875455))
+
+
+### Chores
+
+* `enable prettier-plugin-organize-imports` ([#4774](https://github.com/DataBiosphere/data-browser/issues/4774)) ([#4775](https://github.com/DataBiosphere/data-browser/issues/4775)) ([dfd3d1a](https://github.com/DataBiosphere/data-browser/commit/dfd3d1a89fe0fe2356ff845fe34b729da26f6bb0))
+* upgrade findable-ui to v51.0.0 and remove next-auth ([#4780](https://github.com/DataBiosphere/data-browser/issues/4780)) ([c43b1b8](https://github.com/DataBiosphere/data-browser/commit/c43b1b8af33beac1049f8698b7e49bcd19acac31))
+
 ## [2.34.0](https://github.com/DataBiosphere/data-browser/compare/v2.33.0...v2.34.0) (2026-04-15)
 
 
