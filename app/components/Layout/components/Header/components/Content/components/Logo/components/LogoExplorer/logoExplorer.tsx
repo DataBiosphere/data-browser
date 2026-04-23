@@ -1,10 +1,10 @@
-import { JSX } from "react";
 import { ImageSrc } from "@databiosphere/findable-ui/lib/components/common/StaticImage/staticImage";
 import { Logo } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
 import {
   BREAKPOINT_FN_NAME,
   useBreakpointHelper,
 } from "@databiosphere/findable-ui/lib/hooks/useBreakpointHelper";
+import { JSX } from "react";
 
 export interface LogoExplorerProps {
   alt: string;

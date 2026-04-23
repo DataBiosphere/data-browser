@@ -1,7 +1,7 @@
-import { MarkdownCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/MarkdownCell/markdownCell";
 import { Attribute } from "@databiosphere/findable-ui/lib/common/entities";
-import { ColumnDef, CellContext } from "@tanstack/react-table";
 import { BasicCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/BasicCell/basicCell";
+import { MarkdownCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/MarkdownCell/markdownCell";
+import { CellContext, ColumnDef } from "@tanstack/react-table";
 
 export const COLUMN_DEFS: ColumnDef<Attribute>[] = [
   {

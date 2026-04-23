@@ -63,25 +63,6 @@ export const getFirstRowNthColumnCellLocator = (
 };
 
 /**
- * Get a locator to the cell in the first row's nth column
- * @param page - a Playwright page object
- * @param columnIndex - the zero-indexed column to return
- * @returns a Playwright locator object to the selected cell
- **/
-export const getLastRowNthColumnTextLocator = (
-  page: Page,
-  columnIndex: number
-): Locator => {
-  return page
-    .getByRole("rowgroup")
-    .nth(1)
-    .getByRole("row")
-    .last()
-    .getByRole("cell")
-    .nth(columnIndex);
-};
-
-/**
  * Tests that the tab url goes to a valid page and that the correct tab (and only
  * the correct tab) appears selected
  * @param page - a Playwright page object
@@ -714,94 +695,6 @@ export async function testClearAll(
 function escapeRegExp(string: string): string {
   // Searches for regex special characters and adds backslashes in front of them to escape
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-/**
- * Run a test that gets the first filter option of each of the filters specified in
- * filterNames, then attempts to select each through the filter search bar.
- * @param page - a Playwright page object
- * @param tab - the Tab object to run the test on
- * @param filterNames - an array of potential filter names on the selected tab
- */
-export async function testSelectFiltersThroughSearchBar(
-  page: Page,
-  tab: TabDescription,
-  filterNames: string[]
-): Promise<void> {
-  await page.goto(tab.url);
-  for (const filterName of filterNames) {
-    // Get the first filter option
-    await expect(page.getByText(filterRegex(filterName))).toBeVisible();
-    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
-    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
-    const filterOptionName = await getFilterOptionName(
-      firstFilterOptionLocator
-    );
-    await page.locator("body").click();
-    // Search for the filter option
-    const searchFiltersInputLocator = page.getByPlaceholder(
-      tab.searchFiltersPlaceholderText,
-      { exact: true }
-    );
-    await expect(searchFiltersInputLocator).toBeVisible();
-    await searchFiltersInputLocator.fill(filterOptionName);
-    // Select a filter option with a matching name
-    await getNamedFilterOptionLocator(page, filterOptionName).first().click();
-    await page.locator("body").click();
-    const filterTagLocator = getFilterTagLocator(page, filterOptionName);
-    // Check the filter tag is selected and click it to reset the filter
-    await expect(filterTagLocator).toBeVisible();
-    await filterTagLocator.dispatchEvent("click");
-  }
-}
-
-/**
- * Run a test that selects the first filter option of each of the filters specified in
- * filterNames, then attempts to deselect each through the filter search bar.
- * @param page - a Playwright page object
- * @param tab - the Tab object to run the test on
- * @param filterNames - an array of potential filter names on the selected tab
- */
-export async function testDeselectFiltersThroughSearchBar(
-  page: Page,
-  tab: TabDescription,
-  filterNames: string[]
-): Promise<void> {
-  await page.goto(tab.url);
-  for (const filterName of filterNames) {
-    // Select each filter option
-    await expect(page.getByText(filterRegex(filterName))).toBeVisible();
-    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
-    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
-    const filterOptionName = await getFilterOptionName(
-      firstFilterOptionLocator
-    );
-    await firstFilterOptionLocator.click();
-    // Wait for the checkbox to be checked, confirming the filter state update completed.
-    await expect(firstFilterOptionLocator.getByRole("checkbox")).toBeChecked();
-    await page.waitForLoadState("load");
-    await page.locator("body").click();
-    // Search for and check the selected filter
-    const searchFiltersInputLocator = page.getByPlaceholder(
-      tab.searchFiltersPlaceholderText,
-      { exact: true }
-    );
-    await expect(searchFiltersInputLocator).toBeVisible();
-    await searchFiltersInputLocator.fill(filterOptionName);
-    const filterOptionLocator = getNamedFilterOptionLocator(
-      page,
-      filterOptionName
-    );
-    await expect(filterOptionLocator).toBeVisible();
-    const checkboxLocator = filterOptionLocator.getByRole("checkbox");
-    await expect(checkboxLocator).toBeChecked();
-    await checkboxLocator.click();
-    await page.locator("body").click();
-    const filterTagLocator = getFilterTagLocator(page, filterOptionName);
-    await expect(filterTagLocator).not.toBeVisible();
-  }
 }
 
 /**

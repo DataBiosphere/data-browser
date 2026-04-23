@@ -1,4 +1,3 @@
-import { JSX } from "react";
 import { AzulEntitiesStaticResponse } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { Main as DXMain } from "@databiosphere/findable-ui/lib/components/Layout/components/Main/main.styles";
 import { EntityConfig } from "@databiosphere/findable-ui/lib/config/entities";
@@ -10,6 +9,7 @@ import { ExploreView } from "@databiosphere/findable-ui/lib/views/ExploreView/ex
 import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
+import { JSX } from "react";
 import { readFile } from "../../app/utils/tsvParser";
 
 interface PageUrl extends ParsedUrlQuery {
