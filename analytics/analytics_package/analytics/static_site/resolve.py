@@ -23,7 +23,7 @@ def fetch_entity_title_map(api_url, entity_key, title_key, page_size=50, catalog
     if catalog:
         params["catalog"] = catalog
     while url is not None:
-        response = requests.get(url, params=params)
+        response = requests.get(url, params=params, timeout=30)
         response.raise_for_status()
         data = response.json()
         for hit in data["hits"]:

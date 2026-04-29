@@ -122,12 +122,11 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
     print(f"  Wrote file_downloads.json ({len(file_downloads)} records)")
 
     # Access requests
+    print("Exporting access requests data...")
     access_requests = data.get("access_requests", [])
-    if access_requests:
-        print("Exporting access requests data...")
-        with open(os.path.join(output_dir, "access_requests.json"), "w") as f:
-            json.dump(access_requests, f, indent=2)
-        print(f"  Wrote access_requests.json ({len(access_requests)} records)")
+    with open(os.path.join(output_dir, "access_requests.json"), "w") as f:
+        json.dump(access_requests, f, indent=2)
+    print(f"  Wrote access_requests.json ({len(access_requests)} records)")
 
     # Custom events
     print("Exporting custom events data...")
