@@ -562,7 +562,7 @@
                     const rows = detail.map(r => {
                         const label = r.dataset_title || r.entity_name || r.page_path || '-';
                         const link = r.page_path ? `${siteBase}${r.page_path.replace(/\/export.*/, '')}` : null;
-                        const cell = link ? `<a href="${escapeHtml(link)}" target="_blank">${escapeHtml(label)}</a>` : escapeHtml(label);
+                        const cell = link ? `<a href="${encodeURI(link)}" target="_blank">${escapeHtml(label)}</a>` : escapeHtml(label);
                         return `<tr><td>${cell}</td><td class="col-number">${formatNumber(r.count)}</td></tr>`;
                     }).join('');
                     tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>Dataset</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
@@ -740,7 +740,7 @@
                 const entityName = row.entity_name && row.entity_name !== '(not set)' ? row.entity_name : '-';
                 const datasetName = row.related_entity_name && row.related_entity_name !== '(not set)' ? row.related_entity_name : '-';
                 const datasetCell = row.dataset_id && datasetName !== '-'
-                    ? `<a href="${siteBase}/datasets/${escapeHtml(row.dataset_id)}" target="_blank">${escapeHtml(datasetName)}</a>`
+                    ? `<a href="${encodeURI(siteBase + '/datasets/' + row.dataset_id)}" target="_blank">${escapeHtml(datasetName)}</a>`
                     : escapeHtml(datasetName);
                 return `
                     <tr>
@@ -808,7 +808,7 @@
                 const label = row.dataset_title || row.page_path || '-';
                 const link = row.page_path ? `${siteBase}${row.page_path.replace(/\/export.*/, '')}` : null;
                 const datasetCell = link
-                    ? `<a href="${escapeHtml(link)}" target="_blank">${escapeHtml(label)}</a>`
+                    ? `<a href="${encodeURI(link)}" target="_blank">${escapeHtml(label)}</a>`
                     : escapeHtml(label);
                 const url = row.click_url || '';
                 let service = url;

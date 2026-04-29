@@ -44,7 +44,7 @@ def _count_events(event_name, params, page_path_regex=None):
 
     if page_path_regex:
         pattern = re.compile(page_path_regex)
-        mask = df[DIMENSION_PAGE_PATH["alias"]].str.match(pattern)
+        mask = df[DIMENSION_PAGE_PATH["alias"]].str.match(pattern, na=False)
         return int(df.loc[mask, METRIC_EVENT_COUNT["alias"]].sum())
 
     return int(df[METRIC_EVENT_COUNT["alias"]].sum())
@@ -96,7 +96,7 @@ def get_event_detail_table(event_name, params, page_path_regex=None):
 
     if page_path_regex:
         pattern = re.compile(page_path_regex)
-        df = df[df[DIMENSION_PAGE_PATH["alias"]].str.match(pattern)]
+        df = df[df[DIMENSION_PAGE_PATH["alias"]].str.match(pattern, na=False)]
 
     if len(df) == 0:
         return []
