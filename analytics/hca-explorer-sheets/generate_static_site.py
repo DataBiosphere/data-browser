@@ -33,6 +33,8 @@ generate_site(
         "logo_link": "https://explore.data.humancellatlas.org",
         "primary_color": "#1C7CC7",
         "primary_color_dark": "#005EA9",
+        "entity_label": "Project",
+        "entity_path": "/projects",
         "summary_stats": [
             {
                 "label": "Cohort Export Requests",

@@ -329,6 +329,8 @@
         Chart.defaults.color = '#637381';
 
         let siteBase = '';
+        let entityLabel = 'Dataset';
+        let entityPath = '/datasets';
 
         let chartColors = {
             primary: '#1c7cc7',
@@ -402,6 +404,8 @@
                 chartColors.primaryLight = hexToRgba(config.primary_color, 0.1);
             }
             siteBase = (config.logo_link || '').replace(/\/$/, '');
+            entityLabel = config.entity_label || 'Dataset';
+            entityPath = config.entity_path || '/datasets';
 
             if (config.primary_color_dark) {
                 document.documentElement.style.setProperty('--fui-primary-dark', config.primary_color_dark);
@@ -565,7 +569,7 @@
                         const cell = link ? `<a href="${encodeURI(link)}" target="_blank">${escapeHtml(label)}</a>` : escapeHtml(label);
                         return `<tr><td>${cell}</td><td class="col-number">${formatNumber(r.count)}</td></tr>`;
                     }).join('');
-                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>Dataset</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
+                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
                 } else {
                     const rows = detail.map(r => {
                         const raw = r.entity_name && r.entity_name !== '(not set)' ? r.entity_name : null;
@@ -740,7 +744,7 @@
                 const entityName = row.entity_name && row.entity_name !== '(not set)' ? row.entity_name : '-';
                 const datasetName = row.related_entity_name && row.related_entity_name !== '(not set)' ? row.related_entity_name : '-';
                 const datasetCell = row.dataset_id && datasetName !== '-'
-                    ? `<a href="${encodeURI(siteBase + '/datasets/' + row.dataset_id)}" target="_blank">${escapeHtml(datasetName)}</a>`
+                    ? `<a href="${encodeURI(siteBase + entityPath + '/' + row.dataset_id)}" target="_blank">${escapeHtml(datasetName)}</a>`
                     : escapeHtml(datasetName);
                 return `
                     <tr>

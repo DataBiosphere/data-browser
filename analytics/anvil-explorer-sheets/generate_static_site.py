@@ -32,6 +32,8 @@ generate_site(
         "logo_link": "https://explore.anvilproject.org",
         "primary_color": "#035C94",
         "primary_color_dark": "#003E76",
+        "entity_label": "Dataset",
+        "entity_path": "/datasets",
         "summary_stats": [
             {
                 "label": "Cohort Export Requests",

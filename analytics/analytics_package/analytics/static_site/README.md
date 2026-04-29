@@ -22,7 +22,7 @@ From the app's analytics directory, run:
 ```
 cd analytics
 source ./venv/bin/activate
-cd anvil-explorer-sheets    # or hca-explorer-sheets, lungmap-analytics/sheets
+cd anvil-explorer-sheets    # or anvil-catalog-sheets, hca-explorer-sheets, lungmap-analytics/sheets
 python generate_static_site.py
 ```
 

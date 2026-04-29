@@ -33,6 +33,8 @@ generate_site(
         "logo_link": "https://data-browser.lungmap.net",
         "primary_color": "#4B7D8E",
         "primary_color_dark": "#3A6270",
+        "entity_label": "Project",
+        "entity_path": "/projects",
         "summary_stats": [
             {
                 "label": "Cohort Export Requests",
