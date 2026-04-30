@@ -1,0 +1,164 @@
+[
+  {
+    "filterName": "genusSpecies",
+    "filterValue": "Mus musculus",
+    "count": 3,
+    "change": -0.32258064516129037
+  },
+  {
+    "filterName": "specimenOrgan",
+    "filterValue": "Lung",
+    "count": 2,
+    "change": 0.8064516129032258
+  },
+  {
+    "filterName": "workflow",
+    "filterValue": "059d737a-5c42-457e-84d2-d12f384a1bd5",
+    "count": 2,
+    "change": null
+  },
+  {
+    "filterName": "contactName",
+    "filterValue": "Edward E Morrisey",
+    "count": 1,
+    "change": -0.09677419354838712
+  },
+  {
+    "filterName": "contactName",
+    "filterValue": "Edward E. Morrisey",
+    "count": 1,
+    "change": -0.09677419354838712
+  },
+  {
+    "filterName": "developmentStage",
+    "filterValue": "embryonic day 18.5",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "chronic obstructive pulmonary disease",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "idiopathic pulmonary fibrosis",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "fileFormat",
+    "filterValue": "h5ad",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "fileFormat",
+    "filterValue": "xlsx",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "genusSpecies",
+    "filterValue": "Homo sapiens",
+    "count": 1,
+    "change": -0.09677419354838712
+  },
+  {
+    "filterName": "institution",
+    "filterValue": "University of Rochester",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "institution",
+    "filterValue": "University of Rochester Medical Center",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "workflow",
+    "filterValue": "90816808-a5f4-4d50-927f-b3f148c891ae",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "developmentStage",
+    "filterValue": "adolescent stage",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "developmentStage",
+    "filterValue": "human adult stage",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "developmentStage",
+    "filterValue": "infant stage",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "developmentStage",
+    "filterValue": "newborn human stage",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "bronchopulmonary dysplasia",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "normal",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "fileFormat",
+    "filterValue": "fastq",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "fileFormat",
+    "filterValue": "fastq.gz",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "libraryConstructionApproach",
+    "filterValue": "10x 3' v3",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "libraryConstructionApproach",
+    "filterValue": "10x scATAC-seq",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "projectTitle",
+    "filterValue": "Bronchopulmonary dysplasia (BPD) with pulmonary hypertension associates with semaphorin signaling lo",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "projectTitle",
+    "filterValue": "Bronchpulmonary Dysplasia (BPD)",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "projectTitle",
+    "filterValue": "Single-cell multiomic profiling of human lungs reveals cell-type-specific and age-dynamic control of",
+    "count": 0,
+    "change": -1.0
+  }
+]

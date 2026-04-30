@@ -1,0 +1,50 @@
+[
+  {
+    "entity_name": "-Human-10x3pv2--21_metadata_26-08-2024.xlsx",
+    "dataset_id": "888f1766-4c84-43bb-8717-b5f9d2046097",
+    "related_entity_name": "scRNA-Seq Reveals New Enteric Nervous System Roles for GDNF, NRTN, and TBX3",
+    "count": 1
+  },
+  {
+    "entity_name": "0002a1fa-c68d-475a-a07f-06d91a08d8d8_qc.bam",
+    "dataset_id": "99101928-d9b1-4aaf-b759-e97958ac7403",
+    "related_entity_name": "Single-Cell Transcriptomics of the Human Endocrine Pancreas",
+    "count": 1
+  },
+  {
+    "entity_name": "1-s2.0-S1074761320305045-mmc2.xlsx",
+    "dataset_id": "c8e6c5d9-fcde-4845-bead-ff96999e3051",
+    "related_entity_name": "Single-cell transcriptomic analyses provide insights into the developmental origins of neuroblastoma",
+    "count": 1
+  },
+  {
+    "entity_name": "583B_002_GEX_CZI-IA9924326_S1_L001_R2_001.fastq.gz",
+    "dataset_id": "6179c38c-9987-4e7c-a4bb-d34cf33a3c3f",
+    "related_entity_name": "Multimodal profiling reveals tissue-directed signatures of human immune cells altered with age",
+    "count": 1
+  },
+  {
+    "entity_name": "CB-U69_4.png",
+    "dataset_id": "9ff75ece-ce81-483a-bb1f-85e727f3805b",
+    "related_entity_name": "Transcriptomic and spatial dissection of human ex\u00a0vivo right atrial tissue reveals proinflammatory m",
+    "count": 1
+  },
+  {
+    "entity_name": "DevelopmentalAdrenalNB_metadata_22-05-2025.xlsx",
+    "dataset_id": "e889ffc9-86f6-44f5-b684-dfce78e552a3",
+    "related_entity_name": "Single-Cell Characterization of Malignant Phenotypes and Developmental Trajectories of Adrenal Neuro",
+    "count": 1
+  },
+  {
+    "entity_name": "GSE183904_RAW.tar",
+    "dataset_id": "c281ab63-7b7d-4bdf-b761-9b1baaa18f82",
+    "related_entity_name": "Single-Cell Atlas of Lineage States, Tumor Microenvironment, and Subtype-Specific Expression Program",
+    "count": 1
+  },
+  {
+    "entity_name": "SRR8532661_1.fastq",
+    "dataset_id": "0562d2ae-0b8a-459e-bbc0-6357108e5da9",
+    "related_entity_name": "Improving fibroblast characterization using single-cell RNA sequencing: an optimized tissue disaggre",
+    "count": 1
+  }
+]
