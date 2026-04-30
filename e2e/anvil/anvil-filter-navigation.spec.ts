@@ -8,6 +8,12 @@ const FILTER_NAMES = {
   PHENOTYPIC_SEX: "Phenotypic Sex",
 };
 
+// Category keys used in the URL filter param, matching site-config/anvil-cmg/category.ts.
+const CATEGORY_KEYS = {
+  ORGANISM_TYPE: "donors.organism_type",
+  PHENOTYPIC_SEX: "donors.phenotypic_sex",
+};
+
 test.describe("Filter navigation persistence", () => {
   let filters: Locator;
 
@@ -30,8 +36,13 @@ test.describe("Filter navigation persistence", () => {
       FILTER_NAMES.ORGANISM_TYPE
     );
 
-    // Verify URL contains filter params and both filter tags display.
+    // Verify URL filter param has the correct shape and both filter tags display.
+    const expectedCategoryKeys = [
+      CATEGORY_KEYS.PHENOTYPIC_SEX,
+      CATEGORY_KEYS.ORGANISM_TYPE,
+    ];
     await expect(page).toHaveURL(/filter=/);
+    expectFilterParams(page, expectedCategoryKeys);
     await expectFilterTagCount(filters, 2);
 
     // Navigate to a dataset detail page and return back.
@@ -41,6 +52,7 @@ test.describe("Filter navigation persistence", () => {
     // Confirm filters persist after returning from the detail page.
     await expect(firstTableCell(page)).toBeVisible();
     await expect(page).toHaveURL(/filter=/);
+    expectFilterParams(page, expectedCategoryKeys);
     await expectFilterTagCount(filters, 2);
 
     // Navigate to the export page via the Export button.
@@ -72,6 +84,27 @@ test.describe("Filter navigation persistence", () => {
  */
 function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * Assert that the URL filter param contains the expected category keys, each
+ * with at least one selected value. Internal filter values may differ from
+ * display names (e.g. null for "Unspecified"), so only the keys and
+ * non-empty value arrays are verified.
+ * @param page - a Playwright page object.
+ * @param expectedCategoryKeys - category keys that should be present.
+ */
+function expectFilterParams(page: Page, expectedCategoryKeys: string[]): void {
+  const url = new URL(page.url());
+  const filterParam = JSON.parse(url.searchParams.get("filter") ?? "[]");
+  expect(filterParam).toHaveLength(expectedCategoryKeys.length);
+  for (const categoryKey of expectedCategoryKeys) {
+    const match = filterParam.find(
+      (f: { categoryKey: string }) => f.categoryKey === categoryKey
+    );
+    expect(match).toBeDefined();
+    expect(match.value.length).toBeGreaterThan(0);
+  }
 }
 
 /**
