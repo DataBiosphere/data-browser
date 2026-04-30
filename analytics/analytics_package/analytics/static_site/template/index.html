@@ -800,7 +800,7 @@
 
             card.style.display = '';
             heading.style.display = '';
-            card.querySelector('.fui-card-header-title').textContent = `Requests by Dataset (${formatNumber(total)})`;
+            card.querySelector('.fui-card-header-title').textContent = `Requests by ${entityLabel} (${formatNumber(total)})`;
 
             const toggle = document.getElementById('access-requests-toggle');
             if (data.length > 5) {
