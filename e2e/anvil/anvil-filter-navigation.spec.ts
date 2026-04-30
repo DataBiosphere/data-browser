@@ -60,18 +60,19 @@ test.describe("Filter navigation persistence", () => {
     await page.waitForURL(/\/export/);
 
     // Verify "Current Query" shows both filter facet names and selected terms.
-    // Labels and values may appear in both "Current Query" and "Selected Data
-    // Summary", so use .first() to target the "Current Query" section which
-    // renders first in the DOM.
-    await expect(page.getByText("Current Query")).toBeVisible();
+    // Scope assertions to the parent section of "Current Query" to avoid
+    // matching duplicate labels in the "Selected Data Summary" section.
+    const currentQueryHeading = page.getByText("Current Query");
+    await expect(currentQueryHeading).toBeVisible();
+    const currentQuery = currentQueryHeading.locator("..");
     await expect(
-      page.getByText(FILTER_NAMES.PHENOTYPIC_SEX).first()
+      currentQuery.getByText(FILTER_NAMES.PHENOTYPIC_SEX)
     ).toBeVisible();
     await expect(
-      page.getByText(FILTER_NAMES.ORGANISM_TYPE).first()
+      currentQuery.getByText(FILTER_NAMES.ORGANISM_TYPE)
     ).toBeVisible();
-    await expect(page.getByText(filterValueA).first()).toBeVisible();
-    await expect(page.getByText(filterValueB).first()).toBeVisible();
+    await expect(currentQuery.getByText(filterValueA).first()).toBeVisible();
+    await expect(currentQuery.getByText(filterValueB).first()).toBeVisible();
   });
 });
 
