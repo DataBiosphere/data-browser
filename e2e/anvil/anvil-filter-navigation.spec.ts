@@ -45,8 +45,11 @@ test.describe("Filter navigation persistence", () => {
     expectFilterParams(page, expectedCategoryKeys);
     await expectFilterTagCount(filters, 2);
 
-    // Navigate to a dataset detail page and return back.
+    // Navigate to a dataset detail page.
     await firstTableCell(page).locator("a").click();
+    await expect(page).not.toHaveURL(DATASETS_URL);
+
+    // Return back to the Datasets page.
     await page.goBack();
 
     // Confirm filters persist after returning from the detail page.
@@ -58,6 +61,10 @@ test.describe("Filter navigation persistence", () => {
     // Navigate to the export page via the Export button.
     await page.getByTestId(TEST_IDS.EXPORT_BUTTON).click();
     await page.waitForURL(/\/export/);
+
+    // Verify URL filter params persist on the export page.
+    await expect(page).toHaveURL(/filter=/);
+    expectFilterParams(page, expectedCategoryKeys);
 
     // Verify "Current Query" shows both filter facet names and selected terms.
     // Scope assertions to the parent section of "Current Query" to avoid
