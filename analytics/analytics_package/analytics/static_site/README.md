@@ -63,16 +63,22 @@ Each app has a `constants.py` file with `CURRENT_MONTH` (e.g., `"2026-03"`). Upd
 
 ### Configuration
 
-Each script passes a `config` dict that controls branding and dashboard features:
+Each script passes a `config` dict and additional `generate_site()` parameters:
 
+**Config dict** (controls branding and dashboard features):
 - `site_title` — page heading and browser title
 - `logo_url`, `logo_link`, `favicon_url` — header branding
 - `primary_color`, `primary_color_dark` — theme colors
+- `entity_label`, `entity_path` — entity type label ("Dataset" or "Project") and URL path prefix
 - `summary_stats` — top-level stat cards aggregating multiple events
 - `event_counts` — key metric count cards with labels (supports `\n` for line breaks)
 - `file_downloads_position` — position of the file downloads card within detail tables
+
+**`generate_site()` parameters** (passed alongside config):
 - `custom_events` — list of GA4 events to track, with optional `detail_table`, `page_path_regex`, and `key` for disambiguation
 - `access_request_urls` — URL patterns for tracking outbound access requests (AnVIL only)
+- `title_resolver` — callback to enrich detail records with entity titles
+- `historic_data_path` — path to pre-GA4 data (optional)
 
 ### Title resolution
 
