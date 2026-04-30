@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.0.1](https://github.com/DataBiosphere/data-browser/compare/v3.0.0...v3.0.1) (2026-04-30)
+
+
+### Bug Fixes
+
+* revert providers outside ErrorBoundary and upgrade findable-ui to v51.1.0 ([#4786](https://github.com/DataBiosphere/data-browser/issues/4786)) ([922c8a5](https://github.com/DataBiosphere/data-browser/commit/922c8a50585a07afb43a5056320676f46c7320a0))
+* revert providers outside ErrorBoundary and upgrade findable-ui to v51.1.0 ([#4787](https://github.com/DataBiosphere/data-browser/issues/4787)) ([922c8a5](https://github.com/DataBiosphere/data-browser/commit/922c8a50585a07afb43a5056320676f46c7320a0))
+
+
+### Tests
+
+* add e2e anvil-cmg test for filter persistence across navigation ([#4791](https://github.com/DataBiosphere/data-browser/issues/4791)) ([#4792](https://github.com/DataBiosphere/data-browser/issues/4792)) ([4eb9a6e](https://github.com/DataBiosphere/data-browser/commit/4eb9a6ef444bdc891e8a4cef0c36d47cc5f63534))
+
 ## [3.0.0](https://github.com/DataBiosphere/data-browser/compare/v2.34.0...v3.0.0) (2026-04-23)
 
 
