@@ -25,6 +25,8 @@ import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline, Theme, ThemeProvider } from "@mui/material";
 import { createBreakpoints } from "@mui/system";
 import { deepmerge } from "@mui/utils";
+import { DEFAULT_DESCRIPTION } from "app/components/common/OgMeta/constants";
+import { OgMeta } from "app/components/common/OgMeta/ogMeta";
 import { config } from "app/config/config";
 import { FEATURES } from "app/shared/entities";
 import { NextPage } from "next";
@@ -53,7 +55,14 @@ setFeatureFlags(FEATURE_FLAGS);
 function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
   // Set up the site configuration, layout and theme.
   const appConfig = config();
-  const { analytics, layout, redirectRootToPath, themeOptions } = appConfig;
+  const {
+    analytics,
+    appTitle,
+    browserURL,
+    layout,
+    redirectRootToPath,
+    themeOptions,
+  } = appConfig;
   const { gtmAuth, gtmId, gtmPreview } = analytics || {};
   const { floating, footer, header } = layout || {};
   const theme = createAppTheme(themeOptions);
@@ -72,6 +81,12 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
       <ThemeProvider theme={theme}>
         <DXConfigProvider config={appConfig} entityListType={entityListType}>
           <Head pageTitle={pageTitle} />
+          <OgMeta
+            appTitle={appTitle}
+            browserURL={browserURL}
+            defaultDescription={DEFAULT_DESCRIPTION}
+            pageTitle={pageTitle}
+          />
           <CssBaseline />
           <ServicesProvider>
             <SystemStatusProvider>
