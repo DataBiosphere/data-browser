@@ -18,8 +18,8 @@ interface PageUrl extends ParsedUrlQuery {
 
 interface ListPageProps extends AzulEntitiesStaticResponse {
   entityListType: string;
-  pageDescription?: string;
-  pageTitle?: string;
+  pageDescription?: string | null;
+  pageTitle?: string | null;
 }
 
 /**
@@ -99,10 +99,10 @@ export const getStaticProps: GetStaticProps<
   const { exploreMode, label } = entityConfig;
   const { fetchAllEntities } = getEntityService(entityConfig, undefined); // Determine the type of fetch, either from an API endpoint or a TSV.
 
-  const pageTitle = typeof label === "string" ? label : undefined;
+  const pageTitle = typeof label === "string" ? label : null;
   const pageDescription = pageTitle
     ? `Browse and explore ${pageTitle.toLowerCase()}.`
-    : undefined;
+    : null;
 
   const props: ListPageProps = { entityListType, pageDescription, pageTitle };
 
