@@ -22,3 +22,15 @@ then
 else
 	echo "Directory $DIR not found."
 fi
+
+# Copy OG images if they exist
+OG_DIR="./site-config/$1/images/og/"
+OG_PUBLIC_DIR="./public/og/"
+
+if [ ! -d "$OG_PUBLIC_DIR" ]; then
+	mkdir "$OG_PUBLIC_DIR"
+fi
+
+if [ -d "$OG_DIR" ] && [ "$(ls $OG_DIR)" ]; then
+	cp ./site-config/$1/images/og/* ./public/og/
+fi

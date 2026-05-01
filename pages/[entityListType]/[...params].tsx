@@ -23,7 +23,6 @@ import { database } from "@databiosphere/findable-ui/lib/utils/database";
 import { EntityDetailView } from "@databiosphere/findable-ui/lib/views/EntityDetailView/entityDetailView";
 import { EntityExportMethodView } from "@databiosphere/findable-ui/lib/views/EntityExportMethodView/entityExportMethodView";
 import { EntityExportView } from "@databiosphere/findable-ui/lib/views/EntityExportView/entityExportView";
-import { ENTITY_DETAIL_META } from "app/common/meta/constants";
 import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import NextError from "next/error";
@@ -267,11 +266,14 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
 
   if (!entityConfig || !entityId) return { notFound: true };
 
-  const entityMeta = ENTITY_DETAIL_META[entityListType];
+  const { label } = entityConfig;
+  const pageTitle = typeof label === "string" ? label : undefined;
   const props: EntityDetailPageProps = {
     entityListType,
-    pageDescription: entityMeta?.pageDescription,
-    pageTitle: entityMeta?.pageTitle,
+    pageDescription: pageTitle
+      ? `View ${pageTitle.toLowerCase()} details and access data.`
+      : undefined,
+    pageTitle,
   };
 
   // Process entity override props.
