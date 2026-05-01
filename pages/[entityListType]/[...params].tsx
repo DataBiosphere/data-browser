@@ -56,8 +56,8 @@ interface PageUrl extends ParsedUrlQuery {
 export interface EntityDetailPageProps extends AzulEntityStaticResponse {
   entityListType: string;
   override?: Override;
-  pageDescription?: string;
-  pageTitle?: string;
+  pageDescription?: string | null;
+  pageTitle?: string | null;
 }
 
 /**
@@ -267,12 +267,12 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   if (!entityConfig || !entityId) return { notFound: true };
 
   const { label } = entityConfig;
-  const pageTitle = typeof label === "string" ? label : undefined;
+  const pageTitle = typeof label === "string" ? label : null;
   const props: EntityDetailPageProps = {
     entityListType,
     pageDescription: pageTitle
       ? `View ${pageTitle.toLowerCase()} details and access data.`
-      : undefined,
+      : null,
     pageTitle,
   };
 
