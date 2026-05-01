@@ -6,7 +6,6 @@ import { getEntityService } from "@databiosphere/findable-ui/lib/hooks/useEntity
 import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { database } from "@databiosphere/findable-ui/lib/utils/database";
 import { ExploreView } from "@databiosphere/findable-ui/lib/views/ExploreView/exploreView";
-import { ENTITY_LIST_META } from "app/common/meta/constants";
 import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
@@ -100,10 +99,10 @@ export const getStaticProps: GetStaticProps<
   const { exploreMode, label } = entityConfig;
   const { fetchAllEntities } = getEntityService(entityConfig, undefined); // Determine the type of fetch, either from an API endpoint or a TSV.
 
-  const entityMeta = ENTITY_LIST_META[entityListType];
-  const pageDescription = entityMeta?.pageDescription;
-  const pageTitle =
-    entityMeta?.pageTitle ?? (typeof label === "string" ? label : undefined);
+  const pageTitle = typeof label === "string" ? label : undefined;
+  const pageDescription = pageTitle
+    ? `Browse and explore ${pageTitle.toLowerCase()}.`
+    : undefined;
 
   const props: ListPageProps = { entityListType, pageDescription, pageTitle };
 

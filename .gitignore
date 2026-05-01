@@ -58,6 +58,9 @@ _templates
 # favicons
 /public/favicons/*
 
+# og images
+/public/og/*
+
 /files/**/out/
 
 #Python

@@ -21,8 +21,7 @@ export const CONTENT_PAGE_META: Record<string, PageMeta> = {
     pageTitle: "Data Download Options",
   },
   "guides/data-download-via-curl": {
-    pageDescription:
-      "Download AnVIL datasets using the curl command line tool.",
+    pageDescription: "Download datasets using the curl command line tool.",
     pageTitle: "Data Download via curl",
   },
   "guides/individual-file-download": {
@@ -36,47 +35,11 @@ export const CONTENT_PAGE_META: Record<string, PageMeta> = {
     pageTitle: "TSV File Manifest Download",
   },
   privacy: {
-    pageDescription: "Privacy policy for the AnVIL Data Explorer.",
+    pageDescription: "Privacy policy for this data explorer.",
     pageTitle: "Privacy Policy",
   },
   "terms-of-service": {
-    pageDescription: "Terms of service for the AnVIL Data Explorer.",
+    pageDescription: "Terms of service for this data explorer.",
     pageTitle: "Terms of Service",
-  },
-};
-
-export const ENTITY_DETAIL_META: Record<string, PageMeta> = {
-  datasets: {
-    pageDescription:
-      "View dataset details, access data, and export to analysis platforms.",
-    pageTitle: "Dataset",
-  },
-};
-
-export const ENTITY_LIST_META: Record<string, PageMeta> = {
-  activities: {
-    pageDescription:
-      "Browse sequencing and analysis activities across AnVIL datasets.",
-    pageTitle: "Activities",
-  },
-  biosamples: {
-    pageDescription:
-      "Explore biosamples available on the AnVIL platform, with details on tissue type and disease.",
-    pageTitle: "BioSamples",
-  },
-  datasets: {
-    pageDescription:
-      "Browse and filter genomic datasets hosted on the AnVIL cloud platform.",
-    pageTitle: "Datasets",
-  },
-  donors: {
-    pageDescription:
-      "Explore donor information across AnVIL datasets, including organism type and phenotype.",
-    pageTitle: "Donors",
-  },
-  files: {
-    pageDescription:
-      "Search and download genomic data files hosted on the AnVIL platform.",
-    pageTitle: "Files",
   },
 };
