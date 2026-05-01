@@ -5,7 +5,7 @@ import { GoogleProfile } from "@databiosphere/findable-ui/lib/google/types";
 import { OAUTH_GOOGLE_SIGN_IN } from "../../../common/authentication";
 
 const CLIENT_ID =
-  "561542988117-9e04fhfrc9su130eb2ggea7bdppolkjq.apps.googleusercontent.com";
+  "561542988117-flam3i2fft6q27eig0me0gg2u7j57b5t.apps.googleusercontent.com";
 
 export const GOOGLE_PROVIDER: OAuthProvider<GoogleProfile> = {
   ...GOOGLE_SIGN_IN_PROVIDER,
