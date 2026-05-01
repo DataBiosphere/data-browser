@@ -5,6 +5,7 @@ import { JSX } from "react";
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
+      pageDescription: "Choose an export method for your selected AnVIL data.",
       pageTitle: "Choose Export Method",
     },
   };

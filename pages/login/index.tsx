@@ -4,7 +4,10 @@ import { JSX } from "react";
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
-    props: { pageTitle: "Login" },
+    props: {
+      pageDescription: "Sign in to the AnVIL Data Explorer.",
+      pageTitle: "Login",
+    },
   };
 };
 
