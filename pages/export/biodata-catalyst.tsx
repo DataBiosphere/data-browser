@@ -5,7 +5,7 @@ import { JSX } from "react";
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      pageDescription: "Export selected AnVIL data to NHLBI BioData Catalyst.",
+      pageDescription: "Export selected data to NHLBI BioData Catalyst.",
       pageTitle: "Export to NHLBI BioData Catalyst",
     },
   };

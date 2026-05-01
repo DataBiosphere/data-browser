@@ -5,7 +5,7 @@ import { JSX } from "react";
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      pageDescription: "Export selected AnVIL data to Cancer Genomics Cloud.",
+      pageDescription: "Export selected data to Cancer Genomics Cloud.",
       pageTitle: "Export to Cancer Genomics Cloud",
     },
   };

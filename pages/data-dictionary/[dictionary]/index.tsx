@@ -24,7 +24,7 @@ export const getStaticProps = async (
   return {
     props: {
       dictionary,
-      pageDescription: "Browse the AnVIL data dictionary and metadata schema.",
+      pageDescription: "Browse the data dictionary and metadata schema.",
       pageTitle: "Data Dictionary",
     },
   };
