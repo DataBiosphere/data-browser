@@ -10,6 +10,7 @@ export interface AnchorProps {
 export interface ContentProps {
   layoutStyle?: LayoutStyle;
   mdxSource: MDXRemoteSerializeResult | null;
+  pageDescription?: string;
   pageTitle: string;
   slug: string[] | null;
 }

@@ -4,6 +4,7 @@ import { ContentView } from "@databiosphere/findable-ui/lib/views/ContentView/co
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { MDXRemote } from "next-mdx-remote";
 import { JSX } from "react";
+import { CONTENT_PAGE_META } from "../../app/common/meta/constants";
 import { Content } from "../../app/components/Layout/components/Content/content";
 import { MDX_COMPONENTS } from "../../app/content/common/constants";
 import { getContentStaticProps } from "../../app/content/common/contentPages";
@@ -17,9 +18,11 @@ import {
 const slug = ["guides", "tsv-file-manifest-download"];
 
 export const getStaticProps: GetStaticProps = async () => {
+  const meta = CONTENT_PAGE_META["guides/tsv-file-manifest-download"];
   return getContentStaticProps(
     { params: { slug } },
-    "TSV File Manifest Download"
+    meta.pageTitle,
+    meta.pageDescription
   );
 };
 

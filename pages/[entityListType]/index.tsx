@@ -6,6 +6,7 @@ import { getEntityService } from "@databiosphere/findable-ui/lib/hooks/useEntity
 import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
 import { database } from "@databiosphere/findable-ui/lib/utils/database";
 import { ExploreView } from "@databiosphere/findable-ui/lib/views/ExploreView/exploreView";
+import { ENTITY_LIST_META } from "app/common/meta/constants";
 import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
@@ -18,6 +19,7 @@ interface PageUrl extends ParsedUrlQuery {
 
 interface ListPageProps extends AzulEntitiesStaticResponse {
   entityListType: string;
+  pageDescription?: string;
   pageTitle?: string;
 }
 
@@ -98,12 +100,12 @@ export const getStaticProps: GetStaticProps<
   const { exploreMode, label } = entityConfig;
   const { fetchAllEntities } = getEntityService(entityConfig, undefined); // Determine the type of fetch, either from an API endpoint or a TSV.
 
-  let pageTitle;
-  if (typeof label === "string") {
-    pageTitle = label;
-  }
+  const entityMeta = ENTITY_LIST_META[entityListType];
+  const pageDescription = entityMeta?.pageDescription;
+  const pageTitle =
+    entityMeta?.pageTitle ?? (typeof label === "string" ? label : undefined);
 
-  const props: ListPageProps = { entityListType, pageTitle };
+  const props: ListPageProps = { entityListType, pageDescription, pageTitle };
 
   // Seed database.
   if (exploreMode === EXPLORE_MODE.CS_FETCH_CS_FILTERING) {

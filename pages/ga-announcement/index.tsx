@@ -3,6 +3,7 @@ import { ContentView } from "@databiosphere/findable-ui/lib/views/ContentView/co
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { MDXRemote } from "next-mdx-remote";
 import { JSX } from "react";
+import { CONTENT_PAGE_META } from "../../app/common/meta/constants";
 import { Content } from "../../app/components/Layout/components/Content/content";
 import { MDX_COMPONENTS } from "../../app/content/common/constants";
 import { getContentStaticProps } from "../../app/content/common/contentPages";
@@ -11,9 +12,11 @@ import NotFoundPage from "../404";
 const slug = ["ga-announcement"];
 
 export const getStaticProps: GetStaticProps = async () => {
+  const meta = CONTENT_PAGE_META["ga-announcement"];
   return getContentStaticProps(
     { params: { slug } },
-    "General Availability Announcement"
+    meta.pageTitle,
+    meta.pageDescription
   );
 };
 
