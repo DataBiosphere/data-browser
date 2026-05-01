@@ -5,6 +5,7 @@ import { JSX } from "react";
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
+      pageDescription: "Export selected AnVIL data to Terra for analysis.",
       pageTitle: "Export to Terra",
     },
   };

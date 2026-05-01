@@ -23,6 +23,7 @@ import { database } from "@databiosphere/findable-ui/lib/utils/database";
 import { EntityDetailView } from "@databiosphere/findable-ui/lib/views/EntityDetailView/entityDetailView";
 import { EntityExportMethodView } from "@databiosphere/findable-ui/lib/views/EntityExportMethodView/entityExportMethodView";
 import { EntityExportView } from "@databiosphere/findable-ui/lib/views/EntityExportView/entityExportView";
+import { ENTITY_DETAIL_META } from "app/common/meta/constants";
 import { config } from "app/config/config";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import NextError from "next/error";
@@ -56,6 +57,8 @@ interface PageUrl extends ParsedUrlQuery {
 export interface EntityDetailPageProps extends AzulEntityStaticResponse {
   entityListType: string;
   override?: Override;
+  pageDescription?: string;
+  pageTitle?: string;
 }
 
 /**
@@ -264,7 +267,12 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
 
   if (!entityConfig || !entityId) return { notFound: true };
 
-  const props: EntityDetailPageProps = { entityListType };
+  const entityMeta = ENTITY_DETAIL_META[entityListType];
+  const props: EntityDetailPageProps = {
+    entityListType,
+    pageDescription: entityMeta?.pageDescription,
+    pageTitle: entityMeta?.pageTitle,
+  };
 
   // Process entity override props.
   processEntityOverrideProps(entityConfig, entityListType, entityId, props);

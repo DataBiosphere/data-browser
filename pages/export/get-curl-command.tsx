@@ -10,6 +10,7 @@ import { hasNRESConsentGroup } from "../../app/viewModelBuilders/azul/anvil-cmg/
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
+      pageDescription: "Download selected AnVIL data using the curl command.",
       pageTitle: 'Download Selected Data Using "curl"',
     },
   };

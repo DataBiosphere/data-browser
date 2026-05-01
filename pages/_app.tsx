@@ -39,6 +39,7 @@ const FEATURE_FLAGS = Object.values(FEATURES);
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
 
 export interface PageProps extends AzulEntitiesStaticResponse {
+  pageDescription?: string;
   pageTitle?: string;
 }
 
@@ -66,7 +67,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
   const { gtmAuth, gtmId, gtmPreview } = analytics || {};
   const { floating, footer, header } = layout || {};
   const theme = createAppTheme(themeOptions);
-  const { entityListType, pageTitle } = pageProps as PageProps;
+  const { entityListType, pageDescription, pageTitle } = pageProps as PageProps;
   const Main = Component.Main || DXMain;
 
   // Initialize Google Tag Manager.
@@ -85,6 +86,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
             appTitle={appTitle}
             browserURL={browserURL}
             defaultDescription={DEFAULT_DESCRIPTION}
+            pageDescription={pageDescription}
             pageTitle={pageTitle}
           />
           <CssBaseline />
