@@ -5,7 +5,7 @@ import { JSX } from "react";
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      pageDescription: "Sign in to the AnVIL Data Explorer.",
+      pageDescription: "Sign in to access protected data and features.",
       pageTitle: "Login",
     },
   };
