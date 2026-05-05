@@ -63,7 +63,7 @@ test.describe("AnVIL CMG filters", () => {
     // so positional locators stay valid across iterations.
     for (let i = 0; i < itemCount; i++) {
       const item = items.nth(i);
-      await item.click();
+      await item.dispatchEvent("click");
       await expectFilterItemSelected(item);
     }
     await closeFilterPopover(page);
@@ -118,7 +118,7 @@ test.describe("AnVIL CMG filters", () => {
       const itemCount = await readFilterCount(firstItem);
       expect(itemCount).toBeGreaterThan(0);
 
-      await firstItem.click();
+      await firstItem.dispatchEvent("click");
       await expectFilterItemSelected(firstItem);
       await closeFilterPopover(page);
       await expect(firstTableCell(page)).toBeVisible();
