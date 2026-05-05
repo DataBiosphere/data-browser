@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.1.0](https://github.com/DataBiosphere/data-browser/compare/v3.0.1...v3.1.0) (2026-05-05)
+
+
+### Features
+
+* implement authorization code flow with azul and data browser ([#4793](https://github.com/DataBiosphere/data-browser/issues/4793)) ([#4796](https://github.com/DataBiosphere/data-browser/issues/4796)) ([bc517c8](https://github.com/DataBiosphere/data-browser/commit/bc517c894635e1d808e369e8fe5eca816979b53d))
+
+
+### Tests
+
+* stabilize and rewrite anvil-cmg filter e2e suite ([#4800](https://github.com/DataBiosphere/data-browser/issues/4800)) ([#4801](https://github.com/DataBiosphere/data-browser/issues/4801)) ([c09bb88](https://github.com/DataBiosphere/data-browser/commit/c09bb881dc43923ec6fb0ad1e1d12f1e28397c0e))
+
 ## [3.0.1](https://github.com/DataBiosphere/data-browser/compare/v3.0.0...v3.0.1) (2026-04-30)
 
 
