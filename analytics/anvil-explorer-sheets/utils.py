@@ -32,7 +32,7 @@ def fetch_dataset_title_map() -> dict[str, str]:
         if title:
           title_map[entry_id] = title
     url = data.get("pagination", {}).get("next")
-    params = None  # subsequent URLs already include query params
+    params = None
   return title_map
 
 

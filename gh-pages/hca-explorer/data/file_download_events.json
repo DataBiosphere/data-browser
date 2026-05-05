@@ -1,0 +1,35 @@
+{
+  "total": 14,
+  "files": [
+    {
+      "file_name": "/articles/s41467-019-10291-0.pdf",
+      "link_url": "https://www.nature.com/articles/s41467-019-10291-0.pdf?origin=ppub",
+      "count": 6
+    },
+    {
+      "file_name": "/geo/series/GSE81nnn/GSE81608/suppl/GSE81608_human_islets_rpkm.txt.gz",
+      "link_url": "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE81nnn/GSE81608/suppl/GSE81608_human_islets_rpkm.txt.gz",
+      "count": 3
+    },
+    {
+      "file_name": "/cell-metabolism/pdf/S1550-4131(16)30434-X.pdf",
+      "link_url": "https://www.cell.com/cell-metabolism/pdf/S1550-4131(16)30434-X.pdf",
+      "count": 2
+    },
+    {
+      "file_name": "/content/biorxiv/early/2022/02/10/2022.02.09.479667.full.pdf",
+      "link_url": "https://www.biorxiv.org/content/biorxiv/early/2022/02/10/2022.02.09.479667.full.pdf",
+      "count": 1
+    },
+    {
+      "file_name": "/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Spleen.tar.gz",
+      "link_url": "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE109nnn/GSE109774/suppl/GSE109774_Spleen.tar.gz",
+      "count": 1
+    },
+    {
+      "file_name": "/geo/series/GSE117nnn/GSE117089/suppl/GSE117089_RAW.tar,ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE117",
+      "link_url": "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE117nnn/GSE117089/suppl/GSE117089_RAW.tar,ftp://ftp.ncbi.nlm",
+      "count": 1
+    }
+  ]
+}

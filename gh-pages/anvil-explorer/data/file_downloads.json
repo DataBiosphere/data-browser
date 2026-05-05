@@ -1,0 +1,14 @@
+[
+  {
+    "entity_name": "1kgp.chr1.recalibrated.snp_indel.pass.EUR.bcftools.stats.txt",
+    "dataset_id": "1c39e90e-463c-9853-793e-7e4c8f081815",
+    "related_entity_name": "ANVIL_T2T",
+    "count": 2
+  },
+  {
+    "entity_name": "README",
+    "dataset_id": "59960255-cca9-fcd3-d8ca-eb88f2c72f00",
+    "related_entity_name": "ANVIL_HPRC",
+    "count": 1
+  }
+]

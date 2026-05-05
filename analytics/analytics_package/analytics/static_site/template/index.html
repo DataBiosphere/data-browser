@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics</title>
+    <link rel="icon" id="favicon" type="image/x-icon" href="" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/DataBiosphere/findable-ui@fran/873-static-css/static/analytics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+    <style>
+        .stat-value {
+            font: var(--fui-font-heading-xlarge);
+            color: var(--fui-primary);
+        }
+
+        .stat-label {
+            font: var(--fui-font-body-small-400);
+            color: var(--fui-ink-light);
+            margin-top: var(--fui-space-4);
+        }
+
+        .stat-label-wrap {
+            position: relative;
+            display: inline-block;
+            margin-top: var(--fui-space-4);
+        }
+
+        .stat-label.has-tooltip {
+            cursor: help;
+            text-decoration: underline dotted;
+            text-underline-offset: 2px;
+        }
+
+        .stat-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--fui-ink);
+            color: var(--fui-white);
+            font: var(--fui-font-body-small-400);
+            padding: var(--fui-space-8) var(--fui-space-12);
+            margin-bottom: 8px;
+            border-radius: var(--fui-radius-sm);
+            width: 240px;
+            text-align: left;
+            z-index: 10;
+            line-height: 1.4;
+        }
+
+        .stat-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 12px;
+        }
+
+        .stat-tooltip a {
+            color: #8ecaff;
+        }
+
+        .stat-label-wrap:hover .stat-tooltip,
+        .stat-label-wrap:focus-within .stat-tooltip {
+            display: block;
+        }
+
+        .stat-change {
+            font: var(--fui-font-body-small-400);
+            margin-top: var(--fui-space-8);
+        }
+
+        .stat-change.positive { color: var(--fui-success); }
+        .stat-change.negative { color: var(--fui-alert); }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: var(--fui-space-8) var(--fui-space-12);
+            text-align: left;
+            border-bottom: 1px solid var(--fui-smoke);
+        }
+
+        th {
+            font: var(--fui-font-uppercase-500);
+            color: var(--fui-ink-light);
+            text-transform: uppercase;
+        }
+
+        tr:hover {
+            background: var(--fui-smoke-lightest);
+        }
+
+        td.positive { color: var(--fui-success); }
+        td.negative { color: var(--fui-alert); }
+
+        /* Numeric columns: right-aligned with fixed width */
+        th.col-number,
+        td.col-number {
+            text-align: right;
+            width: 100px;
+        }
+
+        /* Detail table: first column takes remaining space */
+        .detail-table th:first-child,
+        .detail-table td:first-child { width: auto; }
+
+        .truncate {
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .collapsible-table:not(.expanded) tbody tr:nth-child(n+6) {
+            display: none;
+        }
+
+        .toggle-rows {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--fui-space-4);
+            padding: var(--fui-space-8) 0;
+            font: var(--fui-font-body-small-400);
+            color: var(--fui-primary);
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+        }
+
+        .toggle-rows:hover {
+            color: var(--fui-primary-dark);
+        }
+
+
+
+        @media (max-width: 767px) {
+            .fui-card[class*="fui-grid-item"] { grid-column: 1 / -1; }
+        }
+    </style>
+</head>
+<body class="fui-body">
+    <header class="fui-header">
+        <a class="fui-header-logo fui-header-left" href="#" id="header-logo-link">
+            <img src="" alt="" id="header-logo-img" />
+        </a>
+        <div class="fui-header-center"></div>
+        <div class="fui-header-right"></div>
+    </header>
+
+    <main class="fui-main">
+        <section>
+            <h1 class="fui-heading-large" id="page-title">Analytics</h1>
+            <h2 class="fui-heading-small fui-color-ink-light" id="report-month">Loading...</h2>
+        </section>
+
+        <div class="fui-grid-12" id="stats-grid">
+            <div class="fui-card fui-grid-item-3" style="text-align: center;">
+                <div class="fui-card-content">
+                    <p class="fui-color-ink-light">Loading statistics...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="fui-grid-12">
+            <div class="fui-card fui-grid-item-6">
+                <div class="fui-card-header">
+                    <h3 class="fui-card-header-title fui-heading-xsmall">Monthly Traffic Over Time</h3>
+                </div>
+                <hr class="fui-divider" />
+                <div class="fui-card-content">
+                    <div class="chart-container">
+                        <canvas id="traffic-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fui-card fui-grid-item-6">
+                <div class="fui-card-header">
+                    <h3 class="fui-card-header-title fui-heading-xsmall">Monthly Pageviews</h3>
+                </div>
+                <hr class="fui-divider" />
+                <div class="fui-card-content">
+                    <div class="chart-container">
+                        <canvas id="pageviews-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="fui-heading-small" id="key-metrics-heading" style="display: none;">Key Metrics</h2>
+        <div class="fui-grid-12" id="event-counts-grid" style="display: none;"></div>
+
+        <h2 class="fui-heading-small" id="key-metric-detail-heading" style="display: none;">Key Metric Detail</h2>
+        <div class="fui-grid-12" id="event-stats-grid"></div>
+        <div id="event-detail-tables"></div>
+
+        <div class="fui-card" id="file-downloads-card" style="display: none;">
+            <div class="fui-card-header">
+                <h3 class="fui-card-header-title fui-heading-xsmall">Direct File Downloads</h3>
+            </div>
+            <hr class="fui-divider" />
+            <div class="fui-card-content" style="overflow-x: auto;">
+                <table id="file-downloads-table" class="collapsible-table">
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Dataset</th>
+                            <th class="col-number">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="3" class="fui-color-ink-light">Loading...</td></tr>
+                    </tbody>
+                </table>
+                <button class="toggle-rows" id="file-downloads-toggle" style="display: none;" onclick="toggleTable(this)">Show all</button>
+            </div>
+        </div>
+
+        <h2 class="fui-heading-small" id="access-requests-heading" style="display: none;">Access Requests</h2>
+        <div class="fui-grid-12" id="access-requests-stats" style="display: none;"></div>
+
+        <div class="fui-card" id="access-requests-card" style="display: none;">
+            <div class="fui-card-header">
+                <h3 class="fui-card-header-title fui-heading-xsmall">Access Requests</h3>
+            </div>
+            <hr class="fui-divider" />
+            <div class="fui-card-content" style="overflow-x: auto;">
+                <table id="access-requests-table" class="collapsible-table">
+                    <thead>
+                        <tr>
+                            <th>Dataset</th>
+                            <th>Service</th>
+                            <th class="col-number">Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="3" class="fui-color-ink-light">Loading...</td></tr>
+                    </tbody>
+                </table>
+                <button class="toggle-rows" id="access-requests-toggle" style="display: none;" onclick="toggleTable(this)">Show all</button>
+            </div>
+        </div>
+
+        <h2 class="fui-heading-small">General Usage</h2>
+
+        <div class="fui-card">
+            <div class="fui-card-header">
+                <h3 class="fui-card-header-title fui-heading-xsmall">Top Pages</h3>
+            </div>
+            <hr class="fui-divider" />
+            <div class="fui-card-content" style="overflow-x: auto;">
+                <table id="pages-table">
+                    <thead>
+                        <tr>
+                            <th>Page</th>
+                            <th class="col-number">Views</th>
+                            <th class="col-number">Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="3" class="fui-color-ink-light">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="fui-card">
+            <div class="fui-card-header">
+                <h3 class="fui-card-header-title fui-heading-xsmall">Top Outbound Links</h3>
+            </div>
+            <hr class="fui-divider" />
+            <div class="fui-card-content" style="overflow-x: auto;">
+                <table id="outbound-table">
+                    <thead>
+                        <tr>
+                            <th>Link</th>
+                            <th class="col-number">Clicks</th>
+                            <th class="col-number">Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="3" class="fui-color-ink-light">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="search-section" style="display: none;">
+            <h2 class="fui-heading-small">Site Search</h2>
+            <div class="fui-card">
+                <div class="fui-card-header">
+                    <h3 class="fui-card-header-title fui-heading-xsmall">Search Queries <span id="search-total-label" class="fui-color-ink-light"></span></h3>
+                </div>
+                <hr class="fui-divider" />
+                <div class="fui-card-content" style="overflow-x: auto;">
+                    <table id="search-table">
+                        <thead>
+                            <tr>
+                                <th>Query</th>
+                                <th class="col-number">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="2" class="fui-color-ink-light">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="resources-section" style="display: none;">
+            <h2 class="fui-heading-small">Resources</h2>
+            <div class="fui-card">
+                <div class="fui-card-header">
+                    <h3 class="fui-card-header-title fui-heading-xsmall">File Downloads <span id="file-downloads-total-label" class="fui-color-ink-light"></span></h3>
+                </div>
+                <hr class="fui-divider" />
+                <div class="fui-card-content" style="overflow-x: auto;">
+                    <table id="file-download-events-table">
+                        <thead>
+                            <tr>
+                                <th>File</th>
+                                <th class="col-number">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="2" class="fui-color-ink-light">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="fui-card" id="filter-selections-card" style="display: none;">
+            <div class="fui-card-header">
+                <h3 class="fui-card-header-title fui-heading-xsmall">Filter Selections</h3>
+            </div>
+            <hr class="fui-divider" />
+            <div class="fui-card-content" style="overflow-x: auto;">
+                <table id="filters-table">
+                    <thead>
+                        <tr>
+                            <th>Filter Name</th>
+                            <th>Filter Value</th>
+                            <th class="col-number">Count</th>
+                            <th class="col-number">Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="4" class="fui-color-ink-light">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <p class="fui-body-small-400 fui-color-ink-light" style="text-align: center;">
+            Data sourced from Google Analytics | Generated <span id="generated-date">-</span>
+        </p>
+    </main>
+
+    <script>
+        Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+        Chart.defaults.color = '#637381';
+
+        let siteBase = '';
+        let entityLabel = 'Dataset';
+        let entityPath = '/datasets';
+
+        let chartColors = {
+            primary: '#1c7cc7',
+            secondary: '#287555',
+            primaryLight: 'rgba(28, 124, 199, 0.1)',
+            secondaryLight: 'rgba(40, 117, 85, 0.1)',
+        };
+
+        function hexToRgba(hex, alpha) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        async function loadData() {
+            try {
+                const [configRes, trafficRes, pageviewsRes, outboundRes, filtersRes, downloadsRes, eventsRes, metaRes, searchRes, fileDownloadEventsRes] = await Promise.all([
+                    fetch('data/config.json'),
+                    fetch('data/monthly_traffic.json'),
+                    fetch('data/pageviews.json'),
+                    fetch('data/outbound_links.json'),
+                    fetch('data/filter_selected.json'),
+                    fetch('data/file_downloads.json'),
+                    fetch('data/custom_events.json'),
+                    fetch('data/meta.json'),
+                    fetch('data/search_queries.json').catch(() => null),
+                    fetch('data/file_download_events.json').catch(() => null),
+                ]);
+
+                const [config, traffic, pageviews, outbound, filters, downloads, events, meta] = await Promise.all([
+                    configRes.json(), trafficRes.json(), pageviewsRes.json(), outboundRes.json(),
+                    filtersRes.json(), downloadsRes.json(), eventsRes.json(), metaRes.json(),
+                ]);
+                const searchQueries = searchRes ? await searchRes.json().catch(() => null) : null;
+                const fileDownloadEvents = fileDownloadEventsRes ? await fileDownloadEventsRes.json().catch(() => null) : null;
+
+                applyConfig(config);
+                renderMeta(meta);
+                const chronological = [...traffic].reverse();
+                renderStats(traffic, config, events, meta);
+                renderTrafficChart(chronological);
+                renderPageviewsChart(chronological);
+                renderPagesTable(pageviews);
+                renderOutboundTable(outbound);
+                renderFiltersTable(filters);
+                renderFileDownloadsTable(downloads);
+                renderAccessRequestsTable();
+                renderSearchQueries(searchQueries);
+                renderFileDownloadEvents(fileDownloadEvents);
+                renderEventCounts(config, events);
+                await renderEventStats(events, config);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('stats-grid').innerHTML =
+                    '<div class="fui-card fui-grid-item-12"><div class="fui-card-content"><p class="fui-color-alert">Error loading data. Make sure the JSON files exist in the data/ directory.</p></div></div>';
+            }
+        }
+
+        function applyConfig(config) {
+            document.title = config.site_title;
+            document.getElementById('page-title').textContent = config.site_title;
+
+            const logoLink = document.getElementById('header-logo-link');
+            const logoImg = document.getElementById('header-logo-img');
+            logoLink.href = config.logo_link || '#';
+            logoImg.src = config.logo_url || '';
+            logoImg.alt = config.site_title || 'Logo';
+
+            if (config.favicon_url) {
+                document.getElementById('favicon').href = config.favicon_url;
+            }
+
+            if (config.primary_color) {
+                document.documentElement.style.setProperty('--fui-primary', config.primary_color);
+                chartColors.primary = config.primary_color;
+                chartColors.primaryLight = hexToRgba(config.primary_color, 0.1);
+            }
+            siteBase = (config.logo_link || '').replace(/\/$/, '');
+            entityLabel = config.entity_label || 'Dataset';
+            entityPath = config.entity_path || '/datasets';
+
+            if (config.primary_color_dark) {
+                document.documentElement.style.setProperty('--fui-primary-dark', config.primary_color_dark);
+            }
+        }
+
+        function renderMeta(meta) {
+            const [year, month] = meta.current_month.split('-');
+            const date = new Date(year, month - 1);
+            const monthName = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+            document.getElementById('report-month').textContent = monthName;
+            document.getElementById('generated-date').textContent = meta.generated_at;
+        }
+
+        function pctChange(current, prior) {
+            if (prior > 0) return ((current - prior) / prior * 100).toFixed(1);
+            return null;
+        }
+
+        function statCard(value, label, change, tooltip) {
+            const tooltipHtml = tooltip ? `
+                <div class="stat-tooltip">${tooltip}</div>
+            ` : '';
+            return `
+                <div class="fui-card fui-grid-item-3" style="text-align: center;">
+                    <div class="fui-card-content">
+                        <div class="stat-value">${value}</div>
+                        <div class="stat-label-wrap">
+                            <span class="stat-label${tooltip ? ' has-tooltip' : ''}" ${tooltip ? 'tabindex="0" role="button" aria-label="' + escapeHtml(label) + ' - show details"' : ''}>${escapeHtml(label)}</span>
+                            ${tooltipHtml}
+                        </div>
+                        <div class="stat-change ${change === null ? '' : change >= 0 ? 'positive' : 'negative'}">
+                            ${change === null ? 'N/A vs prior month' : `${change >= 0 ? '+' : ''}${change}% vs prior month`}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderStats(traffic, config, events, meta) {
+            if (!traffic || traffic.length === 0) return;
+            const latest = traffic[0];
+            const previous = traffic[1] || {};
+
+            const sessions = meta.sessions || {};
+            const engagement = meta.engagement_rate || {};
+
+            const usersChange = pctChange(latest.users, previous.users);
+            const sessionsChange = pctChange(sessions.current, sessions.prior);
+            const pageviewsChange = pctChange(latest.pageviews, previous.pageviews);
+            const engagementChange = pctChange(engagement.current, engagement.prior);
+
+            const engagementDisplay = engagement.current != null
+                ? (engagement.current * 100).toFixed(1) + '%'
+                : '-';
+
+            const [year, month] = meta.current_month.split('-');
+            const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long' });
+
+            document.getElementById('stats-grid').innerHTML =
+                statCard(
+                    formatNumber(latest.users), 'Users',
+                    usersChange,
+                    `Total number of unique individuals who visited your site during ${monthName}.`
+                ) +
+                statCard(
+                    formatNumber(sessions.current || 0), 'User Sessions',
+                    sessionsChange,
+                    `Total number of visits to your site during ${monthName}. A single user can have multiple sessions.`
+                ) +
+                statCard(
+                    formatNumber(latest.pageviews), 'Pageviews',
+                    pageviewsChange,
+                    `Total number of pages viewed during ${monthName}. This includes repeated views of the same page.`
+                ) +
+                statCard(
+                    engagementDisplay, 'Engagement Rate',
+                    engagementChange,
+                    `Percentage of sessions during ${monthName} where users actively engaged with your site (e.g., stayed longer, viewed multiple pages, or triggered events). Higher is better. <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`
+                );
+        }
+
+        function renderEventCounts(config, events) {
+            const grid = document.getElementById('event-counts-grid');
+            const countCards = config.event_counts;
+            if (!countCards || countCards.length === 0 || !events) return;
+
+            const eventsByKey = {};
+            for (const e of events) eventsByKey[e.event_name] = e;
+
+            let lastRowLabel = '';
+            const cards = countCards.map(card => {
+                const e = eventsByKey[card.event_key] || {};
+                const current = e.current || 0;
+                const prior = e.prior || 0;
+                let change = 0;
+                if (prior > 0) {
+                    change = ((current - prior) / prior * 100).toFixed(1);
+                }
+                const rowLabel = card.label.split('\n')[0];
+                let heading = '';
+                if (rowLabel !== lastRowLabel) {
+                    heading = `<h3 class="fui-heading-xsmall fui-grid-item-12">${escapeHtml(rowLabel)}</h3>`;
+                    lastRowLabel = rowLabel;
+                }
+                return heading + `
+                    <div class="fui-card fui-grid-item-6" style="text-align: center;">
+                        <div class="fui-card-content">
+                            <div class="stat-value">${formatNumber(current)}</div>
+                            <div class="stat-label">${card.label.split('\n').map(l => escapeHtml(l)).join('<br>')}</div>
+                            <div class="stat-change ${change >= 0 ? 'positive' : 'negative'}">
+                                ${change >= 0 ? '+' : ''}${change}% vs prior month
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            grid.style.display = '';
+            grid.innerHTML = cards;
+            document.getElementById('key-metrics-heading').style.display = '';
+            document.getElementById('key-metric-detail-heading').style.display = '';
+        }
+
+        async function renderEventStats(events, config) {
+            const grid = document.getElementById('event-stats-grid');
+            const detailContainer = document.getElementById('event-detail-tables');
+            if (!events || events.length === 0) {
+                grid.style.display = 'none';
+                return;
+            }
+
+            grid.style.display = 'none';
+
+            const detailResults = await Promise.all(
+                events.map(async (event) => {
+                    try {
+                        const res = await fetch(`data/event_${event.event_name}_detail.json`);
+                        if (res.ok) return { event, detail: await res.json() };
+                    } catch (e) {
+                        // No detail table for this event
+                    }
+                    return { event, detail: null };
+                })
+            );
+
+            const detailCards = [];
+            for (const { event, detail } of detailResults) {
+                if (!detail) continue;
+
+                const hasDatasetTitle = detail.some(r => r.dataset_title);
+                const isEmpty = detail.length === 0;
+
+                let tableContent;
+                if (isEmpty) {
+                    tableContent = '<p class="fui-body-small-400 fui-color-ink-light">No data for this period</p>';
+                } else if (hasDatasetTitle) {
+                    const rows = detail.map(r => {
+                        const label = r.dataset_title || r.entity_name || r.page_path || '-';
+                        const link = r.page_path ? `${siteBase}${r.page_path.replace(/\/export.*/, '')}` : null;
+                        const cell = link ? `<a href="${safeHref(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>` : escapeHtml(label);
+                        return `<tr><td>${cell}</td><td class="col-number">${formatNumber(r.count)}</td></tr>`;
+                    }).join('');
+                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
+                } else {
+                    const rows = detail.map(r => {
+                        const raw = r.entity_name && r.entity_name !== '(not set)' ? r.entity_name : null;
+                        const label = raw || '-';
+                        return `<tr><td>${escapeHtml(label)}</td><td class="col-number">${formatNumber(r.count)}</td></tr>`;
+                    }).join('');
+                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>Entity</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
+                }
+
+                const total = detail.reduce((sum, r) => sum + (r.count || 0), 0);
+                const toggleBtn = detail.length > 5 ? `<button class="toggle-rows" onclick="toggleTable(this)">Show all ${detail.length} rows</button>` : '';
+                detailCards.push(`
+                    <div class="fui-card fui-grid-item-12">
+                        <div class="fui-card-header">
+                            <h3 class="fui-card-header-title fui-heading-xsmall">${escapeHtml(event.label)} (${formatNumber(total)})</h3>
+                        </div>
+                        <hr class="fui-divider" />
+                        <div class="fui-card-content" style="overflow-x: auto;">
+                            ${tableContent}
+                            ${toggleBtn}
+                        </div>
+                    </div>
+                `);
+            }
+            if (detailCards.length > 0) {
+                const fileDownloadsPos = config.file_downloads_position;
+                if (fileDownloadsPos != null) {
+                    const fileCard = document.getElementById('file-downloads-card');
+                    if (fileCard && fileCard.style.display !== 'none') {
+                        fileCard.classList.add('fui-grid-item-12');
+                        const pos = Math.min(fileDownloadsPos, detailCards.length);
+                        detailCards.splice(pos, 0, fileCard.outerHTML);
+                        fileCard.remove();
+                    }
+                }
+                detailContainer.innerHTML = `<div class="fui-grid-12">${detailCards.join('')}</div>`;
+            }
+        }
+
+        function renderTrafficChart(chronological) {
+            const ctx = document.getElementById('traffic-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chronological.map(d => d.month),
+                    datasets: [
+                        {
+                            label: 'Users',
+                            data: chronological.map(d => d.users),
+                            borderColor: chartColors.primary,
+                            backgroundColor: chartColors.primaryLight,
+                            fill: true,
+                            tension: 0.3,
+                        },
+                        {
+                            label: 'Pageviews',
+                            data: chronological.map(d => d.pageviews),
+                            borderColor: chartColors.secondary,
+                            backgroundColor: chartColors.secondaryLight,
+                            fill: true,
+                            tension: 0.3,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#e1e3e5' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { position: 'top' } }
+                }
+            });
+        }
+
+        function renderPageviewsChart(chronological) {
+            const ctx = document.getElementById('pageviews-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chronological.map(d => d.month),
+                    datasets: [{
+                        label: 'Pageviews',
+                        data: chronological.map(d => d.pageviews),
+                        backgroundColor: chartColors.primary,
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#e1e3e5' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function renderPagesTable(pageviews) {
+            const tbody = document.querySelector('#pages-table tbody');
+            if (!pageviews || pageviews.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3">No data available</td></tr>';
+                return;
+            }
+            tbody.innerHTML = pageviews.slice(0, 20).map(row => `
+                <tr>
+                    <td>${escapeHtml(row.page || '-')}</td>
+                    <td class="col-number">${formatNumber(row.views || 0)}</td>
+                    <td class="col-number ${row.change != null ? (row.change >= 0 ? 'positive' : 'negative') : ''}">
+                        ${formatChange(row.change)}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderOutboundTable(outbound) {
+            const tbody = document.querySelector('#outbound-table tbody');
+            if (!outbound || outbound.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3">No data available</td></tr>';
+                return;
+            }
+            tbody.innerHTML = outbound.slice(0, 20).map(row => `
+                <tr>
+                    <td class="truncate">
+                        ${escapeHtml(row.link || '-')}
+                    </td>
+                    <td class="col-number">${formatNumber(row.clicks || 0)}</td>
+                    <td class="col-number ${row.change != null ? (row.change >= 0 ? 'positive' : 'negative') : ''}">
+                        ${formatChange(row.change)}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderFiltersTable(filters) {
+            const card = document.getElementById('filter-selections-card');
+            const tbody = document.querySelector('#filters-table tbody');
+            if (!filters || filters.length === 0) {
+                return;
+            }
+            card.style.display = '';
+            tbody.innerHTML = filters.slice(0, 30).map(row => `
+                <tr>
+                    <td>${escapeHtml(row.filterName || '-')}</td>
+                    <td>${escapeHtml(row.filterValue || '-')}</td>
+                    <td class="col-number">${formatNumber(row.count || 0)}</td>
+                    <td class="col-number ${row.change != null ? (row.change >= 0 ? 'positive' : 'negative') : ''}">
+                        ${formatChange(row.change)}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderFileDownloadEvents(data) {
+            if (!data || !data.files || data.files.length === 0) return;
+            const section = document.getElementById('resources-section');
+            section.style.display = '';
+            document.getElementById('file-downloads-total-label').textContent = `(${formatNumber(data.total)})`;
+            const tbody = document.querySelector('#file-download-events-table tbody');
+            tbody.innerHTML = data.files.map(row => `
+                <tr>
+                    <td>${escapeHtml(row.file_name)}</td>
+                    <td class="col-number">${formatNumber(row.count)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderSearchQueries(data) {
+            if (!data || !data.queries || data.queries.length === 0) return;
+            const section = document.getElementById('search-section');
+            section.style.display = '';
+            document.getElementById('search-total-label').textContent = `(${formatNumber(data.total)})`;
+            const tbody = document.querySelector('#search-table tbody');
+            tbody.innerHTML = data.queries.map(row => `
+                <tr>
+                    <td>${escapeHtml(row.query)}</td>
+                    <td class="col-number">${formatNumber(row.count)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderFileDownloadsTable(downloads) {
+            const card = document.getElementById('file-downloads-card');
+            const tbody = document.querySelector('#file-downloads-table tbody');
+            if (!downloads || downloads.length === 0) {
+                return;
+            }
+            card.style.display = '';
+            const total = downloads.reduce((sum, r) => sum + (r.count || 0), 0);
+            card.querySelector('.fui-card-header-title').textContent = `Direct File Downloads (${formatNumber(total)})`;
+            const toggle = document.getElementById('file-downloads-toggle');
+            if (downloads.length > 5) {
+                toggle.style.display = '';
+                toggle.textContent = `Show all ${downloads.length} rows`;
+            }
+            tbody.innerHTML = downloads.map(row => {
+                const entityName = row.entity_name && row.entity_name !== '(not set)' ? row.entity_name : '-';
+                const datasetName = row.related_entity_name && row.related_entity_name !== '(not set)' ? row.related_entity_name : '-';
+                const datasetCell = row.dataset_id && datasetName !== '-'
+                    ? `<a href="${safeHref(siteBase + entityPath + '/' + row.dataset_id)}" target="_blank" rel="noopener noreferrer">${escapeHtml(datasetName)}</a>`
+                    : escapeHtml(datasetName);
+                return `
+                    <tr>
+                        <td>${escapeHtml(entityName)}</td>
+                        <td>${datasetCell}</td>
+                        <td class="col-number">${formatNumber(row.count || 0)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function renderAccessRequestsTable() {
+            let data;
+            try {
+                const res = await fetch('data/access_requests.json');
+                if (!res.ok) return;
+                data = await res.json();
+            } catch (e) {
+                return;
+            }
+            if (!data || data.length === 0) return;
+
+            const card = document.getElementById('access-requests-card');
+            const heading = document.getElementById('access-requests-heading');
+            const tbody = document.querySelector('#access-requests-table tbody');
+            const total = data.reduce((sum, r) => sum + (r.count || 0), 0);
+
+            const duosTotal = data.filter(r => (r.click_url || '').includes('duos.org')).reduce((sum, r) => sum + (r.count || 0), 0);
+            const dbgapTotal = data.filter(r => (r.click_url || '').includes('dbgap.ncbi.nlm.nih.gov')).reduce((sum, r) => sum + (r.count || 0), 0);
+
+            const statsGrid = document.getElementById('access-requests-stats');
+            statsGrid.style.display = '';
+            statsGrid.innerHTML = `
+                <div class="fui-card fui-grid-item-4" style="text-align: center;">
+                    <div class="fui-card-content">
+                        <div class="stat-value">${formatNumber(dbgapTotal)}</div>
+                        <div class="stat-label">dbGaP</div>
+                    </div>
+                </div>
+                <div class="fui-card fui-grid-item-4" style="text-align: center;">
+                    <div class="fui-card-content">
+                        <div class="stat-value">${formatNumber(duosTotal)}</div>
+                        <div class="stat-label">DUOS</div>
+                    </div>
+                </div>
+                <div class="fui-card fui-grid-item-4" style="text-align: center;">
+                    <div class="fui-card-content">
+                        <div class="stat-value">${formatNumber(total)}</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                </div>
+            `;
+
+            card.style.display = '';
+            heading.style.display = '';
+            card.querySelector('.fui-card-header-title').textContent = `Requests by ${entityLabel} (${formatNumber(total)})`;
+
+            const toggle = document.getElementById('access-requests-toggle');
+            if (data.length > 5) {
+                toggle.style.display = '';
+                toggle.textContent = `Show all ${data.length} rows`;
+            }
+
+            tbody.innerHTML = data.map(row => {
+                const label = row.dataset_title || row.page_path || '-';
+                const link = row.page_path ? `${siteBase}${row.page_path.replace(/\/export.*/, '')}` : null;
+                const datasetCell = link
+                    ? `<a href="${safeHref(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`
+                    : escapeHtml(label);
+                const url = row.click_url || '';
+                let service = url;
+                if (url.includes('duos.org')) service = 'DUOS';
+                else if (url.includes('dbgap.ncbi.nlm.nih.gov')) service = 'dbGaP';
+                return `
+                    <tr>
+                        <td>${datasetCell}</td>
+                        <td>${escapeHtml(service)}</td>
+                        <td class="col-number">${formatNumber(row.count || 0)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function toggleTable(btn) {
+            const table = btn.previousElementSibling;
+            const expanded = table.classList.toggle('expanded');
+            if (expanded) {
+                btn.textContent = 'Show fewer';
+            } else {
+                const rowCount = table.querySelectorAll('tbody tr').length;
+                btn.textContent = `Show all ${rowCount} rows`;
+            }
+        }
+
+        function formatChange(change) {
+            if (change == null) return '-';
+            return (change >= 0 ? '+' : '') + (change * 100).toFixed(1) + '%';
+        }
+
+        function formatNumber(num) {
+            if (num === undefined || num === null) return '-';
+            return num.toLocaleString();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function safeHref(url) {
+            return encodeURI(url).replace(/'/g, '%27').replace(/"/g, '%22');
+        }
+
+        loadData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+[
+  {
+    "month": "2026-03",
+    "users": 197,
+    "pageviews": 769
+  },
+  {
+    "month": "2026-02",
+    "users": 225,
+    "pageviews": 769
+  },
+  {
+    "month": "2026-01",
+    "users": 224,
+    "pageviews": 962
+  },
+  {
+    "month": "2025-12",
+    "users": 221,
+    "pageviews": 713
+  },
+  {
+    "month": "2025-11",
+    "users": 252,
+    "pageviews": 958
+  },
+  {
+    "month": "2025-10",
+    "users": 320,
+    "pageviews": 1300
+  },
+  {
+    "month": "2025-09",
+    "users": 160,
+    "pageviews": 706
+  },
+  {
+    "month": "2025-08",
+    "users": 117,
+    "pageviews": 610
+  },
+  {
+    "month": "2025-07",
+    "users": 142,
+    "pageviews": 1016
+  },
+  {
+    "month": "2025-06",
+    "users": 125,
+    "pageviews": 630
+  },
+  {
+    "month": "2025-05",
+    "users": 175,
+    "pageviews": 580
+  },
+  {
+    "month": "2025-04",
+    "users": 138,
+    "pageviews": 527
+  },
+  {
+    "month": "2025-03",
+    "users": 176,
+    "pageviews": 572
+  },
+  {
+    "month": "2025-02",
+    "users": 133,
+    "pageviews": 588
+  },
+  {
+    "month": "2025-01",
+    "users": 83,
+    "pageviews": 347
+  },
+  {
+    "month": "2024-12",
+    "users": 104,
+    "pageviews": 567
+  },
+  {
+    "month": "2024-11",
+    "users": 105,
+    "pageviews": 432
+  },
+  {
+    "month": "2024-10",
+    "users": 130,
+    "pageviews": 717
+  },
+  {
+    "month": "2024-09",
+    "users": 92,
+    "pageviews": 623
+  },
+  {
+    "month": "2024-08",
+    "users": 110,
+    "pageviews": 653
+  },
+  {
+    "month": "2024-07",
+    "users": 63,
+    "pageviews": 411
+  },
+  {
+    "month": "2024-02",
+    "users": 96,
+    "pageviews": 350
+  },
+  {
+    "month": "2024-01",
+    "users": 220,
+    "pageviews": 918
+  },
+  {
+    "month": "2023-12",
+    "users": 156,
+    "pageviews": 768
+  },
+  {
+    "month": "2023-11",
+    "users": 184,
+    "pageviews": 872
+  },
+  {
+    "month": "2023-10",
+    "users": 180,
+    "pageviews": 970
+  },
+  {
+    "month": "2023-09",
+    "users": 163,
+    "pageviews": 744
+  },
+  {
+    "month": "2023-08",
+    "users": 208,
+    "pageviews": 997
+  },
+  {
+    "month": "2023-07",
+    "users": 143,
+    "pageviews": 657
+  },
+  {
+    "month": "2023-06",
+    "users": 125,
+    "pageviews": 493
+  },
+  {
+    "month": "2023-05",
+    "users": 186,
+    "pageviews": 1115
+  },
+  {
+    "month": "2023-04",
+    "users": 129,
+    "pageviews": 679
+  },
+  {
+    "month": "2023-03",
+    "users": 165,
+    "pageviews": 929
+  },
+  {
+    "month": "2023-02",
+    "users": 139,
+    "pageviews": 725
+  },
+  {
+    "month": "2023-01",
+    "users": 100,
+    "pageviews": 540
+  },
+  {
+    "month": "2022-12",
+    "users": 72,
+    "pageviews": 444
+  },
+  {
+    "month": "2022-11",
+    "users": 98,
+    "pageviews": 559
+  },
+  {
+    "month": "2022-10",
+    "users": 37,
+    "pageviews": 230
+  },
+  {
+    "month": "2022-09",
+    "users": 18,
+    "pageviews": 121
+  },
+  {
+    "month": "2022-08",
+    "users": 12,
+    "pageviews": 38
+  },
+  {
+    "month": "2022-07",
+    "users": 10,
+    "pageviews": 29
+  },
+  {
+    "month": "2022-06",
+    "users": 12,
+    "pageviews": 39
+  },
+  {
+    "month": "2022-05",
+    "users": 10,
+    "pageviews": 32
+  },
+  {
+    "month": "2022-04",
+    "users": 9,
+    "pageviews": 120
+  },
+  {
+    "month": "2022-03",
+    "users": 8,
+    "pageviews": 35
+  },
+  {
+    "month": "2022-02",
+    "users": 9,
+    "pageviews": 24
+  },
+  {
+    "month": "2022-01",
+    "users": 10,
+    "pageviews": 86
+  },
+  {
+    "month": "2021-12",
+    "users": 12,
+    "pageviews": 36
+  },
+  {
+    "month": "2021-11",
+    "users": 14,
+    "pageviews": 44
+  },
+  {
+    "month": "2021-10",
+    "users": 6,
+    "pageviews": 26
+  },
+  {
+    "month": "2021-09",
+    "users": 1,
+    "pageviews": 19
+  },
+  {
+    "month": "2021-08",
+    "users": 1,
+    "pageviews": 3
+  },
+  {
+    "month": "2021-07",
+    "users": 3,
+    "pageviews": 32
+  },
+  {
+    "month": "2021-06",
+    "users": 0,
+    "pageviews": 0
+  }
+]

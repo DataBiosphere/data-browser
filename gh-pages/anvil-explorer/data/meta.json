@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-05-05 10:59:14",
+  "current_month": "2026-03",
+  "current_month_start": "2026-03-01",
+  "current_month_end": "2026-03-31",
+  "prior_month_start": "2026-02-01",
+  "prior_month_end": "2026-02-28",
+  "analytics_start": "2024-01-01",
+  "sessions": {
+    "current": 735,
+    "prior": 473
+  },
+  "engagement_rate": {
+    "current": 0.580952380952381,
+    "prior": 0.6088794926004228
+  }
+}
