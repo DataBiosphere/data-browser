@@ -7,7 +7,7 @@
     <link rel="icon" id="favicon" type="image/x-icon" href="" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/DataBiosphere/findable-ui@fran/873-static-css/static/analytics.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
     <style>
         .stat-value {
             font: var(--fui-font-heading-xlarge);
@@ -63,7 +63,8 @@
             color: #8ecaff;
         }
 
-        .stat-label-wrap:hover .stat-tooltip {
+        .stat-label-wrap:hover .stat-tooltip,
+        .stat-label-wrap:focus-within .stat-tooltip {
             display: block;
         }
 
@@ -119,6 +120,7 @@
             max-width: 400px;
             overflow: hidden;
             text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .collapsible-table:not(.expanded) tbody tr:nth-child(n+6) {
@@ -297,7 +299,53 @@
             </div>
         </div>
 
-        <div class="fui-card">
+        <div id="search-section" style="display: none;">
+            <h2 class="fui-heading-small">Site Search</h2>
+            <div class="fui-card">
+                <div class="fui-card-header">
+                    <h3 class="fui-card-header-title fui-heading-xsmall">Search Queries <span id="search-total-label" class="fui-color-ink-light"></span></h3>
+                </div>
+                <hr class="fui-divider" />
+                <div class="fui-card-content" style="overflow-x: auto;">
+                    <table id="search-table">
+                        <thead>
+                            <tr>
+                                <th>Query</th>
+                                <th class="col-number">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="2" class="fui-color-ink-light">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="resources-section" style="display: none;">
+            <h2 class="fui-heading-small">Resources</h2>
+            <div class="fui-card">
+                <div class="fui-card-header">
+                    <h3 class="fui-card-header-title fui-heading-xsmall">File Downloads <span id="file-downloads-total-label" class="fui-color-ink-light"></span></h3>
+                </div>
+                <hr class="fui-divider" />
+                <div class="fui-card-content" style="overflow-x: auto;">
+                    <table id="file-download-events-table">
+                        <thead>
+                            <tr>
+                                <th>File</th>
+                                <th class="col-number">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="2" class="fui-color-ink-light">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="fui-card" id="filter-selections-card" style="display: none;">
             <div class="fui-card-header">
                 <h3 class="fui-card-header-title fui-heading-xsmall">Filter Selections</h3>
             </div>
@@ -348,7 +396,7 @@
 
         async function loadData() {
             try {
-                const [configRes, trafficRes, pageviewsRes, outboundRes, filtersRes, downloadsRes, eventsRes, metaRes] = await Promise.all([
+                const [configRes, trafficRes, pageviewsRes, outboundRes, filtersRes, downloadsRes, eventsRes, metaRes, searchRes, fileDownloadEventsRes] = await Promise.all([
                     fetch('data/config.json'),
                     fetch('data/monthly_traffic.json'),
                     fetch('data/pageviews.json'),
@@ -356,13 +404,17 @@
                     fetch('data/filter_selected.json'),
                     fetch('data/file_downloads.json'),
                     fetch('data/custom_events.json'),
-                    fetch('data/meta.json')
+                    fetch('data/meta.json'),
+                    fetch('data/search_queries.json').catch(() => null),
+                    fetch('data/file_download_events.json').catch(() => null),
                 ]);
 
                 const [config, traffic, pageviews, outbound, filters, downloads, events, meta] = await Promise.all([
                     configRes.json(), trafficRes.json(), pageviewsRes.json(), outboundRes.json(),
                     filtersRes.json(), downloadsRes.json(), eventsRes.json(), metaRes.json(),
                 ]);
+                const searchQueries = searchRes ? await searchRes.json().catch(() => null) : null;
+                const fileDownloadEvents = fileDownloadEventsRes ? await fileDownloadEventsRes.json().catch(() => null) : null;
 
                 applyConfig(config);
                 renderMeta(meta);
@@ -375,6 +427,8 @@
                 renderFiltersTable(filters);
                 renderFileDownloadsTable(downloads);
                 renderAccessRequestsTable();
+                renderSearchQueries(searchQueries);
+                renderFileDownloadEvents(fileDownloadEvents);
                 renderEventCounts(config, events);
                 await renderEventStats(events, config);
             } catch (error) {
@@ -422,7 +476,7 @@
 
         function pctChange(current, prior) {
             if (prior > 0) return ((current - prior) / prior * 100).toFixed(1);
-            return 0;
+            return null;
         }
 
         function statCard(value, label, change, tooltip) {
@@ -434,11 +488,11 @@
                     <div class="fui-card-content">
                         <div class="stat-value">${value}</div>
                         <div class="stat-label-wrap">
-                            <span class="stat-label${tooltip ? ' has-tooltip' : ''}">${escapeHtml(label)}</span>
+                            <span class="stat-label${tooltip ? ' has-tooltip' : ''}" ${tooltip ? 'tabindex="0" role="button" aria-label="' + escapeHtml(label) + ' - show details"' : ''}>${escapeHtml(label)}</span>
                             ${tooltipHtml}
                         </div>
-                        <div class="stat-change ${change >= 0 ? 'positive' : 'negative'}">
-                            ${change >= 0 ? '+' : ''}${change}% vs prior month
+                        <div class="stat-change ${change === null ? '' : change >= 0 ? 'positive' : 'negative'}">
+                            ${change === null ? 'N/A vs prior month' : `${change >= 0 ? '+' : ''}${change}% vs prior month`}
                         </div>
                     </div>
                 </div>
@@ -484,7 +538,7 @@
                 statCard(
                     engagementDisplay, 'Engagement Rate',
                     engagementChange,
-                    `Percentage of sessions during ${monthName} where users actively engaged with your site (e.g., stayed longer, viewed multiple pages, or triggered events). Higher is better. <a href="https://support.google.com/analytics/answer/11109416" target="_blank">Learn more</a>.`
+                    `Percentage of sessions during ${monthName} where users actively engaged with your site (e.g., stayed longer, viewed multiple pages, or triggered events). Higher is better. <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`
                 );
         }
 
@@ -566,7 +620,7 @@
                     const rows = detail.map(r => {
                         const label = r.dataset_title || r.entity_name || r.page_path || '-';
                         const link = r.page_path ? `${siteBase}${r.page_path.replace(/\/export.*/, '')}` : null;
-                        const cell = link ? `<a href="${encodeURI(link)}" target="_blank">${escapeHtml(label)}</a>` : escapeHtml(label);
+                        const cell = link ? `<a href="${safeHref(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>` : escapeHtml(label);
                         return `<tr><td>${cell}</td><td class="col-number">${formatNumber(r.count)}</td></tr>`;
                     }).join('');
                     tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
@@ -709,11 +763,12 @@
         }
 
         function renderFiltersTable(filters) {
+            const card = document.getElementById('filter-selections-card');
             const tbody = document.querySelector('#filters-table tbody');
             if (!filters || filters.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4">No data available</td></tr>';
                 return;
             }
+            card.style.display = '';
             tbody.innerHTML = filters.slice(0, 30).map(row => `
                 <tr>
                     <td>${escapeHtml(row.filterName || '-')}</td>
@@ -722,6 +777,34 @@
                     <td class="col-number ${row.change != null ? (row.change >= 0 ? 'positive' : 'negative') : ''}">
                         ${formatChange(row.change)}
                     </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderFileDownloadEvents(data) {
+            if (!data || !data.files || data.files.length === 0) return;
+            const section = document.getElementById('resources-section');
+            section.style.display = '';
+            document.getElementById('file-downloads-total-label').textContent = `(${formatNumber(data.total)})`;
+            const tbody = document.querySelector('#file-download-events-table tbody');
+            tbody.innerHTML = data.files.map(row => `
+                <tr>
+                    <td>${escapeHtml(row.file_name)}</td>
+                    <td class="col-number">${formatNumber(row.count)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderSearchQueries(data) {
+            if (!data || !data.queries || data.queries.length === 0) return;
+            const section = document.getElementById('search-section');
+            section.style.display = '';
+            document.getElementById('search-total-label').textContent = `(${formatNumber(data.total)})`;
+            const tbody = document.querySelector('#search-table tbody');
+            tbody.innerHTML = data.queries.map(row => `
+                <tr>
+                    <td>${escapeHtml(row.query)}</td>
+                    <td class="col-number">${formatNumber(row.count)}</td>
                 </tr>
             `).join('');
         }
@@ -744,7 +827,7 @@
                 const entityName = row.entity_name && row.entity_name !== '(not set)' ? row.entity_name : '-';
                 const datasetName = row.related_entity_name && row.related_entity_name !== '(not set)' ? row.related_entity_name : '-';
                 const datasetCell = row.dataset_id && datasetName !== '-'
-                    ? `<a href="${encodeURI(siteBase + entityPath + '/' + row.dataset_id)}" target="_blank">${escapeHtml(datasetName)}</a>`
+                    ? `<a href="${safeHref(siteBase + entityPath + '/' + row.dataset_id)}" target="_blank" rel="noopener noreferrer">${escapeHtml(datasetName)}</a>`
                     : escapeHtml(datasetName);
                 return `
                     <tr>
@@ -812,7 +895,7 @@
                 const label = row.dataset_title || row.page_path || '-';
                 const link = row.page_path ? `${siteBase}${row.page_path.replace(/\/export.*/, '')}` : null;
                 const datasetCell = link
-                    ? `<a href="${encodeURI(link)}" target="_blank">${escapeHtml(label)}</a>`
+                    ? `<a href="${safeHref(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`
                     : escapeHtml(label);
                 const url = row.click_url || '';
                 let service = url;
@@ -853,6 +936,10 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        function safeHref(url) {
+            return encodeURI(url).replace(/'/g, '%27').replace(/"/g, '%22');
         }
 
         loadData();

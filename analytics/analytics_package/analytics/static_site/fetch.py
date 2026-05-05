@@ -1,14 +1,19 @@
 """Fetch analytics data from GA4 for the static site."""
 
 import re
+from urllib.parse import urlparse, parse_qs
 
 from .. import sheets_elements as elements
 from .._sheets_utils import get_data_df_from_fields
 from ..entities import (
+    DIMENSION_BUILTIN_URL,
+    DIMENSION_FILE_NAME,
     METRIC_EVENT_COUNT,
+    METRIC_PAGE_VIEWS,
     METRIC_SESSIONS,
     DIMENSION_EVENT_NAME,
     DIMENSION_PAGE_PATH,
+    DIMENSION_PAGE_PATH_PLUS_QUERY,
     DIMENSION_CUSTOM_URL,
     DIMENSION_ENTITY_NAME,
     DIMENSION_RELATED_ENTITY_ID,
@@ -161,6 +166,68 @@ def get_access_requests(params, url_patterns):
     return result.to_dict(orient="records")
 
 
+def get_file_download_events(params):
+    """Fetch GA4 enhanced measurement file_download events.
+
+    Returns:
+        Dict with "total" (int) and "files" (list of dicts with "file_name", "link_url", "count").
+    """
+    df = get_data_df_from_fields(
+        [METRIC_EVENT_COUNT],
+        [DIMENSION_EVENT_NAME, DIMENSION_FILE_NAME, DIMENSION_BUILTIN_URL],
+        dimension_filter="eventName==file_download",
+        **params,
+    )
+
+    if len(df) == 0:
+        return {"total": 0, "files": []}
+
+    result = df[[DIMENSION_FILE_NAME["alias"], DIMENSION_BUILTIN_URL["alias"], METRIC_EVENT_COUNT["alias"]]].copy()
+    result.columns = ["file_name", "link_url", "count"]
+    result["count"] = result["count"].astype(int)
+    total = int(result["count"].sum())
+    result = result.sort_values("count", ascending=False)
+
+    return {"total": total, "files": result.to_dict(orient="records")}
+
+
+def get_search_queries(params, search_path="/search"):
+    """Fetch search queries by extracting query params from pagePathPlusQueryString.
+
+    Args:
+        params: Analytics params for the period.
+        search_path: The search page path prefix (default: "/search").
+
+    Returns:
+        Dict with "total" (int) and "queries" (list of dicts with "query" and "count").
+    """
+    df = get_data_df_from_fields(
+        [METRIC_PAGE_VIEWS],
+        [DIMENSION_PAGE_PATH_PLUS_QUERY],
+        dimension_filter=f"pagePathPlusQueryString=@{search_path}?",
+        **params,
+    )
+
+    if len(df) == 0:
+        return {"total": 0, "queries": []}
+
+    path_col = DIMENSION_PAGE_PATH_PLUS_QUERY["alias"]
+    views_col = METRIC_PAGE_VIEWS["alias"]
+
+    aggregated = {}
+    for _, row in df.iterrows():
+        parsed = parse_qs(urlparse(row[path_col]).query)
+        query = parsed.get("q", parsed.get("query", [""]))[0]
+        if query:
+            aggregated[query] = aggregated.get(query, 0) + int(row[views_col])
+
+    queries = [{"query": q, "count": c} for q, c in aggregated.items()]
+    queries.sort(key=lambda x: x["count"], reverse=True)
+    total = sum(q["count"] for q in queries)
+
+    return {"total": total, "queries": queries}
+
+
 def fetch_data(
     ga_authentication,
     property_id,
@@ -169,6 +236,9 @@ def fetch_data(
     custom_events=None,
     historic_data_path=None,
     access_request_urls=None,
+    exclude_pages=None,
+    base_dimension_filter=None,
+    search_path=None,
 ):
     """Fetch all analytics data for the static site.
 
@@ -179,6 +249,9 @@ def fetch_data(
         analytics_start: Start date for all-time data (YYYY-MM-DD).
         custom_events: List of dicts with "event_name" and "label" keys.
         historic_data_path: Path to historic UA data JSON file (optional).
+        exclude_pages: Optional list of page paths to exclude from pageview data.
+        base_dimension_filter: Optional GA4 dimension filter dict applied to all queries.
+        search_path: Optional search page path to extract search queries from (e.g., "/search").
 
     Returns:
         Dict containing DataFrames and stats for each data type.
@@ -201,6 +274,8 @@ def fetch_data(
         "end_date": end_date_current,
         "property": property_id,
     }
+    if base_dimension_filter:
+        params["base_dimension_filter"] = base_dimension_filter
     params_all_time = {**params, "start_date": analytics_start, "end_date": end_date_current}
     params_prior = {**params, "start_date": start_date_prior, "end_date": end_date_prior}
 
@@ -213,15 +288,24 @@ def fetch_data(
         params, start_date_current, end_date_current, start_date_prior, end_date_prior,
     )
 
+    if exclude_pages and df_pageviews is not None and len(df_pageviews) > 0:
+        page_col = DIMENSION_PAGE_PATH["alias"]
+        df_pageviews = df_pageviews[~df_pageviews[page_col].isin(exclude_pages)]
+        print(f"  Excluded {len(exclude_pages)} page(s) from pageviews")
+
     print("Fetching outbound links data...")
     df_outbound = elements.get_outbound_links_change(
         params, start_date_current, end_date_current, start_date_prior, end_date_prior,
     )
 
     print("Fetching filter selections data...")
-    df_filter_selected = elements.get_index_filter_selected_change(
-        params, start_date_current, end_date_current, start_date_prior, end_date_prior,
-    )
+    try:
+        df_filter_selected = elements.get_index_filter_selected_change(
+            params, start_date_current, end_date_current, start_date_prior, end_date_prior,
+        )
+    except Exception as e:
+        print(f"  Skipped (not available for this property): {e}")
+        df_filter_selected = None
 
     print("Fetching sessions and engagement data...")
     df_sessions_current = get_data_df_from_fields(
@@ -236,12 +320,31 @@ def fetch_data(
     engagement_prior = float(df_sessions_prior[METRIC_ENGAGEMENT_RATE["alias"]].mean()) if len(df_sessions_prior) > 0 else 0
 
     print("Fetching file downloads data...")
-    file_downloads = get_file_downloads(params)
+    try:
+        file_downloads = get_file_downloads(params)
+    except Exception as e:
+        print(f"  Skipped (not available for this property): {e}")
+        file_downloads = []
 
     access_requests = []
     if access_request_urls:
         print("Fetching access requests data...")
         access_requests = get_access_requests(params, access_request_urls)
+
+    print("Fetching file download events...")
+    try:
+        file_download_events = get_file_download_events(params)
+    except Exception as e:
+        print(f"  Skipped (not available for this property): {e}")
+        file_download_events = {"total": 0, "files": []}
+
+    search_queries = {"total": 0, "queries": []}
+    if search_path:
+        print("Fetching search queries data...")
+        try:
+            search_queries = get_search_queries(params, search_path)
+        except Exception as e:
+            print(f"  Skipped (not available for this property): {e}")
 
     data = {
         "sessions": {
@@ -258,6 +361,8 @@ def fetch_data(
         "filter_selected": df_filter_selected,
         "file_downloads": file_downloads,
         "access_requests": access_requests,
+        "search_queries": search_queries,
+        "file_download_events": file_download_events,
         "dates": {
             "start_current": start_date_current,
             "end_current": end_date_current,

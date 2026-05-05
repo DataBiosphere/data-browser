@@ -20,6 +20,9 @@ def generate_site(
     historic_data_path=None,
     title_resolver=None,
     access_request_urls=None,
+    exclude_pages=None,
+    base_dimension_filter=None,
+    search_path=None,
 ):
     """Generate a static analytics site.
 
@@ -40,6 +43,10 @@ def generate_site(
         historic_data_path: Path to historic UA data JSON file (optional).
         title_resolver: Optional callable that accepts the data dict and enriches
             detail records with resolved entity titles (e.g., dataset/project names).
+        exclude_pages: Optional list of page paths to exclude from pageview data.
+        base_dimension_filter: Optional GA4 dimension filter dict applied to all queries
+            (e.g., an audience filter to exclude bot/tutorial traffic).
+        search_path: Optional search page path to extract search queries from (e.g., "/search").
     """
     if custom_events is None:
         custom_events = []
@@ -57,6 +64,9 @@ def generate_site(
         custom_events=custom_events,
         historic_data_path=historic_data_path,
         access_request_urls=access_request_urls,
+        exclude_pages=exclude_pages,
+        base_dimension_filter=base_dimension_filter,
+        search_path=search_path,
     )
 
     if title_resolver:

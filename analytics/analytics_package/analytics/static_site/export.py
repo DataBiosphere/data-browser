@@ -128,6 +128,20 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
         json.dump(access_requests, f, indent=2)
     print(f"  Wrote access_requests.json ({len(access_requests)} records)")
 
+    # File download events (GA4 enhanced measurement)
+    print("Exporting file download events data...")
+    file_download_events = data.get("file_download_events", {"total": 0, "files": []})
+    with open(os.path.join(output_dir, "file_download_events.json"), "w") as f:
+        json.dump(file_download_events, f, indent=2)
+    print(f"  Wrote file_download_events.json ({len(file_download_events.get('files', []))} files)")
+
+    # Search queries
+    print("Exporting search queries data...")
+    search_queries = data.get("search_queries", {"total": 0, "queries": []})
+    with open(os.path.join(output_dir, "search_queries.json"), "w") as f:
+        json.dump(search_queries, f, indent=2)
+    print(f"  Wrote search_queries.json ({len(search_queries.get('queries', []))} queries)")
+
     # Custom events
     print("Exporting custom events data...")
     events_output = []
