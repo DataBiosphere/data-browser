@@ -35,7 +35,7 @@ const getAllVisibleColumnNames = async (page: Page): Promise<string[]> => {
  * @param columnIndex - the zero-indexed column to return
  * @returns a Playwright locator object to the selected cell
  **/
-export const getMthRowNthColumnCellLocator = (
+const getMthRowNthColumnCellLocator = (
   page: Page,
   rowIndex: number,
   columnIndex: number
@@ -55,7 +55,7 @@ export const getMthRowNthColumnCellLocator = (
  * @param columnIndex - the zero-indexed column to return
  * @returns a Playwright locator object to the selected cell
  **/
-export const getFirstRowNthColumnCellLocator = (
+const getFirstRowNthColumnCellLocator = (
   page: Page,
   columnIndex: number
 ): Locator => {
@@ -363,341 +363,6 @@ export const filterRegex = (filterName: string): RegExp =>
   new RegExp(escapeRegExp(filterName) + "\\s+\\(\\d+\\)\\s*");
 
 /**
- * Checks that each filter specified in filterNames is visible and can be
- * selected on the specified tab
- * @param page - a Playwright page object
- * @param tab - the tab to check
- * @param filterNames - the names of the filters who whose existence should be tested for
- */
-export async function testFilterPresence(
-  page: Page,
-  tab: TabDescription,
-  filterNames: string[]
-): Promise<void> {
-  // Goto the selected tab
-  await page.goto(tab.url);
-  await expect(getTabByText(page, tab.tabName)).toBeVisible();
-  for (const filterName of filterNames) {
-    // Check that each filter is visible and clickable
-    await expect(page.getByText(filterRegex(filterName))).toBeVisible();
-    // dispatchEvent necessary because the filter menu component sometimes interrupts a click event
-    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    await expect(page.getByRole("checkbox").first()).toBeVisible();
-    await expect(page.getByRole("checkbox").first()).not.toBeChecked();
-    // Check that clicking out of the filter menu causes it to disappear
-    await page.locator("body").click();
-    await expect(page.getByRole("checkbox")).toHaveCount(0);
-  }
-}
-
-/**
- * Get a locator for the specified filter option. Requires a filter menu to be open
- * @param page - a Playwright page object
- * @param filterOptionName - the name of the filter option
- * @returns a Playwright locator to the filter button
- */
-export const getNamedFilterOptionLocator = (
-  page: Page,
-  filterOptionName: string
-): Locator => {
-  // The Regex matches a filter name with a number after it, with potential whitespace before and after the number.
-  // This matches how the innerText in the filter options menu appears to Playwright.
-  return page.getByRole("button").filter({
-    has: page.getByRole("checkbox"),
-    hasText: RegExp(`^${escapeRegExp(filterOptionName)}\\s*\\d+\\s*`),
-  });
-};
-
-/**
- * Get a locator for the nth filter option on the page.
- * @param page - a Playwright page object
- * @param n - the index of the filter option to get
- * @returns - a Playwright locator object for the first filter option on the page
- */
-const getNthFilterOptionLocator = (page: Page, n: number): Locator => {
-  return page
-    .getByRole("button")
-    .filter({ has: page.getByRole("checkbox") })
-    .nth(n);
-};
-
-/**
- * Get a locator for the first filter option on the page.
- * @param page - a Playwright page object
- * @returns - a Playwright locator object for the first filter option on the page
- */
-export const getFirstFilterOptionLocator = (page: Page): Locator => {
-  return getNthFilterOptionLocator(page, 0);
-};
-
-export const getFilterOptionName = async (
-  firstFilterOptionLocator: Locator
-): Promise<string> => {
-  // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we split on newlines and take the first non-empty string
-  return (
-    (await firstFilterOptionLocator.innerText())
-      .split("\n")
-      .map((x) => x.trim())
-      .find((x) => x.length > 0) ?? ""
-  );
-};
-
-const MAX_FILTER_OPTIONS_TO_CHECK = 10;
-
-interface FilterOptionNameAndLocator {
-  index: number;
-  locator: Locator;
-  name: string;
-}
-
-/**
- * Gets the name of the filter option associated with a locator
- * @param page - a Playwright Page object, on which a filter must be currently selected
- * @returns the innerText of the first nonempty filter option as a promise
- */
-const getFirstNonEmptyFilterOptionInfo = async (
-  page: Page
-): Promise<FilterOptionNameAndLocator> => {
-  let filterToSelect = "";
-  let filterOptionLocator = undefined;
-  let i = 0;
-  while (filterToSelect === "" && i < MAX_FILTER_OPTIONS_TO_CHECK) {
-    // Filter options display as "[text]\n[number]" , sometimes with extra whitespace, so we want the string before the newline
-    const filterOptionRegex = /^(.*)\n+(\d+)\s*$/;
-    filterOptionLocator = getNthFilterOptionLocator(page, i);
-    const filterNameMatch = (await filterOptionLocator.innerText())
-      .trim()
-      .match(filterOptionRegex);
-    if (filterNameMatch !== null) {
-      filterToSelect = filterNameMatch[1];
-    }
-    i += 1;
-  }
-  if (filterOptionLocator === undefined) {
-    throw new Error(
-      "No locator found within the maximum number of filter options"
-    );
-  }
-  return { index: i - 1, locator: filterOptionLocator, name: filterToSelect };
-};
-
-/**
- * Checks that selecting a specified filter is persistent across the tabs in tabOrder
- * @param page - a Playwright page object
- * @param testFilterName - the name of the filter to check
- * @param tabOrder - the tabs to check, in order. The filter will be selected on the first tab.
- */
-export async function testFilterPersistence(
-  page: Page,
-  testFilterName: string,
-  tabOrder: TabDescription[]
-): Promise<void> {
-  // Start on the first tab in the test order (should be files)
-  await page.goto(tabOrder[0].url);
-  // Select the first checkbox on the test filter
-  await page.getByText(filterRegex(testFilterName)).click();
-  const filterToSelectInfo = await getFirstNonEmptyFilterOptionInfo(page);
-  const filterToSelectLocator = filterToSelectInfo.locator;
-  const filterName = filterToSelectInfo.name;
-  const filterIndex = filterToSelectInfo.index;
-  await expect(filterToSelectLocator.getByRole("checkbox")).not.toBeChecked();
-  await filterToSelectLocator.getByRole("checkbox").click();
-  await expect(filterToSelectLocator.getByRole("checkbox")).toBeChecked();
-  await page.locator("body").click();
-  // Expect at least some text to still be visible
-  await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
-  // For each tab, check that the selected filter is still checked
-  for (const tab of tabOrder.slice(1)) {
-    await getTabByText(page, tab.tabName).dispatchEvent("click");
-    await expect(page.getByText(filterRegex(testFilterName))).toBeVisible();
-    await page.getByText(filterRegex(testFilterName)).dispatchEvent("click");
-    await page.waitForLoadState("load");
-    const previouslySelected = getNamedFilterOptionLocator(page, filterName);
-    await expect(previouslySelected.getByRole("checkbox")).toBeChecked();
-    await page.waitForLoadState("load");
-    await page.locator("body").click();
-  }
-  // Return to the start tab and confirm that the filter stays checked and that some content is visible
-  // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
-  await getTabByText(page, tabOrder[0].tabName).dispatchEvent("click");
-  await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
-  await page.getByText(filterRegex(testFilterName)).dispatchEvent("click");
-  const previouslySelected = getNthFilterOptionLocator(page, filterIndex);
-  await expect(previouslySelected).toContainText(filterName, {
-    useInnerText: true,
-  });
-  await expect(previouslySelected.getByRole("checkbox").first()).toBeChecked();
-}
-
-/**
- * Test that the counts associated with an array of filter names are reflected
- * in the table
- * @param page - a Playwright page object
- * @param tab - the tab object to test
- * @param filterNames - the names of the filters to select, in order
- * @param elementsPerPage - the maximum number of elements per page
- * @returns false if the test should fail and true if the test should pass
- */
-export async function testFilterCounts(
-  page: Page,
-  tab: TabDescription,
-  filterNames: string[],
-  elementsPerPage: number
-): Promise<boolean> {
-  await page.goto(tab.url);
-  // For each arbitrarily selected filter
-  for (const filterName of filterNames) {
-    // Select the filter
-    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
-    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    // Get the number associated with the first filter button, and select it
-    await page.waitForLoadState("load");
-    const firstFilterOption = getFirstFilterOptionLocator(page);
-    const filterNumbers = (await firstFilterOption.innerText()).split("\n");
-    const filterNumber =
-      filterNumbers
-        .reverse()
-        .map((x) => Number(x))
-        .find((x) => !isNaN(x) && x !== 0) ?? -1;
-    if (filterNumber < 0) {
-      console.log(
-        "FILTER COUNTS: The number associated with the filter is negative"
-      );
-      return false;
-    }
-    // Check the filter
-    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
-    await firstFilterOption.getByRole("checkbox").dispatchEvent("click");
-    await page.waitForLoadState("load");
-    // Exit the filter menu
-    await page.locator("body").click();
-    await expect(page.getByRole("checkbox")).toHaveCount(0);
-    // Wait for the table to load
-    await expect(getFirstRowNthColumnCellLocator(page, 0)).toBeVisible();
-    // Expect the displayed count of elements to be 0
-    const firstNumber =
-      filterNumber <= elementsPerPage ? filterNumber : elementsPerPage;
-    await expect(
-      page.getByText("Results 1 - " + firstNumber + " of " + filterNumber)
-    ).toBeVisible();
-  }
-  return true;
-}
-
-const FILTER_CSS_SELECTOR = "#sidebar-positioner";
-
-/**
- * Get a locator for a named filter tag
- * @param page - a Playwright page object
- * @param filterTagName - the name of the filter tag to search for
- * @returns - a locator for the named filter tag
- */
-const getFilterTagLocator = (page: Page, filterTagName: string): Locator => {
-  return page
-    .locator(FILTER_CSS_SELECTOR)
-    .getByText(filterTagName, { exact: true });
-};
-
-/**
- * Check that the filter tabs appear when a filter is selected and that clicking
- * them causes the filter to be deselected
- * @param page - a Playwright page objet
- * @param tab - the tab to check
- * @param filterNames - the names of the filters to check
- */
-export async function testFilterTags(
-  page: Page,
-  tab: TabDescription,
-  filterNames: string[]
-): Promise<void> {
-  await page.goto(tab.url);
-  for (const filterName of filterNames) {
-    // Select a filter
-    // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
-    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    await page.waitForLoadState("load");
-    const firstFilterOptionLocator = getFirstFilterOptionLocator(page);
-    // Get the name of the selected filter
-    const firstFilterOptionName =
-      (await firstFilterOptionLocator.innerText())
-        .split("\n")
-        .find((x) => x.length > 0) ?? "";
-    // Click the selected filter and exit the filter menu
-    await firstFilterOptionLocator.getByRole("checkbox").click();
-    await page.waitForLoadState("load");
-    await page.locator("body").click();
-    await expect(page.getByRole("checkbox")).toHaveCount(0);
-    // Click the filter tag
-    const filterTagLocator = getFilterTagLocator(page, firstFilterOptionName);
-    await expect(filterTagLocator).toBeVisible();
-    await filterTagLocator.scrollIntoViewIfNeeded();
-    await filterTagLocator.dispatchEvent("click");
-    // Expect the tag to disappear when clicked
-    await expect(filterTagLocator).toHaveCount(0);
-    // Expect the filter to be deselected in the filter menu
-    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    await expect(
-      firstFilterOptionLocator.getByRole("checkbox")
-    ).not.toBeChecked();
-    await page.locator("body").click();
-  }
-}
-
-/**
- * Check that selecting some filters then selecting the clear all button causes
- * those filters to become deselected
- * @param page - a Playwright page object
- * @param tab - the tab object to test on
- * @param filterNames - the names of the filters to check
- */
-export async function testClearAll(
-  page: Page,
-  tab: TabDescription,
-  filterNames: string[]
-): Promise<void> {
-  await page.goto(tab.url);
-  const selectedFilterNamesList = [];
-  // Select each filter and get the names of the actual filter text
-  // (dispatchevent necessary because the filter menu sometimes interrupts the click event)
-  for (const filterName of filterNames) {
-    await page.getByText(filterRegex(filterName)).dispatchEvent("click");
-    await getFirstFilterOptionLocator(page).getByRole("checkbox").click();
-    await expect(
-      getFirstFilterOptionLocator(page).getByRole("checkbox")
-    ).toBeChecked();
-    selectedFilterNamesList.push(
-      await getFilterOptionName(getFirstFilterOptionLocator(page))
-    );
-    await page.locator("body").click();
-  }
-  // Click the "Clear All" button
-  await page.getByText("Clear All").dispatchEvent("click");
-  for (const filterName of selectedFilterNamesList) {
-    await expect(page.getByText(filterRegex(filterName))).toHaveCount(0);
-  }
-  // Ensure that the filters still show as unchecked
-  for (let i = 0; i < filterNames.length; i++) {
-    await page.getByText(filterRegex(filterNames[i])).dispatchEvent("click");
-    await expect(
-      getNamedFilterOptionLocator(page, selectedFilterNamesList[i]).getByRole(
-        "checkbox"
-      )
-    ).not.toBeChecked();
-    await page.locator("body").click();
-  }
-}
-
-/**
- * Escape a string so it can safely be used in a regexp
- * @param string - the string to escape
- * @returns - A string that has all Regexp special characters escaped
- */
-function escapeRegExp(string: string): string {
-  // Searches for regex special characters and adds backslashes in front of them to escape
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-/**
  * Make an export request that leaves only the minimal number of checkboxes selected
  * @param page - a Playwright page object
  * @param exportRequestButtonLocator - a Playwright locator to the button to click after the export request is completed
@@ -786,6 +451,16 @@ const hoverAndGetText = async (
   }
   return cellText.trim();
 };
+
+/**
+ * Escape a string so it can safely be used in a regexp
+ * @param string - the string to escape
+ * @returns - A string that has all Regexp special characters escaped
+ */
+function escapeRegExp(string: string): string {
+  // Searches for regex special characters and adds backslashes in front of them to escape
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 /**
  *  Tests bulk download of a file manifest from the files tab.
