@@ -1,4 +1,7 @@
-import { OAuthProvider } from "@databiosphere/findable-ui/lib/config/entities";
+import {
+  OAUTH_FLOW,
+  OAuthProvider,
+} from "@databiosphere/findable-ui/lib/config/entities";
 import { GOOGLE_SIGN_IN_PROVIDER } from "@databiosphere/findable-ui/lib/google/config";
 import { GoogleProfile } from "@databiosphere/findable-ui/lib/google/types";
 
@@ -11,6 +14,7 @@ export const GOOGLE_PROVIDER: OAuthProvider<GoogleProfile> = {
   ...GOOGLE_SIGN_IN_PROVIDER,
   ...OAUTH_GOOGLE_SIGN_IN,
   clientId: CLIENT_ID,
+  flow: OAUTH_FLOW.IMPLICIT,
 };
 
 export const TERRA_SERVICE = {
