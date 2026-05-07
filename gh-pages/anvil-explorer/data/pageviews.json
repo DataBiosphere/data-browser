@@ -1,1076 +1,1041 @@
 [
   {
     "page": "/datasets",
-    "views": 1851,
-    "change": 0.6536804824351488
-  },
-  {
-    "page": "/files",
-    "views": 308,
-    "change": 3.21505376344086
+    "views": 1393,
+    "change": -0.22234828020889608
   },
   {
     "page": "/login",
-    "views": 209,
-    "change": 0.5731182795698924
+    "views": 168,
+    "change": -0.16937799043062196
   },
   {
-    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293",
-    "views": 116,
-    "change": 5.163187855787476
-  },
-  {
-    "page": "/export",
-    "views": 112,
-    "change": 5.32258064516129
-  },
-  {
-    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export",
-    "views": 89,
-    "change": 15.07741935483871
+    "page": "/files",
+    "views": 108,
+    "change": -0.6376623376623376
   },
   {
     "page": "/donors",
-    "views": 67,
-    "change": 1.3275434243176178
+    "views": 63,
+    "change": -0.028358208955223896
+  },
+  {
+    "page": "/export",
+    "views": 61,
+    "change": -0.43720238095238095
+  },
+  {
+    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293",
+    "views": 57,
+    "change": -0.49224137931034484
+  },
+  {
+    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export",
+    "views": 52,
+    "change": -0.3962546816479401
   },
   {
     "page": "/biosamples",
-    "views": 50,
-    "change": 0.5572858731924362
-  },
-  {
-    "page": "/activities",
-    "views": 40,
-    "change": 1.4086021505376345
-  },
-  {
-    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826",
-    "views": 40,
-    "change": 5.021505376344086
-  },
-  {
-    "page": "/export/download-manifest",
-    "views": 32,
-    "change": 4.780645161290323
-  },
-  {
-    "page": "/",
-    "views": 31,
-    "change": -0.28205128205128205
-  },
-  {
-    "page": "/guides",
-    "views": 28,
-    "change": 0.20430107526881724
-  },
-  {
-    "page": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063",
-    "views": 28,
-    "change": null
-  },
-  {
-    "page": "/export/export-to-terra",
-    "views": 27,
-    "change": 3.87741935483871
-  },
-  {
-    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/export-to-terra",
-    "views": 23,
-    "change": 19.774193548387096
-  },
-  {
-    "page": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1",
-    "views": 20,
-    "change": 5.021505376344086
-  },
-  {
-    "page": "/datasets/4af9fbfc-de22-4a6d-b481-5fe756a45b23",
-    "views": 19,
-    "change": 3.290322580645161
-  },
-  {
-    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export",
-    "views": 18,
-    "change": null
-  },
-  {
-    "page": "/datasets/74472c21-cafa-4879-9745-aa94ebd9f77c",
-    "views": 16,
-    "change": null
-  },
-  {
-    "page": "/datasets/e5aee011-bdb3-4caa-954c-a46678656270",
-    "views": 16,
-    "change": 2.6129032258064515
-  },
-  {
-    "page": "/datasets/4f70fe5e-eea9-4ad8-bade-d1912f207c47",
-    "views": 15,
-    "change": null
-  },
-  {
-    "page": "/export/get-curl-command",
-    "views": 14,
-    "change": null
-  },
-  {
-    "page": "/datasets/d976c0b2-712f-4c0b-a0cf-cd26bbdbc8a0",
-    "views": 13,
-    "change": 4.870967741935483
-  },
-  {
-    "page": "/datasets/db7caf73-bb61-4f40-bbf1-fa1489f71068",
-    "views": 12,
-    "change": -0.2774193548387097
-  },
-  {
-    "page": "/datasets/4af9fbfc-de22-4a6d-b481-5fe756a45b23/export",
-    "views": 12,
-    "change": 1.1677419354838712
-  },
-  {
-    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/download-manifest",
-    "views": 9,
-    "change": null
-  },
-  {
-    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/get-curl-command",
-    "views": 9,
-    "change": null
-  },
-  {
-    "page": "/datasets/094f3cac-3475-464f-8cea-eb9c09577848",
-    "views": 9,
-    "change": 3.064516129032258
-  },
-  {
-    "page": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063/export",
-    "views": 9,
-    "change": null
-  },
-  {
-    "page": "/terms-of-service",
-    "views": 7,
-    "change": 0.2645161290322582
-  },
-  {
-    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export/export-to-terra",
-    "views": 7,
-    "change": null
-  },
-  {
-    "page": "/datasets/db7caf73- bb61-4f40-bbf1-fa1489f71068",
-    "views": 7,
-    "change": null
-  },
-  {
-    "page": "/datasets/5aacd1a5-8963-4489-8352-9e425e92e5df",
-    "views": 6,
-    "change": -0.5831265508684864
-  },
-  {
-    "page": "/datasets/fe7091a5-0784-471a-8e12-84aa686215db",
-    "views": 6,
-    "change": 0.8064516129032258
-  },
-  {
-    "page": "/datasets/d7bf65de-79b5-47a1-889a-0c1a74075055",
-    "views": 6,
-    "change": 1.7096774193548385
+    "views": 51,
+    "change": 0.053999999999999826
   },
   {
     "page": "/datasets/e5aee011-bdb3-4caa-954c-a46678656270/export",
-    "views": 6,
-    "change": 1.7096774193548385
+    "views": 27,
+    "change": 3.6499999999999995
   },
   {
-    "page": "/datasets/b62db4f6-f1b9-468b-8bda-5a92504034fd",
-    "views": 6,
-    "change": -0.5483870967741935
+    "page": "/",
+    "views": 27,
+    "change": -0.09999999999999998
   },
   {
-    "page": "/datasets/eb37d953-bde3-47cc-bbd2-f80491a0d4fd",
-    "views": 6,
+    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826",
+    "views": 26,
+    "change": -0.32833333333333337
+  },
+  {
+    "page": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1",
+    "views": 23,
+    "change": 0.18833333333333324
+  },
+  {
+    "page": "/export/get-curl-command",
+    "views": 23,
+    "change": 0.6976190476190476
+  },
+  {
+    "page": "/activities",
+    "views": 22,
+    "change": -0.43166666666666664
+  },
+  {
+    "page": "/guides",
+    "views": 20,
+    "change": -0.261904761904762
+  },
+  {
+    "page": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063",
+    "views": 20,
+    "change": -0.261904761904762
+  },
+  {
+    "page": "/datasets/e5aee011-bdb3-4caa-954c-a46678656270",
+    "views": 13,
+    "change": -0.16041666666666665
+  },
+  {
+    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/get-curl-command",
+    "views": 12,
+    "change": 0.37777777777777777
+  },
+  {
+    "page": "/datasets/5aacd1a5-8963-4489-8352-9e425e92e5df",
+    "views": 10,
+    "change": 0.7222222222222221
+  },
+  {
+    "page": "/guides/data-download-options",
+    "views": 10,
     "change": null
   },
   {
-    "page": "/datasets/19e6aef1-bf95-40c8-92ff-7d06001864a8",
-    "views": 5,
-    "change": 3.516129032258064
-  },
-  {
-    "page": "/datasets/1bb475e9-2422-4be4-9d98-b964be39c11d",
-    "views": 5,
-    "change": 1.258064516129032
-  },
-  {
-    "page": "/datasets/336b8487-36c8-407e-b862-41f05709e789",
-    "views": 5,
+    "page": "/guides/data-download-via-curl",
+    "views": 10,
     "change": null
   },
   {
-    "page": "/datasets/c7822863-e4e1-4f6f-ba9d-c4766436c4e5",
-    "views": 5,
-    "change": 1.258064516129032
+    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export",
+    "views": 9,
+    "change": -0.4833333333333333
   },
   {
-    "page": "/datasets/1426a206-fcb1-4a07-9b47-32f06ef8cf8d",
-    "views": 5,
-    "change": 0.12903225806451601
-  },
-  {
-    "page": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1/export",
-    "views": 5,
-    "change": null
-  },
-  {
-    "page": "/datasets/63600149-bb5a-49a5-9cb4-3ac5719d2ef1",
-    "views": 5,
-    "change": -0.5483870967741935
-  },
-  {
-    "page": "/datasets/4ff32df3-8061-4442-ab75-02d3150feed6",
-    "views": 5,
-    "change": null
-  },
-  {
-    "page": "/datasets/2864e9de-7a1a-4d4a-9ed2-03bd23cf7f5c",
-    "views": 4,
-    "change": 0.8064516129032258
-  },
-  {
-    "page": "/datasets/6ea221e5-0f83-4b5f-ad8b-49a5dbdba837",
-    "views": 4,
-    "change": -0.7220843672456576
-  },
-  {
-    "page": "/datasets/bbbcd305-77cc-4c88-94bc-55235c3da93d",
-    "views": 4,
-    "change": null
-  },
-  {
-    "page": "/datasets/4af9fbfc-de22-4a6d-b481-5fe756a45b23/export/download-manifest",
-    "views": 4,
-    "change": null
-  },
-  {
-    "page": "/datasets/eb37d953-bde3-47cc-bbd2-f80491a0d4fd/export",
-    "views": 4,
-    "change": null
-  },
-  {
-    "page": "/data-dictionary",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/019300d1-5106-4ec4-9cd5-1d543b5933cc",
-    "views": 3,
-    "change": 0.35483870967741926
-  },
-  {
-    "page": "/datasets/208bc588-212f-439e-96a9-60e24abb611e",
-    "views": 3,
-    "change": 0.35483870967741926
-  },
-  {
-    "page": "/datasets/7177c2de-d6b2-434a-80a9-4707b4fc460e",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/7361d67c-829d-49e9-8e59-c3c55bf554f3",
-    "views": 3,
-    "change": 0.35483870967741926
-  },
-  {
-    "page": "/datasets/bc42104a-03f0-4143-9b24-4394d1140a1b",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/e5aee011-bdb3-4caa-954c-a46678656270/export/export-to-terra",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/fb72c298-c58e-4836-9653-a435d968ae2d",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/beta-announcement",
-    "views": 3,
-    "change": 1.7096774193548385
-  },
-  {
-    "page": "/datasets/293801c6-846a-4743-8244-a97004b5e22b",
-    "views": 3,
-    "change": 1.7096774193548385
-  },
-  {
-    "page": "/datasets/4af9fbfc-de22-4a6d-b481-5fe756a45b23/export/export-to-terra",
-    "views": 3,
-    "change": -0.32258064516129037
-  },
-  {
-    "page": "/datasets/5c25d772-bdcb-4ea9-989c-f92258634ad9",
-    "views": 3,
-    "change": 1.7096774193548385
-  },
-  {
-    "page": "/datasets/9d0daf39-961c-4ea7-ac95-b857d30683f6",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/b1d4ccfe-cec9-4551-bf2d-7d10b00e140a",
-    "views": 3,
-    "change": -0.09677419354838712
-  },
-  {
-    "page": "/datasets/edf3ded8-a4e5-43cf-9121-f1821315579a",
-    "views": 3,
-    "change": 1.7096774193548385
-  },
-  {
-    "page": "/datasets/fdf85a48-027b-49fd-999c-41e01ceffac5",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/261114cf-b2dd-4639-9328-c7d486baf5e7",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1/export/download-manifest",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/4ff32df3-8061-4442-ab75-02d3150feed6/export",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/597f8a55-68a4-4ab6-b04d-2cf18cb2c0c9",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/621f76fb-6bfd-4416-94e5-cfdfdaec5e07",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063/export/download-manifest",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063/export/export-to-terra",
-    "views": 3,
-    "change": null
-  },
-  {
-    "page": "/data-dictionary/anvil-findability-subset",
-    "views": 2,
-    "change": -0.09677419354838712
-  },
-  {
-    "page": "/datasets/2f3b8c95-7f3a-402f-a2a4-bb478bab4e56",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/3928fc78-f65d-4727-9b44-639399affb36",
-    "views": 2,
-    "change": 0.8064516129032258
-  },
-  {
-    "page": "/datasets/4cb27874-9351-437a-8023-51d630b76c15",
-    "views": 2,
-    "change": -0.3978494623655914
-  },
-  {
-    "page": "/datasets/56ca3afc-e1cd-441b-85f8-3fe0deb57ad6",
-    "views": 2,
-    "change": -0.8193548387096774
-  },
-  {
-    "page": "/datasets/5ede0571-253a-4fc3-9436-0ad625076401",
-    "views": 2,
-    "change": -0.09677419354838712
-  },
-  {
-    "page": "/datasets/64522734-9aaf-4112-ac14-2121642225b0",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/98bb7b06-2fd8-43e8-9a91-1221bf7b1c14",
-    "views": 2,
-    "change": -0.09677419354838712
-  },
-  {
-    "page": "/datasets/9d70632f-b590-4d38-886c-280f0084b1d4",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/a00842c8-12f8-4f92-a7b3-01bb73ffd4e4",
-    "views": 2,
-    "change": -0.8494623655913979
-  },
-  {
-    "page": "/datasets/a4e936d1-d81a-475d-95be-b5cd41de921d",
-    "views": 2,
-    "change": -0.8193548387096774
-  },
-  {
-    "page": "/datasets/a754b3ac-a792-4d98-8be7-7ef161142440",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/bbe9be84-065c-4a44-8d47-e0543de1dd77",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/cb707deb-aa9d-4783-84ce-ec700223f2bc",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/d5440ffb-2c48-4dc4-9721-a54dc9ed4042",
-    "views": 2,
-    "change": 0.8064516129032258
-  },
-  {
-    "page": "/datasets/f576b21b-3dcc-4edd-bdfd-78272b7e764d",
-    "views": 2,
-    "change": -0.3978494623655914
-  },
-  {
-    "page": "/datasets/0b740f36-28d6-4e02-8165-ad0e9674bbf6",
-    "views": 2,
-    "change": -0.09677419354838712
-  },
-  {
-    "page": "/datasets/15ac2bed-cd9a-4893-9a0e-be1d07577153",
-    "views": 2,
-    "change": -0.3978494623655914
-  },
-  {
-    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/biodata-catalyst",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/336b8487-36c8-407e-b862-41f05709e789/export",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/4f70fe5e-eea9-4ad8-bade-d1912f207c47/export",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/5aacd1a5-8963-4489-8352-9e425e92e5df/export",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/6b123ea6-0fcc-499c-b5b3-fa46ee035207",
-    "views": 2,
-    "change": -0.09677419354838712
+    "page": "/ga-announcement",
+    "views": 7,
+    "change": 6.233333333333333
   },
   {
     "page": "/datasets/74472c21-cafa-4879-9745-aa94ebd9f77c/export",
-    "views": 2,
-    "change": null
+    "views": 7,
+    "change": 2.6166666666666667
   },
   {
-    "page": "/datasets/8c5cce68-7d79-43b0-9004-a66c02f6ee5f",
-    "views": 2,
-    "change": null
+    "page": "/datasets/4af9fbfc-de22-4a6d-b481-5fe756a45b23/export",
+    "views": 7,
+    "change": -0.39722222222222225
   },
   {
-    "page": "/datasets/b749d9b5-0561-4343-936b-47c6b476ece0",
-    "views": 2,
-    "change": -0.3978494623655914
-  },
-  {
-    "page": "/datasets/c38552a2-ce6e-475a-af2f-619640052d87",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/c7822863-e4e1-4f6f-ba9d-c4766436c4e5/export",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/d976c0b2-712f-4c0b-a0cf-cd26bbdbc8a0/export",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets/fb72c298-c58e-4836-9653-a435d968ae2d/export",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/datasets),",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/03898f7d-935c-4c9f-a3ef-a2607c478a5c",
-    "views": 1,
-    "change": -0.5483870967741935
-  },
-  {
-    "page": "/datasets/10cef455-2945-4188-81e2-fc0f0c2b1d88",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/16343570-0771-45c4-8ef3-4020357bf29c",
-    "views": 1,
-    "change": null
+    "page": "/datasets/15ac2bed-cd9a-4893-9a0e-be1d07577153",
+    "views": 6,
+    "change": 2.1
   },
   {
     "page": "/datasets/1bb475e9-2422-4be4-9d98-b964be39c11d/export",
-    "views": 1,
+    "views": 6,
+    "change": 5.2
+  },
+  {
+    "page": "/datasets/5c25d772-bdcb-4ea9-989c-f92258634ad9/export",
+    "views": 6,
+    "change": null
+  },
+  {
+    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/download-manifest",
+    "views": 6,
+    "change": -0.3111111111111111
+  },
+  {
+    "page": "/datasets/d4079d07-421c-4233-afe3-f17c8f11503a",
+    "views": 6,
+    "change": null
+  },
+  {
+    "page": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063/export",
+    "views": 6,
+    "change": -0.3111111111111111
+  },
+  {
+    "page": "/datasets/15ac2bed-cd9a-4893-9a0e-be1d07577153/export",
+    "views": 5,
     "change": null
   },
   {
     "page": "/datasets/2864e9de-7a1a-4d4a-9ed2-03bd23cf7f5c/export",
-    "views": 1,
-    "change": -0.6989247311827957
+    "views": 5,
+    "change": 4.166666666666666
   },
   {
-    "page": "/datasets/29fda573-3884-4d04-92ad-ca5a1cfcd1f3",
-    "views": 1,
+    "page": "/datasets/74472c21-cafa-4879-9745-aa94ebd9f77c",
+    "views": 5,
+    "change": -0.6770833333333334
+  },
+  {
+    "page": "/export/export-to-terra",
+    "views": 5,
+    "change": -0.808641975308642
+  },
+  {
+    "page": "/export/download-manifest",
+    "views": 5,
+    "change": -0.8385416666666667
+  },
+  {
+    "page": "/datasets/1426a206-fcb1-4a07-9b47-32f06ef8cf8d/export",
+    "views": 4,
     "change": null
   },
   {
-    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/cavatica",
-    "views": 1,
+    "page": "/datasets/5c25d772-bdcb-4ea9-989c-f92258634ad9",
+    "views": 4,
+    "change": 0.37777777777777777
+  },
+  {
+    "page": "/datasets/b749d9b5-0561-4343-936b-47c6b476ece0/export",
+    "views": 4,
     "change": null
   },
   {
-    "page": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e",
-    "views": 1,
-    "change": -0.7741935483870968
+    "page": "/datasets/d976c0b2-712f-4c0b-a0cf-cd26bbdbc8a0",
+    "views": 4,
+    "change": -0.6820512820512821
   },
   {
-    "page": "/datasets/336b8487-36c8-407e-b862-41f05709e789/export/download-manifest",
-    "views": 1,
+    "page": "/beta-announcement",
+    "views": 3,
+    "change": 0.033333333333333215
+  },
+  {
+    "page": "/datasets/0b740f36-28d6-4e02-8165-ad0e9674bbf6",
+    "views": 3,
+    "change": 0.55
+  },
+  {
+    "page": "/datasets/2864e9de-7a1a-4d4a-9ed2-03bd23cf7f5c",
+    "views": 3,
+    "change": -0.22499999999999998
+  },
+  {
+    "page": "/datasets/6ea221e5-0f83-4b5f-ad8b-49a5dbdba837",
+    "views": 3,
+    "change": -0.22499999999999998
+  },
+  {
+    "page": "/datasets/a00842c8-12f8-4f92-a7b3-01bb73ffd4e4",
+    "views": 3,
+    "change": 0.55
+  },
+  {
+    "page": "/datasets/b749d9b5-0561-4343-936b-47c6b476ece0",
+    "views": 3,
+    "change": 0.55
+  },
+  {
+    "page": "/datasets/c7822863-e4e1-4f6f-ba9d-c4766436c4e5",
+    "views": 3,
+    "change": -0.38
+  },
+  {
+    "page": "/datasets/fe7091a5-0784-471a-8e12-84aa686215db",
+    "views": 3,
+    "change": -0.4833333333333334
+  },
+  {
+    "page": "/guides/tsv-file-manifest-download",
+    "views": 3,
     "change": null
+  },
+  {
+    "page": "/datasets/1bb475e9-2422-4be4-9d98-b964be39c11d",
+    "views": 3,
+    "change": -0.38
+  },
+  {
+    "page": "/datasets/d78b9626-6214-4f51-90d8-febd4f081f18",
+    "views": 3,
+    "change": 2.1
+  },
+  {
+    "page": "/datasets/e5aee011-bdb3-4caa-954c-a46678656270/export/export-to-terra",
+    "views": 3,
+    "change": 0.033333333333333215
+  },
+  {
+    "page": "/terms-of-service",
+    "views": 3,
+    "change": -0.5571428571428572
+  },
+  {
+    "page": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1/export",
+    "views": 3,
+    "change": -0.38
   },
   {
     "page": "/datasets/3db7b5ed-6593-4c02-8ccb-270b6a1a44c7",
-    "views": 1,
-    "change": -0.6989247311827957
+    "views": 3,
+    "change": 2.1
   },
   {
-    "page": "/datasets/47924183-c38f-4a30-8a24-3dad9d7d4b84",
-    "views": 1,
+    "page": "/datasets/1b2baf77-a7a3-4822-ba9e-285678e7da8b",
+    "views": 2,
     "change": null
   },
   {
-    "page": "/datasets/4f70fe5e-eea9-4ad8-bade-d1912f207c47/export/download-manifest",
-    "views": 1,
+    "page": "/datasets/4af9fbfc-de22-4a6d-b481-5fe756a45b23",
+    "views": 2,
+    "change": -0.8912280701754386
+  },
+  {
+    "page": "/datasets/56ca3afc-e1cd-441b-85f8-3fe0deb57ad6",
+    "views": 2,
+    "change": 0.033333333333333215
+  },
+  {
+    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export/get-curl-command",
+    "views": 2,
     "change": null
   },
   {
-    "page": "/datasets/4ff32df3-8061-4442-ab75-02d3150feed6/export/export-to-terra",
-    "views": 1,
+    "page": "/datasets/a4e936d1-d81a-475d-95be-b5cd41de921d",
+    "views": 2,
+    "change": 0.033333333333333215
+  },
+  {
+    "page": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063/export/export-to-terra",
+    "views": 2,
+    "change": -0.3111111111111111
+  },
+  {
+    "page": "/datasets/cb707deb-aa9d-4783-84ce-ec700223f2bc",
+    "views": 2,
+    "change": 0.033333333333333215
+  },
+  {
+    "page": "/datasets/db7caf73-bb61-4f40-bbf1-fa1489f71068",
+    "views": 2,
+    "change": -0.8277777777777777
+  },
+  {
+    "page": "/datasets/e5aee011-bdb3-4caa-954c-a46678656270/export/get-curl-command",
+    "views": 2,
     "change": null
   },
   {
-    "page": "/datasets/5047fc67-a80a-4a83-8cc3-515ec15df0fa",
-    "views": 1,
+    "page": "/guides/individual-file-download",
+    "views": 2,
     "change": null
   },
   {
-    "page": "/datasets/5383fd56-c2a5-458d-bdc0-222835c0fea4",
-    "views": 1,
+    "page": "/robots.txt",
+    "views": 2,
     "change": null
+  },
+  {
+    "page": "/datasets/421b2c39-da6a-4eb6-9f67-3957bab5cab7",
+    "views": 2,
+    "change": null
+  },
+  {
+    "page": "/datasets/4f70fe5e-eea9-4ad8-bade-d1912f207c47",
+    "views": 2,
+    "change": -0.8622222222222222
   },
   {
     "page": "/datasets/591f7dd1-9b6b-4f40-a753-e20e005d2b32",
-    "views": 1,
-    "change": -0.09677419354838712
+    "views": 2,
+    "change": 1.0666666666666664
   },
   {
-    "page": "/datasets/5aacd1a5-8963-4489-8352-9e425e92e5df/export/download-manifest",
+    "page": "/datasets/5aacd1a5-8963-4489-8352-9e425e92e5df/export",
+    "views": 2,
+    "change": 0.033333333333333215
+  },
+  {
+    "page": "/datasets/7361d67c-829d-49e9-8e59-c3c55bf554f3",
+    "views": 2,
+    "change": -0.3111111111111111
+  },
+  {
+    "page": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063/export/download-manifest",
+    "views": 2,
+    "change": -0.3111111111111111
+  },
+  {
+    "page": "/datasets/d3e69d99-c9d5-455f-b4c3-5bec3ac96a4d",
+    "views": 2,
+    "change": null
+  },
+  {
+    "page": "/datasets/d4079d07-421c-4233-afe3-f17c8f11503a/export",
+    "views": 2,
+    "change": null
+  },
+  {
+    "page": "/datasets/d5817814-efad-4585-bec2-4d0c97709aa2",
+    "views": 2,
+    "change": null
+  },
+  {
+    "page": "/datasets/f4d636ec-e0d2-4b4e-b63d-8c95e5aef9d6",
+    "views": 2,
+    "change": null
+  },
+  {
+    "page": "/datasets/f4d636ec-e0d2-4b4e-b63d-8c95e5aef9d6/export",
+    "views": 2,
+    "change": null
+  },
+  {
+    "page": "/datasets/f576b21b-3dcc-4edd-bdfd-78272b7e764d",
+    "views": 2,
+    "change": 0.033333333333333215
+  },
+  {
+    "page": "/data-dictionary/anvil-findability-subset",
+    "views": 1,
+    "change": -0.4833333333333334
+  },
+  {
+    "page": "/datasets/094f3cac-3475-464f-8cea-eb9c09577848",
+    "views": 1,
+    "change": -0.8851851851851852
+  },
+  {
+    "page": "/datasets/094f3cac-3475-464f-8cea-eb9c09577848/export",
     "views": 1,
     "change": null
   },
   {
-    "page": "/datasets/5aacd1a5-8963-4489-8352-9e425e92e5df/export/export-to-terra",
+    "page": "/datasets/1426a206-fcb1-4a07-9b47-32f06ef8cf8d",
+    "views": 1,
+    "change": -0.7933333333333333
+  },
+  {
+    "page": "/datasets/19e64638-cf50-48a2-975b-ab76635facbc",
     "views": 1,
     "change": null
   },
   {
-    "page": "/datasets/5bc7154b-4320-47fd-ae2b-89fe73c9f29b",
-    "views": 1,
-    "change": -0.5483870967741935
-  },
-  {
-    "page": "/datasets/5d0ef6fb-4120-4a4d-9c5b-3f646cb36732",
-    "views": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "page": "/datasets/63600149-bb5a-49a5-9cb4-3ac5719d2ef1/export",
-    "views": 1,
-    "change": -0.5483870967741935
-  },
-  {
-    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export/biodata-catalyst",
+    "page": "/datasets/2864e9de-7a1a-4d4a-9ed2-03bd23cf7f5c/export/export-to-terra",
     "views": 1,
     "change": null
   },
   {
-    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export/cavatica",
+    "page": "/datasets/2f3b8c95-7f3a-402f-a2a4-bb478bab4e56",
     "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export/download-manifest",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/685ef4da-724d-49eb-a575-6092eb6c0de4",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/7361d67c-829d-49e9-8e59-c3c55bf554f3/export",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/7361d67c-829d-49e9-8e59-c3c55bf554f3/export/download-manifest",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/74472c21-cafa-4879-9745-aa94ebd9f77c/export/download-manifest",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/74472c21-cafa-4879-9745-aa94ebd9f77c/export/export-to-terra",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/7658b452-7e09-478e-b49d-44611ce6b691",
-    "views": 1,
-    "change": -0.7741935483870968
+    "change": -0.4833333333333334
   },
   {
     "page": "/datasets/795f71ac-cd6b-41ca-b908-60c8c17a6a43",
     "views": 1,
-    "change": -0.5483870967741935
+    "change": 0.033333333333333215
   },
   {
-    "page": "/datasets/7b52db8e-3156-40db-90e5-84a839f83007",
+    "page": "/datasets/9d70632f-b590-4d38-886c-280f0084b1d4",
     "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/87ce9eb9-d854-40e6-8267-c0bc6bfba03a",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/91ebd20b-2cbb-423e-b728-f7f6c813fd1c",
-    "views": 1,
-    "change": -0.5483870967741935
-  },
-  {
-    "page": "/datasets/937d1aa3-c0e7-4088-a5f1-a502670d0b79/export",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/9452e291-ed5a-4d07-a27a-1e8d26c8fb77",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/981b40b4-f663-4a9c-a60a-61e8d6e6f5cd",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/9cb635de-3163-480a-90b0-f44ca2a52f4b",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/9d0daf39-961c-4ea7-ac95-b857d30683f6/export",
-    "views": 1,
-    "change": null
+    "change": -0.4833333333333334
   },
   {
     "page": "/datasets/9ed48cba-b1e6-4a3e-bb63-81b17eb11b4e",
     "views": 1,
-    "change": -0.09677419354838712
+    "change": 0.033333333333333215
   },
   {
-    "page": "/datasets/a046894e-672a-4721-80ed-12909075ecec",
+    "page": "/datasets/b13aee15-24f8-4ae9-9721-5799828c15bc",
     "views": 1,
     "change": null
   },
   {
-    "page": "/datasets/a0e88a51-a72a-4b2c-810c-002035d8f0c0",
-    "views": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "page": "/datasets/a6361373-ccd9-47fe-9d63-dec891f1e1f1",
-    "views": 1,
-    "change": -0.7741935483870968
-  },
-  {
-    "page": "/datasets/a754b3ac-a792-4d98-8be7-7ef161142440/export/export-to-terra",
+    "page": "/datasets/bf2edd68-f1cf-4087-ae3e-e146b1f7e8e2",
     "views": 1,
     "change": null
   },
   {
-    "page": "/datasets/a970fb7a-7a4e-4982-9d93-1bb611eebac9",
+    "page": "/datasets/c2c9940c-681b-48d9-a538-12f20d4c5029",
     "views": 1,
     "change": null
   },
   {
-    "page": "/datasets/ac14c7a2-3449-43a8-b38b-8c65b3c95c7f",
-    "views": 1,
-    "change": -0.6989247311827957
-  },
-  {
-    "page": "/datasets/b14fa194-7af3-4701-b31b-a894e8daa1aa",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/b4780686-21b6-4647-b8da-c8b4df9e36bd",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/b5d99670-c00c-48a5-bc1e-7a577be9d8d8",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/b62db4f6-f1b9-468b-8bda-5a92504034fd/export",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/c7822863-e4e1-4f6f-ba9d-c4766436c4e5/export/export-to-terra",
+    "page": "/datasets/c7b30764-f52f-4e8e-ba33-085fe70b1c79",
     "views": 1,
     "change": null
   },
   {
     "page": "/datasets/c85bbf36-39c7-4103-95a1-8f8a79ddd6f3",
     "views": 1,
-    "change": -0.09677419354838712
+    "change": 0.033333333333333215
   },
   {
-    "page": "/datasets/ca6acdc1-d9c5-48e3-8a6f-85c32af7c433",
+    "page": "/datasets/d7bf65de-79b5-47a1-889a-0c1a74075055",
+    "views": 1,
+    "change": -0.8277777777777777
+  },
+  {
+    "page": "/datasets/d976c0b2-712f-4c0b-a0cf-cd26bbdbc8a0/export",
+    "views": 1,
+    "change": -0.4833333333333334
+  },
+  {
+    "page": "/datasets/e91d30a6-8394-4249-b62b-822fab912b9b",
     "views": 1,
     "change": null
   },
   {
-    "page": "/datasets/cd79a40f-83fa-4069-a408-658e78ab3c93",
+    "page": "/datasets/fe7091a5-0784-471a-8e12-84aa686215db/export",
     "views": 1,
     "change": null
   },
   {
-    "page": "/datasets/d6d7cb44-9054-43f1-8f2b-eeb12b25ce67",
-    "views": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "page": "/datasets/d78b9626-6214-4f51-90d8-febd4f081f18",
-    "views": 1,
-    "change": -0.7741935483870968
-  },
-  {
-    "page": "/datasets/d857251e-b147-4dc8-9d00-71e04ab56e0f",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/d99c6b78-01b2-4c10-8a31-8863a9c6bb8a",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/datasets/303b5a92-57c8-4df2-8331-8ff308f21293",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/dbca8df8-53e9-495f-8015-59695ff35da3",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/dfcca6b4-9824-490a-9ecf-6cf170be8e89",
-    "views": 1,
-    "change": -0.5483870967741935
-  },
-  {
-    "page": "/datasets/e1f143c2-4de6-4ff4-9ad9-96cc90f84c22",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/e534462d-800c-4811-a344-e91ac5550ff7",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/e5aee011-bdb3-4caa-954c-a46678656270/export/download-manifest",
-    "views": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "page": "/datasets/eb37d953-bde3-47cc-bbd2-f80491a0d4fd/export/download-manifest",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/eb37d953-bde3-47cc-bbd2-f80491a0d4fd/export/export-to-terra",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/ef0abd82-69d4-4b78-b9d8-72469be73232",
-    "views": 1,
-    "change": null
-  },
-  {
-    "page": "/datasets/f6c49bdc-7230-4ed4-8d4e-a46f9a8fbce2",
-    "views": 1,
-    "change": -0.5483870967741935
-  },
-  {
-    "page": "/datasets/fb72c298-c58e-4836-9653-a435d968ae2d/export/download-manifest",
+    "page": "/datasets/fe7091a5-0784-471a-8e12-84aa686215db/export/export-to-terra",
     "views": 1,
     "change": null
   },
   {
     "page": "/datasets/ffd425cc-038b-4fc5-a143-f054118b6905",
     "views": 1,
-    "change": -0.5483870967741935
+    "change": 0.033333333333333215
   },
   {
-    "page": "/ga-announcement",
+    "page": "/export/cavatica",
     "views": 1,
-    "change": -0.7741935483870968
+    "change": null
+  },
+  {
+    "page": "/data-dictionary",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets),",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/019300d1-5106-4ec4-9cd5-1d543b5933cc",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/03898f7d-935c-4c9f-a3ef-a2607c478a5c",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/10cef455-2945-4188-81e2-fc0f0c2b1d88",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/16343570-0771-45c4-8ef3-4020357bf29c",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/19e6aef1-bf95-40c8-92ff-7d06001864a8",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/208bc588-212f-439e-96a9-60e24abb611e",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/261114cf-b2dd-4639-9328-c7d486baf5e7",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/293801c6-846a-4743-8244-a97004b5e22b",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/29fda573-3884-4d04-92ad-ca5a1cfcd1f3",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/biodata-catalyst",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/cavatica",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/336b8487-36c8-407e-b862-41f05709e789",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/336b8487-36c8-407e-b862-41f05709e789/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/336b8487-36c8-407e-b862-41f05709e789/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/3928fc78-f65d-4727-9b44-639399affb36",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/47924183-c38f-4a30-8a24-3dad9d7d4b84",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/4af9fbfc-de22-4a6d-b481-5fe756a45b23/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/4af9fbfc-de22-4a6d-b481-5fe756a45b23/export/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/4cb27874-9351-437a-8023-51d630b76c15",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/4f70fe5e-eea9-4ad8-bade-d1912f207c47/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/4f70fe5e-eea9-4ad8-bade-d1912f207c47/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/4ff32df3-8061-4442-ab75-02d3150feed6",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/4ff32df3-8061-4442-ab75-02d3150feed6/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/4ff32df3-8061-4442-ab75-02d3150feed6/export/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/5047fc67-a80a-4a83-8cc3-515ec15df0fa",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/5383fd56-c2a5-458d-bdc0-222835c0fea4",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/597f8a55-68a4-4ab6-b04d-2cf18cb2c0c9",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/5aacd1a5-8963-4489-8352-9e425e92e5df/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/5aacd1a5-8963-4489-8352-9e425e92e5df/export/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/5bc7154b-4320-47fd-ae2b-89fe73c9f29b",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/5d0ef6fb-4120-4a4d-9c5b-3f646cb36732",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/5ede0571-253a-4fc3-9436-0ad625076401",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/621f76fb-6bfd-4416-94e5-cfdfdaec5e07",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/63600149-bb5a-49a5-9cb4-3ac5719d2ef1",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/63600149-bb5a-49a5-9cb4-3ac5719d2ef1/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export/biodata-catalyst",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export/cavatica",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/63d97e58-a825-4b93-a9a7-0d9d165dc826/export/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/64522734-9aaf-4112-ac14-2121642225b0",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/685ef4da-724d-49eb-a575-6092eb6c0de4",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/6b123ea6-0fcc-499c-b5b3-fa46ee035207",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/7177c2de-d6b2-434a-80a9-4707b4fc460e",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/7361d67c-829d-49e9-8e59-c3c55bf554f3/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/7361d67c-829d-49e9-8e59-c3c55bf554f3/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/74472c21-cafa-4879-9745-aa94ebd9f77c/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/74472c21-cafa-4879-9745-aa94ebd9f77c/export/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/7658b452-7e09-478e-b49d-44611ce6b691",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/7b52db8e-3156-40db-90e5-84a839f83007",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/87ce9eb9-d854-40e6-8267-c0bc6bfba03a",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/8c5cce68-7d79-43b0-9004-a66c02f6ee5f",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/91ebd20b-2cbb-423e-b728-f7f6c813fd1c",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/937d1aa3-c0e7-4088-a5f1-a502670d0b79/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/9452e291-ed5a-4d07-a27a-1e8d26c8fb77",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/981b40b4-f663-4a9c-a60a-61e8d6e6f5cd",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/98bb7b06-2fd8-43e8-9a91-1221bf7b1c14",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/9cb635de-3163-480a-90b0-f44ca2a52f4b",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/9d0daf39-961c-4ea7-ac95-b857d30683f6",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/9d0daf39-961c-4ea7-ac95-b857d30683f6/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/a046894e-672a-4721-80ed-12909075ecec",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/a0e88a51-a72a-4b2c-810c-002035d8f0c0",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/a6361373-ccd9-47fe-9d63-dec891f1e1f1",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/a754b3ac-a792-4d98-8be7-7ef161142440",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/a754b3ac-a792-4d98-8be7-7ef161142440/export/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/a970fb7a-7a4e-4982-9d93-1bb611eebac9",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/ac14c7a2-3449-43a8-b38b-8c65b3c95c7f",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/b14fa194-7af3-4701-b31b-a894e8daa1aa",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/b1d4ccfe-cec9-4551-bf2d-7d10b00e140a",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/b4780686-21b6-4647-b8da-c8b4df9e36bd",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/b5d99670-c00c-48a5-bc1e-7a577be9d8d8",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/b62db4f6-f1b9-468b-8bda-5a92504034fd",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/b62db4f6-f1b9-468b-8bda-5a92504034fd/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/bbbcd305-77cc-4c88-94bc-55235c3da93d",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/bbe9be84-065c-4a44-8d47-e0543de1dd77",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/bc42104a-03f0-4143-9b24-4394d1140a1b",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/c38552a2-ce6e-475a-af2f-619640052d87",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/c7822863-e4e1-4f6f-ba9d-c4766436c4e5/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/c7822863-e4e1-4f6f-ba9d-c4766436c4e5/export/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/ca6acdc1-d9c5-48e3-8a6f-85c32af7c433",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/cd79a40f-83fa-4069-a408-658e78ab3c93",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/d5440ffb-2c48-4dc4-9721-a54dc9ed4042",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/d6d7cb44-9054-43f1-8f2b-eeb12b25ce67",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/d857251e-b147-4dc8-9d00-71e04ab56e0f",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/d99c6b78-01b2-4c10-8a31-8863a9c6bb8a",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/datasets/303b5a92-57c8-4df2-8331-8ff308f21293",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/db7caf73- bb61-4f40-bbf1-fa1489f71068",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/dbca8df8-53e9-495f-8015-59695ff35da3",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/dfcca6b4-9824-490a-9ecf-6cf170be8e89",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/e1f143c2-4de6-4ff4-9ad9-96cc90f84c22",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/e534462d-800c-4811-a344-e91ac5550ff7",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/e5aee011-bdb3-4caa-954c-a46678656270/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/eb37d953-bde3-47cc-bbd2-f80491a0d4fd",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/eb37d953-bde3-47cc-bbd2-f80491a0d4fd/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/eb37d953-bde3-47cc-bbd2-f80491a0d4fd/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/eb37d953-bde3-47cc-bbd2-f80491a0d4fd/export/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/edf3ded8-a4e5-43cf-9121-f1821315579a",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/ef0abd82-69d4-4b78-b9d8-72469be73232",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/f6c49bdc-7230-4ed4-8d4e-a46f9a8fbce2",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/fb72c298-c58e-4836-9653-a435d968ae2d",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/fb72c298-c58e-4836-9653-a435d968ae2d/export",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/fb72c298-c58e-4836-9653-a435d968ae2d/export/download-manifest",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/datasets/fdf85a48-027b-49fd-999c-41e01ceffac5",
+    "views": 0,
+    "change": -1.0
   },
   {
     "page": "/privacy",
-    "views": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "page": "/datasets/04d218b3-3589-4036-815b-87f35850413a",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/0b740f36-28d6-4e02-8165-ad0e9674bbf6/export",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/1426a206-fcb1-4a07-9b47-32f06ef8cf8d/export",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/1426a206-fcb1-4a07-9b47-32f06ef8cf8d/export/download-manifest",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/19e64638-cf50-48a2-975b-ab76635facbc",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/2864e9de-7a1a-4d4a-9ed2-03bd23cf7f5c/export/download-manifest",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/2864e9de-7a1a-4d4a-9ed2-03bd23cf7f5c/export/export-to-terra",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/290c3ea9-9f36-4c97-9c54-7f01bc3546af",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/319a9700-0261-4879-b0c9-74925fe3ee19",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/3928fc78-f65d-4727-9b44-639399affb36/export",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/3928fc78-f65d-4727-9b44-639399affb36/export/download-manifest",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/3928fc78-f65d-4727-9b44-639399affb36/export/export-to-terra",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/3e35d949-5e09-43a3-81da-54c57d1f8ab8",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/56ca3afc-e1cd-441b-85f8-3fe0deb57ad6/export",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/56ca3afc-e1cd-441b-85f8-3fe0deb57ad6/export/export-to-terra",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/5b6c149a-7d02-4c31-ba8a-0ccbff9f0a8e",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/630a6bb6-35c0-4157-af2a-8c2496a7f239",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/63600149-bb5a-49a5-9cb4-3ac5719d2ef1/export/download-manifest",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/63600149-bb5a-49a5-9cb4-3ac5719d2ef1/export/export-to-terra",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/6bc13236-abe2-4b50-8c82-da8d5b94b90e",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/6e9a89d7-bdb6-4424-b102-9ef28001b38f",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/6ea221e5-0f83-4b5f-ad8b-49a5dbdba837/export",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/6ea221e5-0f83-4b5f-ad8b-49a5dbdba837/export/download-manifest",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/824cb524-d7aa-471c-92e8-e9055bfb7190",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/833e004e-ad09-46f6-a3d2-d2087aa0e354",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/8aa69830-3378-41a9-844c-361d3604044d",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/90b1d9c3-d365-4461-9e61-40d969fde281",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/95649822-c0e3-42ae-b5c9-dee654706b06",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/a00842c8-12f8-4f92-a7b3-01bb73ffd4e4/export",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/a00842c8-12f8-4f92-a7b3-01bb73ffd4e4/export/export-to-terra",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/a4e936d1-d81a-475d-95be-b5cd41de921d (",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/afc90b41-ab15-467e-9267-6a3789a0dbf9",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/b8823bad-a901-40aa-89db-e1f28a53bdb4",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/d4079d07-421c-4233-afe3-f17c8f11503a",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/f0688b68-6f36-436b-ae81-1288173c13b2",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/datasets/faec01f7-0126-4fde-b64d-89454690be7f",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/robots.txt",
     "views": 0,
     "change": -1.0
   }

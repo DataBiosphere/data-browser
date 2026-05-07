@@ -5,7 +5,7 @@ import os
 
 import analytics.api as ga
 from analytics.static_site import generate_site, fetch_entity_title_map, enrich_detail_records
-from constants import CURRENT_MONTH, HCA_ID, SECRET_NAME, ANALYTICS_START, OAUTH_PORT
+from constants import CURRENT_MONTH, HCA_ID, SECRET_NAME, ANALYTICS_START, OAUTH_PORT, HCA_BROWSER_ONLY_FILTER
 
 AZUL_PROJECTS_URL = "https://service.azul.data.humancellatlas.org/index/projects"
 
@@ -94,4 +94,5 @@ generate_site(
         },
     ],
     title_resolver=resolve_project_titles,
+    base_dimension_filter=HCA_BROWSER_ONLY_FILTER,
 )

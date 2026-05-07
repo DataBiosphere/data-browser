@@ -1,128 +1,98 @@
 [
   {
+    "page_path": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1",
+    "click_url": "https://duos.org/dataset/DUOS-000483",
+    "count": 4,
+    "dataset_title": "ANVIL_ALSCompute_Collection_GRU"
+  },
+  {
     "page_path": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063",
     "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
-    "count": 8,
+    "count": 4,
     "dataset_title": "ANVIL_GTEx_v11_hg38"
   },
   {
-    "page_path": "/datasets/db7caf73-bb61-4f40-bbf1-fa1489f71068",
-    "click_url": "https://duos.org/dataset/DUOS-000461",
-    "count": 6,
-    "dataset_title": "ANVIL_NIMH_Broad_ConvNeuro_McCarroll_Nehme_Levy_CIRM_DS_Village"
+    "page_path": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003184",
+    "count": 2,
+    "dataset_title": "ANVIL_ALSCompute_Collection_GRU"
   },
   {
-    "page_path": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063",
-    "click_url": "https://duos.org/dataset/DUOS-000780",
-    "count": 5,
-    "dataset_title": "ANVIL_GTEx_v11_hg38"
+    "page_path": "/datasets/56ca3afc-e1cd-441b-85f8-3fe0deb57ad6",
+    "click_url": "https://duos.org/dataset/DUOS-000663",
+    "count": 2,
+    "dataset_title": "AnVIL_CMH_GAFK_R5"
   },
   {
-    "page_path": "/datasets/621f76fb-6bfd-4416-94e5-cfdfdaec5e07",
-    "click_url": "https://duos.org/dataset/DUOS-000374",
-    "count": 5,
-    "dataset_title": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_COGS_DS_WGS"
+    "page_path": "/datasets/5aacd1a5-8963-4489-8352-9e425e92e5df",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
+    "count": 2,
+    "dataset_title": "ANVIL_GTEx_v10_hg38"
   },
   {
-    "page_path": "/datasets/094f3cac-3475-464f-8cea-eb9c09577848",
-    "click_url": "https://duos.org/dataset/DUOS-000484",
-    "count": 3,
-    "dataset_title": "ANVIL_ALSCompute_Collection_HMB"
+    "page_path": "/datasets/d4079d07-421c-4233-afe3-f17c8f11503a",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003047",
+    "count": 2,
+    "dataset_title": "ANVIL_GREGoR_R01_HMB"
+  },
+  {
+    "page_path": "/datasets/3db7b5ed-6593-4c02-8ccb-270b6a1a44c7",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003537",
+    "count": 1,
+    "dataset_title": "ANVIL_HudsonAlpha_LR_v1_GRU"
   },
   {
     "page_path": "/datasets/4f70fe5e-eea9-4ad8-bade-d1912f207c47",
     "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003047",
-    "count": 3,
+    "count": 1,
     "dataset_title": "4f70fe5e-eea9-4ad8-bade-d1912f207c47"
   },
   {
-    "page_path": "/datasets/d976c0b2-712f-4c0b-a0cf-cd26bbdbc8a0",
-    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001585",
-    "count": 2,
-    "dataset_title": "ANVIL_ALS_FTD_ALS_AssociatedGenes_GRU_v1"
-  },
-  {
-    "page_path": "/datasets/bbbcd305-77cc-4c88-94bc-55235c3da93d",
-    "click_url": "https://duos.org/dataset/DUOS-000284",
-    "count": 2,
-    "dataset_title": "ANVIL_ccdg_asc_ndd_daly_talkowski_pericak_vance_asd_wgs"
-  },
-  {
-    "page_path": "/datasets/fdf85a48-027b-49fd-999c-41e01ceffac5",
-    "click_url": "https://duos.org/dataset/DUOS-000252",
+    "page_path": "/datasets/591f7dd1-9b6b-4f40-a753-e20e005d2b32",
+    "click_url": "https://duos.org/dataset/DUOS-000379",
     "count": 1,
-    "dataset_title": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_Pato_GRU_WGS"
+    "dataset_title": "ANVIL_CMG_YALE_DS_MC"
   },
   {
-    "page_path": "/datasets/d976c0b2-712f-4c0b-a0cf-cd26bbdbc8a0",
-    "click_url": "https://duos.org/dataset/DUOS-000239",
+    "page_path": "/datasets/6ea221e5-0f83-4b5f-ad8b-49a5dbdba837",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003444",
     "count": 1,
-    "dataset_title": "ANVIL_ALS_FTD_ALS_AssociatedGenes_GRU_v1"
+    "dataset_title": "ANVIL_DepMap_HMB"
   },
   {
-    "page_path": "/datasets/bc42104a-03f0-4143-9b24-4394d1140a1b",
-    "click_url": "https://duos.org/dataset/DUOS-000306",
+    "page_path": "/datasets/6ea221e5-0f83-4b5f-ad8b-49a5dbdba837",
+    "click_url": "https://duos.org/dataset/DUOS-000482",
     "count": 1,
-    "dataset_title": "ANVIL_CCDG_NYGC_NP_Autism_SSC_WGS"
-  },
-  {
-    "page_path": "/datasets/bbe9be84-065c-4a44-8d47-e0543de1dd77",
-    "click_url": "https://duos.org/dataset/DUOS-000375",
-    "count": 1,
-    "dataset_title": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_Escamilla_DS_WGS"
-  },
-  {
-    "page_path": "/datasets/8c5cce68-7d79-43b0-9004-a66c02f6ee5f",
-    "click_url": "https://duos.org/dataset/DUOS-000377",
-    "count": 1,
-    "dataset_title": "ANVIL_NIMH_Broad_WGSPD_1_McCarroll_Braff_DS_WGS"
-  },
-  {
-    "page_path": "/datasets/19e6aef1-bf95-40c8-92ff-7d06001864a8",
-    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs002032",
-    "count": 1,
-    "dataset_title": "ANVIL_NIMH_CIRM_FCDI_ConvergentNeuro_McCarroll_Eggan_GRU_Arrays"
+    "dataset_title": "ANVIL_DepMap_HMB"
   },
   {
     "page_path": "/datasets/7361d67c-829d-49e9-8e59-c3c55bf554f3",
-    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
+    "click_url": "https://duos.org/dataset/DUOS-000238",
     "count": 1,
     "dataset_title": "ANVIL_GTEx_V9_hg38"
   },
   {
-    "page_path": "/datasets/621f76fb-6bfd-4416-94e5-cfdfdaec5e07",
-    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs002041",
+    "page_path": "/datasets/a00842c8-12f8-4f92-a7b3-01bb73ffd4e4",
+    "click_url": "https://duos.org/dataset/DUOS-000744",
     "count": 1,
-    "dataset_title": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_COGS_DS_WGS"
+    "dataset_title": "AnVIL_NIA_CARD_LR_WGS_NABEC_GRU_V2"
   },
   {
-    "page_path": "/datasets/5047fc67-a80a-4a83-8cc3-515ec15df0fa",
-    "click_url": "https://duos.org/dataset/DUOS-000376",
+    "page_path": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063",
+    "click_url": "https://duos.org/dataset/DUOS-000780",
     "count": 1,
-    "dataset_title": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_Light_DS_WGS"
+    "dataset_title": "ANVIL_GTEx_v11_hg38"
   },
   {
-    "page_path": "/datasets/4f70fe5e-eea9-4ad8-bade-d1912f207c47",
-    "click_url": "https://duos.org/dataset/DUOS-000752",
+    "page_path": "/datasets/c7822863-e4e1-4f6f-ba9d-c4766436c4e5",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003047",
     "count": 1,
-    "dataset_title": "4f70fe5e-eea9-4ad8-bade-d1912f207c47"
+    "dataset_title": "c7822863-e4e1-4f6f-ba9d-c4766436c4e5"
   },
   {
-    "page_path": "/datasets/336b8487-36c8-407e-b862-41f05709e789",
-    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000693",
+    "page_path": "/datasets/d4079d07-421c-4233-afe3-f17c8f11503a",
+    "click_url": "https://duos.org/dataset/DUOS-000370",
     "count": 1,
-    "dataset_title": "ANVIL_CMG_UWASH_HMB"
-  },
-  {
-    "page_path": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1",
-    "click_url": "https://duos.org/dataset/DUOS-000483",
-    "count": 1,
-    "dataset_title": "ANVIL_ALSCompute_Collection_GRU"
-  },
-  {
-    "page_path": "/datasets/fe7091a5-0784-471a-8e12-84aa686215db",
-    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
-    "count": 1,
-    "dataset_title": "ANVIL_GTEx_V8_hg38"
+    "dataset_title": "ANVIL_GREGoR_R01_HMB"
   }
 ]

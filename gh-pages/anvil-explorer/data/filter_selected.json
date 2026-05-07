@@ -1,253 +1,265 @@
 [
   {
-    "filterName": "accessible",
-    "filterValue": "true",
-    "count": 42,
-    "change": 1.9181141439205955
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_GTEx_v11_hg38",
+    "count": 22,
+    "change": 0.4208333333333334
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_GTEx_v10_hg38",
+    "count": 18,
+    "change": 1.657142857142857
   },
   {
     "filterName": "datasets.consent_group",
     "filterValue": "NRES",
-    "count": 19,
-    "change": 4.720430107526881
+    "count": 15,
+    "change": -0.1842105263157895
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_GTEx_v11_hg38",
-    "count": 16,
-    "change": null
+    "filterValue": "ANVIL_1000G_high_coverage_2019",
+    "count": 14,
+    "change": 2.6166666666666667
+  },
+  {
+    "filterName": "accessible",
+    "filterValue": "true",
+    "count": 12,
+    "change": -0.7047619047619047
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_GTEx_V8_hg38",
+    "count": 10,
+    "change": 4.166666666666666
   },
   {
     "filterName": "datasets.title",
     "filterValue": "ANVIL_HPRC",
-    "count": 13,
-    "change": 0.9569892473118278
+    "count": 10,
+    "change": -0.20512820512820507
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_GTEx_V9_hg38",
+    "count": 9,
+    "change": 0.8599999999999999
   },
   {
     "filterName": "donors.organism_type",
     "filterValue": "Human",
-    "count": 12,
-    "change": 0.35483870967741926
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "AnVIL_MAGE",
-    "count": 12,
-    "change": 2.6129032258064515
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_T2T",
-    "count": 11,
-    "change": 8.935483870967742
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_GTEx_public_data",
-    "count": 10,
-    "change": 3.516129032258064
-  },
-  {
-    "filterName": "datasets.consent_group",
-    "filterValue": "GRU",
-    "count": 9,
-    "change": 3.064516129032258
-  },
-  {
-    "filterName": "biosamples.anatomical_site",
-    "filterValue": "Brain",
     "count": 8,
-    "change": null
+    "change": -0.3111111111111111
   },
   {
     "filterName": "files.file_format",
     "filterValue": ".bam",
     "count": 8,
-    "change": 0.4451612903225808
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_ALSCompute_Collection_GRU",
-    "count": 7,
-    "change": 2.161290322580645
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_GTEx_v10_hg38",
-    "count": 7,
-    "change": -0.3677419354838709
-  },
-  {
-    "filterName": "accessible",
-    "filterValue": "false",
-    "count": 6,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_1000G_PRIMED_data_model",
-    "count": 6,
-    "change": 4.419354838709677
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".cram",
-    "count": 6,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".pgen",
-    "count": 6,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_GREGOR_R04_GRU",
-    "count": 5,
-    "change": null
-  },
-  {
-    "filterName": "datasets.consent_group",
-    "filterValue": "Unrestricted access",
-    "count": 5,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_GTEx_V9_hg38",
-    "count": 5,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_Pato_GRU_WGS",
-    "count": 5,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_NIMH_Broad_WGSPD_1_McCarroll_Braff_DS_WGS",
-    "count": 5,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".psam",
-    "count": 5,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_T2T_CHRY",
-    "count": 4,
-    "change": 2.6129032258064515
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Autism spectrum disorder",
-    "count": 4,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_1000G_high_coverage_2019",
-    "count": 4,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_COGS_DS_WGS",
-    "count": 4,
-    "change": null
-  },
-  {
-    "filterName": "donors.phenotypic_sex",
-    "filterValue": "Female",
-    "count": 4,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".vcf",
-    "count": 4,
-    "change": 2.6129032258064515
-  },
-  {
-    "filterName": "datasets.registered_identifier",
-    "filterValue": "phs000298",
-    "count": 3,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_GREGOR_R04_HMB",
-    "count": 3,
-    "change": null
-  },
-  {
-    "filterName": "files.data_modality",
-    "filterValue": "null",
-    "count": 3,
-    "change": 0.35483870967741926
+    "filterValue": "ANVIL_GTEx_public_data",
+    "count": 8,
+    "change": -0.17333333333333334
   },
   {
     "filterName": "files.file_format",
     "filterValue": ".vcf.gz",
-    "count": 3,
-    "change": -0.09677419354838712
+    "count": 8,
+    "change": 1.7555555555555555
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_Escamilla_DS_WGS",
-    "count": 3,
+    "filterValue": "ANVIL_T2T",
+    "count": 8,
+    "change": -0.24848484848484842
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_GTEx_BCM_GRU_CoRSIVs",
+    "count": 7,
     "change": null
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_Light_DS_WGS",
-    "count": 3,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "AnVIL_ENCORE_RS293",
-    "count": 3,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".count",
-    "count": 3,
+    "filterValue": "ANVIL_GTEx_V7_hg19",
+    "count": 7,
     "change": null
   },
   {
     "filterName": "files.file_format",
     "filterValue": ".fastq.gz",
-    "count": 3,
+    "count": 7,
+    "change": 1.411111111111111
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_DepMap_HMB_MDS_R3",
+    "count": 7,
+    "change": null
+  },
+  {
+    "filterName": "datasets.consent_group",
+    "filterValue": "Unrestricted access",
+    "count": 6,
+    "change": 0.24
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_GREGoR_R01_HMB",
+    "count": 6,
+    "change": 5.2
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_DepMap_HMB",
+    "count": 6,
+    "change": null
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_DepMap_HMB_R2",
+    "count": 6,
+    "change": null
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_DepMap_GRU",
+    "count": 6,
     "change": null
   },
   {
     "filterName": "files.file_format",
-    "filterValue": "Other",
-    "count": 3,
+    "filterValue": ".cram",
+    "count": 5,
+    "change": -0.13888888888888895
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_1000G_PRIMED_data_model",
+    "count": 5,
+    "change": -0.13888888888888895
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_ENCORE_RS293",
+    "count": 5,
+    "change": 0.7222222222222221
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".fastq",
+    "count": 5,
+    "change": 1.583333333333333
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002502",
+    "count": 4,
     "change": null
   },
   {
-    "filterName": "biosamples.anatomical_site",
-    "filterValue": "Breast",
-    "count": 3,
-    "change": 1.7096774193548385
+    "filterName": "datasets.consent_group",
+    "filterValue": "GRU",
+    "count": 4,
+    "change": -0.5407407407407407
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_NIA_CARD_LR_WGS_NABEC_GRU",
+    "count": 4,
+    "change": 1.0666666666666664
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_ENCORE_293T",
+    "count": 4,
+    "change": 1.0666666666666664
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0001250",
+    "filterValue": "Inflammatory bowel disease",
+    "count": 4,
+    "change": 1.0666666666666664
+  },
+  {
+    "filterName": "donors.phenotypic_sex",
+    "filterValue": "Male",
+    "count": 4,
+    "change": 3.133333333333333
+  },
+  {
+    "filterName": "biosamples.anatomical_site",
+    "filterValue": "Brain",
+    "count": 3,
+    "change": -0.6125
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001489",
     "count": 3,
     "change": null
   },
   {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_ccdg_asc_ndd_daly_talkowski_ac_boston_asd_exome",
+    "count": 3,
+    "change": null
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_ADOPT_PGx_Acute_Pain_GRU_R1",
+    "count": 3,
+    "change": 0.55
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs003047",
+    "count": 3,
+    "change": null
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_T2T_CHRY",
+    "count": 3,
+    "change": -0.22499999999999998
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_IGVF_Mouse_R1",
+    "count": 3,
+    "change": 0.55
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_NIA_CARD_LR_WGS_NABEC_GRU_V2",
+    "count": 3,
+    "change": null
+  },
+  {
+    "filterName": "donors.reported_ethnicity",
+    "filterValue": "Black or African American",
+    "count": 3,
+    "change": 2.1
+  },
+  {
     "filterName": "files.file_format",
-    "filterValue": ".pvar",
+    "filterValue": ".txt",
+    "count": 3,
+    "change": 2.1
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_HudsonAlpha_LR_v1_GRU",
+    "count": 3,
+    "change": null
+  },
+  {
+    "filterName": "diagnoses.phenotype",
+    "filterValue": "Agenesis of the Corpus Callosum",
     "count": 3,
     "change": null
   },
@@ -255,143 +267,125 @@
     "filterName": "biosamples.biosample_type",
     "filterValue": "Tissue",
     "count": 2,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.consent_group",
-    "filterValue": "HMB",
-    "count": 2,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "datasets.registered_identifier",
-    "filterValue": "none",
-    "count": 2,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "datasets.registered_identifier",
     "filterValue": "null",
     "count": 2,
-    "change": 0.8064516129032258
+    "change": 1.0666666666666664
   },
   {
     "filterName": "datasets.registered_identifier",
     "filterValue": "phs000424",
     "count": 2,
-    "change": -0.3978494623655914
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs000744",
+    "count": 2,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs000744.v5.p2",
+    "count": 2,
+    "change": null
   },
   {
     "filterName": "datasets.registered_identifier",
     "filterValue": "phs001585",
     "count": 2,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_ALSCompute_Collection_HMB",
+    "filterValue": "ANVIL_GREGOR_R04_HMB",
+    "count": 2,
+    "change": -0.3111111111111111
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_NIA_CARD_Coriell_Cell_Lines_Open",
     "count": 2,
     "change": null
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_ALS_FTD_DEMENTIA_SEQ_GRU_v1",
-    "count": 2,
-    "change": -0.09677419354838712
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_AI_IBD_Brant_DS_IBD_WGS",
+    "filterValue": "ANVIL_ccdg_washu_cvd_eocad_emerge_wgs",
     "count": 2,
     "change": null
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_SSC_WGS",
+    "filterValue": "AnVIL_MAGE",
     "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_GREGOR_R03_GRU",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_GREGoR_R01_GRU",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_GTEx_V8_hg38",
-    "count": 2,
-    "change": -0.09677419354838712
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "AnVIL_ADOPT_PGx_Acute_Pain_GRU_R1",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "AnVIL_ADOPT_PGx_Acute_Pain_HMB_R1",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "AnVIL_IGVF_Mouse_R1",
-    "count": 2,
-    "change": -0.09677419354838712
+    "change": -0.8277777777777777
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "Alzheimer's disease",
+    "filterValue": "Autism spectrum disorder",
     "count": 2,
-    "change": -0.6989247311827957
+    "change": -0.4833333333333334
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "Epilepsy",
+    "filterValue": "Bowel cancer",
     "count": 2,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "Inflammatory bowel disease",
+    "filterValue": "Breast cancer",
+    "count": 2,
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".tsv",
+    "count": 2,
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".txt.gz",
     "count": 2,
     "change": null
   },
   {
-    "filterName": "files.data_modality",
-    "filterValue": "single-nucleus ATAC-seq",
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "null",
     "count": 2,
-    "change": -0.09677419354838712
+    "change": 0.033333333333333215
   },
   {
-    "filterName": "files.data_modality",
-    "filterValue": "single-nucleus RNA sequencing assay",
-    "count": 2,
-    "change": -0.09677419354838712
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".bai",
-    "count": 2,
-    "change": -0.09677419354838712
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".counts",
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs003224",
     "count": 2,
     "change": null
   },
   {
-    "filterName": "files.file_format",
-    "filterValue": ".log",
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs004000",
+    "count": 2,
+    "change": null
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_PAGE_MEC_GRU_WGS",
+    "count": 2,
+    "change": null
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_NIA_CARD_LR_WGS_HBCC",
+    "count": 2,
+    "change": null
+  },
+  {
+    "filterName": "diagnoses.phenotype",
+    "filterValue": "Agenesis of the Corpus Callosum with Heterotopia",
     "count": 2,
     "change": null
   },
@@ -399,179 +393,47 @@
     "filterName": "files.file_format",
     "filterValue": ".tbi",
     "count": 2,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".tsv",
+    "filterValue": "Other",
     "count": 2,
-    "change": -0.09677419354838712
+    "change": -0.3111111111111111
   },
   {
-    "filterName": "files.file_format",
-    "filterValue": ".vcf.bgz",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_NIA_CARD_LR_WGS_NABEC_GRU",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_NIMH_Broad_ConvNeuro_McCarroll_Nehme_Levy_CIRM_DS_Village",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_NIMH_Broad_ConvergentNeuro_McCarroll_Eggan_CIRM_GRU_VillageData",
-    "count": 2,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "AnVIL_ENCORE_293T",
-    "count": 2,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Breast cancer",
-    "count": 2,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Diabetes mellitus",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Diabetes mellitus type 2 without retinopathy",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Type 2 diabetes mellitus",
-    "count": 2,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".bb",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".cmap",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".fasta",
-    "count": 2,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".fastq",
-    "count": 2,
-    "change": 0.8064516129032258
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".pbi",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".sizes",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".tar",
-    "count": 2,
-    "change": null
+    "filterName": "accessible",
+    "filterValue": "false",
+    "count": 1,
+    "change": -0.8277777777777777
   },
   {
     "filterName": "biosamples.anatomical_site",
     "filterValue": "Adrenal Gland",
     "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "biosamples.anatomical_site",
-    "filterValue": "Aorta Artery",
+    "filterValue": "Adrenal Gland, Gastrocnemius, Brain, Heart, Pituitary",
     "count": 1,
     "change": null
-  },
-  {
-    "filterName": "biosamples.anatomical_site",
-    "filterValue": "Brain, Heart",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "biosamples.anatomical_site",
-    "filterValue": "Colon",
-    "count": 1,
-    "change": -0.09677419354838712
   },
   {
     "filterName": "biosamples.anatomical_site",
     "filterValue": "Coronary Artery",
     "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "biosamples.anatomical_site",
-    "filterValue": "Heart",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "biosamples.anatomical_site",
-    "filterValue": "Liver",
-    "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "biosamples.anatomical_site",
     "filterValue": "Lung",
     "count": 1,
-    "change": -0.09677419354838712
+    "change": 0.033333333333333215
   },
   {
     "filterName": "biosamples.anatomical_site",
-    "filterValue": "Ovary",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "biosamples.anatomical_site",
-    "filterValue": "Pancreas",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "biosamples.anatomical_site",
-    "filterValue": "Thyroid",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "biosamples.anatomical_site",
-    "filterValue": "Unknown",
+    "filterValue": "Ovary, Kidney, Adrenal Gland, Epididymis, Brain, Unknown, Gastrocnemius, Heart, Liver, Testis, Ovidu",
     "count": 1,
     "change": null
   },
@@ -579,17 +441,23 @@
     "filterName": "biosamples.anatomical_site",
     "filterValue": "null",
     "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
-    "filterName": "datasets.consent_group",
-    "filterValue": "DS-ASD",
+    "filterName": "biosamples.biosample_type",
+    "filterValue": "Blood",
     "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.consent_group",
-    "filterValue": "DS-CHDEF",
+    "filterValue": "DS-EP-MDS",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.consent_group",
+    "filterValue": "GRU-NPU",
     "count": 1,
     "change": null
   },
@@ -597,17 +465,77 @@
     "filterName": "datasets.consent_group",
     "filterValue": "HMB-MDS",
     "count": 1,
-    "change": -0.09677419354838712
+    "change": 0.033333333333333215
   },
   {
-    "filterName": "datasets.consent_group",
-    "filterValue": "null",
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "none",
+    "count": 1,
+    "change": -0.4833333333333334
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs000220",
     "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.registered_identifier",
+    "filterValue": "phs000298",
+    "count": 1,
+    "change": -0.6555555555555556
+  },
+  {
+    "filterName": "datasets.registered_identifier",
     "filterValue": "phs000693",
+    "count": 1,
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs000925",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs000971",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs000979",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs000997",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001033",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001222",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001227",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001259",
     "count": 1,
     "change": null
   },
@@ -615,11 +543,83 @@
     "filterName": "datasets.registered_identifier",
     "filterValue": "phs001272",
     "count": 1,
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001300",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001398",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001487",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001579",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001592",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001642",
+    "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.registered_identifier",
     "filterValue": "phs001676",
+    "count": 1,
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001740",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001741",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001746",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001766",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001871",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001880",
     "count": 1,
     "change": null
   },
@@ -627,11 +627,197 @@
     "filterName": "datasets.registered_identifier",
     "filterValue": "phs001894",
     "count": 1,
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001913",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001933",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs001963",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002004",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002018",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002032",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002041",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002042",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002043",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002044",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002111",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002205",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002206",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002236",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002307.v1.p1",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002324",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002337",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002378",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002509",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002511",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002512",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs002726",
+    "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.registered_identifier",
     "filterValue": "phs003018",
+    "count": 1,
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs003181",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs003184",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs003193",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs003200",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs003444",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs003472",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs003537",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs003821",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.registered_identifier",
+    "filterValue": "phs004058",
     "count": 1,
     "change": null
   },
@@ -639,29 +825,47 @@
     "filterName": "datasets.registered_identifier",
     "filterValue": "registration pending",
     "count": 1,
-    "change": -0.09677419354838712
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.registered_identifier",
     "filterValue": "tbd",
     "count": 1,
-    "change": -0.09677419354838712
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_ALS_FTD_ALS_AssociatedGenes_GRU_v1",
+    "filterValue": "ANVIL_ALSCompute_Collection_GRU",
     "count": 1,
-    "change": -0.09677419354838712
+    "change": -0.8523809523809524
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_ALSCompute_Collection_HMB",
+    "count": 1,
+    "change": -0.4833333333333334
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_Broad_AI_IBD_Brant_DS_IBD_WGS",
+    "count": 1,
+    "change": -0.4833333333333334
   },
   {
     "filterName": "datasets.title",
     "filterValue": "ANVIL_CCDG_Broad_AI_IBD_Brant_HMB_WGS",
     "count": 1,
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_Broad_AI_IBD_Cho_WGS",
+    "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_USAUPN_CHOP_GRU_GSA_MD",
+    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_AUSALF_HMB_IRB_GSA_MD",
     "count": 1,
     "change": null
   },
@@ -669,125 +873,107 @@
     "filterName": "datasets.title",
     "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_ACE2_DS_MDS_WGS",
     "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_ACE2_GRU_MDS_WGS",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_AGRE_WGS",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_CAG_DS_WGS",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_GASD_GRU_WGS",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_HFA_DS_WGS",
-    "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.title",
     "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_PELPHREY_ACE_DS_WGS",
     "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_PELPHREY_ACE_GRU_WGS",
+    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_SSC_WGS",
+    "count": 1,
+    "change": -0.4833333333333334
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_WashU_CVD_EOCAD_METSIM_WGS",
     "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_SAGE_WGS",
+    "filterValue": "ANVIL_CCDG_WashU_CVD_EOCAD_WashU_CAD_DS_WGS",
     "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_SEARCHLIGHT_DS_WGS",
+    "filterValue": "ANVIL_CCDG_WashU_CVD_EOCAD_WashU_CAD_GRU_IRB_WGS",
     "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_SPARK_GRU_WGS",
+    "filterValue": "ANVIL_CMG_UWASH_DS_BDIS",
     "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_CSER_SouthSeq_GRU",
+    "filterValue": "ANVIL_CSER_KidsCanSeq_GRU",
     "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_FetalGenomics_PrenatalSEQ",
+    "filterValue": "ANVIL_GREGOR_R03_GRU",
     "count": 1,
-    "change": -0.5483870967741935
+    "change": -0.4833333333333334
   },
   {
     "filterName": "datasets.title",
     "filterValue": "ANVIL_GREGOR_R03_HMB",
     "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_GREGoR_R01_HMB",
+    "filterValue": "ANVIL_GREGOR_R04_GRU",
     "count": 1,
-    "change": -0.5483870967741935
+    "change": -0.7933333333333333
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_GREGoR_R01_GRU",
+    "count": 1,
+    "change": -0.4833333333333334
   },
   {
     "filterName": "datasets.title",
     "filterValue": "ANVIL_GREGoR_R02_HMB",
     "count": 1,
-    "change": null
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_NIMH_Broad_ConvNeuro_McCarroll_Nehme_Levy_CIRM_DS_Village",
+    "count": 1,
+    "change": -0.4833333333333334
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_NIMH_Broad_ConvergentNeuro_McCarroll_Eggan_CIRM_GRU_VillageData",
+    "count": 1,
+    "change": -0.4833333333333334
   },
   {
     "filterName": "datasets.title",
     "filterValue": "ANVIL_NIMH_Broad_ConvergentNeuro_McCarroll_Eggan_CIRM_GRU_WGS",
     "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_NIMH_Broad_ConvergentNeuro_McCarroll_Eggan_Finkel_SMA_DS_WGS",
-    "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.title",
     "filterValue": "ANVIL_NIMH_CIRM_FCDI_ConvergentNeuro_McCarroll_Eggan_GRU_Arrays",
     "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "ANVIL_PAGE_Stanford_Global_Reference_Panel_GRU_WGS",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_ccdg_asc_ndd_daly_talkowski_brusco_asd_exome",
+    "filterValue": "ANVIL_ccdg_asc_ndd_daly_talkowski_AGRE_asd_exome",
     "count": 1,
     "change": null
   },
@@ -795,587 +981,305 @@
     "filterName": "datasets.title",
     "filterValue": "ANVIL_ccdg_asc_ndd_daly_talkowski_pericak_vance_asd_wgs",
     "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_ccdg_broad_ai_ibd_daly_alm_gmc_gsa",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_ccdg_nygc_np_autism_hmca_wgs",
-    "count": 1,
-    "change": -0.5483870967741935
+    "change": 0.033333333333333215
   },
   {
     "filterName": "datasets.title",
     "filterValue": "ANVIL_ccdg_nygc_np_autism_tasc_wgs",
     "count": 1,
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_ccdg_washu_ai_t1d_t1dgc_wgs",
+    "count": 1,
     "change": null
   },
   {
     "filterName": "datasets.title",
-    "filterValue": "AnVIL_IGVF_GRU_PUB_NPU_R1",
+    "filterValue": "ANVIL_ccdg_washu_cvd_eocad_cleveland_wgs",
     "count": 1,
-    "change": -0.09677419354838712
+    "change": null
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_ccdg_washu_cvd_eocad_emory_wgs",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_ADOPT_PGx_Acute_Pain_HMB_R1",
+    "count": 1,
+    "change": -0.4833333333333334
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_CMH_GAFK_R5",
+    "count": 1,
+    "change": null
   },
   {
     "filterName": "datasets.title",
     "filterValue": "AnVIL_IGVF_GRU_R1",
     "count": 1,
-    "change": -0.5483870967741935
+    "change": 0.033333333333333215
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "Atrial fibrillation",
+    "filterValue": "Adrenal gland cancer",
     "count": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Diabetes mellitus type 1 without retinopathy",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000031",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000274",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000306",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000407",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000413",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000529",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000537",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000554",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000625",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000735",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0001040",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0001105",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0001395",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0001647",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0001704",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0001713",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0001879",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0001967",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0002015",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0002035",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0002299",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0002490",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0002503",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0002788",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0002880",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0002890",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0003040",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0003710",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0003797",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0004381",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0004444",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0005059",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0005274",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0005317",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0005518",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0005656",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0005952",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0006433",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0006483",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0006487",
-    "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0006844",
+    "filterValue": "Ampullary cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0007330",
+    "filterValue": "Biliary tract cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0008002",
+    "filterValue": "Bladder or urinary tract cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0008093",
+    "filterValue": "Blood cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0008480",
+    "filterValue": "Bone cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0008959",
+    "filterValue": "CNS or brain cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0009085",
+    "filterValue": "Cervical cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0009815",
+    "filterValue": "Corpus callosum syndrome",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0009879",
+    "filterValue": "Developmental delay",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0010569",
+    "filterValue": "Epilepsy",
     "count": 1,
-    "change": null
+    "change": -0.4833333333333334
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0011029",
+    "filterValue": "Esophageal or stomach cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0011134",
+    "filterValue": "Eye cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0011172",
+    "filterValue": "HP:0000238",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0011224",
+    "filterValue": "HP:0001274",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0011327",
+    "filterValue": "Head and neck cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0011474",
+    "filterValue": "Lymphatic cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0011511",
+    "filterValue": "Major depressive disorder",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0011842",
+    "filterValue": "Other Cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0012372",
+    "filterValue": "Peripheral nervous system cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0012712",
+    "filterValue": "Pleural cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0012801",
+    "filterValue": "Prostate cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0012839",
+    "filterValue": "Skin cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "HP:0025336",
+    "filterValue": "Soft tissue cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "Lung cancer",
+    "filterValue": "Testicular cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "Neurodevelopmental disorder",
+    "filterValue": "Thyroid cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "OMIM:200990",
+    "filterValue": "Unknown",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "OMIM:614557",
+    "filterValue": "Uterine cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "Ovarian or fallopian tube cancer",
+    "filterValue": "Vulvar or vaginal cancer",
     "count": 1,
     "change": null
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "Schizophrenia",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "diagnoses.phenotype",
-    "filterValue": "Cardiomyopathy; dilated; 1G",
-    "count": 1,
-    "change": -0.5483870967741935
-  },
-  {
-    "filterName": "diagnoses.phenotype",
-    "filterValue": "Kobberling Familial Partial Lipodystrophy",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "donors.organism_type",
-    "filterValue": "Homo sapiens",
-    "count": 1,
-    "change": -0.6989247311827957
-  },
-  {
-    "filterName": "donors.organism_type",
-    "filterValue": "Mouse",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "donors.organism_type",
     "filterValue": "null",
     "count": 1,
     "change": null
   },
   {
+    "filterName": "diagnoses.phenotype",
+    "filterValue": "Lissencephaly 3",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "diagnoses.phenotype",
+    "filterValue": "null",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "donors.organism_type",
+    "filterValue": "Mouse",
+    "count": 1,
+    "change": 0.033333333333333215
+  },
+  {
+    "filterName": "donors.organism_type",
+    "filterValue": "null",
+    "count": 1,
+    "change": 0.033333333333333215
+  },
+  {
     "filterName": "donors.phenotypic_sex",
-    "filterValue": "Male",
+    "filterValue": "Female",
     "count": 1,
-    "change": null
+    "change": -0.7416666666666667
   },
   {
-    "filterName": "donors.reported_ethnicity",
-    "filterValue": "American Indian or Alaska Native",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "donors.reported_ethnicity",
-    "filterValue": "Black or African American",
-    "count": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "filterName": "donors.reported_ethnicity",
-    "filterValue": "Hispanic or Latino",
-    "count": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "filterName": "donors.reported_ethnicity",
-    "filterValue": "Native Hawaiian or Other Pacific Islander",
+    "filterName": "donors.phenotypic_sex",
+    "filterValue": "null",
     "count": 1,
     "change": null
   },
   {
     "filterName": "files.data_modality",
-    "filterValue": "PacBio Whole Genome Sequencing",
+    "filterValue": "null",
     "count": 1,
-    "change": -0.6989247311827957
-  },
-  {
-    "filterName": "files.data_modality",
-    "filterValue": "SHARE-seq",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.data_modality",
-    "filterValue": "Whole Genome",
-    "count": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "filterName": "files.data_modality",
-    "filterValue": "genome",
-    "count": 1,
-    "change": -0.5483870967741935
-  },
-  {
-    "filterName": "files.data_modality",
-    "filterValue": "single-cell ATAC-seq",
-    "count": 1,
-    "change": -0.09677419354838712
+    "change": -0.6555555555555556
   },
   {
     "filterName": "files.data_modality",
     "filterValue": "single-cell RNA sequencing assay",
     "count": 1,
-    "change": -0.7741935483870968
+    "change": 0.033333333333333215
   },
   {
     "filterName": "files.data_modality",
-    "filterValue": "whole genome sequencing assay",
+    "filterValue": "single-nucleus ATAC-seq",
     "count": 1,
-    "change": null
+    "change": -0.4833333333333334
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".bai",
+    "count": 1,
+    "change": -0.4833333333333334
   },
   {
     "filterName": "files.file_format",
     "filterValue": ".bed",
     "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".bedpe",
+    "filterValue": ".bed.gz",
     "count": 1,
     "change": null
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".bnx.gz",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".csi",
+    "filterValue": ".crai",
     "count": 1,
     "change": null
   },
@@ -1383,17 +1287,17 @@
     "filterName": "files.file_format",
     "filterValue": ".csv",
     "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".fast5",
+    "filterValue": ".fasta",
     "count": 1,
-    "change": -0.6989247311827957
+    "change": -0.4833333333333334
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".fast5.tar",
+    "filterValue": ".fasta.gz",
     "count": 1,
     "change": null
   },
@@ -1401,557 +1305,959 @@
     "filterName": "files.file_format",
     "filterValue": ".gfa",
     "count": 1,
-    "change": null
+    "change": 0.033333333333333215
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".gfa.gz",
+    "filterValue": ".tab.gz",
     "count": 1,
     "change": null
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".gff3.gz",
+    "filterValue": ".tar",
+    "count": 1,
+    "change": -0.4833333333333334
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".tsv.gz",
     "count": 1,
     "change": null
   },
   {
-    "filterName": "files.file_format",
-    "filterValue": ".gvcf.gz",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".hist",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".html",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".idat",
-    "count": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".md5",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".pdf",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".ped",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".summary_metrics",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".svs",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".txt",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "files.file_format",
-    "filterValue": ".variant_calling_summary_metrics",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "datasets.registered_identifier",
-    "filterValue": "phs001489",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.registered_identifier",
-    "filterValue": "phs002032",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.registered_identifier",
-    "filterValue": "phs002042",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.registered_identifier",
-    "filterValue": "phs002043",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.registered_identifier",
-    "filterValue": "phs002206",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.registered_identifier",
-    "filterValue": "phs003047",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.registered_identifier",
-    "filterValue": "phs003444",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_AUSALF_HMB_IRB_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_AUSAUS_EPIL_BA_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_AUSAUS_EPI_BA_ID_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_AUSAUS_EP_BA_CN_ID_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_AUSRMB_DS_EAED_IRB_WES",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_AUSRMB_DS_EAED_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_AUSRMB_DS_EAED_MDS_NPU_IRB_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_AUTMUV_DS_NS_MDS_NPU_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_AUTMUV_DS_NS_NPU_ADLT_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_BELATW_GRU_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_BELULB_DS_EP_NPU_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_BRAUSP_DS_MDS_NPU_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_CANCAL_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_CANUTN_DS_EP_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_CHEUBB_HMB_IRB_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_CYPCYP_HMB_NPU_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_CZEMTH_GRU_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_DEUPUM_HMB_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_DEUUGS_DS_EP_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_DEUUKB_HMB_NPU_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_DEUUKL_HMB_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_DEUULG_GRU_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_DEUUTB_HMB_NPU_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_FINKPH_EPIL_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_FINUVH_HMB_NPU_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_FRALYU_HMB_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_GBRSWU_CARDI_NEURO_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_GBRUCL_DS_EARET_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_GBRUNL_EP_ETIOLOGY_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_GBRUNL_GRU_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_GHAKNT_GRU_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_HKGHKK_HMB_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_HKOSB_GRU_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_HRVUZG_HMB_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_IRLRCI_GRU_IRB_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_ITAICB_HMB_NPU_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_ITAIGI_GRU_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_ITAUBG_DS_EPI_NPU_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_ITAUMC_DS_NEURO_MDS_GSA_MD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CMG_YALE_DS_MC",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_CMG_YALE_DS_RARED",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_DepMap_HMB",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_GTEx_BCM_GRU_CoRSIVs",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_HudsonAlpha_LR_v1_GRU",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_MAS_ISO_seq",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "ANVIL_nhgri_broad_ibd_daly_kugathasan_wes",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "AnVIL_CMH_GAFK_R5",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "AnVIL_Complex_Chromosomal_Changes_R1",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "AnVIL_NIA_CARD_LR_WGS_NABEC_GRU_V2",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "datasets.title",
-    "filterValue": "AnVIL_OurHealth_GRU_R1",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Cardiomyopathy",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Cervical cancer",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Chronic kidney disease",
+    "filterName": "biosamples.anatomical_site",
+    "filterValue": "Aorta Artery",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Dilated cardiomyopathy",
+    "filterName": "biosamples.anatomical_site",
+    "filterValue": "Brain, Heart",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "diagnoses.disease",
-    "filterValue": "HP:0000717",
+    "filterName": "biosamples.anatomical_site",
+    "filterValue": "Breast",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Hypertrophic cardiomyopathy",
+    "filterName": "biosamples.anatomical_site",
+    "filterValue": "Colon",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Left ventricular myocardial noncompaction cardiomyopathy",
+    "filterName": "biosamples.anatomical_site",
+    "filterValue": "Heart",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Other",
+    "filterName": "biosamples.anatomical_site",
+    "filterValue": "Liver",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Restrictive cardiomyopathy",
+    "filterName": "biosamples.anatomical_site",
+    "filterValue": "Ovary",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Skin cancer",
+    "filterName": "biosamples.anatomical_site",
+    "filterValue": "Pancreas",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Substance abuse",
+    "filterName": "biosamples.anatomical_site",
+    "filterValue": "Thyroid",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "diagnoses.disease",
+    "filterName": "biosamples.anatomical_site",
     "filterValue": "Unknown",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "diagnoses.disease",
-    "filterValue": "Viral hepatitis C",
+    "filterName": "datasets.consent_group",
+    "filterValue": "DS-ASD",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.consent_group",
+    "filterValue": "DS-CHDEF",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.consent_group",
+    "filterValue": "HMB",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_ALS_FTD_ALS_AssociatedGenes_GRU_v1",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_ALS_FTD_DEMENTIA_SEQ_GRU_v1",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_Broad_NP_Epilepsy_USAUPN_CHOP_GRU_GSA_MD",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_ACE2_GRU_MDS_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_AGRE_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_CAG_DS_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_GASD_GRU_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_HFA_DS_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_PELPHREY_ACE_GRU_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_SAGE_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_SEARCHLIGHT_DS_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CCDG_NYGC_NP_Autism_SPARK_GRU_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_CSER_SouthSeq_GRU",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_FetalGenomics_PrenatalSEQ",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_NIMH_Broad_ConvergentNeuro_McCarroll_Eggan_Finkel_SMA_DS_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_COGS_DS_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_Escamilla_DS_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_Light_DS_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_NIMH_Broad_WGSPD1_McCarroll_Pato_GRU_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_NIMH_Broad_WGSPD_1_McCarroll_Braff_DS_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_PAGE_Stanford_Global_Reference_Panel_GRU_WGS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_ccdg_asc_ndd_daly_talkowski_brusco_asd_exome",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_ccdg_broad_ai_ibd_daly_alm_gmc_gsa",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "ANVIL_ccdg_nygc_np_autism_hmca_wgs",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "datasets.title",
+    "filterValue": "AnVIL_IGVF_GRU_PUB_NPU_R1",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "diagnoses.disease",
-    "filterValue": "null",
+    "filterValue": "Alzheimer's disease",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "Atrial fibrillation",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "Diabetes mellitus",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "Diabetes mellitus type 1 without retinopathy",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "Diabetes mellitus type 2 without retinopathy",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0000031",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0000274",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0000306",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0000407",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0000413",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0000529",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0000537",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0000554",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0000625",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0000735",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0001040",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0001105",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0001250",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0001395",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0001647",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0001704",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0001713",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0001879",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0001967",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0002015",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0002035",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0002299",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0002490",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0002503",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0002788",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0002880",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0002890",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0003040",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0003710",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0003797",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0004381",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0004444",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0005059",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0005274",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0005317",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0005518",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0005656",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0005952",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0006433",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0006483",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0006487",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0006844",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0007330",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0008002",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0008093",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0008480",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0008959",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0009085",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0009815",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0009879",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0010569",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0011029",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0011134",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0011172",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0011224",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0011327",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0011474",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0011511",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0011842",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0012372",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0012712",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0012801",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0012839",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "HP:0025336",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "Lung cancer",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "Neurodevelopmental disorder",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "OMIM:200990",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "OMIM:614557",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "Ovarian or fallopian tube cancer",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "Schizophrenia",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "diagnoses.disease",
+    "filterValue": "Type 2 diabetes mellitus",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "diagnoses.phenotype",
-    "filterValue": "ANGELMAN SYNDROME; AS",
+    "filterValue": "Cardiomyopathy; dilated; 1G",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "diagnoses.phenotype",
-    "filterValue": "Coffin-Siris syndrome 5",
+    "filterValue": "Kobberling Familial Partial Lipodystrophy",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "donors.organism_type",
+    "filterValue": "Homo sapiens",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "donors.reported_ethnicity",
+    "filterValue": "American Indian or Alaska Native",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "donors.reported_ethnicity",
+    "filterValue": "Hispanic or Latino",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "donors.reported_ethnicity",
+    "filterValue": "Native Hawaiian or Other Pacific Islander",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "files.data_modality",
-    "filterValue": "methylation",
+    "filterValue": "PacBio Whole Genome Sequencing",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.data_modality",
+    "filterValue": "SHARE-seq",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.data_modality",
+    "filterValue": "Whole Genome",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.data_modality",
+    "filterValue": "genome",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.data_modality",
+    "filterValue": "single-cell ATAC-seq",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.data_modality",
+    "filterValue": "single-nucleus RNA sequencing assay",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.data_modality",
+    "filterValue": "whole genome sequencing assay",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".crai",
+    "filterValue": ".bb",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".fasta.gz",
+    "filterValue": ".bedpe",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".tab.gz",
+    "filterValue": ".bnx.gz",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".tsv.gz",
+    "filterValue": ".cmap",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "files.file_format",
-    "filterValue": ".txt.gz",
+    "filterValue": ".count",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".counts",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".csi",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".fast5",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".fast5.tar",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".gfa.gz",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".gff3.gz",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".gvcf.gz",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".hist",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".html",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".idat",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".log",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".md5",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".pbi",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".pdf",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".ped",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".pgen",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".psam",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".pvar",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".sizes",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".summary_metrics",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".svs",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".variant_calling_summary_metrics",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".vcf",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "files.file_format",
+    "filterValue": ".vcf.bgz",
     "count": 0,
     "change": -1.0
   }

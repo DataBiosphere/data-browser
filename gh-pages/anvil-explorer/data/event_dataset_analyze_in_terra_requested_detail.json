@@ -1,8 +1,20 @@
 [
   {
-    "page_path": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/export-to-terra",
+    "page_path": "/datasets/e5aee011-bdb3-4caa-954c-a46678656270/export/export-to-terra",
+    "entity_name": "(not set)",
+    "count": 3,
+    "dataset_title": "ANVIL_GTEx_public_data"
+  },
+  {
+    "page_path": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063/export/export-to-terra",
+    "entity_name": "(not set)",
+    "count": 2,
+    "dataset_title": "ANVIL_GTEx_v11_hg38"
+  },
+  {
+    "page_path": "/datasets/fe7091a5-0784-471a-8e12-84aa686215db/export/export-to-terra",
     "entity_name": "(not set)",
     "count": 1,
-    "dataset_title": "ANVIL_1000G_PRIMED_data_model"
+    "dataset_title": "ANVIL_GTEx_V8_hg38"
   }
 ]
