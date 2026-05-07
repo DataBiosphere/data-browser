@@ -1,71 +1,46 @@
 [
   {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-hca-prod-storage-prod.us-east-1/manifests/43bd8c1f-6b5",
+    "link": "https://www.biorxiv.org/content/10.1101/2022.05.18.491687v1.full",
     "clicks": 4,
-    "change": null
-  },
-  {
-    "link": "https://www.nature.com/articles/s41467-018-07770-1",
-    "clicks": 4,
-    "change": 0.20430107526881724
-  },
-  {
-    "link": "https://www.nature.com/articles/s41586-022-04552-0",
-    "clicks": 3,
-    "change": null
-  },
-  {
-    "link": "https://identifiers.org/geo:GSE149563",
-    "clicks": 3,
-    "change": null
+    "change": 1.0666666666666664
   },
   {
     "link": "https://identifiers.org/geo:GSE122332",
     "clicks": 3,
-    "change": -0.09677419354838712
+    "change": 0.033333333333333215
   },
   {
-    "link": "https://www.biorxiv.org/content/10.1101/2022.05.18.491687v1.full",
+    "link": "https://science.sciencemag.org/content/371/6534/eabc3172.long",
     "clicks": 2,
-    "change": -0.3978494623655914
+    "change": null
   },
   {
-    "link": "https://www.biorxiv.org/content/10.1101/2022.05.18.491687v1",
+    "link": "https://storage.googleapis.com/datarepo-cba0a2d4-bucket/2193eb9a-0a47-4bcf-8447-90f7cbb2f885/1ead972",
     "clicks": 2,
-    "change": 0.8064516129032258
+    "change": null
   },
   {
-    "link": "https://identifiers.org/geo:GSE161383",
+    "link": "https://identifiers.org/geo:GSE122960",
     "clicks": 2,
-    "change": 0.8064516129032258
+    "change": null
   },
   {
-    "link": "https://service.azul.data.humancellatlas.org/",
+    "link": "https://storage.googleapis.com/datarepo-ea2f2063-bucket/759f39f6-1e70-48ef-91af-c0ac6d83a889/bec967b",
+    "clicks": 2,
+    "change": null
+  },
+  {
+    "link": "https://storage.googleapis.com/datarepo-7ac9e924-bucket/e8371196-2ae9-4f69-84e8-5d9e898bf742/8ba2bb9",
     "clicks": 1,
     "change": null
   },
   {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-hca-prod-storage-prod.us-east-1/manifests/f7b0f238-0e3",
-    "clicks": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "link": "https://storage.googleapis.com/datarepo-059e1ba9-bucket/b6008916-c2a4-4ba6-afea-a6a88e24d104/23e62cd",
+    "link": "https://data.humancellatlas.org/metadata",
     "clicks": 1,
     "change": null
   },
   {
-    "link": "https://singlecell.broadinstitute.org/single_cell/study/SCP1157/bronchiolitis-obliterans-syndrome-lu",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://identifiers.org/geo:GSE227136",
-    "clicks": 1,
-    "change": -0.09677419354838712
-  },
-  {
-    "link": "https://identifiers.org/geo:GSE275938",
+    "link": "https://storage.googleapis.com/datarepo-cba0a2d4-bucket/2193eb9a-0a47-4bcf-8447-90f7cbb2f885/f84ea08",
     "clicks": 1,
     "change": null
   },
@@ -75,52 +50,117 @@
     "change": null
   },
   {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-hca-prod-storage-prod.us-east-1/manifests/c629256c-330",
+    "link": "https://www.nature.com/articles/s41467-018-07770-1",
+    "clicks": 1,
+    "change": -0.7416666666666667
+  },
+  {
+    "link": "https://storage.googleapis.com/datarepo-059e1ba9-bucket/b6008916-c2a4-4ba6-afea-a6a88e24d104/23e62cd",
+    "clicks": 1,
+    "change": 0.033333333333333215
+  },
+  {
+    "link": "https://pubmed.ncbi.nlm.nih.gov/34469722/",
     "clicks": 1,
     "change": null
   },
   {
-    "link": "https://science.sciencemag.org/content/371/6534/eabc3172.long",
-    "clicks": 0,
-    "change": -1.0
+    "link": "https://identifiers.org/geo:GSE12344",
+    "clicks": 1,
+    "change": null
   },
   {
-    "link": "https://lungmap.net/resources/data-access-policy",
-    "clicks": 0,
-    "change": -1.0
-  },
-  {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-hca-prod-storage-prod.us-east-1/manifests/3a1fc2c0-052",
-    "clicks": 0,
-    "change": -1.0
-  },
-  {
-    "link": "https://pubmed.ncbi.nlm.nih.gov/39818203/",
-    "clicks": 0,
-    "change": -1.0
+    "link": "https://journals.biologists.com/dev/article-abstract/152/8/dev204346/367812/Morphogenic-molecular-an",
+    "clicks": 1,
+    "change": null
   },
   {
     "link": "https://pubmed.ncbi.nlm.nih.gov/38548990/",
+    "clicks": 1,
+    "change": null
+  },
+  {
+    "link": "https://identifiers.org/geo:GSE134174",
+    "clicks": 1,
+    "change": null
+  },
+  {
+    "link": "https://identifiers.org/geo:GSE135893",
+    "clicks": 1,
+    "change": null
+  },
+  {
+    "link": "https://identifiers.org/geo:GSE136831",
+    "clicks": 1,
+    "change": null
+  },
+  {
+    "link": "https://www.biorxiv.org/content/10.1101/2022.05.18.491687v1",
+    "clicks": 1,
+    "change": -0.4833333333333334
+  },
+  {
+    "link": "https://lungmap.net/resources/data-access-policy",
+    "clicks": 1,
+    "change": null
+  },
+  {
+    "link": "https://app.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-platf",
+    "clicks": 1,
+    "change": null
+  },
+  {
+    "link": "https://service.azul.data.humancellatlas.org/",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://storage.googleapis.com/datarepo-fe8f7d1e-bucket/fe0baecc-1551-4439-a5c5-bf366ed3eb75/d735086",
+    "link": "https://identifiers.org/geo:GSE149563",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-hca-prod-storage-prod.us-east-1/manifests/34f756bb-a37",
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-hca-prod-storage-prod.us-east-1/manifests/43bd8c1f-6b5",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://identifiers.org/geo:GSE168191",
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-hca-prod-storage-prod.us-east-1/manifests/f7b0f238-0e3",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://www.atsjournals.org/doi/10.1164/rccm.202210-2015OC",
+    "link": "https://identifiers.org/geo:GSE161383",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://singlecell.broadinstitute.org/single_cell/study/SCP1157/bronchiolitis-obliterans-syndrome-lu",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://identifiers.org/geo:GSE227136",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://identifiers.org/geo:GSE275938",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://app.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-platf",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-hca-prod-storage-prod.us-east-1/manifests/c629256c-330",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://www.nature.com/articles/s41586-022-04552-0",
     "clicks": 0,
     "change": -1.0
   }

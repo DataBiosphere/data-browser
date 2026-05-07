@@ -1,14 +1,14 @@
 [
   {
-    "entity_name": "1kgp.chr1.recalibrated.snp_indel.pass.EUR.bcftools.stats.txt",
-    "dataset_id": "1c39e90e-463c-9853-793e-7e4c8f081815",
-    "related_entity_name": "ANVIL_T2T",
-    "count": 2
+    "entity_name": "MBNL1-BGRSDLV03-28dox_S24_L001_R1_001.filtered.trimmed.paired.fastq.gz",
+    "dataset_id": "1d9283db-632e-8cc7-07e1-f485727dbf23",
+    "related_entity_name": "AnVIL_ENCORE_RS293",
+    "count": 1
   },
   {
-    "entity_name": "README",
-    "dataset_id": "59960255-cca9-fcd3-d8ca-eb88f2c72f00",
-    "related_entity_name": "ANVIL_HPRC",
+    "entity_name": "SMNDC1-BG293LV06-91B_quant.sf",
+    "dataset_id": "a19e4cba-3171-e413-4c1b-73ad7328d236",
+    "related_entity_name": "AnVIL_ENCORE_293T",
     "count": 1
   }
 ]

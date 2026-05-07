@@ -1,4 +1,10 @@
 {
-  "total": 0,
-  "files": []
+  "total": 1,
+  "files": [
+    {
+      "file_name": "/datarepo-7ac9e924-bucket/e8371196-2ae9-4f69-84e8-5d9e898bf742/8ba2bb98-7f47-4da7-9d19-0cf24756d8d8/",
+      "link_url": "https://storage.googleapis.com/datarepo-7ac9e924-bucket/e8371196-2ae9-4f69-84e8-5d9e898bf742/8ba2bb9",
+      "count": 1
+    }
+  ]
 }

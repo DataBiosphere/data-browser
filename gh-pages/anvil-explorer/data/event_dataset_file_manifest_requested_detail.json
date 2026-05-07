@@ -2,7 +2,13 @@
   {
     "page_path": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/download-manifest",
     "entity_name": "(not set)",
-    "count": 2,
+    "count": 4,
     "dataset_title": "ANVIL_1000G_PRIMED_data_model"
+  },
+  {
+    "page_path": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063/export/download-manifest",
+    "entity_name": "(not set)",
+    "count": 2,
+    "dataset_title": "ANVIL_GTEx_v11_hg38"
   }
 ]
