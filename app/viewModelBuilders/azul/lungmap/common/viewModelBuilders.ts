@@ -5,6 +5,7 @@ import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
 } from "../../../../../site-config/hca-dcp/category";
+import { processEntityValue } from "../../../../apis/azul/common/utils";
 import { ProjectsResponse } from "../../../../apis/azul/hca-dcp/common/responses";
 import * as C from "../../../../components";
 import * as MDX from "../../../../components/common/MDXContent/lungmap";
@@ -24,6 +25,9 @@ import {
   getGeneratedMatricesGenusSpeciesColumnDef,
   getGeneratedMatricesLibraryConstructionMethodColumnDef,
   getGeneratedMatricesMatrixCellCountColumnDef,
+  getProjectAggregateLastModifiedDate,
+  getProjectBreadcrumbs,
+  getProjectCallToAction,
   getProjectResponse,
 } from "../../hca-dcp/common/viewModelBuilders";
 
@@ -110,6 +114,24 @@ export const buildExportToTerra = (
     ...buildHCAExportToTerra(_, viewContext as ViewContext<unknown>),
     ExportToTerraStart: MDX.ExportToTerraStart,
     ExportToTerraSuccess: MDX.ExportToTerraSuccessWithWarning,
+  };
+};
+
+/**
+ * Build props for project BackPageHero component from the given projects response.
+ * @param projectsResponse - Response model return from projects API.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the BackPageHero component.
+ */
+export const buildHero = (
+  projectsResponse: ProjectsResponse,
+  viewContext: ViewContext<ProjectsResponse>
+): React.ComponentProps<typeof C.BackPageHero> => {
+  return {
+    actions: getProjectCallToAction(projectsResponse),
+    breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
+    subTitle: getProjectAggregateLastModifiedDate(projectsResponse),
+    title: processEntityValue(projectsResponse.projects, "projectTitle"),
   };
 };
 

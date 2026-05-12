@@ -3,7 +3,7 @@ import { SiteConfig } from "../../common/entities";
 import {
   DATA_URL as HCA_DATA_URL,
   PORTAL_URL as HCA_PORTAL_URL,
-} from "../../hca-dcp/prod/config";
+} from "../../hca-dcp/ma-prod/config";
 import { makeConfig } from "../dev/config";
 
 // Template constants
