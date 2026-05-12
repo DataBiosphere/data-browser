@@ -5,12 +5,14 @@ import anvilCmgCCDev from "../../site-config/anvil-cmg/cc-dev/config";
 import anvilCmgDev from "../../site-config/anvil-cmg/dev/config";
 import anvilCmgProd from "../../site-config/anvil-cmg/prod/config";
 import anvilCmgTempdev from "../../site-config/anvil-cmg/tempdev/config";
+<<<<<<< HEAD
 import { SiteConfig } from "../../site-config/common/entities";
 import hcaDcpCCMaDev from "../../site-config/hca-dcp/cc-ma-dev/config";
 import hcaDcpDev from "../../site-config/hca-dcp/dev/config";
+=======
+>>>>>>> 582bd0ac (chore: [hca dcp] clean up unused dev/cc-ma-dev site-configs, relocate makeconfig to ma-dev (#4820))
 import hcaDcpMaDev from "../../site-config/hca-dcp/ma-dev/config";
 import hcaDcpMaProd from "../../site-config/hca-dcp/ma-prod/config";
-import hcaDcpProd from "../../site-config/hca-dcp/prod/config";
 import lungMapDev from "../../site-config/lungmap/dev/config";
 import lungMapProd from "../../site-config/lungmap/prod/config";
 
@@ -21,11 +23,8 @@ const CONFIGS: { [k: string]: SiteConfig } = {
   "anvil-cmg-dev": anvilCmgDev,
   "anvil-cmg-prod": anvilCmgProd,
   "anvil-cmg-tempdev": anvilCmgTempdev,
-  "hca-dcp-cc-ma-dev": hcaDcpCCMaDev,
-  "hca-dcp-dev": hcaDcpDev,
   "hca-dcp-ma-dev": hcaDcpMaDev,
   "hca-dcp-ma-prod": hcaDcpMaProd,
-  "hca-dcp-prod": hcaDcpProd,
   "lungmap-dev": lungMapDev,
   "lungmap-prod": lungMapProd,
 };

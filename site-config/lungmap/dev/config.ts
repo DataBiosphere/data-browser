@@ -1,11 +1,11 @@
 import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
-import {
-  DATA_URL as HCA_DATA_URL,
-  PORTAL_URL as HCA_PORTAL_URL,
-} from "site-config/hca-dcp/ma-dev/config";
 import * as C from "../../../app/components/index";
 import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
+import {
+  DATA_URL as HCA_DATA_URL,
+  PORTAL_URL as HCA_PORTAL_URL,
+} from "../../hca-dcp/ma-dev/config";
 import { exportConfig } from "./export/exportConfig";
 import { CATEGORY_GROUPS } from "./index/common/category";
 import { filesEntityConfig } from "./index/filesEntityConfig";

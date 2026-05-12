@@ -22,7 +22,7 @@ import {
   SAMPLE_ENTITY_TYPE,
   SELECTED_CELL_TYPE,
   SPECIMEN_DISEASE,
-} from "../../../../hca-dcp/dev/index/common/category";
+} from "../../../../hca-dcp/ma-dev/categoryGroup/category";
 
 export const CATEGORY_GROUP: Record<string, CategoryGroup> = {
   DONOR: {
