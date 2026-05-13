@@ -32,6 +32,7 @@ import { JSX } from "react";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { buildAnvilDatasetJsonLd } from "../../app/utils/schemaOrg/anvilDataset";
 import { buildHcaProjectJsonLd } from "../../app/utils/schemaOrg/hcaProjectDataset";
+import { buildLungmapProjectJsonLd } from "../../app/utils/schemaOrg/lungmapProjectDataset";
 import type { SchemaDataset } from "../../app/utils/schemaOrg/types";
 import { readFile } from "../../app/utils/tsvParser";
 import { JsonLd } from "../../app/views/EntityDetailView/components/JsonLd/jsonLd";
@@ -73,6 +74,7 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const { config: siteConfig } = useConfig();
   const isAnVIL = siteConfig.appTitle?.includes("AnVIL");
   const isHcaDcp = siteConfig.appTitle?.includes("HCA");
+  const isLungMap = siteConfig.appTitle?.includes("LungMAP");
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
@@ -91,6 +93,7 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
     <>
       {isAnVIL && renderJsonLd(props, "datasets", buildAnvilDatasetJsonLd)}
       {isHcaDcp && renderJsonLd(props, "projects", buildHcaProjectJsonLd)}
+      {isLungMap && renderJsonLd(props, "projects", buildLungmapProjectJsonLd)}
       <EntityDetailView {...props} />
     </>
   );
