@@ -1,11 +1,11 @@
 import { setConfig } from "@databiosphere/findable-ui/lib/config/config";
-import { SiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import anvilCatalogDev from "../../site-config/anvil-catalog/dev/config";
 import anvilCatalogProd from "../../site-config/anvil-catalog/prod/config";
 import anvilCmgCCDev from "../../site-config/anvil-cmg/cc-dev/config";
 import anvilCmgDev from "../../site-config/anvil-cmg/dev/config";
 import anvilCmgProd from "../../site-config/anvil-cmg/prod/config";
 import anvilCmgTempdev from "../../site-config/anvil-cmg/tempdev/config";
+import { SiteConfig } from "../../site-config/common/entities";
 import hcaDcpCCMaDev from "../../site-config/hca-dcp/cc-ma-dev/config";
 import hcaDcpDev from "../../site-config/hca-dcp/dev/config";
 import hcaDcpMaDev from "../../site-config/hca-dcp/ma-dev/config";
