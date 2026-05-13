@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDX_SCOPE } from "./constants";
-import { ContentProps } from "./entities";
+import { ContentFrontmatter, ContentProps } from "./entities";
 import {
   getContentPathname,
   getMarkdownPathname,
@@ -13,9 +13,7 @@ import {
 } from "./utils";
 
 export async function getContentStaticProps(
-  context: GetStaticPropsContext,
-  pageTitle: string,
-  pageDescription?: string
+  context: GetStaticPropsContext
 ): Promise<GetStaticPropsResult<ContentProps>> {
   const slug = getSlug(context);
   const contentPathname = getContentPathname();
@@ -28,7 +26,8 @@ export async function getContentStaticProps(
   }
   const markdownPathname = getMarkdownPathname(contentPathname, slug);
   const markdownWithMeta = fs.readFileSync(markdownPathname, "utf-8");
-  const { content } = matter(markdownWithMeta);
+  const { content, data } = matter(markdownWithMeta);
+  const { pageDescription, pageTitle } = data as ContentFrontmatter;
   const mdxSource = await serialize(content, {
     mdxOptions: {
       development: process.env.NODE_ENV === "development",
