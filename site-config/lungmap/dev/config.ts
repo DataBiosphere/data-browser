@@ -6,8 +6,8 @@ import {
   DATA_URL as HCA_DATA_URL,
   PORTAL_URL as HCA_PORTAL_URL,
 } from "../../hca-dcp/ma-dev/config";
+import { CATEGORY_GROUP_CONFIG } from "./categoryGroup/categoryGroupConfig";
 import { exportConfig } from "./export/exportConfig";
-import { CATEGORY_GROUPS } from "./index/common/category";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
@@ -40,10 +40,7 @@ export function makeConfig(
     appTitle: APP_TITLE,
     authentication: undefined,
     browserURL: browserUrl,
-    categoryGroupConfig: {
-      categoryGroups: CATEGORY_GROUPS,
-      key: "lungmap",
-    },
+    categoryGroupConfig: CATEGORY_GROUP_CONFIG,
     contentDir: "lungmap",
     dataSource: {
       defaultListParams: {
