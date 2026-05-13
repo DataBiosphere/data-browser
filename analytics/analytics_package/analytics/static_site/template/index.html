@@ -764,7 +764,7 @@
         }
 
         function renderFileDownloadEvents(data) {
-            if (!data || !data.total) return;
+            if (!data || data.total == null) return;
             const section = document.getElementById('resources-section');
             section.style.display = '';
             document.getElementById('file-download-events-count').textContent = formatNumber(data.total);
@@ -786,7 +786,7 @@
 
         function renderFileDownloadsTable(downloads) {
             const card = document.getElementById('file-downloads-card');
-            if (!downloads || !downloads.total) {
+            if (!downloads || downloads.total == null) {
                 return;
             }
             card.style.display = '';
