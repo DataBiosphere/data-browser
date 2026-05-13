@@ -269,7 +269,6 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
   const { label } = entityConfig;
   const props: EntityDetailPageProps = {
     entityListType,
-    pageDescription: "View details and access data.",
     pageTitle: typeof label === "string" ? label : null,
   };
 
