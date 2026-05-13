@@ -18,14 +18,11 @@ export function getExportMethodMainColumn(
   mainColumn: ComponentConfig[]
 ): ComponentConfig[] {
   return [
-    /* mainColumn - top section - warning - some datasets are not available */
     EXPORT_ACCESS_WARNING,
-    /* mainColumn */
     {
       children: mainColumn,
       component: C.BackPageContentMainColumn,
     } as ComponentConfig<typeof C.BackPageContentMainColumn>,
-    /* sideColumn */
     {
       children: [
         ...getExportCurrentQueryAndDataSummary(),
