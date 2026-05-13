@@ -1,9 +1,7 @@
 import Head from "next/head";
 import { JSX } from "react";
-import {
-  escapeJsonForHtml,
-  SchemaDataset,
-} from "../../../../utils/schemaOrg/common";
+import type { SchemaDataset } from "../../../../utils/schemaOrg/types";
+import { escapeJsonForHtml } from "../../../../utils/schemaOrg/utils";
 
 interface JsonLdProps {
   jsonLd: SchemaDataset;

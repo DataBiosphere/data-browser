@@ -1,6 +1,6 @@
-import { ProjectsResponse } from "../../../app/apis/azul/hca-dcp/common/responses";
-import { MAX_DESCRIPTION_LENGTH } from "../../../app/utils/schemaOrg/common";
+import type { ProjectsResponse } from "../../../app/apis/azul/hca-dcp/common/responses";
 import { buildHcaProjectJsonLd } from "../../../app/utils/schemaOrg/hcaProjectDataset";
+import { MAX_DESCRIPTION_LENGTH } from "../../../app/utils/schemaOrg/types";
 
 const BROWSER_URL = "https://explore.data.humancellatlas.org";
 
