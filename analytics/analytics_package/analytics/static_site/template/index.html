@@ -208,25 +208,14 @@
         <div class="fui-grid-12" id="event-stats-grid"></div>
         <div id="event-detail-tables"></div>
 
-        <div class="fui-card" id="file-downloads-card" style="display: none;">
+        <div class="fui-card fui-grid-item-3" id="file-downloads-card" style="display: none;">
             <div class="fui-card-header">
                 <h3 class="fui-card-header-title fui-heading-xsmall">Direct File Downloads</h3>
             </div>
             <hr class="fui-divider" />
-            <div class="fui-card-content" style="overflow-x: auto;">
-                <table id="file-downloads-table" class="collapsible-table">
-                    <thead>
-                        <tr>
-                            <th>File</th>
-                            <th>Dataset</th>
-                            <th class="col-number">Count</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td colspan="3" class="fui-color-ink-light">Loading...</td></tr>
-                    </tbody>
-                </table>
-                <button class="toggle-rows" id="file-downloads-toggle" style="display: none;" onclick="toggleTable(this)">Show all</button>
+            <div class="fui-card-content" style="text-align: center;">
+                <div class="stat-value" id="file-downloads-count">0</div>
+                <div class="stat-label">Total Downloads</div>
             </div>
         </div>
 
@@ -324,23 +313,16 @@
 
         <div id="resources-section" style="display: none;">
             <h2 class="fui-heading-small">Resources</h2>
-            <div class="fui-card">
-                <div class="fui-card-header">
-                    <h3 class="fui-card-header-title fui-heading-xsmall">File Downloads <span id="file-downloads-total-label" class="fui-color-ink-light"></span></h3>
-                </div>
-                <hr class="fui-divider" />
-                <div class="fui-card-content" style="overflow-x: auto;">
-                    <table id="file-download-events-table">
-                        <thead>
-                            <tr>
-                                <th>File</th>
-                                <th class="col-number">Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td colspan="2" class="fui-color-ink-light">Loading...</td></tr>
-                        </tbody>
-                    </table>
+            <div class="fui-grid-12">
+                <div class="fui-card fui-grid-item-3">
+                    <div class="fui-card-header">
+                        <h3 class="fui-card-header-title fui-heading-xsmall">File Downloads</h3>
+                    </div>
+                    <hr class="fui-divider" />
+                    <div class="fui-card-content" style="text-align: center;">
+                        <div class="stat-value" id="file-download-events-count">0</div>
+                        <div class="stat-label">Total Downloads</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -653,7 +635,7 @@
                 if (fileDownloadsPos != null) {
                     const fileCard = document.getElementById('file-downloads-card');
                     if (fileCard && fileCard.style.display !== 'none') {
-                        fileCard.classList.add('fui-grid-item-12');
+                        fileCard.classList.add('fui-grid-item-3');
                         const pos = Math.min(fileDownloadsPos, detailCards.length);
                         detailCards.splice(pos, 0, fileCard.outerHTML);
                         fileCard.remove();
@@ -782,17 +764,10 @@
         }
 
         function renderFileDownloadEvents(data) {
-            if (!data || !data.files || data.files.length === 0) return;
+            if (!data || data.total == null) return;
             const section = document.getElementById('resources-section');
             section.style.display = '';
-            document.getElementById('file-downloads-total-label').textContent = `(${formatNumber(data.total)})`;
-            const tbody = document.querySelector('#file-download-events-table tbody');
-            tbody.innerHTML = data.files.map(row => `
-                <tr>
-                    <td>${escapeHtml(row.file_name)}</td>
-                    <td class="col-number">${formatNumber(row.count)}</td>
-                </tr>
-            `).join('');
+            document.getElementById('file-download-events-count').textContent = formatNumber(data.total);
         }
 
         function renderSearchQueries(data) {
@@ -811,32 +786,11 @@
 
         function renderFileDownloadsTable(downloads) {
             const card = document.getElementById('file-downloads-card');
-            const tbody = document.querySelector('#file-downloads-table tbody');
-            if (!downloads || downloads.length === 0) {
+            if (!downloads || downloads.total == null) {
                 return;
             }
             card.style.display = '';
-            const total = downloads.reduce((sum, r) => sum + (r.count || 0), 0);
-            card.querySelector('.fui-card-header-title').textContent = `Direct File Downloads (${formatNumber(total)})`;
-            const toggle = document.getElementById('file-downloads-toggle');
-            if (downloads.length > 5) {
-                toggle.style.display = '';
-                toggle.textContent = `Show all ${downloads.length} rows`;
-            }
-            tbody.innerHTML = downloads.map(row => {
-                const entityName = row.entity_name && row.entity_name !== '(not set)' ? row.entity_name : '-';
-                const datasetName = row.related_entity_name && row.related_entity_name !== '(not set)' ? row.related_entity_name : '-';
-                const datasetCell = row.dataset_id && datasetName !== '-'
-                    ? `<a href="${safeHref(siteBase + entityPath + '/' + row.dataset_id)}" target="_blank" rel="noopener noreferrer">${escapeHtml(datasetName)}</a>`
-                    : escapeHtml(datasetName);
-                return `
-                    <tr>
-                        <td>${escapeHtml(entityName)}</td>
-                        <td>${datasetCell}</td>
-                        <td class="col-number">${formatNumber(row.count || 0)}</td>
-                    </tr>
-                `;
-            }).join('');
+            document.getElementById('file-downloads-count').textContent = formatNumber(downloads.total);
         }
 
         async function renderAccessRequestsTable() {
