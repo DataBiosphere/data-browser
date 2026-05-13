@@ -1,22 +1,73 @@
-import {
+import type {
   AccessionResponse,
   ContributorResponse,
   PublicationResponse,
 } from "../../apis/azul/hca-dcp/common/entities";
-import { ProjectsResponse } from "../../apis/azul/hca-dcp/common/responses";
+import type { ProjectsResponse } from "../../apis/azul/hca-dcp/common/responses";
 import { transformAccessionURL } from "../../viewModelBuilders/azul/hca-dcp/common/accessionMapper/accessionMapper";
 import { ACCESSION_CONFIGS_BY_RESPONSE_KEY } from "../../viewModelBuilders/azul/hca-dcp/common/accessionMapper/constants";
-import {
+import type {
   SchemaDataset,
   SchemaOrganization,
   SchemaPerson,
   SchemaScholarlyArticle,
-  stripHtmlTags,
-  truncateDescription,
-  uniqueNonEmpty,
-} from "./common";
+} from "./types";
+import { stripHtmlTags, truncateDescription, uniqueNonEmpty } from "./utils";
 
 const CATALOG_NAME = "Human Cell Atlas Data Coordination Platform";
+
+/**
+ * Builds the citation array from project publications. Skips entries without a
+ * title. Prefers DOI for `sameAs`, falling back to the publication URL.
+ * @param publications - HCA project publications.
+ * @returns Array of schema.org ScholarlyArticle objects.
+ */
+function buildCitations(
+  publications: PublicationResponse[]
+): SchemaScholarlyArticle[] {
+  const citations: SchemaScholarlyArticle[] = [];
+  for (const publication of publications ?? []) {
+    if (!publication.publicationTitle) continue;
+    const article: SchemaScholarlyArticle = {
+      "@type": "ScholarlyArticle",
+      headline: publication.publicationTitle,
+      name: publication.publicationTitle,
+    };
+    if (publication.doi) {
+      article.sameAs = `https://doi.org/${publication.doi}`;
+    } else if (publication.publicationUrl) {
+      article.sameAs = publication.publicationUrl;
+    }
+    citations.push(article);
+  }
+  return citations;
+}
+
+/**
+ * Builds the creator array from project contributors. Skips entries without a
+ * name. When the contributor has an institution, attaches it as an affiliation.
+ * @param contributors - HCA project contributors.
+ * @returns Array of schema.org Person objects.
+ */
+function buildCreators(contributors: ContributorResponse[]): SchemaPerson[] {
+  const creators: SchemaPerson[] = [];
+  for (const contributor of contributors ?? []) {
+    if (!contributor.contactName) continue;
+    const person: SchemaPerson = {
+      "@type": "Person",
+      name: normaliseContactName(contributor.contactName),
+    };
+    if (contributor.institution) {
+      const affiliation: SchemaOrganization = {
+        "@type": "Organization",
+        name: contributor.institution,
+      };
+      person.affiliation = affiliation;
+    }
+    creators.push(person);
+  }
+  return creators;
+}
 
 /**
  * Builds a Schema.org Dataset JSON-LD object for an HCA DCP project.
@@ -74,24 +125,6 @@ export function buildHcaProjectJsonLd(
 }
 
 /**
- * Builds the sameAs array of external accession URLs via identifiers.org.
- * Only includes accessions whose namespace maps to a known identifier prefix.
- * @param accessions - Project accessions from the Azul response.
- * @returns Array of canonical accession URLs.
- */
-function buildSameAs(accessions: AccessionResponse[]): string[] {
-  const urls: string[] = [];
-  for (const { accession, namespace } of accessions) {
-    const prefix =
-      ACCESSION_CONFIGS_BY_RESPONSE_KEY.get(namespace)?.identifierOrgPrefix;
-    if (!prefix) continue;
-    const url = transformAccessionURL(accession, prefix);
-    if (url) urls.push(url);
-  }
-  return uniqueNonEmpty(urls);
-}
-
-/**
  * Builds a keywords array by unioning biologically-meaningful fields from the
  * project's aggregated donor/sample/specimen/protocol responses.
  * @param data - HCA project detail response.
@@ -122,56 +155,21 @@ function buildKeywords(data: ProjectsResponse): string[] {
 }
 
 /**
- * Builds the creator array from project contributors. Skips entries without a
- * name. When the contributor has an institution, attaches it as an affiliation.
- * @param contributors - HCA project contributors.
- * @returns Array of schema.org Person objects.
+ * Builds the sameAs array of external accession URLs via identifiers.org.
+ * Only includes accessions whose namespace maps to a known identifier prefix.
+ * @param accessions - Project accessions from the Azul response.
+ * @returns Array of canonical accession URLs.
  */
-function buildCreators(contributors: ContributorResponse[]): SchemaPerson[] {
-  const creators: SchemaPerson[] = [];
-  for (const contributor of contributors ?? []) {
-    if (!contributor.contactName) continue;
-    const person: SchemaPerson = {
-      "@type": "Person",
-      name: normaliseContactName(contributor.contactName),
-    };
-    if (contributor.institution) {
-      const affiliation: SchemaOrganization = {
-        "@type": "Organization",
-        name: contributor.institution,
-      };
-      person.affiliation = affiliation;
-    }
-    creators.push(person);
+function buildSameAs(accessions: AccessionResponse[]): string[] {
+  const urls: string[] = [];
+  for (const { accession, namespace } of accessions) {
+    const prefix =
+      ACCESSION_CONFIGS_BY_RESPONSE_KEY.get(namespace)?.identifierOrgPrefix;
+    if (!prefix) continue;
+    const url = transformAccessionURL(accession, prefix);
+    if (url) urls.push(url);
   }
-  return creators;
-}
-
-/**
- * Builds the citation array from project publications. Skips entries without a
- * title. Prefers DOI for `sameAs`, falling back to the publication URL.
- * @param publications - HCA project publications.
- * @returns Array of schema.org ScholarlyArticle objects.
- */
-function buildCitations(
-  publications: PublicationResponse[]
-): SchemaScholarlyArticle[] {
-  const citations: SchemaScholarlyArticle[] = [];
-  for (const publication of publications ?? []) {
-    if (!publication.publicationTitle) continue;
-    const article: SchemaScholarlyArticle = {
-      "@type": "ScholarlyArticle",
-      headline: publication.publicationTitle,
-      name: publication.publicationTitle,
-    };
-    if (publication.doi) {
-      article.sameAs = `https://doi.org/${publication.doi}`;
-    } else if (publication.publicationUrl) {
-      article.sameAs = publication.publicationUrl;
-    }
-    citations.push(article);
-  }
-  return citations;
+  return uniqueNonEmpty(urls);
 }
 
 /**
