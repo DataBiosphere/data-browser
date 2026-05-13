@@ -21,7 +21,7 @@ export const BackPageHeroActions = ({
   callToActionProps,
   linkProps,
 }: BackPageHeroActionsProps): JSX.Element => {
-  const { config } = useConfig() as { config: SiteConfig };
+  const { config } = useConfig() as unknown as { config: SiteConfig };
   const { getURL, label, ...otherProps } = linkProps || {};
   const linkUrl = getURL?.(config.portalURL);
   return (

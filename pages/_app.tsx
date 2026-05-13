@@ -25,7 +25,6 @@ import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline, Theme, ThemeProvider } from "@mui/material";
 import { createBreakpoints } from "@mui/system";
 import { deepmerge } from "@mui/utils";
-import { DEFAULT_DESCRIPTION } from "app/components/common/OgMeta/constants";
 import { OgMeta } from "app/components/common/OgMeta/ogMeta";
 import { config } from "app/config/config";
 import { FEATURES } from "app/shared/entities";
@@ -60,6 +59,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
     analytics,
     appTitle,
     browserURL,
+    description,
     layout,
     redirectRootToPath,
     themeOptions,
@@ -85,7 +85,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
           <OgMeta
             appTitle={appTitle}
             browserURL={browserURL}
-            defaultDescription={DEFAULT_DESCRIPTION}
+            defaultDescription={description}
             pageDescription={pageDescription}
             pageTitle={pageTitle}
           />

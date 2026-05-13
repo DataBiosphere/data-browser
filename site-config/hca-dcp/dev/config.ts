@@ -19,6 +19,8 @@ import { floating } from "./layout/floating";
 // Template constants
 const APP_TITLE = "HCA Data Explorer";
 const CATALOG = "dcp59";
+const DESCRIPTION =
+  "Explore projects, samples, and files in the HCA Data Explorer.";
 const BROWSER_URL = "https://explore.data.humancellatlas.dev.clevercanary.com";
 const DATA_URL = "https://service.azul.data.humancellatlas.org";
 const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
@@ -57,6 +59,7 @@ export function makeConfig(
       },
       url: `${dataUrl}/`,
     },
+    description: DESCRIPTION,
     enableEntitiesView: true,
     entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
     export: exportConfig,
