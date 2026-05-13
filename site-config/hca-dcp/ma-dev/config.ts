@@ -12,14 +12,12 @@ import { getLayout } from "./layout/layout";
 import { SUMMARY } from "./summary/summary";
 import { THEME_OPTIONS } from "./themeOptions/themeOptions";
 
-// Template constants
 const APP_TITLE = "HCA Data Explorer";
 const BROWSER_URL = "https://explore.dev.singlecell.gi.ucsc.edu";
 const CATALOG = "dcp3";
 export const DATA_URL = "https://service.dev.singlecell.gi.ucsc.edu";
 const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
 const PAGINATION_PAGE_SIZE = "25";
-// const PORTAL_URL = "https://dev.singlecell.gi.ucsc.edu"; moved from ma-dev
 export const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
 const REDIRECT_ROOT_TO_PATH = "/projects";
 

@@ -9,7 +9,7 @@ n 22.12.0
 npm ci
 
 # Build
-npm run build-cc-ma-dev:hca-dcp
+npm run build-ma-dev:hca-dcp
 
 export BUCKET=s3://x0g-ma-pilot.humancellatlas.dev/
 export SRCDIR=out/

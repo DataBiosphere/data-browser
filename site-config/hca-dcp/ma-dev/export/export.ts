@@ -65,9 +65,7 @@ export const EXPORT: ExportConfig = {
     {
       label: "Choose Export Method",
       mainColumn: [
-        /* mainColumn - top section - warning - some datasets are not available */
         EXPORT_ACCESS_WARNING,
-        /* mainColumn */
         {
           children: [
             {

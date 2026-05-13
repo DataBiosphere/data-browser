@@ -46,8 +46,3 @@ export function getExportDataReleasePolicy(): ComponentConfig[] {
     } as ComponentConfig<typeof C.FluidPaper>,
   ];
 }
-
-export const SIDE_COLUMN: ComponentConfig[] = [
-  ...getExportCurrentQueryAndDataSummary(),
-  ...getExportDataReleasePolicy(),
-];
