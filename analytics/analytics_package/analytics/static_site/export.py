@@ -116,10 +116,10 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
 
     # File downloads
     print("Exporting file downloads data...")
-    file_downloads = data.get("file_downloads", [])
+    file_downloads = data.get("file_downloads", 0)
     with open(os.path.join(output_dir, "file_downloads.json"), "w") as f:
-        json.dump(file_downloads, f, indent=2)
-    print(f"  Wrote file_downloads.json ({len(file_downloads)} records)")
+        json.dump({"total": file_downloads}, f, indent=2)
+    print(f"  Wrote file_downloads.json (total: {file_downloads})")
 
     # Access requests
     print("Exporting access requests data...")
@@ -130,10 +130,10 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
 
     # File download events (GA4 enhanced measurement)
     print("Exporting file download events data...")
-    file_download_events = data.get("file_download_events", {"total": 0, "files": []})
+    file_download_events = data.get("file_download_events", 0)
     with open(os.path.join(output_dir, "file_download_events.json"), "w") as f:
-        json.dump(file_download_events, f, indent=2)
-    print(f"  Wrote file_download_events.json ({len(file_download_events.get('files', []))} files)")
+        json.dump({"total": file_download_events}, f, indent=2)
+    print(f"  Wrote file_download_events.json (total: {file_download_events})")
 
     # Search queries
     print("Exporting search queries data...")

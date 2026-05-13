@@ -6,8 +6,6 @@ from urllib.parse import urlparse, parse_qs
 from .. import sheets_elements as elements
 from .._sheets_utils import get_data_df_from_fields
 from ..entities import (
-    DIMENSION_BUILTIN_URL,
-    DIMENSION_FILE_NAME,
     METRIC_EVENT_COUNT,
     METRIC_PAGE_VIEWS,
     METRIC_SESSIONS,
@@ -16,8 +14,6 @@ from ..entities import (
     DIMENSION_PAGE_PATH_PLUS_QUERY,
     DIMENSION_CUSTOM_URL,
     DIMENSION_ENTITY_NAME,
-    DIMENSION_RELATED_ENTITY_ID,
-    DIMENSION_RELATED_ENTITY_NAME,
 )
 
 METRIC_ENGAGEMENT_RATE = {
@@ -113,21 +109,17 @@ def get_event_detail_table(event_name, params, page_path_regex=None):
 
 
 def get_file_downloads(params):
-    """Fetch file_downloaded events with entity name and related entity name.
+    """Fetch file_downloaded event count.
 
     Returns:
-        List of dicts with "entity_name", "dataset_id", "related_entity_name",
-        and "count" keys.
+        Total count of file_downloaded events (int).
     """
     df = elements.get_index_table_download_df(params)
 
     if len(df) == 0:
-        return []
+        return 0
 
-    result = df[[DIMENSION_ENTITY_NAME["alias"], DIMENSION_RELATED_ENTITY_ID["alias"], DIMENSION_RELATED_ENTITY_NAME["alias"], METRIC_EVENT_COUNT["alias"]]].copy()
-    result.columns = ["entity_name", "dataset_id", "related_entity_name", "count"]
-    result = result.sort_values("count", ascending=False)
-    return result.to_dict(orient="records")
+    return int(df[METRIC_EVENT_COUNT["alias"]].sum())
 
 
 def get_access_requests(params, url_patterns):
@@ -167,28 +159,22 @@ def get_access_requests(params, url_patterns):
 
 
 def get_file_download_events(params):
-    """Fetch GA4 enhanced measurement file_download events.
+    """Fetch GA4 enhanced measurement file_download event count.
 
     Returns:
-        Dict with "total" (int) and "files" (list of dicts with "file_name", "link_url", "count").
+        Total count of file_download events (int).
     """
     df = get_data_df_from_fields(
         [METRIC_EVENT_COUNT],
-        [DIMENSION_EVENT_NAME, DIMENSION_FILE_NAME, DIMENSION_BUILTIN_URL],
+        [DIMENSION_EVENT_NAME],
         dimension_filter="eventName==file_download",
         **params,
     )
 
     if len(df) == 0:
-        return {"total": 0, "files": []}
+        return 0
 
-    result = df[[DIMENSION_FILE_NAME["alias"], DIMENSION_BUILTIN_URL["alias"], METRIC_EVENT_COUNT["alias"]]].copy()
-    result.columns = ["file_name", "link_url", "count"]
-    result["count"] = result["count"].astype(int)
-    total = int(result["count"].sum())
-    result = result.sort_values("count", ascending=False)
-
-    return {"total": total, "files": result.to_dict(orient="records")}
+    return int(df[METRIC_EVENT_COUNT["alias"]].sum())
 
 
 def get_search_queries(params, search_path="/search"):
@@ -324,7 +310,7 @@ def fetch_data(
         file_downloads = get_file_downloads(params)
     except Exception as e:
         print(f"  Skipped (not available for this property): {e}")
-        file_downloads = []
+        file_downloads = 0
 
     access_requests = []
     if access_request_urls:
@@ -336,7 +322,7 @@ def fetch_data(
         file_download_events = get_file_download_events(params)
     except Exception as e:
         print(f"  Skipped (not available for this property): {e}")
-        file_download_events = {"total": 0, "files": []}
+        file_download_events = 0
 
     search_queries = {"total": 0, "queries": []}
     if search_path:
