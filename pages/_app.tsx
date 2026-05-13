@@ -38,8 +38,8 @@ const FEATURE_FLAGS = Object.values(FEATURES);
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
 
 export interface PageProps extends AzulEntitiesStaticResponse {
-  pageDescription?: string;
-  pageTitle?: string;
+  pageDescription?: string | null;
+  pageTitle?: string | null;
 }
 
 export type NextPageWithComponent = NextPage & {
@@ -81,7 +81,7 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
     <EmotionThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <DXConfigProvider config={appConfig} entityListType={entityListType}>
-          <Head pageTitle={pageTitle} />
+          <Head pageTitle={pageTitle ?? undefined} />
           <OgMeta
             appTitle={appTitle}
             browserURL={browserURL}

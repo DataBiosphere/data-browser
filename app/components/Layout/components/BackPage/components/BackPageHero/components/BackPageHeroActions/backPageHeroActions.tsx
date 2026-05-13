@@ -9,7 +9,6 @@ import {
 import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 import { JSX } from "react";
-import { SiteConfig } from "../../../../../../../../../site-config/common/entities";
 import { StyledBackPageHeroActions } from "./backPageHeroActions.styles";
 
 export interface BackPageHeroActionsProps {
@@ -21,7 +20,7 @@ export const BackPageHeroActions = ({
   callToActionProps,
   linkProps,
 }: BackPageHeroActionsProps): JSX.Element => {
-  const { config } = useConfig() as unknown as { config: SiteConfig };
+  const { config } = useConfig() as { config: { portalURL?: string } };
   const { getURL, label, ...otherProps } = linkProps || {};
   const linkUrl = getURL?.(config.portalURL);
   return (

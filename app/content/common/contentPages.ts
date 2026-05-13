@@ -40,7 +40,7 @@ export async function getContentStaticProps(
     props: {
       layoutStyle: LAYOUT_STYLE_NO_CONTRAST_DEFAULT,
       mdxSource,
-      pageDescription,
+      pageDescription: pageDescription ?? null,
       pageTitle,
       slug,
     },
