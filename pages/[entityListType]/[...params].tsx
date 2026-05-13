@@ -280,7 +280,6 @@ export const getStaticProps: GetStaticProps<EntityDetailPageProps> = async ({
   const props: EntityDetailPageProps = {
     browserURL,
     entityListType,
-    pageDescription: "View details and access data.",
     pageTitle: typeof label === "string" ? label : null,
   };
 
