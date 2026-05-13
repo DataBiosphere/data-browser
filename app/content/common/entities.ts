@@ -15,7 +15,7 @@ export interface ContentFrontmatter {
 export interface ContentProps {
   layoutStyle?: LayoutStyle;
   mdxSource: MDXRemoteSerializeResult | null;
-  pageDescription?: string;
+  pageDescription?: string | null;
   pageTitle: string;
   slug: string[] | null;
 }
