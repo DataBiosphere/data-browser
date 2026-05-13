@@ -8,11 +8,6 @@
  */
 
 /**
- * Google Dataset Search caps description at 5000 characters.
- */
-export const MAX_DESCRIPTION_LENGTH = 5000;
-
-/**
  * Schema.org DataCatalog type.
  */
 export interface SchemaDataCatalog {

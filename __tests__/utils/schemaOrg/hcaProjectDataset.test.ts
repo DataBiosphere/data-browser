@@ -1,6 +1,6 @@
 import type { ProjectsResponse } from "../../../app/apis/azul/hca-dcp/common/responses";
+import { DESCRIPTION_LENGTH } from "../../../app/utils/schemaOrg/constants";
 import { buildHcaProjectJsonLd } from "../../../app/utils/schemaOrg/hcaProjectDataset";
-import { MAX_DESCRIPTION_LENGTH } from "../../../app/utils/schemaOrg/types";
 
 const BROWSER_URL = "https://explore.data.humancellatlas.org";
 
@@ -30,7 +30,8 @@ function makeProjectsResponse(
         estimatedCellCount: null,
         laboratory: [],
         matrices: {},
-        projectDescription: "A study of cells.",
+        projectDescription:
+          "A study of cells across multiple human individuals examining inter-individual variation in gene expression.",
         projectId: "uuid-1",
         projectShortname: "Cell Study",
         projectTitle: "Cells of the body",
@@ -59,7 +60,9 @@ describe("buildHcaProjectJsonLd", () => {
     expect(result!["@context"]).toBe("https://schema.org");
     expect(result!["@type"]).toBe("Dataset");
     expect(result!.name).toBe("Cells of the body");
-    expect(result!.description).toBe("A study of cells.");
+    expect(result!.description).toBe(
+      "A study of cells across multiple human individuals examining inter-individual variation in gene expression."
+    );
     expect(result!.url).toBe(`${BROWSER_URL}/projects/uuid-1`);
     expect(result!.identifier).toEqual(["uuid-1"]);
     expect(result!.isAccessibleForFree).toBe(true);
@@ -80,17 +83,43 @@ describe("buildHcaProjectJsonLd", () => {
   it("strips HTML tags from description", () => {
     const response = makeProjectsResponse();
     response.projects[0].projectDescription =
-      "<p>Single-cell <strong>RNA-seq</strong> data.</p>";
+      "<p>Single-cell <strong>RNA-seq</strong> data across many cells and donors and tissues.</p>";
     const result = buildHcaProjectJsonLd(response, BROWSER_URL);
-    expect(result!.description).toBe("Single-cell RNA-seq data.");
+    expect(result!.description).toBe(
+      "Single-cell RNA-seq data across many cells and donors and tissues."
+    );
+  });
+
+  it("pads short descriptions with name and catalog context to meet the 50-char minimum", () => {
+    const response = makeProjectsResponse();
+    response.projects[0].projectDescription = "Short.";
+    const result = buildHcaProjectJsonLd(response, BROWSER_URL);
+    expect(result!.description).toBe(
+      "Cells of the body — Short. — Human Cell Atlas Data Coordination Platform project."
+    );
+    expect(result!.description.length).toBeGreaterThanOrEqual(
+      DESCRIPTION_LENGTH.MIN
+    );
+  });
+
+  it("falls back to project name plus catalog context when description is empty", () => {
+    const response = makeProjectsResponse();
+    response.projects[0].projectDescription = "";
+    const result = buildHcaProjectJsonLd(response, BROWSER_URL);
+    expect(result!.description).toBe(
+      "Cells of the body — Human Cell Atlas Data Coordination Platform project."
+    );
+    expect(result!.description.length).toBeGreaterThanOrEqual(
+      DESCRIPTION_LENGTH.MIN
+    );
   });
 
   it("truncates descriptions over 5000 characters and appends an ellipsis", () => {
-    const longDescription = "a".repeat(MAX_DESCRIPTION_LENGTH + 200);
+    const longDescription = "a".repeat(DESCRIPTION_LENGTH.MAX + 200);
     const response = makeProjectsResponse();
     response.projects[0].projectDescription = longDescription;
     const result = buildHcaProjectJsonLd(response, BROWSER_URL);
-    expect(result!.description).toHaveLength(MAX_DESCRIPTION_LENGTH);
+    expect(result!.description).toHaveLength(DESCRIPTION_LENGTH.MAX);
     expect(result!.description.endsWith("…")).toBe(true);
   });
 
@@ -111,6 +140,19 @@ describe("buildHcaProjectJsonLd", () => {
     expect(result!.sameAs).toEqual([
       "https://identifiers.org/geo:GSE12345",
       "https://identifiers.org/ena.embl:PRJNA9999",
+    ]);
+  });
+
+  it("splits semicolon-separated accession ids in both identifier and sameAs", () => {
+    const response = makeProjectsResponse();
+    response.projects[0].accessions = [
+      { accession: "GSE12345; GSE67890", namespace: "geo_series" },
+    ];
+    const result = buildHcaProjectJsonLd(response, BROWSER_URL);
+    expect(result!.identifier).toEqual(["uuid-1", "GSE12345", "GSE67890"]);
+    expect(result!.sameAs).toEqual([
+      "https://identifiers.org/geo:GSE12345",
+      "https://identifiers.org/geo:GSE67890",
     ]);
   });
 

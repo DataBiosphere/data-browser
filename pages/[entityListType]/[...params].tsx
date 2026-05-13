@@ -260,7 +260,7 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
+export const getStaticProps: GetStaticProps<EntityDetailPageProps> = async ({
   params,
 }: GetStaticPropsContext) => {
   const appConfig = config();

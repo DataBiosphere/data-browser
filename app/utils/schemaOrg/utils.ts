@@ -1,4 +1,4 @@
-import { MAX_DESCRIPTION_LENGTH } from "./types";
+import { DESCRIPTION_LENGTH } from "./constants";
 
 /**
  * Escapes a JSON string for safe embedding inside an HTML `<script>` tag.
@@ -35,8 +35,8 @@ export function stripHtmlTags(value: string): string {
  * @returns Truncated description.
  */
 export function truncateDescription(description: string): string {
-  if (description.length <= MAX_DESCRIPTION_LENGTH) return description;
-  return description.slice(0, MAX_DESCRIPTION_LENGTH - 1) + "…";
+  if (description.length <= DESCRIPTION_LENGTH.MAX) return description;
+  return description.slice(0, DESCRIPTION_LENGTH.MAX - 1) + "…";
 }
 
 /**

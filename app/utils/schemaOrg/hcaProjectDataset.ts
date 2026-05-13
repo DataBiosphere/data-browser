@@ -6,6 +6,7 @@ import type {
 import type { ProjectsResponse } from "../../apis/azul/hca-dcp/common/responses";
 import { transformAccessionURL } from "../../viewModelBuilders/azul/hca-dcp/common/accessionMapper/accessionMapper";
 import { ACCESSION_CONFIGS_BY_RESPONSE_KEY } from "../../viewModelBuilders/azul/hca-dcp/common/accessionMapper/constants";
+import { DESCRIPTION_LENGTH } from "./constants";
 import type {
   SchemaDataset,
   SchemaOrganization,
@@ -41,6 +42,27 @@ function buildCitations(
     citations.push(article);
   }
   return citations;
+}
+
+/**
+ * Builds the Schema.org description for a project, padding short or empty
+ * source descriptions with the project name and catalog context so the result
+ * satisfies Google's minimum description-length requirement (50 chars).
+ * @param sourceDescription - Raw projectDescription from the Azul response.
+ * @param name - Project name used as a padding fallback.
+ * @returns HTML-stripped description, padded if short, truncated if long.
+ */
+function buildDescription(sourceDescription: string, name: string): string {
+  const stripped = stripHtmlTags(sourceDescription || "");
+  if (stripped.length >= DESCRIPTION_LENGTH.MIN) {
+    return truncateDescription(stripped);
+  }
+  // Padding includes the catalog name (~43 chars) to reliably push the
+  // result past the 50-char minimum even when name + stripped are short.
+  const padded = stripped
+    ? `${name} — ${stripped} — ${CATALOG_NAME} project.`
+    : `${name} — ${CATALOG_NAME} project.`;
+  return truncateDescription(padded);
 }
 
 /**
@@ -85,13 +107,13 @@ export function buildHcaProjectJsonLd(
   const project = data.projects?.[0];
   if (!project) return undefined;
 
-  const description = truncateDescription(
-    stripHtmlTags(project.projectDescription || "")
-  );
   const name = project.projectTitle || project.projectShortname;
+  const description = buildDescription(project.projectDescription, name);
   const identifier = uniqueNonEmpty([
     project.projectId,
-    ...project.accessions.map((accession) => accession.accession),
+    ...project.accessions.flatMap((accession) =>
+      splitAccessionIds(accession.accession)
+    ),
   ]);
 
   const jsonLd: SchemaDataset = {
@@ -166,8 +188,10 @@ function buildSameAs(accessions: AccessionResponse[]): string[] {
     const prefix =
       ACCESSION_CONFIGS_BY_RESPONSE_KEY.get(namespace)?.identifierOrgPrefix;
     if (!prefix) continue;
-    const url = transformAccessionURL(accession, prefix);
-    if (url) urls.push(url);
+    for (const id of splitAccessionIds(accession)) {
+      const url = transformAccessionURL(id, prefix);
+      if (url) urls.push(url);
+    }
   }
   return uniqueNonEmpty(urls);
 }
@@ -183,4 +207,18 @@ function normaliseContactName(contactName: string): string {
   if (parts.length < 2) return contactName;
   const [last, ...rest] = parts;
   return [...rest, last].filter(Boolean).join(" ");
+}
+
+/**
+ * Splits an Azul accession string into individual accession IDs. Azul returns
+ * accessions as a semicolon-separated string when a project carries multiple
+ * IDs under the same namespace (mirrors the split done by `mapAccessions`).
+ * @param accession - Raw accession value from the Azul response.
+ * @returns Trimmed, non-empty accession IDs.
+ */
+function splitAccessionIds(accession: string): string[] {
+  return accession
+    .split(";")
+    .map((id) => id.trim())
+    .filter(Boolean);
 }
