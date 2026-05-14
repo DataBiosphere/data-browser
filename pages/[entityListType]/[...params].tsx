@@ -30,10 +30,15 @@ import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import { JSX } from "react";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
+import { buildAnvilDatasetJsonLd } from "../../app/utils/schemaOrg/anvilDataset";
+import { buildHcaProjectJsonLd } from "../../app/utils/schemaOrg/hcaProjectDataset";
+import { buildLungmapProjectJsonLd } from "../../app/utils/schemaOrg/lungmapProjectDataset";
+import type { SchemaDataset } from "../../app/utils/schemaOrg/types";
 import { readFile } from "../../app/utils/tsvParser";
+import { JsonLd } from "../../app/views/EntityDetailView/components/JsonLd/jsonLd";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 
-import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
+import type { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import {
   getConsentGroup,
   isNRESOrUnrestrictedAccess,
@@ -54,6 +59,7 @@ interface PageUrl extends ParsedUrlQuery {
 }
 
 export interface EntityDetailPageProps extends AzulEntityStaticResponse {
+  browserURL?: string;
   entityListType: string;
   override?: Override;
 }
@@ -67,6 +73,8 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const { config: siteConfig } = useConfig();
   const isAnVIL = siteConfig.appTitle?.includes("AnVIL");
+  const isHcaDcp = siteConfig.appTitle?.includes("HCA");
+  const isLungMap = siteConfig.appTitle?.includes("LungMAP");
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
@@ -81,7 +89,14 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   }
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
-  return <EntityDetailView {...props} />;
+  return (
+    <>
+      {isAnVIL && renderJsonLd(props, "datasets", buildAnvilDatasetJsonLd)}
+      {isHcaDcp && renderJsonLd(props, "projects", buildHcaProjectJsonLd)}
+      {isLungMap && renderJsonLd(props, "projects", buildLungmapProjectJsonLd)}
+      <EntityDetailView {...props} />
+    </>
+  );
 };
 
 /**
@@ -250,11 +265,11 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
+export const getStaticProps: GetStaticProps<EntityDetailPageProps> = async ({
   params,
 }: GetStaticPropsContext) => {
   const appConfig = config();
-  const { entities } = appConfig;
+  const { browserURL, entities } = appConfig;
   const entityListType = (params as PageUrl).entityListType;
   const slug = (params as PageUrl).params;
   const entityConfig = getEntityConfig(entities, entityListType);
@@ -264,7 +279,7 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
 
   if (!entityConfig || !entityId) return { notFound: true };
 
-  const props: EntityDetailPageProps = { entityListType };
+  const props: EntityDetailPageProps = { browserURL, entityListType };
 
   // Process entity override props.
   processEntityOverrideProps(entityConfig, entityListType, entityId, props);
@@ -518,4 +533,24 @@ async function processEntityProps(
   if (entityResponse) {
     props.data = entityResponse;
   }
+}
+
+/**
+ * Renders a consumer-specific Schema.org Dataset JSON-LD script when the page
+ * matches the given entity list type and carries the data needed by the
+ * builder. Returns null otherwise.
+ * @param props - Entity detail page props.
+ * @param entityListType - The entity list type this builder applies to.
+ * @param build - Consumer-specific builder that maps detail data to a Dataset.
+ * @returns JsonLd element, or null when the page can't be described.
+ */
+function renderJsonLd<T>(
+  props: EntityDetailPageProps,
+  entityListType: string,
+  build: (data: T, browserURL: string) => SchemaDataset | undefined
+): JSX.Element | null {
+  if (props.entityListType !== entityListType) return null;
+  if (!props.browserURL || !props.data) return null;
+  const jsonLd = build(props.data as T, props.browserURL);
+  return jsonLd ? <JsonLd jsonLd={jsonLd} /> : null;
 }
