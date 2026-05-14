@@ -12,3 +12,10 @@ export const DESCRIPTION_LENGTH = {
   MAX: 5000,
   MIN: 50,
 } as const;
+
+/**
+ * Cap on the number of entries surfaced in array-valued Dataset fields
+ * (keywords, citations, etc.) to keep JSON-LD payload size predictable.
+ * Mirrors NCPI's reference implementation, which caps citations at 5.
+ */
+export const MAX_KEYWORDS = 20;

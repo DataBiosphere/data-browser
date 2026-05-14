@@ -6,6 +6,7 @@ import type {
 import type { ProjectsResponse } from "../../apis/azul/hca-dcp/common/responses";
 import { transformAccessionURL } from "../../viewModelBuilders/azul/hca-dcp/common/accessionMapper/accessionMapper";
 import { ACCESSION_CONFIGS_BY_RESPONSE_KEY } from "../../viewModelBuilders/azul/hca-dcp/common/accessionMapper/constants";
+import { MAX_KEYWORDS } from "./constants";
 import type {
   SchemaDataset,
   SchemaOrganization,
@@ -156,7 +157,7 @@ function buildKeywords(data: ProjectsResponse): string[] {
     values.push(...(protocol.libraryConstructionApproach ?? []));
     values.push(...(protocol.instrumentManufacturerModel ?? []));
   }
-  return uniqueNonEmpty(values);
+  return uniqueNonEmpty(values).slice(0, MAX_KEYWORDS);
 }
 
 /**

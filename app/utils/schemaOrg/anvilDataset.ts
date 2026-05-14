@@ -1,5 +1,6 @@
 import type { DatasetEntity } from "../../apis/azul/anvil-cmg/common/entities";
 import type { DatasetsResponse } from "../../apis/azul/anvil-cmg/common/responses";
+import { MAX_KEYWORDS } from "./constants";
 import type { SchemaDataset } from "./types";
 import { buildDescription, uniqueNonEmpty } from "./utils";
 
@@ -7,6 +8,10 @@ const CATALOG_NAME = "AnVIL Data Explorer";
 const DESCRIPTION_FALLBACK_SUFFIX = `${CATALOG_NAME} dataset.`;
 const DBGAP_STUDY_URL =
   "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=";
+// dbGaP study accession format (e.g. "phs001234"). We validate against this
+// before constructing identifiers.org / dbGaP study URLs so a non-dbGaP value
+// in `registered_identifier` doesn't produce a malformed link.
+const DBGAP_ACCESSION_PATTERN = /^phs\d+/;
 
 /**
  * Builds a Schema.org Dataset JSON-LD object for an AnVIL CMG dataset.
@@ -92,7 +97,7 @@ function buildKeywords(data: DatasetsResponse): string[] {
   for (const library of data.libraries ?? []) {
     values.push(...(library.prep_material_name ?? []));
   }
-  return uniqueNonEmpty(values);
+  return uniqueNonEmpty(values).slice(0, MAX_KEYWORDS);
 }
 
 /**
@@ -106,7 +111,7 @@ function buildSameAs(dataset: DatasetEntity): string[] {
   for (const id of dataset.registered_identifier) {
     if (!id) continue;
     const trimmed = id.trim();
-    if (!trimmed) continue;
+    if (!DBGAP_ACCESSION_PATTERN.test(trimmed)) continue;
     urls.push(`${DBGAP_STUDY_URL}${trimmed}`);
   }
   return uniqueNonEmpty(urls);

@@ -69,10 +69,15 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  * @param props.entityListType - Entity list type.
  * @returns Entity detail view component.
  */
+// Exact appTitle match — substring detection would also hit "AnVIL Dataset
+// Catalog", which shares the "AnVIL" prefix but has a different entity shape.
+const APP_TITLE_ANVIL_CMG = "AnVIL Data Explorer";
+const APP_TITLE_HCA_DCP = "HCA Data Explorer";
+
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const { config: siteConfig } = useConfig();
-  const isAnVIL = siteConfig.appTitle?.includes("AnVIL");
-  const isHcaDcp = siteConfig.appTitle?.includes("HCA");
+  const isAnVIL = siteConfig.appTitle === APP_TITLE_ANVIL_CMG;
+  const isHcaDcp = siteConfig.appTitle === APP_TITLE_HCA_DCP;
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;

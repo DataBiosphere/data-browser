@@ -1,6 +1,9 @@
 import type { DatasetsResponse } from "../../../app/apis/azul/anvil-cmg/common/responses";
 import { buildAnvilDatasetJsonLd } from "../../../app/utils/schemaOrg/anvilDataset";
-import { DESCRIPTION_LENGTH } from "../../../app/utils/schemaOrg/constants";
+import {
+  DESCRIPTION_LENGTH,
+  MAX_KEYWORDS,
+} from "../../../app/utils/schemaOrg/constants";
 
 const BROWSER_URL = "https://explore.anvilproject.org";
 
@@ -134,6 +137,21 @@ describe("buildAnvilDatasetJsonLd", () => {
     expect(result!.sameAs).toBeUndefined();
   });
 
+  it("skips registered_identifier values that aren't dbGaP phs accessions", () => {
+    const response = makeDatasetsResponse();
+    response.datasets[0].registered_identifier = [
+      "phs000123",
+      "not-a-phs",
+      "PHS000456", // wrong case — phs accessions are lowercase
+      "phs000789",
+    ];
+    const result = buildAnvilDatasetJsonLd(response, BROWSER_URL);
+    expect(result!.sameAs).toEqual([
+      "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000123",
+      "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000789",
+    ]);
+  });
+
   it("builds deduplicated keywords from activity, biosample, donor, diagnosis, file, and library fields", () => {
     const response = makeDatasetsResponse({
       activities: [
@@ -178,5 +196,25 @@ describe("buildAnvilDatasetJsonLd", () => {
     const result = buildAnvilDatasetJsonLd(makeDatasetsResponse(), BROWSER_URL);
     expect(result!.keywords).toBeUndefined();
     expect(result!.sameAs).toBeUndefined();
+  });
+
+  it("caps keywords at MAX_KEYWORDS to keep payload size predictable", () => {
+    const fileFormats = Array.from(
+      { length: MAX_KEYWORDS + 10 },
+      (_, i) => `fmt-${i}`
+    );
+    const response = makeDatasetsResponse({
+      files: [
+        {
+          data_modality: [],
+          file_format: fileFormats,
+          file_id: "f1",
+          file_type: "sequencing",
+        },
+      ],
+    } as unknown as Partial<DatasetsResponse>);
+    const result = buildAnvilDatasetJsonLd(response, BROWSER_URL);
+    expect(result!.keywords).toHaveLength(MAX_KEYWORDS);
+    expect(result!.keywords).toEqual(fileFormats.slice(0, MAX_KEYWORDS));
   });
 });
