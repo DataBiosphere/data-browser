@@ -1,7 +1,10 @@
 import type { Locator, Page } from "@playwright/test";
 import { expect, test } from "@playwright/test";
 import { MUI_CLASSES, TEST_IDS } from "../features/common/constants";
-import { closeAutocompletePopper } from "../features/common/filters";
+import {
+  closeAutocompletePopper,
+  openSearchAllFilters,
+} from "../features/common/filters";
 
 const ENTITY_URL = "/files";
 // Used for the row-content-diff test. On Files the first cell renders only an
@@ -165,16 +168,6 @@ async function findFilterInRange(
     }
   }
   throw new Error(`No filter found with count between ${min} and ${max}`);
-}
-
-/**
- * Opens the search-all-filters dropdown and waits for it to be ready.
- * @param page - Page.
- */
-async function openSearchAllFilters(page: Page): Promise<void> {
-  const filter = page.getByTestId(TEST_IDS.SEARCH_ALL_FILTERS);
-  await expect(filter).toBeVisible();
-  await filter.click();
 }
 
 /**
