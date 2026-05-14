@@ -107,6 +107,13 @@ describe("Dataset", () => {
     // Confirm file manifest export method is visible and click it.
     await clickCard(page, TITLE_TEXT_REQUEST_FILE_MANIFEST);
 
+    // Wait for navigation to the manifest page before asserting the button —
+    // without this, the destination-page locator can poll an unmounted page
+    // for 15s and fail with "0 elements" even though the click succeeded.
+    await page.waitForURL((url) =>
+      url.pathname.endsWith(ROUTES.MANIFEST_DOWNLOAD)
+    );
+
     // Confirm the file manifest page is loaded: check there is one button to request the manifest.
     const buttons = page.locator(`${MUI_CLASSES.BUTTON}`, {
       hasText: BUTTON_TEXT_REQUEST_LINK,
@@ -145,6 +152,11 @@ describe("Dataset", () => {
 
     // Confirm Terra export method is visible and click it.
     await clickCard(page, TITLE_TEXT_ANALYZE_IN_TERRA);
+
+    // Wait for navigation to the Terra page before asserting the form — same
+    // defence as the manifest test above; the locator can otherwise poll an
+    // unmounted page for 15s and fail even though the click succeeded.
+    await page.waitForURL((url) => url.pathname.endsWith(ROUTES.TERRA));
 
     // Confirm the analyze in Terra page is loaded: check for form elements.
     await expect(page.locator(MUI_CLASSES.FORM_CONTROL).first()).toBeVisible();
