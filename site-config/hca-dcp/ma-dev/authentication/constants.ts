@@ -22,8 +22,7 @@ export function getGoogleProvider(
   return {
     ...GOOGLE_SIGN_IN_PROVIDER,
     ...OAUTH_GOOGLE_SIGN_IN,
-    // Relies on dataSourceUrl having a trailing slash (set as `${dataUrl}/` in dev/config.ts).
-    authorize: `${dataSourceUrl}user/authorize`,
+    authorize: `${dataSourceUrl}/user/authorize`,
     clientId: CLIENT_ID,
     flow: OAUTH_FLOW.AUTHORIZATION_CODE,
   };
