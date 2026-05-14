@@ -5,6 +5,7 @@ import { JSX } from "react";
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
+      pageDescription: "Request a file manifest for your selected data.",
       pageTitle: "Request File Manifest",
     },
   };

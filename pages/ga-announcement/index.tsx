@@ -11,10 +11,7 @@ import NotFoundPage from "../404";
 const slug = ["ga-announcement"];
 
 export const getStaticProps: GetStaticProps = async () => {
-  return getContentStaticProps(
-    { params: { slug } },
-    "General Availability Announcement"
-  );
+  return getContentStaticProps({ params: { slug } });
 };
 
 const Page = ({

@@ -4,7 +4,10 @@ import { JSX } from "react";
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
-    props: { pageTitle: "Login" },
+    props: {
+      pageDescription: "Sign in to access protected data and features.",
+      pageTitle: "Login",
+    },
   };
 };
 

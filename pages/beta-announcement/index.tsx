@@ -11,7 +11,7 @@ import NotFoundPage from "../404";
 const slug = ["beta-announcement"];
 
 export const getStaticProps: GetStaticProps = async () => {
-  return getContentStaticProps({ params: { slug } }, "Beta Announcement");
+  return getContentStaticProps({ params: { slug } });
 };
 
 const Page = ({

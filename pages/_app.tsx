@@ -25,6 +25,7 @@ import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline, Theme, ThemeProvider } from "@mui/material";
 import { createBreakpoints } from "@mui/system";
 import { deepmerge } from "@mui/utils";
+import { OgMeta } from "app/components/common/OgMeta/ogMeta";
 import { config } from "app/config/config";
 import { FEATURES } from "app/shared/entities";
 import { NextPage } from "next";
@@ -37,7 +38,8 @@ const FEATURE_FLAGS = Object.values(FEATURES);
 const SESSION_TIMEOUT = 15 * 60 * 1000; // 15 minutes
 
 export interface PageProps extends AzulEntitiesStaticResponse {
-  pageTitle?: string;
+  pageDescription?: string | null;
+  pageTitle?: string | null;
 }
 
 export type NextPageWithComponent = NextPage & {
@@ -53,11 +55,19 @@ setFeatureFlags(FEATURE_FLAGS);
 function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
   // Set up the site configuration, layout and theme.
   const appConfig = config();
-  const { analytics, layout, redirectRootToPath, themeOptions } = appConfig;
+  const {
+    analytics,
+    appTitle,
+    browserURL,
+    description,
+    layout,
+    redirectRootToPath,
+    themeOptions,
+  } = appConfig;
   const { gtmAuth, gtmId, gtmPreview } = analytics || {};
   const { floating, footer, header } = layout || {};
   const theme = createAppTheme(themeOptions);
-  const { entityListType, pageTitle } = pageProps as PageProps;
+  const { entityListType, pageDescription, pageTitle } = pageProps as PageProps;
   const Main = Component.Main || DXMain;
 
   // Initialize Google Tag Manager.
@@ -71,7 +81,14 @@ function MyApp({ Component, pageProps }: AppPropsWithComponent): JSX.Element {
     <EmotionThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <DXConfigProvider config={appConfig} entityListType={entityListType}>
-          <Head pageTitle={pageTitle} />
+          <Head pageTitle={pageTitle ?? undefined} />
+          <OgMeta
+            appTitle={appTitle}
+            browserURL={browserURL}
+            defaultDescription={description}
+            pageDescription={pageDescription}
+            pageTitle={pageTitle}
+          />
           <CssBaseline />
           <ServicesProvider>
             <SystemStatusProvider>

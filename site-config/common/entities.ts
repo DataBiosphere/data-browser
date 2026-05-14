@@ -1,5 +1,6 @@
 import { SiteConfig as DXSiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 
 export interface SiteConfig extends DXSiteConfig {
+  description: string;
   portalURL?: string;
 }

@@ -5,6 +5,7 @@ import { JSX } from "react";
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
+      pageDescription: "Export selected data to CAVATICA for analysis.",
       pageTitle: "Export to CAVATICA",
     },
   };

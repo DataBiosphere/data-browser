@@ -17,7 +17,7 @@ import {
 const slug = ["guides", "data-download-via-curl"];
 
 export const getStaticProps: GetStaticProps = async () => {
-  return getContentStaticProps({ params: { slug } }, "Data Download via curl");
+  return getContentStaticProps({ params: { slug } });
 };
 
 const Page = ({
