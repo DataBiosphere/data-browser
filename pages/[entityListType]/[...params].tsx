@@ -30,17 +30,18 @@ import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import { JSX } from "react";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
+import { buildAnvilDatasetJsonLd } from "../../app/utils/schemaOrg/anvilDataset";
 import { buildHcaProjectJsonLd } from "../../app/utils/schemaOrg/hcaProjectDataset";
+import type { SchemaDataset } from "../../app/utils/schemaOrg/types";
 import { readFile } from "../../app/utils/tsvParser";
 import { JsonLd } from "../../app/views/EntityDetailView/components/JsonLd/jsonLd";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 
-import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
+import type { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import {
   getConsentGroup,
   isNRESOrUnrestrictedAccess,
 } from "../../app/apis/azul/anvil-cmg/common/transformers";
-import type { ProjectsResponse } from "../../app/apis/azul/hca-dcp/common/responses";
 import { isProductionEnvironment } from "../../app/config/utils";
 
 const setOfProcessedIds = new Set<string>();
@@ -68,10 +69,15 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  * @param props.entityListType - Entity list type.
  * @returns Entity detail view component.
  */
+// Exact appTitle match — substring detection would also hit "AnVIL Dataset
+// Catalog", which shares the "AnVIL" prefix but has a different entity shape.
+const APP_TITLE_ANVIL_CMG = "AnVIL Data Explorer";
+const APP_TITLE_HCA_DCP = "HCA Data Explorer";
+
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const { config: siteConfig } = useConfig();
-  const isAnVIL = siteConfig.appTitle?.includes("AnVIL");
-  const isHcaDcp = siteConfig.appTitle?.includes("HCA");
+  const isAnVIL = siteConfig.appTitle === APP_TITLE_ANVIL_CMG;
+  const isHcaDcp = siteConfig.appTitle === APP_TITLE_HCA_DCP;
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
@@ -88,7 +94,8 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
   return (
     <>
-      {isHcaDcp && renderHcaProjectJsonLd(props)}
+      {isAnVIL && renderJsonLd(props, "datasets", buildAnvilDatasetJsonLd)}
+      {isHcaDcp && renderJsonLd(props, "projects", buildHcaProjectJsonLd)}
       <EntityDetailView {...props} />
     </>
   );
@@ -531,19 +538,21 @@ async function processEntityProps(
 }
 
 /**
- * Renders the HCA project JSON-LD when the page is a project detail route with
- * data and a browser URL available. Returns null otherwise.
+ * Renders a consumer-specific Schema.org Dataset JSON-LD script when the page
+ * matches the given entity list type and carries the data needed by the
+ * builder. Returns null otherwise.
  * @param props - Entity detail page props.
+ * @param entityListType - The entity list type this builder applies to.
+ * @param build - Consumer-specific builder that maps detail data to a Dataset.
  * @returns JsonLd element, or null when the page can't be described.
  */
-function renderHcaProjectJsonLd(
-  props: EntityDetailPageProps
+function renderJsonLd<T>(
+  props: EntityDetailPageProps,
+  entityListType: string,
+  build: (data: T, browserURL: string) => SchemaDataset | undefined
 ): JSX.Element | null {
-  if (props.entityListType !== "projects") return null;
+  if (props.entityListType !== entityListType) return null;
   if (!props.browserURL || !props.data) return null;
-  const jsonLd = buildHcaProjectJsonLd(
-    props.data as ProjectsResponse,
-    props.browserURL
-  );
+  const jsonLd = build(props.data as T, props.browserURL);
   return jsonLd ? <JsonLd jsonLd={jsonLd} /> : null;
 }
