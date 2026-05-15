@@ -1,5 +1,30 @@
 # Changelog
 
+## [3.2.0](https://github.com/DataBiosphere/data-browser/compare/v3.1.0...v3.2.0) (2026-05-15)
+
+
+### Features
+
+* [hca dcp] add hca projects to google datasets catalog ([#4806](https://github.com/DataBiosphere/data-browser/issues/4806)) ([#4829](https://github.com/DataBiosphere/data-browser/issues/4829)) ([d6d2b4c](https://github.com/DataBiosphere/data-browser/commit/d6d2b4c517880b4b7e4c7b7b77d30526e5837240))
+* [hca dcp] implement authorization code flow with azul for hca dcp dev ([#4805](https://github.com/DataBiosphere/data-browser/issues/4805)) ([#4819](https://github.com/DataBiosphere/data-browser/issues/4819)) ([3735659](https://github.com/DataBiosphere/data-browser/commit/3735659cfad093cef95524d41086324d1789234b))
+* add static analytics site generator for all data-browser apps ([#4789](https://github.com/DataBiosphere/data-browser/issues/4789)) ([85eb817](https://github.com/DataBiosphere/data-browser/commit/85eb817f9f11105006208b1d5aef097130bdefe2))
+* replace file download lists with counts in static analytics pages ([#4834](https://github.com/DataBiosphere/data-browser/issues/4834)) ([f8d0eee](https://github.com/DataBiosphere/data-browser/commit/f8d0eee31e2b5b2efefe101f1bfbae869bc7955e))
+
+
+### Bug Fixes
+
+* flaky download file manifest e2e — wait for nav ([#4828](https://github.com/DataBiosphere/data-browser/issues/4828)) ([#4835](https://github.com/DataBiosphere/data-browser/issues/4835)) ([80deb3a](https://github.com/DataBiosphere/data-browser/commit/80deb3abe07abd5cb7365b491eb50bf0a9f4d48e))
+* rewrite flaky anvil pagination e2e to test-id locators ([#4830](https://github.com/DataBiosphere/data-browser/issues/4830)) ([#4836](https://github.com/DataBiosphere/data-browser/issues/4836)) ([0e3c442](https://github.com/DataBiosphere/data-browser/commit/0e3c442ccb65aed2b1012b2c88beff072b8b871f))
+
+
+### Chores
+
+* **deps:** bump next from 15.5.15 to 15.5.18 ([#4822](https://github.com/DataBiosphere/data-browser/issues/4822)) ([8c4566a](https://github.com/DataBiosphere/data-browser/commit/8c4566af725c4965b47055281a30c622407e7c19))
+* update analytics to April 2026, add HCA hostname filter ([#4814](https://github.com/DataBiosphere/data-browser/issues/4814)) ([e25e581](https://github.com/DataBiosphere/data-browser/commit/e25e5811a8c3a47e605cbab242dff9397030b8e3))
+* update analytics to April 2026, add HCA hostname filter [#4809](https://github.com/DataBiosphere/data-browser/issues/4809) ([e25e581](https://github.com/DataBiosphere/data-browser/commit/e25e5811a8c3a47e605cbab242dff9397030b8e3))
+* upgrade findable-ui to v52.2.0 ([#4824](https://github.com/DataBiosphere/data-browser/issues/4824)) ([3f78aa6](https://github.com/DataBiosphere/data-browser/commit/3f78aa669bb0ee69b9911fccebec4d64464e92fb))
+* upgrade findable-ui to v52.2.0 [#4823](https://github.com/DataBiosphere/data-browser/issues/4823) ([3f78aa6](https://github.com/DataBiosphere/data-browser/commit/3f78aa669bb0ee69b9911fccebec4d64464e92fb))
+
 ## [3.1.0](https://github.com/DataBiosphere/data-browser/compare/v3.0.1...v3.1.0) (2026-05-05)
 
 
