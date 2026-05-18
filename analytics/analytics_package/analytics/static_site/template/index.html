@@ -509,7 +509,7 @@
                     `Total number of unique individuals who visited your site during ${monthName}.`
                 ) +
                 statCard(
-                    formatNumber(engagedSessions.current || sessions.current || 0), 'Engaged Sessions',
+                    formatNumber(engagedSessions.current != null ? engagedSessions.current : (sessions.current || 0)), 'Engaged Sessions',
                     engagedSessionsChange,
                     `Sessions where users actively engaged with your site during ${monthName} (stayed 10+ seconds, viewed 2+ pages, or triggered a conversion). <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`
                 ) +
