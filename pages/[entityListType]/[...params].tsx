@@ -60,6 +60,8 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
   browserURL?: string;
   entityListType: string;
   override?: Override;
+  pageDescription?: string | null;
+  pageTitle?: string | null;
 }
 
 /**
@@ -274,7 +276,12 @@ export const getStaticProps: GetStaticProps<EntityDetailPageProps> = async ({
 
   if (!entityConfig || !entityId) return { notFound: true };
 
-  const props: EntityDetailPageProps = { browserURL, entityListType };
+  const { label } = entityConfig;
+  const props: EntityDetailPageProps = {
+    browserURL,
+    entityListType,
+    pageTitle: typeof label === "string" ? label : null,
+  };
 
   // Process entity override props.
   processEntityOverrideProps(entityConfig, entityListType, entityId, props);
@@ -290,12 +297,48 @@ export const getStaticProps: GetStaticProps<EntityDetailPageProps> = async ({
     props
   );
 
+  props.pageTitle = buildEntityPageTitle(
+    entityConfig,
+    props.data,
+    entityTab,
+    entityId
+  );
+
   return {
     props,
   };
 };
 
 export default EntityDetailPage;
+
+/**
+ * Builds the entity detail page title from the fetched entity data plus the
+ * active detail tab. Falls back to the entity id when no entity title is
+ * available.
+ * @param entityConfig - Entity config providing getTitle and tab definitions.
+ * @param data - Fetched entity data (may be undefined).
+ * @param entityTab - The active detail tab route.
+ * @param entityId - The entity id used as a fallback when no title is found.
+ * @returns Formatted page title.
+ */
+function buildEntityPageTitle(
+  entityConfig: EntityConfig,
+  data: AzulEntityStaticResponse["data"],
+  entityTab: string | undefined,
+  entityId: string
+): string {
+  const {
+    detail: { tabs },
+    getTitle,
+  } = entityConfig;
+
+  const entityTitle = getTitle?.(data);
+  const { label } = tabs.find(({ route }) => route === entityTab) || {};
+
+  const detailTitle = entityTitle || entityId;
+
+  return typeof label === "string" ? `${label} — ${detailTitle}` : detailTitle;
+}
 
 /**
  * Returns the catalog prefix for the given default catalog.
