@@ -4,7 +4,7 @@
 import os
 
 import analytics.api as ga
-from analytics.static_site import generate_site, fetch_entity_title_map, enrich_detail_records
+from analytics.static_site import generate_site, fetch_entity_title_map, enrich_detail_records, make_event_charts
 from constants import CURRENT_MONTH, LUNGMAP_ID, SECRET_NAME, ANALYTICS_START, OAUTH_PORT, HISTORIC_UA_DATA_PATH
 
 AZUL_PROJECTS_URL = "https://service.azul.data.humancellatlas.org/index/projects"
@@ -93,6 +93,7 @@ generate_site(
             "detail_table": True,
         },
     ],
+    event_charts=make_event_charts("Project", "/projects", "2026-03-01"),
     historic_data_path=HISTORIC_UA_DATA_PATH,
     title_resolver=resolve_project_titles,
 )

@@ -55,7 +55,7 @@ def export_df_as_json(df, col_map, change_col, filename, output_dir):
     print(f"  Wrote {filename} ({len(records)} records)")
 
 
-def export_data(data, config, current_month, analytics_start, custom_events, output_dir):
+def export_data(data, config, current_month, analytics_start, custom_events, output_dir, event_charts=None):
     """Export all analytics data to JSON files.
 
     Args:
@@ -167,6 +167,32 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
             with open(os.path.join(output_dir, filename), "w") as f:
                 json.dump(detail, f, indent=2)
             print(f"  Wrote {filename} ({len(detail)} records)")
+
+    # Event charts (monthly trend data)
+    if event_charts:
+        print("Exporting event chart data...")
+        chart_output = {
+            "chart_start": event_charts.get("chart_start", analytics_start),
+            "charts": [],
+        }
+        for chart in event_charts.get("charts", []):
+            chart_data = {
+                "title": chart["title"],
+                "series": [],
+            }
+            for series in chart.get("series", []):
+                key = series["event_key"]
+                monthly_counts = data.get(f"event_chart_{key}", [])
+                chart_data["series"].append({
+                    "label": series["label"],
+                    "event_key": key,
+                    "data": monthly_counts,
+                })
+            chart_output["charts"].append(chart_data)
+
+        with open(os.path.join(output_dir, "event_charts.json"), "w") as f:
+            json.dump(chart_output, f, indent=2)
+        print(f"  Wrote event_charts.json ({len(chart_output['charts'])} charts)")
 
     # Config (for the HTML template)
     print("Exporting site config...")

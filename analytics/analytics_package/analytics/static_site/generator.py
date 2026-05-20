@@ -17,6 +17,7 @@ def generate_site(
     analytics_start,
     output_dir="site",
     custom_events=None,
+    event_charts=None,
     historic_data_path=None,
     title_resolver=None,
     access_request_urls=None,
@@ -62,6 +63,7 @@ def generate_site(
         current_month=current_month,
         analytics_start=analytics_start,
         custom_events=custom_events,
+        event_charts=event_charts,
         historic_data_path=historic_data_path,
         access_request_urls=access_request_urls,
         exclude_pages=exclude_pages,
@@ -87,6 +89,7 @@ def generate_site(
         analytics_start=analytics_start,
         custom_events=custom_events,
         output_dir=data_dir,
+        event_charts=event_charts,
     )
 
     print("\n" + "=" * 50)
