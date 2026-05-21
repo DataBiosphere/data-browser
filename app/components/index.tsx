@@ -25,7 +25,6 @@ export { KeyElType } from "@databiosphere/findable-ui/lib/components/common/KeyV
 export { KeyValueElType } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/components/KeyValueElType/keyValueElType";
 export { ValueElType } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/components/ValueElType/valueElType";
 export { KeyValuePairs } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-export { Markdown } from "@databiosphere/findable-ui/lib/components/common/Markdown/markdown";
 export { FluidPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/paper.styles";
 export { CollapsableSection } from "@databiosphere/findable-ui/lib/components/common/Section/components/CollapsableSection/collapsableSection";
 export { SectionTitle } from "@databiosphere/findable-ui/lib/components/common/Section/components/SectionTitle/sectionTitle";
@@ -64,6 +63,7 @@ export { SubTitle } from "@databiosphere/findable-ui/lib/components/Layout/compo
 export { Logo } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
 export { Link } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
 export { Links } from "@databiosphere/findable-ui/lib/components/Links/links";
+export { MarkdownRenderer } from "@databiosphere/findable-ui/lib/components/MarkdownRenderer/markdownRenderer";
 export { Citation } from "@databiosphere/findable-ui/lib/components/Project/components/Citation/citation";
 export { CollaboratingOrganizations } from "@databiosphere/findable-ui/lib/components/Project/components/CollaboratingOrganizations/collaboratingOrganizations";
 export { Contacts } from "@databiosphere/findable-ui/lib/components/Project/components/Contacts/contacts";
