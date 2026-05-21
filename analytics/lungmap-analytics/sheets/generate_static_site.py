@@ -58,7 +58,7 @@ generate_site(
     property_id=LUNGMAP_ID,
     current_month=CURRENT_MONTH,
     analytics_start=ANALYTICS_START,
-    output_dir="./site",
+    output_dir="../../../gh-pages/lungmap",
     custom_events=[
         {"event_name": "filter_selected", "label": "Filter Selections"},
         {
