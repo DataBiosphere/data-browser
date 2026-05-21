@@ -378,7 +378,7 @@
 
         async function loadData() {
             try {
-                const [configRes, trafficRes, pageviewsRes, outboundRes, filtersRes, downloadsRes, eventsRes, metaRes, searchRes, fileDownloadEventsRes] = await Promise.all([
+                const [configRes, trafficRes, pageviewsRes, outboundRes, filtersRes, downloadsRes, eventsRes, metaRes, searchRes, fileDownloadEventsRes, eventChartsRes] = await Promise.all([
                     fetch('data/config.json'),
                     fetch('data/monthly_traffic.json'),
                     fetch('data/pageviews.json'),
@@ -389,6 +389,7 @@
                     fetch('data/meta.json'),
                     fetch('data/search_queries.json').catch(() => null),
                     fetch('data/file_download_events.json').catch(() => null),
+                    fetch('data/event_charts.json').catch(() => null),
                 ]);
 
                 const [config, traffic, pageviews, outbound, filters, downloads, events, meta] = await Promise.all([
@@ -397,6 +398,7 @@
                 ]);
                 const searchQueries = searchRes ? await searchRes.json().catch(() => null) : null;
                 const fileDownloadEvents = fileDownloadEventsRes ? await fileDownloadEventsRes.json().catch(() => null) : null;
+                const eventCharts = eventChartsRes && eventChartsRes.ok ? await eventChartsRes.json().catch(() => null) : null;
 
                 applyConfig(config);
                 renderMeta(meta);
@@ -411,7 +413,7 @@
                 renderAccessRequestsTable();
                 renderSearchQueries(searchQueries);
                 renderFileDownloadEvents(fileDownloadEvents);
-                renderEventCounts(config, events);
+                renderEventCounts(config, events, eventCharts);
                 await renderEventStats(events, config);
             } catch (error) {
                 console.error('Error loading data:', error);
@@ -524,7 +526,7 @@
                 );
         }
 
-        function renderEventCounts(config, events) {
+        function renderEventCounts(config, events, eventCharts) {
             const grid = document.getElementById('event-counts-grid');
             const countCards = config.event_counts;
             if (!countCards || countCards.length === 0 || !events) return;
@@ -532,38 +534,104 @@
             const eventsByKey = {};
             for (const e of events) eventsByKey[e.event_name] = e;
 
-            let lastRowLabel = '';
-            const cards = countCards.map(card => {
-                const e = eventsByKey[card.event_key] || {};
-                const current = e.current || 0;
-                const prior = e.prior || 0;
-                let change = 0;
-                if (prior > 0) {
-                    change = ((current - prior) / prior * 100).toFixed(1);
+            // Build lookup from event_key to monthly data from eventCharts
+            const chartDataByKey = {};
+            if (eventCharts && eventCharts.charts) {
+                for (const chart of eventCharts.charts) {
+                    for (const series of chart.series) {
+                        chartDataByKey[series.event_key] = series.data;
+                    }
                 }
-                const rowLabel = card.label.split('\n')[0];
-                let heading = '';
-                if (rowLabel !== lastRowLabel) {
-                    heading = `<h3 class="fui-heading-xsmall fui-grid-item-12">${escapeHtml(rowLabel)}</h3>`;
-                    lastRowLabel = rowLabel;
-                }
-                return heading + `
-                    <div class="fui-card fui-grid-item-6" style="text-align: center;">
-                        <div class="fui-card-content">
-                            <div class="stat-value">${formatNumber(current)}</div>
-                            <div class="stat-label">${card.label.split('\n').map(l => escapeHtml(l)).join('<br>')}</div>
-                            <div class="stat-change ${change >= 0 ? 'positive' : 'negative'}">
-                                ${change >= 0 ? '+' : ''}${change}% vs prior month
+            }
+
+            // Group cards into pairs by row label, then emit: heading, stats row, charts row
+            let html = '';
+            let chartIndex = 0;
+            for (let i = 0; i < countCards.length; i += 2) {
+                const pair = countCards.slice(i, i + 2);
+                const rowLabel = pair[0].label.split('\n')[0];
+                html += `<h3 class="fui-heading-xsmall fui-grid-item-12">${escapeHtml(rowLabel)}</h3>`;
+
+                // Stat cards row
+                for (const card of pair) {
+                    const e = eventsByKey[card.event_key] || {};
+                    const current = e.current || 0;
+                    const prior = e.prior || 0;
+                    let change = 0;
+                    if (prior > 0) {
+                        change = ((current - prior) / prior * 100).toFixed(1);
+                    }
+                    html += `
+                        <div class="fui-card fui-grid-item-6" style="text-align: center;">
+                            <div class="fui-card-content">
+                                <div class="stat-value">${formatNumber(current)}</div>
+                                <div class="stat-label">${card.label.split('\n').map(l => escapeHtml(l)).join('<br>')}</div>
+                                <div class="stat-change ${change >= 0 ? 'positive' : 'negative'}">
+                                    ${change >= 0 ? '+' : ''}${change}% vs prior month
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
-            }).join('');
+                    `;
+                }
+
+                // Chart cards row
+                for (const card of pair) {
+                    if (chartDataByKey[card.event_key] && chartDataByKey[card.event_key].length > 0) {
+                        const canvasId = `event-trend-chart-${chartIndex++}`;
+                        const parts = card.label.split('\n');
+                        const chartTitle = escapeHtml(rowLabel) + ' Over Time' + (parts[1] ? ` (${escapeHtml(parts[1].replace(/[()]/g, ''))})` : '');
+                        html += `
+                            <div class="fui-card fui-grid-item-6">
+                                <div class="fui-card-header">
+                                    <h3 class="fui-card-header-title fui-heading-xsmall">${chartTitle}</h3>
+                                </div>
+                                <hr class="fui-divider" />
+                                <div class="fui-card-content">
+                                    <div class="chart-container" style="height: 200px;">
+                                        <canvas id="${canvasId}" data-event-key="${card.event_key}"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            }
 
             grid.style.display = '';
-            grid.innerHTML = cards;
+            grid.innerHTML = html;
             document.getElementById('key-metrics-heading').style.display = '';
             document.getElementById('key-metric-detail-heading').style.display = '';
+
+            // Render Chart.js instances for each trend chart
+            grid.querySelectorAll('canvas[data-event-key]').forEach(canvas => {
+                const key = canvas.dataset.eventKey;
+                const data = chartDataByKey[key] || [];
+                const months = data.map(d => d.month);
+                const counts = data.map(d => d.count);
+
+                new Chart(canvas.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Requests',
+                            data: counts,
+                            backgroundColor: chartColors.primary,
+                            borderRadius: 4,
+                            maxBarThickness: 15,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: '#e1e3e5' }, ticks: { precision: 0 } },
+                            x: { grid: { display: false } },
+                        },
+                        plugins: { legend: { display: false } },
+                    },
+                });
+            });
         }
 
         async function renderEventStats(events, config) {

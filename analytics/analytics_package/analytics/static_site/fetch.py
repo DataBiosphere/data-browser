@@ -6,6 +6,7 @@ from urllib.parse import urlparse, parse_qs
 from .. import sheets_elements as elements
 from .._sheets_utils import get_data_df_from_fields
 from ..entities import (
+    DIMENSION_YEAR_MONTH,
     METRIC_EVENT_COUNT,
     METRIC_PAGE_VIEWS,
     METRIC_SESSIONS,
@@ -214,12 +215,83 @@ def get_search_queries(params, search_path="/search"):
     return {"total": total, "queries": queries}
 
 
+def _generate_month_range(start_date, end_date):
+    """Generate a list of YYYY-MM strings covering the given date range."""
+    from datetime import datetime
+    start = datetime.strptime(start_date[:7], "%Y-%m")
+    end = datetime.strptime(end_date[:7], "%Y-%m")
+    months = []
+    current = start
+    while current <= end:
+        months.append(current.strftime("%Y-%m"))
+        if current.month == 12:
+            current = current.replace(year=current.year + 1, month=1)
+        else:
+            current = current.replace(month=current.month + 1)
+    return months
+
+
+def _monthly_counts_from_df(df, start_date, end_date, page_path_regex=None):
+    """Aggregate a DataFrame of event counts into monthly totals.
+
+    Args:
+        df: DataFrame with DIMENSION_YEAR_MONTH and METRIC_EVENT_COUNT columns.
+        start_date: Start date string (YYYY-MM-DD) for filling missing months.
+        end_date: End date string (YYYY-MM-DD) for filling missing months.
+        page_path_regex: Optional regex to filter by page path before aggregating.
+
+    Returns:
+        List of dicts with "month" (YYYY-MM) and "count" keys, sorted by month.
+    """
+    all_months = _generate_month_range(start_date, end_date)
+
+    if len(df) == 0:
+        return [{"month": m, "count": 0} for m in all_months]
+
+    if page_path_regex:
+        pattern = re.compile(page_path_regex)
+        df = df[df[DIMENSION_PAGE_PATH["alias"]].str.match(pattern, na=False)]
+
+    month_col = DIMENSION_YEAR_MONTH["alias"]
+    count_col = METRIC_EVENT_COUNT["alias"]
+    grouped = df.groupby(month_col, as_index=False)[count_col].sum()
+    grouped[month_col] = grouped[month_col].apply(
+        lambda m: f"{m[:4]}-{m[4:]}" if len(m) == 6 and "-" not in m else m
+    )
+    counts_by_month = dict(zip(grouped[month_col], grouped[count_col].astype(int)))
+    return [{"month": m, "count": counts_by_month.get(m, 0)} for m in all_months]
+
+
+def _fetch_event_monthly_df(event_name, params, needs_page_path=False):
+    """Fetch raw monthly event data from GA4.
+
+    Args:
+        event_name: GA4 event name.
+        params: Analytics params including start_date and end_date.
+        needs_page_path: Whether to include DIMENSION_PAGE_PATH for regex filtering.
+
+    Returns:
+        DataFrame with year-month and event count columns.
+    """
+    dimensions = [DIMENSION_EVENT_NAME, DIMENSION_YEAR_MONTH]
+    if needs_page_path:
+        dimensions.append(DIMENSION_PAGE_PATH)
+
+    return get_data_df_from_fields(
+        [METRIC_EVENT_COUNT],
+        dimensions,
+        dimension_filter=f"eventName=={event_name}",
+        **params,
+    )
+
+
 def fetch_data(
     ga_authentication,
     property_id,
     current_month,
     analytics_start,
     custom_events=None,
+    event_charts=None,
     historic_data_path=None,
     access_request_urls=None,
     exclude_pages=None,
@@ -370,6 +442,28 @@ def fetch_data(
                 event["event_name"], params,
                 page_path_regex=event.get("page_path_regex"),
             )
+
+    if event_charts:
+        chart_start = event_charts.get("chart_start", analytics_start)
+        params_chart = {**params, "start_date": chart_start, "end_date": end_date_current}
+        data["event_chart_config"] = event_charts
+
+        # Group series by event_name to avoid duplicate API calls
+        series_by_event = {}
+        for chart in event_charts.get("charts", []):
+            for series in chart.get("series", []):
+                event_name = series.get("event_name", series["event_key"])
+                series_by_event.setdefault(event_name, []).append(series)
+
+        for event_name, series_list in series_by_event.items():
+            needs_page_path = any(s.get("page_path_regex") for s in series_list)
+            print(f"Fetching monthly counts for {event_name}...")
+            df = _fetch_event_monthly_df(event_name, params_chart, needs_page_path)
+            for series in series_list:
+                data[f"event_chart_{series['event_key']}"] = _monthly_counts_from_df(
+                    df, chart_start, end_date_current,
+                    page_path_regex=series.get("page_path_regex"),
+                )
 
     print("Data fetching complete!")
     return data
