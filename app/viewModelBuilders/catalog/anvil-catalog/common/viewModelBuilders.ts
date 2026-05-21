@@ -289,16 +289,16 @@ export const buildStudyApplyingForAccess = (): React.ComponentProps<
 };
 
 /**
- * Build props for Markdown component from the given AnVIL entity.
+ * Build props for MarkdownRenderer component from the given AnVIL entity.
  * TODO revisit - separate from entity builder, generalize description component, revisit transformer
  * @param anvilCatalogStudy - AnVIL catalog study.
- * @returns model to be used as props for the Markdown component.
+ * @returns model to be used as props for the MarkdownRenderer component.
  */
 export const buildStudyDescription = (
   anvilCatalogStudy: AnVILCatalogStudy
-): React.ComponentProps<typeof C.Markdown> => {
+): React.ComponentProps<typeof C.MarkdownRenderer> => {
   return {
-    content: anvilCatalogStudy.studyDescription || "None",
+    value: anvilCatalogStudy.studyDescription || "None",
   };
 };
 
