@@ -683,10 +683,10 @@
                         const label = r.dataset_title || r.entity_name || r.page_path || '-';
                         const link = r.page_path ? `${siteBase}${r.page_path.replace(/\/export.*/, '')}` : null;
                         const cell = link ? `<a href="${safeHref(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>` : escapeHtml(label);
-                        const fileName = fileNameFromUrl(r.click_url);
-                        return `<tr><td>${cell}</td><td class="truncate">${escapeHtml(fileName)}</td><td class="col-number">${formatNumber(r.count)}</td></tr>`;
+                        const fileLabel = r.file_label || fileNameFromUrl(r.click_url);
+                        return `<tr><td>${cell}</td><td class="truncate">${escapeHtml(fileLabel)}</td><td class="col-number">${formatNumber(r.count)}</td></tr>`;
                     }).join('');
-                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th><th>File</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
+                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th><th>Atlas Name</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
                 } else if (hasDatasetTitle) {
                     const rows = detail.map(r => {
                         const label = r.dataset_title || r.entity_name || r.page_path || '-';
