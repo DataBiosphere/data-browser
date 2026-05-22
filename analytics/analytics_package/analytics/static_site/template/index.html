@@ -252,7 +252,7 @@
             </div>
             <hr class="fui-divider" />
             <div class="fui-card-content" style="overflow-x: auto;">
-                <table id="pages-table">
+                <table id="pages-table" class="collapsible-table">
                     <thead>
                         <tr>
                             <th>Page</th>
@@ -264,6 +264,7 @@
                         <tr><td colspan="3" class="fui-color-ink-light">Loading...</td></tr>
                     </tbody>
                 </table>
+                <button class="toggle-rows" id="pages-toggle" style="display: none;" onclick="toggleTable(this)">Show all</button>
             </div>
         </div>
 
@@ -273,7 +274,7 @@
             </div>
             <hr class="fui-divider" />
             <div class="fui-card-content" style="overflow-x: auto;">
-                <table id="outbound-table">
+                <table id="outbound-table" class="collapsible-table">
                     <thead>
                         <tr>
                             <th>Link</th>
@@ -285,6 +286,7 @@
                         <tr><td colspan="3" class="fui-color-ink-light">Loading...</td></tr>
                     </tbody>
                 </table>
+                <button class="toggle-rows" id="outbound-toggle" style="display: none;" onclick="toggleTable(this)">Show all</button>
             </div>
         </div>
 
@@ -296,7 +298,7 @@
                 </div>
                 <hr class="fui-divider" />
                 <div class="fui-card-content" style="overflow-x: auto;">
-                    <table id="search-table">
+                    <table id="search-table" class="collapsible-table">
                         <thead>
                             <tr>
                                 <th>Query</th>
@@ -307,6 +309,7 @@
                             <tr><td colspan="2" class="fui-color-ink-light">Loading...</td></tr>
                         </tbody>
                     </table>
+                    <button class="toggle-rows" id="search-toggle" style="display: none;" onclick="toggleTable(this)">Show all</button>
                 </div>
             </div>
         </div>
@@ -333,7 +336,7 @@
             </div>
             <hr class="fui-divider" />
             <div class="fui-card-content" style="overflow-x: auto;">
-                <table id="filters-table">
+                <table id="filters-table" class="collapsible-table">
                     <thead>
                         <tr>
                             <th>Filter Name</th>
@@ -346,6 +349,7 @@
                         <tr><td colspan="4" class="fui-color-ink-light">Loading...</td></tr>
                     </tbody>
                 </table>
+                <button class="toggle-rows" id="filters-toggle" style="display: none;" onclick="toggleTable(this)">Show all</button>
             </div>
         </div>
 
@@ -783,7 +787,7 @@
                 tbody.innerHTML = '<tr><td colspan="3">No data available</td></tr>';
                 return;
             }
-            tbody.innerHTML = pageviews.slice(0, 20).map(row => `
+            tbody.innerHTML = pageviews.map(row => `
                 <tr>
                     <td>${escapeHtml(row.page || '-')}</td>
                     <td class="col-number">${formatNumber(row.views || 0)}</td>
@@ -792,6 +796,7 @@
                     </td>
                 </tr>
             `).join('');
+            showToggleIfNeeded('pages-toggle', pageviews.length);
         }
 
         function renderOutboundTable(outbound) {
@@ -800,7 +805,7 @@
                 tbody.innerHTML = '<tr><td colspan="3">No data available</td></tr>';
                 return;
             }
-            tbody.innerHTML = outbound.slice(0, 20).map(row => `
+            tbody.innerHTML = outbound.map(row => `
                 <tr>
                     <td class="truncate">
                         ${escapeHtml(row.link || '-')}
@@ -811,6 +816,7 @@
                     </td>
                 </tr>
             `).join('');
+            showToggleIfNeeded('outbound-toggle', outbound.length);
         }
 
         function renderFiltersTable(filters) {
@@ -820,7 +826,7 @@
                 return;
             }
             card.style.display = '';
-            tbody.innerHTML = filters.slice(0, 30).map(row => `
+            tbody.innerHTML = filters.map(row => `
                 <tr>
                     <td>${escapeHtml(row.filterName || '-')}</td>
                     <td>${escapeHtml(row.filterValue || '-')}</td>
@@ -830,6 +836,7 @@
                     </td>
                 </tr>
             `).join('');
+            showToggleIfNeeded('filters-toggle', filters.length);
         }
 
         function renderFileDownloadEvents(data) {
@@ -851,6 +858,7 @@
                     <td class="col-number">${formatNumber(row.count)}</td>
                 </tr>
             `).join('');
+            showToggleIfNeeded('search-toggle', data.queries.length);
         }
 
         function renderFileDownloadsTable(downloads) {
@@ -932,6 +940,16 @@
                     </tr>
                 `;
             }).join('');
+        }
+
+        function showToggleIfNeeded(toggleId, rowCount) {
+            if (rowCount > 5) {
+                const toggle = document.getElementById(toggleId);
+                if (toggle) {
+                    toggle.style.display = '';
+                    toggle.textContent = `Show all ${rowCount} rows`;
+                }
+            }
         }
 
         function toggleTable(btn) {

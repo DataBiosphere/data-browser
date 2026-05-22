@@ -15,6 +15,7 @@ from ..entities import (
     DIMENSION_PAGE_PATH_PLUS_QUERY,
     DIMENSION_CUSTOM_URL,
     DIMENSION_ENTITY_NAME,
+    DIMENSION_PAGE_TITLE,
 )
 
 METRIC_ENGAGEMENT_RATE = {
@@ -49,11 +50,13 @@ def event_key(event):
     return event.get("key", event["event_name"])
 
 
-def _count_events(event_name, params, page_path_regex=None):
-    """Fetch event count, optionally filtered by page path regex."""
+def _count_events(event_name, params, page_path_regex=None, click_url_regex=None):
+    """Fetch event count, optionally filtered by page path and/or click URL regex."""
     dimensions = [DIMENSION_EVENT_NAME]
     if page_path_regex:
         dimensions.append(DIMENSION_PAGE_PATH)
+    if click_url_regex:
+        dimensions.append(DIMENSION_CUSTOM_URL)
 
     df = get_data_df_from_fields(
         [METRIC_EVENT_COUNT],
@@ -65,15 +68,24 @@ def _count_events(event_name, params, page_path_regex=None):
     if len(df) == 0:
         return 0
 
+    count_col = METRIC_EVENT_COUNT["alias"]
+    mask = True
+
     if page_path_regex:
         pattern = re.compile(page_path_regex)
         mask = df[DIMENSION_PAGE_PATH["alias"]].str.match(pattern, na=False)
-        return int(df.loc[mask, METRIC_EVENT_COUNT["alias"]].sum())
 
-    return int(df[METRIC_EVENT_COUNT["alias"]].sum())
+    if click_url_regex:
+        url_pattern = re.compile(click_url_regex)
+        url_mask = df[DIMENSION_CUSTOM_URL["alias"]].str.contains(url_pattern, na=False)
+        mask = mask & url_mask if not isinstance(mask, bool) else url_mask
+
+    if isinstance(mask, bool):
+        return int(df[count_col].sum())
+    return int(df.loc[mask, count_col].sum())
 
 
-def get_custom_event_change(event_name, params_current, params_prior, page_path_regex=None):
+def get_custom_event_change(event_name, params_current, params_prior, page_path_regex=None, click_url_regex=None):
     """Fetch a custom event count with month-over-month change.
 
     Args:
@@ -81,12 +93,13 @@ def get_custom_event_change(event_name, params_current, params_prior, page_path_
         params_current: Analytics params for the current period.
         params_prior: Analytics params for the prior period.
         page_path_regex: Optional regex to filter by page path.
+        click_url_regex: Optional regex to filter by click URL.
 
     Returns:
         Dict with "current", "prior", and "change" keys.
     """
-    current_count = _count_events(event_name, params_current, page_path_regex)
-    prior_count = _count_events(event_name, params_prior, page_path_regex)
+    current_count = _count_events(event_name, params_current, page_path_regex, click_url_regex)
+    prior_count = _count_events(event_name, params_prior, page_path_regex, click_url_regex)
 
     change = None
     if prior_count > 0:
@@ -95,21 +108,29 @@ def get_custom_event_change(event_name, params_current, params_prior, page_path_
     return {"current": current_count, "prior": prior_count, "change": change}
 
 
-def get_event_detail_table(event_name, params, page_path_regex=None):
+def get_event_detail_table(event_name, params, page_path_regex=None, click_url_regex=None, use_page_title=False):
     """Fetch event details broken down by page path and entity name.
 
     Args:
         event_name: GA4 event name.
         params: Analytics params for the period.
         page_path_regex: Optional regex to filter by page path.
+        click_url_regex: Optional regex to filter by click URL.
+        use_page_title: If True, include page title in the results as dataset_title.
 
     Returns:
         List of dicts with "page_path", "entity_name", and "count" keys,
         sorted by count descending.
     """
+    dimensions = [DIMENSION_EVENT_NAME, DIMENSION_PAGE_PATH, DIMENSION_ENTITY_NAME]
+    if click_url_regex:
+        dimensions.append(DIMENSION_CUSTOM_URL)
+    if use_page_title:
+        dimensions.append(DIMENSION_PAGE_TITLE)
+
     df = get_data_df_from_fields(
         [METRIC_EVENT_COUNT],
-        [DIMENSION_EVENT_NAME, DIMENSION_PAGE_PATH, DIMENSION_ENTITY_NAME],
+        dimensions,
         dimension_filter=f"eventName=={event_name}",
         **params,
     )
@@ -121,11 +142,28 @@ def get_event_detail_table(event_name, params, page_path_regex=None):
         pattern = re.compile(page_path_regex)
         df = df[df[DIMENSION_PAGE_PATH["alias"]].str.match(pattern, na=False)]
 
+    if click_url_regex:
+        url_pattern = re.compile(click_url_regex)
+        df = df[df[DIMENSION_CUSTOM_URL["alias"]].str.contains(url_pattern, na=False)]
+
     if len(df) == 0:
         return []
 
-    result = df[[DIMENSION_PAGE_PATH["alias"], DIMENSION_ENTITY_NAME["alias"], METRIC_EVENT_COUNT["alias"]]].copy()
-    result.columns = ["page_path", "entity_name", "count"]
+    # Aggregate by page_path (and optionally page_title), summing counts
+    count_col = METRIC_EVENT_COUNT["alias"]
+    page_col = DIMENSION_PAGE_PATH["alias"]
+    entity_col = DIMENSION_ENTITY_NAME["alias"]
+
+    if use_page_title:
+        title_col = DIMENSION_PAGE_TITLE["alias"]
+        grouped = df.groupby([page_col, entity_col, title_col], as_index=False)[count_col].sum()
+        result = grouped[[page_col, entity_col, count_col, title_col]].copy()
+        result.columns = ["page_path", "entity_name", "count", "dataset_title"]
+    else:
+        grouped = df.groupby([page_col, entity_col], as_index=False)[count_col].sum()
+        result = grouped[[page_col, entity_col, count_col]].copy()
+        result.columns = ["page_path", "entity_name", "count"]
+
     result = result.sort_values("count", ascending=False)
     return result.to_dict(orient="records")
 
@@ -252,7 +290,7 @@ def _generate_month_range(start_date, end_date):
     return months
 
 
-def _monthly_counts_from_df(df, start_date, end_date, page_path_regex=None):
+def _monthly_counts_from_df(df, start_date, end_date, page_path_regex=None, click_url_regex=None):
     """Aggregate a DataFrame of event counts into monthly totals.
 
     Args:
@@ -260,6 +298,7 @@ def _monthly_counts_from_df(df, start_date, end_date, page_path_regex=None):
         start_date: Start date string (YYYY-MM-DD) for filling missing months.
         end_date: End date string (YYYY-MM-DD) for filling missing months.
         page_path_regex: Optional regex to filter by page path before aggregating.
+        click_url_regex: Optional regex to filter by click URL before aggregating.
 
     Returns:
         List of dicts with "month" (YYYY-MM) and "count" keys, sorted by month.
@@ -273,6 +312,10 @@ def _monthly_counts_from_df(df, start_date, end_date, page_path_regex=None):
         pattern = re.compile(page_path_regex)
         df = df[df[DIMENSION_PAGE_PATH["alias"]].str.match(pattern, na=False)]
 
+    if click_url_regex:
+        url_pattern = re.compile(click_url_regex)
+        df = df[df[DIMENSION_CUSTOM_URL["alias"]].str.contains(url_pattern, na=False)]
+
     month_col = DIMENSION_YEAR_MONTH["alias"]
     count_col = METRIC_EVENT_COUNT["alias"]
     grouped = df.groupby(month_col, as_index=False)[count_col].sum()
@@ -283,13 +326,14 @@ def _monthly_counts_from_df(df, start_date, end_date, page_path_regex=None):
     return [{"month": m, "count": counts_by_month.get(m, 0)} for m in all_months]
 
 
-def _fetch_event_monthly_df(event_name, params, needs_page_path=False):
+def _fetch_event_monthly_df(event_name, params, needs_page_path=False, needs_click_url=False):
     """Fetch raw monthly event data from GA4.
 
     Args:
         event_name: GA4 event name.
         params: Analytics params including start_date and end_date.
         needs_page_path: Whether to include DIMENSION_PAGE_PATH for regex filtering.
+        needs_click_url: Whether to include DIMENSION_CUSTOM_URL for regex filtering.
 
     Returns:
         DataFrame with year-month and event count columns.
@@ -297,6 +341,8 @@ def _fetch_event_monthly_df(event_name, params, needs_page_path=False):
     dimensions = [DIMENSION_EVENT_NAME, DIMENSION_YEAR_MONTH]
     if needs_page_path:
         dimensions.append(DIMENSION_PAGE_PATH)
+    if needs_click_url:
+        dimensions.append(DIMENSION_CUSTOM_URL)
 
     return get_data_df_from_fields(
         [METRIC_EVENT_COUNT],
@@ -327,6 +373,7 @@ def fetch_data(
         current_month: Current month string (YYYY-MM).
         analytics_start: Start date for all-time data (YYYY-MM-DD).
         custom_events: List of dicts with "event_name" and "label" keys.
+            Optional keys: "page_path_regex", "click_url_regex", "detail_table", "use_page_title".
         historic_data_path: Path to historic UA data JSON file (optional).
         exclude_pages: Optional list of page paths to exclude from pageview data.
         base_dimension_filter: Optional GA4 dimension filter dict applied to all queries.
@@ -470,12 +517,15 @@ def fetch_data(
         data[f"event_{key}"] = get_custom_event_change(
             event["event_name"], params, params_prior,
             page_path_regex=event.get("page_path_regex"),
+            click_url_regex=event.get("click_url_regex"),
         )
         if event.get("detail_table"):
             print(f"Fetching {event['label']} detail table...")
             data[f"event_{key}_detail"] = get_event_detail_table(
                 event["event_name"], params,
                 page_path_regex=event.get("page_path_regex"),
+                click_url_regex=event.get("click_url_regex"),
+                use_page_title=event.get("use_page_title", False),
             )
 
     if event_charts:
@@ -492,12 +542,14 @@ def fetch_data(
 
         for event_name, series_list in series_by_event.items():
             needs_page_path = any(s.get("page_path_regex") for s in series_list)
+            needs_click_url = any(s.get("click_url_regex") for s in series_list)
             print(f"Fetching monthly counts for {event_name}...")
-            df = _fetch_event_monthly_df(event_name, params_chart, needs_page_path)
+            df = _fetch_event_monthly_df(event_name, params_chart, needs_page_path, needs_click_url)
             for series in series_list:
                 data[f"event_chart_{series['event_key']}"] = _monthly_counts_from_df(
                     df, chart_start, end_date_current,
                     page_path_regex=series.get("page_path_regex"),
+                    click_url_regex=series.get("click_url_regex"),
                 )
 
     print("Data fetching complete!")

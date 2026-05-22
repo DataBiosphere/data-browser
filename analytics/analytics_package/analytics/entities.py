@@ -136,6 +136,10 @@ DIMENSION_PAGE_PATH_PLUS_QUERY = {
     "id": "pagePathPlusQueryString",
     "alias": "Page Path Plus Query String",
 }
+DIMENSION_PAGE_TITLE = {
+    "id": "pageTitle",
+    "alias": "Page Title",
+}
 DIMENSION_FILE_NAME = {
     "id": "fileName",
     "alias": "File Name",
