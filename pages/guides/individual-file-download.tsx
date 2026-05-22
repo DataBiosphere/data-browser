@@ -17,10 +17,7 @@ import {
 const slug = ["guides", "individual-file-download"];
 
 export const getStaticProps: GetStaticProps = async () => {
-  return getContentStaticProps(
-    { params: { slug } },
-    "Individual File Download"
-  );
+  return getContentStaticProps({ params: { slug } });
 };
 
 const Page = ({

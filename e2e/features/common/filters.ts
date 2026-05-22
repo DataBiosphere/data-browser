@@ -195,6 +195,21 @@ export async function openFilterDropdown(
 }
 
 /**
+ * Opens the search-all-filters dropdown by clicking its trigger and waits for
+ * the autocomplete popper to mount. Use this when a test wants to iterate
+ * over the dropdown's filter items without typing a search term (for the
+ * typing case see `fillSearchAllFilters`).
+ * @param page - Page.
+ */
+export async function openSearchAllFilters(page: Page): Promise<void> {
+  await expectAutocompletePopperClosed(page);
+  const filter = page.getByTestId(TEST_IDS.SEARCH_ALL_FILTERS);
+  await expect(filter).toBeVisible();
+  await filter.click();
+  await expectAutocompletePopperOpen(page);
+}
+
+/**
  * Opens a sidebar filter dropdown, selects its first option, and returns the
  * option name. Waits for the item to be selected before returning.
  * @param filters - The filters container locator.
