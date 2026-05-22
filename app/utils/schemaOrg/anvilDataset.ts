@@ -1,4 +1,3 @@
-import type { DatasetEntity } from "../../apis/azul/anvil-cmg/common/entities";
 import type { DatasetsResponse } from "../../apis/azul/anvil-cmg/common/responses";
 import { MAX_KEYWORDS } from "./constants";
 import type { SchemaDataset } from "./types";
@@ -6,12 +5,6 @@ import { buildDescription, uniqueNonEmpty } from "./utils";
 
 const CATALOG_NAME = "AnVIL Data Explorer";
 const DESCRIPTION_FALLBACK_SUFFIX = `A genomic dataset in the ${CATALOG_NAME} catalog.`;
-const DBGAP_STUDY_URL =
-  "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=";
-// dbGaP study accession format (e.g. "phs001234"). We validate against this
-// before constructing identifiers.org / dbGaP study URLs so a non-dbGaP value
-// in `registered_identifier` doesn't produce a malformed link.
-const DBGAP_ACCESSION_PATTERN = /^phs\d+/;
 
 /**
  * Builds a Schema.org Dataset JSON-LD object for an AnVIL CMG dataset.
@@ -56,9 +49,6 @@ export function buildAnvilDatasetJsonLd(
     url: `${browserURL}/datasets/${dataset.dataset_id}`,
   };
 
-  const sameAs = buildSameAs(dataset);
-  if (sameAs.length > 0) jsonLd.sameAs = sameAs;
-
   const keywords = buildKeywords(data);
   if (keywords.length > 0) jsonLd.keywords = keywords;
 
@@ -98,21 +88,4 @@ function buildKeywords(data: DatasetsResponse): string[] {
     values.push(...(library.prep_material_name ?? []));
   }
   return uniqueNonEmpty(values).slice(0, MAX_KEYWORDS);
-}
-
-/**
- * Builds the sameAs array of external accession URLs. AnVIL datasets reference
- * dbGaP study pages via their `registered_identifier` (phs accessions).
- * @param dataset - AnVIL dataset entity.
- * @returns Array of canonical dbGaP study URLs.
- */
-function buildSameAs(dataset: DatasetEntity): string[] {
-  const urls: string[] = [];
-  for (const id of dataset.registered_identifier) {
-    if (!id) continue;
-    const trimmed = id.trim();
-    if (!DBGAP_ACCESSION_PATTERN.test(trimmed)) continue;
-    urls.push(`${DBGAP_STUDY_URL}${trimmed}`);
-  }
-  return uniqueNonEmpty(urls);
 }

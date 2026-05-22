@@ -117,7 +117,7 @@ describe("buildAnvilDatasetJsonLd", () => {
     );
   });
 
-  it("includes registered_identifier values in identifier and dbGaP study URLs in sameAs", () => {
+  it("includes registered_identifier values in identifier", () => {
     const response = makeDatasetsResponse();
     response.datasets[0].registered_identifier = [
       "phs000123",
@@ -126,30 +126,6 @@ describe("buildAnvilDatasetJsonLd", () => {
     ];
     const result = buildAnvilDatasetJsonLd(response, BROWSER_URL);
     expect(result!.identifier).toEqual(["uuid-1", "phs000123", "phs000456"]);
-    expect(result!.sameAs).toEqual([
-      "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000123",
-      "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000456",
-    ]);
-  });
-
-  it("omits sameAs when there are no registered identifiers", () => {
-    const result = buildAnvilDatasetJsonLd(makeDatasetsResponse(), BROWSER_URL);
-    expect(result!.sameAs).toBeUndefined();
-  });
-
-  it("skips registered_identifier values that aren't dbGaP phs accessions", () => {
-    const response = makeDatasetsResponse();
-    response.datasets[0].registered_identifier = [
-      "phs000123",
-      "not-a-phs",
-      "PHS000456", // wrong case — phs accessions are lowercase
-      "phs000789",
-    ];
-    const result = buildAnvilDatasetJsonLd(response, BROWSER_URL);
-    expect(result!.sameAs).toEqual([
-      "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000123",
-      "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000789",
-    ]);
   });
 
   it("builds deduplicated keywords from activity, biosample, donor, diagnosis, file, and library fields", () => {
@@ -192,10 +168,9 @@ describe("buildAnvilDatasetJsonLd", () => {
     ]);
   });
 
-  it("omits keywords and sameAs when sources are empty", () => {
+  it("omits keywords when sources are empty", () => {
     const result = buildAnvilDatasetJsonLd(makeDatasetsResponse(), BROWSER_URL);
     expect(result!.keywords).toBeUndefined();
-    expect(result!.sameAs).toBeUndefined();
   });
 
   it("caps keywords at MAX_KEYWORDS to keep payload size predictable", () => {
