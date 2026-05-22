@@ -20,7 +20,7 @@ const DESCRIPTION =
   "Explore projects, samples, and files in the HCA Data Explorer.";
 const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
 const PAGINATION_PAGE_SIZE = "25";
-export const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
+export const PORTAL_URL = "https://dev.singlecell.gi.ucsc.edu";
 const REDIRECT_ROOT_TO_PATH = "/projects";
 
 /**
