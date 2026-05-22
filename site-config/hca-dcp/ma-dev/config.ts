@@ -16,6 +16,8 @@ const APP_TITLE = "HCA Data Explorer";
 const BROWSER_URL = "https://explore.dev.singlecell.gi.ucsc.edu";
 const CATALOG = "dcp3";
 export const DATA_URL = "https://service.dev.singlecell.gi.ucsc.edu";
+const DESCRIPTION =
+  "Explore projects, samples, and files in the HCA Data Explorer.";
 const EXPORT_TO_TERRA_URL = "https://app.terra.bio";
 const PAGINATION_PAGE_SIZE = "25";
 export const PORTAL_URL = "https://data.humancellatlas.dev.clevercanary.com";
@@ -50,6 +52,7 @@ export function makeConfig(
       defaultParams: { catalog },
       url: `${dataUrl}/`,
     },
+    description: DESCRIPTION,
     enableEntitiesView: true,
     entities: ENTITIES,
     export: EXPORT,
