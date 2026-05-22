@@ -30,7 +30,9 @@ import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import { JSX } from "react";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
+import { buildHcaProjectJsonLd } from "../../app/utils/schemaOrg/hcaProjectDataset";
 import { readFile } from "../../app/utils/tsvParser";
+import { JsonLd } from "../../app/views/EntityDetailView/components/JsonLd/jsonLd";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 
 import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
@@ -38,6 +40,7 @@ import {
   getConsentGroup,
   isNRESOrUnrestrictedAccess,
 } from "../../app/apis/azul/anvil-cmg/common/transformers";
+import type { ProjectsResponse } from "../../app/apis/azul/hca-dcp/common/responses";
 import { isProductionEnvironment } from "../../app/config/utils";
 
 const setOfProcessedIds = new Set<string>();
@@ -54,8 +57,11 @@ interface PageUrl extends ParsedUrlQuery {
 }
 
 export interface EntityDetailPageProps extends AzulEntityStaticResponse {
+  browserURL?: string;
   entityListType: string;
   override?: Override;
+  pageDescription?: string | null;
+  pageTitle?: string | null;
 }
 
 /**
@@ -67,6 +73,7 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const { config: siteConfig } = useConfig();
   const isAnVIL = siteConfig.appTitle?.includes("AnVIL");
+  const isHcaDcp = siteConfig.appTitle?.includes("HCA");
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
@@ -81,7 +88,12 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   }
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
-  return <EntityDetailView {...props} />;
+  return (
+    <>
+      {isHcaDcp && renderHcaProjectJsonLd(props)}
+      <EntityDetailView {...props} />
+    </>
+  );
 };
 
 /**
@@ -250,11 +262,11 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
+export const getStaticProps: GetStaticProps<EntityDetailPageProps> = async ({
   params,
 }: GetStaticPropsContext) => {
   const appConfig = config();
-  const { entities } = appConfig;
+  const { browserURL, entities } = appConfig;
   const entityListType = (params as PageUrl).entityListType;
   const slug = (params as PageUrl).params;
   const entityConfig = getEntityConfig(entities, entityListType);
@@ -264,7 +276,12 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
 
   if (!entityConfig || !entityId) return { notFound: true };
 
-  const props: EntityDetailPageProps = { entityListType };
+  const { label } = entityConfig;
+  const props: EntityDetailPageProps = {
+    browserURL,
+    entityListType,
+    pageTitle: typeof label === "string" ? label : null,
+  };
 
   // Process entity override props.
   processEntityOverrideProps(entityConfig, entityListType, entityId, props);
@@ -280,12 +297,48 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
     props
   );
 
+  props.pageTitle = buildEntityPageTitle(
+    entityConfig,
+    props.data,
+    entityTab,
+    entityId
+  );
+
   return {
     props,
   };
 };
 
 export default EntityDetailPage;
+
+/**
+ * Builds the entity detail page title from the fetched entity data plus the
+ * active detail tab. Falls back to the entity id when no entity title is
+ * available.
+ * @param entityConfig - Entity config providing getTitle and tab definitions.
+ * @param data - Fetched entity data (may be undefined).
+ * @param entityTab - The active detail tab route.
+ * @param entityId - The entity id used as a fallback when no title is found.
+ * @returns Formatted page title.
+ */
+function buildEntityPageTitle(
+  entityConfig: EntityConfig,
+  data: AzulEntityStaticResponse["data"],
+  entityTab: string | undefined,
+  entityId: string
+): string {
+  const {
+    detail: { tabs },
+    getTitle,
+  } = entityConfig;
+
+  const entityTitle = getTitle?.(data);
+  const { label } = tabs.find(({ route }) => route === entityTab) || {};
+
+  const detailTitle = entityTitle || entityId;
+
+  return typeof label === "string" ? `${label} — ${detailTitle}` : detailTitle;
+}
 
 /**
  * Returns the catalog prefix for the given default catalog.
@@ -518,4 +571,22 @@ async function processEntityProps(
   if (entityResponse) {
     props.data = entityResponse;
   }
+}
+
+/**
+ * Renders the HCA project JSON-LD when the page is a project detail route with
+ * data and a browser URL available. Returns null otherwise.
+ * @param props - Entity detail page props.
+ * @returns JsonLd element, or null when the page can't be described.
+ */
+function renderHcaProjectJsonLd(
+  props: EntityDetailPageProps
+): JSX.Element | null {
+  if (props.entityListType !== "projects") return null;
+  if (!props.browserURL || !props.data) return null;
+  const jsonLd = buildHcaProjectJsonLd(
+    props.data as ProjectsResponse,
+    props.browserURL
+  );
+  return jsonLd ? <JsonLd jsonLd={jsonLd} /> : null;
 }

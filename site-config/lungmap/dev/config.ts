@@ -18,6 +18,8 @@ import { socialMedia } from "./socialMedia";
 const APP_TITLE = "LungMAP Data Explorer";
 const BROWSER_URL = "https://dev.data-browser.lungmap.net";
 const CATALOG = "lm2";
+const DESCRIPTION =
+  "Explore projects, samples, and files in the LungMAP Data Explorer.";
 const DATA_URL = HCA_DATA_URL;
 const EXPORT_TO_TERRA_URL = "https://bvdp-saturn-dev.appspot.com/";
 const HOME_PAGE_PATH = "/projects";
@@ -54,6 +56,7 @@ export function makeConfig(
       },
       url: `${dataUrl}/`,
     },
+    description: DESCRIPTION,
     enableEntitiesView: true,
     entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
     export: exportConfig,

@@ -2,6 +2,7 @@ import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { makeManagedAccessConfig } from "../cc-ma-dev/config";
 import { makeConfig } from "../dev/config";
+import { getAuthenticationConfig } from "./authentication/authentication";
 
 // Template constants
 const BROWSER_URL = "https://explore.dev.singlecell.gi.ucsc.edu";
@@ -18,6 +19,14 @@ const config: SiteConfig = {
 // Removing analytics from the config.
 if (config.analytics) {
   config.analytics = undefined;
+}
+
+// Update authentication for the dev environment (authorization code flow).
+if (config.authentication) {
+  config.authentication = getAuthenticationConfig(
+    config.authentication,
+    config.dataSource.url
+  );
 }
 
 export default config;

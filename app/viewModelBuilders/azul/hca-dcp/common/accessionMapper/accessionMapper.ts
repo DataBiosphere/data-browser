@@ -72,7 +72,7 @@ export function mapAccessions(
  * @param identifierOrgPrefix - Identifier org prefix.
  * @returns formatted accession URL.
  */
-function transformAccessionURL(
+export function transformAccessionURL(
   accessionId: string,
   identifierOrgPrefix: string
 ): string {
