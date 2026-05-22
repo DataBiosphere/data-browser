@@ -1,6 +1,33 @@
 import { DESCRIPTION_LENGTH } from "./constants";
 
 /**
+ * Builds a Schema.org description string from a raw entity description, padding
+ * short or empty values with the entity name and a caller-supplied fallback
+ * suffix so the result satisfies Google's minimum description-length
+ * requirement (50 chars).
+ * @param sourceDescription - Raw description (may contain HTML, may be empty).
+ * @param name - Entity name used in the padded fallback.
+ * @param fallbackSuffix - Caller-owned suffix (e.g. catalog + entity kind) used
+ * to reliably push padded descriptions past the 50-character minimum. The
+ * caller controls phrasing and punctuation; the helper does not add a period.
+ * @returns HTML-stripped description, padded when short, truncated when long.
+ */
+export function buildDescription(
+  sourceDescription: string,
+  name: string,
+  fallbackSuffix: string
+): string {
+  const stripped = stripHtmlTags(sourceDescription || "");
+  if (stripped.length >= DESCRIPTION_LENGTH.MIN) {
+    return truncateDescription(stripped);
+  }
+  const padded = stripped
+    ? `${name} — ${stripped} — ${fallbackSuffix}`
+    : `${name} — ${fallbackSuffix}`;
+  return truncateDescription(padded);
+}
+
+/**
  * Escapes a JSON string for safe embedding inside an HTML `<script>` tag.
  * Prevents script-context breakout via `</script>` or HTML entity injection.
  * @param json - Serialised JSON to embed.

@@ -6,16 +6,17 @@ import type {
 import type { ProjectsResponse } from "../../apis/azul/hca-dcp/common/responses";
 import { transformAccessionURL } from "../../viewModelBuilders/azul/hca-dcp/common/accessionMapper/accessionMapper";
 import { ACCESSION_CONFIGS_BY_RESPONSE_KEY } from "../../viewModelBuilders/azul/hca-dcp/common/accessionMapper/constants";
-import { DESCRIPTION_LENGTH } from "./constants";
+import { MAX_KEYWORDS } from "./constants";
 import type {
   SchemaDataset,
   SchemaOrganization,
   SchemaPerson,
   SchemaScholarlyArticle,
 } from "./types";
-import { stripHtmlTags, truncateDescription, uniqueNonEmpty } from "./utils";
+import { buildDescription, uniqueNonEmpty } from "./utils";
 
 const CATALOG_NAME = "Human Cell Atlas Data Coordination Platform";
+const DESCRIPTION_FALLBACK_SUFFIX = `${CATALOG_NAME} project.`;
 
 /**
  * Builds the citation array from project publications. Skips entries without a
@@ -42,27 +43,6 @@ function buildCitations(
     citations.push(article);
   }
   return citations;
-}
-
-/**
- * Builds the Schema.org description for a project, padding short or empty
- * source descriptions with the project name and catalog context so the result
- * satisfies Google's minimum description-length requirement (50 chars).
- * @param sourceDescription - Raw projectDescription from the Azul response.
- * @param name - Project name used as a padding fallback.
- * @returns HTML-stripped description, padded if short, truncated if long.
- */
-function buildDescription(sourceDescription: string, name: string): string {
-  const stripped = stripHtmlTags(sourceDescription || "");
-  if (stripped.length >= DESCRIPTION_LENGTH.MIN) {
-    return truncateDescription(stripped);
-  }
-  // Padding includes the catalog name (~43 chars) to reliably push the
-  // result past the 50-char minimum even when name + stripped are short.
-  const padded = stripped
-    ? `${name} — ${stripped} — ${CATALOG_NAME} project.`
-    : `${name} — ${CATALOG_NAME} project.`;
-  return truncateDescription(padded);
 }
 
 /**
@@ -108,7 +88,11 @@ export function buildHcaProjectJsonLd(
   if (!project) return undefined;
 
   const name = project.projectTitle || project.projectShortname;
-  const description = buildDescription(project.projectDescription, name);
+  const description = buildDescription(
+    project.projectDescription,
+    name,
+    DESCRIPTION_FALLBACK_SUFFIX
+  );
   const identifier = uniqueNonEmpty([
     project.projectId,
     ...project.accessions.flatMap((accession) =>
@@ -173,7 +157,7 @@ function buildKeywords(data: ProjectsResponse): string[] {
     values.push(...(protocol.libraryConstructionApproach ?? []));
     values.push(...(protocol.instrumentManufacturerModel ?? []));
   }
-  return uniqueNonEmpty(values);
+  return uniqueNonEmpty(values).slice(0, MAX_KEYWORDS);
 }
 
 /**
