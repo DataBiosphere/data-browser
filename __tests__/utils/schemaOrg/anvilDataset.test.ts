@@ -98,7 +98,7 @@ describe("buildAnvilDatasetJsonLd", () => {
     response.datasets[0].description = "Short.";
     const result = buildAnvilDatasetJsonLd(response, BROWSER_URL);
     expect(result!.description).toBe(
-      "Rare disease dataset — Short. — AnVIL Data Explorer dataset."
+      "Rare disease dataset — Short. — A genomic dataset in the AnVIL Data Explorer catalog."
     );
     expect(result!.description.length).toBeGreaterThanOrEqual(
       DESCRIPTION_LENGTH.MIN
@@ -110,7 +110,7 @@ describe("buildAnvilDatasetJsonLd", () => {
     response.datasets[0].description = undefined;
     const result = buildAnvilDatasetJsonLd(response, BROWSER_URL);
     expect(result!.description).toBe(
-      "Rare disease dataset — AnVIL Data Explorer dataset."
+      "Rare disease dataset — A genomic dataset in the AnVIL Data Explorer catalog."
     );
     expect(result!.description.length).toBeGreaterThanOrEqual(
       DESCRIPTION_LENGTH.MIN

@@ -5,7 +5,7 @@ import type { SchemaDataset } from "./types";
 import { buildDescription, uniqueNonEmpty } from "./utils";
 
 const CATALOG_NAME = "AnVIL Data Explorer";
-const DESCRIPTION_FALLBACK_SUFFIX = `${CATALOG_NAME} dataset.`;
+const DESCRIPTION_FALLBACK_SUFFIX = `A genomic dataset in the ${CATALOG_NAME} catalog.`;
 const DBGAP_STUDY_URL =
   "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=";
 // dbGaP study accession format (e.g. "phs001234"). We validate against this
