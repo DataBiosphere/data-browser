@@ -149,23 +149,34 @@ def get_event_detail_table(event_name, params, page_path_regex=None, click_url_r
     if len(df) == 0:
         return []
 
-    # Aggregate by page_path (and optionally page_title), summing counts
+    # Aggregate counts, preserving click_url and page_title when available
     count_col = METRIC_EVENT_COUNT["alias"]
     page_col = DIMENSION_PAGE_PATH["alias"]
     entity_col = DIMENSION_ENTITY_NAME["alias"]
 
+    group_cols = [page_col, entity_col]
+    if click_url_regex:
+        group_cols.append(DIMENSION_CUSTOM_URL["alias"])
     if use_page_title:
-        title_col = DIMENSION_PAGE_TITLE["alias"]
-        grouped = df.groupby([page_col, entity_col, title_col], as_index=False)[count_col].sum()
-        result = grouped[[page_col, entity_col, count_col, title_col]].copy()
-        result.columns = ["page_path", "entity_name", "count", "dataset_title"]
-    else:
-        grouped = df.groupby([page_col, entity_col], as_index=False)[count_col].sum()
-        result = grouped[[page_col, entity_col, count_col]].copy()
-        result.columns = ["page_path", "entity_name", "count"]
+        group_cols.append(DIMENSION_PAGE_TITLE["alias"])
 
-    result = result.sort_values("count", ascending=False)
-    return result.to_dict(orient="records")
+    grouped = df.groupby(group_cols, as_index=False)[count_col].sum()
+
+    records = []
+    for _, row in grouped.iterrows():
+        record = {
+            "page_path": row[page_col],
+            "entity_name": row[entity_col],
+            "count": int(row[count_col]),
+        }
+        if click_url_regex:
+            record["click_url"] = row[DIMENSION_CUSTOM_URL["alias"]]
+        if use_page_title:
+            record["dataset_title"] = row[DIMENSION_PAGE_TITLE["alias"]]
+        records.append(record)
+
+    records.sort(key=lambda r: r["count"], reverse=True)
+    return records
 
 
 def get_file_downloads(params):
