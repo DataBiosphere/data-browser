@@ -68,7 +68,7 @@ describe("buildHcaProjectJsonLd", () => {
     expect(result!.isAccessibleForFree).toBe(true);
     expect(result!.includedInDataCatalog).toEqual({
       "@type": "DataCatalog",
-      name: "Human Cell Atlas Data Coordination Platform",
+      name: "Human Cell Atlas Data Explorer",
       url: BROWSER_URL,
     });
   });
@@ -95,7 +95,7 @@ describe("buildHcaProjectJsonLd", () => {
     response.projects[0].projectDescription = "Short.";
     const result = buildHcaProjectJsonLd(response, BROWSER_URL);
     expect(result!.description).toBe(
-      "Cells of the body — Short. — Human Cell Atlas Data Coordination Platform project."
+      "Cells of the body — Short. — A project in the Human Cell Atlas Data Explorer."
     );
     expect(result!.description.length).toBeGreaterThanOrEqual(
       DESCRIPTION_LENGTH.MIN
@@ -107,7 +107,7 @@ describe("buildHcaProjectJsonLd", () => {
     response.projects[0].projectDescription = "";
     const result = buildHcaProjectJsonLd(response, BROWSER_URL);
     expect(result!.description).toBe(
-      "Cells of the body — Human Cell Atlas Data Coordination Platform project."
+      "Cells of the body — A project in the Human Cell Atlas Data Explorer."
     );
     expect(result!.description.length).toBeGreaterThanOrEqual(
       DESCRIPTION_LENGTH.MIN

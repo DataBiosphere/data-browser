@@ -68,7 +68,7 @@ describe("buildLungmapProjectJsonLd", () => {
     response.projects[0].projectDescription = "Short.";
     const result = buildLungmapProjectJsonLd(response, BROWSER_URL);
     expect(result!.description).toBe(
-      "Lung development atlas — Short. — LungMAP Data Explorer project."
+      "Lung development atlas — Short. — A project in the LungMAP Data Explorer."
     );
   });
 });

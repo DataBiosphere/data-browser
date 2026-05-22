@@ -3,11 +3,11 @@ import type { ProjectCatalogOptions } from "./projectDataset";
 import { buildProjectJsonLd } from "./projectDataset";
 import type { SchemaDataset } from "./types";
 
-const CATALOG_NAME = "Human Cell Atlas Data Coordination Platform";
+const CATALOG_NAME = "Human Cell Atlas Data Explorer";
 
 const OPTIONS: ProjectCatalogOptions = {
   catalogName: CATALOG_NAME,
-  descriptionFallbackSuffix: `${CATALOG_NAME} project.`,
+  descriptionFallbackSuffix: `A project in the Human Cell Atlas Data Explorer.`,
 };
 
 /**

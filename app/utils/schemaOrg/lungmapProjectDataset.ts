@@ -7,7 +7,7 @@ const CATALOG_NAME = "LungMAP Data Explorer";
 
 const OPTIONS: ProjectCatalogOptions = {
   catalogName: CATALOG_NAME,
-  descriptionFallbackSuffix: `${CATALOG_NAME} project.`,
+  descriptionFallbackSuffix: `A project in the LungMAP Data Explorer.`,
 };
 
 /**

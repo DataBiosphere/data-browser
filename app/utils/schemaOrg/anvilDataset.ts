@@ -4,7 +4,7 @@ import type { SchemaDataset } from "./types";
 import { buildDescription, uniqueNonEmpty } from "./utils";
 
 const CATALOG_NAME = "AnVIL Data Explorer";
-const DESCRIPTION_FALLBACK_SUFFIX = `A genomic dataset in the ${CATALOG_NAME} catalog.`;
+const DESCRIPTION_FALLBACK_SUFFIX = `A dataset in the AnVIL Data Explorer for NHGRI's Analysis Visualization and Informatics Lab-space.`;
 
 /**
  * Builds a Schema.org Dataset JSON-LD object for an AnVIL CMG dataset.
