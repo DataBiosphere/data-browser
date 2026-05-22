@@ -32,6 +32,7 @@ import { JSX } from "react";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
 import { buildAnvilDatasetJsonLd } from "../../app/utils/schemaOrg/anvilDataset";
 import { buildHcaProjectJsonLd } from "../../app/utils/schemaOrg/hcaProjectDataset";
+import { buildLungmapProjectJsonLd } from "../../app/utils/schemaOrg/lungmapProjectDataset";
 import type { SchemaDataset } from "../../app/utils/schemaOrg/types";
 import { readFile } from "../../app/utils/tsvParser";
 import { JsonLd } from "../../app/views/EntityDetailView/components/JsonLd/jsonLd";
@@ -75,11 +76,13 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
 // Catalog", which shares the "AnVIL" prefix but has a different entity shape.
 const APP_TITLE_ANVIL_CMG = "AnVIL Data Explorer";
 const APP_TITLE_HCA_DCP = "HCA Data Explorer";
+const APP_TITLE_LUNGMAP = "LungMAP Data Explorer";
 
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const { config: siteConfig } = useConfig();
   const isAnVIL = siteConfig.appTitle === APP_TITLE_ANVIL_CMG;
   const isHcaDcp = siteConfig.appTitle === APP_TITLE_HCA_DCP;
+  const isLungMap = siteConfig.appTitle === APP_TITLE_LUNGMAP;
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
@@ -98,6 +101,7 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
     <>
       {isAnVIL && renderJsonLd(props, "datasets", buildAnvilDatasetJsonLd)}
       {isHcaDcp && renderJsonLd(props, "projects", buildHcaProjectJsonLd)}
+      {isLungMap && renderJsonLd(props, "projects", buildLungmapProjectJsonLd)}
       <EntityDetailView {...props} />
     </>
   );
