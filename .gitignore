@@ -58,9 +58,17 @@ _templates
 # favicons
 /public/favicons/*
 
+# og images
+/public/og/*
+
 /files/**/out/
 
 #Python
 __pycache__/
+*.egg-info/
 /analytics/**/_build
+/analytics/**/site/
 /analytics/venv
+
+# Credentials
+.credentials/
