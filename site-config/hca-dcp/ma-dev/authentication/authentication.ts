@@ -1,12 +1,20 @@
-import { AuthenticationConfig } from "@databiosphere/findable-ui/lib/config/entities";
+import * as MDX from "../../../../app/components/common/MDXContent/hca-dcp";
+import { SiteConfig } from "../../../common/entities";
 import { getGoogleProvider, TERRA_SERVICE } from "./constants";
 
-export function getAuthenticationConfig(
-  authenticationConfig: AuthenticationConfig,
+/**
+ * Returns the authentication config for HCA DCP MA-DEV environment.
+ * @param dataSourceUrl - Data source URL.
+ * @returns - Updated authentication config.
+ */
+export function getAuthentication(
   dataSourceUrl: string
-): AuthenticationConfig {
-  const authentication = { ...authenticationConfig };
-  authentication.providers = [getGoogleProvider(dataSourceUrl)];
-  authentication.services = [TERRA_SERVICE];
-  return authentication;
+): SiteConfig["authentication"] {
+  return {
+    providers: [getGoogleProvider(dataSourceUrl)],
+    services: [TERRA_SERVICE],
+    termsOfService: MDX.LoginTermsOfService({}),
+    text: MDX.LoginText({}),
+    title: "Sign in to your account",
+  };
 }

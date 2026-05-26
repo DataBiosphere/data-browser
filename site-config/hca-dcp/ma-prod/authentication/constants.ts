@@ -8,14 +8,25 @@ import { GoogleProfile } from "@databiosphere/findable-ui/lib/google/types";
 import { OAUTH_GOOGLE_SIGN_IN } from "../../../common/authentication";
 
 const CLIENT_ID =
-  "473200283737-4pt6e9lraf5jbb650f9kp7ethelv4a8l.apps.googleusercontent.com";
+  "473200283737-h5e1l7neunbuesrtgjf8b12lb7o3jf1m.apps.googleusercontent.com";
 
-export const GOOGLE_PROVIDER: OAuthProvider<GoogleProfile> = {
-  ...GOOGLE_SIGN_IN_PROVIDER,
-  ...OAUTH_GOOGLE_SIGN_IN,
-  clientId: CLIENT_ID,
-  flow: OAUTH_FLOW.IMPLICIT,
-};
+/**
+ * Returns the Google OAuth provider configured for the authorization code
+ * flow, with `authorize` derived from the given Azul base URL.
+ * @param dataSourceUrl - Azul base URL.
+ * @returns Google OAuth provider.
+ */
+export function getGoogleProvider(
+  dataSourceUrl: string
+): OAuthProvider<GoogleProfile> {
+  return {
+    ...GOOGLE_SIGN_IN_PROVIDER,
+    ...OAUTH_GOOGLE_SIGN_IN,
+    authorize: `${dataSourceUrl}/user/authorize`,
+    clientId: CLIENT_ID,
+    flow: OAUTH_FLOW.AUTHORIZATION_CODE,
+  };
+}
 
 export const TERRA_SERVICE = {
   endpoint: {
