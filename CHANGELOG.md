@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.3.0](https://github.com/DataBiosphere/data-browser/compare/v3.2.0...v3.3.0) (2026-05-26)
+
+
+### Features
+
+* [anvil dx] add anvil datasets to google datasets catalog ([#4807](https://github.com/DataBiosphere/data-browser/issues/4807)) ([#4831](https://github.com/DataBiosphere/data-browser/issues/4831)) ([4087b5c](https://github.com/DataBiosphere/data-browser/commit/4087b5c2cda49d340572c43b8c3694fd517fb71f))
+* [lungmap] add lungmap projects to google datasets catalog ([#4808](https://github.com/DataBiosphere/data-browser/issues/4808)) ([#4832](https://github.com/DataBiosphere/data-browser/issues/4832)) ([646bea7](https://github.com/DataBiosphere/data-browser/commit/646bea7a0b388fcb6284d0d66e29ddb03ce5f41b))
+* implement authorization code flow for anvil prod (anvil-cmg/prod) ([#4851](https://github.com/DataBiosphere/data-browser/issues/4851)) ([#4852](https://github.com/DataBiosphere/data-browser/issues/4852)) ([690bd78](https://github.com/DataBiosphere/data-browser/commit/690bd78c802f92bfc9ea613d28c2f7f809089fdc))
+* implement authorization code flow for hca prod (ma-prod) ([#4850](https://github.com/DataBiosphere/data-browser/issues/4850)) ([#4853](https://github.com/DataBiosphere/data-browser/issues/4853)) ([381848c](https://github.com/DataBiosphere/data-browser/commit/381848c95317c296784bbb05434d7b1015c60af5))
+
+
+### Chores
+
+* [hca dcp] clean up unused dev/cc-ma-dev site-configs, relocate makeconfig to ma-dev ([#4820](https://github.com/DataBiosphere/data-browser/issues/4820)) ([#4826](https://github.com/DataBiosphere/data-browser/issues/4826)) ([4aee494](https://github.com/DataBiosphere/data-browser/commit/4aee494f4ebf4f4351a2450fdba2744a5cebad28))
+* [hca dcp] refresh cellxgene → hca project mapping ([#4847](https://github.com/DataBiosphere/data-browser/issues/4847)) ([#4849](https://github.com/DataBiosphere/data-browser/issues/4849)) ([b8be871](https://github.com/DataBiosphere/data-browser/commit/b8be87149c10c1d6474201eb0adec399e6c21102))
+
 ## [3.2.0](https://github.com/DataBiosphere/data-browser/compare/v3.1.0...v3.2.0) (2026-05-21)
 
 
