@@ -14,7 +14,7 @@ const config = makeConfig(
   DATA_URL,
   GIT_HUB_REPO_URL,
   CATALOG,
-  getAuthentication()
+  getAuthentication(DATA_URL)
 );
 
 // Configure analytics for the prod environment.
