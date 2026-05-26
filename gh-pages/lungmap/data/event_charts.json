@@ -1,0 +1,104 @@
+{
+  "chart_start": "2026-03-01",
+  "charts": [
+    {
+      "title": "Export to Terra",
+      "series": [
+        {
+          "label": "Single Project",
+          "event_key": "dataset_analyze_in_terra_requested",
+          "data": [
+            {
+              "month": "2026-03",
+              "count": 1
+            },
+            {
+              "month": "2026-04",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "label": "Cross-Dataset",
+          "event_key": "index_analyze_in_terra_requested",
+          "data": [
+            {
+              "month": "2026-03",
+              "count": 5
+            },
+            {
+              "month": "2026-04",
+              "count": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "curl Command",
+      "series": [
+        {
+          "label": "Single Project",
+          "event_key": "dataset_bulk_download_requested",
+          "data": [
+            {
+              "month": "2026-03",
+              "count": 20
+            },
+            {
+              "month": "2026-04",
+              "count": 14
+            }
+          ]
+        },
+        {
+          "label": "Cross-Dataset",
+          "event_key": "index_bulk_download_requested",
+          "data": [
+            {
+              "month": "2026-03",
+              "count": 0
+            },
+            {
+              "month": "2026-04",
+              "count": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "File Manifest",
+      "series": [
+        {
+          "label": "Single Project",
+          "event_key": "dataset_file_manifest_requested",
+          "data": [
+            {
+              "month": "2026-03",
+              "count": 2
+            },
+            {
+              "month": "2026-04",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "label": "Cross-Dataset",
+          "event_key": "index_file_manifest_requested",
+          "data": [
+            {
+              "month": "2026-03",
+              "count": 1
+            },
+            {
+              "month": "2026-04",
+              "count": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

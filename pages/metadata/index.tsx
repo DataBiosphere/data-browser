@@ -11,7 +11,7 @@ import NotFoundPage from "../404";
 const slug = ["metadata"];
 
 export const getStaticProps: GetStaticProps = async () => {
-  return getContentStaticProps({ params: { slug } }, "Metadata Dictionary");
+  return getContentStaticProps({ params: { slug } });
 };
 
 const Page = ({

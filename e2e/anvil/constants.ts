@@ -1,5 +1,21 @@
 import { ColumnDescription } from "e2e/testInterfaces";
 
+export const ANVIL_CMG_CATEGORY_NAMES = {
+  ACCESS: "Access",
+  ANATOMICAL_SITE: "Anatomical Site",
+  BIOSAMPLE_TYPE: "BioSample Type",
+  CONSENT_GROUP: "Consent Group",
+  DATASET: "Dataset",
+  DATA_MODALITY: "Data Modality",
+  DIAGNOSIS: "Diagnosis",
+  FILE_FORMAT: "File Format",
+  IDENTIFIER: "Identifier",
+  ORGANISM_TYPE: "Organism Type",
+  PHENOTYPE: "Phenotype",
+  PHENOTYPIC_SEX: "Phenotypic Sex",
+  REPORTED_ETHNICITY: "Reported Ethnicity",
+};
+
 export const ANVIL_DATASETS_BACKPAGE_HEADER_NAMES = {
   CONSENT_GROUP: "Consent group",
   DATASET_ID: "Dataset Id",
@@ -321,32 +337,6 @@ export const ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME = {
   [ANVIL_COLUMN_NAMES.DATASET]: {
     name: ANVIL_COLUMN_NAMES.DATASET,
     pluralizedLabel: PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.DATASET],
-    sortable: true,
-  },
-};
-
-export const ANVIL_FILES_SELECTABLE_COLUMNS_BY_NAME = {
-  [ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX]: {
-    name: ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX,
-    pluralizedLabel:
-      PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX],
-    sortable: true,
-  },
-  [ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY]: {
-    name: ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY,
-    pluralizedLabel:
-      PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.REPORTED_ETHNICITY],
-    sortable: true,
-  },
-  [ANVIL_COLUMN_NAMES.DIAGNOSIS]: {
-    name: ANVIL_COLUMN_NAMES.DIAGNOSIS,
-    pluralizedLabel: PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.DIAGNOSIS],
-    sortable: true,
-  },
-  [ANVIL_COLUMN_NAMES.FILE_DATA_MODALITY]: {
-    name: ANVIL_COLUMN_NAMES.FILE_DATA_MODALITY,
-    pluralizedLabel:
-      PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.FILE_DATA_MODALITY],
     sortable: true,
   },
 };

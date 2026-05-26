@@ -1,0 +1,98 @@
+[
+  {
+    "page_path": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1",
+    "click_url": "https://duos.org/dataset/DUOS-000483",
+    "count": 4,
+    "dataset_title": "ANVIL_ALSCompute_Collection_GRU"
+  },
+  {
+    "page_path": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
+    "count": 4,
+    "dataset_title": "ANVIL_GTEx_v11_hg38"
+  },
+  {
+    "page_path": "/datasets/329c1f46-c814-4c2d-b4b1-c01b724f76e1",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003184",
+    "count": 2,
+    "dataset_title": "ANVIL_ALSCompute_Collection_GRU"
+  },
+  {
+    "page_path": "/datasets/56ca3afc-e1cd-441b-85f8-3fe0deb57ad6",
+    "click_url": "https://duos.org/dataset/DUOS-000663",
+    "count": 2,
+    "dataset_title": "AnVIL_CMH_GAFK_R5"
+  },
+  {
+    "page_path": "/datasets/5aacd1a5-8963-4489-8352-9e425e92e5df",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
+    "count": 2,
+    "dataset_title": "ANVIL_GTEx_v10_hg38"
+  },
+  {
+    "page_path": "/datasets/d4079d07-421c-4233-afe3-f17c8f11503a",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003047",
+    "count": 2,
+    "dataset_title": "ANVIL_GREGoR_R01_HMB"
+  },
+  {
+    "page_path": "/datasets/3db7b5ed-6593-4c02-8ccb-270b6a1a44c7",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003537",
+    "count": 1,
+    "dataset_title": "ANVIL_HudsonAlpha_LR_v1_GRU"
+  },
+  {
+    "page_path": "/datasets/4f70fe5e-eea9-4ad8-bade-d1912f207c47",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003047",
+    "count": 1,
+    "dataset_title": "4f70fe5e-eea9-4ad8-bade-d1912f207c47"
+  },
+  {
+    "page_path": "/datasets/591f7dd1-9b6b-4f40-a753-e20e005d2b32",
+    "click_url": "https://duos.org/dataset/DUOS-000379",
+    "count": 1,
+    "dataset_title": "ANVIL_CMG_YALE_DS_MC"
+  },
+  {
+    "page_path": "/datasets/6ea221e5-0f83-4b5f-ad8b-49a5dbdba837",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003444",
+    "count": 1,
+    "dataset_title": "ANVIL_DepMap_HMB"
+  },
+  {
+    "page_path": "/datasets/6ea221e5-0f83-4b5f-ad8b-49a5dbdba837",
+    "click_url": "https://duos.org/dataset/DUOS-000482",
+    "count": 1,
+    "dataset_title": "ANVIL_DepMap_HMB"
+  },
+  {
+    "page_path": "/datasets/7361d67c-829d-49e9-8e59-c3c55bf554f3",
+    "click_url": "https://duos.org/dataset/DUOS-000238",
+    "count": 1,
+    "dataset_title": "ANVIL_GTEx_V9_hg38"
+  },
+  {
+    "page_path": "/datasets/a00842c8-12f8-4f92-a7b3-01bb73ffd4e4",
+    "click_url": "https://duos.org/dataset/DUOS-000744",
+    "count": 1,
+    "dataset_title": "AnVIL_NIA_CARD_LR_WGS_NABEC_GRU_V2"
+  },
+  {
+    "page_path": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063",
+    "click_url": "https://duos.org/dataset/DUOS-000780",
+    "count": 1,
+    "dataset_title": "ANVIL_GTEx_v11_hg38"
+  },
+  {
+    "page_path": "/datasets/c7822863-e4e1-4f6f-ba9d-c4766436c4e5",
+    "click_url": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003047",
+    "count": 1,
+    "dataset_title": "c7822863-e4e1-4f6f-ba9d-c4766436c4e5"
+  },
+  {
+    "page_path": "/datasets/d4079d07-421c-4233-afe3-f17c8f11503a",
+    "click_url": "https://duos.org/dataset/DUOS-000370",
+    "count": 1,
+    "dataset_title": "ANVIL_GREGoR_R01_HMB"
+  }
+]
