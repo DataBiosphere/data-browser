@@ -54,11 +54,7 @@ import {
   HCA_DCP_CATEGORY_KEY,
   HCA_DCP_CATEGORY_LABEL,
 } from "../../../../../site-config/hca-dcp/category";
-import {
-  ROUTE_BULK_DOWNLOAD,
-  ROUTE_EXPORT_TO_TERRA,
-  ROUTE_MANIFEST_DOWNLOAD,
-} from "../../../../../site-config/hca-dcp/dev/export/constants";
+import { EXPORT_ROUTE } from "../../../../../site-config/hca-dcp/ma-dev/export/routes";
 import {
   processAggregatedBooleanOrArrayValue,
   processAggregatedOrArrayValue,
@@ -959,7 +955,7 @@ export const buildExportMethodBulkDownload = (
   return {
     ...getExportMethodAccessibility(viewContext),
     description: "Obtain a curl command for downloading the selected data.",
-    route: ROUTE_BULK_DOWNLOAD,
+    route: EXPORT_ROUTE.BULK_DOWNLOAD,
     title: "Download Study Data and Metadata (Curl Command)",
     trackingId: "button-request-bulk-download",
   };
@@ -1030,7 +1026,7 @@ export const buildExportMethodManifestDownload = (
     ...getExportMethodAccessibility(viewContext),
     description:
       "Request a file manifest for the current query containing the full list of selected files and the metadata for each file.",
-    route: ROUTE_MANIFEST_DOWNLOAD,
+    route: EXPORT_ROUTE.MANIFEST_DOWNLOAD,
     title: "Download a File Manifest with Metadata for the Selected Data",
     trackingId: "button-request-file-manifest",
   };
@@ -1050,7 +1046,7 @@ export const buildExportMethodTerra = (
     ...getExportMethodAccessibility(viewContext),
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
-    route: ROUTE_EXPORT_TO_TERRA,
+    route: EXPORT_ROUTE.EXPORT_TO_TERRA,
     title: "Export Study Data and Metadata to Terra Workspace",
     trackingId: "button-analyze-in-terra",
   };
@@ -1247,24 +1243,6 @@ export function getExportSelectedDataSummary(
     value,
   ]);
 }
-
-/**
- * Build props for project BackPageHero component from the given projects response.
- * @param projectsResponse - Response model return from projects API.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
- */
-export const buildHero = (
-  projectsResponse: ProjectsResponse,
-  viewContext: ViewContext<ProjectsResponse>
-): React.ComponentProps<typeof C.BackPageHero> => {
-  return {
-    actions: getProjectCallToAction(projectsResponse),
-    breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
-    subTitle: getProjectAggregateLastModifiedDate(projectsResponse),
-    title: processEntityValue(projectsResponse.projects, "projectTitle"),
-  };
-};
 
 /**
  * Build props for managed access BackPageHero component from the given projects response.
@@ -2164,7 +2142,7 @@ export function getProjectBreadcrumbs(
  * @param projectsResponse - Response model return from projects API.
  * @returns model to be used as props for the BackPageHeroActions component.
  */
-function getProjectCallToAction(
+export function getProjectCallToAction(
   projectsResponse: ProjectsResponse
 ): ReactElement | null {
   const isReady = isResponseReady(projectsResponse);

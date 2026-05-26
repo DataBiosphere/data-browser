@@ -16,7 +16,6 @@ import {
 import * as C from "../../../../app/components";
 import { projectEdits as hcaProjectEdits } from "../../../../app/viewModelBuilders/azul/hca-dcp/common/projectMapper/projectEdits/projectEdits";
 import * as V from "../../../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
-import { top as hcaTop } from "../../../hca-dcp/dev/detail/project/top";
 import { mainColumn as exportMainColumn } from "../detail/project/exportMainColumn";
 import { sideColumn as exportSideColumn } from "../detail/project/exportSideColumn";
 import { mainColumn as overviewMainColumn } from "../detail/project/mainColumn";
@@ -26,6 +25,7 @@ import { sideColumn as metadataSideColumn } from "../detail/project/metadataSide
 import { sideColumn as overviewSideColumn } from "../detail/project/overviewSideColumn";
 import { mainColumn as projectFilesMainColumn } from "../detail/project/projectFilesMainColumn";
 import { sideColumn as projectFilesSideColumn } from "../detail/project/projectFilesSideColumn";
+import { top } from "../detail/project/top";
 
 /**
  * Entity config object responsible to config anything related to the /projects route.
@@ -66,7 +66,7 @@ export const projectsEntityConfig: EntityConfig = {
         sideColumn: exportSideColumn,
       },
     ],
-    top: hcaTop,
+    top,
   },
   exploreMode: EXPLORE_MODE.SS_FETCH_SS_FILTERING,
   getId: getProjectId,
