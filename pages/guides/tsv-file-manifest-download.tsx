@@ -17,10 +17,7 @@ import {
 const slug = ["guides", "tsv-file-manifest-download"];
 
 export const getStaticProps: GetStaticProps = async () => {
-  return getContentStaticProps(
-    { params: { slug } },
-    "TSV File Manifest Download"
-  );
+  return getContentStaticProps({ params: { slug } });
 };
 
 const Page = ({

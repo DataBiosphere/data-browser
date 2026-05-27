@@ -1,13 +1,13 @@
 import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
-import {
-  DATA_URL as HCA_DATA_URL,
-  PORTAL_URL as HCA_PORTAL_URL,
-} from "site-config/hca-dcp/ma-dev/config";
 import * as C from "../../../app/components/index";
 import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
+import {
+  DATA_URL as HCA_DATA_URL,
+  PORTAL_URL as HCA_PORTAL_URL,
+} from "../../hca-dcp/ma-dev/config";
+import { CATEGORY_GROUP_CONFIG } from "./categoryGroup/categoryGroupConfig";
 import { exportConfig } from "./export/exportConfig";
-import { CATEGORY_GROUPS } from "./index/common/category";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { projectsEntityConfig } from "./index/projectsEntityConfig";
 import { samplesEntityConfig } from "./index/samplesEntityConfig";
@@ -18,6 +18,8 @@ import { socialMedia } from "./socialMedia";
 const APP_TITLE = "LungMAP Data Explorer";
 const BROWSER_URL = "https://dev.data-browser.lungmap.net";
 const CATALOG = "lm2";
+const DESCRIPTION =
+  "Explore projects, samples, and files in the LungMAP Data Explorer.";
 const DATA_URL = HCA_DATA_URL;
 const EXPORT_TO_TERRA_URL = "https://bvdp-saturn-dev.appspot.com/";
 const HOME_PAGE_PATH = "/projects";
@@ -40,10 +42,7 @@ export function makeConfig(
     appTitle: APP_TITLE,
     authentication: undefined,
     browserURL: browserUrl,
-    categoryGroupConfig: {
-      categoryGroups: CATEGORY_GROUPS,
-      key: "lungmap",
-    },
+    categoryGroupConfig: CATEGORY_GROUP_CONFIG,
     contentDir: "lungmap",
     dataSource: {
       defaultListParams: {
@@ -54,6 +53,7 @@ export function makeConfig(
       },
       url: `${dataUrl}/`,
     },
+    description: DESCRIPTION,
     enableEntitiesView: true,
     entities: [projectsEntityConfig, samplesEntityConfig, filesEntityConfig],
     export: exportConfig,

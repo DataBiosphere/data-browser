@@ -30,10 +30,15 @@ import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import { JSX } from "react";
 import { EntityGuard } from "../../app/components/Detail/components/EntityGuard/entityGuard";
+import { buildAnvilDatasetJsonLd } from "../../app/utils/schemaOrg/anvilDataset";
+import { buildHcaProjectJsonLd } from "../../app/utils/schemaOrg/hcaProjectDataset";
+import { buildLungmapProjectJsonLd } from "../../app/utils/schemaOrg/lungmapProjectDataset";
+import type { SchemaDataset } from "../../app/utils/schemaOrg/types";
 import { readFile } from "../../app/utils/tsvParser";
+import { JsonLd } from "../../app/views/EntityDetailView/components/JsonLd/jsonLd";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
 
-import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
+import type { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import {
   getConsentGroup,
   isNRESOrUnrestrictedAccess,
@@ -54,8 +59,11 @@ interface PageUrl extends ParsedUrlQuery {
 }
 
 export interface EntityDetailPageProps extends AzulEntityStaticResponse {
+  browserURL?: string;
   entityListType: string;
   override?: Override;
+  pageDescription?: string | null;
+  pageTitle?: string | null;
 }
 
 /**
@@ -64,9 +72,17 @@ export interface EntityDetailPageProps extends AzulEntityStaticResponse {
  * @param props.entityListType - Entity list type.
  * @returns Entity detail view component.
  */
+// Exact appTitle match — substring detection would also hit "AnVIL Dataset
+// Catalog", which shares the "AnVIL" prefix but has a different entity shape.
+const APP_TITLE_ANVIL_CMG = "AnVIL Data Explorer";
+const APP_TITLE_HCA_DCP = "HCA Data Explorer";
+const APP_TITLE_LUNGMAP = "LungMAP Data Explorer";
+
 const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   const { config: siteConfig } = useConfig();
-  const isAnVIL = siteConfig.appTitle?.includes("AnVIL");
+  const isAnVIL = siteConfig.appTitle === APP_TITLE_ANVIL_CMG;
+  const isHcaDcp = siteConfig.appTitle === APP_TITLE_HCA_DCP;
+  const isLungMap = siteConfig.appTitle === APP_TITLE_LUNGMAP;
   const { query } = useRouter();
   if (!props.entityListType) return <></>;
   if (props.override) return <EntityGuard override={props.override} />;
@@ -81,7 +97,14 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
   }
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
   if (isExportMethodView(query)) return <EntityExportMethodView {...props} />;
-  return <EntityDetailView {...props} />;
+  return (
+    <>
+      {isAnVIL && renderJsonLd(props, "datasets", buildAnvilDatasetJsonLd)}
+      {isHcaDcp && renderJsonLd(props, "projects", buildHcaProjectJsonLd)}
+      {isLungMap && renderJsonLd(props, "projects", buildLungmapProjectJsonLd)}
+      <EntityDetailView {...props} />
+    </>
+  );
 };
 
 /**
@@ -250,11 +273,11 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
+export const getStaticProps: GetStaticProps<EntityDetailPageProps> = async ({
   params,
 }: GetStaticPropsContext) => {
   const appConfig = config();
-  const { entities } = appConfig;
+  const { browserURL, entities } = appConfig;
   const entityListType = (params as PageUrl).entityListType;
   const slug = (params as PageUrl).params;
   const entityConfig = getEntityConfig(entities, entityListType);
@@ -264,7 +287,12 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
 
   if (!entityConfig || !entityId) return { notFound: true };
 
-  const props: EntityDetailPageProps = { entityListType };
+  const { label } = entityConfig;
+  const props: EntityDetailPageProps = {
+    browserURL,
+    entityListType,
+    pageTitle: typeof label === "string" ? label : null,
+  };
 
   // Process entity override props.
   processEntityOverrideProps(entityConfig, entityListType, entityId, props);
@@ -280,12 +308,48 @@ export const getStaticProps: GetStaticProps<AzulEntityStaticResponse> = async ({
     props
   );
 
+  props.pageTitle = buildEntityPageTitle(
+    entityConfig,
+    props.data,
+    entityTab,
+    entityId
+  );
+
   return {
     props,
   };
 };
 
 export default EntityDetailPage;
+
+/**
+ * Builds the entity detail page title from the fetched entity data plus the
+ * active detail tab. Falls back to the entity id when no entity title is
+ * available.
+ * @param entityConfig - Entity config providing getTitle and tab definitions.
+ * @param data - Fetched entity data (may be undefined).
+ * @param entityTab - The active detail tab route.
+ * @param entityId - The entity id used as a fallback when no title is found.
+ * @returns Formatted page title.
+ */
+function buildEntityPageTitle(
+  entityConfig: EntityConfig,
+  data: AzulEntityStaticResponse["data"],
+  entityTab: string | undefined,
+  entityId: string
+): string {
+  const {
+    detail: { tabs },
+    getTitle,
+  } = entityConfig;
+
+  const entityTitle = getTitle?.(data);
+  const { label } = tabs.find(({ route }) => route === entityTab) || {};
+
+  const detailTitle = entityTitle || entityId;
+
+  return typeof label === "string" ? `${label} — ${detailTitle}` : detailTitle;
+}
 
 /**
  * Returns the catalog prefix for the given default catalog.
@@ -518,4 +582,24 @@ async function processEntityProps(
   if (entityResponse) {
     props.data = entityResponse;
   }
+}
+
+/**
+ * Renders a consumer-specific Schema.org Dataset JSON-LD script when the page
+ * matches the given entity list type and carries the data needed by the
+ * builder. Returns null otherwise.
+ * @param props - Entity detail page props.
+ * @param entityListType - The entity list type this builder applies to.
+ * @param build - Consumer-specific builder that maps detail data to a Dataset.
+ * @returns JsonLd element, or null when the page can't be described.
+ */
+function renderJsonLd<T>(
+  props: EntityDetailPageProps,
+  entityListType: string,
+  build: (data: T, browserURL: string) => SchemaDataset | undefined
+): JSX.Element | null {
+  if (props.entityListType !== entityListType) return null;
+  if (!props.browserURL || !props.data) return null;
+  const jsonLd = build(props.data as T, props.browserURL);
+  return jsonLd ? <JsonLd jsonLd={jsonLd} /> : null;
 }
