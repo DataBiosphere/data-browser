@@ -1,16 +1,21 @@
-import { OAuthProvider } from "@databiosphere/findable-ui/lib/config/entities";
+import {
+  OAUTH_FLOW,
+  OAuthProvider,
+} from "@databiosphere/findable-ui/lib/config/entities";
 import { GOOGLE_SIGN_IN_PROVIDER } from "@databiosphere/findable-ui/lib/google/config";
 import { GoogleProfile } from "@databiosphere/findable-ui/lib/google/types";
 
 import { OAUTH_GOOGLE_SIGN_IN } from "../../../common/authentication";
 
 const CLIENT_ID =
-  "1055427471534-r7j5sdnhv47cuq10nsdejrc0pajd1qqv.apps.googleusercontent.com";
+  "1055427471534-8ee4mhig5j40n6n366j7uul26bbbhp2p.apps.googleusercontent.com";
 
 export const GOOGLE_PROVIDER: OAuthProvider<GoogleProfile> = {
   ...GOOGLE_SIGN_IN_PROVIDER,
   ...OAUTH_GOOGLE_SIGN_IN,
+  authorize: "https://service.explore.anvilproject.org/user/authorize",
   clientId: CLIENT_ID,
+  flow: OAUTH_FLOW.AUTHORIZATION_CODE,
 };
 
 export const TERRA_SERVICE = {

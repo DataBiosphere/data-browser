@@ -104,8 +104,13 @@ describe("Dataset", () => {
     // Confirm export button is visible and click it.
     await clickLink(page, BUTTON_TEXT_EXPORT);
 
-    // Confirm file manifest export method is visible and click it.
-    await clickCard(page, TITLE_TEXT_REQUEST_FILE_MANIFEST);
+    // Click the file manifest card and wait for navigation in a single race —
+    // attaching the URL listener before the click avoids a Firefox-only flake
+    // where the SPA navigation completes before the listener can register.
+    await Promise.all([
+      page.waitForURL((url) => url.pathname.endsWith(ROUTES.MANIFEST_DOWNLOAD)),
+      clickCard(page, TITLE_TEXT_REQUEST_FILE_MANIFEST),
+    ]);
 
     // Confirm the file manifest page is loaded: check there is one button to request the manifest.
     const buttons = page.locator(`${MUI_CLASSES.BUTTON}`, {
@@ -143,8 +148,14 @@ describe("Dataset", () => {
     // Confirm export button is visible and click it.
     await clickLink(page, BUTTON_TEXT_EXPORT);
 
-    // Confirm Terra export method is visible and click it.
-    await clickCard(page, TITLE_TEXT_ANALYZE_IN_TERRA);
+    // Click the Terra card and wait for navigation in a single race — same
+    // defence as the manifest test above: attaching the URL listener before
+    // the click avoids a Firefox-only flake where the SPA navigation
+    // completes before the listener can register.
+    await Promise.all([
+      page.waitForURL((url) => url.pathname.endsWith(ROUTES.TERRA)),
+      clickCard(page, TITLE_TEXT_ANALYZE_IN_TERRA),
+    ]);
 
     // Confirm the analyze in Terra page is loaded: check for form elements.
     await expect(page.locator(MUI_CLASSES.FORM_CONTROL).first()).toBeVisible();
