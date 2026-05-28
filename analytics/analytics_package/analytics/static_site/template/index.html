@@ -555,7 +555,10 @@
             for (let i = 0; i < countCards.length; i += 2) {
                 const pair = countCards.slice(i, i + 2);
                 const rowLabel = pair[0].label.split('\n')[0];
-                html += `<h3 class="fui-heading-xsmall fui-grid-item-12">${escapeHtml(rowLabel)}</h3>`;
+                const sharedLabel = pair.every(c => c.label.split('\n')[0] === rowLabel);
+                if (sharedLabel) {
+                    html += `<h3 class="fui-heading-xsmall fui-grid-item-12">${escapeHtml(rowLabel)}</h3>`;
+                }
 
                 // Stat cards row
                 for (const card of pair) {
@@ -584,7 +587,8 @@
                     if (chartDataByKey[card.event_key] && chartDataByKey[card.event_key].length > 0) {
                         const canvasId = `event-trend-chart-${chartIndex++}`;
                         const parts = card.label.split('\n');
-                        const chartTitle = escapeHtml(rowLabel) + ' Over Time' + (parts[1] ? ` (${escapeHtml(parts[1].replace(/[()]/g, ''))})` : '');
+                        const cardLabel = parts[0];
+                        const chartTitle = escapeHtml(cardLabel) + ' Over Time' + (parts[1] ? ` (${escapeHtml(parts[1].replace(/[()]/g, ''))})` : '');
                         html += `
                             <div class="fui-card fui-grid-item-6">
                                 <div class="fui-card-header">
