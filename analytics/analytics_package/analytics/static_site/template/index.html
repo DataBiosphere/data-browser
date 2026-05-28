@@ -684,7 +684,7 @@
                         const fileTd = hasClickUrl ? `<td class="truncate">${escapeHtml(r.file_label || fileNameFromUrl(r.click_url))}</td>` : '';
                         return `<tr><td>${cell}</td>${fileTd}<td class="col-number">${formatNumber(r.count)}</td></tr>`;
                     }).join('');
-                    const fileHeader = hasClickUrl ? '<th>Atlas Name</th>' : '';
+                    const fileHeader = hasClickUrl ? '<th>Integrated Object</th>' : '';
                     tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th>${fileHeader}<th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
                 } else {
                     const rows = detail.map(r => {
