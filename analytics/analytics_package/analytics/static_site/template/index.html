@@ -870,7 +870,7 @@
 
         function renderFileDownloadsTable(downloads) {
             const card = document.getElementById('file-downloads-card');
-            if (!downloads || downloads.total == null) {
+            if (!downloads || !downloads.total) {
                 return;
             }
             card.style.display = '';
