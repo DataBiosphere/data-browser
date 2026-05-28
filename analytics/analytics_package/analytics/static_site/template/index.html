@@ -669,32 +669,19 @@
                 const hasClickUrl = detail.some(r => r.click_url);
                 const isEmpty = detail.length === 0;
 
-                function fileNameFromUrl(url) {
-                    if (!url) return '-';
-                    const parts = url.split('/');
-                    return parts[parts.length - 1] || url;
-                }
-
                 let tableContent;
                 if (isEmpty) {
                     tableContent = '<p class="fui-body-small-400 fui-color-ink-light">No data for this period</p>';
-                } else if (hasDatasetTitle && hasClickUrl) {
-                    const rows = detail.map(r => {
-                        const label = r.dataset_title || r.entity_name || r.page_path || '-';
-                        const link = r.page_path ? `${siteBase}${r.page_path.replace(/\/export.*/, '')}` : null;
-                        const cell = link ? `<a href="${safeHref(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>` : escapeHtml(label);
-                        const fileLabel = r.file_label || fileNameFromUrl(r.click_url);
-                        return `<tr><td>${cell}</td><td class="truncate">${escapeHtml(fileLabel)}</td><td class="col-number">${formatNumber(r.count)}</td></tr>`;
-                    }).join('');
-                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th><th>Atlas Name</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
                 } else if (hasDatasetTitle) {
                     const rows = detail.map(r => {
                         const label = r.dataset_title || r.entity_name || r.page_path || '-';
                         const link = r.page_path ? `${siteBase}${r.page_path.replace(/\/export.*/, '')}` : null;
                         const cell = link ? `<a href="${safeHref(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>` : escapeHtml(label);
-                        return `<tr><td>${cell}</td><td class="col-number">${formatNumber(r.count)}</td></tr>`;
+                        const fileTd = hasClickUrl ? `<td class="truncate">${escapeHtml(r.file_label || fileNameFromUrl(r.click_url))}</td>` : '';
+                        return `<tr><td>${cell}</td>${fileTd}<td class="col-number">${formatNumber(r.count)}</td></tr>`;
                     }).join('');
-                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
+                    const fileHeader = hasClickUrl ? '<th>Atlas Name</th>' : '';
+                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th>${fileHeader}<th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
                 } else {
                     const rows = detail.map(r => {
                         const raw = r.entity_name && r.entity_name !== '(not set)' ? r.entity_name : null;
@@ -977,6 +964,12 @@
                 const rowCount = table.querySelectorAll('tbody tr').length;
                 btn.textContent = `Show all ${rowCount} rows`;
             }
+        }
+
+        function fileNameFromUrl(url) {
+            if (!url) return '-';
+            const parts = url.split('/');
+            return parts[parts.length - 1] || url;
         }
 
         function formatChange(change) {
