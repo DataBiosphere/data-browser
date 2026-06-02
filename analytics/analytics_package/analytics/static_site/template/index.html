@@ -497,7 +497,8 @@
             const engagement = meta.engagement_rate || {};
 
             const usersChange = pctChange(latest.users, previous.users);
-            const engagedSessionsChange = pctChange(engagedSessions.current, engagedSessions.prior);
+            const sessionsSource = engagedSessions.current != null ? engagedSessions : sessions;
+            const engagedSessionsChange = pctChange(sessionsSource.current, sessionsSource.prior);
             const pageviewsChange = pctChange(latest.pageviews, previous.pageviews);
             const engagementChange = pctChange(engagement.current, engagement.prior);
 
