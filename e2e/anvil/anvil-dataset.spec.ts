@@ -262,7 +262,7 @@ async function goToDatasetWithDbGapId(page: Page): Promise<void> {
       }),
     })
     .filter({
-      has: page.locator(MUI_CLASSES.TABLE_CELL, { hasText: /^phs\d/ }),
+      has: page.locator(MUI_CLASSES.TABLE_CELL, { hasText: /phs\d/ }),
     })
     .first();
   await openDatasetFromRow(page, datasetRow);
