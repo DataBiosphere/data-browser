@@ -22,14 +22,16 @@ describe("Dataset", () => {
     await goToDatasetsList(page);
   });
 
-  test("displays request access button", async ({ page }) => {
-    // DUOS access is disabled (see RequestAccess/utils.ts), so the button only
-    // renders for datasets with a dbGaP identifier — pick one explicitly.
-    await goToDatasetWithDbGapId(page);
+  test("hides request access button when only duos would apply", async ({
+    page,
+  }) => {
+    // DUOS is disabled (see RequestAccess/utils.ts). The required-access sample
+    // in this catalog has no dbGaP identifier, so the button has no remaining
+    // options and should not render.
+    await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
 
-    // Confirm request access button is visible.
     const exportButton = getLinkWithText(page, BUTTON_TEXT_REQUEST_ACCESS);
-    await expect(exportButton).toBeVisible();
+    await expect(exportButton).toHaveCount(0);
   });
 
   test("displays export button", async ({ page }) => {
@@ -245,39 +247,6 @@ async function goToDataset(page: Page, access: DatasetAccess): Promise<void> {
       `${MUI_CLASSES.TABLE} ${MUI_CLASSES.TABLE_ROW}:has(${MUI_CLASSES.TABLE_CELL}:has-text("${access}"))`
     )
     .first();
-  await openDatasetFromRow(page, datasetRow);
-}
-
-/**
- * Select an access-required dataset with a dbGaP identifier and navigate to it.
- * dbGaP identifiers match `phs######` and appear in the Identifier column.
- * @param page - Playwright page object.
- */
-async function goToDatasetWithDbGapId(page: Page): Promise<void> {
-  const datasetRow = page
-    .locator(`${MUI_CLASSES.TABLE} ${MUI_CLASSES.TABLE_ROW}`)
-    .filter({
-      has: page.locator(MUI_CLASSES.TABLE_CELL, {
-        hasText: CHIP_TEXT_ACCESS_REQUIRED,
-      }),
-    })
-    .filter({
-      has: page.locator(MUI_CLASSES.TABLE_CELL, { hasText: /phs\d/ }),
-    })
-    .first();
-  await openDatasetFromRow(page, datasetRow);
-}
-
-/**
- * Click into a dataset from its row in the datasets list and wait for the
- * detail page to load.
- * @param page - Playwright page object.
- * @param datasetRow - Locator for the row to open.
- */
-async function openDatasetFromRow(
-  page: Page,
-  datasetRow: Locator
-): Promise<void> {
   await expect(datasetRow).toBeVisible(); // Confirm at least one dataset has been found.
   const datasetLink = datasetRow.locator(
     `${MUI_CLASSES.TABLE_CELL}:first-child a`
