@@ -110,7 +110,7 @@ pybtex-docutils==1.0.3
 pycparser==2.22
 pydata-sphinx-theme==0.15.4
 pyee==11.1.1
-Pygments==2.18.0
+Pygments==2.20.0
 pyparsing==3.1.4
 pyppeteer==2.0.0
 python-dateutil==2.9.0.post0
