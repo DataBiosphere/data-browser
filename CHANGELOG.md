@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.1](https://github.com/DataBiosphere/data-browser/compare/v3.4.0...v3.4.1) (2026-06-05)
+
+
+### Chores
+
+* update analytics to May 2026 ([#4860](https://github.com/DataBiosphere/data-browser/issues/4860)) ([310ff43](https://github.com/DataBiosphere/data-browser/commit/310ff43971f3e9b979e969c8636e3d53b26ee549))
+
 ## [3.4.0](https://github.com/DataBiosphere/data-browser/compare/v3.3.0...v3.4.0) (2026-06-04)
 
 
