@@ -489,11 +489,10 @@
             const previous = traffic[1] || {};
 
             const sessions = meta.sessions || {};
-            const engagedSessions = meta.engaged_sessions || {};
             const engagement = meta.engagement_rate || {};
 
             const usersChange = pctChange(latest.users, previous.users);
-            const engagedSessionsChange = pctChange(engagedSessions.current, engagedSessions.prior);
+            const sessionsChange = pctChange(sessions.current, sessions.prior);
             const pageviewsChange = pctChange(latest.pageviews, previous.pageviews);
             const engagementChange = pctChange(engagement.current, engagement.prior);
 
@@ -511,9 +510,9 @@
                     `Total number of unique individuals who visited your site during ${monthName}.`
                 ) +
                 statCard(
-                    formatNumber(engagedSessions.current != null ? engagedSessions.current : (sessions.current || 0)), 'Engaged Sessions',
-                    engagedSessionsChange,
-                    `Sessions where users actively engaged with your site during ${monthName} (stayed 10+ seconds, viewed 2+ pages, or triggered a conversion). <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`
+                    formatNumber(sessions.current || 0), 'User Sessions',
+                    sessionsChange,
+                    `Total number of visits to your site during ${monthName}. A single user can have multiple sessions.`
                 ) +
                 statCard(
                     formatNumber(latest.pageviews), 'Pageviews',
@@ -551,7 +550,10 @@
             for (let i = 0; i < countCards.length; i += 2) {
                 const pair = countCards.slice(i, i + 2);
                 const rowLabel = pair[0].label.split('\n')[0];
-                html += `<h3 class="fui-heading-xsmall fui-grid-item-12">${escapeHtml(rowLabel)}</h3>`;
+                const pairSharesLabel = pair.length > 1 && pair[1].label.split('\n')[0] === rowLabel;
+                if (pairSharesLabel) {
+                    html += `<h3 class="fui-heading-xsmall fui-grid-item-12">${escapeHtml(rowLabel)}</h3>`;
+                }
 
                 // Stat cards row
                 for (const card of pair) {
@@ -580,7 +582,8 @@
                     if (chartDataByKey[card.event_key] && chartDataByKey[card.event_key].length > 0) {
                         const canvasId = `event-trend-chart-${chartIndex++}`;
                         const parts = card.label.split('\n');
-                        const chartTitle = escapeHtml(rowLabel) + ' Over Time' + (parts[1] ? ` (${escapeHtml(parts[1].replace(/[()]/g, ''))})` : '');
+                        const cardLabel = parts[0];
+                        const chartTitle = escapeHtml(cardLabel) + ' Over Time' + (parts[1] ? ` (${escapeHtml(parts[1].replace(/[()]/g, ''))})` : '');
                         html += `
                             <div class="fui-card fui-grid-item-6">
                                 <div class="fui-card-header">
@@ -662,6 +665,7 @@
                 if (!detail) continue;
 
                 const hasDatasetTitle = detail.some(r => r.dataset_title);
+                const hasClickUrl = detail.some(r => r.click_url);
                 const isEmpty = detail.length === 0;
 
                 let tableContent;
@@ -672,9 +676,12 @@
                         const label = r.dataset_title || r.entity_name || r.page_path || '-';
                         const link = r.page_path ? `${siteBase}${r.page_path.replace(/\/export.*/, '')}` : null;
                         const cell = link ? `<a href="${safeHref(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>` : escapeHtml(label);
-                        return `<tr><td>${cell}</td><td class="col-number">${formatNumber(r.count)}</td></tr>`;
+                        const fileTd = hasClickUrl ? `<td class="truncate">${escapeHtml(r.file_label || fileNameFromUrl(r.click_url))}</td>` : '';
+                        return `<tr><td>${cell}</td>${fileTd}<td class="col-number">${formatNumber(r.count)}</td></tr>`;
                     }).join('');
-                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th><th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
+                    const fileColLabel = event.detail_file_column || 'File';
+                    const fileHeader = hasClickUrl ? `<th>${escapeHtml(fileColLabel)}</th>` : '';
+                    tableContent = `<table class="detail-table collapsible-table"><thead><tr><th>${escapeHtml(entityLabel)}</th>${fileHeader}<th class="col-number">Count</th></tr></thead><tbody>${rows}</tbody></table>`;
                 } else {
                     const rows = detail.map(r => {
                         const raw = r.entity_name && r.entity_name !== '(not set)' ? r.entity_name : null;
@@ -942,6 +949,18 @@
             } else {
                 const rowCount = table.querySelectorAll('tbody tr').length;
                 btn.textContent = `Show all ${rowCount} rows`;
+            }
+        }
+
+        function fileNameFromUrl(url) {
+            if (!url) return '-';
+            try {
+                const pathname = new URL(url).pathname.replace(/\/+$/, '');
+                const segments = pathname.split('/');
+                return decodeURIComponent(segments[segments.length - 1] || url);
+            } catch (e) {
+                const parts = url.split('/');
+                return parts[parts.length - 1] || url;
             }
         }
 
