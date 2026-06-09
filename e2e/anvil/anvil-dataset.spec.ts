@@ -22,12 +22,16 @@ describe("Dataset", () => {
     await goToDatasetsList(page);
   });
 
-  test("displays request access button", async ({ page }) => {
+  test("hides request access button when only duos would apply", async ({
+    page,
+  }) => {
+    // DUOS is disabled (see RequestAccess/utils.ts). The required-access sample
+    // in this catalog has no dbGaP identifier, so the button has no remaining
+    // options and should not render.
     await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
 
-    // Confirm request access button is visible.
     const exportButton = getLinkWithText(page, BUTTON_TEXT_REQUEST_ACCESS);
-    await expect(exportButton).toBeVisible();
+    await expect(exportButton).toHaveCount(0);
   });
 
   test("displays export button", async ({ page }) => {

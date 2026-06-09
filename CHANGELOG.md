@@ -1,5 +1,22 @@
 # Changelog
 
+## [3.4.0](https://github.com/DataBiosphere/data-browser/compare/v3.3.0...v3.4.0) (2026-06-04)
+
+
+### Features
+
+* add bot traffic filtering and engaged sessions metric to static analytics ([#4838](https://github.com/DataBiosphere/data-browser/issues/4838)) ([3950183](https://github.com/DataBiosphere/data-browser/commit/3950183e786d636b387228c4be4be9879627da9f))
+
+
+### Bug Fixes
+
+* hca-dcp matrices tab honours project access gating ([#4858](https://github.com/DataBiosphere/data-browser/issues/4858)) ([#4859](https://github.com/DataBiosphere/data-browser/issues/4859)) ([aaaddc5](https://github.com/DataBiosphere/data-browser/commit/aaaddc510034f703fce93409787f60aa64712ef3))
+
+
+### Chores
+
+* disable duos access request option for anvil datasets ([#4855](https://github.com/DataBiosphere/data-browser/issues/4855)) ([#4856](https://github.com/DataBiosphere/data-browser/issues/4856)) ([4d15705](https://github.com/DataBiosphere/data-browser/commit/4d15705a3aaa83bdd99ddee7133ee317ed8f1a64))
+
 ## [3.3.0](https://github.com/DataBiosphere/data-browser/compare/v3.2.0...v3.3.0) (2026-05-26)
 
 

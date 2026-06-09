@@ -7,6 +7,9 @@ import {
 } from "../../../../../../apis/azul/common/utils";
 import { takeArrayValueAt } from "../../../../../../viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
+// DUOS access requests temporarily disabled (#4855); flip to true to re-enable.
+const DUOS_ENABLED = false;
+
 /**
  * Generates a list of request access menu options based on the provided dataset response.
  * This function extracts identifiers (DUOS ID and dbGaP ID) from the datasets response and returns an array of menu option objects.
@@ -32,7 +35,7 @@ export function getRequestAccessOptions(
     LABEL.EMPTY
   );
   const options = [];
-  if (duosId) {
+  if (DUOS_ENABLED && duosId) {
     // If a DUOS ID is present, add a menu option for DUOS.
     options.push({
       href: `https://duos.org/dataset/${duosId}`,

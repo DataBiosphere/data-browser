@@ -22,6 +22,27 @@ METRIC_ENGAGEMENT_RATE = {
     "alias": "Engagement Rate",
 }
 
+METRIC_ENGAGED_SESSIONS = {
+    "id": "engagedSessions",
+    "alias": "Engaged Sessions",
+}
+
+# Regex matching page paths that are clearly not real pages (bot probes,
+# broken markdown links, asset requests, etc.).
+SUSPICIOUS_PAGE_PATH_RE = re.compile(
+    r"("
+    r"^/?\].*"             # broken markdown links e.g. /](https://...)
+    r"|.*https?://.*"      # concatenated URLs e.g. /overview/securityhttps://...
+    r"|^/[^/]*@[^/]*"     # email-as-path e.g. /help@lists...
+    r"|^//.*"              # double-slash probes e.g. //checkout/
+    r"|^/[^/]*\.[^/]+$"   # file extensions at root e.g. /robots.txt, /favicon-32x32.png
+    r"|^/feed$"            # RSS probes
+    r"|^/\).*"             # broken parens e.g. /), /).
+    r"|^/[^/]*\).*"       # broken parens e.g. /events)
+    r"|^/docs(-\w+)?/"     # CMS probes e.g. /docs/, /docs-EN/
+    r")"
+)
+
 
 def event_key(event):
     """Return the unique key for a custom event config dict."""
@@ -351,6 +372,14 @@ def fetch_data(
         df_pageviews = df_pageviews[~df_pageviews[page_col].isin(exclude_pages)]
         print(f"  Excluded {len(exclude_pages)} page(s) from pageviews")
 
+    if df_pageviews is not None and len(df_pageviews) > 0:
+        page_col = DIMENSION_PAGE_PATH["alias"]
+        suspicious_mask = df_pageviews[page_col].str.match(SUSPICIOUS_PAGE_PATH_RE, na=False)
+        n_suspicious = suspicious_mask.sum()
+        if n_suspicious > 0:
+            df_pageviews = df_pageviews[~suspicious_mask]
+            print(f"  Filtered {n_suspicious} suspicious page path(s)")
+
     print("Fetching outbound links data...")
     df_outbound = elements.get_outbound_links_change(
         params, start_date_current, end_date_current, start_date_prior, end_date_prior,
@@ -367,13 +396,15 @@ def fetch_data(
 
     print("Fetching sessions and engagement data...")
     df_sessions_current = get_data_df_from_fields(
-        [METRIC_SESSIONS, METRIC_ENGAGEMENT_RATE], [], **params,
+        [METRIC_SESSIONS, METRIC_ENGAGED_SESSIONS, METRIC_ENGAGEMENT_RATE], [], **params,
     )
     df_sessions_prior = get_data_df_from_fields(
-        [METRIC_SESSIONS, METRIC_ENGAGEMENT_RATE], [], **params_prior,
+        [METRIC_SESSIONS, METRIC_ENGAGED_SESSIONS, METRIC_ENGAGEMENT_RATE], [], **params_prior,
     )
     sessions_current = int(df_sessions_current[METRIC_SESSIONS["alias"]].sum()) if len(df_sessions_current) > 0 else 0
     sessions_prior = int(df_sessions_prior[METRIC_SESSIONS["alias"]].sum()) if len(df_sessions_prior) > 0 else 0
+    engaged_sessions_current = int(df_sessions_current[METRIC_ENGAGED_SESSIONS["alias"]].sum()) if len(df_sessions_current) > 0 else 0
+    engaged_sessions_prior = int(df_sessions_prior[METRIC_ENGAGED_SESSIONS["alias"]].sum()) if len(df_sessions_prior) > 0 else 0
     engagement_current = float(df_sessions_current[METRIC_ENGAGEMENT_RATE["alias"]].mean()) if len(df_sessions_current) > 0 else 0
     engagement_prior = float(df_sessions_prior[METRIC_ENGAGEMENT_RATE["alias"]].mean()) if len(df_sessions_prior) > 0 else 0
 
@@ -408,6 +439,10 @@ def fetch_data(
         "sessions": {
             "current": sessions_current,
             "prior": sessions_prior,
+        },
+        "engaged_sessions": {
+            "current": engaged_sessions_current,
+            "prior": engaged_sessions_prior,
         },
         "engagement_rate": {
             "current": engagement_current,

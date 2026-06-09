@@ -211,6 +211,7 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
         "prior_month_end": dates.get("end_prior", ""),
         "analytics_start": analytics_start,
         "sessions": data.get("sessions", {}),
+        "engaged_sessions": data.get("engaged_sessions", {}),
         "engagement_rate": data.get("engagement_rate", {}),
     }
 
