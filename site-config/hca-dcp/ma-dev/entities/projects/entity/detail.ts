@@ -1,7 +1,7 @@
 import { EntityConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { PROJECT_ENTITY_ROUTE } from "./routes";
 import { EXPORT } from "./tab/export";
-import { mainColumn as matricesMainColumn } from "./tab/matricesMainColumn";
+import { MATRICES } from "./tab/matrices";
 import { METADATA } from "./tab/metadata";
 import { mainColumn as overviewMainColumn } from "./tab/overviewMainColumn";
 import { sideColumn as overviewSideColumn } from "./tab/overviewSideColumn";
@@ -25,7 +25,7 @@ export const DETAIL: EntityConfig["detail"] = {
     },
     {
       label: "Matrices",
-      mainColumn: matricesMainColumn,
+      mainColumn: MATRICES,
       route: PROJECT_ENTITY_ROUTE.PROJECT_MATRICES,
     },
     {

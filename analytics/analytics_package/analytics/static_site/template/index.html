@@ -489,10 +489,11 @@
             const previous = traffic[1] || {};
 
             const sessions = meta.sessions || {};
+            const engagedSessions = meta.engaged_sessions || {};
             const engagement = meta.engagement_rate || {};
 
             const usersChange = pctChange(latest.users, previous.users);
-            const sessionsChange = pctChange(sessions.current, sessions.prior);
+            const engagedSessionsChange = pctChange(engagedSessions.current, engagedSessions.prior);
             const pageviewsChange = pctChange(latest.pageviews, previous.pageviews);
             const engagementChange = pctChange(engagement.current, engagement.prior);
 
@@ -510,9 +511,9 @@
                     `Total number of unique individuals who visited your site during ${monthName}.`
                 ) +
                 statCard(
-                    formatNumber(sessions.current || 0), 'User Sessions',
-                    sessionsChange,
-                    `Total number of visits to your site during ${monthName}. A single user can have multiple sessions.`
+                    formatNumber(engagedSessions.current != null ? engagedSessions.current : (sessions.current || 0)), 'Engaged Sessions',
+                    engagedSessionsChange,
+                    `Sessions where users actively engaged with your site during ${monthName} (stayed 10+ seconds, viewed 2+ pages, or triggered a conversion). <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`
                 ) +
                 statCard(
                     formatNumber(latest.pageviews), 'Pageviews',
