@@ -2,36 +2,24 @@
   {
     "filterName": "genusSpecies",
     "filterValue": "Mus musculus",
-    "count": 5,
-    "change": 0.7222222222222221
+    "count": 3,
+    "change": -0.4193548387096775
   },
   {
     "filterName": "projectTitle",
-    "filterValue": "Bronchopulmonary dysplasia (BPD) with pulmonary hypertension associates with semaphorin signaling lo",
-    "count": 3,
+    "filterValue": "Guided construction of a single cell reference (CellRef) for mouse lung",
+    "count": 2,
     "change": null
   },
   {
-    "filterName": "genusSpecies",
-    "filterValue": "Homo sapiens",
+    "filterName": "specimenDisease",
+    "filterValue": "idiopathic pulmonary fibrosis",
     "count": 2,
-    "change": 1.0666666666666664
-  },
-  {
-    "filterName": "specimenOrgan",
-    "filterValue": "Lung",
-    "count": 2,
-    "change": 0.033333333333333215
-  },
-  {
-    "filterName": "contactName",
-    "filterValue": "Nicholas Banovich",
-    "count": 1,
     "change": null
   },
   {
     "filterName": "contactName",
-    "filterValue": "Nicholas E. Banovich",
+    "filterValue": "Xin Sun",
     "count": 1,
     "change": null
   },
@@ -39,125 +27,155 @@
     "filterName": "developmentStage",
     "filterValue": "human adult stage",
     "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "donorDisease",
-    "filterValue": "acute lung injury",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "donorDisease",
-    "filterValue": "bronchopulmonary dysplasia",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "donorDisease",
-    "filterValue": "normal",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "fileFormat",
-    "filterValue": "h5ad",
-    "count": 1,
-    "change": 0.033333333333333215
-  },
-  {
-    "filterName": "fileSource",
-    "filterValue": "LungMAP",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "Bronchpulmonary Dysplasia (BPD)",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "Bulk RNA-Seq of Rabbit Lung Development and Premature Delivery to Model BPD",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "Human Lung Reference Cell Atlas version 1.0",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "Human Pediatric Developmental Epochs",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "Lung Spatial Xenium Pilot of Control Segmental Bronchus with Bronchpulmonary Dysplasia (BPD) Sample",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "contactName",
-    "filterValue": "Edward E Morrisey",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "contactName",
-    "filterValue": "Edward E. Morrisey",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "developmentStage",
-    "filterValue": "embryonic day 18.5",
-    "count": 0,
-    "change": -1.0
+    "change": -0.032258064516129115
   },
   {
     "filterName": "donorDisease",
     "filterValue": "chronic obstructive pulmonary disease",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "idiopathic pulmonary fibrosis",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "influenza A (H1N1)",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "lung disease",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "genusSpecies",
+    "filterValue": "Homo sapiens",
+    "count": 1,
+    "change": -0.5161290322580645
+  },
+  {
+    "filterName": "modelOrgan",
+    "filterValue": "null",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "nucleicAcidSource",
+    "filterValue": "single cell",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "projectTitle",
+    "filterValue": "A scRNA-Seq atlas of human interstitial lung disease (ILD)",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "projectTitle",
+    "filterValue": "Bronchopulmonary dysplasia (BPD) with pulmonary hypertension associates with semaphorin signaling lo",
+    "count": 1,
+    "change": -0.6774193548387097
+  },
+  {
+    "filterName": "projectTitle",
+    "filterValue": "Single Cell Sequence Analysis of Newborn Human Lung",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "selectedCellType",
+    "filterValue": "epithelial cell of lung",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "selectedCellType",
+    "filterValue": "null",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "specimenOrgan",
+    "filterValue": "Lung",
+    "count": 1,
+    "change": -0.5161290322580645
+  },
+  {
+    "filterName": "contactName",
+    "filterValue": "Nicholas Banovich",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "contactName",
+    "filterValue": "Nicholas E. Banovich",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "donorDisease",
-    "filterValue": "idiopathic pulmonary fibrosis",
+    "filterValue": "acute lung injury",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "bronchopulmonary dysplasia",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "normal",
     "count": 0,
     "change": -1.0
   },
   {
     "filterName": "fileFormat",
-    "filterValue": "xlsx",
+    "filterValue": "h5ad",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "institution",
-    "filterValue": "University of Rochester",
+    "filterName": "fileSource",
+    "filterValue": "LungMAP",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "institution",
-    "filterValue": "University of Rochester Medical Center",
+    "filterName": "projectTitle",
+    "filterValue": "Bronchpulmonary Dysplasia (BPD)",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "workflow",
-    "filterValue": "059d737a-5c42-457e-84d2-d12f384a1bd5",
+    "filterName": "projectTitle",
+    "filterValue": "Bulk RNA-Seq of Rabbit Lung Development and Premature Delivery to Model BPD",
     "count": 0,
     "change": -1.0
   },
   {
-    "filterName": "workflow",
-    "filterValue": "90816808-a5f4-4d50-927f-b3f148c891ae",
+    "filterName": "projectTitle",
+    "filterValue": "Human Lung Reference Cell Atlas version 1.0",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "projectTitle",
+    "filterValue": "Human Pediatric Developmental Epochs",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "projectTitle",
+    "filterValue": "Lung Spatial Xenium Pilot of Control Segmental Bronchus with Bronchpulmonary Dysplasia (BPD) Sample",
     "count": 0,
     "change": -1.0
   }

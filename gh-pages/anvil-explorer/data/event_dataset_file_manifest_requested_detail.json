@@ -1,14 +1,32 @@
 [
   {
+    "page_path": "/datasets/1426a206-fcb1-4a07-9b47-32f06ef8cf8d/export/download-manifest",
+    "entity_name": "(not set)",
+    "count": 3,
+    "dataset_title": "ANVIL_T2T_CHRY"
+  },
+  {
+    "page_path": "/datasets/0b740f36-28d6-4e02-8165-ad0e9674bbf6/export/download-manifest",
+    "entity_name": "(not set)",
+    "count": 1,
+    "dataset_title": "ANVIL_NIA_CARD_LR_WGS_NABEC_GRU"
+  },
+  {
     "page_path": "/datasets/303b5a92-57c8-4df2-8331-8ff308f21293/export/download-manifest",
     "entity_name": "(not set)",
-    "count": 4,
+    "count": 1,
     "dataset_title": "ANVIL_1000G_PRIMED_data_model"
   },
   {
     "page_path": "/datasets/b9ff5c04-4dd0-4764-b189-e9cfe49b3063/export/download-manifest",
     "entity_name": "(not set)",
-    "count": 2,
+    "count": 1,
     "dataset_title": "ANVIL_GTEx_v11_hg38"
+  },
+  {
+    "page_path": "/datasets/fe7091a5-0784-471a-8e12-84aa686215db/export/download-manifest",
+    "entity_name": "(not set)",
+    "count": 1,
+    "dataset_title": "ANVIL_GTEx_V8_hg38"
   }
 ]
