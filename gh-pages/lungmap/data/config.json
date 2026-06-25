@@ -32,7 +32,7 @@
       "event_key": "dataset_analyze_in_terra_requested"
     },
     {
-      "label": "Export to Terra\n(Cross-Dataset)",
+      "label": "Export to Terra\n(Cross-Project)",
       "event_key": "index_analyze_in_terra_requested"
     },
     {
@@ -40,7 +40,7 @@
       "event_key": "dataset_bulk_download_requested"
     },
     {
-      "label": "curl Command\n(Cross-Dataset)",
+      "label": "curl Command\n(Cross-Project)",
       "event_key": "index_bulk_download_requested"
     },
     {
@@ -48,7 +48,7 @@
       "event_key": "dataset_file_manifest_requested"
     },
     {
-      "label": "File Manifest\n(Cross-Dataset)",
+      "label": "File Manifest\n(Cross-Project)",
       "event_key": "index_file_manifest_requested"
     }
   ]
