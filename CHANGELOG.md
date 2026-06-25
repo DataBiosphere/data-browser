@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.4.1](https://github.com/DataBiosphere/data-browser/compare/v3.4.0...v3.4.1) (2026-06-25)
+
+
+### Chores
+
+* make dcp60 the default catalog on hca ([#4871](https://github.com/DataBiosphere/data-browser/issues/4871)) ([a0e9d87](https://github.com/DataBiosphere/data-browser/commit/a0e9d874549e471e31114989252a888a61df086b))
+* make dcp60 the default catalog on hca [#4869](https://github.com/DataBiosphere/data-browser/issues/4869) ([a0e9d87](https://github.com/DataBiosphere/data-browser/commit/a0e9d874549e471e31114989252a888a61df086b))
+* update analytics to May 2026 ([#4860](https://github.com/DataBiosphere/data-browser/issues/4860)) ([310ff43](https://github.com/DataBiosphere/data-browser/commit/310ff43971f3e9b979e969c8636e3d53b26ee549))
+
 ## [3.4.0](https://github.com/DataBiosphere/data-browser/compare/v3.3.0...v3.4.0) (2026-06-04)
 
 
