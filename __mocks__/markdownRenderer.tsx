@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 /**
  * Mock implementation of findable-ui's MarkdownRenderer for tests.
  * findable-ui's MarkdownRenderer pulls in the ESM-only remark / rehype /
@@ -5,4 +7,6 @@
  * `transpilePackages` are transpiled). No unit test renders markdown, so a
  * lightweight stub keeps that ESM chain out of the jest module graph.
  */
-export const MarkdownRenderer = jest.fn(({ value }) => <div>{value}</div>);
+export const MarkdownRenderer = jest.fn(
+  ({ value }: { value?: string }): JSX.Element => <div>{value}</div>
+);

@@ -19,9 +19,9 @@ function MyDocument(props: DocumentProps & DocumentHeadTagsProps): JSX.Element {
       <Head>
         <DocumentHeadTags {...props} />
         {/* TODO render script for enableAuthorization only.
-         Using async defer would cause intermittent errors loding the gsi client script.
+         Using async defer would cause intermittent errors loading the gsi client script.
           using beforeInteractive did work but there may be a bug that is fixed
-        an a later version. */}
+        in a later version. */}
         {/* TODO self host fonts */}
         {/* TODO only load fonts required for the app being built */}
         <script src="https://accounts.google.com/gsi/client" defer></script>
