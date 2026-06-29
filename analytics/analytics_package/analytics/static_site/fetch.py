@@ -24,8 +24,6 @@ METRIC_ENGAGEMENT_RATE = {
 
 # Regex matching page paths that are clearly not real pages (bot probes,
 # broken markdown links, asset requests, etc.).
-_ENTITY_PATH_RE = re.compile(r"^(/[^/]+/[0-9a-f-]+).*", re.IGNORECASE)
-
 SUSPICIOUS_PAGE_PATH_RE = re.compile(
     r"("
     r"^/?\].*"             # broken markdown links e.g. /](https://...)
@@ -39,6 +37,8 @@ SUSPICIOUS_PAGE_PATH_RE = re.compile(
     r"|^/docs(-\w+)?/"     # CMS probes e.g. /docs/, /docs-EN/
     r")"
 )
+
+_ENTITY_PATH_RE = re.compile(r"^(/[^/]+/[0-9a-f-]+).*", re.IGNORECASE)
 
 
 def event_key(event):
