@@ -24,6 +24,8 @@ METRIC_ENGAGEMENT_RATE = {
 
 # Regex matching page paths that are clearly not real pages (bot probes,
 # broken markdown links, asset requests, etc.).
+_ENTITY_PATH_RE = re.compile(r"^(/[^/]+/[0-9a-f-]+).*", re.IGNORECASE)
+
 SUSPICIOUS_PAGE_PATH_RE = re.compile(
     r"("
     r"^/?\].*"             # broken markdown links e.g. /](https://...)
@@ -190,6 +192,8 @@ def get_access_requests(params, url_patterns):
     result = df[[DIMENSION_PAGE_PATH["alias"], url_col, METRIC_EVENT_COUNT["alias"]]].copy()
     result.columns = ["page_path", "click_url", "count"]
     result["count"] = result["count"].astype(int)
+    # Normalize page paths to entity base path (e.g., /projects/UUID/sub-page -> /projects/UUID).
+    result["page_path"] = result["page_path"].str.replace(_ENTITY_PATH_RE, r"\1", regex=True)
     result = result.groupby(["page_path", "click_url"], as_index=False)["count"].sum()
     result = result.sort_values("count", ascending=False)
     return result.to_dict(orient="records")
