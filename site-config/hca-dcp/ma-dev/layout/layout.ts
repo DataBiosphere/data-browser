@@ -1,5 +1,5 @@
 import { SiteConfig } from "../../../common/entities";
-import { FLOATING } from "./floating";
+import { getFloating } from "./floating";
 import { getFooter } from "./footer";
 import { getHeader } from "./header";
 
@@ -14,7 +14,7 @@ export function getLayout(
   portalUrl: string
 ): SiteConfig["layout"] {
   return {
-    floating: FLOATING,
+    floating: getFloating(portalUrl),
     footer: getFooter(portalUrl),
     header: getHeader(appTitle, portalUrl),
   };
