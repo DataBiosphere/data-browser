@@ -15,11 +15,15 @@
             {
               "month": "2026-04",
               "count": 2
+            },
+            {
+              "month": "2026-05",
+              "count": 1
             }
           ]
         },
         {
-          "label": "Cross-Dataset",
+          "label": "Cross-Project",
           "event_key": "index_analyze_in_terra_requested",
           "data": [
             {
@@ -28,6 +32,10 @@
             },
             {
               "month": "2026-04",
+              "count": 0
+            },
+            {
+              "month": "2026-05",
               "count": 0
             }
           ]
@@ -48,11 +56,15 @@
             {
               "month": "2026-04",
               "count": 14
+            },
+            {
+              "month": "2026-05",
+              "count": 15
             }
           ]
         },
         {
-          "label": "Cross-Dataset",
+          "label": "Cross-Project",
           "event_key": "index_bulk_download_requested",
           "data": [
             {
@@ -61,6 +73,10 @@
             },
             {
               "month": "2026-04",
+              "count": 0
+            },
+            {
+              "month": "2026-05",
               "count": 0
             }
           ]
@@ -81,11 +97,15 @@
             {
               "month": "2026-04",
               "count": 2
+            },
+            {
+              "month": "2026-05",
+              "count": 3
             }
           ]
         },
         {
-          "label": "Cross-Dataset",
+          "label": "Cross-Project",
           "event_key": "index_file_manifest_requested",
           "data": [
             {
@@ -94,6 +114,10 @@
             },
             {
               "month": "2026-04",
+              "count": 0
+            },
+            {
+              "month": "2026-05",
               "count": 0
             }
           ]
