@@ -22,11 +22,6 @@ METRIC_ENGAGEMENT_RATE = {
     "alias": "Engagement Rate",
 }
 
-METRIC_ENGAGED_SESSIONS = {
-    "id": "engagedSessions",
-    "alias": "Engaged Sessions",
-}
-
 # Regex matching page paths that are clearly not real pages (bot probes,
 # broken markdown links, asset requests, etc.).
 SUSPICIOUS_PAGE_PATH_RE = re.compile(
@@ -49,11 +44,13 @@ def event_key(event):
     return event.get("key", event["event_name"])
 
 
-def _count_events(event_name, params, page_path_regex=None):
-    """Fetch event count, optionally filtered by page path regex."""
+def _count_events(event_name, params, page_path_regex=None, click_url_regex=None):
+    """Fetch event count, optionally filtered by page path and/or click URL regex."""
     dimensions = [DIMENSION_EVENT_NAME]
     if page_path_regex:
         dimensions.append(DIMENSION_PAGE_PATH)
+    if click_url_regex:
+        dimensions.append(DIMENSION_CUSTOM_URL)
 
     df = get_data_df_from_fields(
         [METRIC_EVENT_COUNT],
@@ -66,14 +63,15 @@ def _count_events(event_name, params, page_path_regex=None):
         return 0
 
     if page_path_regex:
-        pattern = re.compile(page_path_regex)
-        mask = df[DIMENSION_PAGE_PATH["alias"]].str.match(pattern, na=False)
-        return int(df.loc[mask, METRIC_EVENT_COUNT["alias"]].sum())
+        df = df[df[DIMENSION_PAGE_PATH["alias"]].str.match(page_path_regex, na=False)]
+
+    if click_url_regex:
+        df = df[df[DIMENSION_CUSTOM_URL["alias"]].str.contains(click_url_regex, na=False)]
 
     return int(df[METRIC_EVENT_COUNT["alias"]].sum())
 
 
-def get_custom_event_change(event_name, params_current, params_prior, page_path_regex=None):
+def get_custom_event_change(event_name, params_current, params_prior, page_path_regex=None, click_url_regex=None):
     """Fetch a custom event count with month-over-month change.
 
     Args:
@@ -81,12 +79,13 @@ def get_custom_event_change(event_name, params_current, params_prior, page_path_
         params_current: Analytics params for the current period.
         params_prior: Analytics params for the prior period.
         page_path_regex: Optional regex to filter by page path.
+        click_url_regex: Optional regex to filter by click URL.
 
     Returns:
         Dict with "current", "prior", and "change" keys.
     """
-    current_count = _count_events(event_name, params_current, page_path_regex)
-    prior_count = _count_events(event_name, params_prior, page_path_regex)
+    current_count = _count_events(event_name, params_current, page_path_regex, click_url_regex)
+    prior_count = _count_events(event_name, params_prior, page_path_regex, click_url_regex)
 
     change = None
     if prior_count > 0:
@@ -95,21 +94,26 @@ def get_custom_event_change(event_name, params_current, params_prior, page_path_
     return {"current": current_count, "prior": prior_count, "change": change}
 
 
-def get_event_detail_table(event_name, params, page_path_regex=None):
+def get_event_detail_table(event_name, params, page_path_regex=None, click_url_regex=None):
     """Fetch event details broken down by page path and entity name.
 
     Args:
         event_name: GA4 event name.
         params: Analytics params for the period.
         page_path_regex: Optional regex to filter by page path.
+        click_url_regex: Optional regex to filter by click URL.
 
     Returns:
         List of dicts with "page_path", "entity_name", and "count" keys,
-        sorted by count descending.
+        sorted by count descending. Includes "click_url" when click_url_regex is used.
     """
+    dimensions = [DIMENSION_EVENT_NAME, DIMENSION_PAGE_PATH, DIMENSION_ENTITY_NAME]
+    if click_url_regex:
+        dimensions.append(DIMENSION_CUSTOM_URL)
+
     df = get_data_df_from_fields(
         [METRIC_EVENT_COUNT],
-        [DIMENSION_EVENT_NAME, DIMENSION_PAGE_PATH, DIMENSION_ENTITY_NAME],
+        dimensions,
         dimension_filter=f"eventName=={event_name}",
         **params,
     )
@@ -118,14 +122,25 @@ def get_event_detail_table(event_name, params, page_path_regex=None):
         return []
 
     if page_path_regex:
-        pattern = re.compile(page_path_regex)
-        df = df[df[DIMENSION_PAGE_PATH["alias"]].str.match(pattern, na=False)]
+        df = df[df[DIMENSION_PAGE_PATH["alias"]].str.match(page_path_regex, na=False)]
+
+    if click_url_regex:
+        df = df[df[DIMENSION_CUSTOM_URL["alias"]].str.contains(click_url_regex, na=False)]
 
     if len(df) == 0:
         return []
 
-    result = df[[DIMENSION_PAGE_PATH["alias"], DIMENSION_ENTITY_NAME["alias"], METRIC_EVENT_COUNT["alias"]]].copy()
-    result.columns = ["page_path", "entity_name", "count"]
+    export_cols = [DIMENSION_PAGE_PATH["alias"], DIMENSION_ENTITY_NAME["alias"]]
+    output_names = ["page_path", "entity_name"]
+    if click_url_regex:
+        export_cols.append(DIMENSION_CUSTOM_URL["alias"])
+        output_names.append("click_url")
+    export_cols.append(METRIC_EVENT_COUNT["alias"])
+    output_names.append("count")
+
+    result = df[export_cols].copy()
+    result.columns = output_names
+    result["count"] = result["count"].astype(int)
     result = result.sort_values("count", ascending=False)
     return result.to_dict(orient="records")
 
@@ -396,15 +411,13 @@ def fetch_data(
 
     print("Fetching sessions and engagement data...")
     df_sessions_current = get_data_df_from_fields(
-        [METRIC_SESSIONS, METRIC_ENGAGED_SESSIONS, METRIC_ENGAGEMENT_RATE], [], **params,
+        [METRIC_SESSIONS, METRIC_ENGAGEMENT_RATE], [], **params,
     )
     df_sessions_prior = get_data_df_from_fields(
-        [METRIC_SESSIONS, METRIC_ENGAGED_SESSIONS, METRIC_ENGAGEMENT_RATE], [], **params_prior,
+        [METRIC_SESSIONS, METRIC_ENGAGEMENT_RATE], [], **params_prior,
     )
     sessions_current = int(df_sessions_current[METRIC_SESSIONS["alias"]].sum()) if len(df_sessions_current) > 0 else 0
     sessions_prior = int(df_sessions_prior[METRIC_SESSIONS["alias"]].sum()) if len(df_sessions_prior) > 0 else 0
-    engaged_sessions_current = int(df_sessions_current[METRIC_ENGAGED_SESSIONS["alias"]].sum()) if len(df_sessions_current) > 0 else 0
-    engaged_sessions_prior = int(df_sessions_prior[METRIC_ENGAGED_SESSIONS["alias"]].sum()) if len(df_sessions_prior) > 0 else 0
     engagement_current = float(df_sessions_current[METRIC_ENGAGEMENT_RATE["alias"]].mean()) if len(df_sessions_current) > 0 else 0
     engagement_prior = float(df_sessions_prior[METRIC_ENGAGEMENT_RATE["alias"]].mean()) if len(df_sessions_prior) > 0 else 0
 
@@ -440,10 +453,6 @@ def fetch_data(
             "current": sessions_current,
             "prior": sessions_prior,
         },
-        "engaged_sessions": {
-            "current": engaged_sessions_current,
-            "prior": engaged_sessions_prior,
-        },
         "engagement_rate": {
             "current": engagement_current,
             "prior": engagement_prior,
@@ -470,12 +479,14 @@ def fetch_data(
         data[f"event_{key}"] = get_custom_event_change(
             event["event_name"], params, params_prior,
             page_path_regex=event.get("page_path_regex"),
+            click_url_regex=event.get("click_url_regex"),
         )
         if event.get("detail_table"):
             print(f"Fetching {event['label']} detail table...")
             data[f"event_{key}_detail"] = get_event_detail_table(
                 event["event_name"], params,
                 page_path_regex=event.get("page_path_regex"),
+                click_url_regex=event.get("click_url_regex"),
             )
 
     if event_charts:

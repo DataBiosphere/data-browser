@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-05-20 14:20:31",
-  "current_month": "2026-04",
-  "current_month_start": "2026-04-01",
-  "current_month_end": "2026-04-30",
-  "prior_month_start": "2026-03-01",
-  "prior_month_end": "2026-03-31",
+  "generated_at": "2026-06-04 12:48:30",
+  "current_month": "2026-05",
+  "current_month_start": "2026-05-01",
+  "current_month_end": "2026-05-31",
+  "prior_month_start": "2026-04-01",
+  "prior_month_end": "2026-04-30",
   "analytics_start": "2023-07-01",
   "sessions": {
-    "current": 325,
-    "prior": 312
+    "current": 329,
+    "prior": 325
   },
   "engagement_rate": {
-    "current": 0.5076923076923077,
-    "prior": 0.4967948717948718
+    "current": 0.4072948328267477,
+    "prior": 0.5076923076923077
   }
 }

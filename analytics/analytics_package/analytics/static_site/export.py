@@ -148,11 +148,14 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
     for event in custom_events:
         key = event_key(event)
         stats = data.get(f"event_{key}", {"current": 0, "prior": 0, "change": None})
-        events_output.append({
+        event_entry = {
             "event_name": key,
             "label": event["label"],
             **stats,
-        })
+        }
+        if event.get("detail_file_column"):
+            event_entry["detail_file_column"] = event["detail_file_column"]
+        events_output.append(event_entry)
 
     with open(os.path.join(output_dir, "custom_events.json"), "w") as f:
         json.dump(events_output, f, indent=2)
@@ -211,7 +214,6 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
         "prior_month_end": dates.get("end_prior", ""),
         "analytics_start": analytics_start,
         "sessions": data.get("sessions", {}),
-        "engaged_sessions": data.get("engaged_sessions", {}),
         "engagement_rate": data.get("engagement_rate", {}),
     }
 
