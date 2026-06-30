@@ -412,6 +412,7 @@ export function buildDatasetExportHero(
   return {
     breadcrumbs: [
       ...buildDatasetExportBreadcrumbs(datasetsResponse),
+
       { path: "", text: "Choose Export Method" },
     ],
     title: getDatasetTitle(datasetsResponse),
@@ -513,6 +514,7 @@ export const buildDatasetExportMethodTerra = (
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     icon: <ExportIcon alt="Terra" src="/export/terra.webp" width={24} />,
     route: `${datasetPath}${ROUTES.TERRA}`,
+
     title: "Export to Terra",
   };
 };
@@ -880,11 +882,10 @@ export const buildExportMethodHeroTerra = (
   _: unknown,
   viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
-  const title = "Export to Terra";
   const {
     exploreState: { tabValue },
   } = viewContext;
-  return getExportMethodHero(tabValue, title);
+  return getExportMethodHero(tabValue, "Export to Terra");
 };
 
 /**
