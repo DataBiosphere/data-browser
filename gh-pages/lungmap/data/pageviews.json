@@ -1,461 +1,511 @@
 [
   {
     "page": "/projects",
-    "views": 190,
-    "change": 0.18273092369477895
-  },
-  {
-    "page": "/projects/6135382f-487d-4adb-9cf8-4d6634125b68",
-    "views": 66,
-    "change": 0.586046511627907
-  },
-  {
-    "page": "/projects/1977dc47-8414-4263-a870-6b0f207d8ab3",
-    "views": 66,
-    "change": -0.13670886075949373
-  },
-  {
-    "page": "/",
-    "views": 33,
-    "change": 0.002941176470588225
-  },
-  {
-    "page": "/projects/e651ac3e-03aa-46fa-9ed3-70c6fda4e440",
-    "views": 32,
-    "change": 2.0060606060606063
+    "views": 138,
+    "change": -0.2971137521222411
   },
   {
     "page": "/projects/1bdcecde-16be-4208-88f4-78cd2133d11d",
-    "views": 26,
-    "change": -0.36031746031746037
+    "views": 60,
+    "change": 1.2332506203473943
   },
   {
-    "page": "/projects/9393acbf-e8d8-4b96-9c71-996e245e5f23",
-    "views": 24,
-    "change": 0.18095238095238098
+    "page": "/",
+    "views": 44,
+    "change": 0.29032258064516125
   },
   {
-    "page": "/projects/1bdcecde-16be-4208-88f4-78cd2133d11d/get-curl-command",
-    "views": 20,
-    "change": -0.13888888888888895
+    "page": "/projects/1977dc47-8414-4263-a870-6b0f207d8ab3",
+    "views": 37,
+    "change": -0.4574780058651027
   },
   {
-    "page": "/samples",
+    "page": "/projects/6135382f-487d-4adb-9cf8-4d6634125b68",
+    "views": 36,
+    "change": -0.47214076246334313
+  },
+  {
+    "page": "/projects/e651ac3e-03aa-46fa-9ed3-70c6fda4e440",
     "views": 19,
-    "change": 1.4541666666666666
+    "change": -0.4254032258064516
   },
   {
-    "page": "/projects/1977dc47-8414-4263-a870-6b0f207d8ab3/project-metadata",
+    "page": "/projects/f899709c-ae2c-4bb9-88f0-131142e6c7ec",
     "views": 17,
-    "change": -0.23623188405797102
-  },
-  {
-    "page": "/projects/fdadee7e-2097-45d5-bf81-cc280bd8348e",
-    "views": 17,
-    "change": 0.4638888888888888
-  },
-  {
-    "page": "/projects/6135382f-487d-4adb-9cf8-4d6634125b68/get-curl-command",
-    "views": 17,
-    "change": 1.5095238095238095
-  },
-  {
-    "page": "/projects/0e2b2441-92a5-424c-bce1-abc13435686f/project-matrices",
-    "views": 15,
-    "change": 14.5
-  },
-  {
-    "page": "/projects/1977dc47-8414-4263-a870-6b0f207d8ab3/project-matrices",
-    "views": 15,
-    "change": -0.1842105263157895
-  },
-  {
-    "page": "/files",
-    "views": 13,
-    "change": 1.6866666666666665
+    "change": 0.8279569892473118
   },
   {
     "page": "/projects/1977dc47-8414-4263-a870-6b0f207d8ab3/get-curl-command",
-    "views": 12,
-    "change": -0.4363636363636363
+    "views": 15,
+    "change": 0.20967741935483875
   },
   {
-    "page": "/projects/5134c97d-bbdb-4d9d-b483-cdebeaf667b3",
-    "views": 11,
-    "change": 0.6238095238095238
+    "page": "/projects/1977dc47-8414-4263-a870-6b0f207d8ab3/project-metadata",
+    "views": 13,
+    "change": -0.2599620493358634
+  },
+  {
+    "page": "/projects/1bdcecde-16be-4208-88f4-78cd2133d11d/get-curl-command",
+    "views": 12,
+    "change": -0.4193548387096775
+  },
+  {
+    "page": "/projects/e651ac3e-03aa-46fa-9ed3-70c6fda4e440/project-matrices",
+    "views": 12,
+    "change": 4.806451612903225
   },
   {
     "page": "/projects/1bdcecde-16be-4208-88f4-78cd2133d11d/project-matrices",
     "views": 11,
-    "change": -0.1880952380952381
+    "change": -0.032258064516129115
   },
   {
-    "page": "/projects/1977dc47-8414-4263-a870-6b0f207d8ab3/export-to-terra",
-    "views": 10,
-    "change": -0.261904761904762
+    "page": "/projects/1977dc47-8414-4263-a870-6b0f207d8ab3/project-matrices",
+    "views": 11,
+    "change": -0.29032258064516125
+  },
+  {
+    "page": "/projects/e651ac3e-03aa-46fa-9ed3-70c6fda4e440/project-metadata",
+    "views": 11,
+    "change": 1.661290322580645
+  },
+  {
+    "page": "/samples",
+    "views": 11,
+    "change": -0.43972835314091685
   },
   {
     "page": "/projects/1bdcecde-16be-4208-88f4-78cd2133d11d/project-metadata",
     "views": 10,
-    "change": 0.033333333333333215
-  },
-  {
-    "page": "/projects/e99faee2-7706-4c1a-9d28-76c68320f549",
-    "views": 10,
-    "change": 1.583333333333333
-  },
-  {
-    "page": "/projects/fdadee7e-2097-45d5-bf81-cc280bd8348e/get-curl-command",
-    "views": 10,
-    "change": 9.333333333333332
-  },
-  {
-    "page": "/projects/1bdcecde-16be-4208-88f4-78cd2133d11d/export-to-terra",
-    "views": 10,
-    "change": 0.2916666666666665
-  },
-  {
-    "page": "/projects/00f056f2-73ff-43ac-97ff-69ca10e38c89",
-    "views": 9,
-    "change": -0.15454545454545454
-  },
-  {
-    "page": "/projects/f899709c-ae2c-4bb9-88f0-131142e6c7ec",
-    "views": 9,
-    "change": -0.41875000000000007
-  },
-  {
-    "page": "/projects/6135382f-487d-4adb-9cf8-4d6634125b68/project-metadata",
-    "views": 8,
-    "change": 0.18095238095238098
-  },
-  {
-    "page": "/projects/9393acbf-e8d8-4b96-9c71-996e245e5f23/get-curl-command",
-    "views": 7,
-    "change": 0.8083333333333333
-  },
-  {
-    "page": "/projects/6135382f-487d-4adb-9cf8-4d6634125b68/project-matrices",
-    "views": 7,
-    "change": 0.033333333333333215
-  },
-  {
-    "page": "/projects/fdadee7e-2097-45d5-bf81-cc280bd8348e/project-matrices",
-    "views": 7,
-    "change": 6.233333333333333
-  },
-  {
-    "page": "/projects/834e0d16-71b6-4425-a8ab-022b5000961c",
-    "views": 6,
-    "change": 5.2
-  },
-  {
-    "page": "/projects/fdadee7e-2097-45d5-bf81-cc280bd8348e/export-to-terra",
-    "views": 6,
-    "change": null
+    "change": -0.032258064516129115
   },
   {
     "page": "/projects/e651ac3e-03aa-46fa-9ed3-70c6fda4e440/get-curl-command",
-    "views": 5,
-    "change": -0.13888888888888895
+    "views": 10,
+    "change": 0.9354838709677418
   },
   {
-    "page": "/projects/fdadee7e-2097-45d5-bf81-cc280bd8348e/project-metadata",
-    "views": 5,
-    "change": 4.166666666666666
+    "page": "/files",
+    "views": 8,
+    "change": -0.40446650124069483
   },
   {
-    "page": "/apis",
-    "views": 4,
-    "change": 3.133333333333333
+    "page": "/projects/fdadee7e-2097-45d5-bf81-cc280bd8348e",
+    "views": 8,
+    "change": -0.5445920303605313
   },
   {
-    "page": "/projects/20037472-ea1d-4ddb-9cd3-56a11a6f0f76",
-    "views": 4,
-    "change": -0.4833333333333334
+    "page": "/projects/e651ac3e-03aa-46fa-9ed3-70c6fda4e440/export-to-terra",
+    "views": 8,
+    "change": 6.741935483870967
   },
   {
-    "page": "/projects/e651ac3e-03aa-46fa-9ed3-70c6fda4e440/project-metadata",
-    "views": 4,
-    "change": 0.033333333333333215
+    "page": "/projects/00f056f2-73ff-43ac-97ff-69ca10e38c89/get-curl-command",
+    "views": 8,
+    "change": 6.741935483870967
   },
   {
-    "page": "/projects/26204979-55a3-49b2-8d2b-53e0bdfcb176",
-    "views": 4,
-    "change": 0.033333333333333215
+    "page": "/projects/6135382f-487d-4adb-9cf8-4d6634125b68/get-curl-command",
+    "views": 7,
+    "change": -0.6015180265654649
   },
   {
-    "page": "/projects/9393acbf-e8d8-4b96-9c71-996e245e5f23/project-metadata",
-    "views": 4,
-    "change": -0.6242424242424243
+    "page": "/projects/f899709c-ae2c-4bb9-88f0-131142e6c7ec/project-matrices",
+    "views": 7,
+    "change": 5.774193548387096
   },
   {
-    "page": "/projects/1f009151-2206-4294-929a-9c720f19a13f",
-    "views": 4,
-    "change": null
+    "page": "/projects/1977dc47-8414-4263-a870-6b0f207d8ab3/export-to-terra",
+    "views": 7,
+    "change": -0.32258064516129037
   },
   {
-    "page": "/export/get-curl-command",
-    "views": 3,
-    "change": 0.55
-  },
-  {
-    "page": "/projects/6135382f-487d-4adb-9cf8-4d6634125b68/export-to-terra",
-    "views": 3,
-    "change": 0.55
-  },
-  {
-    "page": "/projects/9393acbf-e8d8-4b96-9c71-996e245e5f23/project-matrices",
-    "views": 3,
-    "change": 0.55
-  },
-  {
-    "page": "/projects/0229ea32-ef02-489e-b11e-ff15819e22c1",
-    "views": 3,
-    "change": 0.55
-  },
-  {
-    "page": "/metadata",
-    "views": 2,
-    "change": 1.0666666666666664
-  },
-  {
-    "page": "/privacy",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/projects/0229ea32-ef02-489e-b11e-ff15819e22c1/get-curl-command",
-    "views": 2,
-    "change": 1.0666666666666664
-  },
-  {
-    "page": "/projects/6511b041-b11e-4ccf-8593-2b40148c437e",
-    "views": 2,
-    "change": null
-  },
-  {
-    "page": "/projects/9393acbf-e8d8-4b96-9c71-996e245e5f23/export-to-terra",
-    "views": 2,
-    "change": -0.6555555555555556
-  },
-  {
-    "page": "/projects/e651ac3e-03aa-46fa-9ed3-70c6fda4e440/project-matrices",
-    "views": 2,
-    "change": -0.3111111111111111
-  },
-  {
-    "page": "/projects/f899709c-ae2c-4bb9-88f0-131142e6c7ec/export-to-terra",
-    "views": 2,
-    "change": 1.0666666666666664
-  },
-  {
-    "page": "/projects/4ae8c5c9-1520-4371-9827-6935661f6c84",
-    "views": 2,
-    "change": -0.3111111111111111
+    "page": "/projects/00f056f2-73ff-43ac-97ff-69ca10e38c89",
+    "views": 7,
+    "change": -0.24731182795698925
   },
   {
     "page": "/projects/4fb36692-6240-4146-a7e6-54543543230c",
-    "views": 2,
-    "change": -0.4833333333333334
+    "views": 6,
+    "change": 1.9032258064516125
   },
   {
-    "page": "/projects/aef908bc-feec-4c54-9b3b-78b0adbd6502",
-    "views": 2,
+    "page": "/projects/f899709c-ae2c-4bb9-88f0-131142e6c7ec/get-curl-command",
+    "views": 6,
+    "change": null
+  },
+  {
+    "page": "/projects/e99faee2-7706-4c1a-9d28-76c68320f549",
+    "views": 6,
+    "change": -0.4193548387096775
+  },
+  {
+    "page": "/projects/6135382f-487d-4adb-9cf8-4d6634125b68/project-metadata",
+    "views": 5,
+    "change": -0.39516129032258074
+  },
+  {
+    "page": "/projects/f899709c-ae2c-4bb9-88f0-131142e6c7ec/project-metadata",
+    "views": 5,
+    "change": 3.838709677419354
+  },
+  {
+    "page": "/projects/0229ea32-ef02-489e-b11e-ff15819e22c1",
+    "views": 5,
+    "change": 0.6129032258064515
+  },
+  {
+    "page": "/projects/20037472-ea1d-4ddb-9cd3-56a11a6f0f76",
+    "views": 5,
+    "change": 0.20967741935483852
+  },
+  {
+    "page": "/projects/6135382f-487d-4adb-9cf8-4d6634125b68/project-matrices",
+    "views": 4,
+    "change": -0.4470046082949308
+  },
+  {
+    "page": "/apis",
+    "views": 3,
+    "change": -0.27419354838709686
+  },
+  {
+    "page": "/projects/5134c97d-bbdb-4d9d-b483-cdebeaf667b3",
+    "views": 3,
+    "change": -0.7360703812316716
+  },
+  {
+    "page": "/projects/MjAwMzc0Nz",
+    "views": 3,
+    "change": null
+  },
+  {
+    "page": "/projects/20037472-ea1d-4ddb-9cd3-56a11a6f0f76/get-curl-command",
+    "views": 3,
     "change": null
   },
   {
     "page": "/projects/e99faee2-7706-4c1a-9d28-76c68320f549/project-metadata",
+    "views": 3,
+    "change": 0.4516129032258063
+  },
+  {
+    "page": "/projects/fdadee7e-2097-45d5-bf81-cc280bd8348e/get-curl-command",
+    "views": 3,
+    "change": -0.7096774193548387
+  },
+  {
+    "page": "/export/get-curl-command",
     "views": 2,
-    "change": 0.033333333333333215
+    "change": -0.3548387096774194
   },
   {
-    "page": "/export",
-    "views": 1,
-    "change": -0.8277777777777777
-  },
-  {
-    "page": "/projects/00f056f2-73ff-43ac-97ff-69ca10e38c89/export-to-terra",
-    "views": 1,
-    "change": -0.4833333333333334
-  },
-  {
-    "page": "/projects/00f056f2-73ff-43ac-97ff-69ca10e38c89/get-curl-command",
-    "views": 1,
-    "change": -0.7416666666666667
-  },
-  {
-    "page": "/projects/00f056f2-73ff-43ac-97ff-69ca10e38c89/project-matrices",
-    "views": 1,
-    "change": -0.6555555555555556
-  },
-  {
-    "page": "/projects/00f056f2-73ff-43ac-97ff-69ca10e38c89/project-metadata",
-    "views": 1,
-    "change": -0.6555555555555556
-  },
-  {
-    "page": "/projects/0e2b2441-92a5-424c-bce1-abc13435686f",
-    "views": 1,
-    "change": -0.8708333333333333
+    "page": "/metadata",
+    "views": 2,
+    "change": -0.032258064516129115
   },
   {
     "page": "/projects/20037472-ea1d-4ddb-9cd3-56a11a6f0f76/project-metadata",
+    "views": 2,
+    "change": 0.9354838709677418
+  },
+  {
+    "page": "/projects/9393acbf-e8d8-4b96-9c71-996e245e5f23",
+    "views": 2,
+    "change": -0.9193548387096774
+  },
+  {
+    "page": "/projects/e99faee2-7706-4c1a-9d28-76c68320f549/get-curl-command",
+    "views": 2,
+    "change": 0.9354838709677418
+  },
+  {
+    "page": "/projects/e99faee2-7706-4c1a-9d28-76c68320f549/project-matrices",
+    "views": 2,
+    "change": null
+  },
+  {
+    "page": "/projects/f899709c-ae2c-4bb9-88f0-131142e6c7ec/export-to-terra",
+    "views": 2,
+    "change": -0.032258064516129115
+  },
+  {
+    "page": "/projects/834e0d16-71b6-4425-a8ab-022b5000961c",
+    "views": 2,
+    "change": -0.6774193548387097
+  },
+  {
+    "page": "/export/export-to-terra",
     "views": 1,
     "change": null
   },
   {
-    "page": "/projects/3a02d15f-9c6a-4ef7-852b-4ddec733b70b",
+    "page": "/projects/00f056f2-73ff-43ac-97ff-69ca10e38c89/export-to-terra",
     "views": 1,
-    "change": -0.6555555555555556
+    "change": -0.032258064516129115
   },
   {
-    "page": "/projects/4c40f6e7-b9f5-4528-8e2d-d1129014cec8",
+    "page": "/projects/00f056f2-73ff-43ac-97ff-69ca10e38c89/project-matrices",
     "views": 1,
-    "change": 0.033333333333333215
+    "change": -0.032258064516129115
   },
   {
-    "page": "/projects/4fb36692-6240-4146-a7e6-54543543230c/project-metadata",
+    "page": "/projects/0229ea32-ef02-489e-b11e-ff15819e22c1/project-matrices",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/0e2b2441-92a5-424c-bce1-abc13435686f",
+    "views": 1,
+    "change": -0.032258064516129115
+  },
+  {
+    "page": "/projects/1bdcecde-16be-4208-88f4-78cd2133d11d/export-to-terra",
+    "views": 1,
+    "change": -0.9032258064516129
+  },
+  {
+    "page": "/projects/1f009151-2206-4294-929a-9c720f19a13f",
+    "views": 1,
+    "change": -0.7580645161290323
+  },
+  {
+    "page": "/projects/1f009151-2206-4294-929a-9c720f19a13f/get-curl-command",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/20037472-ea1d-4ddb-9cd3-56a11a6f0f76/export-to-terra",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/20037472-ea1d-4ddb-9cd3-56a11a6f0f76/project-matrices",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/26204979-55a3-49b2-8d2b-53e0bdfcb176",
+    "views": 1,
+    "change": -0.7580645161290323
+  },
+  {
+    "page": "/projects/26204979-55a3-49b2-8d2b-53e0bdfcb176/get-curl-command",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/26204979-55a3-49b2-8d2b-53e0bdfcb176/project-matrices",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/3a02d15f-9c6a-4ef7-852b-4ddec733b70b/get-curl-command",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/3a02d15f-9c6a-4ef7-852b-4ddec733b70b/project-metadata",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/4ae8c5c9-1520-4371-9827-6935661f6c84/get-curl-command",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/4c40f6e7-b9f5-4528-8e2d-d1129014cec8/project-metadata",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/4fb36692-6240-4146-a7e6-54543543230c/export-to-terra",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/4fb36692-6240-4146-a7e6-54543543230c/get-curl-command",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/504e0cee-1688-40fa-b936-361c4a831f87",
     "views": 1,
     "change": null
   },
   {
     "page": "/projects/5134c97d-bbdb-4d9d-b483-cdebeaf667b3/get-curl-command",
     "views": 1,
-    "change": 0.033333333333333215
+    "change": -0.032258064516129115
   },
   {
-    "page": "/projects/834e0d16-71b6-4425-a8ab-022b5000961c/project-matrices",
+    "page": "/projects/5134c97d-bbdb-4d9d-b483-cdebeaf667b3/project-matrices",
     "views": 1,
     "change": null
   },
   {
-    "page": "/projects/e651ac3e-03aa-46fa-9ed3-70c6fda4e440/export-to-terra",
-    "views": 1,
-    "change": -0.4833333333333334
-  },
-  {
-    "page": "/projects/e68d2111-316f-4ded-bf49-0ab332488665",
-    "views": 1,
-    "change": -0.4833333333333334
-  },
-  {
-    "page": "/projects/e99faee2-7706-4c1a-9d28-76c68320f549/get-curl-command",
-    "views": 1,
-    "change": -0.4833333333333334
-  },
-  {
-    "page": "/projects/f899709c-ae2c-4bb9-88f0-131142e6c7ec/project-matrices",
-    "views": 1,
-    "change": 0.033333333333333215
-  },
-  {
-    "page": "/projects/f899709c-ae2c-4bb9-88f0-131142e6c7ec/project-metadata",
-    "views": 1,
-    "change": -0.7933333333333333
-  },
-  {
-    "page": "/export/download-manifest",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/export/export-to-terra",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/projects/0229ea32-ef02-489e-b11e-ff15819e22c1/project-matrices",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/projects/0229ea32-ef02-489e-b11e-ff15819e22c1/project-metadata",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/projects/0e2b2441-92a5-424c-bce1-abc13435686f/export-to-terra",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/projects/0e2b2441-92a5-424c-bce1-abc13435686f/get-curl-command",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/projects/0e2b2441-92a5-424c-bce1-abc13435686f/project-metadata",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/projects/20037472-ea1d-4ddb-9cd3-56a11a6f0f76/get-curl-command",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/projects/4ae8c5c9-1520-4371-9827-6935661f6c84/project-metadata",
-    "views": 0,
-    "change": -1.0
-  },
-  {
-    "page": "/projects/5134c97d-bbdb-4d9d-b483-cdebeaf667b3/project-matrices",
-    "views": 0,
-    "change": -1.0
-  },
-  {
     "page": "/projects/5134c97d-bbdb-4d9d-b483-cdebeaf667b3/project-metadata",
-    "views": 0,
-    "change": -1.0
+    "views": 1,
+    "change": null
   },
   {
-    "page": "/projects/780514ad-4c1e-40a8-9034-2ee7ec447dcb",
-    "views": 0,
-    "change": -1.0
+    "page": "/projects/6135382f-487d-4adb-9cf8-4d6634125b68/export-to-terra",
+    "views": 1,
+    "change": -0.6774193548387097
   },
   {
-    "page": "/projects/780514ad-4c1e-40a8-9034-2ee7ec447dcb/project-metadata",
-    "views": 0,
-    "change": -1.0
+    "page": "/projects/6511b041-b11e-4ccf-8593-2b40148c437e",
+    "views": 1,
+    "change": -0.5161290322580645
   },
   {
-    "page": "/projects/MDIyOWVhMz",
-    "views": 0,
-    "change": -1.0
+    "page": "/projects/6511b041-b11e-4ccf-8593-2b40148c437e/get-curl-command",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/6511b041-b11e-4ccf-8593-2b40148c437e/project-metadata",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/780514ad-4c1e-40a8-9034-2ee7ec447dcb/export-to-terra",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/834e0d16-71b6-4425-a8ab-022b5000961c/get-curl-command",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/89771f5a-34c8-4cb5-b8e5-824a3ee5e1b5",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/9393acbf-e8d8-4b96-9c71-996e245e5f23/project-metadata",
+    "views": 1,
+    "change": -0.7580645161290323
   },
   {
     "page": "/projects/MTk3N2RjND",
-    "views": 0,
-    "change": -1.0
+    "views": 1,
+    "change": null
   },
   {
-    "page": "/projects/NjEzNTM4Mm",
-    "views": 0,
-    "change": -1.0
+    "page": "/projects/aef908bc-feec-4c54-9b3b-78b0adbd6502/project-matrices",
+    "views": 1,
+    "change": null
   },
   {
-    "page": "/projects/ccea5717-a848-4c06-8d2d-d1b694e89441",
-    "views": 0,
-    "change": -1.0
+    "page": "/projects/ccea5717-a848-4c06-8d2d-d1b694e89441/export-to-terra",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/ccea5717-a848-4c06-8d2d-d1b694e89441/get-curl-command",
+    "views": 1,
+    "change": null
   },
   {
     "page": "/projects/e68d2111-316f-4ded-bf49-0ab332488665/get-curl-command",
-    "views": 0,
-    "change": -1.0
+    "views": 1,
+    "change": null
   },
   {
     "page": "/projects/e99faee2-7706-4c1a-9d28-76c68320f549/export-to-terra",
+    "views": 1,
+    "change": null
+  },
+  {
+    "page": "/projects/fdadee7e-2097-45d5-bf81-cc280bd8348e/project-matrices",
+    "views": 1,
+    "change": -0.8617511520737327
+  },
+  {
+    "page": "/export",
     "views": 0,
     "change": -1.0
   },
   {
-    "page": "/projects/e99faee2-7706-4c1a-9d28-76c68320f549/project-matrices",
+    "page": "/privacy",
     "views": 0,
     "change": -1.0
   },
   {
-    "page": "/projects/f899709c-ae2c-4bb9-88f0-131142e6c7ec/get-curl-command",
+    "page": "/projects/00f056f2-73ff-43ac-97ff-69ca10e38c89/project-metadata",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/0229ea32-ef02-489e-b11e-ff15819e22c1/get-curl-command",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/0e2b2441-92a5-424c-bce1-abc13435686f/project-matrices",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/3a02d15f-9c6a-4ef7-852b-4ddec733b70b",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/4ae8c5c9-1520-4371-9827-6935661f6c84",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/4c40f6e7-b9f5-4528-8e2d-d1129014cec8",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/4fb36692-6240-4146-a7e6-54543543230c/project-metadata",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/834e0d16-71b6-4425-a8ab-022b5000961c/project-matrices",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/9393acbf-e8d8-4b96-9c71-996e245e5f23/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/9393acbf-e8d8-4b96-9c71-996e245e5f23/get-curl-command",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/9393acbf-e8d8-4b96-9c71-996e245e5f23/project-matrices",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/aef908bc-feec-4c54-9b3b-78b0adbd6502",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/e68d2111-316f-4ded-bf49-0ab332488665",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/fdadee7e-2097-45d5-bf81-cc280bd8348e/export-to-terra",
+    "views": 0,
+    "change": -1.0
+  },
+  {
+    "page": "/projects/fdadee7e-2097-45d5-bf81-cc280bd8348e/project-metadata",
     "views": 0,
     "change": -1.0
   }
