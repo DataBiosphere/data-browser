@@ -178,8 +178,9 @@ export const buildTripleColumnGrid = (): Partial<
 function getGeneratedMatricesFileNameColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.FILE_NAME,
-    cell: ({ getValue }) =>
-      C.FileNameCell({ fileName: getValue() as unknown as string }),
+    cell: ({ getValue }) => (
+      <C.FileNameCell fileName={getValue() as unknown as string} />
+    ),
     header: HCA_DCP_CATEGORY_LABEL.FILE_NAME,
     meta: {
       columnPinned: true,
