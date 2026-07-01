@@ -707,7 +707,7 @@ export const buildCookieBanner = (): React.ComponentProps<
       "This website uses cookies for security and analytics purposes. By using this site, you agree to these uses.",
     secondaryAction: (
       <C.ButtonOutline
-        /* eslint-disable sonarjs/link-with-target-blank -- const used for NOOPRNER NOREFERRER */
+        /* eslint-disable sonarjs/link-with-target-blank -- const used for NOOPENER NOREFERRER */
         onClick={() =>
           window.open(
             "https://data.humancellatlas.org/privacy",
