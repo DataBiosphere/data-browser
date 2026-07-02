@@ -38,6 +38,8 @@ SUSPICIOUS_PAGE_PATH_RE = re.compile(
     r")"
 )
 
+_ENTITY_PATH_RE = re.compile(r"^(/[^/]+/[0-9a-f-]+).*", re.IGNORECASE)
+
 
 def event_key(event):
     """Return the unique key for a custom event config dict."""
@@ -190,6 +192,8 @@ def get_access_requests(params, url_patterns):
     result = df[[DIMENSION_PAGE_PATH["alias"], url_col, METRIC_EVENT_COUNT["alias"]]].copy()
     result.columns = ["page_path", "click_url", "count"]
     result["count"] = result["count"].astype(int)
+    # Normalize page paths to entity base path (e.g., /projects/UUID/sub-page -> /projects/UUID).
+    result["page_path"] = result["page_path"].str.replace(_ENTITY_PATH_RE, r"\1", regex=True)
     result = result.groupby(["page_path", "click_url"], as_index=False)["count"].sum()
     result = result.sort_values("count", ascending=False)
     return result.to_dict(orient="records")

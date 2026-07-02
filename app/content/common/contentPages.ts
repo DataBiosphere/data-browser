@@ -29,6 +29,7 @@ export async function getContentStaticProps(
   const { content, data } = matter(markdownWithMeta);
   const { pageDescription, pageTitle } = data as ContentFrontmatter;
   const mdxSource = await serialize(content, {
+    blockJS: false,
     mdxOptions: {
       development: process.env.NODE_ENV === "development",
       rehypePlugins: [],
