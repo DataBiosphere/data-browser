@@ -1,31 +1,18 @@
-import { REQUEST_FIELD_ID } from "@databiosphere/findable-ui/lib/components/Support/components/SupportRequest/components/SupportRequestForm/common/entities";
+import { ViewSupport } from "@databiosphere/findable-ui/lib/components/Support/components/ViewSupport/viewSupport";
 import {
   ComponentConfig,
   FloatingConfig,
 } from "@databiosphere/findable-ui/lib/config/entities";
-import * as C from "app/components";
 
-const ZENDESK_FIELD_ID: Record<REQUEST_FIELD_ID, number> = {
-  DESCRIPTION: 360007369412,
-  EMAIL: 360012782111,
-  SUBJECT: 360007369392,
-  TICKET_FORM_ID: 18724494389787,
-  TYPE: 360012744452,
-};
-const ZENDESK_REQUEST_URL = "https://support.terra.bio/api/v2/requests.json";
-const ZENDESK_UPLOAD_URL = "https://support.terra.bio/api/v2/uploads";
-
-export const floating: FloatingConfig = {
-  components: [
-    {
-      component: C.SupportRequest,
-      props: {
-        supportRequest: {
-          FIELD_ID: ZENDESK_FIELD_ID,
-          requestURL: ZENDESK_REQUEST_URL,
-          uploadURL: ZENDESK_UPLOAD_URL,
+export function makeFloatingConfig(portalUrl: string): FloatingConfig {
+  return {
+    components: [
+      {
+        component: ViewSupport,
+        props: {
+          url: `${portalUrl}/help`,
         },
-      },
-    } as ComponentConfig<typeof C.SupportRequest>,
-  ],
-};
+      } as ComponentConfig<typeof ViewSupport>,
+    ],
+  };
+}
