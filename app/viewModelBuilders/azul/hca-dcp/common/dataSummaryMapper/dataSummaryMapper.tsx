@@ -154,7 +154,7 @@ export function mapProjectDataSummary(
   );
   details.set(
     DATA_SUMMARY.PROJECT_SHORTNAME,
-    C.TypographyWordBreak({ children: projectShortname })
+    <C.TypographyWordBreak>{projectShortname}</C.TypographyWordBreak>
   );
   details.set(
     DATA_SUMMARY.GENUS_SPECIES,

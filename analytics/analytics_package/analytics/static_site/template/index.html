@@ -362,6 +362,12 @@
         let entityLabel = 'Dataset';
         let entityPath = '/datasets';
 
+        function serviceName(url) {
+            if (url.includes('duos.org')) return 'DUOS';
+            if (url.includes('dbgap.ncbi.nlm.nih.gov')) return 'dbGaP';
+            return url;
+        }
+
         let chartColors = {
             primary: '#1c7cc7',
             secondary: '#287555',
@@ -885,35 +891,43 @@
             const tbody = document.querySelector('#access-requests-table tbody');
             const total = data.reduce((sum, r) => sum + (r.count || 0), 0);
 
-            const duosTotal = data.filter(r => (r.click_url || '').includes('duos.org')).reduce((sum, r) => sum + (r.count || 0), 0);
-            const dbgapTotal = data.filter(r => (r.click_url || '').includes('dbgap.ncbi.nlm.nih.gov')).reduce((sum, r) => sum + (r.count || 0), 0);
+            const services = new Set(data.map(r => serviceName(r.click_url || '')));
+            const showService = services.size > 1;
 
             const statsGrid = document.getElementById('access-requests-stats');
-            statsGrid.style.display = '';
-            statsGrid.innerHTML = `
-                <div class="fui-card fui-grid-item-4" style="text-align: center;">
-                    <div class="fui-card-content">
-                        <div class="stat-value">${formatNumber(dbgapTotal)}</div>
-                        <div class="stat-label">dbGaP</div>
+            if (showService) {
+                const duosTotal = data.filter(r => serviceName(r.click_url || '') === 'DUOS').reduce((sum, r) => sum + (r.count || 0), 0);
+                const dbgapTotal = data.filter(r => serviceName(r.click_url || '') === 'dbGaP').reduce((sum, r) => sum + (r.count || 0), 0);
+                statsGrid.style.display = '';
+                statsGrid.innerHTML = `
+                    <div class="fui-card fui-grid-item-4" style="text-align: center;">
+                        <div class="fui-card-content">
+                            <div class="stat-value">${formatNumber(dbgapTotal)}</div>
+                            <div class="stat-label">dbGaP</div>
+                        </div>
                     </div>
-                </div>
-                <div class="fui-card fui-grid-item-4" style="text-align: center;">
-                    <div class="fui-card-content">
-                        <div class="stat-value">${formatNumber(duosTotal)}</div>
-                        <div class="stat-label">DUOS</div>
+                    <div class="fui-card fui-grid-item-4" style="text-align: center;">
+                        <div class="fui-card-content">
+                            <div class="stat-value">${formatNumber(duosTotal)}</div>
+                            <div class="stat-label">DUOS</div>
+                        </div>
                     </div>
-                </div>
-                <div class="fui-card fui-grid-item-4" style="text-align: center;">
-                    <div class="fui-card-content">
-                        <div class="stat-value">${formatNumber(total)}</div>
-                        <div class="stat-label">Total</div>
+                    <div class="fui-card fui-grid-item-4" style="text-align: center;">
+                        <div class="fui-card-content">
+                            <div class="stat-value">${formatNumber(total)}</div>
+                            <div class="stat-label">Total</div>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
 
             card.style.display = '';
             heading.style.display = '';
             card.querySelector('.fui-card-header-title').textContent = `Requests by ${entityLabel} (${formatNumber(total)})`;
+            card.querySelector('#access-requests-table thead th:first-child').textContent = entityLabel;
+            if (!showService) {
+                card.querySelector('#access-requests-table thead th:nth-child(2)').style.display = 'none';
+            }
 
             const toggle = document.getElementById('access-requests-toggle');
             if (data.length > 5) {
@@ -927,14 +941,11 @@
                 const datasetCell = link
                     ? `<a href="${safeHref(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`
                     : escapeHtml(label);
-                const url = row.click_url || '';
-                let service = url;
-                if (url.includes('duos.org')) service = 'DUOS';
-                else if (url.includes('dbgap.ncbi.nlm.nih.gov')) service = 'dbGaP';
+                const serviceCell = showService ? `<td>${escapeHtml(serviceName(row.click_url || ''))}</td>` : '';
                 return `
                     <tr>
                         <td>${datasetCell}</td>
-                        <td>${escapeHtml(service)}</td>
+                        ${serviceCell}
                         <td class="col-number">${formatNumber(row.count || 0)}</td>
                     </tr>
                 `;

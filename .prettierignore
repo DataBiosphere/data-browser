@@ -13,6 +13,8 @@ coverage
 # next.js
 .next
 out
+# managed/reformatted by `next build` into a shape prettier rejects (see #4885)
+tsconfig.json
 
 # production
 build

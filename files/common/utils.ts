@@ -8,7 +8,7 @@ export const writeAsJSON = async function writeFile(
   obj: unknown
 ): Promise<void> {
   console.log(fileName);
-  // eslint-disable-next-line @typescript-eslint/no-empty-function -- why is this necessary? //TODO
+
   fs.writeFile(fileName, JSON.stringify(obj, null, 2), () => {});
 };
 
@@ -41,6 +41,7 @@ export async function getMDXByFilename(
       throw new Error(`File ${fileName} not found`);
     }
     const mdxSource = await serialize(file, {
+      blockJS: false,
       mdxOptions: { development: process.env.NODE_ENV === "development" }, // See https://github.com/hashicorp/next-mdx-remote/issues/307#issuecomment-1363415249 and https://github.com/hashicorp/next-mdx-remote/issues/307#issuecomment-1378362096.
     });
     const name = fileName.split(".")[0].toLowerCase();
