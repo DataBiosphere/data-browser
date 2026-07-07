@@ -1,5 +1,28 @@
 # Changelog
 
+## [3.5.0](https://github.com/DataBiosphere/data-browser/compare/v3.4.1...v3.5.0) (2026-07-01)
+
+
+### Features
+
+* add access metrics section to HCA analytics report ([#4880](https://github.com/DataBiosphere/data-browser/issues/4880)) ([15813b6](https://github.com/DataBiosphere/data-browser/commit/15813b6fd3d0eb407a8637f96502720e5ac0047d))
+
+
+### Chores
+
+* prettier-ignore tsconfig.json so next build reformatting doesn't fail check-format ([#4885](https://github.com/DataBiosphere/data-browser/issues/4885)) ([#4886](https://github.com/DataBiosphere/data-browser/issues/4886)) ([afa4f46](https://github.com/DataBiosphere/data-browser/commit/afa4f469f87660d2551817b015aa5fd1f2fd4754))
+* replace Zendesk FAB with help page link for HCA DCP ([#4882](https://github.com/DataBiosphere/data-browser/issues/4882)) ([9de27e3](https://github.com/DataBiosphere/data-browser/commit/9de27e347b66ee02284c94cacd2c0424ceb42d36))
+* replace zendesk support form with anvil portal help link ([#4873](https://github.com/DataBiosphere/data-browser/issues/4873)) ([ae4261a](https://github.com/DataBiosphere/data-browser/commit/ae4261ace6afd2dd29d6e4dad0322243098c1b4a))
+* replace zendesk support form with anvil portal help link [#4872](https://github.com/DataBiosphere/data-browser/issues/4872) ([ae4261a](https://github.com/DataBiosphere/data-browser/commit/ae4261ace6afd2dd29d6e4dad0322243098c1b4a))
+* update default catalog to anvil14 ([#4887](https://github.com/DataBiosphere/data-browser/issues/4887)) ([915dc1c](https://github.com/DataBiosphere/data-browser/commit/915dc1c3357e3fd46f55b04e0f491830762c3c40))
+* update default catalog to anvil14 [#4883](https://github.com/DataBiosphere/data-browser/issues/4883) ([915dc1c](https://github.com/DataBiosphere/data-browser/commit/915dc1c3357e3fd46f55b04e0f491830762c3c40))
+* upgrade to next.js 16 + new findable-ui major (phase 2 from findable-ui[#952](https://github.com/DataBiosphere/data-browser/issues/952)) ([#4876](https://github.com/DataBiosphere/data-browser/issues/4876)) ([#4878](https://github.com/DataBiosphere/data-browser/issues/4878)) ([4044a02](https://github.com/DataBiosphere/data-browser/commit/4044a02196dd502830c94733b97e1c1c4d3913da))
+
+
+### Code Refactoring
+
+* render view-builder components as jsx elements instead of plain function calls (rules-of-hooks) ([#4877](https://github.com/DataBiosphere/data-browser/issues/4877)) ([#4884](https://github.com/DataBiosphere/data-browser/issues/4884)) ([7c33510](https://github.com/DataBiosphere/data-browser/commit/7c335107029ad56824f7ed50515935e2272afd2e))
+
 ## [3.4.1](https://github.com/DataBiosphere/data-browser/compare/v3.4.0...v3.4.1) (2026-06-25)
 
 

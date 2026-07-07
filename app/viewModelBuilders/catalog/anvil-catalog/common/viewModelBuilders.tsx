@@ -168,7 +168,10 @@ export const buildConsortiumSummary = (
   const keyValuePairs = new Map<Key, Value>();
   keyValuePairs.set(
     "Consent Codes",
-    C.ConsentCodeList({ consentCode, consentLongName })
+    <C.ConsentCodeList
+      consentCode={consentCode}
+      consentLongName={consentLongName}
+    />
   );
   keyValuePairs.set("Diseases", stringifyValues(disease));
   keyValuePairs.set("Study Design", stringifyValues(studyDesign));
@@ -371,7 +374,7 @@ export const buildStudyDetails = (
   keyValuePairs.set("APIs", getStudyAPIKeyValue(dbGapId));
   return {
     KeyElType: C.KeyElType,
-    KeyValuesElType: (props) => C.Stack({ gap: 4, ...props }),
+    KeyValuesElType: (props) => <C.Stack gap={4} {...props} />,
     ValueElType: C.ValueElType,
     keyValuePairs,
   };
@@ -434,7 +437,10 @@ export const buildStudySummary = (
   const keyValuePairs = new Map<Key, Value>();
   keyValuePairs.set(
     "Consent Codes",
-    C.ConsentCodeList({ consentCode, consentLongName })
+    <C.ConsentCodeList
+      consentCode={consentCode}
+      consentLongName={consentLongName}
+    />
   );
   keyValuePairs.set("Diseases", stringifyValues(disease));
   keyValuePairs.set("Study Design", stringifyValues(studyDesign));
@@ -484,26 +490,35 @@ function buildSharedTableColumns<T>(): ColumnDef<T>[] {
   return [
     {
       accessorKey: ANVIL_CATALOG_CATEGORY_KEY.DISEASE,
-      cell: ({ row }) =>
-        C.NTagCell(
-          buildDiseases(row.original as unknown as AnVILCatalogEntity) // TODO revisit type assertion here
-        ),
+      cell: ({ row }) => (
+        <C.NTagCell
+          {...buildDiseases(
+            row.original as unknown as AnVILCatalogEntity // TODO revisit type assertion here
+          )}
+        />
+      ),
       header: ANVIL_CATALOG_CATEGORY_LABEL.DISEASE,
     },
     {
       accessorKey: ANVIL_CATALOG_CATEGORY_KEY.DATA_TYPE,
-      cell: ({ row }) =>
-        C.NTagCell(
-          buildDataTypes(row.original as unknown as AnVILCatalogEntity) // TODO revisit type assertion here
-        ),
+      cell: ({ row }) => (
+        <C.NTagCell
+          {...buildDataTypes(
+            row.original as unknown as AnVILCatalogEntity // TODO revisit type assertion here
+          )}
+        />
+      ),
       header: ANVIL_CATALOG_CATEGORY_LABEL.DATA_TYPE,
     },
     {
       accessorKey: ANVIL_CATALOG_CATEGORY_KEY.STUDY_DESIGN,
-      cell: ({ row }) =>
-        C.NTagCell(
-          buildStudyDesigns(row.original as unknown as AnVILCatalogEntity) // TODO revisit type assertion here
-        ),
+      cell: ({ row }) => (
+        <C.NTagCell
+          {...buildStudyDesigns(
+            row.original as unknown as AnVILCatalogEntity // TODO revisit type assertion here
+          )}
+        />
+      ),
       header: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_DESIGN,
     },
   ];
@@ -520,10 +535,12 @@ function buildConsortiumStudiesTableColumns<T>(): ColumnDef<T>[] {
       cell: ({ row: { original } }): JSX.Element => {
         const { dbGapId, studyAccession, studyName } =
           original as unknown as AnVILCatalogConsortiumStudy; // TODO revisit type assertion here
-        return C.Link({
-          label: studyName,
-          url: studyAccession ? `/studies/${dbGapId}` : "",
-        });
+        return (
+          <C.Link
+            label={studyName}
+            url={studyAccession ? `/studies/${dbGapId}` : ""}
+          />
+        );
       },
       header: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_NAME,
     },
@@ -536,10 +553,12 @@ function buildConsortiumStudiesTableColumns<T>(): ColumnDef<T>[] {
       cell: ({ row }): JSX.Element => {
         const { consentCode } =
           row.original as unknown as AnVILCatalogConsortiumStudy; // TODO revisit type assertion here
-        return C.NTagCell({
-          label: getPluralizedMetadataLabel(METADATA_KEY.CONSENT_CODE),
-          values: consentCode,
-        });
+        return (
+          <C.NTagCell
+            label={getPluralizedMetadataLabel(METADATA_KEY.CONSENT_CODE)}
+            values={consentCode}
+          />
+        );
       },
       header: ANVIL_CATALOG_CATEGORY_LABEL.CONSENT_CODE,
     },
@@ -549,10 +568,12 @@ function buildConsortiumStudiesTableColumns<T>(): ColumnDef<T>[] {
       cell: ({ row }): JSX.Element => {
         const { workspaceName } =
           row.original as unknown as AnVILCatalogConsortiumStudy; // TODO revisit type assertion here
-        return C.NTagCell({
-          label: getPluralizedMetadataLabel(METADATA_KEY.WORKSPACE_NAME),
-          values: workspaceName,
-        });
+        return (
+          <C.NTagCell
+            label={getPluralizedMetadataLabel(METADATA_KEY.WORKSPACE_NAME)}
+            values={workspaceName}
+          />
+        );
       },
       header: "Workspaces",
     },
@@ -574,8 +595,13 @@ function buildConsortiumWorkspacesTableColumns<T>(): ColumnDef<T>[] {
     buildWorkspaceNameTableColumn<T>(),
     {
       accessorKey: ANVIL_CATALOG_CATEGORY_KEY.STUDY_NAME,
-      cell: ({ row: { original } }) =>
-        C.Link(buildStudyName(original as unknown as AnVILCatalogWorkspace)), // TODO revisit type assertion here
+      cell: ({ row: { original } }) => (
+        <C.Link
+          {...buildStudyName(
+            original as unknown as AnVILCatalogWorkspace // TODO revisit type assertion here
+          )}
+        />
+      ),
       header: ANVIL_CATALOG_CATEGORY_LABEL.STUDY_NAME,
     },
     {
@@ -600,8 +626,13 @@ function buildStudyWorkspacesTableColumns<T>(): ColumnDef<T>[] {
   return [
     {
       accessorKey: ANVIL_CATALOG_CATEGORY_KEY.CONSORTIUM,
-      cell: ({ row: { original } }) =>
-        C.Link(buildConsortium(original as unknown as AnVILCatalogWorkspace)), // TODO revisit type assertion here
+      cell: ({ row: { original } }) => (
+        <C.Link
+          {...buildConsortium(
+            original as unknown as AnVILCatalogWorkspace // TODO revisit type assertion here
+          )}
+        />
+      ),
       header: ANVIL_CATALOG_CATEGORY_LABEL.CONSORTIUM,
     },
     buildWorkspaceNameTableColumn<T>(),
@@ -626,10 +657,13 @@ function buildStudyWorkspacesTableColumns<T>(): ColumnDef<T>[] {
 function buildWorkspaceNameTableColumn<T>(): ColumnDef<T> {
   return {
     accessorKey: ANVIL_CATALOG_CATEGORY_KEY.WORKSPACE_NAME,
-    cell: ({ row: { original } }) =>
-      C.Link(
-        buildTerraWorkspaceName(original as unknown as AnVILCatalogWorkspace) // TODO revisit type assertion here
-      ),
+    cell: ({ row: { original } }) => (
+      <C.Link
+        {...buildTerraWorkspaceName(
+          original as unknown as AnVILCatalogWorkspace // TODO revisit type assertion here
+        )}
+      />
+    ),
     header: "Terra Workspace",
     meta: { columnPinned: true },
   };
@@ -665,17 +699,19 @@ function getCatalogBreadcrumbs(
  * @returns the KeyValuePair value for study APIs as a ReactElement.
  */
 function getStudyAPIKeyValue(dbGapId: string): ReactElement {
-  return C.Stack({
-    children: C.Links({
-      links: [
-        {
-          label: "dbGaP FHIR",
-          target: ANCHOR_TARGET.BLANK,
-          url: `https://dbgap-api.ncbi.nlm.nih.gov/fhir/x1/ResearchStudy?_id=${dbGapId}&_format=json`,
-        },
-      ],
-    }),
-  });
+  return (
+    <C.Stack>
+      <C.Links
+        links={[
+          {
+            label: "dbGaP FHIR",
+            target: ANCHOR_TARGET.BLANK,
+            url: `https://dbgap-api.ncbi.nlm.nih.gov/fhir/x1/ResearchStudy?_id=${dbGapId}&_format=json`,
+          },
+        ]}
+      />
+    </C.Stack>
+  );
 }
 
 /**
@@ -684,9 +720,11 @@ function getStudyAPIKeyValue(dbGapId: string): ReactElement {
  * @returns the KeyValuePair value for study dbGapId as a ReactElement.
  */
 function getStudyDbGapIdKeyValue(studyAccession: string): ReactElement {
-  return C.Link({
-    label: studyAccession,
-    target: ANCHOR_TARGET.BLANK,
-    url: `https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=${studyAccession}`,
-  });
+  return (
+    <C.Link
+      label={studyAccession}
+      target={ANCHOR_TARGET.BLANK}
+      url={`https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=${studyAccession}`}
+    />
+  );
 }

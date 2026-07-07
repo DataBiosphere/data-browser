@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "page_path": "/projects/35d5b057-3daf-4ccd-8112-196194598893",
+    "click_url": "https://duos.org/dataset/DUOS-000258",
+    "count": 12,
+    "dataset_title": "Asian Immune Diversity Atlas (AIDA): Single-cell analysis of human diversity in circulating immune cells (Japan cells)"
+  },
+  {
+    "page_path": "/projects/c8503de8-d02d-4bda-ad06-4c851b37fa97",
+    "click_url": "https://duos.org/dataset/DUOS-000750",
+    "count": 4,
+    "dataset_title": "Cell atlas from human intestinal immune priming and effector sites during homeostasis"
+  },
+  {
+    "page_path": "/projects/ad04c8e7-9b7d-4cce-b8e9-01e31da10b94",
+    "click_url": "https://duos.org/dataset/DUOS-000751",
+    "count": 3,
+    "dataset_title": "Anomalous Epithelial Variations and Ectopic Inflammatory Response in Chronic Obstructive Pulmonary Disease"
+  }
+]

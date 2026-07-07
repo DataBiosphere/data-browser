@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 import {
   AnvilCMGTabCollection,
   TabCollectionKeys,
@@ -170,5 +169,3 @@ export const ANVIL_TAB_TEST_ORDER: TabCollectionKeys[] = [
   "DONORS",
   "BIOSAMPLES",
 ];
-
-/* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/
