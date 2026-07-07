@@ -4,8 +4,6 @@ import { TITLE_TEXT_REQUEST_FILE_MANIFEST } from "./anvil/common/constants";
 import { MUI_CLASSES, TEST_IDS } from "./features/common/constants";
 import { ColumnDescription, TabDescription } from "./testInterfaces";
 
-/* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
-
 // Timeout constants
 const TIMEOUT_EXPORT_REQUEST = 60000;
 const TIMEOUT_DOWNLOAD = 10000;
@@ -129,7 +127,7 @@ export async function testTab(
  * @param tab - the tab to check
  * @returns - true if the test passes and false if the test fails
  */
-// eslint-disable-next-line sonarjs/cognitive-complexity -- Complex code just for diagnostic will be removed later
+
 export async function testSortAzul(
   page: Page,
   tab: TabDescription
@@ -425,7 +423,7 @@ const hoverAndGetText = async (
   const cellText = await cellLocator.innerText();
   // Check if the cell appears to be an Ntag cell
   if (
-    !columnDescription !== undefined &&
+    columnDescription !== undefined &&
     columnDescription?.pluralizedLabel !== undefined &&
     RegExp("\\s*\\d+ " + columnDescription.pluralizedLabel + "\\s*").test(
       cellText
@@ -538,5 +536,3 @@ function getHeadingWithText(page: Page, headingText: string): Locator {
 export const getTabByText = (page: Page, tabText: string): Locator => {
   return page.locator("[role='tab']").filter({ hasText: tabText });
 };
-
-/* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/

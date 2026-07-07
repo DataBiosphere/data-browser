@@ -22,7 +22,7 @@ import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { buildSummaries } from "./index/summaryViewModelBuilder";
-import { floating } from "./layout/floating";
+import { makeFloatingConfig } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -175,7 +175,7 @@ export function makeConfig(
     filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
     layout: {
-      floating,
+      floating: makeFloatingConfig(portalUrl),
       footer: {
         Branding: C.ANVILBranding({ portalURL: portalUrl }),
         navLinks: [
