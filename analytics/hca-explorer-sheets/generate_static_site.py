@@ -96,4 +96,5 @@ generate_site(
     event_charts=make_event_charts("Project", "/projects", "2026-03-01"),
     title_resolver=resolve_project_titles,
     base_dimension_filter=HCA_BROWSER_ONLY_FILTER,
+    access_request_urls=["duos.org"],
 )

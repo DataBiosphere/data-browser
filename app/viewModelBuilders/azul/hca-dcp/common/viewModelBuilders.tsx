@@ -136,16 +136,14 @@ export const buildAccessions = (
     keyValuePairs.set(`${label}:`, getAccessionsKeyValue(accessions));
   }
   return {
-    KeyElType: (props) =>
-      C.KeyElType({
-        color: "ink.main",
-        ...props,
-      }),
+    KeyElType: (props) => <C.KeyElType color="ink.main" {...props} />,
     KeyValueElType: Fragment,
-    KeyValuesElType: (props) =>
-      C.Grid({ gap: 1, gridTemplateColumns: "auto 1fr", ...props }),
-    ValueElType: (props) =>
-      C.GridItem({ display: "flex", flexWrap: "wrap", ...props }),
+    KeyValuesElType: (props) => (
+      <C.Grid gap={1} gridTemplateColumns="auto 1fr" {...props} />
+    ),
+    ValueElType: (props) => (
+      <C.GridItem display="flex" flexWrap="wrap" {...props} />
+    ),
     keyValuePairs,
   };
 };
@@ -570,13 +568,16 @@ export const buildAnalysisPortals = (
     KeyElType: Fragment,
     KeyValueElType,
     KeyValuesElType: Fragment,
-    ValueElType: (props) =>
-      C.ValueElType({
-        variant: analysisPortals
-          ? TYPOGRAPHY_PROPS.VARIANT.BODY_400
-          : TYPOGRAPHY_PROPS.VARIANT.BODY_400_2_LINES,
-        ...props,
-      }),
+    ValueElType: (props) => (
+      <C.ValueElType
+        variant={
+          analysisPortals
+            ? TYPOGRAPHY_PROPS.VARIANT.BODY_400
+            : TYPOGRAPHY_PROPS.VARIANT.BODY_400_2_LINES
+        }
+        {...props}
+      />
+    ),
     keyValuePairs,
   };
 };
@@ -704,17 +705,21 @@ export const buildCookieBanner = (): React.ComponentProps<
     localStorageKey: "privacy-accepted",
     message:
       "This website uses cookies for security and analytics purposes. By using this site, you agree to these uses.",
-    secondaryAction: C.ButtonOutline({
-      children: "Learn More",
-      /* eslint-disable sonarjs/link-with-target-blank -- const used for NOOPRNER NOREFERRER */
-      onClick: () =>
-        window.open(
-          "https://data.humancellatlas.org/privacy",
-          ANCHOR_TARGET.BLANK,
-          REL_ATTRIBUTE.NO_OPENER_NO_REFERRER
-        ),
-      /* eslint-enable sonarjs/link-with-target-blank -- check target blank links for the rest of the file */
-    }),
+    secondaryAction: (
+      <C.ButtonOutline
+        /* eslint-disable sonarjs/link-with-target-blank -- const used for NOOPENER NOREFERRER */
+        onClick={() =>
+          window.open(
+            "https://data.humancellatlas.org/privacy",
+            ANCHOR_TARGET.BLANK,
+            REL_ATTRIBUTE.NO_OPENER_NO_REFERRER
+          )
+        }
+        /* eslint-enable sonarjs/link-with-target-blank -- check target blank links for the rest of the file */
+      >
+        Learn More
+      </C.ButtonOutline>
+    ),
   };
 };
 
@@ -1135,15 +1140,16 @@ export const buildFileCounts = (
 ): React.ComponentProps<typeof C.KeyValuePairs> => {
   return {
     KeyValueElType: Fragment,
-    KeyValuesElType: (props) =>
-      C.Grid({
-        gridSx: {
+    KeyValuesElType: (props) => (
+      <C.Grid
+        gridSx={{
           alignSelf: "stretch",
           gap: 2,
           gridTemplateColumns: "1fr auto",
-        },
-        ...props,
-      }),
+        }}
+        {...props}
+      />
+    ),
     keyValuePairs: getFileCountsKeyValuePairs(projectsResponse),
   };
 };
@@ -1566,16 +1572,18 @@ function getAccessibleTransition(
  * @returns the KeyValuePair value for the accessions as a ReactElement.
  */
 function getAccessionsKeyValue(accessions: Accession[]): ReactElement {
-  return C.Links({
-    divider: C.Divider({ children: ", " }),
-    links: accessions.map(({ id, url }) => {
-      return {
-        label: id,
-        target: ANCHOR_TARGET.BLANK,
-        url,
-      };
-    }),
-  });
+  return (
+    <C.Links
+      divider={<C.Divider>{", "}</C.Divider>}
+      links={accessions.map(({ id, url }) => {
+        return {
+          label: id,
+          target: ANCHOR_TARGET.BLANK,
+          url,
+        };
+      })}
+    />
+  );
 }
 
 /**
@@ -1599,11 +1607,7 @@ function getAggregatedProjectTitleUrl(
  */
 function getAnalysisPortalKey(analysisPortal: AnalysisPortal): ReactElement {
   const { icon, label } = analysisPortal;
-  return C.StaticImage({
-    alt: label,
-    src: icon,
-    width: 20,
-  });
+  return <C.StaticImage alt={label} src={icon} width={20} />;
 }
 
 /**
@@ -1636,16 +1640,20 @@ function getAnalysisPortalsKeyValueElType(
   if (!analysisPortals) {
     return Fragment; // No analysis portals for the given projects response.
   }
-  return (props) =>
-    C.KeyValueElType({
-      boxSx: {
+  // Named (rather than an anonymous arrow) so react/display-name is satisfied
+  // when the component is returned directly instead of assigned to a prop.
+  const KeyValueElType: ElementType = (props) => (
+    <C.KeyValueElType
+      boxSx={{
         display: "grid",
         gap: 2,
         gridTemplateColumns: "auto 1fr",
-      },
-      keyValueFn: getAnalysisPortalKeyValueFn(analysisPortals),
-      ...props,
-    });
+      }}
+      keyValueFn={getAnalysisPortalKeyValueFn(analysisPortals)}
+      {...props}
+    />
+  );
+  return KeyValueElType;
 }
 
 /**
@@ -1915,17 +1923,20 @@ function getFormFacets(fileManifestState: FileManifestState): FormFacet {
 export function getGeneratedMatricesActionsColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: "",
-    cell: ({ row }) =>
-      C.ButtonGroup({
-        Buttons: [
-          C.FileLocationDownload({
-            projectMatrixView: row.original as unknown as ProjectMatrixView,
-          }),
-          C.FileLocationCopy({
-            projectMatrixView: row.original as unknown as ProjectMatrixView,
-          }),
-        ],
-      }),
+    cell: ({ row }) => (
+      <C.ButtonGroup
+        Buttons={[
+          <C.FileLocationDownload
+            key="download"
+            projectMatrixView={row.original as unknown as ProjectMatrixView}
+          />,
+          <C.FileLocationCopy
+            key="copy"
+            projectMatrixView={row.original as unknown as ProjectMatrixView}
+          />,
+        ]}
+      />
+    ),
     header: "Actions",
   };
 }
@@ -1939,14 +1950,15 @@ export function getGeneratedMatricesAnatomicalEntityColumnDef<
 >(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.ORGAN,
-    cell: ({ column, row }) =>
-      C.NTagCell(
-        getNTagCellProps(
+    cell: ({ column, row }) => (
+      <C.NTagCell
+        {...getNTagCellProps(
           row.original as unknown as ProjectMatrixTableView, // TODO revisit type assertion here
           column.id,
           METADATA_KEY.ANATOMICAL_ENTITY
-        )
-      ),
+        )}
+      />
+    ),
     header: HCA_DCP_CATEGORY_LABEL.ANATOMICAL_ENTITY,
   };
 }
@@ -1960,14 +1972,15 @@ export function getGeneratedMatricesContentDescriptionColumnDef<
 >(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.CONTENT_DESCRIPTION,
-    cell: ({ column, row }) =>
-      C.NTagCell(
-        getNTagCellProps(
+    cell: ({ column, row }) => (
+      <C.NTagCell
+        {...getNTagCellProps(
           row.original as unknown as ProjectMatrixTableView, // TODO revisit type assertion here
           column.id,
           METADATA_KEY.CONTENT_DESCRIPTION
-        )
-      ),
+        )}
+      />
+    ),
     header: HCA_DCP_CATEGORY_LABEL.CONTENT_DESCRIPTION,
   };
 }
@@ -1979,13 +1992,16 @@ export function getGeneratedMatricesContentDescriptionColumnDef<
 export function getGeneratedMatricesFileNameColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.FILE_NAME,
-    cell: ({ getValue, row }) =>
-      C.FileNameCell({
-        archivePreview: C.FileLocationArchivePreview({
-          projectMatrixView: row.original as unknown as ProjectMatrixView,
-        }),
-        fileName: getValue() as unknown as string,
-      }),
+    cell: ({ getValue, row }) => (
+      <C.FileNameCell
+        archivePreview={
+          <C.FileLocationArchivePreview
+            projectMatrixView={row.original as unknown as ProjectMatrixView}
+          />
+        }
+        fileName={getValue() as unknown as string}
+      />
+    ),
     header: HCA_DCP_CATEGORY_LABEL.FILE_NAME,
     meta: {
       columnPinned: true,
@@ -2012,14 +2028,15 @@ export function getGeneratedMatricesFileSizeColumnDef<T>(): ColumnDef<T> {
 export function getGeneratedMatricesGenusSpeciesColumnDef<T>(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.GENUS_SPECIES,
-    cell: ({ column, row }) =>
-      C.NTagCell(
-        getNTagCellProps(
+    cell: ({ column, row }) => (
+      <C.NTagCell
+        {...getNTagCellProps(
           row.original as unknown as ProjectMatrixTableView, // TODO revisit type assertion here
           column.id,
           METADATA_KEY.SPECIES
-        )
-      ),
+        )}
+      />
+    ),
     header: "Species",
   };
 }
@@ -2033,14 +2050,15 @@ export function getGeneratedMatricesLibraryConstructionMethodColumnDef<
 >(): ColumnDef<T> {
   return {
     accessorKey: HCA_DCP_CATEGORY_KEY.LIBRARY_CONSTRUCTION_METHOD,
-    cell: ({ column, row }) =>
-      C.NTagCell(
-        getNTagCellProps(
+    cell: ({ column, row }) => (
+      <C.NTagCell
+        {...getNTagCellProps(
           row.original as unknown as ProjectMatrixTableView, // TODO revisit type assertion here
           column.id,
           METADATA_KEY.LIBRARY_CONSTRUCTION_APPROACH
-        )
-      ),
+        )}
+      />
+    ),
     header: HCA_DCP_CATEGORY_LABEL.LIBRARY_CONSTRUCTION_METHOD,
   };
 }
@@ -2158,20 +2176,22 @@ export function getProjectCallToAction(
     ? `https://duos.org/dataset/${duosId}`
     : "https://duos.org/datalibrary/HCA";
 
-  return C.BackPageHeroActions({
-    callToActionProps: {
-      callToAction: {
-        label: "Request Access",
-        target: ANCHOR_TARGET.BLANK,
-        url: ctaUrl,
-      },
-    },
-    linkProps: {
-      getURL: (origin?: string): string =>
-        `${origin}/guides/requesting-access-to-controlled-access-data`,
-      label: "Need Help?",
-    },
-  });
+  return (
+    <C.BackPageHeroActions
+      callToActionProps={{
+        callToAction: {
+          label: "Request Access",
+          target: ANCHOR_TARGET.BLANK,
+          url: ctaUrl,
+        },
+      }}
+      linkProps={{
+        getURL: (origin?: string): string =>
+          `${origin}/guides/requesting-access-to-controlled-access-data`,
+        label: "Need Help?",
+      }}
+    />
+  );
 }
 
 /**

@@ -62,6 +62,7 @@ export function buildAnvilDatasetJsonLd(
  * @param data - AnVIL CMG dataset detail response.
  * @returns Deduplicated keywords array.
  */
+
 function buildKeywords(data: DatasetsResponse): string[] {
   const values: (string | null | undefined)[] = [];
   for (const activity of data.activities ?? []) {

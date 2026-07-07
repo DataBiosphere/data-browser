@@ -92,6 +92,7 @@ function buildCreators(contributors: ContributorResponse[]): SchemaPerson[] {
  * @param data - Project detail response.
  * @returns Deduplicated keywords array.
  */
+
 function buildKeywords(data: ProjectsResponse): string[] {
   const values: (string | null | undefined)[] = [];
   for (const donor of data.donorOrganisms ?? []) {
