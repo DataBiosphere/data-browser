@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.5.1](https://github.com/DataBiosphere/data-browser/compare/v3.5.0...v3.5.1) (2026-07-15)
+
+
+### Continuous Integration
+
+* pin github actions by commit sha at current versions ([#4893](https://github.com/DataBiosphere/data-browser/issues/4893)) ([fe39abd](https://github.com/DataBiosphere/data-browser/commit/fe39abd1628742d9cda8d549b15883e8acf483b5))
+* pin github actions by commit sha at current versions ([#4894](https://github.com/DataBiosphere/data-browser/issues/4894)) ([fe39abd](https://github.com/DataBiosphere/data-browser/commit/fe39abd1628742d9cda8d549b15883e8acf483b5))
+* upgrade release-please-action from v4 to v5 ([#4890](https://github.com/DataBiosphere/data-browser/issues/4890)) ([c824f63](https://github.com/DataBiosphere/data-browser/commit/c824f6339c545be751499004c24e9eea1a510b69))
+* upgrade release-please-action from v4 to v5 ([#4891](https://github.com/DataBiosphere/data-browser/issues/4891)) ([c824f63](https://github.com/DataBiosphere/data-browser/commit/c824f6339c545be751499004c24e9eea1a510b69))
+
 ## [3.5.0](https://github.com/DataBiosphere/data-browser/compare/v3.4.1...v3.5.0) (2026-07-01)
 
 
