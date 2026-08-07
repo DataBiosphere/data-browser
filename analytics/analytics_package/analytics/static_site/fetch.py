@@ -363,6 +363,9 @@ def fetch_data(
         custom_events = []
 
     if exclude_dates:
+        for d in exclude_dates:
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
+                raise ValueError(f"exclude_dates entries must be YYYY-MM-DD, got: {d!r}")
         base_dimension_filter = parse_filter_expressions(
             [
                 base_dimension_filter,
