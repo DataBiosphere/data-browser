@@ -1,6 +1,7 @@
 """Fetch analytics data from GA4 for the static site."""
 
 import re
+from datetime import date
 from urllib.parse import urlparse, parse_qs
 
 from .. import sheets_elements as elements
@@ -366,6 +367,7 @@ def fetch_data(
         for d in exclude_dates:
             if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
                 raise ValueError(f"exclude_dates entries must be YYYY-MM-DD, got: {d!r}")
+            date.fromisoformat(d)
         base_dimension_filter = parse_filter_expressions(
             [
                 base_dimension_filter,
