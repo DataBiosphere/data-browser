@@ -5,7 +5,7 @@ import os
 
 import analytics.api as ga
 from analytics.static_site import generate_site, enrich_detail_records, make_event_charts
-from constants import CURRENT_MONTH, ANVIL_EXPLORER_ID, SECRET_NAME, ANALYTICS_START, OAUTH_PORT
+from constants import CURRENT_MONTH, ANVIL_EXPLORER_ID, SECRET_NAME, ANALYTICS_START, OAUTH_PORT, EXCLUDE_BOT_TRAFFIC_DATES
 from utils import fetch_dataset_title_map
 
 os.environ.setdefault(SECRET_NAME, "../../.credentials/anvil_ga4_credentials.json")
@@ -95,4 +95,5 @@ generate_site(
     event_charts=make_event_charts("Dataset", "/datasets", "2026-03-01"),
     title_resolver=resolve_dataset_titles,
     access_request_urls=["duos.org", "dbgap.ncbi.nlm.nih.gov"],
+    exclude_dates=EXCLUDE_BOT_TRAFFIC_DATES,
 )
