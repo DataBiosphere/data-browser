@@ -6,7 +6,7 @@ rm -rf ./out
 echo \"Deleting ./build/\"
 rm -rf ./build
 
-n 22.12.0
+n $(cat .nvmrc)
 npm ci
 export NEXT_PUBLIC_BASE_PATH="/data"
 
