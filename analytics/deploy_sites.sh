@@ -12,9 +12,9 @@ rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR/anvil-explorer" "$DEPLOY_DIR/hca-explorer" "$DEPLOY_DIR/lungmap"
 
 # Copy each site
-cp -r "$SCRIPT_DIR/anvil-explorer-sheets/site/"* "$DEPLOY_DIR/anvil-explorer/"
-cp -r "$SCRIPT_DIR/hca-explorer-sheets/site/"* "$DEPLOY_DIR/hca-explorer/"
-cp -r "$SCRIPT_DIR/lungmap-analytics/sheets/site/"* "$DEPLOY_DIR/lungmap/"
+cp -r "$SCRIPT_DIR/anvil-explorer/site/"* "$DEPLOY_DIR/anvil-explorer/"
+cp -r "$SCRIPT_DIR/hca-explorer/site/"* "$DEPLOY_DIR/hca-explorer/"
+cp -r "$SCRIPT_DIR/lungmap/site/"* "$DEPLOY_DIR/lungmap/"
 
 # Create index page with links
 cat > "$DEPLOY_DIR/index.html" <<'HTML'
