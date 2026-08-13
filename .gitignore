@@ -63,7 +63,6 @@ _templates
 #Python
 __pycache__/
 *.egg-info/
-/analytics/**/_build
 /analytics/**/site/
 /analytics/venv
 
