@@ -2,7 +2,7 @@
 # The date of the current month to report on (yyyy-mm)
 CURRENT_MONTH = "2026-07"
 
-HISTORIC_UA_DATA_PATH = "../users_over_time_history.json"
+HISTORIC_UA_DATA_PATH = "users_over_time_history.json"
 LUNGMAP_ID = "362871218"
 SECRET_NAME = 'ANALYTICS_REPORTING_CLIENT_SECRET_PATH'
 ANALYTICS_START = "2023-07-01"
