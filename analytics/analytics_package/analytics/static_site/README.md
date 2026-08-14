@@ -1,44 +1,8 @@
 # Static Analytics Site Generator
 
-Generates static HTML dashboards from GA4 data for data-browser apps. Each app (AnVIL Explorer, AnVIL Catalog, HCA Data Explorer, LungMAP) has its own `generate_static_site.py` script that calls the shared `generate_site()` function with app-specific configuration.
+Generates static HTML dashboards from GA4 data for data-browser apps. Each app (e.g. AnVIL Explorer, AnVIL Catalog, HCA Data Explorer, LungMAP) has its own `generate_static_site.py` script that calls the shared `generate_site()` function with app-specific configuration.
 
-## Prerequisites
-
-1. **Python virtual environment**:
-   ```
-   cd analytics
-   source ./venv/bin/activate
-   pip install -e ./analytics_package/
-   ```
-
-2. **OAuth credentials**: Place the GA4 OAuth client secret JSON file in `.credentials/` at the repo root:
-   - `.credentials/anvil_ga4_credentials.json` — AnVIL Explorer and AnVIL Catalog
-   - `.credentials/hca_ga4_credentials.json` — HCA Data Explorer and LungMAP
-
-## Generating a site
-
-From the app's analytics directory, run:
-
-```
-cd analytics
-source ./venv/bin/activate
-cd anvil-explorer-sheets    # or anvil-catalog-sheets, hca-explorer-sheets, lungmap-analytics/sheets
-python generate_static_site.py
-```
-
-A browser window will open for Google OAuth. After authenticating, the script fetches data from GA4 and writes the site to `./site/`.
-
-To view locally:
-
-```
-cd site && python -m http.server 8080
-```
-
-Then open http://localhost:8080.
-
-## Updating the report month
-
-Each app has a `constants.py` file with `CURRENT_MONTH` (e.g., `"2026-03"`). Update this value before generating a new report.
+See the [repository's main analytics readme](../../../readme.md) for details on the generator implementations for the actual apps.
 
 ## Architecture
 
@@ -54,12 +18,7 @@ Each app has a `constants.py` file with `CURRENT_MONTH` (e.g., `"2026-03"`). Upd
 
 ### Per-app scripts
 
-| App | Script | Credentials | Catalog API |
-|-----|--------|-------------|-------------|
-| AnVIL Explorer | `anvil-explorer-sheets/generate_static_site.py` | `anvil_ga4_credentials.json` | `service.explore.anvilproject.org/index/datasets` |
-| AnVIL Catalog | `anvil-catalog-sheets/generate_static_site.py` | `anvil_ga4_credentials.json` | — |
-| HCA Data Explorer | `hca-explorer-sheets/generate_static_site.py` | `hca_ga4_credentials.json` | `service.azul.data.humancellatlas.org/index/projects` |
-| LungMAP | `lungmap-analytics/sheets/generate_static_site.py` | `hca_ga4_credentials.json` | `service.azul.data.humancellatlas.org/index/projects` (catalog=lm10) |
+Located in subfolders of the repository's `analytics` directory.
 
 ### Configuration
 
