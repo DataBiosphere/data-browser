@@ -42,7 +42,7 @@ def export_df_as_json(df, col_map, change_col, filename, output_dir):
         export.columns = output_names
 
         for col in output_names:
-            if col != "change" and export[col].dtype != object:
+            if col != "change" and export[col].dtype not in (object, "str"):
                 export[col] = export[col].fillna(0).astype(int)
 
         records = export.to_dict(orient="records")
