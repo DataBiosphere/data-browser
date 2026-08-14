@@ -4,9 +4,9 @@ import re
 from datetime import date
 from urllib.parse import urlparse, parse_qs
 
-from .. import sheets_elements as elements
+from .. import report_elements as elements
 from ..api import parse_filter_expressions
-from .._sheets_utils import get_data_df_from_fields
+from .._report_utils import get_data_df_from_fields
 from ..entities import (
     DIMENSION_YEAR_MONTH,
     METRIC_EVENT_COUNT,

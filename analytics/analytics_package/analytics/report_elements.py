@@ -1,6 +1,6 @@
 import pandas as pd
 
-from ._sheets_utils import *
+from ._report_utils import *
 from .entities import *
 from urllib.parse import urlparse
 
