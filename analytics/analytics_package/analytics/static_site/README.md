@@ -12,7 +12,7 @@ See the [repository's main analytics readme](../../../readme.md) for details on 
 |------|---------|
 | `generator.py` | Orchestrates fetch, title resolution, template copy, and data export |
 | `fetch.py` | Fetches GA4 data: traffic, pageviews, outbound links, filter selections, sessions, engagement rate, custom events, file downloads, and access requests |
-| `export.py` | Exports DataFrames and dicts to JSON files in `site/data/` |
+| `export.py` | Exports DataFrames and dicts to JSON files in `<output folder>/data/` |
 | `resolve.py` | Resolves entity UUIDs to titles via catalog APIs (AnVIL, HCA/LungMAP Azul) |
 | `template/index.html` | Config-driven HTML template with Chart.js charts and data tables |
 
@@ -46,7 +46,7 @@ For apps with dataset/project detail tables, a `title_resolver` callback enriche
 ### Output structure
 
 ```
-site/
+<output folder>/
 ├── index.html          # Dashboard (copied from template)
 └── data/
     ├── config.json
