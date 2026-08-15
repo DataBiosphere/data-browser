@@ -6,6 +6,7 @@ import os
 from datetime import datetime
 
 import pandas as pd
+from pandas.api.types import is_object_dtype, is_string_dtype
 
 from ..entities import (
     DIMENSION_PAGE_PATH,
@@ -42,7 +43,8 @@ def export_df_as_json(df, col_map, change_col, filename, output_dir):
         export.columns = output_names
 
         for col in output_names:
-            if col != "change" and export[col].dtype not in (object, "str"):
+            col_dtype = export[col].dtype
+            if not (col == "change" or is_object_dtype(col_dtype) or is_string_dtype(col_dtype)):
                 export[col] = export[col].fillna(0).astype(int)
 
         records = export.to_dict(orient="records")
