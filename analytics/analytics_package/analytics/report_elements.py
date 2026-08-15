@@ -33,7 +33,6 @@ def get_outbound_links_df(analytics_params, ignore_index=True):
         Dimensions: DIMENSION_PAGE_PATH, SYNTHETIC_DIMENSION_CLICKED_HOSTNAME, SYNTHETIC_DIMENSION_CLICKED_LINK
         Metrics: SYNTHETIC_METRIC_CLICKS, METRIC_TOTAL_USERS
     """
-    pd.set_option('future.no_silent_downcasting', True)
     assert "dimension_filter" not in analytics_params
     # Get the builtin "Click" event
     df_builtin_links =get_data_df_from_fields(
