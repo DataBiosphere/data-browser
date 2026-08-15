@@ -125,7 +125,6 @@ def get_change_over_time_df(
         time_dimension["id"],
         sort_results=[time_dimension["id"]],
         df_processor=(lambda df: df.set_index(df.index + "01").sort_index(ascending=False)),
-        format_table=False,
         **other_params
     ).rename({time_dimension["id"]: time_dimension["alias"]})
 
