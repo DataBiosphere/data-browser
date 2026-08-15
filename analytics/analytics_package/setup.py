@@ -2,11 +2,11 @@ from setuptools import setup
 
 setup(
     name="analytics",
-    version="5.0.2",
+    version="5.0.3",
     packages=["analytics", "analytics.static_site"],
     package_data={"analytics.static_site": ["template/*.html"]},
     install_requires=[
-        "pandas",
+        "pandas>=3,<4",
         "numpy",
         "google-auth-oauthlib",
         "google-api-python-client",
