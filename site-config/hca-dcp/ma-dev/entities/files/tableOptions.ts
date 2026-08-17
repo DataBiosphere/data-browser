@@ -11,7 +11,6 @@ export const TABLE_OPTIONS: EntityConfig<FilesResponse>["list"]["tableOptions"] 
       columnVisibility: {
         [HCA_DCP_CATEGORY_KEY.FILE_FORMAT]: false,
         [HCA_DCP_CATEGORY_KEY.FILE_SOURCE]: false,
-        [HCA_DCP_CATEGORY_KEY.SAMPLE_ID]: false,
         [HCA_DCP_CATEGORY_KEY.GENUS_SPECIES]: false,
         [HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE]: false,
         [HCA_DCP_CATEGORY_KEY.SPECIMEN_ORGAN]: false,

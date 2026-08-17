@@ -405,20 +405,6 @@ export const buildAggregatedSampleEntityType = (
 };
 
 /**
- * Build props for the aggregated sample ID NTagCell component from the given entity response.
- * @param entityResponse - Response model return from the entity response API.
- * @returns model to be used as props for the NTagCell component.
- */
-export const buildAggregatedSampleId = (
-  entityResponse: ProjectsResponse | FilesResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.SAMPLE_ID),
-    values: processAggregatedOrArrayValue(entityResponse.samples, "id"),
-  };
-};
-
-/**
  * Build props for the aggregated model organ NTagCell component from the given entity response.
  * @param entityResponse - Response model return from the entity response API.
  * @returns model to be used as props for the NTagCell component.
@@ -1389,19 +1375,6 @@ export const buildSampleEntityType = (
 ): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: processEntityValue(samplesResponse.samples, "sampleEntityType"),
-  };
-};
-
-/**
- * Build props for sample identifier BasicCell component from the given sample response.
- * @param samplesResponse - Response model return from samples API.
- * @returns model to be used as props for the BasicCell component.
- */
-export const buildSampleId = (
-  samplesResponse: SamplesResponse
-): React.ComponentProps<typeof C.BasicCell> => {
-  return {
-    value: processEntityValue(samplesResponse.samples, "id"),
   };
 };
 
