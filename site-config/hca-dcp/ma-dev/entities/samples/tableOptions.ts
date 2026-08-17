@@ -23,7 +23,7 @@ export const TABLE_OPTIONS: EntityConfig<SamplesResponse>["list"]["tableOptions"
       sorting: [
         {
           desc: SORT_DIRECTION.ASCENDING,
-          id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
+          id: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
         },
       ],
     },

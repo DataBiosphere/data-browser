@@ -27,15 +27,6 @@ export const samplesEntityConfig: EntityConfig = {
     columns: [
       {
         componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildSampleId,
-        } as ComponentConfig<typeof C.BasicCell, SamplesResponse>,
-        header: HCA_DCP_CATEGORY_LABEL.SAMPLE_ID,
-        id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
-        width: { max: "1fr", min: "120px" },
-      },
-      {
-        componentConfig: {
           component: C.Link,
           viewBuilder: V.buildAggregatedProjectTitle,
         } as ComponentConfig<typeof C.Link, SamplesResponse>,
@@ -207,7 +198,7 @@ export const samplesEntityConfig: EntityConfig = {
         sorting: [
           {
             desc: SORT_DIRECTION.ASCENDING,
-            id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
+            id: HCA_DCP_CATEGORY_KEY.PROJECT_TITLE,
           },
         ],
       },
