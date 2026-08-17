@@ -214,16 +214,6 @@ const SAMPLE_ENTITY_TYPE: ColumnConfig<FilesResponse> = {
   width: { max: "1fr", min: "120px" },
 };
 
-const SAMPLE_ID: ColumnConfig<FilesResponse> = {
-  componentConfig: {
-    component: C.NTagCell,
-    viewBuilder: V.buildAggregatedSampleId,
-  } as ComponentConfig<typeof C.NTagCell, FilesResponse>,
-  header: HCA_DCP_CATEGORY_LABEL.SAMPLE_ID,
-  id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
-  width: { max: "1fr", min: "120px" },
-};
-
 const SELECTED_CELL_TYPE: ColumnConfig<FilesResponse> = {
   componentConfig: {
     component: C.NTagCell,
@@ -274,7 +264,6 @@ export const COLUMNS: EntityConfig<FilesResponse>["list"]["columns"] = [
   CONTENT_DESCRIPTION,
   FILE_SOURCE,
   PROJECT_TITLE,
-  SAMPLE_ID,
   GENUS_SPECIES,
   SAMPLE_ENTITY_TYPE,
   SPECIMEN_ORGAN,
