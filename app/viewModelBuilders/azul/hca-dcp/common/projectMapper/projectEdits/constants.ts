@@ -2,6 +2,7 @@ import { ANALYSIS_PORTAL, AnalysisPortal, ProjectEdit } from "./entities";
 
 const azimuthIcon = "/images/icons/azimuth.png";
 const bioDataCatalystIcon = "/images/icons/bio-data-catalyst.png";
+const bioDataCatalystUrl = "https://gen3.biodatacatalyst.nhlbi.nih.gov/";
 const cxgIcon = "/images/icons/cxg.png";
 const genomeBrowserIcon = "/images/icons/ucsc-genome.svg";
 const jbrowseIcon = "/images/icons/jbrowse.png";
@@ -649,7 +650,7 @@ export const baseProjectEdits: ProjectEdit[] = [
     analysisPortals: [
       {
         ...BIO_DATA_CATALYST,
-        url: "https://gen3.biodatacatalyst.nhlbi.nih.gov/",
+        url: bioDataCatalystUrl,
       },
       {
         ...CZ_CELLXGENE,
@@ -1729,7 +1730,7 @@ export const baseProjectEdits: ProjectEdit[] = [
     analysisPortals: [
       {
         ...BIO_DATA_CATALYST,
-        url: "https://gen3.biodatacatalyst.nhlbi.nih.gov/",
+        url: bioDataCatalystUrl,
       },
       {
         ...LUNGMAP_APPS,
@@ -1780,7 +1781,7 @@ export const baseProjectEdits: ProjectEdit[] = [
     analysisPortals: [
       {
         ...BIO_DATA_CATALYST,
-        url: "https://gen3.biodatacatalyst.nhlbi.nih.gov/",
+        url: bioDataCatalystUrl,
       },
       {
         ...CZ_CELLXGENE,
@@ -1930,7 +1931,7 @@ export const baseProjectEdits: ProjectEdit[] = [
     analysisPortals: [
       {
         ...BIO_DATA_CATALYST,
-        url: "https://gen3.biodatacatalyst.nhlbi.nih.gov/",
+        url: bioDataCatalystUrl,
       },
       {
         ...LUNGMAP_APPS,

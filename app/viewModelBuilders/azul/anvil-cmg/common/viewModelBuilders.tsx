@@ -80,7 +80,6 @@ import {
   getBioSampleId,
   getBioSampleType,
   getConsentGroup,
-  isNRESOrUnrestrictedAccess,
   getDatasetDetails,
   getDatasetEntryId,
   getDocumentId,
@@ -94,6 +93,7 @@ import {
   getPhenotypicSex,
   getPrepMaterialName,
   getReportedEthnicities,
+  isNRESOrUnrestrictedAccess,
 } from "../../../../apis/azul/anvil-cmg/common/transformers";
 import {
   processAggregatedOrArrayValue,
@@ -108,9 +108,9 @@ import { ExportEntity } from "../../../../components/Export/components/AnVILExpl
 import { ExportIcon } from "../../../../components/Export/components/AnVILExplorer/components/ExportMethod/components/ExportIcon/exportIcon";
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
+import { isProductionEnvironment } from "../../../../config/utils";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
-import { isProductionEnvironment } from "../../../../config/utils";
 
 /**
  * Build props for activity type BasicCell component from the given activities response.
@@ -412,6 +412,7 @@ export function buildDatasetExportHero(
   return {
     breadcrumbs: [
       ...buildDatasetExportBreadcrumbs(datasetsResponse),
+
       { path: "", text: "Choose Export Method" },
     ],
     title: getDatasetTitle(datasetsResponse),
@@ -513,6 +514,7 @@ export const buildDatasetExportMethodTerra = (
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     icon: <ExportIcon alt="Terra" src="/export/terra.webp" width={24} />,
     route: `${datasetPath}${ROUTES.TERRA}`,
+
     title: "Export to Terra",
   };
 };
@@ -880,11 +882,10 @@ export const buildExportMethodHeroTerra = (
   _: unknown,
   viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof C.BackPageHero> => {
-  const title = "Export to Terra";
   const {
     exploreState: { tabValue },
   } = viewContext;
-  return getExportMethodHero(tabValue, title);
+  return getExportMethodHero(tabValue, "Export to Terra");
 };
 
 /**

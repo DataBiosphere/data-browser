@@ -1,27 +1,27 @@
-import { JSX } from "react";
+import { MANIFEST_DOWNLOAD_FORMAT } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { BUTTON_PROPS } from "@databiosphere/findable-ui/lib/components/common/Button/constants";
-import { useFileManifest } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifest";
-import { useFileManifestFileCount } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifestFileCount";
-import { useFileManifestFormat } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifestFormat";
-import { useRequestFileLocation } from "@databiosphere/findable-ui/lib/hooks/useRequestFileLocation";
-import { useRequestManifest } from "@databiosphere/findable-ui/lib/hooks/useRequestManifest/useRequestManifest";
 import { FluidPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/components/FluidPaper/fluidPaper";
-import { Loading } from "@databiosphere/findable-ui/lib/components/Loading/loading";
-import { ExportManifestDownloadFormatForm } from "@databiosphere/findable-ui/lib/components/Export/components/ExportForm/components/ExportManifestDownloadFormatForm/exportManifestDownloadFormatForm";
+import { PAPER_PANEL_STYLE } from "@databiosphere/findable-ui/lib/components/common/Paper/paper";
 import { ExportButton } from "@databiosphere/findable-ui/lib/components/Export/components/ExportForm/components/ExportButton/exportButton";
+import { ExportManifestDownloadFormatForm } from "@databiosphere/findable-ui/lib/components/Export/components/ExportForm/components/ExportManifestDownloadFormatForm/exportManifestDownloadFormatForm";
 import { ExportForm } from "@databiosphere/findable-ui/lib/components/Export/components/ExportForm/exportForm";
 import {
   Section,
   SectionActions,
   SectionContent,
 } from "@databiosphere/findable-ui/lib/components/Export/export.styles";
-import { Button } from "@mui/material";
 import {
-  REL_ATTRIBUTE,
   ANCHOR_TARGET,
+  REL_ATTRIBUTE,
 } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
-import { PAPER_PANEL_STYLE } from "@databiosphere/findable-ui/lib/components/common/Paper/paper";
-import { MANIFEST_DOWNLOAD_FORMAT } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
+import { Loading } from "@databiosphere/findable-ui/lib/components/Loading/loading";
+import { useFileManifest } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifest";
+import { useFileManifestFileCount } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifestFileCount";
+import { useFileManifestFormat } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifestFormat";
+import { useRequestFileLocation } from "@databiosphere/findable-ui/lib/hooks/useRequestFileLocation";
+import { useRequestManifest } from "@databiosphere/findable-ui/lib/hooks/useRequestManifest/useRequestManifest";
+import { Button } from "@mui/material";
+import { JSX } from "react";
 import { Props } from "./types";
 
 export const ExportToPlatform = ({

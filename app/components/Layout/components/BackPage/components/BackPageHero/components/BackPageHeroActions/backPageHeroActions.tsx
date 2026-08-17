@@ -1,4 +1,3 @@
-import { JSX } from "react";
 import {
   CallToActionButton,
   CallToActionButtonProps,
@@ -8,9 +7,9 @@ import {
   LinkProps,
 } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
 import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
-import { SiteConfig } from "../../../../../../../../../site-config/common/entities";
-import { StyledBackPageHeroActions } from "./backPageHeroActions.styles";
 import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
+import { JSX } from "react";
+import { StyledBackPageHeroActions } from "./backPageHeroActions.styles";
 
 export interface BackPageHeroActionsProps {
   callToActionProps: CallToActionButtonProps;
@@ -21,7 +20,7 @@ export const BackPageHeroActions = ({
   callToActionProps,
   linkProps,
 }: BackPageHeroActionsProps): JSX.Element => {
-  const { config } = useConfig() as { config: SiteConfig };
+  const { config } = useConfig() as { config: { portalURL?: string } };
   const { getURL, label, ...otherProps } = linkProps || {};
   const linkUrl = getURL?.(config.portalURL);
   return (

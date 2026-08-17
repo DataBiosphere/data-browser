@@ -1,5 +1,151 @@
 # Changelog
 
+## [3.5.0](https://github.com/DataBiosphere/data-browser/compare/v3.4.1...v3.5.0) (2026-07-01)
+
+
+### Features
+
+* add access metrics section to HCA analytics report ([#4880](https://github.com/DataBiosphere/data-browser/issues/4880)) ([15813b6](https://github.com/DataBiosphere/data-browser/commit/15813b6fd3d0eb407a8637f96502720e5ac0047d))
+
+
+### Chores
+
+* prettier-ignore tsconfig.json so next build reformatting doesn't fail check-format ([#4885](https://github.com/DataBiosphere/data-browser/issues/4885)) ([#4886](https://github.com/DataBiosphere/data-browser/issues/4886)) ([afa4f46](https://github.com/DataBiosphere/data-browser/commit/afa4f469f87660d2551817b015aa5fd1f2fd4754))
+* replace Zendesk FAB with help page link for HCA DCP ([#4882](https://github.com/DataBiosphere/data-browser/issues/4882)) ([9de27e3](https://github.com/DataBiosphere/data-browser/commit/9de27e347b66ee02284c94cacd2c0424ceb42d36))
+* replace zendesk support form with anvil portal help link ([#4873](https://github.com/DataBiosphere/data-browser/issues/4873)) ([ae4261a](https://github.com/DataBiosphere/data-browser/commit/ae4261ace6afd2dd29d6e4dad0322243098c1b4a))
+* replace zendesk support form with anvil portal help link [#4872](https://github.com/DataBiosphere/data-browser/issues/4872) ([ae4261a](https://github.com/DataBiosphere/data-browser/commit/ae4261ace6afd2dd29d6e4dad0322243098c1b4a))
+* update default catalog to anvil14 ([#4887](https://github.com/DataBiosphere/data-browser/issues/4887)) ([915dc1c](https://github.com/DataBiosphere/data-browser/commit/915dc1c3357e3fd46f55b04e0f491830762c3c40))
+* update default catalog to anvil14 [#4883](https://github.com/DataBiosphere/data-browser/issues/4883) ([915dc1c](https://github.com/DataBiosphere/data-browser/commit/915dc1c3357e3fd46f55b04e0f491830762c3c40))
+* upgrade to next.js 16 + new findable-ui major (phase 2 from findable-ui[#952](https://github.com/DataBiosphere/data-browser/issues/952)) ([#4876](https://github.com/DataBiosphere/data-browser/issues/4876)) ([#4878](https://github.com/DataBiosphere/data-browser/issues/4878)) ([4044a02](https://github.com/DataBiosphere/data-browser/commit/4044a02196dd502830c94733b97e1c1c4d3913da))
+
+
+### Code Refactoring
+
+* render view-builder components as jsx elements instead of plain function calls (rules-of-hooks) ([#4877](https://github.com/DataBiosphere/data-browser/issues/4877)) ([#4884](https://github.com/DataBiosphere/data-browser/issues/4884)) ([7c33510](https://github.com/DataBiosphere/data-browser/commit/7c335107029ad56824f7ed50515935e2272afd2e))
+
+## [3.4.1](https://github.com/DataBiosphere/data-browser/compare/v3.4.0...v3.4.1) (2026-06-25)
+
+
+### Chores
+
+* make dcp60 the default catalog on hca ([#4871](https://github.com/DataBiosphere/data-browser/issues/4871)) ([a0e9d87](https://github.com/DataBiosphere/data-browser/commit/a0e9d874549e471e31114989252a888a61df086b))
+* make dcp60 the default catalog on hca [#4869](https://github.com/DataBiosphere/data-browser/issues/4869) ([a0e9d87](https://github.com/DataBiosphere/data-browser/commit/a0e9d874549e471e31114989252a888a61df086b))
+* update analytics to May 2026 ([#4860](https://github.com/DataBiosphere/data-browser/issues/4860)) ([310ff43](https://github.com/DataBiosphere/data-browser/commit/310ff43971f3e9b979e969c8636e3d53b26ee549))
+
+## [3.4.0](https://github.com/DataBiosphere/data-browser/compare/v3.3.0...v3.4.0) (2026-06-04)
+
+
+### Features
+
+* add bot traffic filtering and engaged sessions metric to static analytics ([#4838](https://github.com/DataBiosphere/data-browser/issues/4838)) ([3950183](https://github.com/DataBiosphere/data-browser/commit/3950183e786d636b387228c4be4be9879627da9f))
+
+
+### Bug Fixes
+
+* hca-dcp matrices tab honours project access gating ([#4858](https://github.com/DataBiosphere/data-browser/issues/4858)) ([#4859](https://github.com/DataBiosphere/data-browser/issues/4859)) ([aaaddc5](https://github.com/DataBiosphere/data-browser/commit/aaaddc510034f703fce93409787f60aa64712ef3))
+
+
+### Chores
+
+* disable duos access request option for anvil datasets ([#4855](https://github.com/DataBiosphere/data-browser/issues/4855)) ([#4856](https://github.com/DataBiosphere/data-browser/issues/4856)) ([4d15705](https://github.com/DataBiosphere/data-browser/commit/4d15705a3aaa83bdd99ddee7133ee317ed8f1a64))
+
+## [3.3.0](https://github.com/DataBiosphere/data-browser/compare/v3.2.0...v3.3.0) (2026-05-26)
+
+
+### Features
+
+* [anvil dx] add anvil datasets to google datasets catalog ([#4807](https://github.com/DataBiosphere/data-browser/issues/4807)) ([#4831](https://github.com/DataBiosphere/data-browser/issues/4831)) ([4087b5c](https://github.com/DataBiosphere/data-browser/commit/4087b5c2cda49d340572c43b8c3694fd517fb71f))
+* [lungmap] add lungmap projects to google datasets catalog ([#4808](https://github.com/DataBiosphere/data-browser/issues/4808)) ([#4832](https://github.com/DataBiosphere/data-browser/issues/4832)) ([646bea7](https://github.com/DataBiosphere/data-browser/commit/646bea7a0b388fcb6284d0d66e29ddb03ce5f41b))
+* implement authorization code flow for anvil prod (anvil-cmg/prod) ([#4851](https://github.com/DataBiosphere/data-browser/issues/4851)) ([#4852](https://github.com/DataBiosphere/data-browser/issues/4852)) ([690bd78](https://github.com/DataBiosphere/data-browser/commit/690bd78c802f92bfc9ea613d28c2f7f809089fdc))
+* implement authorization code flow for hca prod (ma-prod) ([#4850](https://github.com/DataBiosphere/data-browser/issues/4850)) ([#4853](https://github.com/DataBiosphere/data-browser/issues/4853)) ([381848c](https://github.com/DataBiosphere/data-browser/commit/381848c95317c296784bbb05434d7b1015c60af5))
+
+
+### Chores
+
+* [hca dcp] clean up unused dev/cc-ma-dev site-configs, relocate makeconfig to ma-dev ([#4820](https://github.com/DataBiosphere/data-browser/issues/4820)) ([#4826](https://github.com/DataBiosphere/data-browser/issues/4826)) ([4aee494](https://github.com/DataBiosphere/data-browser/commit/4aee494f4ebf4f4351a2450fdba2744a5cebad28))
+* [hca dcp] refresh cellxgene → hca project mapping ([#4847](https://github.com/DataBiosphere/data-browser/issues/4847)) ([#4849](https://github.com/DataBiosphere/data-browser/issues/4849)) ([b8be871](https://github.com/DataBiosphere/data-browser/commit/b8be87149c10c1d6474201eb0adec399e6c21102))
+
+## [3.2.0](https://github.com/DataBiosphere/data-browser/compare/v3.1.0...v3.2.0) (2026-05-21)
+
+
+### Features
+
+* [anvil explorer] collapsible registration completion reminder ([#4816](https://github.com/DataBiosphere/data-browser/issues/4816)) ([#4845](https://github.com/DataBiosphere/data-browser/issues/4845)) ([2332675](https://github.com/DataBiosphere/data-browser/commit/233267588bf5275aaf68f1760a7f51abfda8e9ba))
+* [hca dcp] add hca projects to google datasets catalog ([#4806](https://github.com/DataBiosphere/data-browser/issues/4806)) ([#4829](https://github.com/DataBiosphere/data-browser/issues/4829)) ([d6d2b4c](https://github.com/DataBiosphere/data-browser/commit/d6d2b4c517880b4b7e4c7b7b77d30526e5837240))
+* [hca dcp] implement authorization code flow with azul for hca dcp dev ([#4805](https://github.com/DataBiosphere/data-browser/issues/4805)) ([#4819](https://github.com/DataBiosphere/data-browser/issues/4819)) ([3735659](https://github.com/DataBiosphere/data-browser/commit/3735659cfad093cef95524d41086324d1789234b))
+* [lungmap] add open graph and twitter meta tags ([#4798](https://github.com/DataBiosphere/data-browser/issues/4798)) ([#4827](https://github.com/DataBiosphere/data-browser/issues/4827)) ([8712bb3](https://github.com/DataBiosphere/data-browser/commit/8712bb3eea28eb0391e78e0638a9baeb7462eb24))
+* add monthly trend charts for export events in static analytics ([#4842](https://github.com/DataBiosphere/data-browser/issues/4842)) ([2b00f8e](https://github.com/DataBiosphere/data-browser/commit/2b00f8e782ca25afe0086b760a3bb29c60b2cdc4))
+* add monthly trend charts for export events in static analytics [#4825](https://github.com/DataBiosphere/data-browser/issues/4825) ([2b00f8e](https://github.com/DataBiosphere/data-browser/commit/2b00f8e782ca25afe0086b760a3bb29c60b2cdc4))
+* add open graph and twitter meta tags for anvil-cmg ([#4797](https://github.com/DataBiosphere/data-browser/issues/4797)) ([#4799](https://github.com/DataBiosphere/data-browser/issues/4799)) ([f09c38b](https://github.com/DataBiosphere/data-browser/commit/f09c38beddd93962558c8feaec0efbdd5b1c1a6f))
+* add static analytics site generator for all data-browser apps ([#4789](https://github.com/DataBiosphere/data-browser/issues/4789)) ([85eb817](https://github.com/DataBiosphere/data-browser/commit/85eb817f9f11105006208b1d5aef097130bdefe2))
+* replace file download lists with counts in static analytics pages ([#4834](https://github.com/DataBiosphere/data-browser/issues/4834)) ([f8d0eee](https://github.com/DataBiosphere/data-browser/commit/f8d0eee31e2b5b2efefe101f1bfbae869bc7955e))
+
+
+### Bug Fixes
+
+* anvil-dataset e2e times out on firefox ([#4840](https://github.com/DataBiosphere/data-browser/issues/4840)) ([#4841](https://github.com/DataBiosphere/data-browser/issues/4841)) ([7b21226](https://github.com/DataBiosphere/data-browser/commit/7b21226346f7f4c74527a75bec3617ba9b08b163))
+* flaky download file manifest e2e — wait for nav ([#4828](https://github.com/DataBiosphere/data-browser/issues/4828)) ([#4835](https://github.com/DataBiosphere/data-browser/issues/4835)) ([80deb3a](https://github.com/DataBiosphere/data-browser/commit/80deb3abe07abd5cb7365b491eb50bf0a9f4d48e))
+* rewrite flaky anvil pagination e2e to test-id locators ([#4830](https://github.com/DataBiosphere/data-browser/issues/4830)) ([#4836](https://github.com/DataBiosphere/data-browser/issues/4836)) ([0e3c442](https://github.com/DataBiosphere/data-browser/commit/0e3c442ccb65aed2b1012b2c88beff072b8b871f))
+
+
+### Chores
+
+* deploy analytics sites with trend charts ([#4846](https://github.com/DataBiosphere/data-browser/issues/4846)) ([6e296c0](https://github.com/DataBiosphere/data-browser/commit/6e296c0633146567d9c86439bea3b591f3f82e54))
+* **deps:** bump next from 15.5.15 to 15.5.18 ([#4822](https://github.com/DataBiosphere/data-browser/issues/4822)) ([8c4566a](https://github.com/DataBiosphere/data-browser/commit/8c4566af725c4965b47055281a30c622407e7c19))
+* update analytics to April 2026, add HCA hostname filter ([#4814](https://github.com/DataBiosphere/data-browser/issues/4814)) ([e25e581](https://github.com/DataBiosphere/data-browser/commit/e25e5811a8c3a47e605cbab242dff9397030b8e3))
+* update analytics to April 2026, add HCA hostname filter [#4809](https://github.com/DataBiosphere/data-browser/issues/4809) ([e25e581](https://github.com/DataBiosphere/data-browser/commit/e25e5811a8c3a47e605cbab242dff9397030b8e3))
+* upgrade @databiosphere/findable-ui to v53.1.0 ([#4843](https://github.com/DataBiosphere/data-browser/issues/4843)) ([#4844](https://github.com/DataBiosphere/data-browser/issues/4844)) ([007d537](https://github.com/DataBiosphere/data-browser/commit/007d5376c277375e0fd7d7462730c572c501425e))
+* upgrade findable-ui to v52.2.0 ([#4824](https://github.com/DataBiosphere/data-browser/issues/4824)) ([3f78aa6](https://github.com/DataBiosphere/data-browser/commit/3f78aa669bb0ee69b9911fccebec4d64464e92fb))
+* upgrade findable-ui to v52.2.0 [#4823](https://github.com/DataBiosphere/data-browser/issues/4823) ([3f78aa6](https://github.com/DataBiosphere/data-browser/commit/3f78aa669bb0ee69b9911fccebec4d64464e92fb))
+
+## [3.1.0](https://github.com/DataBiosphere/data-browser/compare/v3.0.1...v3.1.0) (2026-05-05)
+
+
+### Features
+
+* implement authorization code flow with azul and data browser ([#4793](https://github.com/DataBiosphere/data-browser/issues/4793)) ([#4796](https://github.com/DataBiosphere/data-browser/issues/4796)) ([bc517c8](https://github.com/DataBiosphere/data-browser/commit/bc517c894635e1d808e369e8fe5eca816979b53d))
+
+
+### Tests
+
+* stabilize and rewrite anvil-cmg filter e2e suite ([#4800](https://github.com/DataBiosphere/data-browser/issues/4800)) ([#4801](https://github.com/DataBiosphere/data-browser/issues/4801)) ([c09bb88](https://github.com/DataBiosphere/data-browser/commit/c09bb881dc43923ec6fb0ad1e1d12f1e28397c0e))
+
+## [3.0.1](https://github.com/DataBiosphere/data-browser/compare/v3.0.0...v3.0.1) (2026-04-30)
+
+
+### Bug Fixes
+
+* revert providers outside ErrorBoundary and upgrade findable-ui to v51.1.0 ([#4786](https://github.com/DataBiosphere/data-browser/issues/4786)) ([922c8a5](https://github.com/DataBiosphere/data-browser/commit/922c8a50585a07afb43a5056320676f46c7320a0))
+* revert providers outside ErrorBoundary and upgrade findable-ui to v51.1.0 ([#4787](https://github.com/DataBiosphere/data-browser/issues/4787)) ([922c8a5](https://github.com/DataBiosphere/data-browser/commit/922c8a50585a07afb43a5056320676f46c7320a0))
+
+
+### Tests
+
+* add e2e anvil-cmg test for filter persistence across navigation ([#4791](https://github.com/DataBiosphere/data-browser/issues/4791)) ([#4792](https://github.com/DataBiosphere/data-browser/issues/4792)) ([4eb9a6e](https://github.com/DataBiosphere/data-browser/commit/4eb9a6ef444bdc891e8a4cef0c36d47cc5f63534))
+
+## [3.0.0](https://github.com/DataBiosphere/data-browser/compare/v2.34.0...v3.0.0) (2026-04-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade findable-ui to v51.0.0 and remove next-auth ([#4780](https://github.com/DataBiosphere/data-browser/issues/4780))
+
+### Features
+
+* make dcp59 the default catalog for HCA ([#4785](https://github.com/DataBiosphere/data-browser/issues/4785)) ([dcaeb35](https://github.com/DataBiosphere/data-browser/commit/dcaeb3531203b1a3fdf8f3dec9860908a8494e87))
+* make dcp59 the default catalog for HCA [#4782](https://github.com/DataBiosphere/data-browser/issues/4782) ([dcaeb35](https://github.com/DataBiosphere/data-browser/commit/dcaeb3531203b1a3fdf8f3dec9860908a8494e87))
+
+
+### Bug Fixes
+
+* move providers inside ErrorBoundary to prevent crash loop ([#4783](https://github.com/DataBiosphere/data-browser/issues/4783)) ([31b2e80](https://github.com/DataBiosphere/data-browser/commit/31b2e80a43c737fadd11f679457fb28146875455))
+
+
+### Chores
+
+* `enable prettier-plugin-organize-imports` ([#4774](https://github.com/DataBiosphere/data-browser/issues/4774)) ([#4775](https://github.com/DataBiosphere/data-browser/issues/4775)) ([dfd3d1a](https://github.com/DataBiosphere/data-browser/commit/dfd3d1a89fe0fe2356ff845fe34b729da26f6bb0))
+* upgrade findable-ui to v51.0.0 and remove next-auth ([#4780](https://github.com/DataBiosphere/data-browser/issues/4780)) ([c43b1b8](https://github.com/DataBiosphere/data-browser/commit/c43b1b8af33beac1049f8698b7e49bcd19acac31))
+
 ## [2.34.0](https://github.com/DataBiosphere/data-browser/compare/v2.33.0...v2.34.0) (2026-04-15)
 
 

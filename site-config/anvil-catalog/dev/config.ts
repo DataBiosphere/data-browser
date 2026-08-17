@@ -1,5 +1,4 @@
 import * as C from "../../../app/components/index";
-import { socialMedia } from "./socials/socialMedia";
 import { GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import {
@@ -13,10 +12,12 @@ import { studiesEntityConfig } from "./index/studiesEntityConfig";
 import { workspaceEntityConfig } from "./index/workspaceEntityConfig";
 import { buildNavigation as buildFooterNavigation } from "./layout/footer/navigation/navigation";
 import { buildNavigation } from "./layout/header/navigation/navigation";
+import { socialMedia } from "./socials/socialMedia";
 
 // Template constants
 const APP_TITLE = "AnVIL Dataset Catalog";
 const BROWSER_URL = "https://anvilproject.dev.clevercanary.com";
+const DESCRIPTION = "Browse datasets across the AnVIL Dataset Catalog.";
 const EXPLORER_URL = "https://explore.anvilproject.dev.clevercanary.com";
 const HOME_PAGE_PATH = ROUTES.CONSORTIA;
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
@@ -81,6 +82,7 @@ export function makeConfig(
     dataSource: {
       url: "",
     },
+    description: DESCRIPTION,
     entities: [
       consortiaEntityConfig,
       studiesEntityConfig,

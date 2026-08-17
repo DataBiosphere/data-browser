@@ -1,5 +1,5 @@
 import { OAuthProvider } from "@databiosphere/findable-ui/lib/config/entities";
-import { GoogleProfile } from "@databiosphere/findable-ui/lib/providers/googleSignInAuthentication/profile/types";
+import { GoogleProfile } from "@databiosphere/findable-ui/lib/google/types";
 
 export const OAUTH_GOOGLE_SIGN_IN: Pick<
   OAuthProvider<GoogleProfile>,

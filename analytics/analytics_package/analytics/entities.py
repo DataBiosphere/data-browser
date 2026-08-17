@@ -132,6 +132,14 @@ DIMENSION_PAGE_PATH = {
     "id": "pagePath",
     "alias": "Page Path",
 }
+DIMENSION_PAGE_PATH_PLUS_QUERY = {
+    "id": "pagePathPlusQueryString",
+    "alias": "Page Path Plus Query String",
+}
+DIMENSION_FILE_NAME = {
+    "id": "fileName",
+    "alias": "File Name",
+}
 # The url of the clicked link, only returned in EVENT_BUILTIN_CLICK. Does not include URL fragments
 DIMENSION_BUILTIN_URL = {
     "id": "linkUrl",

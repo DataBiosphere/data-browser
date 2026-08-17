@@ -10,5 +10,6 @@ export const entityViewSlot: ComponentsConfig = [
   } as ComponentConfig<typeof C.NIHAccountExpiryWarning>,
   {
     component: C.TerraSetUpForm,
+    props: { collapsible: true },
   } as ComponentConfig<typeof C.TerraSetUpForm>,
 ];

@@ -22,10 +22,12 @@ import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { buildSummaries } from "./index/summaryViewModelBuilder";
-import { floating } from "./layout/floating";
+import { makeFloatingConfig } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
+const DESCRIPTION =
+  "Explore datasets, donors, biosamples, and files in the AnVIL Data Explorer.";
 const DATA_URL = "https://service.anvil.gi.ucsc.edu";
 const BROWSER_URL = "https://explore.anvil.gi.ucsc.edu";
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
@@ -159,6 +161,7 @@ export function makeConfig(
       },
       url: `${dataUrl}/`,
     },
+    description: DESCRIPTION,
     enableEntitiesView: true,
     entities: [
       datasetsEntityConfig,
@@ -172,7 +175,7 @@ export function makeConfig(
     filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
     layout: {
-      floating,
+      floating: makeFloatingConfig(portalUrl),
       footer: {
         Branding: C.ANVILBranding({ portalURL: portalUrl }),
         navLinks: [

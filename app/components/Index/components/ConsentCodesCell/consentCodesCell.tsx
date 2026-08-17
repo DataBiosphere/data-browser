@@ -1,5 +1,5 @@
-import { JSX } from "react";
 import { ConsentTooltip, NTagCell } from "app/components";
+import { JSX } from "react";
 
 interface ConsentCodesCellProps {
   consentCode: string[];

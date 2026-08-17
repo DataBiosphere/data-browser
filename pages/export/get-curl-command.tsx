@@ -1,15 +1,16 @@
-import { JSX } from "react";
+import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
+import { useFileManifestState } from "@databiosphere/findable-ui/lib/hooks/useFileManifestState";
 import { ExportMethodView } from "@databiosphere/findable-ui/lib/views/ExportMethodView/exportMethodView";
 import { GetStaticProps } from "next";
-import { useFileManifestState } from "@databiosphere/findable-ui/lib/hooks/useFileManifestState";
-import { useConfig } from "@databiosphere/findable-ui/lib/hooks/useConfig";
 import NextError from "next/error";
+import { JSX } from "react";
 import { isProductionEnvironment } from "../../app/config/utils";
 import { hasNRESConsentGroup } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
+      pageDescription: "Download selected data using the curl command.",
       pageTitle: 'Download Selected Data Using "curl"',
     },
   };

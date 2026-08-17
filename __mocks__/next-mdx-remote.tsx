@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * Mock implementation of next-mdx-remote for testing.
  */

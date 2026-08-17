@@ -1,8 +1,8 @@
-import { Button } from "@mui/material";
-import styled from "@emotion/styled";
-import { css } from "@emotion/react";
 import { DropdownMenu } from "@databiosphere/findable-ui/lib/components/common/DropdownMenu/dropdownMenu";
 import { PALETTE } from "@databiosphere/findable-ui/lib/styles/common/constants/palette";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { Button } from "@mui/material";
 
 interface Props {
   open?: boolean;

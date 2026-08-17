@@ -13,7 +13,6 @@ export {
   DownloadIconSmall,
   InventoryIconSmall,
 } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/common/constants";
-export { ExportToPlatform } from "./Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
 export { DiscourseIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/DiscourseIcon/discourseIcon";
 export { GitHubIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/GitHubIcon/gitHubIcon";
 export { OpenInNewIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/OpenInNewIcon/openInNewIcon";
@@ -26,7 +25,6 @@ export { KeyElType } from "@databiosphere/findable-ui/lib/components/common/KeyV
 export { KeyValueElType } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/components/KeyValueElType/keyValueElType";
 export { ValueElType } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/components/ValueElType/valueElType";
 export { KeyValuePairs } from "@databiosphere/findable-ui/lib/components/common/KeyValuePairs/keyValuePairs";
-export { Markdown } from "@databiosphere/findable-ui/lib/components/common/Markdown/markdown";
 export { FluidPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/paper.styles";
 export { CollapsableSection } from "@databiosphere/findable-ui/lib/components/common/Section/components/CollapsableSection/collapsableSection";
 export { SectionTitle } from "@databiosphere/findable-ui/lib/components/common/Section/components/SectionTitle/sectionTitle";
@@ -65,6 +63,7 @@ export { SubTitle } from "@databiosphere/findable-ui/lib/components/Layout/compo
 export { Logo } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/components/Content/components/Logo/logo";
 export { Link } from "@databiosphere/findable-ui/lib/components/Links/components/Link/link";
 export { Links } from "@databiosphere/findable-ui/lib/components/Links/links";
+export { MarkdownRenderer } from "@databiosphere/findable-ui/lib/components/MarkdownRenderer/markdownRenderer";
 export { Citation } from "@databiosphere/findable-ui/lib/components/Project/components/Citation/citation";
 export { CollaboratingOrganizations } from "@databiosphere/findable-ui/lib/components/Project/components/CollaboratingOrganizations/collaboratingOrganizations";
 export { Contacts } from "@databiosphere/findable-ui/lib/components/Project/components/Contacts/contacts";
@@ -93,8 +92,9 @@ export { FileLocationDownload } from "./Detail/components/GeneratedMatricesTable
 export { FileNameCell } from "./Detail/components/GeneratedMatricesTables/components/FileNameCell/fileNameCell";
 export { GeneratedMatricesTables } from "./Detail/components/GeneratedMatricesTables/generatedMatricesTables";
 export { AtlasSection } from "./Detail/components/Section/components/AtlasSection/atlasSection";
-export { ManifestDownloadEntity as AnVILManifestDownloadEntity } from "./Export/components/AnVILExplorer/components/ManifestDownload/components/ManifestDownloadEntity/manifestDownloadEntity";
 export { ExportEntity as AnVILExportEntity } from "./Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
+export { ManifestDownloadEntity as AnVILManifestDownloadEntity } from "./Export/components/AnVILExplorer/components/ManifestDownload/components/ManifestDownloadEntity/manifestDownloadEntity";
+export { ExportToPlatform } from "./Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
 export { BioNetworkCell } from "./Index/components/BioNetworkCell/bioNetworkCell";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
 export { CopyCell } from "./Index/components/CopyCell/copyCell";

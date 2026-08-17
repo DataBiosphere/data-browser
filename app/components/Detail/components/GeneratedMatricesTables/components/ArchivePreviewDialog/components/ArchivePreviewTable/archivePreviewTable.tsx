@@ -1,5 +1,6 @@
 import { GridPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/paper.styles";
 import { Table } from "@databiosphere/findable-ui/lib/components/Detail/components/Table/table";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 import { ColumnDef, RowData } from "@tanstack/react-table";
 import { Dispatch, JSX, SetStateAction, useEffect } from "react";
 import {
@@ -11,7 +12,6 @@ import { humanFileSize } from "../../../../../../../../utils/fileSize";
 import { ProjectMatrixView } from "../../../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 import { FileNameCell } from "../../../FileNameCell/fileNameCell";
 import { ArchivePreviewNotAvailable as PreviewNotAvailable } from "./archivePreviewTable.styles";
-import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 export type SetLoadingFn = Dispatch<SetStateAction<boolean>>;
 

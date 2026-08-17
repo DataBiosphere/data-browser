@@ -1,11 +1,11 @@
-import { JSX } from "react";
 import { SectionTitle } from "@databiosphere/findable-ui/lib/components/common/Section/components/SectionTitle/sectionTitle";
+import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 import { Grid, Typography } from "@mui/material";
+import { JSX } from "react";
 import { NetworkIcon } from "../../../../../common/NetworkIcon/networkIcon";
 import { StyledSection } from "./atlasSection.styles";
 import { GRID_PROPS } from "./constants";
 import { Atlas } from "./types";
-import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 
 interface AtlasProps {
   atlases: Atlas[];

@@ -7,9 +7,15 @@ export interface AnchorProps {
   href: string;
 }
 
+export interface ContentFrontmatter {
+  pageDescription?: string;
+  pageTitle: string;
+}
+
 export interface ContentProps {
   layoutStyle?: LayoutStyle;
   mdxSource: MDXRemoteSerializeResult | null;
+  pageDescription?: string | null;
   pageTitle: string;
   slug: string[] | null;
 }

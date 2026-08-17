@@ -17,7 +17,7 @@ import {
 const slug = ["guides"];
 
 export const getStaticProps: GetStaticProps = async () => {
-  return getContentStaticProps({ params: { slug } }, "Guides");
+  return getContentStaticProps({ params: { slug } });
 };
 
 const Page = ({

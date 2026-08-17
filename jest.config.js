@@ -16,6 +16,10 @@ const customJestConfig = {
   moduleDirectories: ["node_modules", "<rootDir>/"],
   moduleNameMapper: {
     "\\.mdx$": "<rootDir>/__mocks__/mdx.ts",
+    // findable-ui's MarkdownRenderer imports the ESM-only remark/rehype/unified
+    // chain, which next/jest leaves untransformed; stub it (no test renders markdown).
+    "^@databiosphere/findable-ui/lib/components/MarkdownRenderer/markdownRenderer$":
+      "<rootDir>/__mocks__/markdownRenderer.tsx",
     "^ky$": "<rootDir>/__mocks__/ky.ts",
   },
   testEnvironment: "jest-environment-jsdom",

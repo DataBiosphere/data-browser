@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string  -- ignoring duplicate strings here */
 import { AnvilCatalogTabCollection, TabDescription } from "../testInterfaces";
 import {
   ANVIL_CATALOG_CONSORTIA_PRESELECTED_COLUMNS_BY_NAME,
@@ -43,5 +42,3 @@ export const ANVIL_CATALOG_TAB_LIST: TabDescription[] = [
   ANVIL_CATALOG_TABS.STUDIES,
   ANVIL_CATALOG_TABS.WORKSPACES,
 ];
-
-/* eslint-enable sonarjs/no-duplicate-string -- Checking duplicate strings again*/

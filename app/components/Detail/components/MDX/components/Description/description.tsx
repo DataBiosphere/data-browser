@@ -1,8 +1,8 @@
-import { JSX } from "react";
 import { CollapsableSection } from "@databiosphere/findable-ui/lib/components/common/Section/components/CollapsableSection/collapsableSection";
 import { MarkdownRenderer } from "@databiosphere/findable-ui/lib/components/MarkdownRenderer/markdownRenderer";
-import { DescriptionProps } from "./types";
+import { JSX } from "react";
 import { MDX_COMPONENTS } from "./common/constants";
+import { DescriptionProps } from "./types";
 
 export const Description = ({ content }: DescriptionProps): JSX.Element => {
   return (

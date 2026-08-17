@@ -37,5 +37,5 @@ To update HCA scripts in the HCA Data Explorer, navigate to the `explorer` direc
 ```bash
 npm run get-cellxgene-projects-hca
 ```
-This will save any updates to `explorer/site-config/hca-dcp/dev/scripts/out/cellxgene-projects.json` based on HCA links provided by CELLxGENE.
+This will save any updates to `explorer/site-config/hca-dcp/ma-dev/scripts/out/cellxgene-projects.json` based on HCA links provided by CELLxGENE.
 

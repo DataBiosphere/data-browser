@@ -1,9 +1,9 @@
-import { JSX } from "react";
 import { FileDownloadButton } from "@databiosphere/findable-ui/lib/components/common/Button/components/FileDownloadButton/fileDownloadButton";
 import { ButtonGroupButton } from "@databiosphere/findable-ui/lib/components/common/ButtonGroup/components/ButtonGroupButton/buttonGroupButton";
 import { DownloadIconSmall } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/common/constants";
 import { useFileLocation } from "@databiosphere/findable-ui/lib/hooks/useFileLocation";
 import { useLoginGuard } from "@databiosphere/findable-ui/lib/providers/loginGuard/hook";
+import { JSX } from "react";
 import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 
 export interface FileLocationDownloadProps {

@@ -1,0 +1,14 @@
+[
+  {
+    "page_path": "/datasets/e5aee011-bdb3-4caa-954c-a46678656270/export/get-curl-command",
+    "entity_name": "datasets",
+    "count": 2,
+    "dataset_title": "ANVIL_GTEx_public_data"
+  },
+  {
+    "page_path": "/datasets/1426a206-fcb1-4a07-9b47-32f06ef8cf8d/export/get-curl-command",
+    "entity_name": "datasets",
+    "count": 1,
+    "dataset_title": "ANVIL_T2T_CHRY"
+  }
+]

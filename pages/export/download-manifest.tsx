@@ -1,10 +1,11 @@
-import { JSX } from "react";
 import { ExportMethodView } from "@databiosphere/findable-ui/lib/views/ExportMethodView/exportMethodView";
 import { GetStaticProps } from "next";
+import { JSX } from "react";
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
+      pageDescription: "Request a file manifest for your selected data.",
       pageTitle: "Request File Manifest",
     },
   };
