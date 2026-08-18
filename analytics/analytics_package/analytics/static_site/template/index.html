@@ -364,21 +364,33 @@
         let entityLabel = 'Dataset';
         let entityPath = '/datasets';
 
+        // True when hostname is domain itself or one of its subdomains, so that
+        // "notduos.org.example.com" and "evil.com/?ref=duos.org" don't match.
+        function isHost(hostname, domain) {
+            return hostname === domain || hostname.endsWith(`.${domain}`);
+        }
+
         function serviceName(url) {
             if (typeof url !== 'string' || !url) return 'Other';
-            // Match case-insensitively — the Python generator filters click URLs
-            // with case=False (fetch.py), so classification must be no stricter.
+            // Classify on the parsed hostname, not the raw URL. Matching is
+            // case-insensitive — the Python generator filters click URLs with
+            // case=False (fetch.py), so classification must be no stricter.
             const normalizedUrl = url.toLowerCase();
-            if (normalizedUrl.includes('duos.org')) return 'DUOS';
-            if (normalizedUrl.includes('dbgap.ncbi.nlm.nih.gov')) return 'dbGaP';
+            let hostname;
             try {
                 // Tolerate schemeless URLs, and strip "www." so host variants
                 // of one service land in the same bucket.
                 const withScheme = normalizedUrl.includes('://') ? normalizedUrl : `https://${normalizedUrl}`;
-                return new URL(withScheme).hostname.replace(/^www\./, '') || 'Other';
+                hostname = new URL(withScheme).hostname.replace(/^www\./, '');
             } catch (e) {
                 return 'Other';
             }
+            // Require a dot so garbage ("not-a-url") buckets as Other rather
+            // than becoming its own service label.
+            if (!hostname.includes('.')) return 'Other';
+            if (isHost(hostname, 'duos.org')) return 'DUOS';
+            if (isHost(hostname, 'dbgap.ncbi.nlm.nih.gov')) return 'dbGaP';
+            return hostname;
         }
 
         let chartColors = {
