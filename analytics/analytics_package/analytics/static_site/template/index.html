@@ -907,10 +907,12 @@
             const heading = document.getElementById('access-requests-heading');
             const tbody = document.querySelector('#access-requests-table tbody');
 
+            // Null prototype: a service named like an Object.prototype member
+            // (e.g. a "constructor" hostname) must not collide with inherited keys.
             const countsByService = data.reduce((counts, r) => {
                 counts[r.service] = (counts[r.service] || 0) + r.count;
                 return counts;
-            }, {});
+            }, Object.create(null));
             const total = Object.values(countsByService).reduce((sum, count) => sum + count, 0);
             const showService = Object.keys(countsByService).length > 1;
 
