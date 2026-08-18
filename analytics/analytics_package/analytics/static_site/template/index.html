@@ -498,25 +498,40 @@
         }
 
         function pctChange(current, prior) {
-            if (prior > 0) return ((current - prior) / prior * 100).toFixed(1);
-            return null;
+            if (!(prior > 0)) return null;
+            const pct = (current - prior) / prior * 100;
+            return Number.isFinite(pct) ? pct.toFixed(1) : null;
         }
 
-        function statCard(value, label, change, tooltip) {
+        // Shared stat-card markup. Options:
+        //   change:    omit for no change row; null renders "N/A vs prior month".
+        //   gridClass: fui-grid-item-* class; omit when the container sizes cards itself.
+        //   tooltip:   HTML shown on hover/focus of the label.
+        // Multi-line labels ('\n') render as line breaks.
+        function statCard(value, label, { change, gridClass, tooltip } = {}) {
+            const labelHtml = String(label).split('\n').map(l => escapeHtml(l)).join('<br>');
             const tooltipHtml = tooltip ? `
                 <div class="stat-tooltip">${tooltip}</div>
             ` : '';
+            let changeHtml = '';
+            if (change !== undefined) {
+                const changeClass = change === null ? '' : change >= 0 ? 'positive' : 'negative';
+                const changeText = change === null ? 'N/A' : `${change >= 0 ? '+' : ''}${change}%`;
+                changeHtml = `
+                    <div class="stat-change ${changeClass}">
+                        ${changeText} vs prior month
+                    </div>
+                `;
+            }
             return `
-                <div class="fui-card fui-grid-item-3" style="text-align: center;">
+                <div class="fui-card${gridClass ? ` ${gridClass}` : ''}" style="text-align: center;">
                     <div class="fui-card-content">
                         <div class="stat-value">${value}</div>
                         <div class="stat-label-wrap">
-                            <span class="stat-label${tooltip ? ' has-tooltip' : ''}" ${tooltip ? 'tabindex="0" role="button" aria-label="' + escapeHtml(label) + ' - show details"' : ''}>${escapeHtml(label)}</span>
+                            <span class="stat-label${tooltip ? ' has-tooltip' : ''}" ${tooltip ? 'tabindex="0" role="button" aria-label="' + escapeHtml(label) + ' - show details"' : ''}>${labelHtml}</span>
                             ${tooltipHtml}
                         </div>
-                        <div class="stat-change ${change === null ? '' : change >= 0 ? 'positive' : 'negative'}">
-                            ${change === null ? 'N/A vs prior month' : `${change >= 0 ? '+' : ''}${change}% vs prior month`}
-                        </div>
+                        ${changeHtml}
                     </div>
                 </div>
             `;
@@ -543,26 +558,26 @@
             const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long' });
 
             document.getElementById('stats-grid').innerHTML =
-                statCard(
-                    formatNumber(latest.users), 'Users',
-                    usersChange,
-                    `Total number of unique individuals who visited your site during ${monthName}.`
-                ) +
-                statCard(
-                    formatNumber(sessions.current || 0), 'User Sessions',
-                    sessionsChange,
-                    `Total number of visits to your site during ${monthName}. A single user can have multiple sessions.`
-                ) +
-                statCard(
-                    formatNumber(latest.pageviews), 'Pageviews',
-                    pageviewsChange,
-                    `Total number of pages viewed during ${monthName}. This includes repeated views of the same page.`
-                ) +
-                statCard(
-                    engagementDisplay, 'Engagement Rate',
-                    engagementChange,
-                    `Percentage of sessions during ${monthName} where users actively engaged with your site (e.g., stayed longer, viewed multiple pages, or triggered events). Higher is better. <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`
-                );
+                statCard(formatNumber(latest.users), 'Users', {
+                    change: usersChange,
+                    gridClass: 'fui-grid-item-3',
+                    tooltip: `Total number of unique individuals who visited your site during ${monthName}.`,
+                }) +
+                statCard(formatNumber(sessions.current || 0), 'User Sessions', {
+                    change: sessionsChange,
+                    gridClass: 'fui-grid-item-3',
+                    tooltip: `Total number of visits to your site during ${monthName}. A single user can have multiple sessions.`,
+                }) +
+                statCard(formatNumber(latest.pageviews), 'Pageviews', {
+                    change: pageviewsChange,
+                    gridClass: 'fui-grid-item-3',
+                    tooltip: `Total number of pages viewed during ${monthName}. This includes repeated views of the same page.`,
+                }) +
+                statCard(engagementDisplay, 'Engagement Rate', {
+                    change: engagementChange,
+                    gridClass: 'fui-grid-item-3',
+                    tooltip: `Percentage of sessions during ${monthName} where users actively engaged with your site (e.g., stayed longer, viewed multiple pages, or triggered events). Higher is better. <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`,
+                });
         }
 
         function renderEventCounts(config, events, eventCharts) {
@@ -599,21 +614,10 @@
                     const e = eventsByKey[card.event_key] || {};
                     const current = e.current || 0;
                     const prior = e.prior || 0;
-                    let change = 0;
-                    if (prior > 0) {
-                        change = ((current - prior) / prior * 100).toFixed(1);
-                    }
-                    html += `
-                        <div class="fui-card fui-grid-item-6" style="text-align: center;">
-                            <div class="fui-card-content">
-                                <div class="stat-value">${formatNumber(current)}</div>
-                                <div class="stat-label">${card.label.split('\n').map(l => escapeHtml(l)).join('<br>')}</div>
-                                <div class="stat-change ${change >= 0 ? 'positive' : 'negative'}">
-                                    ${change >= 0 ? '+' : ''}${change}% vs prior month
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                    html += statCard(formatNumber(current), card.label, {
+                        change: pctChange(current, prior) ?? 0,
+                        gridClass: 'fui-grid-item-6',
+                    });
                 }
 
                 // Chart cards row
@@ -935,14 +939,9 @@
                     .concat([['Total', total]]);
                 statsGrid.style.display = '';
                 statsGrid.style.gridTemplateColumns = `repeat(${statCards.length}, 1fr)`;
-                statsGrid.innerHTML = statCards.map(([label, count]) => `
-                    <div class="fui-card" style="text-align: center;">
-                        <div class="fui-card-content">
-                            <div class="stat-value">${formatNumber(count)}</div>
-                            <div class="stat-label">${escapeHtml(label)}</div>
-                        </div>
-                    </div>
-                `).join('');
+                statsGrid.innerHTML = statCards
+                    .map(([label, count]) => statCard(formatNumber(count), label))
+                    .join('');
             }
 
             card.style.display = '';
