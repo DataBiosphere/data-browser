@@ -18,8 +18,16 @@ from ..entities import (
 )
 from .fetch import event_key
 
+# Row cap for the exports the template renders as a fixed slice (top 20
+# pageviews and outbound links, top 30 filter selections); 100 leaves headroom
+# for UI changes while keeping page-load payloads and monthly regen diffs
+# bounded (e.g. AnVIL Portal shipped 1,810 pageviews rows). Event detail tables,
+# access requests and search queries stay uncapped on purpose — the template
+# renders every one of their rows.
+MAX_TABLE_EXPORT_ROWS = 100
 
-def export_df_as_json(df, col_map, change_col, filename, output_dir):
+
+def export_df_as_json(df, col_map, change_col, filename, output_dir, max_rows=None):
     """Export a DataFrame to JSON with column renaming and NaN handling.
 
     Args:
@@ -28,7 +36,13 @@ def export_df_as_json(df, col_map, change_col, filename, output_dir):
         change_col: Source column name for the change metric (may be absent).
         filename: Output JSON filename.
         output_dir: Output directory, as a Path.
+        max_rows: Maximum number of rows to export; the top rows are kept, so
+            df is expected to be sorted by relevance. None exports all rows.
     """
+    total_rows = 0 if df is None else len(df)
+    if max_rows is not None and total_rows > max_rows:
+        df = df.head(max_rows)
+        print(f"  Capped {filename} at top {max_rows} of {total_rows} rows")
     if df is None or len(df) == 0:
         records = []
     else:
@@ -108,6 +122,7 @@ def export_data(
         METRIC_PAGE_VIEWS["change_alias"],
         "pageviews.json",
         output_dir,
+        max_rows=MAX_TABLE_EXPORT_ROWS,
     )
 
     print("Exporting outbound links data...")
@@ -120,6 +135,7 @@ def export_data(
         SYNTHETIC_METRIC_CLICKS["change_alias"],
         "outbound_links.json",
         output_dir,
+        max_rows=MAX_TABLE_EXPORT_ROWS,
     )
 
     print("Exporting filter selections data...")
@@ -133,6 +149,7 @@ def export_data(
         METRIC_EVENT_COUNT["change_alias"],
         "filter_selected.json",
         output_dir,
+        max_rows=MAX_TABLE_EXPORT_ROWS,
     )
 
     # File downloads
