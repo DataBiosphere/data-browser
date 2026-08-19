@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="analytics",
-    version="5.0.3",
+    version="5.0.4",
     packages=["analytics", "analytics.static_site"],
     package_data={"analytics.static_site": ["template/*.html"]},
     install_requires=[
