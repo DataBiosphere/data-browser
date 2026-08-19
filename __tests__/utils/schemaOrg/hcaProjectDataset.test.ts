@@ -258,7 +258,6 @@ describe("buildHcaProjectJsonLd", () => {
       specimens: [
         {
           disease: ["normal"],
-          id: ["s1"],
           organ: ["brain"],
           organPart: ["cortex"],
           preservationMethod: [],
