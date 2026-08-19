@@ -1,10 +1,10 @@
 import pandas as pd
 
 from ._report_utils import (
-  get_data_df_from_fields,
-  get_one_period_change_series,
-  get_change_over_time_df,
-  get_change_over_time_df_multiple_events,
+    get_data_df_from_fields,
+    get_one_period_change_series,
+    get_change_over_time_df,
+    get_change_over_time_df_multiple_events,
 )
 from . import entities as e
 from urllib.parse import urlparse
