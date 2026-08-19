@@ -1,7 +1,7 @@
 import pandas as pd
 
 from ._report_utils import *
-from .entities import *
+from . import entities as e
 from urllib.parse import urlparse
 
 def get_bounds_for_month_and_prev(month):
@@ -36,28 +36,28 @@ def get_outbound_links_df(analytics_params, ignore_index=True):
     assert "dimension_filter" not in analytics_params
     # Get the builtin "Click" event
     df_builtin_links =get_data_df_from_fields(
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
-        [DIMENSION_PAGE_PATH, DIMENSION_BUILTIN_URL, DIMENSION_EVENT_NAME],
-        dimension_filter=f"eventName=={EVENT_BUILTIN_CLICK['id']}",
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
+        [e.DIMENSION_PAGE_PATH, e.DIMENSION_BUILTIN_URL, e.DIMENSION_EVENT_NAME],
+        dimension_filter=f"eventName=={e.EVENT_BUILTIN_CLICK['id']}",
         **analytics_params,
     ).groupby(
-        [DIMENSION_PAGE_PATH["alias"], DIMENSION_BUILTIN_URL["alias"]]
+        [e.DIMENSION_PAGE_PATH["alias"], e.DIMENSION_BUILTIN_URL["alias"]]
     ).sum().reset_index()
     # Get the custom "outbound_link_click" event
     df_custom_links = get_data_df_from_fields(
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
-        [DIMENSION_EVENT_NAME, DIMENSION_CUSTOM_URL, DIMENSION_PAGE_PATH], 
-        dimension_filter=f"eventName=={EVENT_CUSTOM_CLICK['id']}",
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
+        [e.DIMENSION_EVENT_NAME, e.DIMENSION_CUSTOM_URL, e.DIMENSION_PAGE_PATH], 
+        dimension_filter=f"eventName=={e.EVENT_CUSTOM_CLICK['id']}",
         **analytics_params, 
     ).groupby(
-        [DIMENSION_PAGE_PATH["alias"], DIMENSION_CUSTOM_URL["alias"]]
+        [e.DIMENSION_PAGE_PATH["alias"], e.DIMENSION_CUSTOM_URL["alias"]]
     ).sum().reset_index()
     # Concatenate the two dataframes, avoiding duplicates
     # Keep the link from the builtin event, unless the link contains a #fragment, in which case keep the link from the custom event
     df_builtin_links["builtin"] = True
-    df_builtin_links["truncated_url"] = df_builtin_links[DIMENSION_BUILTIN_URL["alias"]]
-    df_custom_links["truncated_url"] = df_custom_links[DIMENSION_CUSTOM_URL["alias"]].str.replace(r"#.*", "", regex=True)
-    df_outbound_links_fragments = df_custom_links.loc[df_custom_links[DIMENSION_CUSTOM_URL["alias"]].str.contains("#")].copy()
+    df_builtin_links["truncated_url"] = df_builtin_links[e.DIMENSION_BUILTIN_URL["alias"]]
+    df_custom_links["truncated_url"] = df_custom_links[e.DIMENSION_CUSTOM_URL["alias"]].str.replace(r"#.*", "", regex=True)
+    df_outbound_links_fragments = df_custom_links.loc[df_custom_links[e.DIMENSION_CUSTOM_URL["alias"]].str.contains("#")].copy()
     df_outbound_links_fragments["is_fragment"] = True
     df_all_links = pd.concat(
         [df_builtin_links, df_outbound_links_fragments], ignore_index=True
@@ -65,30 +65,30 @@ def get_outbound_links_df(analytics_params, ignore_index=True):
     # Use the builtin link, unless the link is not in the custom links, in which case use the custom link
     df_all_links = df_all_links.loc[
         ~(df_all_links["truncated_url"].isin(df_outbound_links_fragments["truncated_url"]) & df_all_links["builtin"])
-    ].sort_values(METRIC_EVENT_COUNT["alias"], ascending=False)
+    ].sort_values(e.METRIC_EVENT_COUNT["alias"], ascending=False)
     df_all_links["is_fragment"] = df_all_links["is_fragment"].fillna(False).astype(bool)
     # Use the builtin link, unless the link is a fragment, in which case use the custom link
-    df_all_links["complete_url"]  = df_all_links[DIMENSION_BUILTIN_URL["alias"]].where(
+    df_all_links["complete_url"]  = df_all_links[e.DIMENSION_BUILTIN_URL["alias"]].where(
         ~df_all_links["is_fragment"],
-        df_all_links[DIMENSION_CUSTOM_URL["alias"]]
+        df_all_links[e.DIMENSION_CUSTOM_URL["alias"]]
     )
     df_all_links["hostname"] = df_all_links["complete_url"].map(lambda x: urlparse(x).hostname)
     dimension_aliases_to_keep = [
-        DIMENSION_PAGE_PATH["alias"],
-        SYNTHETIC_DIMENSION_CLICKED_LINK["alias"],
-        SYNTHETIC_DIMENSION_CLICKED_HOSTNAME["alias"],
+        e.DIMENSION_PAGE_PATH["alias"],
+        e.SYNTHETIC_DIMENSION_CLICKED_LINK["alias"],
+        e.SYNTHETIC_DIMENSION_CLICKED_HOSTNAME["alias"],
     ]
     metric_aliases_to_keep = [
-        SYNTHETIC_METRIC_CLICKS["alias"],
-        METRIC_TOTAL_USERS["alias"],
+        e.SYNTHETIC_METRIC_CLICKS["alias"],
+        e.METRIC_TOTAL_USERS["alias"],
     ]
     df_all_links = df_all_links.drop(
-        columns=[DIMENSION_BUILTIN_URL["alias"], DIMENSION_CUSTOM_URL["alias"], "builtin", "is_fragment"]
+        columns=[e.DIMENSION_BUILTIN_URL["alias"], e.DIMENSION_CUSTOM_URL["alias"], "builtin", "is_fragment"]
     ).rename(
         columns={
-            "complete_url": SYNTHETIC_DIMENSION_CLICKED_LINK["alias"],
-            METRIC_EVENT_COUNT["alias"]: SYNTHETIC_METRIC_CLICKS["alias"],
-            "hostname": SYNTHETIC_DIMENSION_CLICKED_HOSTNAME["alias"],
+            "complete_url": e.SYNTHETIC_DIMENSION_CLICKED_LINK["alias"],
+            e.METRIC_EVENT_COUNT["alias"]: e.SYNTHETIC_METRIC_CLICKS["alias"],
+            "hostname": e.SYNTHETIC_DIMENSION_CLICKED_HOSTNAME["alias"],
         } 
     )[[
         *dimension_aliases_to_keep, *metric_aliases_to_keep
@@ -116,13 +116,13 @@ def get_outbound_links_change(analytics_params, start_current, end_current, star
     """
     return get_one_period_change_df(
         get_outbound_links_df, 
-        [SYNTHETIC_METRIC_CLICKS, METRIC_TOTAL_USERS],
+        [e.SYNTHETIC_METRIC_CLICKS, e.METRIC_TOTAL_USERS],
         analytics_params, 
         start_current, 
         end_current, 
         start_previous, 
         end_previous,
-        sort_results=[SYNTHETIC_METRIC_CLICKS, METRIC_TOTAL_USERS]
+        sort_results=[e.SYNTHETIC_METRIC_CLICKS, e.METRIC_TOTAL_USERS]
     )
 
 def get_page_views_df(analytics_params, ignore_index=False):
@@ -137,13 +137,13 @@ def get_page_views_df(analytics_params, ignore_index=False):
     """
     assert "dimension_filter" not in analytics_params
     df_response = get_data_df_from_fields(
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS, METRIC_PAGE_VIEWS],
-        [DIMENSION_PAGE_PATH, DIMENSION_EVENT_NAME],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS, e.METRIC_PAGE_VIEWS],
+        [e.DIMENSION_PAGE_PATH, e.DIMENSION_EVENT_NAME],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_PAGE_VIEW['id']}",
-    )[[DIMENSION_PAGE_PATH["alias"], METRIC_PAGE_VIEWS["alias"], METRIC_TOTAL_USERS["alias"]]].copy()
+        dimension_filter=f"eventName=={e.EVENT_PAGE_VIEW['id']}",
+    )[[e.DIMENSION_PAGE_PATH["alias"], e.METRIC_PAGE_VIEWS["alias"], e.METRIC_TOTAL_USERS["alias"]]].copy()
     if not ignore_index:
-        df_response = df_response.set_index(DIMENSION_PAGE_PATH["alias"])
+        df_response = df_response.set_index(e.DIMENSION_PAGE_PATH["alias"])
     return df_response
 
 def get_page_views_change(analytics_params, start_current, end_current, start_previous, end_previous):
@@ -162,13 +162,13 @@ def get_page_views_change(analytics_params, start_current, end_current, start_pr
     """
     return get_one_period_change_df(
         get_page_views_df, 
-        [METRIC_PAGE_VIEWS, METRIC_TOTAL_USERS],
+        [e.METRIC_PAGE_VIEWS, e.METRIC_TOTAL_USERS],
         analytics_params, 
         start_current, 
         end_current, 
         start_previous, 
         end_previous,
-        sort_results=[METRIC_PAGE_VIEWS, METRIC_TOTAL_USERS]
+        sort_results=[e.METRIC_PAGE_VIEWS, e.METRIC_TOTAL_USERS]
     )
 
 def get_one_period_change_df(df_function, change_metrics, analytics_params, start_current, end_current, start_previous, end_previous, sort_results=None, sort_ascending=False, ignore_index=False):
@@ -245,8 +245,8 @@ def get_page_views_over_time_df(analytics_params, additional_data_path=None, add
         Metrics: METRIC_ACTIVE_USERS, METRIC_PAGE_VIEWS
     """
     return get_change_over_time_df(
-        [METRIC_ACTIVE_USERS, METRIC_PAGE_VIEWS],
-        DIMENSION_YEAR_MONTH,
+        [e.METRIC_ACTIVE_USERS, e.METRIC_PAGE_VIEWS],
+        e.DIMENSION_YEAR_MONTH,
         additional_data_path=additional_data_path,
         additional_data_behavior=additional_data_behavior,
         **analytics_params
@@ -264,12 +264,12 @@ def get_landing_page_df(analytics_params, ignore_index=True):
         Metrics: METRIC_SESSIONS
     """
     df_response = get_data_df_from_fields(
-        [METRIC_SESSIONS],
-        [DIMENSION_LANDING_PAGE],
+        [e.METRIC_SESSIONS],
+        [e.DIMENSION_LANDING_PAGE],
         **analytics_params,
-    )[[DIMENSION_LANDING_PAGE["alias"], METRIC_SESSIONS["alias"]]].copy()
+    )[[e.DIMENSION_LANDING_PAGE["alias"], e.METRIC_SESSIONS["alias"]]].copy()
     if not ignore_index:
-        df_response = df_response.set_index(DIMENSION_LANDING_PAGE["alias"])
+        df_response = df_response.set_index(e.DIMENSION_LANDING_PAGE["alias"])
     return df_response
 
 def get_landing_page_change(analytics_params, start_current, end_current, start_previous, end_previous):
@@ -288,13 +288,13 @@ def get_landing_page_change(analytics_params, start_current, end_current, start_
     """
     return get_one_period_change_df(
         get_landing_page_df,
-        [METRIC_SESSIONS],
+        [e.METRIC_SESSIONS],
         analytics_params,
         start_current,
         end_current,
         start_previous,
         end_previous,
-        sort_results=[METRIC_SESSIONS]
+        sort_results=[e.METRIC_SESSIONS]
     )
     
 def get_index_table_download_df(analytics_params, ignore_index=True):
@@ -310,13 +310,13 @@ def get_index_table_download_df(analytics_params, ignore_index=True):
     """
     assert "dimension_filter" not in analytics_params
     df_response = get_data_df_from_fields(
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
-        [DIMENSION_ENTITY_NAME, DIMENSION_RELATED_ENTITY_ID, DIMENSION_RELATED_ENTITY_NAME],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
+        [e.DIMENSION_ENTITY_NAME, e.DIMENSION_RELATED_ENTITY_ID, e.DIMENSION_RELATED_ENTITY_NAME],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_FILE_DOWNLOADED['id']}",
+        dimension_filter=f"eventName=={e.EVENT_FILE_DOWNLOADED['id']}",
     )
     if not ignore_index:
-        df_response = df_response.set_index([DIMENSION_ENTITY_NAME["alias"], DIMENSION_RELATED_ENTITY_ID["alias"], DIMENSION_RELATED_ENTITY_NAME["alias"]])
+        df_response = df_response.set_index([e.DIMENSION_ENTITY_NAME["alias"], e.DIMENSION_RELATED_ENTITY_ID["alias"], e.DIMENSION_RELATED_ENTITY_NAME["alias"]])
     return df_response
 
 def get_index_table_download_change(analytics_params, start_current, end_current, start_previous, end_previous):
@@ -335,13 +335,13 @@ def get_index_table_download_change(analytics_params, start_current, end_current
     """
     return get_one_period_change_df(
         get_index_table_download_df,
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
         analytics_params,
         start_current,
         end_current,
         start_previous,
         end_previous,
-        sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
+        sort_results=[e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS]
     )
 
 def get_index_entity_selected_df(analytics_params, ignore_index=True):
@@ -357,13 +357,13 @@ def get_index_entity_selected_df(analytics_params, ignore_index=True):
     """
     assert "dimension_filter" not in analytics_params
     df_response = get_data_df_from_fields(
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
-        [DIMENSION_ENTITY_NAME_TAB],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
+        [e.DIMENSION_ENTITY_NAME_TAB],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_ENTITY_SELECTED['id']}",
+        dimension_filter=f"eventName=={e.EVENT_ENTITY_SELECTED['id']}",
     )
     if not ignore_index:
-        df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"]])
+        df_response = df_response.set_index([e.DIMENSION_ENTITY_NAME_TAB["alias"]])
     return df_response
 
 def get_index_entity_selected_change(analytics_params, start_current, end_current, start_previous, end_previous):
@@ -382,13 +382,13 @@ def get_index_entity_selected_change(analytics_params, start_current, end_curren
     """
     return get_one_period_change_df(
         get_index_entity_selected_df,
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
         analytics_params,
         start_current,
         end_current,
         start_previous,
         end_previous,
-        sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
+        sort_results=[e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS]
     )
 
 def get_index_entity_table_sorted_df(analytics_params, ignore_index=True):
@@ -404,13 +404,13 @@ def get_index_entity_table_sorted_df(analytics_params, ignore_index=True):
     """
     assert "dimension_filter" not in analytics_params
     df_response = get_data_df_from_fields(
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
-        [DIMENSION_ENTITY_NAME_TAB, DIMENSION_COLUMN_NAME, DIMENSION_SORT_DIRECTION],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
+        [e.DIMENSION_ENTITY_NAME_TAB, e.DIMENSION_COLUMN_NAME, e.DIMENSION_SORT_DIRECTION],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_SORTED['id']}",
+        dimension_filter=f"eventName=={e.EVENT_ENTITY_TABLE_SORTED['id']}",
     )
     if not ignore_index:
-        df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"], DIMENSION_COLUMN_NAME["alias"], DIMENSION_SORT_DIRECTION["alias"]])
+        df_response = df_response.set_index([e.DIMENSION_ENTITY_NAME_TAB["alias"], e.DIMENSION_COLUMN_NAME["alias"], e.DIMENSION_SORT_DIRECTION["alias"]])
     return df_response
 
 def get_index_entity_table_sorted_change(analytics_params, start_current, end_current, start_previous, end_previous):
@@ -430,13 +430,13 @@ def get_index_entity_table_sorted_change(analytics_params, start_current, end_cu
     """
     return get_one_period_change_df(
         get_index_entity_table_sorted_df,
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
         analytics_params,
         start_current,
         end_current,
         start_previous,
         end_previous,
-        sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
+        sort_results=[e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS]
     )
 
 def get_index_entity_table_paginated_df(analytics_params, ignore_index=True):
@@ -452,13 +452,13 @@ def get_index_entity_table_paginated_df(analytics_params, ignore_index=True):
     """
     assert "dimension_filter" not in analytics_params
     df_response = get_data_df_from_fields(
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
-        [DIMENSION_ENTITY_NAME_TAB, DIMENSION_PAGINATION_DIRECTION],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
+        [e.DIMENSION_ENTITY_NAME_TAB, e.DIMENSION_PAGINATION_DIRECTION],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_ENTITY_TABLE_PAGINATED['id']}",
+        dimension_filter=f"eventName=={e.EVENT_ENTITY_TABLE_PAGINATED['id']}",
     )
     if not ignore_index:
-        df_response = df_response.set_index([DIMENSION_ENTITY_NAME_TAB["alias"], DIMENSION_PAGINATION_DIRECTION["alias"]])
+        df_response = df_response.set_index([e.DIMENSION_ENTITY_NAME_TAB["alias"], e.DIMENSION_PAGINATION_DIRECTION["alias"]])
     return df_response
 
 def get_index_entity_table_paginated_change(analytics_params, start_current, end_current, start_previous, end_previous):
@@ -478,13 +478,13 @@ def get_index_entity_table_paginated_change(analytics_params, start_current, end
     """
     return get_one_period_change_df(
         get_index_entity_table_paginated_df,
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
         analytics_params,
         start_current,
         end_current,
         start_previous,
         end_previous,
-        sort_results=[DIMENSION_ENTITY_NAME_TAB, DIMENSION_PAGINATION_DIRECTION],
+        sort_results=[e.DIMENSION_ENTITY_NAME_TAB, e.DIMENSION_PAGINATION_DIRECTION],
         sort_ascending=True
     )
 
@@ -501,13 +501,13 @@ def get_index_filter_selected_df(analytics_params, ignore_index=True):
     """
     assert "dimension_filter" not in analytics_params
     df_response = get_data_df_from_fields(
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
-        [DIMENSION_FILTER_NAME, DIMENSION_FILTER_VALUE],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
+        [e.DIMENSION_FILTER_NAME, e.DIMENSION_FILTER_VALUE],
         **analytics_params,
-        dimension_filter=f"eventName=={EVENT_FILTER_SELECTED['id']}",
+        dimension_filter=f"eventName=={e.EVENT_FILTER_SELECTED['id']}",
     )
     if not ignore_index:
-        df_response = df_response.set_index([DIMENSION_FILTER_NAME["alias"], DIMENSION_FILTER_VALUE["alias"]])
+        df_response = df_response.set_index([e.DIMENSION_FILTER_NAME["alias"], e.DIMENSION_FILTER_VALUE["alias"]])
     return df_response
 
 def get_index_filter_selected_change(analytics_params, start_current, end_current, start_previous, end_previous):
@@ -527,13 +527,13 @@ def get_index_filter_selected_change(analytics_params, start_current, end_curren
     """
     return get_one_period_change_df(
         get_index_filter_selected_df,
-        [METRIC_EVENT_COUNT, METRIC_TOTAL_USERS],
+        [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
         analytics_params,
         start_current,
         end_current,
         start_previous,
         end_previous,
-        sort_results=[METRIC_EVENT_COUNT, METRIC_TOTAL_USERS]
+        sort_results=[e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS]
     )
 
 
@@ -551,9 +551,9 @@ def get_event_count_over_time_df(analytics_params, events, additional_data_path=
     """
     
     return get_change_over_time_df_multiple_events(
-        METRIC_EVENT_COUNT,
+        e.METRIC_EVENT_COUNT,
         events,
-        DIMENSION_YEAR_MONTH,
+        e.DIMENSION_YEAR_MONTH,
         additional_data_path=additional_data_path,
         additional_data_behavior=additional_data_behavior,
         **analytics_params

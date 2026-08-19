@@ -17,6 +17,7 @@ from ..entities import (
     DIMENSION_PAGE_PATH_PLUS_QUERY,
     DIMENSION_CUSTOM_URL,
     DIMENSION_ENTITY_NAME,
+    ADDITIONAL_DATA_BEHAVIOR,
 )
 
 METRIC_ENGAGEMENT_RATE = {
@@ -398,7 +399,7 @@ def fetch_data(
     params_prior = {**params, "start_date": start_date_prior, "end_date": end_date_prior}
 
     print("Fetching monthly traffic data...")
-    historic_kwargs = {"additional_data_path": historic_data_path, "additional_data_behavior": elements.ADDITIONAL_DATA_BEHAVIOR.ADD} if historic_data_path else {}
+    historic_kwargs = {"additional_data_path": historic_data_path, "additional_data_behavior": ADDITIONAL_DATA_BEHAVIOR.ADD} if historic_data_path else {}
     df_monthly_traffic = elements.get_page_views_over_time_df(params_all_time, **historic_kwargs)
 
     print("Fetching pageviews data...")
