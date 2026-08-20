@@ -143,7 +143,6 @@ export interface AggregatedSamplesResponse {
  */
 export interface AggregatedSpecimenResponse {
   disease: (string | null)[];
-  id: string[];
   organ: string[];
   organPart: (string | null)[];
   preservationMethod: (string | null)[];

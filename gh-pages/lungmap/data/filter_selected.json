@@ -2,56 +2,92 @@
   {
     "filterName": "genusSpecies",
     "filterValue": "Mus musculus",
-    "count": 3,
-    "change": -0.4193548387096775
+    "count": 6,
+    "change": -0.27419354838709686
   },
   {
-    "filterName": "projectTitle",
-    "filterValue": "Guided construction of a single cell reference (CellRef) for mouse lung",
-    "count": 2,
-    "change": null
-  },
-  {
-    "filterName": "specimenDisease",
+    "filterName": "donorDisease",
     "filterValue": "idiopathic pulmonary fibrosis",
+    "count": 5,
+    "change": 3.838709677419354
+  },
+  {
+    "filterName": "specimenOrgan",
+    "filterValue": "Lung",
+    "count": 3,
+    "change": 0.4516129032258063
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "interstitial lung disease",
+    "count": 3,
+    "change": null
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "acute lung injury",
     "count": 2,
     "change": null
   },
   {
-    "filterName": "contactName",
-    "filterValue": "Xin Sun",
+    "filterName": "donorDisease",
+    "filterValue": "idiopathic interstitial pneumonia",
+    "count": 2,
+    "change": null
+  },
+  {
+    "filterName": "donorDisease",
+    "filterValue": "normal",
+    "count": 2,
+    "change": 0.9354838709677418
+  },
+  {
+    "filterName": "developmentStage",
+    "filterValue": "mouse postnatal",
     "count": 1,
     "change": null
   },
   {
-    "filterName": "developmentStage",
-    "filterValue": "human adult stage",
+    "filterName": "donorDisease",
+    "filterValue": "pulmonary alveolar microlithiasis",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "fileFormat",
+    "filterValue": "fastq.gz",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "fileFormat",
+    "filterValue": "h5",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "fileFormat",
+    "filterValue": "rds.gz",
     "count": 1,
     "change": -0.032258064516129115
   },
   {
-    "filterName": "donorDisease",
-    "filterValue": "chronic obstructive pulmonary disease",
+    "filterName": "fileFormat",
+    "filterValue": "txt",
     "count": 1,
     "change": null
   },
   {
-    "filterName": "donorDisease",
-    "filterValue": "idiopathic pulmonary fibrosis",
+    "filterName": "fileFormat",
+    "filterValue": "xlsx",
     "count": 1,
     "change": null
   },
   {
-    "filterName": "donorDisease",
-    "filterValue": "influenza A (H1N1)",
+    "filterName": "fileSource",
+    "filterValue": "LungMAP",
     "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "donorDisease",
-    "filterValue": "lung disease",
-    "count": 1,
-    "change": null
+    "change": -0.032258064516129115
   },
   {
     "filterName": "genusSpecies",
@@ -60,122 +96,56 @@
     "change": -0.5161290322580645
   },
   {
-    "filterName": "modelOrgan",
-    "filterValue": "null",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "nucleicAcidSource",
-    "filterValue": "single cell",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "A scRNA-Seq atlas of human interstitial lung disease (ILD)",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "Bronchopulmonary dysplasia (BPD) with pulmonary hypertension associates with semaphorin signaling lo",
-    "count": 1,
-    "change": -0.6774193548387097
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "Single Cell Sequence Analysis of Newborn Human Lung",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "selectedCellType",
-    "filterValue": "epithelial cell of lung",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "selectedCellType",
-    "filterValue": "null",
-    "count": 1,
-    "change": null
-  },
-  {
-    "filterName": "specimenOrgan",
-    "filterValue": "Lung",
-    "count": 1,
-    "change": -0.5161290322580645
-  },
-  {
-    "filterName": "contactName",
-    "filterValue": "Nicholas Banovich",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "contactName",
-    "filterValue": "Nicholas E. Banovich",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "donorDisease",
-    "filterValue": "acute lung injury",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "donorDisease",
-    "filterValue": "bronchopulmonary dysplasia",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "donorDisease",
-    "filterValue": "normal",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "fileFormat",
-    "filterValue": "h5ad",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "fileSource",
-    "filterValue": "LungMAP",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "Bronchpulmonary Dysplasia (BPD)",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "Bulk RNA-Seq of Rabbit Lung Development and Premature Delivery to Model BPD",
-    "count": 0,
-    "change": -1.0
-  },
-  {
     "filterName": "projectTitle",
     "filterValue": "Human Lung Reference Cell Atlas version 1.0",
-    "count": 0,
-    "change": -1.0
-  },
-  {
-    "filterName": "projectTitle",
-    "filterValue": "Human Pediatric Developmental Epochs",
-    "count": 0,
-    "change": -1.0
+    "count": 1,
+    "change": null
   },
   {
     "filterName": "projectTitle",
     "filterValue": "Lung Spatial Xenium Pilot of Control Segmental Bronchus with Bronchpulmonary Dysplasia (BPD) Sample",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "specimenDisease",
+    "filterValue": "acute lung injury",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "specimenDisease",
+    "filterValue": "idiopathic pulmonary fibrosis",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "workflow",
+    "filterValue": "75114da4-c169-4255-b577-8dc53cb8221a",
+    "count": 1,
+    "change": null
+  },
+  {
+    "filterName": "fileFormat",
+    "filterValue": "RDS",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "nucleicAcidSource",
+    "filterValue": "single nucleus",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "projectTitle",
+    "filterValue": "Guided construction of a single cell reference (CellRef) for mouse lung",
+    "count": 0,
+    "change": -1.0
+  },
+  {
+    "filterName": "selectedCellType",
+    "filterValue": "epithelial cell of lung",
     "count": 0,
     "change": -1.0
   }
