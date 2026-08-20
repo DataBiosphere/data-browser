@@ -250,7 +250,6 @@ describe("buildHcaProjectJsonLd", () => {
       samples: [
         {
           disease: ["normal"],
-          id: ["s1"],
           organ: ["brain"],
           organPart: ["cortex"],
           sampleEntityType: ["specimens"],
@@ -259,7 +258,6 @@ describe("buildHcaProjectJsonLd", () => {
       specimens: [
         {
           disease: ["normal"],
-          id: ["s1"],
           organ: ["brain"],
           organPart: ["cortex"],
           preservationMethod: [],

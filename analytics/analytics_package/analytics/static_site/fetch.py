@@ -1,10 +1,12 @@
 """Fetch analytics data from GA4 for the static site."""
 
 import re
+from datetime import date
 from urllib.parse import urlparse, parse_qs
 
-from .. import sheets_elements as elements
-from .._sheets_utils import get_data_df_from_fields
+from .. import report_elements as elements
+from ..api import parse_filter_expressions
+from .._report_utils import get_data_df_from_fields
 from ..entities import (
     DIMENSION_YEAR_MONTH,
     METRIC_EVENT_COUNT,
@@ -15,6 +17,7 @@ from ..entities import (
     DIMENSION_PAGE_PATH_PLUS_QUERY,
     DIMENSION_CUSTOM_URL,
     DIMENSION_ENTITY_NAME,
+    ADDITIONAL_DATA_BEHAVIOR,
 )
 
 METRIC_ENGAGEMENT_RATE = {
@@ -337,6 +340,7 @@ def fetch_data(
     exclude_pages=None,
     base_dimension_filter=None,
     search_path=None,
+    exclude_dates=None,
 ):
     """Fetch all analytics data for the static site.
 
@@ -350,12 +354,29 @@ def fetch_data(
         exclude_pages: Optional list of page paths to exclude from pageview data.
         base_dimension_filter: Optional GA4 dimension filter dict applied to all queries.
         search_path: Optional search page path to extract search queries from (e.g., "/search").
+        exclude_dates: Optional list of dates (YYYY-MM-DD) to exclude from all queries,
+            e.g. days with known synthetic/bot traffic. Applies to GA4 queries only,
+            not to data merged from historic_data_path.
 
     Returns:
         Dict containing DataFrames and stats for each data type.
     """
     if custom_events is None:
         custom_events = []
+
+    if exclude_dates:
+        for d in exclude_dates:
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
+                raise ValueError(f"exclude_dates entries must be YYYY-MM-DD, got: {d!r}")
+            date.fromisoformat(d)
+        base_dimension_filter = parse_filter_expressions(
+            [
+                base_dimension_filter,
+                ";".join(f"date!={d.replace('-', '')}" for d in exclude_dates),
+            ],
+            False,
+        )
+        print(f"Excluding dates from all queries: {', '.join(exclude_dates)}")
 
     report_dates = elements.get_bounds_for_month_and_prev(current_month)
     start_date_current = report_dates["start_current"]
@@ -378,7 +399,7 @@ def fetch_data(
     params_prior = {**params, "start_date": start_date_prior, "end_date": end_date_prior}
 
     print("Fetching monthly traffic data...")
-    historic_kwargs = {"additional_data_path": historic_data_path, "additional_data_behavior": elements.ADDITIONAL_DATA_BEHAVIOR.ADD} if historic_data_path else {}
+    historic_kwargs = {"additional_data_path": historic_data_path, "additional_data_behavior": ADDITIONAL_DATA_BEHAVIOR.ADD} if historic_data_path else {}
     df_monthly_traffic = elements.get_page_views_over_time_df(params_all_time, **historic_kwargs)
 
     print("Fetching pageviews data...")
