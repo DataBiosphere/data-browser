@@ -22,6 +22,8 @@ Linting and formatting are handled by [ruff](https://docs.astral.sh/ruff/), conf
 - `uv run ruff check .` to lint, or `uv run ruff check --fix .` to apply the automatic fixes.
 - `uv run ruff format .` to format, or `uv run ruff format --check .` to check without writing.
 
+The NPM scripts `lint:python`, `format:python`, and `check-format:python` can also be used as shortcuts.
+
 ## Generating reports for the static site
 
 Each app-specific analytics subfolder (e.g. `anvil-explorer`, `hca-explorer`, `lungmap`) contains a script that can be run to generate a report for the static site. To run these scripts:
