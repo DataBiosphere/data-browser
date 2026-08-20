@@ -19,6 +19,8 @@
     "start": "npx serve out",
     "lint": "eslint .",
     "check-format": "prettier --check .",
+    "lint:python": "cd analytics && uv run ruff check",
+    "format:python": "cd analytics && uv run ruff format",
     "prepare": "husky",
     "test": "jest --watch",
     "test:e2e": "playwright test",
