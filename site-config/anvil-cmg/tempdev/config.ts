@@ -5,7 +5,7 @@ import { authenticationConfig } from "./authentication/authentication";
 
 const config: SiteConfig = {
   ...makeConfig(
-    "https://explore.temp.gi.ucsc.edu",
+    "https://temp.gi.ucsc.edu",
     "https://anvilproject.org",
     "https://service.temp.gi.ucsc.edu",
     GIT_HUB_REPO_URL,
