@@ -64,7 +64,6 @@ _templates
 __pycache__/
 *.egg-info/
 /analytics/**/site/
-/analytics/venv
 /analytics/.venv
 .ruff_cache/
 
