@@ -138,7 +138,6 @@ export interface SampleResponse {
   cellLineType?: string;
   disease?: (string | null)[];
   effectiveOrgan: string | null;
-  id: string;
   modelOrgan?: string | null;
   modelOrganPart?: string | null;
   organ?: string;

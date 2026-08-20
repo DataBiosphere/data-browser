@@ -120,7 +120,6 @@ export interface AggregatedSampleResponse {
   cellLineType?: string[];
   disease?: (string | null)[];
   effectiveOrgan?: (string | null)[];
-  id: string[];
   modelOrgan?: (string | null)[];
   modelOrganPart?: (string | null)[];
   organ?: string[];
@@ -144,7 +143,6 @@ export interface AggregatedSamplesResponse {
  */
 export interface AggregatedSpecimenResponse {
   disease: (string | null)[];
-  id: string[];
   organ: string[];
   organPart: (string | null)[];
   preservationMethod: (string | null)[];

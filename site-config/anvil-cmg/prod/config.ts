@@ -3,13 +3,15 @@ import { SiteConfig } from "../../common/entities";
 import { makeConfig } from "../dev/config";
 import { authenticationConfig } from "./authentication/authentication";
 
+const CATALOG = "anvil15";
+
 const config: SiteConfig = {
   ...makeConfig(
     "https://explore.anvilproject.org",
     "https://anvilproject.org",
     "https://service.explore.anvilproject.org",
     GIT_HUB_REPO_URL,
-    "anvil14"
+    CATALOG
   ),
   exportToTerraUrl: "https://anvil.terra.bio/",
 };

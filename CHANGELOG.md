@@ -1,5 +1,41 @@
 # Changelog
 
+## [3.6.0](https://github.com/DataBiosphere/data-browser/compare/v3.5.0...v3.6.0) (2026-08-20)
+
+
+### Features
+
+* limit analytics package to static site reports and remove unnecessary requirements ([#4912](https://github.com/DataBiosphere/data-browser/issues/4912)) ([#4926](https://github.com/DataBiosphere/data-browser/issues/4926)) ([e49d6f6](https://github.com/DataBiosphere/data-browser/commit/e49d6f6b0e201fc5af29ae562dc83ab24f9f4bde))
+* support excluding anomalous dates from static analytics reports ([#4907](https://github.com/DataBiosphere/data-browser/issues/4907)) ([#4908](https://github.com/DataBiosphere/data-browser/issues/4908)) ([a8f1fb3](https://github.com/DataBiosphere/data-browser/commit/a8f1fb398205213aa661ae208ea86a1099c84d28))
+
+
+### Bug Fixes
+
+* drop stale samples id from schema.org project fixture ([#4928](https://github.com/DataBiosphere/data-browser/issues/4928)) ([4e3a131](https://github.com/DataBiosphere/data-browser/commit/4e3a1318ca57004143440c5c43d6fa5ca044159d))
+* remove references to sampleId field removed from Azul backend ([eff6b5a](https://github.com/DataBiosphere/data-browser/commit/eff6b5ab9ac36e2d915f4fef29b22a6decfd3280))
+* remove stale specimens id from aggregated response type ([#4928](https://github.com/DataBiosphere/data-browser/issues/4928)) ([9f2f3df](https://github.com/DataBiosphere/data-browser/commit/9f2f3dffc5a030fc083070761b41cbbf9cf80078))
+
+
+### Chores
+
+* retire legacy analytics generators ([#4910](https://github.com/DataBiosphere/data-browser/issues/4910), [#4911](https://github.com/DataBiosphere/data-browser/issues/4911)) ([#4925](https://github.com/DataBiosphere/data-browser/issues/4925)) ([37ef4e2](https://github.com/DataBiosphere/data-browser/commit/37ef4e26c2124e141754258e34b925a1026a7e49))
+* track .nvmrc in the repo (follow-up from [#4876](https://github.com/DataBiosphere/data-browser/issues/4876)) ([#4917](https://github.com/DataBiosphere/data-browser/issues/4917)) ([#4918](https://github.com/DataBiosphere/data-browser/issues/4918)) ([0eb97ee](https://github.com/DataBiosphere/data-browser/commit/0eb97ee1a657d149d22d6005879a1ddcc6a306e5))
+* update analytics to July 2026 ([#4905](https://github.com/DataBiosphere/data-browser/issues/4905)) ([#4906](https://github.com/DataBiosphere/data-browser/issues/4906)) ([f51b1f1](https://github.com/DataBiosphere/data-browser/commit/f51b1f12033802431bbd79945af534757cf40e01))
+* update default catalog to anvil15 ([#4902](https://github.com/DataBiosphere/data-browser/issues/4902)) ([#4935](https://github.com/DataBiosphere/data-browser/issues/4935)) ([f92dc58](https://github.com/DataBiosphere/data-browser/commit/f92dc586ed0a9f9fbd84518aeb4eb9b36c889368))
+
+
+### Code Refactoring
+
+* avoid star-imports in analytics package ([#4927](https://github.com/DataBiosphere/data-browser/issues/4927)) ([#4933](https://github.com/DataBiosphere/data-browser/issues/4933)) ([4909c28](https://github.com/DataBiosphere/data-browser/commit/4909c2879a42bd38dfb5ed163ad871bf6011aebe))
+
+
+### Continuous Integration
+
+* pin github actions by commit sha at current versions ([#4893](https://github.com/DataBiosphere/data-browser/issues/4893)) ([fe39abd](https://github.com/DataBiosphere/data-browser/commit/fe39abd1628742d9cda8d549b15883e8acf483b5))
+* pin github actions by commit sha at current versions ([#4894](https://github.com/DataBiosphere/data-browser/issues/4894)) ([fe39abd](https://github.com/DataBiosphere/data-browser/commit/fe39abd1628742d9cda8d549b15883e8acf483b5))
+* upgrade release-please-action from v4 to v5 ([#4890](https://github.com/DataBiosphere/data-browser/issues/4890)) ([c824f63](https://github.com/DataBiosphere/data-browser/commit/c824f6339c545be751499004c24e9eea1a510b69))
+* upgrade release-please-action from v4 to v5 ([#4891](https://github.com/DataBiosphere/data-browser/issues/4891)) ([c824f63](https://github.com/DataBiosphere/data-browser/commit/c824f6339c545be751499004c24e9eea1a510b69))
+
 ## [3.5.0](https://github.com/DataBiosphere/data-browser/compare/v3.4.1...v3.5.0) (2026-07-01)
 
 
