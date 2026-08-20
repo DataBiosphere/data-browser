@@ -7,7 +7,15 @@ from . import api as ga
 from .entities import ADDITIONAL_DATA_BEHAVIOR
 
 
-def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix="_percentage", num_keep_dimensions=None, df_processor=None, **other_params):
+def get_data_df(
+    metrics,
+    dimensions,
+    percentage_metrics=None,
+    percentage_suffix="_percentage",
+    num_keep_dimensions=None,
+    df_processor=None,
+    **other_params,
+):
     if metrics is None:
         df = pd.DataFrame()
     else:
@@ -27,15 +35,21 @@ def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix=
 
         if percentage_metrics:
             for metric in percentage_metrics:
-                df.insert(list(df.columns).index(metric) + 1, metric + percentage_suffix, df[metric] / df[metric].sum() * 100)
+                df.insert(
+                    list(df.columns).index(metric) + 1,
+                    metric + percentage_suffix,
+                    df[metric] / df[metric].sum() * 100,
+                )
 
     if df_processor:
         df = df_processor(df)
 
     return df
 
+
 def strings_to_lists(*vals):
     return [[v] if isinstance(v, str) else v for v in vals]
+
 
 def get_df_over_time(xlabels, metrics, dimensions, df_filter=None, **other_params):
     xlabels, metrics = strings_to_lists(xlabels, metrics)
@@ -45,11 +59,13 @@ def get_df_over_time(xlabels, metrics, dimensions, df_filter=None, **other_param
     # Convert date to datetime object
     df.index = pd.to_datetime(df.index)
 
-    if (df_filter is not None):
+    if df_filter is not None:
         df = df_filter(df)
 
     # Rename for display
-    df.rename(columns={name: xlabels[i] for i, name in enumerate(df.columns)}, inplace=True)
+    df.rename(
+        columns={name: xlabels[i] for i, name in enumerate(df.columns)}, inplace=True
+    )
 
     return df
 
@@ -61,27 +77,38 @@ def get_data_df_from_fields(metrics, dimensions, **other_params):
     :param metrics: the metrics to get
     :param dimensions: the dimensions to get
     :param other_params: any other parameters to be passed to the get_data_df function, including service params
-    :return: a DataFrame with the data from the Analytics API. 
-        The DF has an arbitrary RangeIndex, 
-        string columns containing dimensions with names equal to the dimension alias value, 
+    :return: a DataFrame with the data from the Analytics API.
+        The DF has an arbitrary RangeIndex,
+        string columns containing dimensions with names equal to the dimension alias value,
         and int columns containing metrics with names equal to the metric alias value.
     """
     df = get_data_df(
         [metric["id"] for metric in metrics],
         [dimension["id"] for dimension in dimensions],
-        **other_params
+        **other_params,
     )
-    return df.reset_index().rename(columns=get_rename_dict(dimensions+metrics)).copy()
+    return df.reset_index().rename(columns=get_rename_dict(dimensions + metrics)).copy()
 
 
 def get_rename_dict(dimensions):
     """Get a dictionary to rename the columns of a DataFrame."""
     return dict(
-        zip([dimension["id"] for dimension in dimensions], [dimension["alias"] for dimension in dimensions], strict=True)
+        zip(
+            [dimension["id"] for dimension in dimensions],
+            [dimension["alias"] for dimension in dimensions],
+            strict=True,
+        )
     )
 
 
-def get_one_period_change_series(series_current, series_previous, start_current, end_current, start_previous, end_previous):
+def get_one_period_change_series(
+    series_current,
+    series_previous,
+    start_current,
+    end_current,
+    start_previous,
+    end_previous,
+):
     """
     Get the percent change between two serieses, accounting for different numbers of days in the month.
     :param series_current: the series representing the current month
@@ -96,18 +123,40 @@ def get_one_period_change_series(series_current, series_previous, start_current,
     assert series_current.index.names == series_previous.index.names
     # Reindex both serieses to have the same index
     combined_index = series_current.index.union(series_previous.index)
-    current_length = float((dt.datetime.fromisoformat(end_current) - dt.datetime.fromisoformat(start_current)).days + 1)
-    previous_length = float((dt.datetime.fromisoformat(end_previous) - dt.datetime.fromisoformat(start_previous)).days + 1)
+    current_length = float(
+        (
+            dt.datetime.fromisoformat(end_current)
+            - dt.datetime.fromisoformat(start_current)
+        ).days
+        + 1
+    )
+    previous_length = float(
+        (
+            dt.datetime.fromisoformat(end_previous)
+            - dt.datetime.fromisoformat(start_previous)
+        ).days
+        + 1
+    )
     assert current_length != 0 and previous_length != 0
     series_current_reindexed = series_current.reindex(combined_index).fillna(0)
     # Adjust the values from the prior series to account for the different number of days in the month
-    series_previous_reindexed = (series_previous.reindex(combined_index) * current_length / previous_length)
-    change = ((series_current_reindexed / series_previous_reindexed) - 1).replace({np.inf: np.nan})
+    series_previous_reindexed = (
+        series_previous.reindex(combined_index) * current_length / previous_length
+    )
+    change = ((series_current_reindexed / series_previous_reindexed) - 1).replace(
+        {np.inf: np.nan}
+    )
     return change
 
 
 def get_change_over_time_df(
-    metrics, time_dimension, include_changes=True, additional_data_path=None, additional_data_behavior=None, strftime_format="%Y-%m", **other_params
+    metrics,
+    time_dimension,
+    include_changes=True,
+    additional_data_path=None,
+    additional_data_behavior=None,
+    strftime_format="%Y-%m",
+    **other_params,
 ):
     """
     Get a DataFrame with the change over time for the given metrics, renamed to match metric_titles
@@ -126,8 +175,10 @@ def get_change_over_time_df(
         [metric["id"] for metric in metrics],
         time_dimension["id"],
         sort_results=[time_dimension["id"]],
-        df_processor=(lambda df: df.set_index(df.index + "01").sort_index(ascending=False)),
-        **other_params
+        df_processor=(
+            lambda df: df.set_index(df.index + "01").sort_index(ascending=False)
+        ),
+        **other_params,
     ).rename({time_dimension["id"]: time_dimension["alias"]})
 
     df_combined = pd.DataFrame()
@@ -139,23 +190,28 @@ def get_change_over_time_df(
             df_combined = df_api.add(df_saved.astype(int), fill_value=0)[::-1]
         elif additional_data_behavior == ADDITIONAL_DATA_BEHAVIOR.REPLACE:
             df_combined = pd.concat([df_saved, df_api], ignore_index=False)
-            df_combined = df_combined.loc[~df_combined.index.duplicated(keep="first")].sort_index(ascending=False)
+            df_combined = df_combined.loc[
+                ~df_combined.index.duplicated(keep="first")
+            ].sort_index(ascending=False)
     else:
         df_combined = df_api
 
     if include_changes:
-        df_combined[
-            [metric["change_alias"] for metric in metrics]
-        ] = df_combined[
-            [metric["alias"] for metric in metrics]
-        ].pct_change(periods=-1).replace({np.inf: np.nan})
+        df_combined[[metric["change_alias"] for metric in metrics]] = (
+            df_combined[[metric["alias"] for metric in metrics]]
+            .pct_change(periods=-1)
+            .replace({np.inf: np.nan})
+        )
 
     if strftime_format is not None:
         df_combined.index = pd.to_datetime(df_combined.index).strftime(strftime_format)
 
     return df_combined.reset_index(names=time_dimension["alias"])
 
-def get_change_over_time_df_multiple_events(metric, events, time_dimension, **change_over_time_args):
+
+def get_change_over_time_df_multiple_events(
+    metric, events, time_dimension, **change_over_time_args
+):
     """
     Get a DataFrame with the change over time for the given metrics, renamed to match metric_titles
     :param metrics: the metrics to be displayed
@@ -172,11 +228,16 @@ def get_change_over_time_df_multiple_events(metric, events, time_dimension, **ch
                 [metric],
                 time_dimension,
                 **change_over_time_args,
-                dimension_filter=f"eventName=={event['id']}"
-            ).rename(
-                columns={metric["alias"]: event["alias"], metric["change_alias"]: event["change_alias"]}
-            ).set_index(time_dimension["alias"])
+                dimension_filter=f"eventName=={event['id']}",
+            )
+            .rename(
+                columns={
+                    metric["alias"]: event["alias"],
+                    metric["change_alias"]: event["change_alias"],
+                }
+            )
+            .set_index(time_dimension["alias"])
             for event in events
         ],
-        axis=1
+        axis=1,
     )

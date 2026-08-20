@@ -31,7 +31,9 @@ ga_authentication = ga.authenticate(
 
 
 def resolve_project_titles(data):
-    title_map = fetch_entity_title_map(AZUL_PROJECTS_URL, "projects", "projectTitle", catalog="lm10")
+    title_map = fetch_entity_title_map(
+        AZUL_PROJECTS_URL, "projects", "projectTitle", catalog="lm10"
+    )
     count = enrich_detail_records(data, title_map, r"/projects/([0-9a-f-]+)")
     print(f"  Enriched {count} records with project titles")
 
@@ -50,21 +52,47 @@ generate_site(
         "summary_stats": [
             {
                 "label": "Cohort Export Requests",
-                "event_keys": ["index_bulk_download_requested", "index_file_manifest_requested", "index_analyze_in_terra_requested"],
+                "event_keys": [
+                    "index_bulk_download_requested",
+                    "index_file_manifest_requested",
+                    "index_analyze_in_terra_requested",
+                ],
             },
             {
                 "label": "Project Export Requests",
-                "event_keys": ["dataset_bulk_download_requested", "dataset_file_manifest_requested", "dataset_analyze_in_terra_requested"],
+                "event_keys": [
+                    "dataset_bulk_download_requested",
+                    "dataset_file_manifest_requested",
+                    "dataset_analyze_in_terra_requested",
+                ],
             },
         ],
         "file_downloads_position": 3,
         "event_counts": [
-            {"label": "Export to Terra\n(Single Project)", "event_key": "dataset_analyze_in_terra_requested"},
-            {"label": "Export to Terra\n(Cross-Project)", "event_key": "index_analyze_in_terra_requested"},
-            {"label": "curl Command\n(Single Project)", "event_key": "dataset_bulk_download_requested"},
-            {"label": "curl Command\n(Cross-Project)", "event_key": "index_bulk_download_requested"},
-            {"label": "File Manifest\n(Single Project)", "event_key": "dataset_file_manifest_requested"},
-            {"label": "File Manifest\n(Cross-Project)", "event_key": "index_file_manifest_requested"},
+            {
+                "label": "Export to Terra\n(Single Project)",
+                "event_key": "dataset_analyze_in_terra_requested",
+            },
+            {
+                "label": "Export to Terra\n(Cross-Project)",
+                "event_key": "index_analyze_in_terra_requested",
+            },
+            {
+                "label": "curl Command\n(Single Project)",
+                "event_key": "dataset_bulk_download_requested",
+            },
+            {
+                "label": "curl Command\n(Cross-Project)",
+                "event_key": "index_bulk_download_requested",
+            },
+            {
+                "label": "File Manifest\n(Single Project)",
+                "event_key": "dataset_file_manifest_requested",
+            },
+            {
+                "label": "File Manifest\n(Cross-Project)",
+                "event_key": "index_file_manifest_requested",
+            },
         ],
     },
     property_id=LUNGMAP_ID,

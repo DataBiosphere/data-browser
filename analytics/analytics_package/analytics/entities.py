@@ -45,21 +45,15 @@ SYNTHETIC_METRIC_CLICKS = {
 # Event Names
 # The builtin outbound link click event. Stores the clicked URL in DIMENSION_BUILTIN_URL
 # Triggers under some circumstances where custom click does not, but does not include url fragments in any dimensions
-EVENT_BUILTIN_CLICK = {
-    "id": "click",
-    "alias": "Builtin Outbound Link Click"
-}
+EVENT_BUILTIN_CLICK = {"id": "click", "alias": "Builtin Outbound Link Click"}
 # The custom outbound link click event. Stores the clicked URL DIMENSION_CUSTOM_URL
 # Includes url fragments, sometimes has a slightly different count to the built in click event
 EVENT_CUSTOM_CLICK = {
     "id": "outbound_link_clicked",
-    "alias": "Custom Outbound Link Click"
+    "alias": "Custom Outbound Link Click",
 }
 # The builtin page view event.
-EVENT_PAGE_VIEW = {
-    "id": "page_view",
-    "alias": "Page View"
-}
+EVENT_PAGE_VIEW = {"id": "page_view", "alias": "Page View"}
 EVENT_INDEX_BULK_DOWNLOAD_SELECTED = {
     "id": "index_bulk_download_selected",
     "alias": "Bulk Download Selected",
@@ -212,7 +206,8 @@ SYNTHETIC_DIMENSION_CLICKED_LINK = {
     "alias": "Outbound Link",
 }
 
+
 # Used as arguments in get_change_over_time_df
 class ADDITIONAL_DATA_BEHAVIOR(Enum):
-    ADD = "add" # Sum the cached data with the api data
-    REPLACE = "replace"# Replace the api data with the cached data
+    ADD = "add"  # Sum the cached data with the api data
+    REPLACE = "replace"  # Replace the api data with the cached data
