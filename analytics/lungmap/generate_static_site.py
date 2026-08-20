@@ -9,7 +9,7 @@ from constants import CURRENT_MONTH, LUNGMAP_ID, SECRET_NAME, ANALYTICS_START, O
 
 AZUL_PROJECTS_URL = "https://service.azul.data.humancellatlas.org/index/projects"
 
-os.environ.setdefault(SECRET_NAME, "../../../.credentials/hca_ga4_credentials.json")
+os.environ.setdefault(SECRET_NAME, "../../.credentials/hca_ga4_credentials.json")
 
 ga_authentication = ga.authenticate(
     SECRET_NAME,
@@ -58,7 +58,7 @@ generate_site(
     property_id=LUNGMAP_ID,
     current_month=CURRENT_MONTH,
     analytics_start=ANALYTICS_START,
-    output_dir="../../../gh-pages/lungmap",
+    output_dir="../../gh-pages/lungmap",
     custom_events=[
         {"event_name": "filter_selected", "label": "Filter Selections"},
         {

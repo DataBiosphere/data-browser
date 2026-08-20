@@ -1,5 +1,15 @@
 [
   {
+    "month": "2026-07",
+    "users": 402,
+    "pageviews": 1740
+  },
+  {
+    "month": "2026-06",
+    "users": 502,
+    "pageviews": 2546
+  },
+  {
     "month": "2026-05",
     "users": 414,
     "pageviews": 2296
@@ -76,8 +86,8 @@
   },
   {
     "month": "2025-02",
-    "users": 9480,
-    "pageviews": 19951
+    "users": 277,
+    "pageviews": 2239
   },
   {
     "month": "2025-01",

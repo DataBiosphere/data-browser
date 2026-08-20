@@ -1,247 +1,82 @@
 [
   {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
-    "clicks": 6,
-    "change": 0.4516129032258063
-  },
-  {
-    "link": "https://duos.org/dataset/DUOS-000483",
-    "clicks": 6,
-    "change": 0.4516129032258063
-  },
-  {
-    "link": "https://console.cloud.google.com/storage/browser/genomics-publicdata/resources/broad/hg38/v0/",
-    "clicks": 5,
-    "change": 0.6129032258064515
-  },
-  {
-    "link": "https://anvilproject.org/faq/data-security",
-    "clicks": 5,
-    "change": null
-  },
-  {
-    "link": "https://humanpangenome.org/",
-    "clicks": 4,
-    "change": null
-  },
-  {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
-    "clicks": 4,
-    "change": 0.9354838709677418
+    "link": "https://login.gov/",
+    "clicks": 12,
+    "change": 2.8709677419354835
   },
   {
     "link": "https://anvilproject.org/learn",
+    "clicks": 7,
+    "change": -0.032258064516129004
+  },
+  {
+    "link": "https://support.terra.bio/hc/en-us/articles/32634034451099-RAS-Integration-for-AnVIL-Data",
+    "clicks": 5,
+    "change": null
+  },
+  {
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
     "clicks": 4,
-    "change": -0.3548387096774194
+    "change": -0.7962648556876061
   },
   {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001642",
-    "clicks": 4,
-    "change": null
-  },
-  {
-    "link": "https://support.terra.bio/hc/en-us/articles/34594440468635-Finding-and-using-AnVIL-data",
-    "clicks": 4,
-    "change": null
-  },
-  {
-    "link": "https://anvilproject.org/faq/data-security",
-    "clicks": 4,
-    "change": null
-  },
-  {
-    "link": "https://anvilproject.org/faq/data-security",
-    "clicks": 4,
-    "change": null
-  },
-  {
-    "link": "https://anvilproject.org/faq/data-security",
-    "clicks": 4,
-    "change": null
-  },
-  {
-    "link": "https://anvilproject.org/",
-    "clicks": 3,
-    "change": null
-  },
-  {
-    "link": "https://anvil.terra.bio/#workspaces/anvil-datastorage/ANVIL_NIA_CARD_Coriell_Cell_Lines_Open",
-    "clicks": 3,
-    "change": null
-  },
-  {
-    "link": "https://console.cloud.google.com/storage/browser/fc-ed391d18-3c0a-4499-a292-35ca51ebf381/gtex_analys",
-    "clicks": 3,
-    "change": null
-  },
-  {
-    "link": "https://login.gov/",
-    "clicks": 3,
-    "change": null
-  },
-  {
-    "link": "https://duos.org/dataset/DUOS-000484",
-    "clicks": 3,
-    "change": null
-  },
-  {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003184",
-    "clicks": 3,
-    "change": 0.4516129032258063
-  },
-  {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001642",
-    "clicks": 3,
-    "change": null
-  },
-  {
-    "link": "https://www.genome.gov/",
-    "clicks": 3,
-    "change": 0.4516129032258063
-  },
-  {
-    "link": "https://www.genome.gov/",
-    "clicks": 3,
-    "change": null
-  },
-  {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003444",
+    "link": "https://support.terra.bio/hc/en-us/articles/32634034451099-RAS-Integration-for-AnVIL-Data-Launching-",
     "clicks": 3,
     "change": 1.9032258064516125
   },
   {
-    "link": "https://login.gov/",
+    "link": "https://www.internationalgenome.org/",
     "clicks": 3,
+    "change": -0.5161290322580645
+  },
+  {
+    "link": "https://anvilproject.org/help",
+    "clicks": 2,
     "change": null
   },
   {
     "link": "https://support.terra.bio/hc/en-us/articles/32634034451099-RAS-Integration-for-AnVIL-Data",
     "clicks": 2,
-    "change": -0.3548387096774194
-  },
-  {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003181",
-    "clicks": 2,
-    "change": null
-  },
-  {
-    "link": "https://github.com/UW-GAC/primed_data_models/",
-    "clicks": 2,
-    "change": null
-  },
-  {
-    "link": "https://www.internationalgenome.org/",
-    "clicks": 2,
-    "change": null
-  },
-  {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001300",
-    "clicks": 2,
-    "change": null
-  },
-  {
-    "link": "https://console.cloud.google.com/storage/browser/fc-ed391d18-3c0a-4499-a292-35ca51ebf381/gtex_extern",
-    "clicks": 2,
-    "change": null
-  },
-  {
-    "link": "https://anvil.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-pla",
-    "clicks": 2,
     "change": 0.9354838709677418
   },
   {
-    "link": "https://www.nih.gov/",
+    "link": "https://depmap.org/portal/",
     "clicks": 2,
     "change": null
   },
   {
-    "link": "https://www.genome.gov/",
+    "link": "https://github.com/vgteam/vg/wiki/Index-Types",
     "clicks": 2,
     "change": null
   },
   {
-    "link": "https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=working/",
-    "clicks": 2,
-    "change": null
-  },
-  {
-    "link": "https://gtexportal.org/home/datasets",
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003444",
     "clicks": 2,
     "change": 0.9354838709677418
   },
   {
     "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
     "clicks": 2,
-    "change": null
+    "change": 0.9354838709677418
   },
   {
-    "link": "https://support.terra.bio/hc/en-us/articles/32634034451099-RAS-Integration-for-AnVIL-Data-Launching-",
+    "link": "https://anvil.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-pla",
+    "clicks": 2,
+    "change": -0.8064516129032258
+  },
+  {
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs002004",
     "clicks": 2,
     "change": null
   },
   {
-    "link": "https://www.nih.gov/",
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs002041",
     "clicks": 2,
-    "change": null
+    "change": -0.032258064516129115
   },
   {
-    "link": "https://www.nih.gov/",
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/38dc7",
     "clicks": 2,
-    "change": null
-  },
-  {
-    "link": "https://www.nih.gov/",
-    "clicks": 2,
-    "change": null
-  },
-  {
-    "link": "https://www.nih.gov/",
-    "clicks": 2,
-    "change": null
-  },
-  {
-    "link": "https://storage.googleapis.com/fc-50dcda84-5bc0-4859-951f-bbbea53e2fc9/NHP-dGTEx_Marmoset_Analysis_2",
-    "clicks": 2,
-    "change": null
-  },
-  {
-    "link": "https://github.com/DataBiosphere/data-browser/commit/6abbd9ca3ae24a73b84abe4f710ae778ed71d882",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://github.com/DataBiosphere/data-browser/commit/6abbd9ca3ae24a73b84abe4f710ae778ed71d882",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://www.nih.gov/",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://www.genome.gov/",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://www.nih.gov/",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://github.com/DataBiosphere/data-browser/commit/6abbd9ca3ae24a73b84abe4f710ae778ed71d882",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://www.genome.gov/",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://github.com/DataBiosphere/data-browser/commit/6abbd9ca3ae24a73b84abe4f710ae778ed71d882",
-    "clicks": 1,
     "change": null
   },
   {
@@ -250,9 +85,19 @@
     "change": -0.5161290322580645
   },
   {
-    "link": "https://support.terra.bio/hc/en-us/articles/32634034451099-RAS-Integration-for-AnVIL-Data-Launching-",
+    "link": "https://www.usa.gov/",
     "clicks": 1,
-    "change": -0.5161290322580645
+    "change": null
+  },
+  {
+    "link": "https://anvil.terra.bio/#workspaces/anvil-datastorage/ANVIL_NIA_CARD_Coriell_Cell_Lines_Open",
+    "clicks": 1,
+    "change": null
+  },
+  {
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001642",
+    "clicks": 1,
+    "change": null
   },
   {
     "link": "https://anvil.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-pla",
@@ -260,12 +105,12 @@
     "change": null
   },
   {
-    "link": "https://console.cloud.google.com/storage/browser/terra-featured-workspaces/GWAS/1kg-genotypes/vcf",
+    "link": "https://dockstore.org/organizations/PRIMED/collections/simulation",
     "clicks": 1,
-    "change": -0.032258064516129115
+    "change": null
   },
   {
-    "link": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/2022042",
+    "link": "https://github.com/UW-GAC/primed_data_models/",
     "clicks": 1,
     "change": -0.032258064516129115
   },
@@ -275,54 +120,34 @@
     "change": null
   },
   {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001489",
+    "link": "https://console.cloud.google.com/storage/browser/genomics-publicdata/resources/broad/hg38/v0/",
     "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs002018",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://github.com/mccoy-lab/MAGE",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001272",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_cov/NYGC_b38_pipeline_des",
-    "clicks": 1,
-    "change": -0.032258064516129115
-  },
-  {
-    "link": "http://www.internationalgenome.org/about#g1k_data_reuse",
-    "clicks": 1,
-    "change": -0.5161290322580645
-  },
-  {
-    "link": "https://github.com/CCDG/PipelineStandardization/blob/master/PipelineStandard.md",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://app.terra.bio/#workspaces/anvil-datastorage/AnVIL_HPRC",
-    "clicks": 1,
-    "change": null
+    "change": -0.6774193548387097
   },
   {
     "link": "https://github.com/ComparativeGenomicsToolkit/cactus/blob/master/doc/pangenome.md",
     "clicks": 1,
+    "change": -0.032258064516129115
+  },
+  {
+    "link": "https://github.com/human-pangenomics/HPP_Year1_Assemblies/blob/main/genbank_changes/y1_genbank_assem",
+    "clicks": 1,
+    "change": -0.7580645161290323
+  },
+  {
+    "link": "https://github.com/human-pangenomics/HPP_Year1_Data_Freeze_v1.0",
+    "clicks": 1,
     "change": null
+  },
+  {
+    "link": "https://github.com/lh3/minigraph",
+    "clicks": 1,
+    "change": null
+  },
+  {
+    "link": "https://humanpangenome.org/",
+    "clicks": 1,
+    "change": -0.032258064516129115
   },
   {
     "link": "https://s3-us-west-2.amazonaws.com/human-pangenomics/index.html?prefix=submissions/",
@@ -330,62 +155,27 @@
     "change": null
   },
   {
-    "link": "https://duos.org/dataset/DUOS-000744",
-    "clicks": 1,
-    "change": -0.032258064516129115
-  },
-  {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000979",
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001300",
     "clicks": 1,
     "change": null
   },
   {
-    "link": "https://www.medrxiv.org/content/10.1101/2025.03.28.25324850v1",
+    "link": "http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bihttps://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/stu",
     "clicks": 1,
     "change": null
   },
   {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003444",
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003047",
+    "clicks": 1,
+    "change": -0.6774193548387097
+  },
+  {
+    "link": "https://console.cloud.google.com/storage/browser/fc-ed391d18-3c0a-4499-a292-35ca51ebf381/gtex_analys",
     "clicks": 1,
     "change": null
   },
   {
-    "link": "https://duos.org/dataset/DUOS-000234",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://anvil.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-pla",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "http://www.gtexportal.org/",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://duos.org/dataset/DUOS-000780",
-    "clicks": 1,
-    "change": -0.032258064516129115
-  },
-  {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/a88c8",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://anvil.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-pla",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://duos.org/dataset/DUOS-000158",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://anvil.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-pla",
+    "link": "https://console.cloud.google.com/storage/browser/fc-ed391d18-3c0a-4499-a292-35ca51ebf381/gtex_histol",
     "clicks": 1,
     "change": null
   },
@@ -395,19 +185,34 @@
     "change": null
   },
   {
+    "link": "https://gtexportal.org/home/contact",
+    "clicks": 1,
+    "change": null
+  },
+  {
     "link": "https://gtexportal.org/home/documentationPage",
+    "clicks": 1,
+    "change": null
+  },
+  {
+    "link": "https://gtexportal.org/home/faq",
+    "clicks": 1,
+    "change": null
+  },
+  {
+    "link": "https://openslide.org/formats/aperio/",
     "clicks": 1,
     "change": null
   },
   {
     "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003444",
     "clicks": 1,
-    "change": null
+    "change": -0.5161290322580645
   },
   {
-    "link": "https://anvil.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-pla",
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001272",
     "clicks": 1,
-    "change": null
+    "change": -0.032258064516129115
   },
   {
     "link": "http://www.gtexportal.org/",
@@ -417,150 +222,90 @@
   {
     "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
     "clicks": 1,
-    "change": null
+    "change": -0.5161290322580645
   },
   {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/323b8",
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
+    "clicks": 1,
+    "change": -0.6774193548387097
+  },
+  {
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/08398",
     "clicks": 1,
     "change": null
   },
   {
-    "link": "https://support.terra.bio/hc/en-us/articles/32634034451099-RAS-Integration-for-AnVIL-Data",
+    "link": "https://anvilproject.s3.amazonaws.com/file/b33fabee9da836f9b66c482eecce3da0.md5?response-content-dis",
     "clicks": 1,
     "change": null
   },
   {
-    "link": "https://github.com/DataBiosphere/data-browser/commit/6abbd9ca3ae24a73b84abe4f710ae778ed71d882",
+    "link": "https://anvilproject.org/learn/find-data/requesting-data-access",
     "clicks": 1,
     "change": null
   },
   {
-    "link": "https://github.com/DataBiosphere/data-browser/commit/6abbd9ca3ae24a73b84abe4f710ae778ed71d882",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/18991",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/a1de0",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://github.com/DataBiosphere/data-browser/commit/6abbd9ca3ae24a73b84abe4f710ae778ed71d882",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://anvilproject.s3.amazonaws.com/file/28fe7170487598d91eead4fd06958d8b.md5?response-content-dis",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://anvilproject.s3.amazonaws.com/file/8202ac22a41486b9d11d9943f0d75d53.md5?response-content-dis",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://anvilproject.s3.amazonaws.com/file/b1b9d3aba89a7c975e9609b39bbeadab.md5?response-content-dis",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://anvilproject.s3.amazonaws.com/file/c1ff3f3d03d862c853d18e318d0828f2.md5?response-content-dis",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://anvilproject.s3.amazonaws.com/file/dce2b152afce76d1b9f90ebd8a6fd258.md5?response-content-dis",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://anvilproject.s3.amazonaws.com/file/e31335e1986c97c5d4c0311da8db2595.md5?response-content-dis",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://support.terra.bio/hc/en-us/articles/32634034451099-RAS-Integration-for-AnVIL-Data-Launching-",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://help.anvilproject.org/",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://support.terra.bio/hc/en-us/articles/34595554957723-Part-1-Set-up-billing-and-data-access-in-",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://support.terra.bio/hc/en-us/articles/34596321862427-Part-2-Search-and-select-data-in-AnVIL-Da",
-    "clicks": 1,
-    "change": null
-  },
-  {
-    "link": "https://support.terra.bio/hc/en-us/articles/34607573660827-Part-3-Export-AnVIL-data-to-Terra-for-ana",
-    "clicks": 1,
-    "change": -0.032258064516129115
-  },
-  {
-    "link": "https://support.terra.bio/hc/en-us/sections/25968420865691-AnVIL-Researchers",
-    "clicks": 1,
-    "change": -0.032258064516129115
-  },
-  {
-    "link": "https://support.terra.bio/hc/en-us/articles/32634034451099-RAS-Integration-for-AnVIL-Data",
+    "link": "https://github.com/vgteam/vg/wiki/Index-Types",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/bd8a7",
+    "link": "https://console.cloud.google.com/storage/browser/terra-featured-workspaces/GWAS/1kg-genotypes/vcf",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003537",
+    "link": "https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/2022042",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003047",
+    "link": "https://www.cog-genomics.org/plink/2.0/resources#phase3_1kg",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://duos.org/dataset/DUOS-000663",
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003184",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://duos.org/dataset/DUOS-000379",
+    "link": "https://github.com/mccoy-lab/MAGE",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://support.terra.bio/hc/en-us/articles/32634034451099-RAS-Integration-for-AnVIL-Data",
+    "link": "https://anvil.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-pla",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://depmap.org/portal/",
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs002206",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://duos.org/dataset/DUOS-000482",
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/3e688",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://duos.org/dataset/DUOS-000238",
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001272",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://github.com/CCDG/PipelineStandardization/blob/master/PipelineStandard.md",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/4cc5d",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000424",
     "clicks": 0,
     "change": -1.0
   },
@@ -570,7 +315,67 @@
     "change": -1.0
   },
   {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/05111",
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001489",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001489",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/1d07f",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001963",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "http://www.gtexportal.org/",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://login.gov/",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000298",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs001642",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/845e6",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003821",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/c4b10",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs000693",
+    "clicks": 0,
+    "change": -1.0
+  },
+  {
+    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/3a65c",
     "clicks": 0,
     "change": -1.0
   },
@@ -580,57 +385,37 @@
     "change": -1.0
   },
   {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003047",
+    "link": "https://anvilproject.org/faq/data-security",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi?adddataset=phs003047",
+    "link": "https://anvilproject.s3.amazonaws.com/file/1d5aff93475e453070ca3f296155dd19.md5?response-content-dis",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://duos.org/dataset/DUOS-000370",
+    "link": "https://login.gov/",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://anvil.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-pla",
+    "link": "https://storage.googleapis.com/fc-50dcda84-5bc0-4859-951f-bbbea53e2fc9/NHP-dGTEx_Marmoset_Analysis_2",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://anvil.terra.bio/#import-data?format=PFB&url=https%3A%2F%2Fs3.amazonaws.com%2Fedu-ucsc-gi-pla",
+    "link": "https://support.terra.bio/hc/en-us/articles/34594440468635-Finding-and-using-AnVIL-data",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "http://www.gtexportal.org/home/samplesPage",
+    "link": "https://support.terra.bio/hc/en-us/articles/34595554957723-Part-1-Set-up-billing-and-data-access-in-",
     "clicks": 0,
     "change": -1.0
   },
   {
-    "link": "https://s3.amazonaws.com/edu-ucsc-gi-platform-anvil-prod-storage-anvilprod.us-east-1/manifests/3f62b",
-    "clicks": 0,
-    "change": -1.0
-  },
-  {
-    "link": "https://anvilproject.s3.amazonaws.com/file/021a53818f9043ec06c84fd0bf091bd7.md5?response-content-dis",
-    "clicks": 0,
-    "change": -1.0
-  },
-  {
-    "link": "https://anvilproject.s3.amazonaws.com/file/19da617a9adc67af9e7641b031e741e4.md5?response-content-dis",
-    "clicks": 0,
-    "change": -1.0
-  },
-  {
-    "link": "https://anvilproject.org/learn/find-data/requesting-data-access",
-    "clicks": 0,
-    "change": -1.0
-  },
-  {
-    "link": "https://support.terra.bio/hc/en-us/articles/32634034451099-RAS-Integration-for-AnVIL-Data",
+    "link": "https://support.terra.bio/hc/en-us/articles/34607573660827-Part-3-Export-AnVIL-data-to-Terra-for-ana",
     "clicks": 0,
     "change": -1.0
   }

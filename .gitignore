@@ -52,9 +52,6 @@ Thumbs.db
 # hygen
 _templates
 
-# nvm
-.nvmrc
-
 # favicons
 /public/favicons/*
 
@@ -66,7 +63,6 @@ _templates
 #Python
 __pycache__/
 *.egg-info/
-/analytics/**/_build
 /analytics/**/site/
 /analytics/venv
 

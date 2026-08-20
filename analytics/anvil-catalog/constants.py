@@ -1,11 +1,6 @@
 # CHANGE THESE VALUES TO GENERATE NEW REPORTS
 # The date of the current month to report on (yyyy-mm)
 CURRENT_MONTH = "2026-04"
-# The name of the folder in which to save the report
-PARENT_FOLDER_NAME = "April 2026"
-
-# The name of the spreadsheet with the report
-SHEET_NAME = "AnVIL Catalog"
 
 ANVIL_CATALOG_ID = "368661710"
 # Filter to exclude the Data Explorer
