@@ -29,6 +29,7 @@ jobs:
         with:
           enable-cache: true
       - run: |
+          # Run Ruff checks before installing all dependencies
           uv run --locked --only-group dev ruff check .
           uv run --locked --only-group dev ruff format --check .
           uv sync --locked
