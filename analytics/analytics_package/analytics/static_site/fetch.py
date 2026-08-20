@@ -320,9 +320,7 @@ def _monthly_counts_from_df(df, start_date, end_date, page_path_regex=None):
     grouped[month_col] = grouped[month_col].apply(
         lambda m: f"{m[:4]}-{m[4:]}" if len(m) == 6 and "-" not in m else m
     )
-    counts_by_month = dict(
-        zip(grouped[month_col], grouped[count_col].astype(int), strict=True)
-    )
+    counts_by_month = grouped.set_index(month_col)[count_col].astype(int).to_dict()
     return [{"month": m, "count": counts_by_month.get(m, 0)} for m in all_months]
 
 

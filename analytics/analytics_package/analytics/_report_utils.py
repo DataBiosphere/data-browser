@@ -90,15 +90,9 @@ def get_data_df_from_fields(metrics, dimensions, **other_params):
     return df.reset_index().rename(columns=get_rename_dict(dimensions + metrics)).copy()
 
 
-def get_rename_dict(dimensions):
+def get_rename_dict(fields):
     """Get a dictionary to rename the columns of a DataFrame."""
-    return dict(
-        zip(
-            [dimension["id"] for dimension in dimensions],
-            [dimension["alias"] for dimension in dimensions],
-            strict=True,
-        )
-    )
+    return {field["id"]: field["alias"] for field in fields}
 
 
 def get_one_period_change_series(
