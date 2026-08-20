@@ -2,7 +2,19 @@
   {
     "page_path": "/projects/1977dc47-8414-4263-a870-6b0f207d8ab3/export-to-terra",
     "entity_name": "(not set)",
-    "count": 1,
+    "count": 2,
     "dataset_title": "Bronchpulmonary Dysplasia (BPD)"
+  },
+  {
+    "page_path": "/projects/1bdcecde-16be-4208-88f4-78cd2133d11d/export-to-terra",
+    "entity_name": "(not set)",
+    "count": 1,
+    "dataset_title": "Guided construction of a single cell reference (CellRef) for mouse lung"
+  },
+  {
+    "page_path": "/projects/e99faee2-7706-4c1a-9d28-76c68320f549/export-to-terra",
+    "entity_name": "(not set)",
+    "count": 1,
+    "dataset_title": "Lung Spatial Xenium Pilot of Control Segmental Bronchus with Bronchpulmonary Dysplasia (BPD) Sample"
   }
 ]

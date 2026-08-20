@@ -4,9 +4,10 @@
 import os
 
 import analytics.api as ga
-from analytics.static_site import generate_site, enrich_detail_records, make_event_charts
-from constants import CURRENT_MONTH, ANVIL_EXPLORER_ID, SECRET_NAME, ANALYTICS_START, OAUTH_PORT
-from utils import fetch_dataset_title_map
+from analytics.static_site import generate_site, fetch_entity_title_map, enrich_detail_records, make_event_charts
+from constants import CURRENT_MONTH, ANVIL_EXPLORER_ID, SECRET_NAME, ANALYTICS_START, OAUTH_PORT, EXCLUDE_BOT_TRAFFIC_DATES
+
+ANVIL_DATASETS_API_URL = "https://service.explore.anvilproject.org/index/datasets"
 
 os.environ.setdefault(SECRET_NAME, "../../.credentials/anvil_ga4_credentials.json")
 
@@ -18,7 +19,7 @@ ga_authentication = ga.authenticate(
 
 
 def resolve_dataset_titles(data):
-    title_map = fetch_dataset_title_map()
+    title_map = fetch_entity_title_map(ANVIL_DATASETS_API_URL, "datasets", "title", page_size=1000)
     count = enrich_detail_records(data, title_map, r"/datasets/([0-9a-f-]+)")
     print(f"  Enriched {count} records with dataset titles")
 
@@ -95,4 +96,5 @@ generate_site(
     event_charts=make_event_charts("Dataset", "/datasets", "2026-03-01"),
     title_resolver=resolve_dataset_titles,
     access_request_urls=["duos.org", "dbgap.ncbi.nlm.nih.gov"],
+    exclude_dates=EXCLUDE_BOT_TRAFFIC_DATES,
 )

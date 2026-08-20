@@ -1,20 +1,32 @@
 [
   {
-    "page_path": "/projects/35d5b057-3daf-4ccd-8112-196194598893",
-    "click_url": "https://duos.org/dataset/DUOS-000258",
-    "count": 12,
-    "dataset_title": "Asian Immune Diversity Atlas (AIDA): Single-cell analysis of human diversity in circulating immune cells (Japan cells)"
+    "page_path": "/projects/76bc0e97-8cae-43d4-a647-477a13be47f9",
+    "click_url": "https://duos.org/dataset/DUOS-000661",
+    "count": 3,
+    "dataset_title": "Asian Immune Diversity Atlas (AIDA): Asian diversity in human immune cells (Thailand cells)"
   },
   {
     "page_path": "/projects/c8503de8-d02d-4bda-ad06-4c851b37fa97",
     "click_url": "https://duos.org/dataset/DUOS-000750",
-    "count": 4,
+    "count": 3,
     "dataset_title": "Cell atlas from human intestinal immune priming and effector sites during homeostasis"
+  },
+  {
+    "page_path": "/projects/35d5b057-3daf-4ccd-8112-196194598893",
+    "click_url": "https://duos.org/dataset/DUOS-000258",
+    "count": 2,
+    "dataset_title": "Asian Immune Diversity Atlas (AIDA): Single-cell analysis of human diversity in circulating immune cells (Japan cells)"
+  },
+  {
+    "page_path": "/projects/08c7910b-5ebb-4dfc-a866-5bf392ef3b36",
+    "click_url": "https://duos.org/dataset/DUOS-000259",
+    "count": 1,
+    "dataset_title": "An atlas of transcribed enhancers across helper T cell diversity for decoding human diseases"
   },
   {
     "page_path": "/projects/ad04c8e7-9b7d-4cce-b8e9-01e31da10b94",
     "click_url": "https://duos.org/dataset/DUOS-000751",
-    "count": 3,
+    "count": 1,
     "dataset_title": "Anomalous Epithelial Variations and Ectopic Inflammatory Response in Chronic Obstructive Pulmonary Disease"
   }
 ]
