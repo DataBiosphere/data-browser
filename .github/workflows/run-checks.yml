@@ -29,7 +29,7 @@ jobs:
         with:
           enable-cache: true
       - run: |
+          uv run --locked --only-group dev ruff check .
+          uv run --locked --only-group dev ruff format --check .
           uv sync --locked
-          uv run ruff check .
-          uv run ruff format --check .
-          uv run python -c "import analytics.static_site"
+          uv run --no-sync python -c "import analytics.static_site"
