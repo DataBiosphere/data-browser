@@ -2,50 +2,50 @@
   {
     "event_name": "filter_selected",
     "label": "Filter Selections",
-    "current": 2675,
-    "prior": 2958,
-    "change": -0.09567275185936444
+    "current": 2090,
+    "prior": 2608,
+    "change": -0.19861963190184048
   },
   {
     "event_name": "index_bulk_download_requested",
     "label": "Cohort curl Download Requests",
-    "current": 41,
-    "prior": 10,
-    "change": 3.1
+    "current": 10,
+    "prior": 20,
+    "change": -0.5
   },
   {
     "event_name": "index_file_manifest_requested",
     "label": "Cohort File Manifest Requests",
-    "current": 7,
-    "prior": 15,
-    "change": -0.5333333333333333
+    "current": 6,
+    "prior": 14,
+    "change": -0.5714285714285714
   },
   {
     "event_name": "index_analyze_in_terra_requested",
     "label": "Cohort Analyze in Terra Requests",
-    "current": 2,
-    "prior": 0,
-    "change": null
+    "current": 0,
+    "prior": 2,
+    "change": -1.0
   },
   {
     "event_name": "dataset_analyze_in_terra_requested",
     "label": "Project Analyze in Terra Requests",
-    "current": 32,
-    "prior": 39,
-    "change": -0.1794871794871795
+    "current": 36,
+    "prior": 30,
+    "change": 0.2
   },
   {
     "event_name": "dataset_bulk_download_requested",
     "label": "Project curl Download Requests",
-    "current": 422,
-    "prior": 431,
-    "change": -0.02088167053364269
+    "current": 436,
+    "prior": 434,
+    "change": 0.004608294930875576
   },
   {
     "event_name": "dataset_file_manifest_requested",
     "label": "Project File Manifest Requests",
-    "current": 218,
-    "prior": 188,
-    "change": 0.1595744680851064
+    "current": 325,
+    "prior": 199,
+    "change": 0.6331658291457286
   }
 ]
