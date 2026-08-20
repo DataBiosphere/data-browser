@@ -16,13 +16,12 @@ update `uv.lock`.
 
 ## Linting and formatting
 
-Linting and formatting are handled by [ruff](https://docs.astral.sh/ruff/), configured in
-`pyproject.toml` and enforced by the `analytics` job in `run-checks.yml`. From this folder:
+Linting and formatting are handled by [Ruff](https://docs.astral.sh/ruff/), configured in
+`pyproject.toml` and enforced by the `analytics` job in `run-checks.yml`. NPM scripts can be used
+as shortcuts to run Ruff:
 
-- `uv run ruff check .` to lint, or `uv run ruff check --fix .` to apply the automatic fixes.
-- `uv run ruff format .` to format, or `uv run ruff format --check .` to check without writing.
-
-The NPM scripts `lint:python`, `format:python`, and `check-format:python` can also be used as shortcuts.
+- `npm run lint:python` to lint, or `npm run lint:python -- --fix` to apply the automatic fixes.
+- `npm run format:python` to format, or `npm run check-format:python` to check without writing.
 
 ## Generating reports for the static site
 
