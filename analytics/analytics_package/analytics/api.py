@@ -1,9 +1,9 @@
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
 import os
-import pandas as pd
 import re
 
+import pandas as pd
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
 
 ga_service_params = (
 	['https://www.googleapis.com/auth/analytics.readonly'],
@@ -48,7 +48,7 @@ def authenticate(secret_name, first_service_params=ga_service_params, *other_ser
 
 	flow = InstalledAppFlow.from_client_secrets_file(ANALYTICS_REPORTING_CLIENT_SECRET_PATH,
 		scopes=all_scopes)
-	
+
 	global next_port
 
 	if port is None:
@@ -59,7 +59,7 @@ def authenticate(secret_name, first_service_params=ga_service_params, *other_ser
 		next_port = port + 1
 	elif next_port is None:
 		next_port = port + 1
-	
+
 	credentials = flow.run_local_server(port=port)
 
 	built_systems = [build_service_system(service_params, credentials) for service_params in service_param_sets]
@@ -72,32 +72,32 @@ def build_service_system(service_params, credentials):
 		query_func = None
 	else:
 		service_name, service_version, param_subs_or_alt_api, query_func = service_params[1:]
-	
+
 	# Build the service object.
 	service = build(service_name, service_version, credentials=credentials)
-	
+
 	service_system = (service, query_func, param_subs_or_alt_api, credentials)
-	
+
 	global default_service_system
 	if default_service_system is None:
 		default_service_system = service_system
-	
+
 	return service_system
 
 
 def get_metrics_by_dimensions(metrics, dimensions, service_system=None, sort_results=None, **other_params):
 	if service_system is None:
 		service_system = default_service_system
-	
+
 	service, query_func, param_subs_or_alt_api = service_system[:3]
-	
+
 	metrics = normalize_id_list(metrics)
 	dimensions = normalize_id_list(dimensions)
 	sort_results = normalize_id_list(sort_results)
-	
+
 	if query_func is None:
 		return param_subs_or_alt_api(service, metrics, dimensions, sort_results=sort_results, **other_params)
-	
+
 	return get_metrics_by_dimensions_v3_style(service, query_func, param_subs_or_alt_api, metrics, dimensions, sort_results=sort_results, **other_params)
 
 
@@ -105,15 +105,15 @@ def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics,
 	metrics = join_id_list(metrics)
 	dimensions = join_id_list(dimensions)
 	sort_results = join_id_list(sort_results)
-	
-	# Dimensions and Metrics... 
+
+	# Dimensions and Metrics...
 	# Dimensions are atrributes, Metrics are quantitative measurements. e.g. city is a Dimension
 	# Sessions  is a metric.
 	#https://support.google.com/analytics/answer/1033861?hl=en#site-search-attribution&zippy=%2Cin-this-article
-	
+
 	# Required other params: ids, start_date, end_date
 	# Other notable ones: filters, segment
-	
+
 	params = build_params({
 		'ids': property_prefix + property,
 		'dimensions': dimensions,
@@ -129,7 +129,7 @@ def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics,
 
 	start_index_key = param_subs.get('start_index', 'start_index')
 	max_results_key = param_subs.get('max_results', 'max_results')
-	
+
 	results = []
 	has_more = True
 
@@ -138,8 +138,8 @@ def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics,
 		has_more = ('rows' in result) and (len(result['rows']) > 0)
 		if has_more or len(results) == 0:
 			results.append(result)
-			params[start_index_key] += params[max_results_key] 
-	
+			params[start_index_key] += params[max_results_key]
+
 	df =  results_to_df(results)
 
 	return df
@@ -147,7 +147,7 @@ def get_metrics_by_dimensions_v3_style(service, query_func, param_subs, metrics,
 
 def get_metrics_by_dimensions_v4_style(service, metrics, dimensions, property, start_date, end_date, sort_results, metric_filter=None, dimension_filter=None, base_metric_filter=None, base_dimension_filter=None, property_prefix="properties/", max_results=1000, **other_params):
 	property = property_prefix + property
-	
+
 	params = {
 		"dateRanges": [{"startDate": start_date, "endDate": end_date}],
 		"metrics": [{"name": metric} for metric in metrics],
@@ -177,7 +177,7 @@ def get_metrics_by_dimensions_v4_style(service, metrics, dimensions, property, s
 			else:
 				offset += max_results
 				params["offset"] = offset
-	
+
 	df = v4_results_to_df(results, dimensions, metrics)
 
 	return df
@@ -187,11 +187,11 @@ def v4_results_to_df(results, dimensions, metrics):
 		return pd.DataFrame(columns=dimensions + metrics)
 
 	df = pd.DataFrame()
-	for result in results:  
-		# Collect column names 
+	for result in results:
+		# Collect column names
 		column_names = [header["name"] for header in result.get("dimensionHeaders", [])] + [header["name"] for header in result.get("metricHeaders", [])]
-		
-		# Get data  
+
+		# Get data
 		if "rows" in result:
 			data = [[cell["value"] for cell in row.get("dimensionValues", [])] + [cell["value"] for cell in row.get("metricValues", [])] for row in result["rows"]]
 		else:
@@ -285,26 +285,26 @@ def join_id_list(ids):
 
 def build_params(source, subs):
 	result = {}
-	
+
 	for key, value in source.items():
 		if key in subs:
-			if not subs[key] is None:
+			if subs[key] is not None:
 				result[subs[key]] = value
 		else:
 			result[key] = value
-	
+
 	return result
 
 
 def results_to_df(results):
 	df = pd.DataFrame()
-	for result in results:  
-		# Collect column nmes 
+	for result in results:
+		# Collect column nmes
 		column_names = []
 		for header in result.get('columnHeaders'):
 			column_names.append(header.get('name'))
 
-		# Get data  
+		# Get data
 		data = result.get('rows')
 
 		# Crete the dataframe

@@ -4,8 +4,20 @@
 import os
 
 import analytics.api as ga
-from analytics.static_site import generate_site, fetch_entity_title_map, enrich_detail_records, make_event_charts
-from constants import CURRENT_MONTH, ANVIL_EXPLORER_ID, SECRET_NAME, ANALYTICS_START, OAUTH_PORT, EXCLUDE_BOT_TRAFFIC_DATES
+from analytics.static_site import (
+    enrich_detail_records,
+    fetch_entity_title_map,
+    generate_site,
+    make_event_charts,
+)
+from constants import (
+    ANALYTICS_START,
+    ANVIL_EXPLORER_ID,
+    CURRENT_MONTH,
+    EXCLUDE_BOT_TRAFFIC_DATES,
+    OAUTH_PORT,
+    SECRET_NAME,
+)
 
 ANVIL_DATASETS_API_URL = "https://service.explore.anvilproject.org/index/datasets"
 

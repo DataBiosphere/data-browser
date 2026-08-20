@@ -2,22 +2,22 @@
 
 import re
 from datetime import date
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlparse
 
 from .. import report_elements as elements
-from ..api import parse_filter_expressions
 from .._report_utils import get_data_df_from_fields
+from ..api import parse_filter_expressions
 from ..entities import (
+    ADDITIONAL_DATA_BEHAVIOR,
+    DIMENSION_CUSTOM_URL,
+    DIMENSION_ENTITY_NAME,
+    DIMENSION_EVENT_NAME,
+    DIMENSION_PAGE_PATH,
+    DIMENSION_PAGE_PATH_PLUS_QUERY,
     DIMENSION_YEAR_MONTH,
     METRIC_EVENT_COUNT,
     METRIC_PAGE_VIEWS,
     METRIC_SESSIONS,
-    DIMENSION_EVENT_NAME,
-    DIMENSION_PAGE_PATH,
-    DIMENSION_PAGE_PATH_PLUS_QUERY,
-    DIMENSION_CUSTOM_URL,
-    DIMENSION_ENTITY_NAME,
-    ADDITIONAL_DATA_BEHAVIOR,
 )
 
 METRIC_ENGAGEMENT_RATE = {
@@ -301,7 +301,9 @@ def _monthly_counts_from_df(df, start_date, end_date, page_path_regex=None):
     grouped[month_col] = grouped[month_col].apply(
         lambda m: f"{m[:4]}-{m[4:]}" if len(m) == 6 and "-" not in m else m
     )
-    counts_by_month = dict(zip(grouped[month_col], grouped[count_col].astype(int)))
+    counts_by_month = dict(
+        zip(grouped[month_col], grouped[count_col].astype(int), strict=True)
+    )
     return [{"month": m, "count": counts_by_month.get(m, 0)} for m in all_months]
 
 

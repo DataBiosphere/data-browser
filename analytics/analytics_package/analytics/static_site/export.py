@@ -9,9 +9,9 @@ import pandas as pd
 from pandas.api.types import is_object_dtype, is_string_dtype
 
 from ..entities import (
-    DIMENSION_PAGE_PATH,
     DIMENSION_FILTER_NAME,
     DIMENSION_FILTER_VALUE,
+    DIMENSION_PAGE_PATH,
     METRIC_EVENT_COUNT,
     METRIC_PAGE_VIEWS,
     SYNTHETIC_DIMENSION_CLICKED_LINK,

@@ -1,13 +1,15 @@
+from urllib.parse import urlparse
+
 import pandas as pd
 
+from . import entities as e
 from ._report_utils import (
-    get_data_df_from_fields,
-    get_one_period_change_series,
     get_change_over_time_df,
     get_change_over_time_df_multiple_events,
+    get_data_df_from_fields,
+    get_one_period_change_series,
 )
-from . import entities as e
-from urllib.parse import urlparse
+
 
 def get_bounds_for_month_and_prev(month):
     """
@@ -51,9 +53,9 @@ def get_outbound_links_df(analytics_params, ignore_index=True):
     # Get the custom "outbound_link_click" event
     df_custom_links = get_data_df_from_fields(
         [e.METRIC_EVENT_COUNT, e.METRIC_TOTAL_USERS],
-        [e.DIMENSION_EVENT_NAME, e.DIMENSION_CUSTOM_URL, e.DIMENSION_PAGE_PATH], 
+        [e.DIMENSION_EVENT_NAME, e.DIMENSION_CUSTOM_URL, e.DIMENSION_PAGE_PATH],
         dimension_filter=f"eventName=={e.EVENT_CUSTOM_CLICK['id']}",
-        **analytics_params, 
+        **analytics_params,
     ).groupby(
         [e.DIMENSION_PAGE_PATH["alias"], e.DIMENSION_CUSTOM_URL["alias"]]
     ).sum().reset_index()
@@ -94,7 +96,7 @@ def get_outbound_links_df(analytics_params, ignore_index=True):
             "complete_url": e.SYNTHETIC_DIMENSION_CLICKED_LINK["alias"],
             e.METRIC_EVENT_COUNT["alias"]: e.SYNTHETIC_METRIC_CLICKS["alias"],
             "hostname": e.SYNTHETIC_DIMENSION_CLICKED_HOSTNAME["alias"],
-        } 
+        }
     )[[
         *dimension_aliases_to_keep, *metric_aliases_to_keep
     ]].copy()
@@ -120,12 +122,12 @@ def get_outbound_links_change(analytics_params, start_current, end_current, star
         Metrics: SYNTHETIC_METRIC_CLICKS, METRIC_TOTAL_USERS
     """
     return get_one_period_change_df(
-        get_outbound_links_df, 
+        get_outbound_links_df,
         [e.SYNTHETIC_METRIC_CLICKS, e.METRIC_TOTAL_USERS],
-        analytics_params, 
-        start_current, 
-        end_current, 
-        start_previous, 
+        analytics_params,
+        start_current,
+        end_current,
+        start_previous,
         end_previous,
         sort_results=[e.SYNTHETIC_METRIC_CLICKS, e.METRIC_TOTAL_USERS]
     )
@@ -166,12 +168,12 @@ def get_page_views_change(analytics_params, start_current, end_current, start_pr
         Metrics: METRIC_PAGE_VIEWS, METRIC_TOTAL_USERS
     """
     return get_one_period_change_df(
-        get_page_views_df, 
+        get_page_views_df,
         [e.METRIC_PAGE_VIEWS, e.METRIC_TOTAL_USERS],
-        analytics_params, 
-        start_current, 
-        end_current, 
-        start_previous, 
+        analytics_params,
+        start_current,
+        end_current,
+        start_previous,
         end_previous,
         sort_results=[e.METRIC_PAGE_VIEWS, e.METRIC_TOTAL_USERS]
     )
@@ -194,7 +196,7 @@ def get_one_period_change_df(df_function, change_metrics, analytics_params, star
     :return: a DataFrame with the change between two periods for the given metrics, renamed to match titles
         Columns are dimension aliases (as strings), metric aliases (as ints), and metric change aliases (as floats)
     """
-    
+
     analytics_params_current = {
         **analytics_params,
         "start_date": start_current,
@@ -301,7 +303,7 @@ def get_landing_page_change(analytics_params, start_current, end_current, start_
         end_previous,
         sort_results=[e.METRIC_SESSIONS]
     )
-    
+
 def get_index_table_download_df(analytics_params, ignore_index=True):
     """
     Get a DataFrame with firect file downloads from the Analytics API.
@@ -554,7 +556,7 @@ def get_event_count_over_time_df(analytics_params, events, additional_data_path=
         Dimensions: DIMENSION_YEAR_MONTH (as a datetime)
         Metrics: METRIC_ACTIVE_USERS, METRIC_PAGE_VIEWS
     """
-    
+
     return get_change_over_time_df_multiple_events(
         e.METRIC_EVENT_COUNT,
         events,

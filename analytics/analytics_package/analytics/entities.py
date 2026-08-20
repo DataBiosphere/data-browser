@@ -55,9 +55,9 @@ EVENT_CUSTOM_CLICK = {
     "id": "outbound_link_clicked",
     "alias": "Custom Outbound Link Click"
 }
-# The builtin page view event. 
+# The builtin page view event.
 EVENT_PAGE_VIEW = {
-    "id": "page_view", 
+    "id": "page_view",
     "alias": "Page View"
 }
 EVENT_INDEX_BULK_DOWNLOAD_SELECTED = {

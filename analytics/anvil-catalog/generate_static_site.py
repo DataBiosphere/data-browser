@@ -5,7 +5,14 @@ import os
 
 import analytics.api as ga
 from analytics.static_site import generate_site
-from constants import CURRENT_MONTH, ANVIL_CATALOG_ID, SECRET_NAME, ANALYTICS_START, OAUTH_PORT, HISTORIC_UA_DATA_PATH
+from constants import (
+    ANALYTICS_START,
+    ANVIL_CATALOG_ID,
+    CURRENT_MONTH,
+    HISTORIC_UA_DATA_PATH,
+    OAUTH_PORT,
+    SECRET_NAME,
+)
 
 os.environ.setdefault(SECRET_NAME, "../../.credentials/anvil_ga4_credentials.json")
 

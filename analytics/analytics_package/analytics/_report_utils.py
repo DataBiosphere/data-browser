@@ -1,8 +1,10 @@
 import datetime as dt
-from . import api as ga
-from .entities import ADDITIONAL_DATA_BEHAVIOR
+
 import numpy as np
 import pandas as pd
+
+from . import api as ga
+from .entities import ADDITIONAL_DATA_BEHAVIOR
 
 
 def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix="_percentage", num_keep_dimensions=None, df_processor=None, **other_params):
@@ -10,9 +12,9 @@ def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix=
         df = pd.DataFrame()
     else:
         df = ga.get_metrics_by_dimensions(metrics, dimensions, **other_params)
-        
+
         if dimensions:
-            if len(dimensions) > 1 and not num_keep_dimensions is None:
+            if len(dimensions) > 1 and num_keep_dimensions is not None:
                 df.drop(columns=dimensions[num_keep_dimensions:], inplace=True)
             df.set_index(dimensions[:num_keep_dimensions], inplace=True)
         for metric in metrics:
@@ -22,14 +24,14 @@ def get_data_df(metrics, dimensions, percentage_metrics=None, percentage_suffix=
             except ValueError:
                 num_column = str_column.astype(float)
             df[metric] = num_column
-        
+
         if percentage_metrics:
             for metric in percentage_metrics:
                 df.insert(list(df.columns).index(metric) + 1, metric + percentage_suffix, df[metric] / df[metric].sum() * 100)
-    
+
     if df_processor:
         df = df_processor(df)
-    
+
     return df
 
 def strings_to_lists(*vals):
@@ -37,13 +39,13 @@ def strings_to_lists(*vals):
 
 def get_df_over_time(xlabels, metrics, dimensions, df_filter=None, **other_params):
     xlabels, metrics = strings_to_lists(xlabels, metrics)
-    
+
     df = get_data_df(metrics, dimensions, **other_params)
-    
+
     # Convert date to datetime object
     df.index = pd.to_datetime(df.index)
 
-    if (not df_filter is None):
+    if (df_filter is not None):
         df = df_filter(df)
 
     # Rename for display
@@ -75,7 +77,7 @@ def get_data_df_from_fields(metrics, dimensions, **other_params):
 def get_rename_dict(dimensions):
     """Get a dictionary to rename the columns of a DataFrame."""
     return dict(
-        zip([dimension["id"] for dimension in dimensions], [dimension["alias"] for dimension in dimensions])
+        zip([dimension["id"] for dimension in dimensions], [dimension["alias"] for dimension in dimensions], strict=True)
     )
 
 
@@ -173,7 +175,7 @@ def get_change_over_time_df_multiple_events(metric, events, time_dimension, **ch
                 dimension_filter=f"eventName=={event['id']}"
             ).rename(
                 columns={metric["alias"]: event["alias"], metric["change_alias"]: event["change_alias"]}
-            ).set_index(time_dimension["alias"]) 
+            ).set_index(time_dimension["alias"])
             for event in events
         ],
         axis=1
