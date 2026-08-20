@@ -103,15 +103,6 @@ export const filesEntityConfig: EntityConfig = {
       {
         componentConfig: {
           component: C.NTagCell,
-          viewBuilder: V.buildAggregatedSampleId,
-        } as ComponentConfig<typeof C.NTagCell, FilesResponse>,
-        header: HCA_DCP_CATEGORY_LABEL.SAMPLE_ID,
-        id: HCA_DCP_CATEGORY_KEY.SAMPLE_ID,
-        width: { max: "1fr", min: "120px" },
-      },
-      {
-        componentConfig: {
-          component: C.NTagCell,
           viewBuilder: V.buildAggregatedDonorGenusSpecies,
         } as ComponentConfig<typeof C.NTagCell, FilesResponse>,
         header: "Species",
@@ -250,7 +241,6 @@ export const filesEntityConfig: EntityConfig = {
         columnVisibility: {
           [HCA_DCP_CATEGORY_KEY.FILE_FORMAT]: false,
           [HCA_DCP_CATEGORY_KEY.FILE_SOURCE]: false,
-          [HCA_DCP_CATEGORY_KEY.SAMPLE_ID]: false,
           [HCA_DCP_CATEGORY_KEY.GENUS_SPECIES]: false,
           [HCA_DCP_CATEGORY_KEY.SAMPLE_ENTITY_TYPE]: false,
           [HCA_DCP_CATEGORY_KEY.SPECIMEN_ORGAN]: false,

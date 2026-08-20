@@ -24,6 +24,7 @@ def generate_site(
     exclude_pages=None,
     base_dimension_filter=None,
     search_path=None,
+    exclude_dates=None,
 ):
     """Generate a static analytics site.
 
@@ -48,6 +49,9 @@ def generate_site(
         base_dimension_filter: Optional GA4 dimension filter dict applied to all queries
             (e.g., an audience filter to exclude bot/tutorial traffic).
         search_path: Optional search page path to extract search queries from (e.g., "/search").
+        exclude_dates: Optional list of dates (YYYY-MM-DD) to exclude from all queries,
+            e.g. days with known synthetic/bot traffic. Applies to GA4 queries only,
+            not to data merged from historic_data_path.
     """
     if custom_events is None:
         custom_events = []
@@ -69,6 +73,7 @@ def generate_site(
         exclude_pages=exclude_pages,
         base_dimension_filter=base_dimension_filter,
         search_path=search_path,
+        exclude_dates=exclude_dates,
     )
 
     if title_resolver:
