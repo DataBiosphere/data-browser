@@ -3,8 +3,8 @@
 import os
 import shutil
 
-from .fetch import fetch_data
 from .export import export_data
+from .fetch import fetch_data
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "template")
 

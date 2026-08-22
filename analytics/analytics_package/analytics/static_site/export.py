@@ -9,9 +9,9 @@ import pandas as pd
 from pandas.api.types import is_object_dtype, is_string_dtype
 
 from ..entities import (
-    DIMENSION_PAGE_PATH,
     DIMENSION_FILTER_NAME,
     DIMENSION_FILTER_VALUE,
+    DIMENSION_PAGE_PATH,
     METRIC_EVENT_COUNT,
     METRIC_PAGE_VIEWS,
     SYNTHETIC_DIMENSION_CLICKED_LINK,
@@ -44,7 +44,11 @@ def export_df_as_json(df, col_map, change_col, filename, output_dir):
 
         for col in output_names:
             col_dtype = export[col].dtype
-            if not (col == "change" or is_object_dtype(col_dtype) or is_string_dtype(col_dtype)):
+            if not (
+                col == "change"
+                or is_object_dtype(col_dtype)
+                or is_string_dtype(col_dtype)
+            ):
                 export[col] = export[col].fillna(0).astype(int)
 
         records = export.to_dict(orient="records")
@@ -57,7 +61,15 @@ def export_df_as_json(df, col_map, change_col, filename, output_dir):
     print(f"  Wrote {filename} ({len(records)} records)")
 
 
-def export_data(data, config, current_month, analytics_start, custom_events, output_dir, event_charts=None):
+def export_data(
+    data,
+    config,
+    current_month,
+    analytics_start,
+    custom_events,
+    output_dir,
+    event_charts=None,
+):
     """Export all analytics data to JSON files.
 
     Args:
@@ -101,7 +113,10 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
     print("Exporting outbound links data...")
     export_df_as_json(
         data["outbound"],
-        {SYNTHETIC_DIMENSION_CLICKED_LINK["alias"]: "link", SYNTHETIC_METRIC_CLICKS["alias"]: "clicks"},
+        {
+            SYNTHETIC_DIMENSION_CLICKED_LINK["alias"]: "link",
+            SYNTHETIC_METRIC_CLICKS["alias"]: "clicks",
+        },
         SYNTHETIC_METRIC_CLICKS["change_alias"],
         "outbound_links.json",
         output_dir,
@@ -110,7 +125,11 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
     print("Exporting filter selections data...")
     export_df_as_json(
         data.get("filter_selected"),
-        {DIMENSION_FILTER_NAME["alias"]: "filterName", DIMENSION_FILTER_VALUE["alias"]: "filterValue", METRIC_EVENT_COUNT["alias"]: "count"},
+        {
+            DIMENSION_FILTER_NAME["alias"]: "filterName",
+            DIMENSION_FILTER_VALUE["alias"]: "filterValue",
+            METRIC_EVENT_COUNT["alias"]: "count",
+        },
         METRIC_EVENT_COUNT["change_alias"],
         "filter_selected.json",
         output_dir,
@@ -142,7 +161,9 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
     search_queries = data.get("search_queries", {"total": 0, "queries": []})
     with open(os.path.join(output_dir, "search_queries.json"), "w") as f:
         json.dump(search_queries, f, indent=2)
-    print(f"  Wrote search_queries.json ({len(search_queries.get('queries', []))} queries)")
+    print(
+        f"  Wrote search_queries.json ({len(search_queries.get('queries', []))} queries)"
+    )
 
     # Custom events
     print("Exporting custom events data...")
@@ -188,11 +209,13 @@ def export_data(data, config, current_month, analytics_start, custom_events, out
             for series in chart.get("series", []):
                 key = series["event_key"]
                 monthly_counts = data.get(f"event_chart_{key}", [])
-                chart_data["series"].append({
-                    "label": series["label"],
-                    "event_key": key,
-                    "data": monthly_counts,
-                })
+                chart_data["series"].append(
+                    {
+                        "label": series["label"],
+                        "event_key": key,
+                        "data": monthly_counts,
+                    }
+                )
             chart_output["charts"].append(chart_data)
 
         with open(os.path.join(output_dir, "event_charts.json"), "w") as f:

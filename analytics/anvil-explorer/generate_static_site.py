@@ -4,8 +4,20 @@
 import os
 
 import analytics.api as ga
-from analytics.static_site import generate_site, fetch_entity_title_map, enrich_detail_records, make_event_charts
-from constants import CURRENT_MONTH, ANVIL_EXPLORER_ID, SECRET_NAME, ANALYTICS_START, OAUTH_PORT, EXCLUDE_BOT_TRAFFIC_DATES
+from analytics.static_site import (
+    enrich_detail_records,
+    fetch_entity_title_map,
+    generate_site,
+    make_event_charts,
+)
+from constants import (
+    ANALYTICS_START,
+    ANVIL_EXPLORER_ID,
+    CURRENT_MONTH,
+    EXCLUDE_BOT_TRAFFIC_DATES,
+    OAUTH_PORT,
+    SECRET_NAME,
+)
 
 ANVIL_DATASETS_API_URL = "https://service.explore.anvilproject.org/index/datasets"
 
@@ -19,7 +31,9 @@ ga_authentication = ga.authenticate(
 
 
 def resolve_dataset_titles(data):
-    title_map = fetch_entity_title_map(ANVIL_DATASETS_API_URL, "datasets", "title", page_size=1000)
+    title_map = fetch_entity_title_map(
+        ANVIL_DATASETS_API_URL, "datasets", "title", page_size=1000
+    )
     count = enrich_detail_records(data, title_map, r"/datasets/([0-9a-f-]+)")
     print(f"  Enriched {count} records with dataset titles")
 
@@ -38,21 +52,47 @@ generate_site(
         "summary_stats": [
             {
                 "label": "Cohort Export Requests",
-                "event_keys": ["index_bulk_download_requested", "index_file_manifest_requested", "index_analyze_in_terra_requested"],
+                "event_keys": [
+                    "index_bulk_download_requested",
+                    "index_file_manifest_requested",
+                    "index_analyze_in_terra_requested",
+                ],
             },
             {
                 "label": "Dataset Export Requests",
-                "event_keys": ["dataset_bulk_download_requested", "dataset_file_manifest_requested", "dataset_analyze_in_terra_requested"],
+                "event_keys": [
+                    "dataset_bulk_download_requested",
+                    "dataset_file_manifest_requested",
+                    "dataset_analyze_in_terra_requested",
+                ],
             },
         ],
         "file_downloads_position": 3,
         "event_counts": [
-            {"label": "Export to Terra\n(Single Dataset)", "event_key": "dataset_analyze_in_terra_requested"},
-            {"label": "Export to Terra\n(Cross-Dataset)", "event_key": "index_analyze_in_terra_requested"},
-            {"label": "curl Command\n(Single Dataset)", "event_key": "dataset_bulk_download_requested"},
-            {"label": "curl Command\n(Cross-Dataset)", "event_key": "index_bulk_download_requested"},
-            {"label": "File Manifest\n(Single Dataset)", "event_key": "dataset_file_manifest_requested"},
-            {"label": "File Manifest\n(Cross-Dataset)", "event_key": "index_file_manifest_requested"},
+            {
+                "label": "Export to Terra\n(Single Dataset)",
+                "event_key": "dataset_analyze_in_terra_requested",
+            },
+            {
+                "label": "Export to Terra\n(Cross-Dataset)",
+                "event_key": "index_analyze_in_terra_requested",
+            },
+            {
+                "label": "curl Command\n(Single Dataset)",
+                "event_key": "dataset_bulk_download_requested",
+            },
+            {
+                "label": "curl Command\n(Cross-Dataset)",
+                "event_key": "index_bulk_download_requested",
+            },
+            {
+                "label": "File Manifest\n(Single Dataset)",
+                "event_key": "dataset_file_manifest_requested",
+            },
+            {
+                "label": "File Manifest\n(Cross-Dataset)",
+                "event_key": "index_file_manifest_requested",
+            },
         ],
     },
     property_id=ANVIL_EXPLORER_ID,

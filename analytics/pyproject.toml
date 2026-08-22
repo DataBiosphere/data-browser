@@ -1,0 +1,21 @@
+[project]
+name = "analytics-reports"
+version = "0.0.0"
+description = "Environment for generating the static analytics site reports."
+requires-python = ">=3.12"
+dependencies = ["analytics"]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["analytics_package"]
+
+[tool.uv.sources]
+analytics = { workspace = true }
+
+[dependency-groups]
+dev = ["ruff==0.16.3"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "W", "B"]
