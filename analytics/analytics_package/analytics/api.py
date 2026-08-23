@@ -68,10 +68,7 @@ def authenticate(
     global next_port
 
     if port is None:
-        if next_port is None:
-            port = 8082
-        else:
-            port = next_port
+        port = 8082 if next_port is None else next_port
         next_port = port + 1
     elif next_port is None:
         next_port = port + 1
