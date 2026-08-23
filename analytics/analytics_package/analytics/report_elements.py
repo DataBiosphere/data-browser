@@ -129,8 +129,7 @@ def get_outbound_links_df(analytics_params, ignore_index=True):
 
     if not ignore_index:
         return df_all_links.set_index(dimension_aliases_to_keep)
-    else:
-        return df_all_links.reset_index(drop=True)
+    return df_all_links.reset_index(drop=True)
 
 
 def get_outbound_links_change(
@@ -288,8 +287,7 @@ def get_one_period_change_df(
         )
     if ignore_index:
         return df_current_with_changes
-    else:
-        return df_current_with_changes.reset_index()
+    return df_current_with_changes.reset_index()
 
 
 def get_page_views_over_time_df(

@@ -189,9 +189,7 @@ def get_metrics_by_dimensions_v3_style(
             results.append(result)
             params[start_index_key] += params[max_results_key]
 
-    df = results_to_df(results)
-
-    return df
+    return results_to_df(results)
 
 
 def get_metrics_by_dimensions_v4_style(
@@ -255,9 +253,7 @@ def get_metrics_by_dimensions_v4_style(
                 offset += max_results
                 params["offset"] = offset
 
-    df = v4_results_to_df(results, dimensions, metrics)
-
-    return df
+    return v4_results_to_df(results, dimensions, metrics)
 
 
 def v4_results_to_df(results, dimensions, metrics):

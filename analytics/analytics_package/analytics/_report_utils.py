@@ -137,10 +137,9 @@ def get_one_period_change_series(
     series_previous_reindexed = (
         series_previous.reindex(combined_index) * current_length / previous_length
     )
-    change = ((series_current_reindexed / series_previous_reindexed) - 1).replace(
+    return ((series_current_reindexed / series_previous_reindexed) - 1).replace(
         {np.inf: np.nan}
     )
-    return change
 
 
 def get_change_over_time_df(
