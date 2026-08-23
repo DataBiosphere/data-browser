@@ -53,7 +53,7 @@ def authenticate(
     *other_service_params,
     port=None,
 ):
-    service_param_sets = (first_service_params,) + other_service_params
+    service_param_sets = (first_service_params, *other_service_params)
 
     all_scopes = {
         scope for service_params in service_param_sets for scope in service_params[0]
