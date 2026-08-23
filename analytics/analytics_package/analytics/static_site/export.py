@@ -1,9 +1,8 @@
 """Export analytics DataFrames to JSON files for the static site."""
 
-import glob
 import json
-import os
 from datetime import datetime
+from pathlib import Path
 
 import pandas as pd
 from pandas.api.types import is_object_dtype, is_string_dtype
@@ -28,7 +27,7 @@ def export_df_as_json(df, col_map, change_col, filename, output_dir):
         col_map: Dict mapping source column names to output names.
         change_col: Source column name for the change metric (may be absent).
         filename: Output JSON filename.
-        output_dir: Output directory.
+        output_dir: Output directory, as a Path.
     """
     if df is None or len(df) == 0:
         records = []
@@ -56,7 +55,7 @@ def export_df_as_json(df, col_map, change_col, filename, output_dir):
             if pd.isna(record.get("change")):
                 record["change"] = None
 
-    with open(os.path.join(output_dir, filename), "w") as f:
+    with (output_dir / filename).open("w") as f:
         json.dump(records, f, indent=2)
     print(f"  Wrote {filename} ({len(records)} records)")
 
@@ -78,12 +77,13 @@ def export_data(
         current_month: Current month string (YYYY-MM).
         analytics_start: Analytics start date string.
         custom_events: List of custom event dicts with results.
-        output_dir: Output directory for JSON files.
+        output_dir: Output directory for JSON files, as a str or Path.
     """
-    os.makedirs(output_dir, exist_ok=True)
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    for old_file in glob.glob(os.path.join(output_dir, "event_*_detail.json")):
-        os.remove(old_file)
+    for old_file in output_dir.glob("event_*_detail.json"):
+        old_file.unlink()
 
     df_monthly_traffic = data["monthly_traffic"]
     dates = data.get("dates", {})
@@ -96,7 +96,7 @@ def export_data(
     traffic_data["users"] = traffic_data["users"].fillna(0).astype(int)
     traffic_data["pageviews"] = traffic_data["pageviews"].fillna(0).astype(int)
 
-    with open(os.path.join(output_dir, "monthly_traffic.json"), "w") as f:
+    with (output_dir / "monthly_traffic.json").open("w") as f:
         json.dump(traffic_data.to_dict(orient="records"), f, indent=2)
     print(f"  Wrote monthly_traffic.json ({len(traffic_data)} records)")
 
@@ -138,28 +138,28 @@ def export_data(
     # File downloads
     print("Exporting file downloads data...")
     file_downloads = data.get("file_downloads", 0)
-    with open(os.path.join(output_dir, "file_downloads.json"), "w") as f:
+    with (output_dir / "file_downloads.json").open("w") as f:
         json.dump({"total": file_downloads}, f, indent=2)
     print(f"  Wrote file_downloads.json (total: {file_downloads})")
 
     # Access requests
     print("Exporting access requests data...")
     access_requests = data.get("access_requests", [])
-    with open(os.path.join(output_dir, "access_requests.json"), "w") as f:
+    with (output_dir / "access_requests.json").open("w") as f:
         json.dump(access_requests, f, indent=2)
     print(f"  Wrote access_requests.json ({len(access_requests)} records)")
 
     # File download events (GA4 enhanced measurement)
     print("Exporting file download events data...")
     file_download_events = data.get("file_download_events", 0)
-    with open(os.path.join(output_dir, "file_download_events.json"), "w") as f:
+    with (output_dir / "file_download_events.json").open("w") as f:
         json.dump({"total": file_download_events}, f, indent=2)
     print(f"  Wrote file_download_events.json (total: {file_download_events})")
 
     # Search queries
     print("Exporting search queries data...")
     search_queries = data.get("search_queries", {"total": 0, "queries": []})
-    with open(os.path.join(output_dir, "search_queries.json"), "w") as f:
+    with (output_dir / "search_queries.json").open("w") as f:
         json.dump(search_queries, f, indent=2)
     print(
         f"  Wrote search_queries.json ({len(search_queries.get('queries', []))} queries)"
@@ -180,7 +180,7 @@ def export_data(
             event_entry["detail_file_column"] = event["detail_file_column"]
         events_output.append(event_entry)
 
-    with open(os.path.join(output_dir, "custom_events.json"), "w") as f:
+    with (output_dir / "custom_events.json").open("w") as f:
         json.dump(events_output, f, indent=2)
     print(f"  Wrote custom_events.json ({len(events_output)} events)")
 
@@ -190,7 +190,7 @@ def export_data(
         detail = data.get(f"event_{key}_detail")
         if detail is not None:
             filename = f"event_{key}_detail.json"
-            with open(os.path.join(output_dir, filename), "w") as f:
+            with (output_dir / filename).open("w") as f:
                 json.dump(detail, f, indent=2)
             print(f"  Wrote {filename} ({len(detail)} records)")
 
@@ -218,13 +218,13 @@ def export_data(
                 )
             chart_output["charts"].append(chart_data)
 
-        with open(os.path.join(output_dir, "event_charts.json"), "w") as f:
+        with (output_dir / "event_charts.json").open("w") as f:
             json.dump(chart_output, f, indent=2)
         print(f"  Wrote event_charts.json ({len(chart_output['charts'])} charts)")
 
     # Config (for the HTML template)
     print("Exporting site config...")
-    with open(os.path.join(output_dir, "config.json"), "w") as f:
+    with (output_dir / "config.json").open("w") as f:
         json.dump(config, f, indent=2)
     print("  Wrote config.json")
 
@@ -242,6 +242,6 @@ def export_data(
         "engagement_rate": data.get("engagement_rate", {}),
     }
 
-    with open(os.path.join(output_dir, "meta.json"), "w") as f:
+    with (output_dir / "meta.json").open("w") as f:
         json.dump(meta, f, indent=2)
     print("  Wrote meta.json")

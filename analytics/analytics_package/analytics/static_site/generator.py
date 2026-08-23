@@ -1,12 +1,12 @@
 """Generate a static analytics site from GA4 data."""
 
-import os
 import shutil
+from pathlib import Path
 
 from .export import export_data
 from .fetch import fetch_data
 
-TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "template")
+TEMPLATE_DIR = Path(__file__).parent / "template"
 
 
 def generate_site(
@@ -39,7 +39,7 @@ def generate_site(
         property_id: GA4 property ID.
         current_month: Current month string (YYYY-MM).
         analytics_start: Start date for all-time data (YYYY-MM-DD).
-        output_dir: Output directory for the generated site.
+        output_dir: Output directory for the generated site, as a str or Path.
         custom_events: List of dicts with "event_name" and "label" keys.
             Example: [{"event_name": "chat_submitted", "label": "Chat Submissions"}]
         historic_data_path: Path to historic UA data JSON file (optional).
@@ -55,6 +55,7 @@ def generate_site(
     """
     if custom_events is None:
         custom_events = []
+    output_dir = Path(output_dir)
 
     print("=" * 50)
     print(f"Generating analytics site: {config['site_title']}")
@@ -80,13 +81,13 @@ def generate_site(
         print("Resolving entity titles...")
         title_resolver(data)
 
-    os.makedirs(output_dir, exist_ok=True)
-    template_html = os.path.join(TEMPLATE_DIR, "index.html")
-    output_html = os.path.join(output_dir, "index.html")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    template_html = TEMPLATE_DIR / "index.html"
+    output_html = output_dir / "index.html"
     shutil.copy2(template_html, output_html)
     print(f"Copied template to {output_html}")
 
-    data_dir = os.path.join(output_dir, "data")
+    data_dir = output_dir / "data"
     export_data(
         data=data,
         config=config,
@@ -99,7 +100,7 @@ def generate_site(
 
     print("\n" + "=" * 50)
     print("Static site generation complete!")
-    print(f"Files written to: {os.path.abspath(output_dir)}")
+    print(f"Files written to: {output_dir.resolve()}")
     print("\nTo view the site locally, run:")
     print(f"  cd {output_dir} && python -m http.server 8080")
     print("Then open http://localhost:8080 in your browser.")
