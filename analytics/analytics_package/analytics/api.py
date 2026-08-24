@@ -53,7 +53,7 @@ def authenticate(
     *other_service_params,
     port=None,
 ):
-    service_param_sets = (first_service_params,) + other_service_params
+    service_param_sets = (first_service_params, *other_service_params)
 
     all_scopes = {
         scope for service_params in service_param_sets for scope in service_params[0]
@@ -68,10 +68,7 @@ def authenticate(
     global next_port
 
     if port is None:
-        if next_port is None:
-            port = 8082
-        else:
-            port = next_port
+        port = 8082 if next_port is None else next_port
         next_port = port + 1
     elif next_port is None:
         next_port = port + 1
@@ -192,9 +189,7 @@ def get_metrics_by_dimensions_v3_style(
             results.append(result)
             params[start_index_key] += params[max_results_key]
 
-    df = results_to_df(results)
-
-    return df
+    return results_to_df(results)
 
 
 def get_metrics_by_dimensions_v4_style(
@@ -258,9 +253,7 @@ def get_metrics_by_dimensions_v4_style(
                 offset += max_results
                 params["offset"] = offset
 
-    df = v4_results_to_df(results, dimensions, metrics)
-
-    return df
+    return v4_results_to_df(results, dimensions, metrics)
 
 
 def v4_results_to_df(results, dimensions, metrics):
