@@ -149,6 +149,8 @@
 
         @media (max-width: 767px) {
             .fui-card[class*="fui-grid-item"] { grid-column: 1 / -1; }
+            /* !important: beats the inline grid-template-columns set per-render */
+            #access-requests-stats { grid-template-columns: 1fr !important; }
         }
     </style>
 </head>
@@ -362,10 +364,33 @@
         let entityLabel = 'Dataset';
         let entityPath = '/datasets';
 
+        // True when hostname is domain itself or one of its subdomains, so that
+        // "notduos.org.example.com" and "evil.com/?ref=duos.org" don't match.
+        function isHost(hostname, domain) {
+            return hostname === domain || hostname.endsWith(`.${domain}`);
+        }
+
         function serviceName(url) {
-            if (url.includes('duos.org')) return 'DUOS';
-            if (url.includes('dbgap.ncbi.nlm.nih.gov')) return 'dbGaP';
-            return url;
+            if (typeof url !== 'string' || !url) return 'Other';
+            // Classify on the parsed hostname, not the raw URL. Matching is
+            // case-insensitive — the Python generator filters click URLs with
+            // case=False (fetch.py), so classification must be no stricter.
+            const normalizedUrl = url.toLowerCase();
+            let hostname;
+            try {
+                // Tolerate schemeless URLs, and strip "www." so host variants
+                // of one service land in the same bucket.
+                const withScheme = normalizedUrl.includes('://') ? normalizedUrl : `https://${normalizedUrl}`;
+                hostname = new URL(withScheme).hostname.replace(/^www\./, '');
+            } catch (e) {
+                return 'Other';
+            }
+            // Require a dot so garbage ("not-a-url") buckets as Other rather
+            // than becoming its own service label.
+            if (!hostname.includes('.')) return 'Other';
+            if (isHost(hostname, 'duos.org')) return 'DUOS';
+            if (isHost(hostname, 'dbgap.ncbi.nlm.nih.gov')) return 'dbGaP';
+            return hostname;
         }
 
         let chartColors = {
@@ -384,7 +409,7 @@
 
         async function loadData() {
             try {
-                const [configRes, trafficRes, pageviewsRes, outboundRes, filtersRes, downloadsRes, eventsRes, metaRes, searchRes, fileDownloadEventsRes, eventChartsRes] = await Promise.all([
+                const [configRes, trafficRes, pageviewsRes, outboundRes, filtersRes, downloadsRes, eventsRes, metaRes, searchRes, fileDownloadEventsRes, eventChartsRes, accessRequestsRes] = await Promise.all([
                     fetch('data/config.json'),
                     fetch('data/monthly_traffic.json'),
                     fetch('data/pageviews.json'),
@@ -396,6 +421,7 @@
                     fetch('data/search_queries.json').catch(() => null),
                     fetch('data/file_download_events.json').catch(() => null),
                     fetch('data/event_charts.json').catch(() => null),
+                    fetch('data/access_requests.json').catch(() => null),
                 ]);
 
                 const [config, traffic, pageviews, outbound, filters, downloads, events, meta] = await Promise.all([
@@ -405,6 +431,7 @@
                 const searchQueries = searchRes ? await searchRes.json().catch(() => null) : null;
                 const fileDownloadEvents = fileDownloadEventsRes ? await fileDownloadEventsRes.json().catch(() => null) : null;
                 const eventCharts = eventChartsRes && eventChartsRes.ok ? await eventChartsRes.json().catch(() => null) : null;
+                const accessRequests = accessRequestsRes && accessRequestsRes.ok ? await accessRequestsRes.json().catch(() => null) : null;
 
                 applyConfig(config);
                 renderMeta(meta);
@@ -416,7 +443,13 @@
                 renderOutboundTable(outbound);
                 renderFiltersTable(filters);
                 renderFileDownloadsTable(downloads);
-                renderAccessRequestsTable();
+                try {
+                    // Access requests are optional/best-effort — a bad payload
+                    // must not blank the rest of the report.
+                    renderAccessRequestsTable(accessRequests);
+                } catch (accessRequestsError) {
+                    console.error('Error rendering access requests:', accessRequestsError);
+                }
                 renderSearchQueries(searchQueries);
                 renderFileDownloadEvents(fileDownloadEvents);
                 renderEventCounts(config, events, eventCharts);
@@ -875,50 +908,41 @@
             document.getElementById('file-downloads-count').textContent = formatNumber(downloads.total);
         }
 
-        async function renderAccessRequestsTable() {
-            let data;
-            try {
-                const res = await fetch('data/access_requests.json');
-                if (!res.ok) return;
-                data = await res.json();
-            } catch (e) {
-                return;
-            }
-            if (!data || data.length === 0) return;
+        function renderAccessRequestsTable(accessRequests) {
+            if (!Array.isArray(accessRequests)) return;
+            const data = accessRequests
+                .filter(r => r && typeof r === 'object')
+                .map(r => ({ ...r, count: Number(r.count) || 0, service: serviceName(r.click_url) }));
+            if (data.length === 0) return;
 
             const card = document.getElementById('access-requests-card');
             const heading = document.getElementById('access-requests-heading');
             const tbody = document.querySelector('#access-requests-table tbody');
-            const total = data.reduce((sum, r) => sum + (r.count || 0), 0);
 
-            const services = new Set(data.map(r => serviceName(r.click_url || '')));
-            const showService = services.size > 1;
+            // Null prototype: a service named like an Object.prototype member
+            // (e.g. a "constructor" hostname) must not collide with inherited keys.
+            const countsByService = data.reduce((counts, r) => {
+                counts[r.service] = (counts[r.service] || 0) + r.count;
+                return counts;
+            }, Object.create(null));
+            const total = Object.values(countsByService).reduce((sum, count) => sum + count, 0);
+            const showService = Object.keys(countsByService).length > 1;
 
             const statsGrid = document.getElementById('access-requests-stats');
             if (showService) {
-                const duosTotal = data.filter(r => serviceName(r.click_url || '') === 'DUOS').reduce((sum, r) => sum + (r.count || 0), 0);
-                const dbgapTotal = data.filter(r => serviceName(r.click_url || '') === 'dbGaP').reduce((sum, r) => sum + (r.count || 0), 0);
+                const statCards = Object.entries(countsByService)
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .concat([['Total', total]]);
                 statsGrid.style.display = '';
-                statsGrid.innerHTML = `
-                    <div class="fui-card fui-grid-item-4" style="text-align: center;">
+                statsGrid.style.gridTemplateColumns = `repeat(${statCards.length}, 1fr)`;
+                statsGrid.innerHTML = statCards.map(([label, count]) => `
+                    <div class="fui-card" style="text-align: center;">
                         <div class="fui-card-content">
-                            <div class="stat-value">${formatNumber(dbgapTotal)}</div>
-                            <div class="stat-label">dbGaP</div>
+                            <div class="stat-value">${formatNumber(count)}</div>
+                            <div class="stat-label">${escapeHtml(label)}</div>
                         </div>
                     </div>
-                    <div class="fui-card fui-grid-item-4" style="text-align: center;">
-                        <div class="fui-card-content">
-                            <div class="stat-value">${formatNumber(duosTotal)}</div>
-                            <div class="stat-label">DUOS</div>
-                        </div>
-                    </div>
-                    <div class="fui-card fui-grid-item-4" style="text-align: center;">
-                        <div class="fui-card-content">
-                            <div class="stat-value">${formatNumber(total)}</div>
-                            <div class="stat-label">Total</div>
-                        </div>
-                    </div>
-                `;
+                `).join('');
             }
 
             card.style.display = '';
@@ -941,12 +965,12 @@
                 const datasetCell = link
                     ? `<a href="${safeHref(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`
                     : escapeHtml(label);
-                const serviceCell = showService ? `<td>${escapeHtml(serviceName(row.click_url || ''))}</td>` : '';
+                const serviceCell = showService ? `<td>${escapeHtml(row.service)}</td>` : '';
                 return `
                     <tr>
                         <td>${datasetCell}</td>
                         ${serviceCell}
-                        <td class="col-number">${formatNumber(row.count || 0)}</td>
+                        <td class="col-number">${formatNumber(row.count)}</td>
                     </tr>
                 `;
             }).join('');
