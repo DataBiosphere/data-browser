@@ -845,6 +845,8 @@
                 tbody.innerHTML = '<tr><td colspan="3">No data available</td></tr>';
                 return;
             }
+            // The source JSON is capped at MAX_TABLE_EXPORT_ROWS (100) in
+            // export.py — raising this slice above that cap silently truncates.
             tbody.innerHTML = pageviews.slice(0, 20).map(row => `
                 <tr>
                     <td>${escapeHtml(row.page || '-')}</td>
@@ -862,6 +864,8 @@
                 tbody.innerHTML = '<tr><td colspan="3">No data available</td></tr>';
                 return;
             }
+            // The source JSON is capped at MAX_TABLE_EXPORT_ROWS (100) in
+            // export.py — raising this slice above that cap silently truncates.
             tbody.innerHTML = outbound.slice(0, 20).map(row => `
                 <tr>
                     <td class="truncate">
@@ -882,6 +886,8 @@
                 return;
             }
             card.style.display = '';
+            // The source JSON is capped at MAX_TABLE_EXPORT_ROWS (100) in
+            // export.py — raising this slice above that cap silently truncates.
             tbody.innerHTML = filters.slice(0, 30).map(row => `
                 <tr>
                     <td>${escapeHtml(row.filterName || '-')}</td>
