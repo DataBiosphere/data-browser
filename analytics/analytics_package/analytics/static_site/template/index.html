@@ -497,26 +497,52 @@
             document.getElementById('generated-date').textContent = meta.generated_at;
         }
 
+        // Returns a signed percentage as a number, or null when there is no
+        // usable baseline. Rounding happens at render time so callers compare
+        // the true sign — rounding first turns -0.04% into "-0.0", which tests
+        // as >= 0 and renders as a positive change.
         function pctChange(current, prior) {
-            if (prior > 0) return ((current - prior) / prior * 100).toFixed(1);
-            return null;
+            if (!(prior > 0)) return null;
+            const pct = (current - prior) / prior * 100;
+            return Number.isFinite(pct) ? pct : null;
         }
 
-        function statCard(value, label, change, tooltip) {
+        // Shared stat-card markup. Options:
+        //   change:    omit for no change row; null renders "N/A vs prior month".
+        //   gridClass: fui-grid-item-* class; omit when the container sizes cards itself.
+        //   tooltip:   HTML shown on hover/focus of the label.
+        // Multi-line labels ('\n') render as line breaks.
+        function statCard(value, label, { change, gridClass, tooltip } = {}) {
+            // escapeHtml leaves newlines and quotes alone, so escape once and
+            // then adapt per context: <br> for markup, &quot; for the attribute.
+            const escapedLabel = escapeHtml(label);
+            const labelHtml = escapedLabel.split('\n').join('<br>');
+            const ariaLabel = escapedLabel.replace(/"/g, '&quot;').replace(/\n/g, ' ');
             const tooltipHtml = tooltip ? `
                 <div class="stat-tooltip">${tooltip}</div>
             ` : '';
+            let changeHtml = '';
+            if (change !== undefined) {
+                let changeText = 'N/A';
+                if (change !== null) {
+                    const pct = Number(change);
+                    changeText = `${pct >= 0 ? '+' : ''}${pct.toFixed(1)}%`;
+                }
+                changeHtml = `
+                    <div class="stat-change ${changeClass(change)}">
+                        ${changeText} vs prior month
+                    </div>
+                `;
+            }
             return `
-                <div class="fui-card fui-grid-item-3" style="text-align: center;">
+                <div class="fui-card${gridClass ? ` ${gridClass}` : ''}" style="text-align: center;">
                     <div class="fui-card-content">
                         <div class="stat-value">${value}</div>
                         <div class="stat-label-wrap">
-                            <span class="stat-label${tooltip ? ' has-tooltip' : ''}" ${tooltip ? 'tabindex="0" role="button" aria-label="' + escapeHtml(label) + ' - show details"' : ''}>${escapeHtml(label)}</span>
+                            <span class="stat-label${tooltip ? ' has-tooltip' : ''}" ${tooltip ? 'tabindex="0" role="button" aria-label="' + ariaLabel + ' - show details"' : ''}>${labelHtml}</span>
                             ${tooltipHtml}
                         </div>
-                        <div class="stat-change ${change === null ? '' : change >= 0 ? 'positive' : 'negative'}">
-                            ${change === null ? 'N/A vs prior month' : `${change >= 0 ? '+' : ''}${change}% vs prior month`}
-                        </div>
+                        ${changeHtml}
                     </div>
                 </div>
             `;
@@ -543,26 +569,26 @@
             const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long' });
 
             document.getElementById('stats-grid').innerHTML =
-                statCard(
-                    formatNumber(latest.users), 'Users',
-                    usersChange,
-                    `Total number of unique individuals who visited your site during ${monthName}.`
-                ) +
-                statCard(
-                    formatNumber(sessions.current || 0), 'User Sessions',
-                    sessionsChange,
-                    `Total number of visits to your site during ${monthName}. A single user can have multiple sessions.`
-                ) +
-                statCard(
-                    formatNumber(latest.pageviews), 'Pageviews',
-                    pageviewsChange,
-                    `Total number of pages viewed during ${monthName}. This includes repeated views of the same page.`
-                ) +
-                statCard(
-                    engagementDisplay, 'Engagement Rate',
-                    engagementChange,
-                    `Percentage of sessions during ${monthName} where users actively engaged with your site (e.g., stayed longer, viewed multiple pages, or triggered events). Higher is better. <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`
-                );
+                statCard(formatNumber(latest.users), 'Users', {
+                    change: usersChange,
+                    gridClass: 'fui-grid-item-3',
+                    tooltip: `Total number of unique individuals who visited your site during ${monthName}.`,
+                }) +
+                statCard(formatNumber(sessions.current || 0), 'User Sessions', {
+                    change: sessionsChange,
+                    gridClass: 'fui-grid-item-3',
+                    tooltip: `Total number of visits to your site during ${monthName}. A single user can have multiple sessions.`,
+                }) +
+                statCard(formatNumber(latest.pageviews), 'Pageviews', {
+                    change: pageviewsChange,
+                    gridClass: 'fui-grid-item-3',
+                    tooltip: `Total number of pages viewed during ${monthName}. This includes repeated views of the same page.`,
+                }) +
+                statCard(engagementDisplay, 'Engagement Rate', {
+                    change: engagementChange,
+                    gridClass: 'fui-grid-item-3',
+                    tooltip: `Percentage of sessions during ${monthName} where users actively engaged with your site (e.g., stayed longer, viewed multiple pages, or triggered events). Higher is better. <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`,
+                });
         }
 
         function renderEventCounts(config, events, eventCharts) {
@@ -588,8 +614,9 @@
             let chartIndex = 0;
             for (let i = 0; i < countCards.length; i += 2) {
                 const pair = countCards.slice(i, i + 2);
-                const rowLabel = pair[0].label.split('\n')[0];
-                const pairSharesLabel = pair.length > 1 && pair[1].label.split('\n')[0] === rowLabel;
+                const pairLabelLines = pair.map(card => card.label.split('\n'));
+                const rowLabel = pairLabelLines[0][0];
+                const pairSharesLabel = pair.length > 1 && pairLabelLines[1][0] === rowLabel;
                 if (pairSharesLabel) {
                     html += `<h3 class="fui-heading-xsmall fui-grid-item-12">${escapeHtml(rowLabel)}</h3>`;
                 }
@@ -599,28 +626,17 @@
                     const e = eventsByKey[card.event_key] || {};
                     const current = e.current || 0;
                     const prior = e.prior || 0;
-                    let change = 0;
-                    if (prior > 0) {
-                        change = ((current - prior) / prior * 100).toFixed(1);
-                    }
-                    html += `
-                        <div class="fui-card fui-grid-item-6" style="text-align: center;">
-                            <div class="fui-card-content">
-                                <div class="stat-value">${formatNumber(current)}</div>
-                                <div class="stat-label">${card.label.split('\n').map(l => escapeHtml(l)).join('<br>')}</div>
-                                <div class="stat-change ${change >= 0 ? 'positive' : 'negative'}">
-                                    ${change >= 0 ? '+' : ''}${change}% vs prior month
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                    html += statCard(formatNumber(current), card.label, {
+                        change: pctChange(current, prior) ?? 0,
+                        gridClass: 'fui-grid-item-6',
+                    });
                 }
 
                 // Chart cards row
-                for (const card of pair) {
+                for (const [j, card] of pair.entries()) {
                     if (chartDataByKey[card.event_key] && chartDataByKey[card.event_key].length > 0) {
                         const canvasId = `event-trend-chart-${chartIndex++}`;
-                        const parts = card.label.split('\n');
+                        const parts = pairLabelLines[j];
                         const cardLabel = parts[0];
                         const chartTitle = escapeHtml(cardLabel) + ' Over Time' + (parts[1] ? ` (${escapeHtml(parts[1].replace(/[()]/g, ''))})` : '');
                         html += `
@@ -833,7 +849,7 @@
                 <tr>
                     <td>${escapeHtml(row.page || '-')}</td>
                     <td class="col-number">${formatNumber(row.views || 0)}</td>
-                    <td class="col-number ${row.change != null ? (row.change >= 0 ? 'positive' : 'negative') : ''}">
+                    <td class="col-number ${changeClass(row.change)}">
                         ${formatChange(row.change)}
                     </td>
                 </tr>
@@ -852,7 +868,7 @@
                         ${escapeHtml(row.link || '-')}
                     </td>
                     <td class="col-number">${formatNumber(row.clicks || 0)}</td>
-                    <td class="col-number ${row.change != null ? (row.change >= 0 ? 'positive' : 'negative') : ''}">
+                    <td class="col-number ${changeClass(row.change)}">
                         ${formatChange(row.change)}
                     </td>
                 </tr>
@@ -871,7 +887,7 @@
                     <td>${escapeHtml(row.filterName || '-')}</td>
                     <td>${escapeHtml(row.filterValue || '-')}</td>
                     <td class="col-number">${formatNumber(row.count || 0)}</td>
-                    <td class="col-number ${row.change != null ? (row.change >= 0 ? 'positive' : 'negative') : ''}">
+                    <td class="col-number ${changeClass(row.change)}">
                         ${formatChange(row.change)}
                     </td>
                 </tr>
@@ -935,14 +951,9 @@
                     .concat([['Total', total]]);
                 statsGrid.style.display = '';
                 statsGrid.style.gridTemplateColumns = `repeat(${statCards.length}, 1fr)`;
-                statsGrid.innerHTML = statCards.map(([label, count]) => `
-                    <div class="fui-card" style="text-align: center;">
-                        <div class="fui-card-content">
-                            <div class="stat-value">${formatNumber(count)}</div>
-                            <div class="stat-label">${escapeHtml(label)}</div>
-                        </div>
-                    </div>
-                `).join('');
+                statsGrid.innerHTML = statCards
+                    .map(([label, count]) => statCard(formatNumber(count), label))
+                    .join('');
             }
 
             card.style.display = '';
@@ -997,6 +1008,13 @@
                 const parts = url.split('/');
                 return parts[parts.length - 1] || url;
             }
+        }
+
+        // Positive/negative styling for a signed change. Works for both the
+        // fractions the tables carry and the percentages the cards carry.
+        function changeClass(change) {
+            if (change == null) return '';
+            return change >= 0 ? 'positive' : 'negative';
         }
 
         function formatChange(change) {
