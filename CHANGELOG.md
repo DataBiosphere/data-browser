@@ -1,5 +1,26 @@
 # Changelog
 
+## [3.6.1](https://github.com/DataBiosphere/data-browser/compare/v3.6.0...v3.6.1) (2026-09-02)
+
+
+### Bug Fixes
+
+* generalize access-request service classification and stat cards in analytics template ([#4922](https://github.com/DataBiosphere/data-browser/issues/4922)) ([#4930](https://github.com/DataBiosphere/data-browser/issues/4930)) ([8f16702](https://github.com/DataBiosphere/data-browser/commit/8f16702a2d38143271b279adaf744061253abe22))
+* point AnVIL dev and tempdev BROWSER_URL at the hosts that serve them ([#4937](https://github.com/DataBiosphere/data-browser/issues/4937)) ([#4938](https://github.com/DataBiosphere/data-browser/issues/4938)) ([2820f37](https://github.com/DataBiosphere/data-browser/commit/2820f37c6b0a3916f88ab10875e33c15ef9c6512))
+* remove nih ras banner from the anvil data explorer ([#4940](https://github.com/DataBiosphere/data-browser/issues/4940)) ([#4941](https://github.com/DataBiosphere/data-browser/issues/4941)) ([4a3b783](https://github.com/DataBiosphere/data-browser/commit/4a3b783159ce38ccc12e0ba0d0d5426415633644))
+
+
+### Chores
+
+* cap static analytics detail exports at top-n rows ([#4924](https://github.com/DataBiosphere/data-browser/issues/4924)) ([#4932](https://github.com/DataBiosphere/data-browser/issues/4932)) ([96ae008](https://github.com/DataBiosphere/data-browser/commit/96ae008ae7c7be455376676708475c6b978b8447))
+* extend ruff rule selection for the analytics package ([#4942](https://github.com/DataBiosphere/data-browser/issues/4942)) ([#4943](https://github.com/DataBiosphere/data-browser/issues/4943)) ([9c96747](https://github.com/DataBiosphere/data-browser/commit/9c96747f16f46159308891d643664009ac8b404f))
+* use uv and ruff for analytics reporting ([#4934](https://github.com/DataBiosphere/data-browser/issues/4934)) ([#4936](https://github.com/DataBiosphere/data-browser/issues/4936)) ([e738381](https://github.com/DataBiosphere/data-browser/commit/e738381daa79d18f0eb34732bfde525abf6f90b9))
+
+
+### Code Refactoring
+
+* consolidate stat-card markup in static analytics template ([#4923](https://github.com/DataBiosphere/data-browser/issues/4923)) ([#4931](https://github.com/DataBiosphere/data-browser/issues/4931)) ([9caac18](https://github.com/DataBiosphere/data-browser/commit/9caac18b7b591e164e89fb38ed59e9cfb13fee2f))
+
 ## [3.6.0](https://github.com/DataBiosphere/data-browser/compare/v3.5.0...v3.6.0) (2026-08-20)
 
 
