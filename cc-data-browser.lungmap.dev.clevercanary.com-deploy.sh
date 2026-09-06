@@ -5,7 +5,7 @@ set -e
 echo \"Deleting ./out/\"
 rm -rf ./out
 
-n 22.12.0
+n "$(cat .nvmrc)"
 npm ci
 
 # Build
