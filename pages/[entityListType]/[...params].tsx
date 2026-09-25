@@ -250,8 +250,9 @@ export const getStaticPaths: GetStaticPaths<PageUrl> = async () => {
         // Fetch catalogs and generate a list of catalogs associated with the default catalog.
         const azulCatalogResponse = await fetchCatalog();
         const catalogs = getCatalogs(azulCatalogResponse, defaultCatalog);
-        // Define the list params.
-        const listParams = { size: "75" };
+        // Define the list params. Azul caps `size` at 50 for the
+        // /index/projects endpoint; fetchAllEntities pages through the rest.
+        const listParams = { size: "50" };
         // Fetch entities for each catalog and process the paths.
         for (const catalog of catalogs) {
           const entitiesResponse = await getEntities(
