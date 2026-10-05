@@ -66,7 +66,7 @@ export function isNullOrUndefined(value: any): boolean {
  * can either be an array value on a "core" entity or an aggregated "inner" entity.
  * @param responseValues - Array of values returned from the backend.
  * @param key - The object key (of an array value containing string or null values) in each response value to aggregate.
- * @returns All non-null values in the response values with the given key.
+ * @returns All unique non-null values in the response values with the given key, in first-seen order.
  */
 export function processAggregatedOrArrayValue<
   T,
@@ -78,8 +78,8 @@ export function processAggregatedOrArrayValue<
     key
   ) as StringOrNullArray;
 
-  // Remove null values and convert empty arrays to ["Unspecified"] if necessary.
-  return processNullElements(values);
+  // Remove null values, duplicate values, and convert empty arrays to ["Unspecified"] if necessary.
+  return processNullElements(filterUniqueValues(values));
 }
 
 /**
@@ -87,7 +87,7 @@ export function processAggregatedOrArrayValue<
  * key can either be an array value on a "core" entity or an aggregated "inner" entity.
  * @param responseValues - Array of values returned from the backend.
  * @param key - The object key (of an array value containing boolean or null values) in each response value to aggregate.
- * @returns All non-null values in the response values with the given key.
+ * @returns All unique non-null values in the response values with the given key, in first-seen order.
  */
 export function processAggregatedBooleanOrArrayValue<
   T,
@@ -102,8 +102,8 @@ export function processAggregatedBooleanOrArrayValue<
   // Coerce boolean values to string values.
   const stringValues: StringOrNullArray = values?.map(coerceBooleanToString);
 
-  // Remove null values and convert empty arrays to ["Unspecified"] if necessary.
-  return processNullElements(stringValues);
+  // Remove null values, duplicate values, and convert empty arrays to ["Unspecified"] if necessary.
+  return processNullElements(filterUniqueValues(stringValues));
 }
 
 /**
@@ -244,6 +244,15 @@ function coerceBooleanToString(value: boolean | null): string | null {
  */
 function filterDefinedValues(values?: StringOrNullArray): string[] | undefined {
   return values?.filter((value): value is string => !!value);
+}
+
+/**
+ * Remove duplicate elements from the given array, keeping the first occurrence of each value.
+ * @param values - List of values.
+ * @returns an array with each value listed once, in first-seen order.
+ */
+function filterUniqueValues(values: StringOrNullArray): StringOrNullArray {
+  return values && [...new Set(values)];
 }
 
 /**
