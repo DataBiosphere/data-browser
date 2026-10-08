@@ -773,7 +773,9 @@ export const buildDiagnosesPhenotype = (
 ): React.ComponentProps<typeof C.NTagCell> => {
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.PHENOTYPE),
-    values: processAggregatedOrArrayValue(response.diagnoses, "phenotype"),
+    values: processAggregatedOrArrayValue(response.diagnoses, "phenotype").map(
+      mapDiagnosisValue
+    ),
   };
 };
 

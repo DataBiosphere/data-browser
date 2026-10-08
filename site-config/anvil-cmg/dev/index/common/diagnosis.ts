@@ -1482,7 +1482,7 @@ export const DIAGNOSIS_DISPLAY_VALUE: Record<string, string> = {
   "ORPHA:182127": "Extragonadal germinoma",
   "ORPHA:2023": "Undifferentiated pleomorphic sarcoma",
   "ORPHA:2030": "Fibrosarcoma",
-  "ORPHA:206473": "OBSOLETE: Borderline epithelial tumor of ovary",
+  "ORPHA:206473": "Borderline epithelial tumor of ovary",
   "ORPHA:210584": "Spindle cell hemangioma",
   "ORPHA:217071": "Renal cell carcinoma",
   "ORPHA:2495": "Meningioma",
@@ -1537,7 +1537,7 @@ export const DIAGNOSIS_DISPLAY_VALUE: Record<string, string> = {
   "ORPHA:55880": "Chondrosarcoma",
   "ORPHA:569164": "Angiomatoid fibrous histiocytoma",
   "ORPHA:585877":
-    "OBSOLETE: B-lymphoblastic leukemia/lymphoma with recurrent genetic abnormality",
+    "B-lymphoblastic leukemia/lymphoma with recurrent genetic abnormality",
   "ORPHA:616": "Medulloblastoma",
   "ORPHA:635": "Neuroblastoma",
   "ORPHA:64742": "Pleuropulmonary blastoma",

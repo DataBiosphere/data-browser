@@ -20,16 +20,17 @@ export function mapAccessibleValue(value: string): string {
  * @returns select category label.
  */
 export function mapDiagnosisValue(value: string): string {
-  const parts = value.split(";").map((part) => part.trim());
-
-  if (!parts.some((part) => DIAGNOSIS_DISPLAY_VALUE[part])) {
-    return value;
-  }
-
-  return parts
+  let isMapped = false;
+  const labels = value
+    .split(";")
+    .map((part) => part.trim())
+    .filter(Boolean)
     .map((part) => {
-      const mappedValue = DIAGNOSIS_DISPLAY_VALUE[part];
-      return mappedValue ? `${mappedValue} (${part})` : part;
-    })
-    .join("; ");
+      // Only the lookup's own keys; not built-in keys such as "constructor".
+      if (!Object.hasOwn(DIAGNOSIS_DISPLAY_VALUE, part)) return part;
+      isMapped = true;
+      return `${DIAGNOSIS_DISPLAY_VALUE[part]} (${part})`;
+    });
+
+  return isMapped ? labels.join("; ") : value;
 }

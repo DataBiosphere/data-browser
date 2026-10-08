@@ -5,19 +5,6 @@
  */
 
 /**
- * Term IDs found in the Azul diagnosis facets, grouped by how they are named.
- * Orphanet IDs keep the spelling Azul uses (`ORPHA:` or `Orphanet:`), because
- * the UI looks up the facet value exactly as Azul returns it.
- */
-export interface TermIds {
-  hp: Set<string>;
-  omim: Set<string>;
-  orphanet: Set<string>;
-  // ID-like values the script does not name, e.g. MONDO or malformed HP IDs.
-  other: Set<string>;
-}
-
-/**
  * Release versions of the source files, recorded in the generated file.
  */
 interface SourceVersions {
@@ -33,13 +20,46 @@ interface TermFacet {
   terms?: { term: string | null }[];
 }
 
+/**
+ * Term IDs found in the Azul diagnosis facets, grouped by how they are named.
+ * Orphanet IDs keep the spelling Azul uses (`ORPHA:` or `Orphanet:`), because
+ * the UI looks up the facet value exactly as Azul returns it.
+ */
+export interface TermIds {
+  hp: Set<string>;
+  omim: Set<string>;
+  orphanet: Set<string>;
+  // ID-like values the script does not name, e.g. MONDO or malformed HP IDs.
+  other: Set<string>;
+}
+
 const FACET_KEYS = ["diagnoses.disease", "diagnoses.phenotype"];
 
 const HP_ID = /^HP:\d{7}$/;
-const OMIM_ID = /^OMIM:\d{6}$/;
-const ORPHANET_ID = /^(ORPHA|Orphanet):(\d+)$/;
 // A prefix followed by a colon and no whitespace, e.g. "MONDO:0005148" or "H:0010609".
 const ID_LIKE = /^[A-Za-z]+:\S+$/;
+const OMIM_ID = /^OMIM:\d{6}$/;
+// Status prefixes Orphadata puts on the names of inactive entries.
+const ORPHADATA_NAME_PREFIX = /^(OBSOLETE|NON RARE IN EUROPE):\s*/;
+const ORPHANET_ID = /^(ORPHA|Orphanet):(\d+)$/;
+
+/**
+ * Decode the XML entities used in Orphadata names.
+ * @param text - Text with XML entities.
+ * @returns decoded text.
+ */
+function decodeXmlEntities(text: string): string {
+  return text
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) =>
+      String.fromCodePoint(parseInt(hex, 16))
+    )
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+}
 
 /**
  * Collect the term IDs in the diagnosis facets, plus any extra IDs, grouped by
@@ -78,126 +98,6 @@ export function extractTermIds(
     else if (ID_LIKE.test(value)) ids.other.add(value);
   }
   return ids;
-}
-
-/**
- * Name HP IDs from hp.obo. IDs listed as `alt_id` (retired or merged IDs) get
- * the name of the term they belong to, and an "obsolete" prefix is removed.
- * @param obo - Text of hp.obo.
- * @param hpIds - HP IDs to name.
- * @returns map of HP ID to name.
- */
-export function parseHpObo(
-  obo: string,
-  hpIds: Set<string>
-): Map<string, string> {
-  const names = new Map<string, string>();
-  let id: string | null = null;
-  let name: string | null = null;
-  let altIds: string[] = [];
-
-  const save = (): void => {
-    if (!id || !name) return;
-    for (const termId of [id, ...altIds]) {
-      if (hpIds.has(termId)) names.set(termId, name);
-    }
-  };
-
-  for (const line of obo.split("\n")) {
-    const trimmed = line.trim();
-    if (trimmed.startsWith("[")) {
-      // A new stanza ([Term], [Typedef]) ends the previous one.
-      save();
-      id = null;
-      name = null;
-      altIds = [];
-    } else if (trimmed.startsWith("id: HP:")) {
-      id = trimmed.slice(4);
-    } else if (trimmed.startsWith("name: ") && id) {
-      name = trimmed.slice(6).replace(/^obsolete\s+/, "");
-    } else if (trimmed.startsWith("alt_id: HP:")) {
-      altIds.push(trimmed.slice(8));
-    }
-  }
-  save();
-  return names;
-}
-
-/**
- * Name OMIM IDs from phenotype.hpoa, which lists each disease once per
- * annotation. The first name seen for an ID is kept.
- * @param hpoa - Text of phenotype.hpoa.
- * @param omimIds - OMIM IDs to name.
- * @returns map of OMIM ID to name.
- */
-export function parseHpoa(
-  hpoa: string,
-  omimIds: Set<string>
-): Map<string, string> {
-  const names = new Map<string, string>();
-  for (const line of hpoa.split("\n")) {
-    if (line.startsWith("#") || line.startsWith("database_id")) continue;
-    const [databaseId, diseaseName] = line.split("\t", 2);
-    const id = databaseId?.trim();
-    const name = diseaseName?.trim();
-    if (id && name && omimIds.has(id) && !names.has(id)) names.set(id, name);
-  }
-  return names;
-}
-
-/**
- * Name Orphanet IDs from Orphadata's disease list (en_product1.xml). Both
- * `ORPHA:` and `Orphanet:` spellings are named, keyed as Azul spells them.
- * @param xml - Text of en_product1.xml.
- * @param orphanetIds - Orphanet IDs to name.
- * @returns map of Orphanet ID to name.
- */
-export function parseOrphadata(
-  xml: string,
-  orphanetIds: Set<string>
-): Map<string, string> {
-  // Group the requested IDs by their numeric Orpha code.
-  const idsByCode = new Map<string, string[]>();
-  for (const id of orphanetIds) {
-    const code = ORPHANET_ID.exec(id)?.[2];
-    if (code) pushTo(idsByCode, code, id);
-  }
-
-  const names = new Map<string, string>();
-  // Each disease is a <Disorder> element. Its own <Name> is the first one after
-  // its <OrphaCode>; later <Name>s belong to nested elements such as
-  // <DisorderType>.
-  for (const disorder of xml.split("<Disorder ").slice(1)) {
-    const code = /<OrphaCode>(\d+)<\/OrphaCode>/.exec(disorder)?.[1];
-    const ids = code && idsByCode.get(code);
-    if (!ids) continue;
-    const name = /<Name lang="en">([^<]*)<\/Name>/.exec(disorder)?.[1];
-    if (!name) continue;
-    for (const id of ids) names.set(id, decodeXmlEntities(name.trim()));
-  }
-  return names;
-}
-
-/**
- * Read the release versions from the source files' headers.
- * @param sources - Text of the source files.
- * @param sources.hpObo - Text of hp.obo.
- * @param sources.hpoa - Text of phenotype.hpoa.
- * @param sources.orphadata - Text of en_product1.xml.
- * @returns source versions.
- */
-export function parseSourceVersions(sources: {
-  hpObo: string;
-  hpoa: string;
-  orphadata: string;
-}): SourceVersions {
-  // Versions are written into a comment in the generated file, so only accept
-  // plain version strings; anything else (e.g. containing "*/") is left out.
-  return {
-    hpo: /^data-version: ([\w./-]+)\s*$/m.exec(sources.hpObo)?.[1],
-    hpoa: /^#version: ([\w./-]+)\s*$/m.exec(sources.hpoa)?.[1],
-    orphadata: /<JDBOR date="(\d{4}-\d{2}-\d{2})/.exec(sources.orphadata)?.[1],
-  };
 }
 
 /**
@@ -270,6 +170,132 @@ export function generateLookupModule(
 }
 
 /**
+ * Name OMIM IDs from phenotype.hpoa, which lists each disease once per
+ * annotation. The first name seen for an ID is kept.
+ * @param hpoa - Text of phenotype.hpoa.
+ * @param omimIds - OMIM IDs to name.
+ * @returns map of OMIM ID to name.
+ */
+export function parseHpoa(
+  hpoa: string,
+  omimIds: Set<string>
+): Map<string, string> {
+  const names = new Map<string, string>();
+  for (const line of hpoa.split("\n")) {
+    if (line.startsWith("#") || line.startsWith("database_id")) continue;
+    const [databaseId, diseaseName] = line.split("\t", 2);
+    const id = databaseId?.trim();
+    const name = diseaseName?.trim();
+    if (id && name && omimIds.has(id) && !names.has(id)) names.set(id, name);
+  }
+  return names;
+}
+
+/**
+ * Name HP IDs from hp.obo. IDs listed as `alt_id` (retired or merged IDs) get
+ * the name of the term they belong to, and an "obsolete" prefix is removed.
+ * @param obo - Text of hp.obo.
+ * @param hpIds - HP IDs to name.
+ * @returns map of HP ID to name.
+ */
+export function parseHpObo(
+  obo: string,
+  hpIds: Set<string>
+): Map<string, string> {
+  const names = new Map<string, string>();
+  let id: string | null = null;
+  let name: string | null = null;
+  let altIds: string[] = [];
+
+  const save = (): void => {
+    if (!id || !name) return;
+    for (const termId of [id, ...altIds]) {
+      if (hpIds.has(termId)) names.set(termId, name);
+    }
+  };
+
+  for (const line of obo.split("\n")) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith("[")) {
+      // A new stanza ([Term], [Typedef]) ends the previous one.
+      save();
+      id = null;
+      name = null;
+      altIds = [];
+    } else if (trimmed.startsWith("id: HP:")) {
+      id = trimmed.slice(4);
+    } else if (trimmed.startsWith("name: ") && id) {
+      name = trimmed.slice(6).replace(/^obsolete\s+/, "");
+    } else if (trimmed.startsWith("alt_id: HP:")) {
+      altIds.push(trimmed.slice(8));
+    }
+  }
+  save();
+  return names;
+}
+
+/**
+ * Name Orphanet IDs from Orphadata's disease list (en_product1.xml). Both
+ * `ORPHA:` and `Orphanet:` spellings are named, keyed as Azul spells them.
+ * Status prefixes on inactive entries ("OBSOLETE:", "NON RARE IN EUROPE:") are
+ * removed, as "obsolete" is for HP names.
+ * @param xml - Text of en_product1.xml.
+ * @param orphanetIds - Orphanet IDs to name.
+ * @returns map of Orphanet ID to name.
+ */
+export function parseOrphadata(
+  xml: string,
+  orphanetIds: Set<string>
+): Map<string, string> {
+  // Group the requested IDs by their numeric Orpha code.
+  const idsByCode = new Map<string, string[]>();
+  for (const id of orphanetIds) {
+    const code = ORPHANET_ID.exec(id)?.[2];
+    if (code) pushTo(idsByCode, code, id);
+  }
+
+  const names = new Map<string, string>();
+  // Each disease is a <Disorder> element. Its own <Name> is the first one after
+  // its <OrphaCode>; later <Name>s belong to nested elements such as
+  // <DisorderType>.
+  for (const disorder of xml.split("<Disorder ").slice(1)) {
+    const code = /<OrphaCode>(\d+)<\/OrphaCode>/.exec(disorder)?.[1];
+    const ids = code && idsByCode.get(code);
+    if (!ids) continue;
+    const rawName = /<Name lang="en">([^<]*)<\/Name>/.exec(disorder)?.[1];
+    if (!rawName) continue;
+    const name = decodeXmlEntities(rawName.trim()).replace(
+      ORPHADATA_NAME_PREFIX,
+      ""
+    );
+    for (const id of ids) names.set(id, name);
+  }
+  return names;
+}
+
+/**
+ * Read the release versions from the source files' headers.
+ * @param sources - Text of the source files.
+ * @param sources.hpObo - Text of hp.obo.
+ * @param sources.hpoa - Text of phenotype.hpoa.
+ * @param sources.orphadata - Text of en_product1.xml.
+ * @returns source versions.
+ */
+export function parseSourceVersions(sources: {
+  hpObo: string;
+  hpoa: string;
+  orphadata: string;
+}): SourceVersions {
+  // Versions are written into a comment in the generated file, so only accept
+  // plain version strings; anything else (e.g. containing "*/") is left out.
+  return {
+    hpo: /^data-version: ([\w./-]+)\s*$/m.exec(sources.hpObo)?.[1],
+    hpoa: /^#version: ([\w./-]+)\s*$/m.exec(sources.hpoa)?.[1],
+    orphadata: /<JDBOR date="(\d{4}-\d{2}-\d{2})/.exec(sources.orphadata)?.[1],
+  };
+}
+
+/**
  * Append a value to the list stored under the given key.
  * @param map - Map of key to list.
  * @param key - Key.
@@ -279,22 +305,4 @@ function pushTo(map: Map<string, string[]>, key: string, value: string): void {
   const list = map.get(key);
   if (list) list.push(value);
   else map.set(key, [value]);
-}
-
-/**
- * Decode the XML entities used in Orphadata names.
- * @param text - Text with XML entities.
- * @returns decoded text.
- */
-function decodeXmlEntities(text: string): string {
-  return text
-    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) =>
-      String.fromCodePoint(parseInt(hex, 16))
-    )
-    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&amp;/g, "&");
 }

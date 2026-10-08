@@ -106,7 +106,12 @@ async function main(): Promise<void> {
     ...options,
     filepath: OUTPUT_PATH,
   });
-  await fsp.writeFile(OUTPUT_PATH, formatted);
+  // This script imports the file it writes, so a half-written file would stop
+  // both the app build and the next refresh. Write a temp file next to it and
+  // rename it into place, which replaces the file in one step.
+  const tempPath = `${OUTPUT_PATH}.tmp`;
+  await fsp.writeFile(tempPath, formatted);
+  await fsp.rename(tempPath, OUTPUT_PATH);
   console.log(`\nWrote ${mapping.size} names to ${OUTPUT_PATH}`);
 
   const unnamed = findUnnamedIds(ids, mapping);

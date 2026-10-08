@@ -29,6 +29,23 @@ describe("mapDiagnosisValue", () => {
     );
   });
 
+  test("drops empty parts from trailing or doubled semicolons", () => {
+    expect(mapDiagnosisValue("HP:0000077;")).toBe(
+      "Abnormality of the kidney (HP:0000077)"
+    );
+    expect(mapDiagnosisValue("HP:0000077;;OMIM:210210")).toBe(
+      "Abnormality of the kidney (HP:0000077); " +
+        "3-Methylcrotonyl-CoA carboxylase 2 deficiency (OMIM:210210)"
+    );
+  });
+
+  test("ignores built-in object keys", () => {
+    expect(mapDiagnosisValue("constructor")).toBe("constructor");
+    expect(mapDiagnosisValue("HP:0000077; toString")).toBe(
+      "Abnormality of the kidney (HP:0000077); toString"
+    );
+  });
+
   test("returns values with no known term ID unchanged", () => {
     expect(mapDiagnosisValue("OMIM:000000")).toBe("OMIM:000000");
     expect(mapDiagnosisValue("Pleurisy; pleural effusion")).toBe(

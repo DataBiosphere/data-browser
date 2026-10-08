@@ -90,6 +90,7 @@ export function makeConfig(
             {
               key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE,
               label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSIS_PHENOTYPE,
+              mapSelectCategoryValue: mapSelectCategoryValue(mapDiagnosisValue),
             },
             {
               key: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,

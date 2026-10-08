@@ -7,7 +7,7 @@ import {
   parseHpObo,
   parseOrphadata,
   parseSourceVersions,
-  TermIds,
+  type TermIds,
 } from "../../scripts/lookup-diagnosis-terms/utils";
 
 const HP_OBO = `format-version: 1.2
@@ -181,6 +181,21 @@ describe("parseOrphadata", () => {
   test("decodes XML entities in names", () => {
     const names = parseOrphadata(ORPHADATA, new Set(["Orphanet:230857"]));
     expect(names.get("Orphanet:230857")).toBe('Ataxia & épilepsy "type 2"');
+  });
+
+  test("removes status prefixes from inactive entries", () => {
+    const xml = [
+      '<Disorder id="1"><OrphaCode>101</OrphaCode>',
+      '<Name lang="en">OBSOLETE: Old syndrome</Name></Disorder>',
+      '<Disorder id="2"><OrphaCode>102</OrphaCode>',
+      '<Name lang="en">NON RARE IN EUROPE: Common condition</Name></Disorder>',
+    ].join("\n");
+    expect(parseOrphadata(xml, new Set(["ORPHA:101", "Orphanet:102"]))).toEqual(
+      new Map([
+        ["ORPHA:101", "Old syndrome"],
+        ["Orphanet:102", "Common condition"],
+      ])
+    );
   });
 
   test("leaves out IDs that are not in the file", () => {
