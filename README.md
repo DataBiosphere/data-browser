@@ -42,7 +42,7 @@ This will save any updates to `explorer/site-config/hca-dcp/ma-dev/scripts/out/c
 
 ## Refresh diagnosis term names in AnVIL Data Explorer
 
-The Diagnosis filter and column in the AnVIL Data Explorer show names for HP, OMIM and Orphanet term IDs, for example "Abnormality of the kidney (HP:0000077)". The names come from `site-config/anvil-cmg/dev/index/common/diagnosis.ts`, which is generated. An ID that isn't in that file shows up raw.
+The Diagnosis and Phenotype filters and columns in the AnVIL Data Explorer show names for HP, OMIM and Orphanet term IDs, for example "Abnormality of the kidney (HP:0000077)". The names come from `site-config/anvil-cmg/dev/index/common/diagnosis.ts`, which is generated. An ID that isn't in that file shows up raw.
 
 ### When to re-run
 
@@ -77,6 +77,8 @@ The last lines list the IDs that have no name, grouped by prefix. They will show
 
 The script stops with an error, and leaves `diagnosis.ts` unchanged, if:
 
+- AnVIL Azul is indexing or down. Its facets may be incomplete while it indexes; run the script again once indexing has finished.
+- the Azul response has neither the `diagnoses.disease` nor the `diagnoses.phenotype` facet. The Azul API has probably changed; check the response before retrying.
 - a download takes longer than 2 minutes. This is usually a stalled connection; run the script again.
 - a source file gives no names at all. The download probably returned an error page, or the file's format has changed. Open the URL in the error to see which.
 

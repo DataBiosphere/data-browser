@@ -7,7 +7,8 @@
  * named are listed at the end of the run.
  *
  * Run with `npm run refresh-diagnosis-terms:anvil-cmg`. See "Refresh diagnosis
- * term names" in README.md for when to re-run and how to check the result.
+ * term names in AnVIL Data Explorer" in README.md for when to re-run and how to
+ * check the result.
  */
 import { promises as fsp } from "fs";
 import path from "path";
@@ -18,12 +19,16 @@ import {
   findEmptySources,
   findUnnamedIds,
   generateLookupModule,
+  getAzulStatusProblem,
+  hasDiagnosisFacets,
   parseHpoa,
   parseHpObo,
   parseOrphadata,
   parseSourceVersions,
 } from "./lookup-diagnosis-terms/utils";
 
+const AZUL_HEALTH_URL =
+  "https://service.explore.anvilproject.org/health/progress";
 const AZUL_URL =
   "https://service.explore.anvilproject.org/index/datasets?size=1&filters=%7B%7D";
 const HP_OBO_URL =
@@ -60,11 +65,26 @@ async function fetchText(url: string): Promise<string> {
 }
 
 async function main(): Promise<void> {
+  console.log("Checking that the AnVIL Azul API is up and not indexing...");
+  const statusProblem = getAzulStatusProblem(
+    JSON.parse(await fetchText(AZUL_HEALTH_URL))
+  );
+  if (statusProblem) {
+    throw new Error(
+      `${statusProblem}. Re-run later. ${OUTPUT_PATH} was not changed.`
+    );
+  }
+
   console.log("Fetching term IDs from the AnVIL Azul API...");
   const { termFacets } = JSON.parse(await fetchText(AZUL_URL));
+  if (!hasDiagnosisFacets(termFacets)) {
+    throw new Error(
+      `The AnVIL Azul response has no diagnoses.disease or diagnoses.phenotype facet. The API may have changed. ${OUTPUT_PATH} was not changed.`
+    );
+  }
   // Keep the IDs already in the lookup; their names are looked up again below.
   const existingIds = Object.keys(DIAGNOSIS_DISPLAY_VALUE);
-  const ids = extractTermIds(termFacets ?? {}, existingIds);
+  const ids = extractTermIds(termFacets, existingIds);
   console.log(
     `  Found ${ids.hp.size} HP, ${ids.omim.size} OMIM and ${ids.orphanet.size} Orphanet IDs, including the ${existingIds.length} already in ${OUTPUT_PATH}`
   );

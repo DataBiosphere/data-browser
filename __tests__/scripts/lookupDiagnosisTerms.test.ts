@@ -3,6 +3,8 @@ import {
   findEmptySources,
   findUnnamedIds,
   generateLookupModule,
+  getAzulStatusProblem,
+  hasDiagnosisFacets,
   parseHpoa,
   parseHpObo,
   parseOrphadata,
@@ -253,6 +255,53 @@ describe("findEmptySources", () => {
   });
 });
 
+describe("getAzulStatusProblem", () => {
+  test("returns nothing when Azul is up and not indexing", () => {
+    expect(
+      getAzulStatusProblem({
+        progress: { unindexed_bundles: 0, unindexed_documents: 0, up: true },
+        up: true,
+      })
+    ).toBeUndefined();
+  });
+
+  test("reports Azul as down", () => {
+    expect(getAzulStatusProblem({ progress: { up: false }, up: true })).toBe(
+      "AnVIL Azul reports that it is down"
+    );
+    expect(getAzulStatusProblem({})).toBe("AnVIL Azul reports that it is down");
+  });
+
+  test("reports indexing with the work left", () => {
+    expect(
+      getAzulStatusProblem({
+        progress: { unindexed_bundles: 12, unindexed_documents: 0, up: true },
+        up: true,
+      })
+    ).toBe(
+      "AnVIL Azul is indexing (12 bundles, 0 documents left), so its facets may be incomplete"
+    );
+  });
+});
+
+describe("hasDiagnosisFacets", () => {
+  test("is true when either diagnosis facet is present", () => {
+    expect(hasDiagnosisFacets({ "diagnoses.disease": { terms: [] } })).toBe(
+      true
+    );
+    expect(hasDiagnosisFacets({ "diagnoses.phenotype": { terms: [] } })).toBe(
+      true
+    );
+  });
+
+  test("is false when both are missing", () => {
+    expect(hasDiagnosisFacets({ "donors.organism_type": { terms: [] } })).toBe(
+      false
+    );
+    expect(hasDiagnosisFacets(undefined)).toBe(false);
+  });
+});
+
 describe("findUnnamedIds", () => {
   test("lists IDs with no name, grouped by prefix", () => {
     const ids = termIds({
@@ -311,5 +360,11 @@ describe("generateLookupModule", () => {
     expect(source).toContain("https://www.orpha.net");
     expect(source).toContain("(hp/releases/2026-09-01)");
     expect(source).toContain("(2026-06-23)");
+  });
+
+  test("points to the README section by its exact heading", () => {
+    expect(source).toContain(
+      '"Refresh diagnosis term names in AnVIL Data Explorer"'
+    );
   });
 });
