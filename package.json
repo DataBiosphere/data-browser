@@ -28,7 +28,8 @@
     "get-cellxgene-projects-hca": "esrun ./site-config/hca-dcp/ma-dev/scripts/get-cellxgene-projects.ts ",
     "test:anvil-cmg": "playwright test -c playwright_anvil.config.ts --trace retain-on-failure",
     "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts --trace retain-on-failure",
-    "check-system-status:anvil-cmg": "esrun e2e/anvil/anvil-check-system-status.ts"
+    "check-system-status:anvil-cmg": "esrun e2e/anvil/anvil-check-system-status.ts",
+    "refresh-diagnosis-terms:anvil-cmg": "esrun scripts/lookup-diagnosis-terms.ts"
   },
   "dependencies": {
     "@databiosphere/findable-ui": "^54.1.0",
