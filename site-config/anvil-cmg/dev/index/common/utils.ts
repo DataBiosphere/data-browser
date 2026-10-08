@@ -14,15 +14,22 @@ export function mapAccessibleValue(value: string): string {
 
 /**
  * Returns "diagnosis" select category label for the given select category value.
+ * A value can hold several term IDs separated by semicolons; each ID with a
+ * known name is shown as "Name (ID)", and the parts are joined with "; ".
  * @param value - Value.
  * @returns select category label.
  */
 export function mapDiagnosisValue(value: string): string {
-  const mappedValue = DIAGNOSIS_DISPLAY_VALUE[value.trim()];
+  const parts = value.split(";").map((part) => part.trim());
 
-  if (mappedValue) {
-    return `${mappedValue} (${value.trim()})`;
+  if (!parts.some((part) => DIAGNOSIS_DISPLAY_VALUE[part])) {
+    return value;
   }
 
-  return value;
+  return parts
+    .map((part) => {
+      const mappedValue = DIAGNOSIS_DISPLAY_VALUE[part];
+      return mappedValue ? `${mappedValue} (${part})` : part;
+    })
+    .join("; ");
 }
