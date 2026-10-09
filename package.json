@@ -113,7 +113,7 @@
     "node": "22.13.0"
   },
   "overrides": {
-    "eslint-plugin-sonarjs": {
+    "eslint-plugin-sonarjs@^3": {
       "minimatch": "^10.2.3"
     }
   }
