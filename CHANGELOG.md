@@ -1,5 +1,38 @@
 # Changelog
 
+## [3.7.0](https://github.com/DataBiosphere/data-browser/compare/v3.6.0...v3.7.0) (2026-10-09)
+
+
+### Features
+
+* reorganize anvil datasets index columns with consolidated identity column ([#4962](https://github.com/DataBiosphere/data-browser/issues/4962)) ([#4976](https://github.com/DataBiosphere/data-browser/issues/4976)) ([de7439e](https://github.com/DataBiosphere/data-browser/commit/de7439ee3e19fcfea6a1416b40c9d8d11661a1b7))
+
+
+### Bug Fixes
+
+* generalize access-request service classification and stat cards in analytics template ([#4922](https://github.com/DataBiosphere/data-browser/issues/4922)) ([#4930](https://github.com/DataBiosphere/data-browser/issues/4930)) ([8f16702](https://github.com/DataBiosphere/data-browser/commit/8f16702a2d38143271b279adaf744061253abe22))
+* list each value once in aggregated cells such as anvil data modality ([#4961](https://github.com/DataBiosphere/data-browser/issues/4961)) ([#4968](https://github.com/DataBiosphere/data-browser/issues/4968)) ([85b1078](https://github.com/DataBiosphere/data-browser/commit/85b107885a42e0d263816c7e53e84784559ebae1))
+* point AnVIL dev and tempdev BROWSER_URL at the hosts that serve them ([#4937](https://github.com/DataBiosphere/data-browser/issues/4937)) ([#4938](https://github.com/DataBiosphere/data-browser/issues/4938)) ([2820f37](https://github.com/DataBiosphere/data-browser/commit/2820f37c6b0a3916f88ab10875e33c15ef9c6512))
+* refresh anvil diagnosis term names and name orphanet ids ([#4971](https://github.com/DataBiosphere/data-browser/issues/4971)) ([#4972](https://github.com/DataBiosphere/data-browser/issues/4972)) ([6bf5852](https://github.com/DataBiosphere/data-browser/commit/6bf5852591795bf3fa3ee0e4533fa6fd2df78f5a))
+* remove nih ras banner from the anvil data explorer ([#4940](https://github.com/DataBiosphere/data-browser/issues/4940)) ([#4941](https://github.com/DataBiosphere/data-browser/issues/4941)) ([4a3b783](https://github.com/DataBiosphere/data-browser/commit/4a3b783159ce38ccc12e0ba0d0d5426415633644))
+* request projects with size 50 to satisfy Azul's cap ([#4955](https://github.com/DataBiosphere/data-browser/issues/4955)) ([#4956](https://github.com/DataBiosphere/data-browser/issues/4956)) ([69a2d14](https://github.com/DataBiosphere/data-browser/commit/69a2d1452d96e21b2731a3369401e5a444527237))
+
+
+### Chores
+
+* cap static analytics detail exports at top-n rows ([#4924](https://github.com/DataBiosphere/data-browser/issues/4924)) ([#4932](https://github.com/DataBiosphere/data-browser/issues/4932)) ([96ae008](https://github.com/DataBiosphere/data-browser/commit/96ae008ae7c7be455376676708475c6b978b8447))
+* **deps-dev:** bump picomatch from 2.3.1 to 2.3.2 in /files ([#4730](https://github.com/DataBiosphere/data-browser/issues/4730)) ([3edc29b](https://github.com/DataBiosphere/data-browser/commit/3edc29b57ca2b4fd928d608a0cd89e30d3c2391d))
+* **deps:** bump urllib3 from 2.7.0 to 2.8.0 in /analytics ([#4957](https://github.com/DataBiosphere/data-browser/issues/4957)) ([b8051f3](https://github.com/DataBiosphere/data-browser/commit/b8051f3bdbeaa80c65ec9fecbadb9b7c07f90a7d))
+* **deps:** bump yaml from 2.2.2 to 2.8.3 in /.gitlab ([#4732](https://github.com/DataBiosphere/data-browser/issues/4732)) ([013532c](https://github.com/DataBiosphere/data-browser/commit/013532c99228131763cad50633b69c03cd454ce2))
+* extend ruff rule selection for the analytics package ([#4942](https://github.com/DataBiosphere/data-browser/issues/4942)) ([#4943](https://github.com/DataBiosphere/data-browser/issues/4943)) ([9c96747](https://github.com/DataBiosphere/data-browser/commit/9c96747f16f46159308891d643664009ac8b404f))
+* upgrade @databiosphere/findable-ui to v57.0.0 ([#4970](https://github.com/DataBiosphere/data-browser/issues/4970)) ([#4973](https://github.com/DataBiosphere/data-browser/issues/4973)) ([ef048dc](https://github.com/DataBiosphere/data-browser/commit/ef048dcb7ba65379ca40bd344ec2421f99da19d8))
+* use uv and ruff for analytics reporting ([#4934](https://github.com/DataBiosphere/data-browser/issues/4934)) ([#4936](https://github.com/DataBiosphere/data-browser/issues/4936)) ([e738381](https://github.com/DataBiosphere/data-browser/commit/e738381daa79d18f0eb34732bfde525abf6f90b9))
+
+
+### Code Refactoring
+
+* consolidate stat-card markup in static analytics template ([#4923](https://github.com/DataBiosphere/data-browser/issues/4923)) ([#4931](https://github.com/DataBiosphere/data-browser/issues/4931)) ([9caac18](https://github.com/DataBiosphere/data-browser/commit/9caac18b7b591e164e89fb38ed59e9cfb13fee2f))
+
 ## [3.6.0](https://github.com/DataBiosphere/data-browser/compare/v3.5.0...v3.6.0) (2026-08-20)
 
 
