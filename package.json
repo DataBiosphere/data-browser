@@ -111,5 +111,10 @@
   },
   "engines": {
     "node": "22.13.0"
+  },
+  "overrides": {
+    "eslint-plugin-sonarjs": {
+      "minimatch": "^10.2.3"
+    }
   }
 }
