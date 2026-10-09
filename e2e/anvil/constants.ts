@@ -27,12 +27,10 @@ export const ANVIL_DATASETS_BACKPAGE_HEADER_NAMES = {
 };
 
 export const ANVIL_COLUMN_NAMES = {
-  ACCESS: "Access",
   ACTIVITY_TYPE: "Activity Type",
   ANATOMICAL_SITE: "Anatomical Site",
   BIOSAMPLE_ID: "BioSample Id",
   BIOSAMPLE_TYPE: "BioSample Type",
-  CONSENT_GROUP: "Consent Group",
   DATASET: "Dataset",
   DIAGNOSIS: "Diagnosis",
   DOCUMENT_ID: "Document Id",
@@ -40,7 +38,6 @@ export const ANVIL_COLUMN_NAMES = {
   DRS_URI: "DRS URI",
   FILE_DATA_MODALITY: "Data Modality",
   FILE_FORMAT: "File Format",
-  IDENTIFIER: "Identifier",
   NAME: "Name",
   ORGANISM_TYPE: "Organism Type",
   PHENOTYPE: "Phenotype",
@@ -53,7 +50,6 @@ export const PLURALIZED_METADATA_LABEL = {
   [ANVIL_COLUMN_NAMES.DIAGNOSIS]: "diagnoses",
   [ANVIL_COLUMN_NAMES.DATASET]: "dataset names",
   [ANVIL_COLUMN_NAMES.FILE_DATA_MODALITY]: "data modalities",
-  [ANVIL_COLUMN_NAMES.CONSENT_GROUP]: "consent codes",
   [ANVIL_COLUMN_NAMES.ORGANISM_TYPE]: "organism types",
   [ANVIL_COLUMN_NAMES.PHENOTYPE]: "phenotypes",
   [ANVIL_COLUMN_NAMES.PHENOTYPIC_SEX]: "phenotypic sexes",
@@ -73,20 +69,6 @@ export const ANVIL_DATASETS_PRESELECTED_COLUMNS_BY_NAME = {
   [ANVIL_COLUMN_NAMES.DATASET]: {
     name: ANVIL_COLUMN_NAMES.DATASET,
     pluralizedLabel: PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.DATASET],
-    sortable: true,
-  },
-  [ANVIL_COLUMN_NAMES.ACCESS]: {
-    name: ANVIL_COLUMN_NAMES.ACCESS,
-    sortable: false,
-  },
-  [ANVIL_COLUMN_NAMES.IDENTIFIER]: {
-    name: ANVIL_COLUMN_NAMES.IDENTIFIER,
-    sortable: true,
-  },
-  [ANVIL_COLUMN_NAMES.CONSENT_GROUP]: {
-    name: ANVIL_COLUMN_NAMES.CONSENT_GROUP,
-    pluralizedLabel:
-      PLURALIZED_METADATA_LABEL[ANVIL_COLUMN_NAMES.CONSENT_GROUP],
     sortable: true,
   },
   [ANVIL_COLUMN_NAMES.ORGANISM_TYPE]: {
