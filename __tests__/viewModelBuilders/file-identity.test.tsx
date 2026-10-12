@@ -71,6 +71,16 @@ describe("buildFileIdentity", () => {
     ]);
   });
 
+  it("omits the size chip when the size is missing", () => {
+    const response = createMockFilesResponse({
+      file_size: null as unknown as number,
+    });
+    expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
+      "format .cram",
+      "data modality Genomic",
+    ]);
+  });
+
   it.each([
     ["null", null as unknown as string],
     ["unspecified", "Unspecified"],
