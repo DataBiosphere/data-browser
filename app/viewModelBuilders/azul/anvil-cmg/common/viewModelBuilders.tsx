@@ -58,13 +58,13 @@ import {
   AggregatedDonorResponse,
 } from "../../../../apis/azul/anvil-cmg/common/aggregatedEntities";
 import {
-  ActivityEntityResponse,
   DonorEntityResponse,
   FileEntityResponse,
   FileFormat,
   LibraryEntityResponse,
 } from "../../../../apis/azul/anvil-cmg/common/entities";
 import {
+  ActivitiesResponse,
   BioSamplesResponse,
   DatasetsResponse,
   DonorsResponse,
@@ -118,15 +118,19 @@ import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
 
 /**
- * Build props for activity type BasicCell component from the given activities response.
- * @param response - Response model return from activities API.
- * @returns model to be used as props for the BasicCell component.
+ * Build props for the activity IdentityCell component from the given activities response.
+ * The document ID is the title, in plain text as activities have no detail page. The activity type renders as a chip,
+ * and the subtitle is the dataset title, or the dataset count when there is more than one.
+ * @param response - Response model return from index/activities API endpoint.
+ * @returns model to be used as props for the IdentityCell component.
  */
-export const buildActivityType = (
-  response: ActivityEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
+export const buildActivityIdentity = (
+  response: ActivitiesResponse
+): React.ComponentProps<typeof C.IdentityCell> => {
   return {
-    value: getActivityType(response),
+    chips: getIdentityChips("activity type", [getActivityType(response)]),
+    subtitle: getIdentityDatasetsSubtitle(response),
+    title: { label: getDocumentId(response), url: "" },
   };
 };
 
@@ -732,19 +736,6 @@ export const buildDiagnosesPhenotype = (
     values: processAggregatedOrArrayValue(response.diagnoses, "phenotype").map(
       mapDiagnosisValue
     ),
-  };
-};
-
-/**
- * Build props for document ID BasicCell component from the given activities response.
- * @param response - Response model return from activities API.
- * @returns model to be used as props for the BasicCell component.
- */
-export const buildDocumentId = (
-  response: ActivityEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
-  return {
-    value: getDocumentId(response),
   };
 };
 
