@@ -20,6 +20,7 @@ import { Summary } from "@databiosphere/findable-ui/lib/components/Export/compon
 import { AzulFileDownload } from "@databiosphere/findable-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import type { IdentityChipProps } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/IdentityCell/components/Chips/components/Chip/types";
+import type { IdentityLinkProps } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/IdentityCell/types";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import {
@@ -66,6 +67,7 @@ import {
 } from "../../../../apis/azul/anvil-cmg/common/entities";
 import {
   DatasetsResponse,
+  DonorsResponse,
   EntityResponse,
   FilesResponse,
   SummaryResponse,
@@ -755,19 +757,6 @@ export const buildDiagnosesPhenotype = (
 };
 
 /**
- * Build props for donor ID BasicCell component from the given donors response.
- * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the BasicCell component.
- */
-export const buildDonorId = (
-  response: DonorEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
-  return {
-    value: getDonorId(response),
-  };
-};
-
-/**
  * Build props for document ID BasicCell component from the given activities response.
  * @param response - Response model return from activities API.
  * @returns model to be used as props for the BasicCell component.
@@ -777,6 +766,24 @@ export const buildDocumentId = (
 ): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getDocumentId(response),
+  };
+};
+
+/**
+ * Build props for the donor IdentityCell component from the given donors response.
+ * The donor ID is the title, in plain text as donors have no detail page. The organism type, phenotypic sex and
+ * reported ethnicity values render as chips, and the subtitle is the dataset title, or the dataset count when there is
+ * more than one.
+ * @param response - Response model return from index/donors API endpoint.
+ * @returns model to be used as props for the IdentityCell component.
+ */
+export const buildDonorIdentity = (
+  response: DonorsResponse
+): React.ComponentProps<typeof C.IdentityCell> => {
+  return {
+    chips: getDonorIdentityChips(response),
+    subtitle: getDonorIdentitySubtitle(response),
+    title: { label: getDonorId(response), url: "" },
   };
 };
 
@@ -1236,19 +1243,6 @@ export const buildManifestDownload = (
 };
 
 /**
- * Build props for organism type BasicCell component from the given donors response.
- * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the BasicCell component.
- */
-export const buildOrganismType = (
-  response: DonorEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
-  return {
-    value: getOrganismType(response),
-  };
-};
-
-/**
  * Build props for organism type NTagCell component from the given entity response.
  * @param response - Response model return from Azul that includes aggregated donors.
  * @returns model to be used as props for the NTagCell component.
@@ -1259,19 +1253,6 @@ export const buildOrganismTypes = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.ORGANISM_TYPE),
     values: getAggregatedOrganismTypes(response),
-  };
-};
-
-/**
- * Build props for phenotypic sex BasicCell component from the given donors response.
- * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the BasicCell component.
- */
-export const buildPhenotypicSex = (
-  response: DonorEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
-  return {
-    value: getPhenotypicSex(response),
   };
 };
 
@@ -1485,16 +1466,11 @@ function getDatasetIdentityChips(
         getDatasetAccessStatus(datasetsResponse)
       ),
     },
-    ...getDatasetRegisteredIdentifiers(datasetsResponse)
-      .filter(isSpecifiedValue)
-      .map((identifier) => ({
-        label: getIdentityChipLabel("identifier", identifier),
-      })),
-    ...getConsentGroup(datasetsResponse)
-      .filter(isSpecifiedValue)
-      .map((consentGroup) => ({
-        label: getIdentityChipLabel("consent group", consentGroup),
-      })),
+    ...getIdentityChips(
+      "identifier",
+      getDatasetRegisteredIdentifiers(datasetsResponse)
+    ),
+    ...getIdentityChips("consent group", getConsentGroup(datasetsResponse)),
   ];
 }
 
@@ -1505,6 +1481,38 @@ function getDatasetIdentityChips(
  */
 export function getDatasetTitle(datasetsResponse: DatasetsResponse): string {
   return processEntityValue(datasetsResponse.datasets, "title", LABEL.NONE);
+}
+
+/**
+ * Returns the donor IdentityCell chips from the given donors response: organism type, then phenotypic sex, then one
+ * chip per reported ethnicity. Unspecified values render no chip.
+ * @param response - Response model return from index/donors API endpoint.
+ * @returns IdentityCell chip props.
+ */
+function getDonorIdentityChips(response: DonorsResponse): IdentityChipProps[] {
+  return [
+    ...getIdentityChips("organism type", [getOrganismType(response)]),
+    ...getIdentityChips("phenotypic sex", [getPhenotypicSex(response)]),
+    ...getIdentityChips("reported ethnicity", getReportedEthnicities(response)),
+  ];
+}
+
+/**
+ * Returns the donor IdentityCell subtitle from the given donors response: the dataset title, or the dataset count when
+ * the donor belongs to more than one dataset. The subtitle is plain text; the donors response identifies its datasets
+ * by dataset ID only, and the dataset detail page is keyed by the dataset's entry ID.
+ * @param response - Response model return from index/donors API endpoint.
+ * @returns IdentityCell subtitle props, or undefined when the donor has no specified dataset.
+ */
+function getDonorIdentitySubtitle(
+  response: DonorsResponse
+): IdentityLinkProps | undefined {
+  const datasetCount =
+    getAggregatedDatasetIds(response).filter(isSpecifiedValue).length;
+  if (datasetCount > 1) return { label: `${datasetCount} datasets`, url: "" };
+  const [title] = getAggregatedDatasetTitles(response).filter(isSpecifiedValue);
+  if (!title) return;
+  return { label: title, url: "" };
 }
 
 /**
@@ -1762,6 +1770,21 @@ function getIdentityChipLabel(label: string, value: string): ReactNode {
       </Typography>
     </>
   );
+}
+
+/**
+ * Returns one IdentityCell chip per specified value, each labelled with the given field name.
+ * @param label - Field name, in lowercase.
+ * @param values - Field values.
+ * @returns IdentityCell chip props.
+ */
+function getIdentityChips(
+  label: string,
+  values: string[]
+): IdentityChipProps[] {
+  return values
+    .filter(isSpecifiedValue)
+    .map((value) => ({ label: getIdentityChipLabel(label, value) }));
 }
 
 /**
