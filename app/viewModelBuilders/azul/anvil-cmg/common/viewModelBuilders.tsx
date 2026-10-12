@@ -1766,24 +1766,20 @@ function getIdentityChips(
 
 /**
  * Returns the IdentityCell subtitle from the given response's aggregated datasets: the dataset title, or the dataset
- * count when there is more than one. Datasets are counted by the larger of their unique IDs and unique titles, so
- * datasets sharing a title, or missing an ID, are still counted; as Azul aggregates IDs and titles separately, the
- * count is a lower bound when different datasets are missing different fields. The subtitle is plain text; aggregated
- * datasets are identified by dataset ID only, and the dataset detail page is keyed by the dataset's entry ID.
+ * count (by unique dataset ID) when there is more than one. The subtitle is plain text; aggregated datasets are
+ * identified by dataset ID only, and the dataset detail page is keyed by the dataset's entry ID.
  * @param response - Response model return from Azul that includes aggregated datasets.
  * @returns IdentityCell subtitle props, or undefined when there is no specified dataset.
  */
 function getIdentityDatasetsSubtitle(
   response: AggregatedDatasetResponse
 ): IdentityLinkProps | undefined {
-  const titles = getAggregatedDatasetTitles(response).filter(isSpecifiedValue);
-  const datasetCount = Math.max(
-    getAggregatedDatasetIds(response).filter(isSpecifiedValue).length,
-    titles.length
-  );
+  const datasetCount =
+    getAggregatedDatasetIds(response).filter(isSpecifiedValue).length;
   if (datasetCount > 1) return { label: `${datasetCount} datasets`, url: "" };
-  if (titles.length === 0) return;
-  return { label: titles[0], url: "" };
+  const [title] = getAggregatedDatasetTitles(response).filter(isSpecifiedValue);
+  if (!title) return;
+  return { label: title, url: "" };
 }
 
 /**

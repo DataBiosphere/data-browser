@@ -143,17 +143,6 @@ describe("buildBioSampleIdentity", () => {
     });
   });
 
-  it("counts datasets by title when a dataset ID is unspecified", () => {
-    const response = createMockBioSamplesResponse({}, undefined, [
-      { dataset_id: [null as unknown as string], title: ["Dataset A"] },
-      { dataset_id: [null as unknown as string], title: ["Dataset B"] },
-    ]);
-    expect(buildBioSampleIdentity(response).subtitle).toEqual({
-      label: "2 datasets",
-      url: "",
-    });
-  });
-
   it("omits the subtitle when there are no datasets", () => {
     const response = createMockBioSamplesResponse({}, undefined, []);
     expect(buildBioSampleIdentity(response).subtitle).toBeUndefined();
