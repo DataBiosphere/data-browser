@@ -40,6 +40,7 @@ export const ANVIL_COLUMN_NAMES = {
   PHENOTYPE: "Phenotype",
   PHENOTYPIC_SEX: "Phenotypic Sex",
   REPORTED_ETHNICITY: "Reported Ethnicity",
+  SIZE: "Size",
 };
 
 export const PLURALIZED_METADATA_LABEL = {
@@ -226,6 +227,10 @@ export const ANVIL_DONORS_SELECTABLE_COLUMNS_BY_NAME = {};
 export const ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME = {
   [ANVIL_COLUMN_NAMES.FILE]: {
     name: ANVIL_COLUMN_NAMES.FILE,
+    sortable: true,
+  },
+  [ANVIL_COLUMN_NAMES.SIZE]: {
+    name: ANVIL_COLUMN_NAMES.SIZE,
     sortable: true,
   },
   [ANVIL_COLUMN_NAMES.DRS_URI]: {
