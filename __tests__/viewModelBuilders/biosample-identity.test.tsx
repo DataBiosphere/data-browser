@@ -1,4 +1,3 @@
-import { render } from "@testing-library/react";
 import type {
   AggregatedDataset,
   AggregatedDonor,
@@ -6,6 +5,7 @@ import type {
 import type { BioSampleEntity } from "../../app/apis/azul/anvil-cmg/common/entities";
 import type { BioSamplesResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import { buildBioSampleIdentity } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import { getChipLabels } from "./utils/identityCell";
 
 const BIOSAMPLE_ID = "test-biosample-id";
 const DATASET_TITLE = "Test Dataset Title";
@@ -42,16 +42,6 @@ const createMockBioSamplesResponse = (
     entryId: "test-entry-id",
   }) as BioSamplesResponse;
 
-/**
- * Returns the rendered text of each chip label built for the given biosamples response.
- * @param response - Biosamples response.
- * @returns Chip label text, in chip order.
- */
-const getChipLabels = (response: BioSamplesResponse): string[] =>
-  (buildBioSampleIdentity(response).chips ?? []).map(
-    ({ label }) => render(<>{label}</>).container.textContent ?? ""
-  );
-
 describe("buildBioSampleIdentity", () => {
   it("renders the biosample ID as a plain text title", () => {
     const { title } = buildBioSampleIdentity(createMockBioSamplesResponse());
@@ -63,7 +53,7 @@ describe("buildBioSampleIdentity", () => {
       { organism_type: ["Human"] },
       { organism_type: ["Mouse"] },
     ]);
-    expect(getChipLabels(response)).toEqual([
+    expect(getChipLabels(buildBioSampleIdentity(response).chips)).toEqual([
       "biosample type Tissue",
       "anatomical site Blood",
       "organism type Human",
@@ -75,7 +65,7 @@ describe("buildBioSampleIdentity", () => {
     "omits the biosample type chip when the biosample type is %s",
     (_, value) => {
       const response = createMockBioSamplesResponse({ biosample_type: value });
-      expect(getChipLabels(response)).toEqual([
+      expect(getChipLabels(buildBioSampleIdentity(response).chips)).toEqual([
         "anatomical site Blood",
         "organism type Human",
       ]);
@@ -86,7 +76,7 @@ describe("buildBioSampleIdentity", () => {
     "omits the anatomical site chip when the anatomical site is %s",
     (_, value) => {
       const response = createMockBioSamplesResponse({ anatomical_site: value });
-      expect(getChipLabels(response)).toEqual([
+      expect(getChipLabels(buildBioSampleIdentity(response).chips)).toEqual([
         "biosample type Tissue",
         "organism type Human",
       ]);
@@ -101,7 +91,7 @@ describe("buildBioSampleIdentity", () => {
     const response = createMockBioSamplesResponse({}, [
       { organism_type: value },
     ]);
-    expect(getChipLabels(response)).toEqual([
+    expect(getChipLabels(buildBioSampleIdentity(response).chips)).toEqual([
       "biosample type Tissue",
       "anatomical site Blood",
     ]);
@@ -112,7 +102,7 @@ describe("buildBioSampleIdentity", () => {
       { organism_type: ["Human"] },
       { organism_type: ["Human"] },
     ]);
-    expect(getChipLabels(response)).toEqual([
+    expect(getChipLabels(buildBioSampleIdentity(response).chips)).toEqual([
       "biosample type Tissue",
       "anatomical site Blood",
       "organism type Human",

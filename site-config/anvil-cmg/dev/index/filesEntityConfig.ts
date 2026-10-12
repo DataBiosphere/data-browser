@@ -49,30 +49,12 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       {
         columnPinned: true,
         componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildFileName,
-        } as ComponentConfig<typeof C.BasicCell>,
+          component: C.IdentityCell,
+          viewBuilder: V.buildFileIdentity,
+        } as ComponentConfig<typeof C.IdentityCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_NAME,
         id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_NAME,
-        width: { max: "1fr", min: "240px" },
-      },
-      {
-        componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildFileFormat,
-        } as ComponentConfig<typeof C.BasicCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT, // "Format"
-        id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
-        width: { max: "auto", min: "120px" },
-      },
-      {
-        componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildFileSize,
-        } as ComponentConfig<typeof C.BasicCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_SIZE,
-        id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_SIZE,
-        width: { max: "auto", min: "120px" },
+        width: { max: "1.5fr", min: "340px" },
       },
       {
         componentConfig: {
@@ -129,24 +111,6 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE,
         width: { max: "1fr", min: "200px" },
       },
-      {
-        componentConfig: {
-          component: C.NTagCell,
-          viewBuilder: V.buildDatasetTitles,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
-        id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
-        width: { max: "1fr", min: "240px" },
-      },
-      {
-        componentConfig: {
-          component: C.NTagCell,
-          viewBuilder: V.buildDataModality,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
-        id: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
-        width: { max: "1fr", min: "200px" },
-      },
     ],
     tableOptions: {
       initialState: {
@@ -154,7 +118,6 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
           [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE]: false,
-          [ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY]: false,
         },
         sorting: [
           {

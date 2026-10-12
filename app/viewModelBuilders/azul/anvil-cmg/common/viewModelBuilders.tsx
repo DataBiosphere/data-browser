@@ -59,7 +59,6 @@ import {
 } from "../../../../apis/azul/anvil-cmg/common/aggregatedEntities";
 import {
   DonorEntityResponse,
-  FileEntityResponse,
   FileFormat,
   LibraryEntityResponse,
 } from "../../../../apis/azul/anvil-cmg/common/entities";
@@ -267,20 +266,6 @@ export const buildCohortDownloadSectionProps = (
   viewContext: ViewContext<DatasetsResponse>
 ): { viewContext: ViewContext<DatasetsResponse> } => {
   return { viewContext };
-};
-
-/**
- * Build props for data modality NTagCell component from the given response.
- * @param response - Response model return from API.
- * @returns model to be used as props for the NTagCell component.
- */
-export const buildDataModality = (
-  response: FilesResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
-    values: processEntityArrayValue(response.files, "data_modality"),
-  };
 };
 
 /**
@@ -696,20 +681,6 @@ export const buildDatasetTerraExport = (
 };
 
 /**
- * Build dataset ID NTagCell component from the given entity response.
- * @param response - Response model return from Azul that includes aggregated datasets.
- * @returns model to be used as props for the NTagCell component.
- */
-export const buildDatasetTitles = (
-  response: AggregatedDatasetResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.DATASET_NAME),
-    values: getAggregatedDatasetTitles(response),
-  };
-};
-
-/**
  * Build props for diagnosis type NTagCell component from the given entity response.
  * @param response - Response model return from Azul that includes aggregated diagnoses.
  * @returns model to be used as props for the NTagCell component.
@@ -1078,20 +1049,6 @@ export const buildExportToTerra = (
 };
 
 /**
- * Build props for file data modality NTagCell component from the given files response.
- * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the NTagCell component.
- */
-export const buildFileDataModality = (
-  response: FileEntityResponse
-): React.ComponentProps<typeof C.NTagCell> => {
-  return {
-    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
-    values: getFileDataModalities(response),
-  };
-};
-
-/**
  * Build props for file download AzulFileDownload component, with a tooltip component used to display a message when the file is not available for download.
  * Downloads use azul_url but are only enabled when azul_mirror_uri is present.
  * @param response - Response model returned from index/files API endpoint.
@@ -1133,41 +1090,24 @@ export const buildFileDownloadWithTooltip = (
 };
 
 /**
- * Build props for file ID BasicCell component from the given files response.
+ * Build props for the file IdentityCell component from the given files response.
+ * The file name is the title, in plain text as files have no detail page. The file format, file size and data
+ * modality values render as chips, and the subtitle is the dataset title, or the dataset count when there is more than
+ * one.
  * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the BasicCell component.
+ * @returns model to be used as props for the IdentityCell component.
  */
-export const buildFileName = (
-  response: FileEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
+export const buildFileIdentity = (
+  response: FilesResponse
+): React.ComponentProps<typeof C.IdentityCell> => {
   return {
-    value: getFileName(response),
-  };
-};
-
-/**
- * Build props for file format BasicCell component from the given files response.
- * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the BasicCell component.
- */
-export const buildFileFormat = (
-  response: FileEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
-  return {
-    value: getFileFormat(response),
-  };
-};
-
-/**
- * Build props for file size BasicCell component from the given files response.
- * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the BasicCell component.
- */
-export const buildFileSize = (
-  response: FileEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
-  return {
-    value: getFileSize(response),
+    chips: [
+      ...getIdentityChips("format", [getFileFormat(response)]),
+      ...getIdentityChips("size", [getFileSize(response)]),
+      ...getIdentityChips("data modality", getFileDataModalities(response)),
+    ],
+    subtitle: getIdentityDatasetsSubtitle(response),
+    title: { label: getFileName(response), url: "" },
   };
 };
 
