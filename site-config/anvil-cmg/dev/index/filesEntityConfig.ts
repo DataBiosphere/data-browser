@@ -58,6 +58,15 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       },
       {
         componentConfig: {
+          component: C.BasicCell,
+          viewBuilder: V.buildFileSize,
+        } as ComponentConfig<typeof C.BasicCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_SIZE,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_SIZE,
+        width: { max: "auto", min: "120px" },
+      },
+      {
+        componentConfig: {
           component: C.CopyCell,
           viewBuilder: V.buildDRSURI,
         } as ComponentConfig<typeof C.CopyCell>,

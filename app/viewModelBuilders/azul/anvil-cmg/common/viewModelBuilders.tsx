@@ -1091,9 +1091,8 @@ export const buildFileDownloadWithTooltip = (
 
 /**
  * Build props for the file IdentityCell component from the given files response.
- * The file name is the title, in plain text as files have no detail page. The file format, file size and data
- * modality values render as chips, and the subtitle is the dataset title, or the dataset count when there is more than
- * one.
+ * The file name is the title, in plain text as files have no detail page. The file format and data modality values
+ * render as chips, and the subtitle is the dataset title, or the dataset count when there is more than one.
  * @param response - Response model return from index/files API endpoint.
  * @returns model to be used as props for the IdentityCell component.
  */
@@ -1103,11 +1102,23 @@ export const buildFileIdentity = (
   return {
     chips: [
       ...getIdentityChips("format", [getFileFormat(response)]),
-      ...getIdentityChips("size", [getFileSize(response)]),
       ...getIdentityChips("data modality", getFileDataModalities(response)),
     ],
     subtitle: getIdentityDatasetsSubtitle(response),
     title: { label: getFileName(response), url: "" },
+  };
+};
+
+/**
+ * Build props for file size BasicCell component from the given files response.
+ * @param response - Response model return from index/files API endpoint.
+ * @returns model to be used as props for the BasicCell component.
+ */
+export const buildFileSize = (
+  response: FilesResponse
+): React.ComponentProps<typeof C.BasicCell> => {
+  return {
+    value: getFileSize(response),
   };
 };
 

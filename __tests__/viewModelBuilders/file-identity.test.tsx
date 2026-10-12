@@ -1,7 +1,10 @@
 import type { AggregatedDataset } from "../../app/apis/azul/anvil-cmg/common/aggregatedEntities";
 import type { FileEntity } from "../../app/apis/azul/anvil-cmg/common/entities";
 import type { FilesResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
-import { buildFileIdentity } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import {
+  buildFileIdentity,
+  buildFileSize,
+} from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import { getChipLabels } from "./utils/identityCell";
 
 const DATASET_TITLE = "Test Dataset Title";
@@ -39,13 +42,12 @@ describe("buildFileIdentity", () => {
     expect(title).toEqual({ label: FILE_NAME, url: "" });
   });
 
-  it("renders format, size, then data modality chips", () => {
+  it("renders format, then data modality chips", () => {
     const response = createMockFilesResponse({
       data_modality: ["Genomic", "Transcriptomic"],
     });
     expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
       "format .cram",
-      "size 2 kB",
       "data modality Genomic",
       "data modality Transcriptomic",
     ]);
@@ -54,26 +56,6 @@ describe("buildFileIdentity", () => {
   it("renders one data modality chip per unique data modality", () => {
     const response = createMockFilesResponse({
       data_modality: ["Genomic", "Genomic"],
-    });
-    expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
-      "format .cram",
-      "size 2 kB",
-      "data modality Genomic",
-    ]);
-  });
-
-  it("renders a zero size as 0 B", () => {
-    const response = createMockFilesResponse({ file_size: 0 });
-    expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
-      "format .cram",
-      "size 0 B",
-      "data modality Genomic",
-    ]);
-  });
-
-  it("omits the size chip when the size is missing", () => {
-    const response = createMockFilesResponse({
-      file_size: null as unknown as number,
     });
     expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
       "format .cram",
@@ -87,7 +69,6 @@ describe("buildFileIdentity", () => {
   ])("omits the format chip when the format is %s", (_, value) => {
     const response = createMockFilesResponse({ file_format: value });
     expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
-      "size 2 kB",
       "data modality Genomic",
     ]);
   });
@@ -100,7 +81,6 @@ describe("buildFileIdentity", () => {
     const response = createMockFilesResponse({ data_modality: value });
     expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
       "format .cram",
-      "size 2 kB",
     ]);
   });
 
@@ -123,5 +103,23 @@ describe("buildFileIdentity", () => {
   it("omits the subtitle when there are no datasets", () => {
     const response = createMockFilesResponse({}, []);
     expect(buildFileIdentity(response).subtitle).toBeUndefined();
+  });
+});
+
+describe("buildFileSize", () => {
+  it("renders the file size", () => {
+    expect(buildFileSize(createMockFilesResponse()).value).toBe("2 kB");
+  });
+
+  it("renders a zero size as 0 B", () => {
+    const response = createMockFilesResponse({ file_size: 0 });
+    expect(buildFileSize(response).value).toBe("0 B");
+  });
+
+  it("renders Unspecified when the size is missing", () => {
+    const response = createMockFilesResponse({
+      file_size: null as unknown as number,
+    });
+    expect(buildFileSize(response).value).toBe("Unspecified");
   });
 });
