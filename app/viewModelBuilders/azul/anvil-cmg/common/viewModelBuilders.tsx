@@ -59,13 +59,13 @@ import {
 } from "../../../../apis/azul/anvil-cmg/common/aggregatedEntities";
 import {
   ActivityEntityResponse,
-  BioSampleEntityResponse,
   DonorEntityResponse,
   FileEntityResponse,
   FileFormat,
   LibraryEntityResponse,
 } from "../../../../apis/azul/anvil-cmg/common/entities";
 import {
+  BioSamplesResponse,
   DatasetsResponse,
   DonorsResponse,
   EntityResponse,
@@ -221,41 +221,20 @@ export const buildAlertExportWarning = (
 };
 
 /**
- * Build props for anatomical site BasicCell component from the given index/biosamples response.
- * @param response - Response model return from index/biosamples API.
- * @returns model to be used as props for the BasicCell component.
+ * Build props for the biosample IdentityCell component from the given biosamples response.
+ * The biosample ID is the title, in plain text as biosamples have no detail page. The biosample type, anatomical site
+ * and organism type values render as chips, and the subtitle is the dataset title, or the dataset count when there is
+ * more than one.
+ * @param response - Response model return from index/biosamples API endpoint.
+ * @returns model to be used as props for the IdentityCell component.
  */
-export const buildAnatomicalSite = (
-  response: BioSampleEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
+export const buildBioSampleIdentity = (
+  response: BioSamplesResponse
+): React.ComponentProps<typeof C.IdentityCell> => {
   return {
-    value: getAnatomicalSite(response),
-  };
-};
-
-/**
- * Build props for biosample id BasicCell component from the given index/biosamples response.
- * @param response - Response model return from index/biosamples API.
- * @returns model to be used as props for the BasicCell component.
- */
-export const buildBioSampleId = (
-  response: BioSampleEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
-  return {
-    value: getBioSampleId(response),
-  };
-};
-
-/**
- * Build props for biosample type BasicCell component from the given index/biosamples response.
- * @param response - Response model return from index/biosamples API.
- * @returns model to be used as props for the BasicCell component.
- */
-export const buildBioSampleType = (
-  response: BioSampleEntityResponse
-): React.ComponentProps<typeof C.BasicCell> => {
-  return {
-    value: getBioSampleType(response),
+    chips: getBioSampleIdentityChips(response),
+    subtitle: getIdentityDatasetsSubtitle(response),
+    title: { label: getBioSampleId(response), url: "" },
   };
 };
 
@@ -782,7 +761,7 @@ export const buildDonorIdentity = (
 ): React.ComponentProps<typeof C.IdentityCell> => {
   return {
     chips: getDonorIdentityChips(response),
-    subtitle: getDonorIdentitySubtitle(response),
+    subtitle: getIdentityDatasetsSubtitle(response),
     title: { label: getDonorId(response), url: "" },
   };
 };
@@ -1329,6 +1308,22 @@ function getAccessibleTransition(
 }
 
 /**
+ * Returns the biosample IdentityCell chips from the given biosamples response: biosample type, then anatomical site,
+ * then one chip per organism type. Unspecified values render no chip.
+ * @param response - Response model return from index/biosamples API endpoint.
+ * @returns IdentityCell chip props.
+ */
+function getBioSampleIdentityChips(
+  response: BioSamplesResponse
+): IdentityChipProps[] {
+  return [
+    ...getIdentityChips("biosample type", [getBioSampleType(response)]),
+    ...getIdentityChips("anatomical site", [getAnatomicalSite(response)]),
+    ...getIdentityChips("organism type", getAggregatedOrganismTypes(response)),
+  ];
+}
+
+/**
  * Returns the dataset access chip color (success when access is granted, otherwise warning) from the given datasets
  * response.
  * @param datasetsResponse - Response model return from datasets API.
@@ -1495,24 +1490,6 @@ function getDonorIdentityChips(response: DonorsResponse): IdentityChipProps[] {
     ...getIdentityChips("phenotypic sex", [getPhenotypicSex(response)]),
     ...getIdentityChips("reported ethnicity", getReportedEthnicities(response)),
   ];
-}
-
-/**
- * Returns the donor IdentityCell subtitle from the given donors response: the dataset title, or the dataset count when
- * the donor belongs to more than one dataset. The subtitle is plain text; the donors response identifies its datasets
- * by dataset ID only, and the dataset detail page is keyed by the dataset's entry ID.
- * @param response - Response model return from index/donors API endpoint.
- * @returns IdentityCell subtitle props, or undefined when the donor has no specified dataset.
- */
-function getDonorIdentitySubtitle(
-  response: DonorsResponse
-): IdentityLinkProps | undefined {
-  const datasetCount =
-    getAggregatedDatasetIds(response).filter(isSpecifiedValue).length;
-  if (datasetCount > 1) return { label: `${datasetCount} datasets`, url: "" };
-  const [title] = getAggregatedDatasetTitles(response).filter(isSpecifiedValue);
-  if (!title) return;
-  return { label: title, url: "" };
 }
 
 /**
@@ -1785,6 +1762,24 @@ function getIdentityChips(
   return values
     .filter(isSpecifiedValue)
     .map((value) => ({ label: getIdentityChipLabel(label, value) }));
+}
+
+/**
+ * Returns the IdentityCell subtitle from the given response's aggregated datasets: the dataset title, or the dataset
+ * count (by unique dataset ID) when there is more than one. The subtitle is plain text; aggregated datasets are
+ * identified by dataset ID only, and the dataset detail page is keyed by the dataset's entry ID.
+ * @param response - Response model return from Azul that includes aggregated datasets.
+ * @returns IdentityCell subtitle props, or undefined when there is no specified dataset.
+ */
+function getIdentityDatasetsSubtitle(
+  response: AggregatedDatasetResponse
+): IdentityLinkProps | undefined {
+  const datasetCount =
+    getAggregatedDatasetIds(response).filter(isSpecifiedValue).length;
+  if (datasetCount > 1) return { label: `${datasetCount} datasets`, url: "" };
+  const [title] = getAggregatedDatasetTitles(response).filter(isSpecifiedValue);
+  if (!title) return;
+  return { label: title, url: "" };
 }
 
 /**
