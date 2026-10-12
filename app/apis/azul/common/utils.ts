@@ -251,7 +251,9 @@ function filterDefinedValues(values?: StringOrNullArray): string[] | undefined {
  * @param values - List of values.
  * @returns an array with each value listed once, in first-seen order.
  */
-function filterUniqueValues(values: StringOrNullArray): StringOrNullArray {
+export function filterUniqueValues(
+  values: StringOrNullArray
+): StringOrNullArray {
   return values && [...new Set(values)];
 }
 
