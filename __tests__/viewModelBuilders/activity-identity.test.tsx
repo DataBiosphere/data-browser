@@ -14,7 +14,7 @@ const DOCUMENT_ID = "test-document-id";
  * @returns Mock ActivitiesResponse.
  */
 const createMockActivitiesResponse = (
-  activityOverrides: Partial<Record<keyof ActivityEntity, unknown>> = {},
+  activityOverrides: Partial<ActivityEntity> = {},
   datasets: AggregatedDataset[] = [
     { dataset_id: ["test-dataset-id"], title: [DATASET_TITLE] },
   ]
@@ -60,7 +60,7 @@ describe("buildActivityIdentity", () => {
   });
 
   it.each([
-    ["null", null],
+    ["null", null as unknown as string],
     ["unspecified", "Unspecified"],
   ])("renders no chips when the activity type is %s", (_, value) => {
     const response = createMockActivitiesResponse({ activity_type: value });
