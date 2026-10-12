@@ -1,8 +1,8 @@
-import { render } from "@testing-library/react";
 import type { AggregatedDataset } from "../../app/apis/azul/anvil-cmg/common/aggregatedEntities";
 import type { DonorEntity } from "../../app/apis/azul/anvil-cmg/common/entities";
 import type { DonorsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import { buildDonorIdentity } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import { getChipLabels } from "./utils/identityCell";
 
 const DATASET_TITLE = "Test Dataset Title";
 const DONOR_ID = "test-donor-id";
@@ -37,16 +37,6 @@ const createMockDonorsResponse = (
     entryId: "test-entry-id",
   }) as DonorsResponse;
 
-/**
- * Returns the rendered text of each chip label built for the given donors response.
- * @param response - Donors response.
- * @returns Chip label text, in chip order.
- */
-const getChipLabels = (response: DonorsResponse): string[] =>
-  (buildDonorIdentity(response).chips ?? []).map(
-    ({ label }) => render(<>{label}</>).container.textContent ?? ""
-  );
-
 describe("buildDonorIdentity", () => {
   it("renders the donor ID as a plain text title", () => {
     const { title } = buildDonorIdentity(createMockDonorsResponse());
@@ -57,7 +47,7 @@ describe("buildDonorIdentity", () => {
     const response = createMockDonorsResponse({
       reported_ethnicity: ["European", "Hispanic or Latin American"],
     });
-    expect(getChipLabels(response)).toEqual([
+    expect(getChipLabels(buildDonorIdentity(response).chips)).toEqual([
       "organism type Human",
       "phenotypic sex Female",
       "reported ethnicity European",
@@ -69,7 +59,7 @@ describe("buildDonorIdentity", () => {
     "omits the organism type chip when the organism type is %s",
     (_, value) => {
       const response = createMockDonorsResponse({ organism_type: value });
-      expect(getChipLabels(response)).toEqual([
+      expect(getChipLabels(buildDonorIdentity(response).chips)).toEqual([
         "phenotypic sex Female",
         "reported ethnicity European",
       ]);
@@ -80,7 +70,7 @@ describe("buildDonorIdentity", () => {
     "omits the phenotypic sex chip when the phenotypic sex is %s",
     (_, value) => {
       const response = createMockDonorsResponse({ phenotypic_sex: value });
-      expect(getChipLabels(response)).toEqual([
+      expect(getChipLabels(buildDonorIdentity(response).chips)).toEqual([
         "organism type Human",
         "reported ethnicity European",
       ]);
@@ -95,7 +85,7 @@ describe("buildDonorIdentity", () => {
     "omits reported ethnicity chips when the reported ethnicity is %s",
     (_, value) => {
       const response = createMockDonorsResponse({ reported_ethnicity: value });
-      expect(getChipLabels(response)).toEqual([
+      expect(getChipLabels(buildDonorIdentity(response).chips)).toEqual([
         "organism type Human",
         "phenotypic sex Female",
       ]);

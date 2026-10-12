@@ -1,8 +1,8 @@
-import { render } from "@testing-library/react";
 import type { AggregatedDataset } from "../../app/apis/azul/anvil-cmg/common/aggregatedEntities";
 import type { ActivityEntity } from "../../app/apis/azul/anvil-cmg/common/entities";
 import type { ActivitiesResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import { buildActivityIdentity } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import { getChipLabels } from "./utils/identityCell";
 
 const DATASET_TITLE = "Test Dataset Title";
 const DOCUMENT_ID = "test-document-id";
@@ -32,16 +32,6 @@ const createMockActivitiesResponse = (
     entryId: "test-entry-id",
   }) as ActivitiesResponse;
 
-/**
- * Returns the rendered text of each chip label built for the given activities response.
- * @param response - Activities response.
- * @returns Chip label text, in chip order.
- */
-const getChipLabels = (response: ActivitiesResponse): string[] =>
-  (buildActivityIdentity(response).chips ?? []).map(
-    ({ label }) => render(<>{label}</>).container.textContent ?? ""
-  );
-
 describe("buildActivityIdentity", () => {
   it("renders the document ID as a plain text title", () => {
     const { title } = buildActivityIdentity(createMockActivitiesResponse());
@@ -49,14 +39,16 @@ describe("buildActivityIdentity", () => {
   });
 
   it("renders an activity type chip", () => {
-    expect(getChipLabels(createMockActivitiesResponse())).toEqual([
-      "activity type Sequencing",
-    ]);
+    expect(
+      getChipLabels(buildActivityIdentity(createMockActivitiesResponse()).chips)
+    ).toEqual(["activity type Sequencing"]);
   });
 
   it("renders an activity type chip for the Unknown activity type", () => {
     const response = createMockActivitiesResponse({ activity_type: "Unknown" });
-    expect(getChipLabels(response)).toEqual(["activity type Unknown"]);
+    expect(getChipLabels(buildActivityIdentity(response).chips)).toEqual([
+      "activity type Unknown",
+    ]);
   });
 
   it.each([

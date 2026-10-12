@@ -1,8 +1,8 @@
 import { CHIP_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/chip";
-import { render } from "@testing-library/react";
 import type { DatasetEntity } from "../../app/apis/azul/anvil-cmg/common/entities";
 import type { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import { buildDatasetIdentity } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import { getChipLabels } from "./utils/identityCell";
 
 const DATASET_ID = "test-dataset-id";
 const DATASET_TITLE = "Test Dataset Title";
@@ -35,16 +35,6 @@ const createMockDatasetsResponse = (
     entryId: DATASET_ID,
   }) as DatasetsResponse;
 
-/**
- * Returns the rendered text of each chip label built for the given datasets response.
- * @param response - Datasets response.
- * @returns Chip label text, in chip order.
- */
-const getChipLabels = (response: DatasetsResponse): string[] =>
-  (buildDatasetIdentity(response).chips ?? []).map(
-    ({ label }) => render(<>{label}</>).container.textContent ?? ""
-  );
-
 describe("buildDatasetIdentity", () => {
   it("links the title to the dataset page", () => {
     const { title } = buildDatasetIdentity(createMockDatasetsResponse());
@@ -58,7 +48,7 @@ describe("buildDatasetIdentity", () => {
     const response = createMockDatasetsResponse({
       consent_group: ["DS-BDIS-MDS", "GRU"],
     });
-    expect(getChipLabels(response)).toEqual([
+    expect(getChipLabels(buildDatasetIdentity(response).chips)).toEqual([
       "access Granted",
       "identifier phs000693",
       "consent group DS-BDIS-MDS",
@@ -70,7 +60,7 @@ describe("buildDatasetIdentity", () => {
     const response = createMockDatasetsResponse({
       registered_identifier: ["phs000693", "phs001272", "phs000693"],
     });
-    expect(getChipLabels(response)).toEqual([
+    expect(getChipLabels(buildDatasetIdentity(response).chips)).toEqual([
       "access Granted",
       "identifier phs000693",
       "identifier phs001272",
@@ -87,7 +77,9 @@ describe("buildDatasetIdentity", () => {
       const response = createMockDatasetsResponse({ accessible });
       const [accessChip] = buildDatasetIdentity(response).chips ?? [];
       expect(accessChip.color).toBe(color);
-      expect(getChipLabels(response)[0]).toBe(label);
+      expect(getChipLabels(buildDatasetIdentity(response).chips)[0]).toBe(
+        label
+      );
     }
   );
 
@@ -97,7 +89,7 @@ describe("buildDatasetIdentity", () => {
       const response = createMockDatasetsResponse({
         registered_identifier: value,
       });
-      expect(getChipLabels(response)).toEqual([
+      expect(getChipLabels(buildDatasetIdentity(response).chips)).toEqual([
         "access Granted",
         "consent group GRU",
       ]);
@@ -108,7 +100,7 @@ describe("buildDatasetIdentity", () => {
     "omits consent group chips when the consent group is %s",
     (_, value) => {
       const response = createMockDatasetsResponse({ consent_group: value });
-      expect(getChipLabels(response)).toEqual([
+      expect(getChipLabels(buildDatasetIdentity(response).chips)).toEqual([
         "access Granted",
         "identifier phs000693",
       ]);
