@@ -1,9 +1,14 @@
+/**
+ * @jest-environment node
+ */
 import { setConfig } from "@databiosphere/findable-ui/lib/config/config.js";
 import { SiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { fetchApi } from "@databiosphere/findable-ui/lib/entity/common/client";
-import { jest } from "@jest/globals";
 import fetchMock from "jest-fetch-mock";
 import { AZUL_KY_OPTIONS } from "site-config/common/constants";
+
+// Use the actual Ky rather than the mock in __mocks__
+jest.unmock("ky");
 
 // The test site config includes only the relevant parts of the site config in the return value
 const TEST_SITE_CONFIG: Pick<SiteConfig, "dataSource" | "kyOptions"> = {
@@ -13,10 +18,13 @@ const TEST_SITE_CONFIG: Pick<SiteConfig, "dataSource" | "kyOptions"> = {
   kyOptions: AZUL_KY_OPTIONS,
 };
 
-jest
-  .spyOn(globalThis, "setTimeout")
-  .mockImplementation(((callback: () => void) =>
-    callback()) as typeof setTimeout);
+jest.spyOn(globalThis, "setTimeout").mockImplementation(((
+  callback: () => void,
+  timeout: number
+) => {
+  // Ky has a built in 20-second timeout that causes the request to fail, which we don't want to call the callback for
+  if (timeout !== 20000) callback();
+}) as typeof setTimeout);
 
 beforeAll(async () => {
   setConfig(TEST_SITE_CONFIG as SiteConfig);
@@ -24,9 +32,6 @@ beforeAll(async () => {
   globalThis.fetch = ((...args) => {
     return fetchMock(...(args as Parameters<typeof fetchMock>));
   }) as typeof fetch;
-  AbortSignal.prototype.throwIfAborted = function (): void {
-    if (this.aborted) throw this.reason;
-  };
 });
 
 describe("api", () => {
