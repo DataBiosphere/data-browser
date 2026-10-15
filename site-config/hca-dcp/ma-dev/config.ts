@@ -2,7 +2,7 @@ import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/en
 import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
-import { GIT_HUB_REPO_URL } from "../../common/constants";
+import { AZUL_KY_OPTIONS, GIT_HUB_REPO_URL } from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { getAuthentication } from "./authentication/authentication";
 import { CATEGORY_GROUP_CONFIG } from "./categoryGroup/categoryGroupConfig";
@@ -59,6 +59,7 @@ export function makeConfig(
     exportToTerraUrl: EXPORT_TO_TERRA_URL,
     filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
+    kyOptions: AZUL_KY_OPTIONS,
     layout: getLayout(APP_TITLE, portalUrl),
     portalURL: portalUrl,
     redirectRootToPath: REDIRECT_ROOT_TO_PATH,
