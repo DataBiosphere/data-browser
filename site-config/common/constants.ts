@@ -1,5 +1,22 @@
 import { BreakpointKey } from "@databiosphere/findable-ui/lib/hooks/useBreakpointHelper";
 import { Breakpoints } from "@mui/system";
+import { HTTPError, Options as KyOptions } from "ky";
+
+export const AZUL_KY_OPTIONS = {
+  retry: {
+    shouldRetry({ error }): boolean | undefined {
+      // If the Retry-After header exists and has content, use default behavior
+      if (
+        error instanceof HTTPError &&
+        error.response.headers.get("Retry-After")
+      ) {
+        return undefined;
+      }
+      // Otherwise, never retry requests that received responses, and use default behavior for those that didn't (e.g. due to network errors)
+      return "response" in error ? false : undefined;
+    },
+  },
+} satisfies KyOptions;
 
 export const BREAKPOINTS: Partial<Breakpoints> = {
   values: {
