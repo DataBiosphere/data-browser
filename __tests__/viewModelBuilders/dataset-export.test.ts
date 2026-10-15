@@ -4,9 +4,17 @@ import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import {
+  TERRA_EXPORT_UNAVAILABLE_DATASET_MESSAGE,
+  TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES,
+} from "../../app/viewModelBuilders/azul/anvil-cmg/common/constants";
+import {
+  buildDatasetExportMethodTerra,
   buildDatasetExportToPlatform,
   buildDatasetExportToPlatformHero,
   buildDatasetExportToPlatformMethod,
+  isDatasetTerraExportUnavailable,
+  renderDatasetTerraExport,
+  renderDatasetTerraExportUnavailable,
 } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import { ANVIL_CMG_CATEGORY_KEY } from "../../site-config/anvil-cmg/category";
 import {
@@ -378,5 +386,81 @@ describe("buildDatasetExportToPlatformMethod", () => {
         "/datasets/test-dataset-id/export/cancer-genomics-cloud"
       );
     });
+  });
+});
+
+/**
+ * Creates a mock DatasetsResponse with the given dataset title.
+ * @param title - Dataset title.
+ * @returns Mock DatasetsResponse.
+ */
+const createMockDatasetsResponseWithTitle = (title: string): DatasetsResponse =>
+  createMockDatasetsResponse({
+    datasets: [
+      {
+        accessible: true,
+        dataset_id: "test-dataset-id",
+        title,
+      },
+    ],
+  } as Partial<DatasetsResponse>);
+
+describe("isDatasetTerraExportUnavailable", () => {
+  it.each(TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES)(
+    "returns true for %s",
+    (title) => {
+      const response = createMockDatasetsResponseWithTitle(title);
+
+      expect(isDatasetTerraExportUnavailable(response)).toBe(true);
+    }
+  );
+
+  it("returns false for any other dataset", () => {
+    const response = createMockDatasetsResponse();
+
+    expect(isDatasetTerraExportUnavailable(response)).toBe(false);
+  });
+});
+
+describe("buildDatasetExportMethodTerra", () => {
+  it("returns inaccessible with footnote when Terra export is unavailable", () => {
+    const response = createMockDatasetsResponseWithTitle(
+      TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES[0]
+    );
+
+    const result = buildDatasetExportMethodTerra(response);
+
+    expect(result.isAccessible).toBe(false);
+    expect(result.footnote).toBe(TERRA_EXPORT_UNAVAILABLE_DATASET_MESSAGE);
+  });
+
+  it("returns accessible without footnote when Terra export is available", () => {
+    const response = createMockDatasetsResponse();
+
+    const result = buildDatasetExportMethodTerra(response);
+
+    expect(result.isAccessible).toBe(true);
+    expect(result.footnote).toBeNull();
+    expect(result.route).toBe(
+      "/datasets/test-dataset-id/export/export-to-terra"
+    );
+  });
+});
+
+describe("renderDatasetTerraExport and renderDatasetTerraExportUnavailable", () => {
+  it("renders the warning, not the Terra export, when Terra export is unavailable", () => {
+    const response = createMockDatasetsResponseWithTitle(
+      TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES[0]
+    );
+
+    expect(renderDatasetTerraExport(response).isIn).toBe(false);
+    expect(renderDatasetTerraExportUnavailable(response).isIn).toBe(true);
+  });
+
+  it("renders the Terra export, not the warning, when Terra export is available", () => {
+    const response = createMockDatasetsResponse();
+
+    expect(renderDatasetTerraExport(response).isIn).toBe(true);
+    expect(renderDatasetTerraExportUnavailable(response).isIn).toBe(false);
   });
 });

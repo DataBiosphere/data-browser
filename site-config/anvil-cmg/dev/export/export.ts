@@ -3,6 +3,7 @@ import {
   ExportConfig,
 } from "@databiosphere/findable-ui/lib/config/entities";
 import * as C from "../../../../app/components";
+import * as MDX from "../../../../app/components/common/MDXContent/anvil-cmg";
 import { DownloadSection } from "../../../../app/components/Export/components/AnVILExplorer/components/ExportCohort/components/DownloadSection/downloadSection";
 import { ExportSection } from "../../../../app/components/Export/components/AnVILExplorer/components/ExportCohort/components/ExportSection/exportSection";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
@@ -45,10 +46,33 @@ export const exportConfig: ExportConfig = {
         /* mainColumn */
         {
           children: [
+            // Empty component for triggering calls to populate the selected data in the side channel.
             {
-              component: C.ExportToTerra,
-              viewBuilder: V.buildExportToTerra,
-            } as ComponentConfig<typeof C.ExportToTerra>,
+              component: C.AnVILExportEntity,
+              viewBuilder: V.buildExportEntityProps,
+            } as ComponentConfig<typeof C.AnVILExportEntity>,
+            /* Selected datasets include datasets that cannot be exported to Terra; render warning */
+            {
+              children: [
+                {
+                  component: MDX.Alert,
+                  viewBuilder: V.buildAlertTerraExportUnavailable,
+                } as ComponentConfig<typeof MDX.Alert>,
+              ],
+              component: C.ConditionalComponent,
+              viewBuilder: V.renderCohortTerraExportUnavailable,
+            } as ComponentConfig<typeof C.ConditionalComponent>,
+            /* Selected datasets can be exported to Terra; render Terra export */
+            {
+              children: [
+                {
+                  component: C.ExportToTerra,
+                  viewBuilder: V.buildExportToTerra,
+                } as ComponentConfig<typeof C.ExportToTerra>,
+              ],
+              component: C.ConditionalComponent,
+              viewBuilder: V.renderCohortTerraExport,
+            } as ComponentConfig<typeof C.ConditionalComponent>,
           ],
           component: C.BackPageContentMainColumn,
         } as ComponentConfig<typeof C.BackPageContentMainColumn>,
