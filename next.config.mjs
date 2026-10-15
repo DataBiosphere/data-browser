@@ -14,5 +14,9 @@ export default withMDX({
   pageExtensions: ["md", "mdx", "ts", "tsx"],
   reactStrictMode: true,
   staticPageGenerationTimeout: 120,
-  transpilePackages: ["@databiosphere/findable-ui"],
+  transpilePackages: [
+    "@databiosphere/findable-ui",
+    // Ky is transpiled for compatibility with Jest tests
+    "ky",
+  ],
 });
