@@ -4,7 +4,7 @@ import { useSystemStatus } from "@databiosphere/findable-ui/lib/hooks/useSystemS
 import { Fragment, JSX, ReactNode } from "react";
 
 interface AnnouncementsProps {
-  generalAnnouncement: ReactNode;
+  generalAnnouncement?: ReactNode;
 }
 
 export const Announcements = ({

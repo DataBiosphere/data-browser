@@ -17,3 +17,20 @@ jobs:
           cd files
           npm ci
           npx tsc --noEmit
+
+  analytics:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: analytics
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          enable-cache: true
+      - run: |
+          # Run Ruff checks before installing all dependencies
+          uv run --locked --only-group dev ruff check .
+          uv run --locked --only-group dev ruff format --check .
+          uv sync --locked
+          uv run --no-sync python -c "import analytics.static_site"

@@ -14,9 +14,11 @@ export function formatSizeToTB(size: number): string {
 /**
  * Format bytes as human-readable text.
  * @param size - The file size to format.
- * @returns Human-readable size.
+ * @returns Human-readable size, "0 B" for a zero size.
  */
 export const humanFileSize = (size: number): string => {
+  // Math.log(0) is -Infinity, which would format a zero size as "NaN undefined".
+  if (size === 0) return "0 B";
   const i = Math.floor(Math.log(size) / Math.log(1024));
   return (
     Number((size / Math.pow(1024, i)).toFixed(2)) * 1 +
