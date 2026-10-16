@@ -23,7 +23,13 @@ const customJestConfig = {
     "^ky$": "<rootDir>/__mocks__/ky.ts",
   },
   testEnvironment: "jest-environment-jsdom",
-  testPathIgnorePatterns: ["/node_modules/", "/e2e/", "/analytics/"],
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/e2e/",
+    "/analytics/",
+    // Shared helpers for the view model builder tests, not test suites.
+    "/__tests__/viewModelBuilders/utils/",
+  ],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
