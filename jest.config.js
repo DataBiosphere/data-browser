@@ -20,7 +20,6 @@ const customJestConfig = {
     // chain, which next/jest leaves untransformed; stub it (no test renders markdown).
     "^@databiosphere/findable-ui/lib/components/MarkdownRenderer/markdownRenderer$":
       "<rootDir>/__mocks__/markdownRenderer.tsx",
-    "^ky$": "<rootDir>/__mocks__/ky.ts",
   },
   testEnvironment: "jest-environment-jsdom",
   testPathIgnorePatterns: [
