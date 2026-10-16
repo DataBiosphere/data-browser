@@ -4,7 +4,15 @@ CURRENT_MONTH = "2026-07"
 
 HCA_ID = "361323030"
 # Filter to exclude the Data Explorer
-HCA_BROWSER_ONLY_FILTER = {"filter": {"fieldName": "hostName", "stringFilter": {"matchType": "EXACT", "value": "explore.data.humancellatlas.org"}}}
+HCA_BROWSER_ONLY_FILTER = {
+    "filter": {
+        "fieldName": "hostName",
+        "stringFilter": {
+            "matchType": "EXACT",
+            "value": "explore.data.humancellatlas.org",
+        },
+    }
+}
 SECRET_NAME = "HCA_ANALYTICS_REPORTING_CLIENT_SECRET_PATH"
 ANALYTICS_START = "2024-02-01"
 

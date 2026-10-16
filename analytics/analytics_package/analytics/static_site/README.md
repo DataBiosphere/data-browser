@@ -52,9 +52,9 @@ For apps with dataset/project detail tables, a `title_resolver` callback enriche
     ├── config.json
     ├── meta.json
     ├── monthly_traffic.json
-    ├── pageviews.json
-    ├── outbound_links.json
-    ├── filter_selected.json
+    ├── pageviews.json                # top 100 rows
+    ├── outbound_links.json           # top 100 rows
+    ├── filter_selected.json          # top 100 rows
     ├── file_downloads.json
     ├── custom_events.json
     ├── access_requests.json          # AnVIL only

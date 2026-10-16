@@ -50,40 +50,12 @@ export const datasetsEntityConfig: EntityConfig<DatasetsResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.Link,
-          viewBuilder: V.buildDatasetTitle,
-        } as ComponentConfig<typeof C.Link>,
+          component: C.IdentityCell,
+          viewBuilder: V.buildDatasetIdentity,
+        } as ComponentConfig<typeof C.IdentityCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
         id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
-        width: { max: "2fr", min: "280px" },
-      },
-      {
-        componentConfig: {
-          component: C.StatusBadge,
-          viewBuilder: V.buildDatasetAccess,
-        } as ComponentConfig<typeof C.StatusBadge>,
-        enableSorting: false,
-        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_ACCESSIBLE,
-        id: ANVIL_CMG_CATEGORY_KEY.DATASET_ACCESSIBLE,
-        width: "max-content",
-      },
-      {
-        componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildRegisteredIdentifier,
-        } as ComponentConfig<typeof C.BasicCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_REGISTERED_ID,
-        id: ANVIL_CMG_CATEGORY_KEY.DATASET_REGISTERED_ID,
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildConsentGroup,
-        } as ComponentConfig<typeof C.BasicCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_CONSENT_GROUP,
-        id: ANVIL_CMG_CATEGORY_KEY.DATASET_CONSENT_GROUP,
-        width: { max: "1fr", min: "200px" },
+        width: { max: "1.5fr", min: "340px" },
       },
       {
         componentConfig: {

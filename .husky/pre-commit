@@ -21,3 +21,21 @@ npx tsc --noEmit ||
 	false;
 )
 echo 'TypeScript compile succeeded!'
+
+# Check Python, only if uv is installed
+if command -v uv >/dev/null 2>&1; then
+	# Run Ruff lint before format check
+	npm run lint:python ||
+	(
+		echo '🤔  Ruff Check Failed. Make the required changes listed above, add changes and try to commit again.'
+		false;
+	)
+
+	npm run check-format:python ||
+	(
+		echo '🤔 Ruff Format Check Failed. Run npm run format:python and try commit again.';
+		false;
+	)
+else
+	echo 'uv not installed, skipping Python checks'
+fi

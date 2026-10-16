@@ -1,6 +1,6 @@
 {
   "name": "explorer",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "private": true,
   "scripts": {
     "dev:anvil-catalog": "./scripts/dev.sh anvil-catalog dev && ./scripts/set-version.sh dev && next dev --webpack",
@@ -19,16 +19,20 @@
     "start": "npx serve out",
     "lint": "eslint .",
     "check-format": "prettier --check .",
+    "lint:python": "uv run --directory analytics --only-dev --locked ruff check .",
+    "check-format:python": "uv run --directory analytics --only-dev --locked ruff format --check .",
+    "format:python": "uv run --directory analytics --only-dev --locked ruff format .",
     "prepare": "husky",
     "test": "jest --watch",
     "test:e2e": "playwright test",
     "get-cellxgene-projects-hca": "esrun ./site-config/hca-dcp/ma-dev/scripts/get-cellxgene-projects.ts ",
     "test:anvil-cmg": "playwright test -c playwright_anvil.config.ts --trace retain-on-failure",
     "test:anvil-catalog": "playwright test -c playwright_anvil-catalog.config.ts --trace retain-on-failure",
-    "check-system-status:anvil-cmg": "esrun e2e/anvil/anvil-check-system-status.ts"
+    "check-system-status:anvil-cmg": "esrun e2e/anvil/anvil-check-system-status.ts",
+    "refresh-diagnosis-terms:anvil-cmg": "esrun scripts/lookup-diagnosis-terms.ts"
   },
   "dependencies": {
-    "@databiosphere/findable-ui": "^54.1.0",
+    "@databiosphere/findable-ui": "^57.0.0",
     "@emotion/react": "^11",
     "@emotion/server": "^11",
     "@emotion/styled": "^11",
@@ -107,5 +111,10 @@
   },
   "engines": {
     "node": "22.13.0"
+  },
+  "overrides": {
+    "eslint-plugin-sonarjs@^3": {
+      "minimatch": "^10.2.3"
+    }
   }
 }

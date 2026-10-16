@@ -1,197 +1,150 @@
-#!/usr/bin/env npx ts-node
 /**
- * Fetch HP and OMIM term names from authoritative sources and generate a JS constant.
+ * Refresh the names shown for diagnosis term IDs in the AnVIL Data Explorer.
  *
- * Sources
- * -------
- * - HP terms: hp.obo from obophenotype/human-phenotype-ontology (GitHub).
- *   This is the canonical release artifact for the Human Phenotype Ontology —
- *   the same file used by Monarch, OMIM, ClinVar, and other biomedical databases.
- *   alt_id entries are resolved so that retired/merged term IDs still get a name.
- *   Terms marked "obsolete" in the OBO name field have that prefix stripped.
+ * Fetches the term IDs in the AnVIL Azul diagnosis facets, names them from the
+ * Human Phenotype Ontology and Orphadata release files, and writes
+ * site-config/anvil-cmg/dev/index/common/diagnosis.ts. IDs that could not be
+ * named are listed at the end of the run.
  *
- * - OMIM terms: phenotype.hpoa from the HPO project's latest release.
- *   This file maps OMIM disease IDs (e.g. OMIM:143100) to human-readable disease
- *   names. It is maintained by the HPO team and sourced from OMIM with permission,
- *   making it the standard cross-reference between OMIM IDs and display names.
- *
- * - Term IDs: fetched live from the AnVIL Azul API (termFacets for
- *   diagnoses.disease and diagnoses.phenotype). Only IDs actually present in the
- *   AnVIL catalog are included in the output — the lookup table stays minimal.
- *
- * When to re-run
- * --------------
- * Re-run whenever:
- *   - New AnVIL datasets are ingested that introduce diagnosis codes not yet in
- *     the mapping (the UI will fall back to showing the raw ID for unknown terms).
- *   - The HPO releases a new version with updated or renamed terms.
- *
- * Usage
- * -----
- * npx ts-node scripts/lookup-diagnosis-terms.ts > site-config/anvil-cmg/dev/index/common/diagnosis.ts
+ * Run with `npm run refresh-diagnosis-terms:anvil-cmg`. See "Refresh diagnosis
+ * term names in AnVIL Data Explorer" in README.md for when to re-run and how to
+ * check the result.
  */
+import { promises as fsp } from "fs";
+import path from "path";
+import prettier from "prettier";
+import { DIAGNOSIS_DISPLAY_VALUE } from "../site-config/anvil-cmg/dev/index/common/diagnosis";
+import {
+  extractTermIds,
+  findEmptySources,
+  findUnnamedIds,
+  generateLookupModule,
+  getAzulStatusProblem,
+  hasDiagnosisFacets,
+  parseHpoa,
+  parseHpObo,
+  parseOrphadata,
+  parseSourceVersions,
+} from "./lookup-diagnosis-terms/utils";
 
+const AZUL_HEALTH_URL =
+  "https://service.explore.anvilproject.org/health/progress";
 const AZUL_URL =
   "https://service.explore.anvilproject.org/index/datasets?size=1&filters=%7B%7D";
 const HP_OBO_URL =
-  "https://raw.githubusercontent.com/obophenotype/human-phenotype-ontology/master/hp.obo";
+  "https://github.com/obophenotype/human-phenotype-ontology/releases/latest/download/hp.obo";
 const HPOA_URL =
   "https://github.com/obophenotype/human-phenotype-ontology/releases/latest/download/phenotype.hpoa";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- API response shape is dynamic
-async function fetchJson(url: string): Promise<any> {
-  const resp = await fetch(url);
-  if (!resp.ok) throw new Error(`Failed to fetch ${url}: ${resp.status}`);
-  return resp.json();
-}
+const ORPHADATA_URL = "https://www.orphadata.com/data/xml/en_product1.xml";
+// Resolved from this script's location (esrun sets __dirname), so the script
+// works from any directory.
+const OUTPUT_PATH = path.resolve(
+  __dirname,
+  "../site-config/anvil-cmg/dev/index/common/diagnosis.ts"
+);
+// The largest download (~54 MB) normally takes about 10 seconds.
+const FETCH_TIMEOUT_MS = 120_000;
 
 async function fetchText(url: string): Promise<string> {
-  const resp = await fetch(url, { redirect: "follow" });
-  if (!resp.ok) throw new Error(`Failed to fetch ${url}: ${resp.status}`);
-  return resp.text();
-}
-
-async function getTermIdsFromAzul(): Promise<{
-  hpIds: Set<string>;
-  omimIds: Set<string>;
-}> {
-  console.error("Fetching term IDs from AnVIL Azul API...");
-  const data = await fetchJson(AZUL_URL);
-  const facets = data.termFacets ?? {};
-
-  const hpIds = new Set<string>();
-  const omimIds = new Set<string>();
-
-  for (const key of ["diagnoses.disease", "diagnoses.phenotype"]) {
-    const terms = facets[key]?.terms ?? [];
-    for (const t of terms) {
-      const term: string | undefined = t.term;
-      if (!term) continue;
-      // Some entries have multiple IDs separated by semicolons
-      for (const part of term.split(";")) {
-        const trimmed = part.trim();
-        if (trimmed.startsWith("HP:")) hpIds.add(trimmed);
-        else if (trimmed.startsWith("OMIM:")) omimIds.add(trimmed);
-      }
+  try {
+    // The timeout covers both the response and reading its body.
+    const resp = await fetch(url, {
+      redirect: "follow",
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    });
+    if (!resp.ok) throw new Error(`Failed to fetch ${url}: ${resp.status}`);
+    return await resp.text();
+  } catch (err) {
+    if (err instanceof Error && err.name === "TimeoutError") {
+      throw new Error(
+        `Timed out after ${FETCH_TIMEOUT_MS / 1000}s fetching ${url}`
+      );
     }
+    throw err;
   }
-
-  console.error(`  Found ${hpIds.size} HP terms, ${omimIds.size} OMIM terms`);
-  return { hpIds, omimIds };
-}
-
-async function buildHpMap(hpIds: Set<string>): Promise<Map<string, string>> {
-  console.error("Downloading hp.obo...");
-  const obo = await fetchText(HP_OBO_URL);
-
-  const hpNames = new Map<string, string>();
-  let currentId: string | null = null;
-  let currentName: string | null = null;
-  let altIds: string[] = [];
-
-  const saveCurrent = (): void => {
-    if (currentId && currentName) {
-      if (hpIds.has(currentId)) hpNames.set(currentId, currentName);
-      for (const alt of altIds) {
-        if (hpIds.has(alt)) hpNames.set(alt, currentName);
-      }
-    }
-  };
-
-  for (const line of obo.split("\n")) {
-    const trimmed = line.trim();
-    if (trimmed === "[Term]") {
-      saveCurrent();
-      currentId = null;
-      currentName = null;
-      altIds = [];
-    } else if (trimmed.startsWith("id: HP:")) {
-      currentId = trimmed.slice(4);
-    } else if (trimmed.startsWith("name: ") && currentId) {
-      currentName = trimmed.slice(6).replace(/^obsolete\s+/, "");
-    } else if (trimmed.startsWith("alt_id: HP:")) {
-      altIds.push(trimmed.slice(8));
-    }
-  }
-  saveCurrent();
-
-  console.error(`  Resolved ${hpNames.size}/${hpIds.size} HP terms`);
-  const missing = [...hpIds].filter((id) => !hpNames.has(id));
-  if (missing.length)
-    console.error(`  Missing HP terms: ${missing.sort().join(", ")}`);
-  return hpNames;
-}
-
-async function buildOmimMap(
-  omimIds: Set<string>
-): Promise<Map<string, string>> {
-  console.error("Downloading phenotype.hpoa...");
-  const hpoa = await fetchText(HPOA_URL);
-
-  const omimNames = new Map<string, string>();
-  for (const line of hpoa.split("\n")) {
-    if (line.startsWith("#") || line.startsWith("database_id")) continue;
-    const parts = line.split("\t");
-    if (parts.length < 2) continue;
-    const dbId = parts[0].trim();
-    const diseaseName = parts[1].trim();
-    if (omimIds.has(dbId) && !omimNames.has(dbId)) {
-      omimNames.set(dbId, diseaseName);
-    }
-  }
-
-  console.error(`  Resolved ${omimNames.size}/${omimIds.size} OMIM terms`);
-  const missing = [...omimIds].filter((id) => !omimNames.has(id));
-  if (missing.length)
-    console.error(`  Missing OMIM terms: ${missing.sort().join(", ")}`);
-  return omimNames;
-}
-
-function generateJs(mapping: Map<string, string>): string {
-  const lines: string[] = [];
-  lines.push("/**");
-  lines.push(
-    " * Mapping of HP (Human Phenotype Ontology) and OMIM term IDs to their names."
-  );
-  lines.push(
-    " * Auto-generated by scripts/lookup-diagnosis-terms.ts from authoritative sources:"
-  );
-  lines.push(
-    " *   - HP terms: hp.obo from obophenotype/human-phenotype-ontology"
-  );
-  lines.push(" *   - OMIM terms: phenotype.hpoa from HPO project");
-  lines.push(" *   - Term IDs: AnVIL Azul API (explore.anvilproject.org)");
-  lines.push(" */");
-  lines.push(
-    "export const DIAGNOSIS_DISPLAY_VALUE: Record<string, string> = {"
-  );
-
-  const sortedKeys = [...mapping.keys()].sort();
-  for (const termId of sortedKeys) {
-    const name = mapping.get(termId)!;
-    const escaped = name.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-    lines.push(`  "${termId}": "${escaped}",`);
-  }
-
-  lines.push("};");
-  lines.push("");
-  return lines.join("\n");
 }
 
 async function main(): Promise<void> {
-  const { hpIds, omimIds } = await getTermIdsFromAzul();
-  const [hpMap, omimMap] = await Promise.all([
-    buildHpMap(hpIds),
-    buildOmimMap(omimIds),
+  console.log("Checking that the AnVIL Azul API is up and not indexing...");
+  const statusProblem = getAzulStatusProblem(
+    JSON.parse(await fetchText(AZUL_HEALTH_URL))
+  );
+  if (statusProblem) {
+    throw new Error(
+      `${statusProblem}. Re-run later. ${OUTPUT_PATH} was not changed.`
+    );
+  }
+
+  console.log("Fetching term IDs from the AnVIL Azul API...");
+  const { termFacets } = JSON.parse(await fetchText(AZUL_URL));
+  if (!hasDiagnosisFacets(termFacets)) {
+    throw new Error(
+      `The AnVIL Azul response has no diagnoses.disease or diagnoses.phenotype facet. The API may have changed. ${OUTPUT_PATH} was not changed.`
+    );
+  }
+  // Keep the IDs already in the lookup; their names are looked up again below.
+  const existingIds = Object.keys(DIAGNOSIS_DISPLAY_VALUE);
+  const ids = extractTermIds(termFacets, existingIds);
+  console.log(
+    `  Found ${ids.hp.size} HP, ${ids.omim.size} OMIM and ${ids.orphanet.size} Orphanet IDs, including the ${existingIds.length} already in ${OUTPUT_PATH}`
+  );
+
+  console.log("Downloading hp.obo, phenotype.hpoa and en_product1.xml...");
+  const [hpObo, hpoa, orphadata] = await Promise.all([
+    fetchText(HP_OBO_URL),
+    fetchText(HPOA_URL),
+    fetchText(ORPHADATA_URL),
   ]);
 
-  const combined = new Map<string, string>([...hpMap, ...omimMap]);
-  const js = generateJs(combined);
-  process.stdout.write(js);
+  const hpNames = parseHpObo(hpObo, ids.hp);
+  const omimNames = parseHpoa(hpoa, ids.omim);
+  const orphanetNames = parseOrphadata(orphadata, ids.orphanet);
 
-  console.error(
-    `\nGenerated mapping for ${combined.size} terms (${hpMap.size} HP + ${omimMap.size} OMIM)`
+  // A source that gives no names at all means a failed download or a changed
+  // format; stop rather than write a lookup missing every name from it.
+  const emptySources = findEmptySources({
+    [HPOA_URL]: { ids: ids.omim, names: omimNames },
+    [HP_OBO_URL]: { ids: ids.hp, names: hpNames },
+    [ORPHADATA_URL]: { ids: ids.orphanet, names: orphanetNames },
+  });
+  if (emptySources.length > 0) {
+    throw new Error(
+      `No names found in ${emptySources.join(", ")}. The download may have failed or the file format may have changed. ${OUTPUT_PATH} was not changed.`
+    );
+  }
+
+  const mapping = new Map<string, string>([
+    ...hpNames,
+    ...omimNames,
+    ...orphanetNames,
+  ]);
+  const versions = parseSourceVersions({ hpObo, hpoa, orphadata });
+
+  const source = generateLookupModule(mapping, versions);
+  const options = await prettier.resolveConfig(OUTPUT_PATH);
+  const formatted = await prettier.format(source, {
+    ...options,
+    filepath: OUTPUT_PATH,
+  });
+  // This script imports the file it writes, so a half-written file would stop
+  // both the app build and the next refresh. Write a temp file next to it and
+  // rename it into place, which replaces the file in one step.
+  const tempPath = `${OUTPUT_PATH}.tmp`;
+  await fsp.writeFile(tempPath, formatted);
+  await fsp.rename(tempPath, OUTPUT_PATH);
+  console.log(`\nWrote ${mapping.size} names to ${OUTPUT_PATH}`);
+
+  const unnamed = findUnnamedIds(ids, mapping);
+  if (unnamed.size === 0) {
+    console.log("Every term ID has a name.");
+    return;
+  }
+  console.log(
+    "\nThese term IDs have no name and will show as raw IDs. HP, OMIM and Orphanet IDs here are missing from the source files; other prefixes (e.g. MONDO) are not looked up:"
   );
+  for (const [prefix, prefixIds] of unnamed) {
+    console.log(`  ${prefix} (${prefixIds.length}): ${prefixIds.join(", ")}`);
+  }
 }
 
 main().catch((err) => {
