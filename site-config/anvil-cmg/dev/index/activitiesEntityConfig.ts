@@ -33,21 +33,12 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildDocumentId,
-        } as ComponentConfig<typeof C.BasicCell>,
+          component: C.IdentityCell,
+          viewBuilder: V.buildActivityIdentity,
+        } as ComponentConfig<typeof C.IdentityCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_DOCUMENT_ID,
         id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_DOCUMENT_ID,
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildActivityType,
-        } as ComponentConfig<typeof C.BasicCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_ACTIVITY_TYPE,
-        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_ACTIVITY_TYPE,
-        width: { max: "1fr", min: "200px" },
+        width: { max: "1.5fr", min: "340px" },
       },
       {
         componentConfig: {
@@ -101,15 +92,6 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
         id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE,
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        componentConfig: {
-          component: C.NTagCell,
-          viewBuilder: V.buildDatasetTitles,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
-        id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
         width: { max: "1fr", min: "200px" },
       },
       {

@@ -2,22 +2,22 @@
 
 import re
 from datetime import date
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlparse
 
 from .. import report_elements as elements
-from ..api import parse_filter_expressions
 from .._report_utils import get_data_df_from_fields
+from ..api import parse_filter_expressions
 from ..entities import (
+    ADDITIONAL_DATA_BEHAVIOR,
+    DIMENSION_CUSTOM_URL,
+    DIMENSION_ENTITY_NAME,
+    DIMENSION_EVENT_NAME,
+    DIMENSION_PAGE_PATH,
+    DIMENSION_PAGE_PATH_PLUS_QUERY,
     DIMENSION_YEAR_MONTH,
     METRIC_EVENT_COUNT,
     METRIC_PAGE_VIEWS,
     METRIC_SESSIONS,
-    DIMENSION_EVENT_NAME,
-    DIMENSION_PAGE_PATH,
-    DIMENSION_PAGE_PATH_PLUS_QUERY,
-    DIMENSION_CUSTOM_URL,
-    DIMENSION_ENTITY_NAME,
-    ADDITIONAL_DATA_BEHAVIOR,
 )
 
 METRIC_ENGAGEMENT_RATE = {
@@ -29,15 +29,15 @@ METRIC_ENGAGEMENT_RATE = {
 # broken markdown links, asset requests, etc.).
 SUSPICIOUS_PAGE_PATH_RE = re.compile(
     r"("
-    r"^/?\].*"             # broken markdown links e.g. /](https://...)
-    r"|.*https?://.*"      # concatenated URLs e.g. /overview/securityhttps://...
-    r"|^/[^/]*@[^/]*"     # email-as-path e.g. /help@lists...
-    r"|^//.*"              # double-slash probes e.g. //checkout/
-    r"|^/[^/]*\.[^/]+$"   # file extensions at root e.g. /robots.txt, /favicon-32x32.png
-    r"|^/feed$"            # RSS probes
-    r"|^/\).*"             # broken parens e.g. /), /).
-    r"|^/[^/]*\).*"       # broken parens e.g. /events)
-    r"|^/docs(-\w+)?/"     # CMS probes e.g. /docs/, /docs-EN/
+    r"^/?\].*"  # broken markdown links e.g. /](https://...)
+    r"|.*https?://.*"  # concatenated URLs e.g. /overview/securityhttps://...
+    r"|^/[^/]*@[^/]*"  # email-as-path e.g. /help@lists...
+    r"|^//.*"  # double-slash probes e.g. //checkout/
+    r"|^/[^/]*\.[^/]+$"  # file extensions at root e.g. /robots.txt, /favicon-32x32.png
+    r"|^/feed$"  # RSS probes
+    r"|^/\).*"  # broken parens e.g. /), /).
+    r"|^/[^/]*\).*"  # broken parens e.g. /events)
+    r"|^/docs(-\w+)?/"  # CMS probes e.g. /docs/, /docs-EN/
     r")"
 )
 
@@ -71,12 +71,16 @@ def _count_events(event_name, params, page_path_regex=None, click_url_regex=None
         df = df[df[DIMENSION_PAGE_PATH["alias"]].str.match(page_path_regex, na=False)]
 
     if click_url_regex:
-        df = df[df[DIMENSION_CUSTOM_URL["alias"]].str.contains(click_url_regex, na=False)]
+        df = df[
+            df[DIMENSION_CUSTOM_URL["alias"]].str.contains(click_url_regex, na=False)
+        ]
 
     return int(df[METRIC_EVENT_COUNT["alias"]].sum())
 
 
-def get_custom_event_change(event_name, params_current, params_prior, page_path_regex=None, click_url_regex=None):
+def get_custom_event_change(
+    event_name, params_current, params_prior, page_path_regex=None, click_url_regex=None
+):
     """Fetch a custom event count with month-over-month change.
 
     Args:
@@ -89,8 +93,12 @@ def get_custom_event_change(event_name, params_current, params_prior, page_path_
     Returns:
         Dict with "current", "prior", and "change" keys.
     """
-    current_count = _count_events(event_name, params_current, page_path_regex, click_url_regex)
-    prior_count = _count_events(event_name, params_prior, page_path_regex, click_url_regex)
+    current_count = _count_events(
+        event_name, params_current, page_path_regex, click_url_regex
+    )
+    prior_count = _count_events(
+        event_name, params_prior, page_path_regex, click_url_regex
+    )
 
     change = None
     if prior_count > 0:
@@ -99,7 +107,9 @@ def get_custom_event_change(event_name, params_current, params_prior, page_path_
     return {"current": current_count, "prior": prior_count, "change": change}
 
 
-def get_event_detail_table(event_name, params, page_path_regex=None, click_url_regex=None):
+def get_event_detail_table(
+    event_name, params, page_path_regex=None, click_url_regex=None
+):
     """Fetch event details broken down by page path and entity name.
 
     Args:
@@ -130,7 +140,9 @@ def get_event_detail_table(event_name, params, page_path_regex=None, click_url_r
         df = df[df[DIMENSION_PAGE_PATH["alias"]].str.match(page_path_regex, na=False)]
 
     if click_url_regex:
-        df = df[df[DIMENSION_CUSTOM_URL["alias"]].str.contains(click_url_regex, na=False)]
+        df = df[
+            df[DIMENSION_CUSTOM_URL["alias"]].str.contains(click_url_regex, na=False)
+        ]
 
     if len(df) == 0:
         return []
@@ -186,17 +198,23 @@ def get_access_requests(params, url_patterns):
         return []
 
     url_col = DIMENSION_CUSTOM_URL["alias"]
-    mask = df[url_col].str.contains("|".join(re.escape(p) for p in url_patterns), case=False, na=False)
+    mask = df[url_col].str.contains(
+        "|".join(re.escape(p) for p in url_patterns), case=False, na=False
+    )
     df = df[mask]
 
     if len(df) == 0:
         return []
 
-    result = df[[DIMENSION_PAGE_PATH["alias"], url_col, METRIC_EVENT_COUNT["alias"]]].copy()
+    result = df[
+        [DIMENSION_PAGE_PATH["alias"], url_col, METRIC_EVENT_COUNT["alias"]]
+    ].copy()
     result.columns = ["page_path", "click_url", "count"]
     result["count"] = result["count"].astype(int)
     # Normalize page paths to entity base path (e.g., /projects/UUID/sub-page -> /projects/UUID).
-    result["page_path"] = result["page_path"].str.replace(_ENTITY_PATH_RE, r"\1", regex=True)
+    result["page_path"] = result["page_path"].str.replace(
+        _ENTITY_PATH_RE, r"\1", regex=True
+    )
     result = result.groupby(["page_path", "click_url"], as_index=False)["count"].sum()
     result = result.sort_values("count", ascending=False)
     return result.to_dict(orient="records")
@@ -261,6 +279,7 @@ def get_search_queries(params, search_path="/search"):
 def _generate_month_range(start_date, end_date):
     """Generate a list of YYYY-MM strings covering the given date range."""
     from datetime import datetime
+
     start = datetime.strptime(start_date[:7], "%Y-%m")
     end = datetime.strptime(end_date[:7], "%Y-%m")
     months = []
@@ -301,7 +320,7 @@ def _monthly_counts_from_df(df, start_date, end_date, page_path_regex=None):
     grouped[month_col] = grouped[month_col].apply(
         lambda m: f"{m[:4]}-{m[4:]}" if len(m) == 6 and "-" not in m else m
     )
-    counts_by_month = dict(zip(grouped[month_col], grouped[count_col].astype(int)))
+    counts_by_month = grouped.set_index(month_col)[count_col].astype(int).to_dict()
     return [{"month": m, "count": counts_by_month.get(m, 0)} for m in all_months]
 
 
@@ -367,7 +386,9 @@ def fetch_data(
     if exclude_dates:
         for d in exclude_dates:
             if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
-                raise ValueError(f"exclude_dates entries must be YYYY-MM-DD, got: {d!r}")
+                raise ValueError(
+                    f"exclude_dates entries must be YYYY-MM-DD, got: {d!r}"
+                )
             date.fromisoformat(d)
         base_dimension_filter = parse_filter_expressions(
             [
@@ -395,16 +416,37 @@ def fetch_data(
     }
     if base_dimension_filter:
         params["base_dimension_filter"] = base_dimension_filter
-    params_all_time = {**params, "start_date": analytics_start, "end_date": end_date_current}
-    params_prior = {**params, "start_date": start_date_prior, "end_date": end_date_prior}
+    params_all_time = {
+        **params,
+        "start_date": analytics_start,
+        "end_date": end_date_current,
+    }
+    params_prior = {
+        **params,
+        "start_date": start_date_prior,
+        "end_date": end_date_prior,
+    }
 
     print("Fetching monthly traffic data...")
-    historic_kwargs = {"additional_data_path": historic_data_path, "additional_data_behavior": ADDITIONAL_DATA_BEHAVIOR.ADD} if historic_data_path else {}
-    df_monthly_traffic = elements.get_page_views_over_time_df(params_all_time, **historic_kwargs)
+    historic_kwargs = (
+        {
+            "additional_data_path": historic_data_path,
+            "additional_data_behavior": ADDITIONAL_DATA_BEHAVIOR.ADD,
+        }
+        if historic_data_path
+        else {}
+    )
+    df_monthly_traffic = elements.get_page_views_over_time_df(
+        params_all_time, **historic_kwargs
+    )
 
     print("Fetching pageviews data...")
     df_pageviews = elements.get_page_views_change(
-        params, start_date_current, end_date_current, start_date_prior, end_date_prior,
+        params,
+        start_date_current,
+        end_date_current,
+        start_date_prior,
+        end_date_prior,
     )
 
     if exclude_pages and df_pageviews is not None and len(df_pageviews) > 0:
@@ -414,7 +456,9 @@ def fetch_data(
 
     if df_pageviews is not None and len(df_pageviews) > 0:
         page_col = DIMENSION_PAGE_PATH["alias"]
-        suspicious_mask = df_pageviews[page_col].str.match(SUSPICIOUS_PAGE_PATH_RE, na=False)
+        suspicious_mask = df_pageviews[page_col].str.match(
+            SUSPICIOUS_PAGE_PATH_RE, na=False
+        )
         n_suspicious = suspicious_mask.sum()
         if n_suspicious > 0:
             df_pageviews = df_pageviews[~suspicious_mask]
@@ -422,13 +466,21 @@ def fetch_data(
 
     print("Fetching outbound links data...")
     df_outbound = elements.get_outbound_links_change(
-        params, start_date_current, end_date_current, start_date_prior, end_date_prior,
+        params,
+        start_date_current,
+        end_date_current,
+        start_date_prior,
+        end_date_prior,
     )
 
     print("Fetching filter selections data...")
     try:
         df_filter_selected = elements.get_index_filter_selected_change(
-            params, start_date_current, end_date_current, start_date_prior, end_date_prior,
+            params,
+            start_date_current,
+            end_date_current,
+            start_date_prior,
+            end_date_prior,
         )
     except Exception as e:
         print(f"  Skipped (not available for this property): {e}")
@@ -436,15 +488,35 @@ def fetch_data(
 
     print("Fetching sessions and engagement data...")
     df_sessions_current = get_data_df_from_fields(
-        [METRIC_SESSIONS, METRIC_ENGAGEMENT_RATE], [], **params,
+        [METRIC_SESSIONS, METRIC_ENGAGEMENT_RATE],
+        [],
+        **params,
     )
     df_sessions_prior = get_data_df_from_fields(
-        [METRIC_SESSIONS, METRIC_ENGAGEMENT_RATE], [], **params_prior,
+        [METRIC_SESSIONS, METRIC_ENGAGEMENT_RATE],
+        [],
+        **params_prior,
     )
-    sessions_current = int(df_sessions_current[METRIC_SESSIONS["alias"]].sum()) if len(df_sessions_current) > 0 else 0
-    sessions_prior = int(df_sessions_prior[METRIC_SESSIONS["alias"]].sum()) if len(df_sessions_prior) > 0 else 0
-    engagement_current = float(df_sessions_current[METRIC_ENGAGEMENT_RATE["alias"]].mean()) if len(df_sessions_current) > 0 else 0
-    engagement_prior = float(df_sessions_prior[METRIC_ENGAGEMENT_RATE["alias"]].mean()) if len(df_sessions_prior) > 0 else 0
+    sessions_current = (
+        int(df_sessions_current[METRIC_SESSIONS["alias"]].sum())
+        if len(df_sessions_current) > 0
+        else 0
+    )
+    sessions_prior = (
+        int(df_sessions_prior[METRIC_SESSIONS["alias"]].sum())
+        if len(df_sessions_prior) > 0
+        else 0
+    )
+    engagement_current = (
+        float(df_sessions_current[METRIC_ENGAGEMENT_RATE["alias"]].mean())
+        if len(df_sessions_current) > 0
+        else 0
+    )
+    engagement_prior = (
+        float(df_sessions_prior[METRIC_ENGAGEMENT_RATE["alias"]].mean())
+        if len(df_sessions_prior) > 0
+        else 0
+    )
 
     print("Fetching file downloads data...")
     try:
@@ -502,21 +574,28 @@ def fetch_data(
         key = event_key(event)
         print(f"Fetching {event['label']} data...")
         data[f"event_{key}"] = get_custom_event_change(
-            event["event_name"], params, params_prior,
+            event["event_name"],
+            params,
+            params_prior,
             page_path_regex=event.get("page_path_regex"),
             click_url_regex=event.get("click_url_regex"),
         )
         if event.get("detail_table"):
             print(f"Fetching {event['label']} detail table...")
             data[f"event_{key}_detail"] = get_event_detail_table(
-                event["event_name"], params,
+                event["event_name"],
+                params,
                 page_path_regex=event.get("page_path_regex"),
                 click_url_regex=event.get("click_url_regex"),
             )
 
     if event_charts:
         chart_start = event_charts.get("chart_start", analytics_start)
-        params_chart = {**params, "start_date": chart_start, "end_date": end_date_current}
+        params_chart = {
+            **params,
+            "start_date": chart_start,
+            "end_date": end_date_current,
+        }
         data["event_chart_config"] = event_charts
 
         # Group series by event_name to avoid duplicate API calls
@@ -532,7 +611,9 @@ def fetch_data(
             df = _fetch_event_monthly_df(event_name, params_chart, needs_page_path)
             for series in series_list:
                 data[f"event_chart_{series['event_key']}"] = _monthly_counts_from_df(
-                    df, chart_start, end_date_current,
+                    df,
+                    chart_start,
+                    end_date_current,
                     page_path_regex=series.get("page_path_regex"),
                 )
 

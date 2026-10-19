@@ -33,39 +33,12 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
     columns: [
       {
         componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildDonorId,
-        } as ComponentConfig<typeof C.BasicCell>,
+          component: C.IdentityCell,
+          viewBuilder: V.buildDonorIdentity,
+        } as ComponentConfig<typeof C.IdentityCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_DONOR_ID,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_DONOR_ID,
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildOrganismType,
-        } as ComponentConfig<typeof C.BasicCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
-        id: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        componentConfig: {
-          component: C.BasicCell,
-          viewBuilder: V.buildPhenotypicSex,
-        } as ComponentConfig<typeof C.BasicCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
-        id: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        componentConfig: {
-          component: C.NTagCell,
-          viewBuilder: V.buildReportedEthnicity,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
-        id: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
-        width: { max: "1fr", min: "200px" },
+        width: { max: "1.5fr", min: "340px" },
       },
       {
         componentConfig: {
@@ -83,15 +56,6 @@ export const donorsEntityConfig: EntityConfig<DonorsResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
         id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE,
-        width: { max: "1fr", min: "200px" },
-      },
-      {
-        componentConfig: {
-          component: C.NTagCell,
-          viewBuilder: V.buildDatasetTitles,
-        } as ComponentConfig<typeof C.NTagCell>,
-        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
-        id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
         width: { max: "1fr", min: "200px" },
       },
       {
