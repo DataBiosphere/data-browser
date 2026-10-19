@@ -29,7 +29,7 @@ const APP_TITLE = "AnVIL Data Explorer";
 const DESCRIPTION =
   "Explore datasets, donors, biosamples, and files in the AnVIL Data Explorer.";
 const DATA_URL = "https://service.anvil.gi.ucsc.edu";
-const BROWSER_URL = "https://explore.anvil.gi.ucsc.edu";
+const BROWSER_URL = "https://anvil.gi.ucsc.edu";
 const PORTAL_URL = "https://anvilproject.dev.clevercanary.com";
 
 export function makeConfig(
@@ -90,6 +90,7 @@ export function makeConfig(
             {
               key: ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE,
               label: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSIS_PHENOTYPE,
+              mapSelectCategoryValue: mapSelectCategoryValue(mapDiagnosisValue),
             },
             {
               key: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,

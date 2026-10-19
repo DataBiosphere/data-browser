@@ -5,6 +5,7 @@ const withMDX = nextMDX({
 });
 
 export default withMDX({
+  agentRules: false,
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || "",
   images: {
     unoptimized: true,

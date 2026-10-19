@@ -9,7 +9,6 @@ import { humanFileSize } from "../../../../utils/fileSize";
 import {
   processAggregatedOrArrayValue,
   processEntityValue,
-  processNumberEntityValue,
 } from "../../common/utils";
 import {
   AggregatedBioSampleResponse,
@@ -205,10 +204,12 @@ export function getFileFormat(response: FileEntityResponse): string {
 /**
  * Maps file size from the core file value returned from the /index/files API response.
  * @param response - Response model return from index/files API endpoint.
- * @returns Formatted file size.
+ * @returns Formatted file size, or "Unspecified" when the file size is missing, so a missing size isn't shown as a
+ * zero-byte file.
  */
 export function getFileSize(response: FileEntityResponse): string {
-  const fileSize = processNumberEntityValue(response.files, "file_size");
+  const fileSize = response.files[0]?.file_size;
+  if (typeof fileSize !== "number") return LABEL.UNSPECIFIED;
   return humanFileSize(fileSize);
 }
 

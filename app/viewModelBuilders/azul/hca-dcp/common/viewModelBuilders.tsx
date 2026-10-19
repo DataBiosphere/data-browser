@@ -56,6 +56,7 @@ import {
 } from "../../../../../site-config/hca-dcp/category";
 import { EXPORT_ROUTE } from "../../../../../site-config/hca-dcp/ma-dev/export/routes";
 import {
+  filterUniqueValues,
   processAggregatedBooleanOrArrayValue,
   processAggregatedOrArrayValue,
   processEntityArrayValue,
@@ -84,6 +85,7 @@ import { DATE_TIME_FORMAT_OPTIONS } from "../../../common/contants";
 import { formatDate } from "../../../common/utils";
 import { mapAccessions } from "./accessionMapper/accessionMapper";
 import { Accession } from "./accessionMapper/entities";
+import { AGE_UNIT_ABBREVIATION } from "./constants";
 import { DATA_SUMMARY_DISPLAY_TEXT } from "./dataSummaryMapper/constants";
 import { mapProjectDataSummary } from "./dataSummaryMapper/dataSummaryMapper";
 import { AnalysisPortal } from "./projectMapper/projectEdits/entities";
@@ -1474,7 +1476,7 @@ export function filterBioNetworks(
 /**
  * Returns age and age unit object values.
  * @param donorOrganisms - Donor organisms.
- * @returns age and age unit values.
+ * @returns age and age unit values, each listed once in first-seen order, with null values removed.
  */
 function processDonorOrganismAge(
   donorOrganisms: AggregatedDonorOrganismResponse[]
@@ -1487,14 +1489,16 @@ function processDonorOrganismAge(
         let formattedAge = organismAge.value;
         if (organismAge.unit) {
           // Only add unit if there is a value.
-          const truncatedUnit = organismAge.unit.charAt(0); // For example, convert year to y.
-          formattedAge += ` ${truncatedUnit}`;
+          const abbreviatedUnit =
+            AGE_UNIT_ABBREVIATION[organismAge.unit] ??
+            organismAge.unit.charAt(0); // For example, convert year to y.
+          formattedAge += ` ${abbreviatedUnit}`;
         }
         return formattedAge;
       }
       return organismAge;
     });
-  return processNullElements(organismAges);
+  return processNullElements(filterUniqueValues(organismAges));
 }
 
 /**

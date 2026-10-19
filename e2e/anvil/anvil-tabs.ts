@@ -15,6 +15,7 @@ import {
   ANVIL_DONORS_PRESELECTED_COLUMNS_BY_NAME,
   ANVIL_DONORS_SELECTABLE_COLUMNS_BY_NAME,
   ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME,
+  ANVIL_FILES_SELECTABLE_COLUMNS_BY_NAME,
 } from "./constants";
 
 export const ANVIL_FILTER_NAMES: string[] = [
@@ -148,7 +149,7 @@ export const ANVIL_TABS: AnvilCMGTabCollection = {
     maxPages: 25,
     preselectedColumns: ANVIL_FILES_PRESELECTED_COLUMNS_BY_NAME,
     searchFiltersPlaceholderText: ANVIL_CMG_SEARCH_FILTERS_PLACEHOLDER_TEXT,
-    selectableColumns: ANVIL_DONORS_SELECTABLE_COLUMNS_BY_NAME,
+    selectableColumns: ANVIL_FILES_SELECTABLE_COLUMNS_BY_NAME,
     tabName: "Files",
     url: "/files",
   },
