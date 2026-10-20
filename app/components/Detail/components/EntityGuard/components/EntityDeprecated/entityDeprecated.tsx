@@ -1,4 +1,4 @@
-import { ButtonPrimary } from "@databiosphere/findable-ui/lib/components/common/Button/components/ButtonPrimary/buttonPrimary";
+import { BUTTON_PROPS } from "@databiosphere/findable-ui/lib/components/common/Button/constants";
 import { AlertIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/AlertIcon/alertIcon";
 import { SectionActions } from "@databiosphere/findable-ui/lib/components/common/Section/section.styles";
 import {
@@ -7,7 +7,7 @@ import {
 } from "@databiosphere/findable-ui/lib/components/common/StatusIcon/statusIcon";
 import { Override } from "@databiosphere/findable-ui/lib/config/entities";
 import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
-import { Link as MLink, Typography } from "@mui/material";
+import { Button, Link as MLink, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { JSX } from "react";
@@ -60,7 +60,9 @@ export const EntityDeprecated = ({
         </SectionContent>
         <SectionActions>
           <Link href="/" legacyBehavior passHref>
-            <ButtonPrimary href="passHref">To Homepage</ButtonPrimary>
+            <Button {...BUTTON_PROPS.PRIMARY_CONTAINED} href="passHref">
+              To Homepage
+            </Button>
           </Link>
         </SectionActions>
       </Section>
