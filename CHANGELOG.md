@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.7.1](https://github.com/DataBiosphere/data-browser/compare/v3.7.0...v3.7.1) (2026-10-21)
+
+
+### Chores
+
+* playwright ci fails on ubuntu-latest (now ubuntu 26.04) ([#4996](https://github.com/DataBiosphere/data-browser/issues/4996)) ([#4997](https://github.com/DataBiosphere/data-browser/issues/4997)) ([905f040](https://github.com/DataBiosphere/data-browser/commit/905f0402fb29dbe7274b391a1133a09a2133db73))
+
+
+### Code Refactoring
+
+* replace findable button wrappers with mui button ([#4994](https://github.com/DataBiosphere/data-browser/issues/4994)) ([#4995](https://github.com/DataBiosphere/data-browser/issues/4995)) ([3ce7c89](https://github.com/DataBiosphere/data-browser/commit/3ce7c896f888bfee9da1dac9e956377e1ba81434))
+
 ## [3.7.0](https://github.com/DataBiosphere/data-browser/compare/v3.6.0...v3.7.0) (2026-10-13)
 
 
