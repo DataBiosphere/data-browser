@@ -1,4 +1,4 @@
-import { ButtonPrimary } from "@databiosphere/findable-ui/lib/components/common/Button/components/ButtonPrimary/buttonPrimary";
+import { BUTTON_PROPS } from "@databiosphere/findable-ui/lib/components/common/Button/constants";
 import { AlertIcon } from "@databiosphere/findable-ui/lib/components/common/CustomIcon/components/AlertIcon/alertIcon";
 import { SectionActions } from "@databiosphere/findable-ui/lib/components/common/Section/section.styles";
 import {
@@ -8,7 +8,7 @@ import {
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { Override } from "@databiosphere/findable-ui/lib/config/entities";
 import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
-import { Link as MLink, Typography } from "@mui/material";
+import { Button, Link as MLink, Typography } from "@mui/material";
 import Link from "next/link";
 import { JSX } from "react";
 import { Notice, Section, SectionContent } from "../../entityGuard.styles";
@@ -58,7 +58,9 @@ export const EntityWithdrawn = ({
         </SectionContent>
         <SectionActions>
           <Link href="/" legacyBehavior passHref>
-            <ButtonPrimary href="passHref">To Homepage</ButtonPrimary>
+            <Button {...BUTTON_PROPS.PRIMARY_CONTAINED} href="passHref">
+              To Homepage
+            </Button>
           </Link>
         </SectionActions>
       </Section>
