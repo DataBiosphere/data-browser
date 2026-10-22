@@ -98,7 +98,7 @@ export { ManifestDownloadEntity as AnVILManifestDownloadEntity } from "./Export/
 export { ExportToPlatform } from "./Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
 export { BioNetworkCell } from "./Index/components/BioNetworkCell/bioNetworkCell";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
-export { CopyCell } from "./Index/components/CopyCell/copyCell";
+export { FileDownloadMenu } from "./Index/components/FileDownloadMenu/fileDownloadMenu";
 export { BackPageHeroActions } from "./Layout/components/BackPage/components/BackPageHero/components/BackPageHeroActions/backPageHeroActions";
 export { ANVILBranding } from "./Layout/components/Footer/components/Branding/components/ANVILBranding/anvilBranding";
 export { HCABranding } from "./Layout/components/Footer/components/Branding/components/HCABranding/hcaBranding";

@@ -4,15 +4,14 @@ import type {
 } from "../../app/apis/azul/anvil-cmg/common/aggregatedEntities";
 import type { BioSampleEntity } from "../../app/apis/azul/anvil-cmg/common/entities";
 import type { BioSamplesResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
-import { buildBioSampleIdentity } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import { getChipLabels } from "./utils/identityCell";
+import {
+  buildAnatomicalSite,
+  buildBioSampleIdentity,
+  buildBioSampleType,
+} from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
 const BIOSAMPLE_ID = "test-biosample-id";
 const DATASET_TITLE = "Test Dataset Title";
-const UNSPECIFIED_CASES: [string, null | string][] = [
-  ["null", null],
-  ["unspecified", "Unspecified"],
-];
 
 /**
  * Creates a mock BioSamplesResponse for testing.
@@ -43,98 +42,26 @@ const createMockBioSamplesResponse = (
   }) as BioSamplesResponse;
 
 describe("buildBioSampleIdentity", () => {
-  it("renders the biosample ID as a plain text title", () => {
-    const { title } = buildBioSampleIdentity(createMockBioSamplesResponse());
-    expect(title).toEqual({ label: BIOSAMPLE_ID, url: "" });
-  });
-
-  it("renders biosample type, anatomical site, then organism type chips", () => {
-    const response = createMockBioSamplesResponse({}, [
-      { organism_type: ["Human"] },
-      { organism_type: ["Mouse"] },
-    ]);
-    expect(getChipLabels(buildBioSampleIdentity(response).chips)).toEqual([
-      "biosample type Tissue",
-      "anatomical site Blood",
-      "organism type Human",
-      "organism type Mouse",
-    ]);
-  });
-
-  it.each(UNSPECIFIED_CASES)(
-    "omits the biosample type chip when the biosample type is %s",
-    (_, value) => {
-      const response = createMockBioSamplesResponse({ biosample_type: value });
-      expect(getChipLabels(buildBioSampleIdentity(response).chips)).toEqual([
-        "anatomical site Blood",
-        "organism type Human",
-      ]);
-    }
-  );
-
-  it.each(UNSPECIFIED_CASES)(
-    "omits the anatomical site chip when the anatomical site is %s",
-    (_, value) => {
-      const response = createMockBioSamplesResponse({ anatomical_site: value });
-      expect(getChipLabels(buildBioSampleIdentity(response).chips)).toEqual([
-        "biosample type Tissue",
-        "organism type Human",
-      ]);
-    }
-  );
-
-  it.each([
-    ["empty", []],
-    ["null", [null]],
-    ["unspecified", ["Unspecified"]],
-  ])("omits organism type chips when the organism type is %s", (_, value) => {
-    const response = createMockBioSamplesResponse({}, [
-      { organism_type: value },
-    ]);
-    expect(getChipLabels(buildBioSampleIdentity(response).chips)).toEqual([
-      "biosample type Tissue",
-      "anatomical site Blood",
-    ]);
-  });
-
-  it("renders one organism type chip per unique organism type across donors", () => {
-    const response = createMockBioSamplesResponse({}, [
-      { organism_type: ["Human"] },
-      { organism_type: ["Human"] },
-    ]);
-    expect(getChipLabels(buildBioSampleIdentity(response).chips)).toEqual([
-      "biosample type Tissue",
-      "anatomical site Blood",
-      "organism type Human",
-    ]);
-  });
-
-  it("renders no chips when every biosample field is unspecified", () => {
-    const response = createMockBioSamplesResponse(
-      { anatomical_site: null, biosample_type: null },
-      []
-    );
-    expect(buildBioSampleIdentity(response).chips).toEqual([]);
-  });
-
-  it("renders the dataset title as a plain text subtitle", () => {
-    const { subtitle } = buildBioSampleIdentity(createMockBioSamplesResponse());
-    expect(subtitle).toEqual({ label: DATASET_TITLE, url: "" });
-  });
-
-  it("renders the dataset count as the subtitle when there is more than one dataset", () => {
-    const response = createMockBioSamplesResponse({}, undefined, [
-      { dataset_id: ["dataset-a"], title: ["Dataset A"] },
-      { dataset_id: ["dataset-b"], title: ["Dataset B"] },
-    ]);
-    expect(buildBioSampleIdentity(response).subtitle).toEqual({
-      label: "2 datasets",
-      url: "",
+  it("renders the biosample ID as a plain text title, clamped to two lines, with no chips or subtitle", () => {
+    expect(buildBioSampleIdentity(createMockBioSamplesResponse())).toEqual({
+      maxLines: 2,
+      title: { label: BIOSAMPLE_ID, url: "" },
     });
   });
+});
 
-  it("omits the subtitle when there are no datasets", () => {
-    const response = createMockBioSamplesResponse({}, undefined, []);
-    expect(buildBioSampleIdentity(response).subtitle).toBeUndefined();
+describe("buildAnatomicalSite", () => {
+  it("renders the anatomical site", () => {
+    expect(buildAnatomicalSite(createMockBioSamplesResponse()).value).toBe(
+      "Blood"
+    );
+  });
+});
+
+describe("buildBioSampleType", () => {
+  it("renders the biosample type", () => {
+    expect(buildBioSampleType(createMockBioSamplesResponse()).value).toBe(
+      "Tissue"
+    );
   });
 });

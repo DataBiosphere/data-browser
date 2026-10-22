@@ -1,7 +1,5 @@
-import { AzulFileDownloadProps } from "@databiosphere/findable-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
-import { ReactElement } from "react";
 import { FilesResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
-import { buildFileDownloadWithTooltip } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
+import { buildFileDownloadMenu } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
 /**
  * Creates a mock FilesResponse with configurable file and dataset values.
@@ -52,6 +50,7 @@ const createMockFilesResponse = (
       file_format: "bam",
       file_id: "file-123",
       file_name: "sample.bam",
+      file_path: "folder/sample.bam",
       file_size: 1024,
       file_type: "Analysis",
       ...overrides,
@@ -64,7 +63,7 @@ const createMockFilesResponse = (
   ],
 });
 
-describe("buildFileDownload", () => {
+describe("buildFileDownloadMenu", () => {
   describe("url prop based on azul_mirror_uri", () => {
     it("returns undefined url when azul_mirror_uri is null", () => {
       const response = createMockFilesResponse({
@@ -72,11 +71,9 @@ describe("buildFileDownload", () => {
         azul_url: "https://service.azul.data/repository/files/file-123",
       });
 
-      const result = buildFileDownloadWithTooltip(response);
+      const result = buildFileDownloadMenu(response);
 
-      expect(
-        (result.children as ReactElement<AzulFileDownloadProps>).props.url
-      ).toBeUndefined();
+      expect(result.url).toBeUndefined();
     });
 
     it("returns undefined url when azul_mirror_uri is empty string", () => {
@@ -85,11 +82,9 @@ describe("buildFileDownload", () => {
         azul_url: "https://service.azul.data/repository/files/file-123",
       });
 
-      const result = buildFileDownloadWithTooltip(response);
+      const result = buildFileDownloadMenu(response);
 
-      expect(
-        (result.children as ReactElement<AzulFileDownloadProps>).props.url
-      ).toBeUndefined();
+      expect(result.url).toBeUndefined();
     });
 
     it("returns azul_url when azul_mirror_uri has a value", () => {
@@ -99,11 +94,9 @@ describe("buildFileDownload", () => {
         azul_url: azulUrl,
       });
 
-      const result = buildFileDownloadWithTooltip(response);
+      const result = buildFileDownloadMenu(response);
 
-      expect(
-        (result.children as ReactElement<AzulFileDownloadProps>).props.url
-      ).toBe(azulUrl);
+      expect(result.url).toBe(azulUrl);
     });
 
     it("returns azul_url value exactly as provided when mirror uri exists", () => {
@@ -114,11 +107,9 @@ describe("buildFileDownload", () => {
         azul_url: azulUrl,
       });
 
-      const result = buildFileDownloadWithTooltip(response);
+      const result = buildFileDownloadMenu(response);
 
-      expect(
-        (result.children as ReactElement<AzulFileDownloadProps>).props.url
-      ).toBe(azulUrl);
+      expect(result.url).toBe(azulUrl);
     });
   });
 
@@ -128,12 +119,9 @@ describe("buildFileDownload", () => {
         file_name: "my-sample-file.bam",
       });
 
-      const result = buildFileDownloadWithTooltip(response);
+      const result = buildFileDownloadMenu(response);
 
-      expect(
-        (result.children as ReactElement<AzulFileDownloadProps>).props
-          .entityName
-      ).toBe("my-sample-file.bam");
+      expect(result.entityName).toBe("my-sample-file.bam");
     });
 
     it("returns correct relatedEntityId from dataset_id", () => {
@@ -142,12 +130,9 @@ describe("buildFileDownload", () => {
         { dataset_id: ["my-dataset-id-123"] }
       );
 
-      const result = buildFileDownloadWithTooltip(response);
+      const result = buildFileDownloadMenu(response);
 
-      expect(
-        (result.children as ReactElement<AzulFileDownloadProps>).props
-          .relatedEntityId
-      ).toBe("my-dataset-id-123");
+      expect(result.relatedEntityId).toBe("my-dataset-id-123");
     });
 
     it("returns correct relatedEntityName from dataset title", () => {
@@ -156,39 +141,17 @@ describe("buildFileDownload", () => {
         { title: ["My Research Dataset"] }
       );
 
-      const result = buildFileDownloadWithTooltip(response);
+      const result = buildFileDownloadMenu(response);
 
-      expect(
-        (result.children as ReactElement<AzulFileDownloadProps>).props
-          .relatedEntityName
-      ).toBe("My Research Dataset");
+      expect(result.relatedEntityName).toBe("My Research Dataset");
     });
   });
 
-  describe("tooltip title", () => {
-    it("returns tooltip message when download is disabled", () => {
-      const response = createMockFilesResponse({
-        azul_mirror_uri: null,
-      });
+  describe("drsUri", () => {
+    it("returns the file's DRS URI", () => {
+      const result = buildFileDownloadMenu(createMockFilesResponse());
 
-      const result = buildFileDownloadWithTooltip(response);
-
-      expect(result.title).toBe(
-        "Direct file downloads are currently only available for open-access files."
-      );
-    });
-
-    it("returns enabled tooltip message when download is available", () => {
-      const response = createMockFilesResponse({
-        azul_mirror_uri: "s3://bucket/path/to/file.bam",
-        azul_url: "https://service.azul.data/repository/files/file-123",
-      });
-
-      const result = buildFileDownloadWithTooltip(response);
-
-      expect(result.title).toBe(
-        "This open-access file is freely downloadable from AWS Open Data, with no data transfer fees."
-      );
+      expect(result.drsUri).toBe("drs://data.azul/file-123");
     });
   });
 
@@ -206,11 +169,10 @@ describe("buildFileDownload", () => {
         }
       );
 
-      const result = buildFileDownloadWithTooltip(response);
+      const result = buildFileDownloadMenu(response);
 
-      expect(
-        (result.children as ReactElement<AzulFileDownloadProps>).props
-      ).toEqual({
+      expect(result).toEqual({
+        drsUri: "drs://data.azul/file-123",
         entityName: "research-data.bam",
         relatedEntityId: "dataset-abc",
         relatedEntityName: "Genomics Research Project",
@@ -231,11 +193,10 @@ describe("buildFileDownload", () => {
         }
       );
 
-      const result = buildFileDownloadWithTooltip(response);
+      const result = buildFileDownloadMenu(response);
 
-      expect(
-        (result.children as ReactElement<AzulFileDownloadProps>).props
-      ).toEqual({
+      expect(result).toEqual({
+        drsUri: "drs://data.azul/file-123",
         entityName: "research-data.bam",
         relatedEntityId: "dataset-abc",
         relatedEntityName: "Genomics Research Project",

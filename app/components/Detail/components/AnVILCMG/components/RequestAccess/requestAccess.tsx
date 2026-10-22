@@ -7,13 +7,10 @@ import { CallToActionButton } from "@databiosphere/findable-ui/lib/components/co
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import { ListItemText, MenuItem } from "@mui/material";
 import { JSX } from "react";
-import {
-  BUTTON_PROPS,
-  LIST_ITEM_TEXT_PROPS,
-  MENU_PROPS,
-  SVG_ICON_PROPS,
-} from "./constants";
-import { StyledButton, StyledDropdownMenu } from "./requestAccess.styles";
+import { LIST_ITEM_TEXT_PROPS } from "../../../../../common/DropdownMenu/constants";
+import { StyledDropdownMenu } from "../../../../../common/DropdownMenu/dropdownMenu.styles";
+import { BUTTON_PROPS, MENU_PROPS, SVG_ICON_PROPS } from "./constants";
+import { StyledButton } from "./requestAccess.styles";
 import { Props } from "./types";
 import { getRequestAccessOptions } from "./utils";
 
