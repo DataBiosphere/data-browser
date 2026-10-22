@@ -192,6 +192,11 @@ export function getFileName(response: FileEntityResponse): string {
   return processEntityValue(response.files, "file_name");
 }
 
+export function getFileFolderPath(response: FileEntityResponse): string {
+  const filePath = processEntityValue(response.files, "file_path", LABEL.EMPTY);
+  return filePath.slice(0, Math.max(filePath.lastIndexOf("/"), 0));
+}
+
 /**
  * Maps file format from the core file value returned from the /index/files API response.
  * @param response - Response model return from index/files API endpoint.

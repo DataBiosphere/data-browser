@@ -14,6 +14,7 @@ import {
 } from "../../category";
 import { entityListSlot } from "../ui/entityList";
 import { entityViewSlot } from "../ui/entityView";
+import { getValueColumnSizing } from "./common/columns";
 
 /**
  * Entity config object responsible for config related to the /activities route.
@@ -42,12 +43,32 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
       },
       {
         componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildDatasetTitles,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
+        id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE),
+      },
+      {
+        componentConfig: {
+          component: C.BasicCell,
+          viewBuilder: V.buildActivityType,
+        } as ComponentConfig<typeof C.BasicCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.ACTIVITY_ACTIVITY_TYPE,
+        id: ANVIL_CMG_CATEGORY_KEY.ACTIVITY_ACTIVITY_TYPE,
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.ACTIVITY_ACTIVITY_TYPE),
+      },
+      {
+        componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildBioSampleTypes,
         } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.BIOSAMPLE_BIOSAMPLE_TYPE,
         id: ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_TYPE,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(
+          ANVIL_CMG_CATEGORY_KEY.BIOSAMPLE_BIOSAMPLE_TYPE
+        ),
       },
       {
         componentConfig: {
@@ -56,7 +77,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE),
       },
       {
         componentConfig: {
@@ -65,7 +86,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX),
       },
       {
         componentConfig: {
@@ -74,7 +95,9 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(
+          ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY
+        ),
       },
       {
         componentConfig: {
@@ -83,7 +106,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSIS_PHENOTYPE,
         id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE),
       },
       {
         componentConfig: {
@@ -92,7 +115,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
         id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE),
       },
       {
         componentConfig: {
@@ -101,7 +124,7 @@ export const activitiesEntityConfig: EntityConfig<ActivitiesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
         id: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY),
       },
     ],
     tableOptions: {

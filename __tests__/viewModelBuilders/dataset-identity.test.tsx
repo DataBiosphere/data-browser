@@ -1,16 +1,15 @@
 import { CHIP_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/chip";
 import type { DatasetEntity } from "../../app/apis/azul/anvil-cmg/common/entities";
 import type { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
-import { buildDatasetIdentity } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import { getChipLabels } from "./utils/identityCell";
+import {
+  buildConsentGroup,
+  buildDatasetAccess,
+  buildDatasetIdentity,
+  buildRegisteredIdentifiers,
+} from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
 const DATASET_ID = "test-dataset-id";
 const DATASET_TITLE = "Test Dataset Title";
-const UNSPECIFIED_CASES: [string, (string | null)[]][] = [
-  ["empty", []],
-  ["null", [null]],
-  ["unspecified", ["Unspecified"]],
-];
 
 /**
  * Creates a mock DatasetsResponse for testing.
@@ -44,66 +43,46 @@ describe("buildDatasetIdentity", () => {
     });
   });
 
-  it("renders access, identifier, then consent group chips", () => {
-    const response = createMockDatasetsResponse({
-      consent_group: ["DS-BDIS-MDS", "GRU"],
-    });
-    expect(getChipLabels(buildDatasetIdentity(response).chips)).toEqual([
-      "access Granted",
-      "identifier phs000693",
-      "consent group DS-BDIS-MDS",
-      "consent group GRU",
-    ]);
+  it("renders no chips", () => {
+    expect(
+      buildDatasetIdentity(createMockDatasetsResponse()).chips
+    ).toBeUndefined();
   });
+});
 
-  it("renders one identifier chip per unique registered identifier", () => {
+describe("buildDatasetAccess", () => {
+  it.each([
+    [true, CHIP_PROPS.COLOR.SUCCESS, "Granted"],
+    [false, CHIP_PROPS.COLOR.WARNING, "Required"],
+  ])(
+    "renders the access badge when accessible is %s",
+    (accessible, color, label) => {
+      const response = createMockDatasetsResponse({ accessible });
+      expect(buildDatasetAccess(response)).toEqual({ color, label });
+    }
+  );
+});
+
+describe("buildRegisteredIdentifiers", () => {
+  it("renders each unique registered identifier", () => {
     const response = createMockDatasetsResponse({
       registered_identifier: ["phs000693", "phs001272", "phs000693"],
     });
-    expect(getChipLabels(buildDatasetIdentity(response).chips)).toEqual([
-      "access Granted",
-      "identifier phs000693",
-      "identifier phs001272",
-      "consent group GRU",
-    ]);
+    expect(buildRegisteredIdentifiers(response)).toEqual({
+      label: "dbGap ids",
+      values: ["phs000693", "phs001272"],
+    });
   });
+});
 
-  it.each([
-    [true, CHIP_PROPS.COLOR.SUCCESS, "access Granted"],
-    [false, CHIP_PROPS.COLOR.WARNING, "access Required"],
-  ])(
-    "renders the access chip when accessible is %s",
-    (accessible, color, label) => {
-      const response = createMockDatasetsResponse({ accessible });
-      const [accessChip] = buildDatasetIdentity(response).chips ?? [];
-      expect(accessChip.color).toBe(color);
-      expect(getChipLabels(buildDatasetIdentity(response).chips)[0]).toBe(
-        label
-      );
-    }
-  );
-
-  it.each(UNSPECIFIED_CASES)(
-    "omits the identifier chip when the identifier is %s",
-    (_, value) => {
-      const response = createMockDatasetsResponse({
-        registered_identifier: value,
-      });
-      expect(getChipLabels(buildDatasetIdentity(response).chips)).toEqual([
-        "access Granted",
-        "consent group GRU",
-      ]);
-    }
-  );
-
-  it.each(UNSPECIFIED_CASES)(
-    "omits consent group chips when the consent group is %s",
-    (_, value) => {
-      const response = createMockDatasetsResponse({ consent_group: value });
-      expect(getChipLabels(buildDatasetIdentity(response).chips)).toEqual([
-        "access Granted",
-        "identifier phs000693",
-      ]);
-    }
-  );
+describe("buildConsentGroup", () => {
+  it("renders each consent group", () => {
+    const response = createMockDatasetsResponse({
+      consent_group: ["DS-BDIS-MDS", "GRU"],
+    });
+    expect(buildConsentGroup(response)).toEqual({
+      label: "consent codes",
+      values: ["DS-BDIS-MDS", "GRU"],
+    });
+  });
 });

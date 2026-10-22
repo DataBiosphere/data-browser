@@ -17,10 +17,8 @@ import {
 import { ExportMethod } from "@databiosphere/findable-ui/lib/components/Export/components/ExportMethod/exportMethod";
 import { CurrentQuery } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportCurrentQuery/exportCurrentQuery";
 import { Summary } from "@databiosphere/findable-ui/lib/components/Export/components/ExportSummary/components/ExportSelectedDataSummary/exportSelectedDataSummary";
-import { AzulFileDownload } from "@databiosphere/findable-ui/lib/components/Index/components/AzulFileDownload/azulFileDownload";
 import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
-import type { IdentityChipProps } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/IdentityCell/components/Chips/components/Chip/types";
-import type { IdentityLinkProps } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/IdentityCell/types";
+import { addWordBreaks } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/common/wordBreaks";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import {
@@ -31,7 +29,6 @@ import {
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import { SIZE } from "@databiosphere/findable-ui/lib/styles/common/constants/size";
 import { CHIP_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/chip";
-import { TYPOGRAPHY_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/typography";
 import { CategoryKeyLabel } from "@databiosphere/findable-ui/lib/viewModelBuilders/common/entities";
 import {
   mapCategoryKeyLabel,
@@ -40,8 +37,6 @@ import {
 import {
   ChipProps as MChipProps,
   FadeProps as MFadeProps,
-  Tooltip,
-  Typography,
 } from "@mui/material";
 import React, { ComponentProps, ReactNode } from "react";
 import {
@@ -89,6 +84,7 @@ import {
   getDocumentId,
   getDonorId,
   getFileDataModalities,
+  getFileFolderPath,
   getFileFormat,
   getFileName,
   getFileSize,
@@ -116,20 +112,20 @@ import { isProductionEnvironment } from "../../../../config/utils";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
 
-/**
- * Build props for the activity IdentityCell component from the given activities response.
- * The document ID is the title, in plain text as activities have no detail page. The activity type renders as a chip,
- * and the subtitle is the dataset title, or the dataset count when there is more than one.
- * @param response - Response model return from index/activities API endpoint.
- * @returns model to be used as props for the IdentityCell component.
- */
 export const buildActivityIdentity = (
   response: ActivitiesResponse
 ): React.ComponentProps<typeof C.IdentityCell> => {
   return {
-    chips: getIdentityChips("activity type", [getActivityType(response)]),
-    subtitle: getIdentityDatasetsSubtitle(response),
+    maxLines: 2,
     title: { label: getDocumentId(response), url: "" },
+  };
+};
+
+export const buildActivityType = (
+  response: ActivitiesResponse
+): React.ComponentProps<typeof C.BasicCell> => {
+  return {
+    value: getActivityType(response),
   };
 };
 
@@ -223,21 +219,28 @@ export const buildAlertExportWarning = (
   };
 };
 
-/**
- * Build props for the biosample IdentityCell component from the given biosamples response.
- * The biosample ID is the title, in plain text as biosamples have no detail page. The biosample type, anatomical site
- * and organism type values render as chips, and the subtitle is the dataset title, or the dataset count when there is
- * more than one.
- * @param response - Response model return from index/biosamples API endpoint.
- * @returns model to be used as props for the IdentityCell component.
- */
+export const buildAnatomicalSite = (
+  response: BioSamplesResponse
+): React.ComponentProps<typeof C.BasicCell> => {
+  return {
+    value: getAnatomicalSite(response),
+  };
+};
+
 export const buildBioSampleIdentity = (
   response: BioSamplesResponse
 ): React.ComponentProps<typeof C.IdentityCell> => {
   return {
-    chips: getBioSampleIdentityChips(response),
-    subtitle: getIdentityDatasetsSubtitle(response),
+    maxLines: 2,
     title: { label: getBioSampleId(response), url: "" },
+  };
+};
+
+export const buildBioSampleType = (
+  response: BioSamplesResponse
+): React.ComponentProps<typeof C.BasicCell> => {
+  return {
+    value: getBioSampleType(response),
   };
 };
 
@@ -266,6 +269,24 @@ export const buildCohortDownloadSectionProps = (
   viewContext: ViewContext<DatasetsResponse>
 ): { viewContext: ViewContext<DatasetsResponse> } => {
   return { viewContext };
+};
+
+export const buildConsentGroup = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.CONSENT_CODE),
+    values: getConsentGroup(datasetsResponse),
+  };
+};
+
+export const buildDatasetAccess = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.StatusBadge> => {
+  return {
+    color: getDatasetAccessColor(datasetsResponse),
+    label: getDatasetAccessStatus(datasetsResponse),
+  };
 };
 
 /**
@@ -608,21 +629,24 @@ export const buildDatasetHero = (
   };
 };
 
-/**
- * Build props for the dataset IdentityCell component from the given datasets response.
- * The title links to the dataset, and the access, identifier and consent group values render as chips.
- * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the IdentityCell component.
- */
 export const buildDatasetIdentity = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof C.IdentityCell> => {
   return {
-    chips: getDatasetIdentityChips(datasetsResponse),
+    maxLines: 2,
     title: {
       label: getDatasetTitle(datasetsResponse),
       url: buildDatasetPath(datasetsResponse),
     },
+  };
+};
+
+export const buildDatasetTitles = (
+  response: AggregatedDatasetResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATASET_NAME),
+    values: getAggregatedDatasetTitles(response),
   };
 };
 
@@ -710,34 +734,12 @@ export const buildDiagnosesPhenotype = (
   };
 };
 
-/**
- * Build props for the donor IdentityCell component from the given donors response.
- * The donor ID is the title, in plain text as donors have no detail page. The organism type, phenotypic sex and
- * reported ethnicity values render as chips, and the subtitle is the dataset title, or the dataset count when there is
- * more than one.
- * @param response - Response model return from index/donors API endpoint.
- * @returns model to be used as props for the IdentityCell component.
- */
 export const buildDonorIdentity = (
   response: DonorsResponse
 ): React.ComponentProps<typeof C.IdentityCell> => {
   return {
-    chips: getDonorIdentityChips(response),
-    subtitle: getIdentityDatasetsSubtitle(response),
+    maxLines: 2,
     title: { label: getDonorId(response), url: "" },
-  };
-};
-
-/**
- * Build props for DRS URI CopyCell component from the given files response.
- * @param filesResponse - Response model return from index/files API endpoint.
- * @returns model to be used as props for the CopyCell component.
- */
-export const buildDRSURI = (
-  filesResponse: FilesResponse
-): React.ComponentProps<typeof C.CopyCell> => {
-  return {
-    value: processEntityValue(filesResponse.files, "drs_uri"),
   };
 };
 
@@ -1048,64 +1050,57 @@ export const buildExportToTerra = (
   };
 };
 
-/**
- * Build props for file download AzulFileDownload component, with a tooltip component used to display a message when the file is not available for download.
- * Downloads use azul_url but are only enabled when azul_mirror_uri is present.
- * @param response - Response model returned from index/files API endpoint.
- * @returns model to be used as props for the AzulFileDownload component.
- */
-export const buildFileDownloadWithTooltip = (
+export const buildFileDownloadMenu = (
   response: FilesResponse
-): ComponentProps<typeof Tooltip> => {
+): React.ComponentProps<typeof C.FileDownloadMenu> => {
   const dataset = response.datasets[0];
   const mirrorUri = processEntityValue(
     response.files,
     "azul_mirror_uri",
     LABEL.EMPTY
   );
-  // Only provide download URL if mirror URI exists (enables the download button)
-  const url = mirrorUri
-    ? processEntityValue(response.files, "azul_url", LABEL.EMPTY)
-    : undefined;
-  // Determine the entity name
-  const entityName = processEntityValue(response.files, "file_name");
-  // Determine the tooltip title based on whether the file is available for download or not.
-  const title = url
-    ? "This open-access file is freely downloadable from AWS Open Data, with no data transfer fees."
-    : "Direct file downloads are currently only available for open-access files.";
-
-  // Return the download component as a child component of the tooltip.
   return {
-    arrow: true,
-    children: (
-      <AzulFileDownload
-        entityName={entityName}
-        relatedEntityId={dataset.dataset_id[0]}
-        relatedEntityName={dataset.title[0]}
-        url={url}
-      />
-    ),
-    title,
+    drsUri: processEntityValue(response.files, "drs_uri"),
+    entityName: processEntityValue(response.files, "file_name"),
+    relatedEntityId: dataset.dataset_id[0],
+    relatedEntityName: dataset.title[0],
+    url: mirrorUri
+      ? processEntityValue(response.files, "azul_url", LABEL.EMPTY)
+      : undefined,
   };
 };
 
-/**
- * Build props for the file IdentityCell component from the given files response.
- * The file name is the title, in plain text as files have no detail page. The file format and data modality values
- * render as chips, and the subtitle is the dataset title, or the dataset count when there is more than one.
- * @param response - Response model return from index/files API endpoint.
- * @returns model to be used as props for the IdentityCell component.
- */
+export const buildFileDataModality = (
+  response: FilesResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DATA_MODALITY),
+    values: getFileDataModalities(response),
+  };
+};
+
+export const buildFileFormat = (
+  response: FilesResponse
+): React.ComponentProps<typeof C.BasicCell> => {
+  return {
+    value: getFileFormat(response),
+  };
+};
+
 export const buildFileIdentity = (
   response: FilesResponse
 ): React.ComponentProps<typeof C.IdentityCell> => {
+  const folderPath = getFileFolderPath(response);
   return {
-    chips: [
-      ...getIdentityChips("format", [getFileFormat(response)]),
-      ...getIdentityChips("data modality", getFileDataModalities(response)),
-    ],
-    subtitle: getIdentityDatasetsSubtitle(response),
-    title: { label: getFileName(response), url: "" },
+    maxLines: 2,
+    subtitle: folderPath
+      ? { label: addWordBreaks(folderPath), url: "" }
+      : undefined,
+    title: {
+      TypographyProps: { sx: { wordBreak: "break-all" } },
+      label: getFileName(response),
+      url: "",
+    },
   };
 };
 
@@ -1163,6 +1158,14 @@ export const buildManifestDownload = (
   };
 };
 
+export const buildOrganismType = (
+  response: DonorsResponse
+): React.ComponentProps<typeof C.BasicCell> => {
+  return {
+    value: getOrganismType(response),
+  };
+};
+
 /**
  * Build props for organism type NTagCell component from the given entity response.
  * @param response - Response model return from Azul that includes aggregated donors.
@@ -1174,6 +1177,14 @@ export const buildOrganismTypes = (
   return {
     label: getPluralizedMetadataLabel(METADATA_KEY.ORGANISM_TYPE),
     values: getAggregatedOrganismTypes(response),
+  };
+};
+
+export const buildPhenotypicSex = (
+  response: DonorsResponse
+): React.ComponentProps<typeof C.BasicCell> => {
+  return {
+    value: getPhenotypicSex(response),
   };
 };
 
@@ -1201,6 +1212,15 @@ export const buildPrepMaterialName = (
 ): React.ComponentProps<typeof C.BasicCell> => {
   return {
     value: getPrepMaterialName(response),
+  };
+};
+
+export const buildRegisteredIdentifiers = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.NTagCell> => {
+  return {
+    label: getPluralizedMetadataLabel(METADATA_KEY.DBGAP_ID),
+    values: getDatasetRegisteredIdentifiers(datasetsResponse),
   };
 };
 
@@ -1247,22 +1267,6 @@ function getAccessibleTransition(
     in: isIn,
     timeout: 300,
   };
-}
-
-/**
- * Returns the biosample IdentityCell chips from the given biosamples response: biosample type, then anatomical site,
- * then one chip per organism type. Unspecified values render no chip.
- * @param response - Response model return from index/biosamples API endpoint.
- * @returns IdentityCell chip props.
- */
-function getBioSampleIdentityChips(
-  response: BioSamplesResponse
-): IdentityChipProps[] {
-  return [
-    ...getIdentityChips("biosample type", [getBioSampleType(response)]),
-    ...getIdentityChips("anatomical site", [getAnatomicalSite(response)]),
-    ...getIdentityChips("organism type", getAggregatedOrganismTypes(response)),
-  ];
 }
 
 /**
@@ -1387,51 +1391,12 @@ export function getDatasetId(datasetsResponse: DatasetsResponse): string {
 }
 
 /**
- * Returns the dataset IdentityCell chips from the given datasets response: access, then one chip per specified
- * registered identifier, then one chip per specified consent group.
- * @param datasetsResponse - Response model return from datasets API.
- * @returns IdentityCell chip props.
- */
-function getDatasetIdentityChips(
-  datasetsResponse: DatasetsResponse
-): IdentityChipProps[] {
-  return [
-    {
-      color: getDatasetAccessColor(datasetsResponse),
-      label: getIdentityChipLabel(
-        "access",
-        getDatasetAccessStatus(datasetsResponse)
-      ),
-    },
-    ...getIdentityChips(
-      "identifier",
-      getDatasetRegisteredIdentifiers(datasetsResponse)
-    ),
-    ...getIdentityChips("consent group", getConsentGroup(datasetsResponse)),
-  ];
-}
-
-/**
  * Returns dataset title from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns dataset title.
  */
 export function getDatasetTitle(datasetsResponse: DatasetsResponse): string {
   return processEntityValue(datasetsResponse.datasets, "title", LABEL.NONE);
-}
-
-/**
- * Returns the donor IdentityCell chips from the given donors response: organism type, then phenotypic sex, then one
- * chip per reported ethnicity. Unspecified values render no chip.
- * @param response - Response model return from index/donors API endpoint.
- * @returns IdentityCell chip props.
- */
-function getDonorIdentityChips(response: DonorsResponse): IdentityChipProps[] {
-  return [
-    ...getIdentityChips("organism type", [getOrganismType(response)]),
-    ...getIdentityChips("phenotypic sex", [getPhenotypicSex(response)]),
-    ...getIdentityChips("reported ethnicity", getReportedEthnicities(response)),
-  ];
 }
 
 /**
@@ -1669,62 +1634,6 @@ function getFormFacets(fileManifestState: FileManifestState): FormFacet {
 }
 
 /**
- * Returns an IdentityCell chip label: the field name in light ink, then its value.
- * @param label - Field name, in lowercase.
- * @param value - Field value.
- * @returns chip label.
- */
-function getIdentityChipLabel(label: string, value: string): ReactNode {
-  return (
-    <>
-      <Typography
-        color={TYPOGRAPHY_PROPS.COLOR.INK_LIGHT}
-        component="span"
-        variant={TYPOGRAPHY_PROPS.VARIANT.BODY_SMALL_400}
-      >
-        {label}
-      </Typography>{" "}
-      <Typography color={TYPOGRAPHY_PROPS.COLOR.INK_MAIN} component="span">
-        {value}
-      </Typography>
-    </>
-  );
-}
-
-/**
- * Returns one IdentityCell chip per specified value, each labelled with the given field name.
- * @param label - Field name, in lowercase.
- * @param values - Field values.
- * @returns IdentityCell chip props.
- */
-function getIdentityChips(
-  label: string,
-  values: string[]
-): IdentityChipProps[] {
-  return values
-    .filter(isSpecifiedValue)
-    .map((value) => ({ label: getIdentityChipLabel(label, value) }));
-}
-
-/**
- * Returns the IdentityCell subtitle from the given response's aggregated datasets: the dataset title, or the dataset
- * count (by unique dataset ID) when there is more than one. The subtitle is plain text; aggregated datasets are
- * identified by dataset ID only, and the dataset detail page is keyed by the dataset's entry ID.
- * @param response - Response model return from Azul that includes aggregated datasets.
- * @returns IdentityCell subtitle props, or undefined when there is no specified dataset.
- */
-function getIdentityDatasetsSubtitle(
-  response: AggregatedDatasetResponse
-): IdentityLinkProps | undefined {
-  const datasetCount =
-    getAggregatedDatasetIds(response).filter(isSpecifiedValue).length;
-  if (datasetCount > 1) return { label: `${datasetCount} datasets`, url: "" };
-  const [title] = getAggregatedDatasetTitles(response).filter(isSpecifiedValue);
-  if (!title) return;
-  return { label: title, url: "" };
-}
-
-/**
  * Boolean to filter out any selected filters that have dataset ID as the category key.
  * @param filter - Selected filter.
  * @returns true if the filter category key is not dataset ID.
@@ -1820,16 +1729,6 @@ export function hasNRESConsentGroup(
 function isResponseReady(datasetsResponse: DatasetsResponse): boolean {
   const { isLoading } = datasetsResponse;
   return !isLoading;
-}
-
-/**
- * Returns true if the given value is not the "Unspecified" placeholder that the response processors substitute for
- * null or empty values.
- * @param value - Value.
- * @returns true if the value is specified.
- */
-function isSpecifiedValue(value: string): boolean {
-  return value !== LABEL.UNSPECIFIED;
 }
 
 /**
