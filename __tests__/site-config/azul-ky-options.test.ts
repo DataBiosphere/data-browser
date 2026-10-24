@@ -33,7 +33,8 @@ beforeAll(async () => {
   }) as typeof fetch;
 });
 
-const STATUS_CODES_TO_TEST = [429, 500, 502, 503, 504];
+const STATUS_CODES_TO_TEST = [400, 429, 500, 502, 503, 504];
+const NO_RETRY_STATUS_CODES = [400];
 
 describe("api", () => {
   for (const status of STATUS_CODES_TO_TEST) {
@@ -55,18 +56,31 @@ describe("api", () => {
         });
       });
 
-      it("retries based on Retry-After when it has content", async () => {
-        mockSetTimeout.mockClear();
-        fetchMock.mockResponseOnce("", {
-          headers: { "Retry-After": "345" },
-          status,
+      if (NO_RETRY_STATUS_CODES.includes(status)) {
+        it("does not retry when Retry-After has content", async () => {
+          mockSetTimeout.mockClear();
+          fetchMock.mockResponseOnce("", {
+            headers: { "Retry-After": "345" },
+            status,
+          });
+          await expect(fetchApi("")).rejects.toMatchObject({
+            response: { status },
+          });
         });
-        fetchMock.mockResponseOnce("after-retry");
-        const resTrue = await fetchApi("");
-        expect(resTrue.status).toBe(200);
-        expect(await resTrue.text()).toBe("after-retry");
-        expect(mockSetTimeout.mock.calls[1][1]).toBe(345000);
-      });
+      } else {
+        it("retries based on Retry-After when it has content", async () => {
+          mockSetTimeout.mockClear();
+          fetchMock.mockResponseOnce("", {
+            headers: { "Retry-After": "345" },
+            status,
+          });
+          fetchMock.mockResponseOnce("after-retry");
+          const resTrue = await fetchApi("");
+          expect(resTrue.status).toBe(200);
+          expect(await resTrue.text()).toBe("after-retry");
+          expect(mockSetTimeout.mock.calls[1][1]).toBe(345000);
+        });
+      }
     });
   }
 
