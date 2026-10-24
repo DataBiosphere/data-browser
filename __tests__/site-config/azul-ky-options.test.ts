@@ -18,13 +18,12 @@ const TEST_SITE_CONFIG: Pick<SiteConfig, "dataSource" | "kyOptions"> = {
   kyOptions: AZUL_KY_OPTIONS,
 };
 
-jest.spyOn(globalThis, "setTimeout").mockImplementation(((
-  callback: () => void,
-  timeout: number
-) => {
-  // Ky has a built in 20-second timeout that causes the request to fail, which we don't want to call the callback for
-  if (timeout !== 20000) callback();
-}) as typeof setTimeout);
+const mockSetTimeout = jest
+  .spyOn(globalThis, "setTimeout")
+  .mockImplementation(((callback: () => void, timeout: number) => {
+    // Ky has a built in 20-second timeout that causes the request to fail, which we don't want to call the callback for
+    if (timeout !== 20000) callback();
+  }) as typeof setTimeout);
 
 beforeAll(async () => {
   setConfig(TEST_SITE_CONFIG as SiteConfig);
@@ -56,15 +55,17 @@ describe("api", () => {
         });
       });
 
-      it("retries when Retry-After has content", async () => {
+      it("retries based on Retry-After when it has content", async () => {
+        mockSetTimeout.mockClear();
         fetchMock.mockResponseOnce("", {
-          headers: { "Retry-After": "5" },
+          headers: { "Retry-After": "345" },
           status,
         });
         fetchMock.mockResponseOnce("after-retry");
         const resTrue = await fetchApi("");
         expect(resTrue.status).toBe(200);
         expect(await resTrue.text()).toBe("after-retry");
+        expect(mockSetTimeout.mock.calls[1][1]).toBe(345000);
       });
     });
   }
