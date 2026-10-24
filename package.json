@@ -32,7 +32,7 @@
     "refresh-diagnosis-terms:anvil-cmg": "esrun scripts/lookup-diagnosis-terms.ts"
   },
   "dependencies": {
-    "@databiosphere/findable-ui": "^57.0.0",
+    "@databiosphere/findable-ui": "^57.2.0",
     "@emotion/react": "^11",
     "@emotion/server": "^11",
     "@emotion/styled": "^11",
@@ -104,6 +104,7 @@
     "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "jest-fetch-mock": "^4.2.0",
     "prettier": "^3.7.4",
     "prettier-plugin-organize-imports": "^4.3.0",
     "typescript": "^5.9.3",

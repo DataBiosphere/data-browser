@@ -8,7 +8,12 @@ import { mapSelectCategoryValue } from "../../../app/config/utils";
 import { buildDataDictionary } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/dataDictionaryMapper";
 import { TABLE_OPTIONS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/tableOptions";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
-import { FLATTEN, GIT_HUB_REPO_URL, VISIBLE } from "../../common/constants";
+import {
+  AZUL_KY_OPTIONS,
+  FLATTEN,
+  GIT_HUB_REPO_URL,
+  VISIBLE,
+} from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
@@ -175,6 +180,7 @@ export function makeConfig(
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
     filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
+    kyOptions: AZUL_KY_OPTIONS,
     layout: {
       floating: makeFloatingConfig(portalUrl),
       footer: {
