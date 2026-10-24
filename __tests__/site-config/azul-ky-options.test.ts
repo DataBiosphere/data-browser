@@ -34,44 +34,48 @@ beforeAll(async () => {
   }) as typeof fetch;
 });
 
+const STATUS_CODES_TO_TEST = [429, 500, 502, 503, 504];
+
 describe("api", () => {
-  it("does not retry when Retry-After is absent", async () => {
-    fetchMock.mockResponseOnce("", { status: 429 });
-    await expect(fetchApi("")).rejects.toMatchObject({
-      response: {
-        status: 429,
-      },
-    });
-  });
+  for (const status of STATUS_CODES_TO_TEST) {
+    describe(`reponse status ${status}`, () => {
+      it(`does not retry when Retry-After is absent`, async () => {
+        fetchMock.mockResponseOnce("", { status });
+        await expect(fetchApi("")).rejects.toMatchObject({
+          response: { status },
+        });
+      });
 
-  it("does not retry when Retry-After contains empty string", async () => {
-    fetchMock.mockResponseOnce("", {
-      headers: { "Retry-After": "" },
-      status: 429,
-    });
-    await expect(fetchApi("")).rejects.toMatchObject({
-      response: {
-        status: 429,
-      },
-    });
-  });
+      it("does not retry when Retry-After contains empty string", async () => {
+        fetchMock.mockResponseOnce("", {
+          headers: { "Retry-After": "" },
+          status,
+        });
+        await expect(fetchApi("")).rejects.toMatchObject({
+          response: { status },
+        });
+      });
 
-  it("retries when Retry-After has content", async () => {
-    fetchMock.mockResponseOnce("", {
-      headers: { "Retry-After": "5" },
-      status: 429,
+      it("retries when Retry-After has content", async () => {
+        fetchMock.mockResponseOnce("", {
+          headers: { "Retry-After": "5" },
+          status,
+        });
+        fetchMock.mockResponseOnce("after-retry");
+        const resTrue = await fetchApi("");
+        expect(resTrue.status).toBe(200);
+        expect(await resTrue.text()).toBe("after-retry");
+      });
     });
-    fetchMock.mockResponseOnce("after-retry");
-    const resTrue = await fetchApi("");
-    expect(resTrue.status).toBe(200);
-    expect(await resTrue.text()).toBe("after-retry");
-  });
+  }
 
-  it("retries on fetch failure", async () => {
-    fetchMock.mockRejectOnce(new TypeError("Failed to fetch"));
-    fetchMock.mockResponseOnce("after-retry");
-    const resTrue = await fetchApi("");
-    expect(resTrue.status).toBe(200);
-    expect(await resTrue.text()).toBe("after-retry");
+  describe("other errors", () => {
+    it("retries on fetch failure", async () => {
+      fetchMock.mockRejectOnce(new TypeError("Failed to fetch"));
+      fetchMock.mockResponseOnce("after-retry");
+      const resTrue = await fetchApi("");
+      expect(resTrue.status).toBe(200);
+      expect(await resTrue.text()).toBe("after-retry");
+    });
   });
 });
