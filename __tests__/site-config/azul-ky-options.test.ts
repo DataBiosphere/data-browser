@@ -4,7 +4,6 @@
 import { setConfig } from "@databiosphere/findable-ui/lib/config/config.js";
 import { SiteConfig } from "@databiosphere/findable-ui/lib/config/entities";
 import { fetchApi } from "@databiosphere/findable-ui/lib/entity/common/client";
-import fetchMock from "jest-fetch-mock";
 import { AZUL_KY_OPTIONS } from "site-config/common/constants";
 
 // Use the actual Ky rather than the mock in __mocks__
@@ -25,12 +24,11 @@ const mockSetTimeout = jest
     if (timeout !== 20000) callback();
   }) as typeof setTimeout);
 
+const mockFetch = jest.fn();
+
 beforeAll(async () => {
   setConfig(TEST_SITE_CONFIG as SiteConfig);
-  fetchMock.doMock();
-  globalThis.fetch = ((...args) => {
-    return fetchMock(...(args as Parameters<typeof fetchMock>));
-  }) as typeof fetch;
+  globalThis.fetch = mockFetch;
 });
 
 const STATUS_CODES_TO_TEST = [400, 429, 500, 502, 503, 504];
@@ -40,14 +38,14 @@ describe("api", () => {
   for (const status of STATUS_CODES_TO_TEST) {
     describe(`response status ${status}`, () => {
       it(`does not retry when Retry-After is absent`, async () => {
-        fetchMock.mockResponseOnce("", { status });
+        mockResponseOnce("", { status });
         await expect(fetchApi("")).rejects.toMatchObject({
           response: { status },
         });
       });
 
       it("does not retry when Retry-After contains empty string", async () => {
-        fetchMock.mockResponseOnce("", {
+        mockResponseOnce("", {
           headers: { "Retry-After": "" },
           status,
         });
@@ -59,7 +57,7 @@ describe("api", () => {
       if (NO_RETRY_STATUS_CODES.includes(status)) {
         it("does not retry when Retry-After has content", async () => {
           mockSetTimeout.mockClear();
-          fetchMock.mockResponseOnce("", {
+          mockResponseOnce("", {
             headers: { "Retry-After": "345" },
             status,
           });
@@ -70,11 +68,11 @@ describe("api", () => {
       } else {
         it("retries based on Retry-After when it has content", async () => {
           mockSetTimeout.mockClear();
-          fetchMock.mockResponseOnce("", {
+          mockResponseOnce("", {
             headers: { "Retry-After": "345" },
             status,
           });
-          fetchMock.mockResponseOnce("after-retry");
+          mockResponseOnce("after-retry");
           const resTrue = await fetchApi("");
           expect(resTrue.status).toBe(200);
           expect(await resTrue.text()).toBe("after-retry");
@@ -86,11 +84,19 @@ describe("api", () => {
 
   describe("other errors", () => {
     it("retries on fetch failure", async () => {
-      fetchMock.mockRejectOnce(new TypeError("Failed to fetch"));
-      fetchMock.mockResponseOnce("after-retry");
+      mockRejectOnce(new TypeError("Failed to fetch"));
+      mockResponseOnce("after-retry");
       const resTrue = await fetchApi("");
       expect(resTrue.status).toBe(200);
       expect(await resTrue.text()).toBe("after-retry");
     });
   });
 });
+
+function mockResponseOnce(data?: BodyInit | null, init?: ResponseInit): void {
+  mockFetch.mockResolvedValueOnce(new Response(data, init));
+}
+
+function mockRejectOnce(error: unknown): void {
+  mockFetch.mockRejectedValueOnce(error);
+}
