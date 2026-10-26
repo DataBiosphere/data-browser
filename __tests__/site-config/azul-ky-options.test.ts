@@ -38,7 +38,7 @@ const NO_RETRY_STATUS_CODES = [400];
 
 describe("api", () => {
   for (const status of STATUS_CODES_TO_TEST) {
-    describe(`reponse status ${status}`, () => {
+    describe(`response status ${status}`, () => {
       it(`does not retry when Retry-After is absent`, async () => {
         fetchMock.mockResponseOnce("", { status });
         await expect(fetchApi("")).rejects.toMatchObject({
