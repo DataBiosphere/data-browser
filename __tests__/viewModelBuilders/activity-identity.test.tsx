@@ -1,8 +1,10 @@
 import type { AggregatedDataset } from "../../app/apis/azul/anvil-cmg/common/aggregatedEntities";
 import type { ActivityEntity } from "../../app/apis/azul/anvil-cmg/common/entities";
 import type { ActivitiesResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
-import { buildActivityIdentity } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import { getChipLabels } from "./utils/identityCell";
+import {
+  buildActivityIdentity,
+  buildActivityType,
+} from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 
 const DATASET_TITLE = "Test Dataset Title";
 const DOCUMENT_ID = "test-document-id";
@@ -33,50 +35,18 @@ const createMockActivitiesResponse = (
   }) as ActivitiesResponse;
 
 describe("buildActivityIdentity", () => {
-  it("renders the document ID as a plain text title", () => {
-    const { title } = buildActivityIdentity(createMockActivitiesResponse());
-    expect(title).toEqual({ label: DOCUMENT_ID, url: "" });
-  });
-
-  it("renders an activity type chip", () => {
-    expect(
-      getChipLabels(buildActivityIdentity(createMockActivitiesResponse()).chips)
-    ).toEqual(["activity type Sequencing"]);
-  });
-
-  it("renders an activity type chip for the Unknown activity type", () => {
-    const response = createMockActivitiesResponse({ activity_type: "Unknown" });
-    expect(getChipLabels(buildActivityIdentity(response).chips)).toEqual([
-      "activity type Unknown",
-    ]);
-  });
-
-  it.each([
-    ["null", null as unknown as string],
-    ["unspecified", "Unspecified"],
-  ])("renders no chips when the activity type is %s", (_, value) => {
-    const response = createMockActivitiesResponse({ activity_type: value });
-    expect(buildActivityIdentity(response).chips).toEqual([]);
-  });
-
-  it("renders the dataset title as a plain text subtitle", () => {
-    const { subtitle } = buildActivityIdentity(createMockActivitiesResponse());
-    expect(subtitle).toEqual({ label: DATASET_TITLE, url: "" });
-  });
-
-  it("renders the dataset count as the subtitle when there is more than one dataset", () => {
-    const response = createMockActivitiesResponse({}, [
-      { dataset_id: ["dataset-a"], title: ["Dataset A"] },
-      { dataset_id: ["dataset-b"], title: ["Dataset B"] },
-    ]);
-    expect(buildActivityIdentity(response).subtitle).toEqual({
-      label: "2 datasets",
-      url: "",
+  it("renders the document ID as a plain text title, clamped to two lines, with no chips or subtitle", () => {
+    expect(buildActivityIdentity(createMockActivitiesResponse())).toEqual({
+      maxLines: 2,
+      title: { label: DOCUMENT_ID, url: "" },
     });
   });
+});
 
-  it("omits the subtitle when there are no datasets", () => {
-    const response = createMockActivitiesResponse({}, []);
-    expect(buildActivityIdentity(response).subtitle).toBeUndefined();
+describe("buildActivityType", () => {
+  it("renders the activity type", () => {
+    expect(buildActivityType(createMockActivitiesResponse()).value).toBe(
+      "Sequencing"
+    );
   });
 });

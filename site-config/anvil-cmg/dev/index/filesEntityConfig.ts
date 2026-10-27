@@ -6,7 +6,7 @@ import {
   SORT_DIRECTION,
 } from "@databiosphere/findable-ui/lib/config/entities";
 import { EXPLORE_MODE } from "@databiosphere/findable-ui/lib/hooks/useExploreMode/types";
-import { Tooltip } from "@mui/material";
+import { TABLE_CELL_PROPS } from "@databiosphere/findable-ui/lib/styles/common/mui/tableCell";
 import { FilesResponse } from "../../../../app/apis/azul/anvil-cmg/common/responses";
 import * as C from "../../../../app/components";
 import * as V from "../../../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
@@ -16,17 +16,19 @@ import {
 } from "../../category";
 import { entityViewSlot } from "../ui/entityView";
 import { filesEntityListSlot } from "../ui/filesEntityList";
+import { getValueColumnSizing } from "./common/columns";
 
 export const downloadColumn: ColumnConfig<FilesResponse> = {
   componentConfig: {
-    component: Tooltip,
-    viewBuilder: V.buildFileDownloadWithTooltip,
-  },
+    component: C.FileDownloadMenu,
+    viewBuilder: V.buildFileDownloadMenu,
+  } as ComponentConfig<typeof C.FileDownloadMenu>,
   enableHiding: false,
   enableSorting: false,
   header: ANVIL_CMG_CATEGORY_LABEL.AZUL_FILE_DOWNLOAD,
   id: ANVIL_CMG_CATEGORY_KEY.AZUL_FILE_DOWNLOAD,
-  width: { max: "auto", min: "76px" },
+  meta: { padding: TABLE_CELL_PROPS.PADDING.CHECKBOX },
+  width: "max-content",
 };
 
 /**
@@ -58,22 +60,30 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
       },
       {
         componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildDatasetTitles,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.DATASET_TITLE,
+        id: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE),
+      },
+      {
+        componentConfig: {
+          component: C.BasicCell,
+          viewBuilder: V.buildFileFormat,
+        } as ComponentConfig<typeof C.BasicCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_FORMAT,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT,
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.FILE_FILE_FORMAT),
+      },
+      {
+        componentConfig: {
           component: C.BasicCell,
           viewBuilder: V.buildFileSize,
         } as ComponentConfig<typeof C.BasicCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.FILE_FILE_SIZE,
         id: ANVIL_CMG_CATEGORY_KEY.FILE_FILE_SIZE,
-        width: { max: "auto", min: "120px" },
-      },
-      {
-        componentConfig: {
-          component: C.CopyCell,
-          viewBuilder: V.buildDRSURI,
-        } as ComponentConfig<typeof C.CopyCell>,
-        enableSorting: false,
-        header: ANVIL_CMG_CATEGORY_LABEL.DRS_URI,
-        id: ANVIL_CMG_CATEGORY_KEY.DRS_URI,
-        width: { max: "1fr", min: "120px" },
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.FILE_FILE_SIZE),
       },
       {
         componentConfig: {
@@ -82,7 +92,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_ORGANISM_TYPE,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE,
-        width: { max: "1fr", min: "140px" },
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.DONOR_ORGANISM_TYPE),
       },
       {
         componentConfig: {
@@ -91,7 +101,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_PHENOTYPIC_SEX,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX),
       },
       {
         componentConfig: {
@@ -100,7 +110,9 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DONOR_REPORTED_ETHNICITY,
         id: ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(
+          ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY
+        ),
       },
       {
         componentConfig: {
@@ -109,7 +121,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSIS_PHENOTYPE,
         id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.DIAGNOSIS_PHENOTYPE),
       },
       {
         componentConfig: {
@@ -118,7 +130,16 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
         } as ComponentConfig<typeof C.NTagCell>,
         header: ANVIL_CMG_CATEGORY_LABEL.DIAGNOSE_DISEASE,
         id: ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE,
-        width: { max: "1fr", min: "200px" },
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE),
+      },
+      {
+        componentConfig: {
+          component: C.NTagCell,
+          viewBuilder: V.buildFileDataModality,
+        } as ComponentConfig<typeof C.NTagCell>,
+        header: ANVIL_CMG_CATEGORY_LABEL.FILE_DATA_MODALITY,
+        id: ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY,
+        ...getValueColumnSizing(ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY),
       },
     ],
     tableOptions: {
@@ -127,6 +148,7 @@ export const filesEntityConfig: EntityConfig<FilesResponse> = {
           [ANVIL_CMG_CATEGORY_KEY.DONOR_PHENOTYPIC_SEX]: false,
           [ANVIL_CMG_CATEGORY_KEY.DONOR_REPORTED_ETHNICITY]: false,
           [ANVIL_CMG_CATEGORY_KEY.DIAGNOSE_DISEASE]: false,
+          [ANVIL_CMG_CATEGORY_KEY.FILE_DATA_MODALITY]: false,
         },
         sorting: [
           {

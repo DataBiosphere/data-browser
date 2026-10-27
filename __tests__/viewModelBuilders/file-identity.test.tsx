@@ -1,14 +1,18 @@
+import { render } from "@testing-library/react";
 import type { AggregatedDataset } from "../../app/apis/azul/anvil-cmg/common/aggregatedEntities";
 import type { FileEntity } from "../../app/apis/azul/anvil-cmg/common/entities";
 import type { FilesResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import {
+  buildDatasetTitles,
+  buildFileDataModality,
+  buildFileFormat,
   buildFileIdentity,
   buildFileSize,
 } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
-import { getChipLabels } from "./utils/identityCell";
 
 const DATASET_TITLE = "Test Dataset Title";
 const FILE_NAME = "test-file.cram";
+const FOLDER_PATH = "AnVIL_T2T/long_read/sv_jasmine";
 
 /**
  * Creates a mock FilesResponse for testing.
@@ -30,6 +34,7 @@ const createMockFilesResponse = (
         data_modality: ["Genomic"],
         file_format: ".cram",
         file_name: FILE_NAME,
+        file_path: `${FOLDER_PATH}/${FILE_NAME}`,
         file_size: 2048,
         ...fileOverrides,
       },
@@ -39,70 +44,59 @@ const createMockFilesResponse = (
 describe("buildFileIdentity", () => {
   it("renders the file name as a plain text title", () => {
     const { title } = buildFileIdentity(createMockFilesResponse());
-    expect(title).toEqual({ label: FILE_NAME, url: "" });
-  });
-
-  it("renders format, then data modality chips", () => {
-    const response = createMockFilesResponse({
-      data_modality: ["Genomic", "Transcriptomic"],
-    });
-    expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
-      "format .cram",
-      "data modality Genomic",
-      "data modality Transcriptomic",
-    ]);
-  });
-
-  it("renders one data modality chip per unique data modality", () => {
-    const response = createMockFilesResponse({
-      data_modality: ["Genomic", "Genomic"],
-    });
-    expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
-      "format .cram",
-      "data modality Genomic",
-    ]);
-  });
-
-  it.each([
-    ["null", null as unknown as string],
-    ["unspecified", "Unspecified"],
-  ])("omits the format chip when the format is %s", (_, value) => {
-    const response = createMockFilesResponse({ file_format: value });
-    expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
-      "data modality Genomic",
-    ]);
-  });
-
-  it.each([
-    ["empty", []],
-    ["null", [null as unknown as string]],
-    ["unspecified", ["Unspecified"]],
-  ])("omits data modality chips when the data modality is %s", (_, value) => {
-    const response = createMockFilesResponse({ data_modality: value });
-    expect(getChipLabels(buildFileIdentity(response).chips)).toEqual([
-      "format .cram",
-    ]);
-  });
-
-  it("renders the dataset title as a plain text subtitle", () => {
-    const { subtitle } = buildFileIdentity(createMockFilesResponse());
-    expect(subtitle).toEqual({ label: DATASET_TITLE, url: "" });
-  });
-
-  it("renders the dataset count as the subtitle when there is more than one dataset", () => {
-    const response = createMockFilesResponse({}, [
-      { dataset_id: ["dataset-a"], title: ["Dataset A"] },
-      { dataset_id: ["dataset-b"], title: ["Dataset B"] },
-    ]);
-    expect(buildFileIdentity(response).subtitle).toEqual({
-      label: "2 datasets",
+    expect(title).toEqual({
+      TypographyProps: { sx: { wordBreak: "break-all" } },
+      label: FILE_NAME,
       url: "",
     });
   });
 
-  it("omits the subtitle when there are no datasets", () => {
-    const response = createMockFilesResponse({}, []);
+  it("renders no chips", () => {
+    expect(buildFileIdentity(createMockFilesResponse()).chips).toBeUndefined();
+  });
+
+  it("renders the folder path as a plain text subtitle that wraps between folders", () => {
+    const { subtitle } = buildFileIdentity(createMockFilesResponse());
+    expect(subtitle?.url).toBe("");
+    const { container } = render(<>{subtitle?.label}</>);
+    expect(container.textContent).toBe(FOLDER_PATH);
+    expect(container.querySelectorAll("wbr")).toHaveLength(2);
+  });
+
+  it("omits the subtitle when the file is not in a folder", () => {
+    const response = createMockFilesResponse({ file_path: FILE_NAME });
     expect(buildFileIdentity(response).subtitle).toBeUndefined();
+  });
+});
+
+describe("buildFileFormat", () => {
+  it("renders the file format", () => {
+    expect(buildFileFormat(createMockFilesResponse()).value).toBe(".cram");
+  });
+});
+
+describe("buildFileDataModality", () => {
+  it("renders each unique data modality", () => {
+    const response = createMockFilesResponse({
+      data_modality: ["Genomic", "Transcriptomic", "Genomic"],
+    });
+    expect(buildFileDataModality(response).values).toEqual([
+      "Genomic",
+      "Transcriptomic",
+    ]);
+  });
+});
+
+describe("buildDatasetTitles", () => {
+  it("renders the dataset titles", () => {
+    const response = createMockFilesResponse({}, [
+      { dataset_id: ["dataset-a"], title: ["Dataset A"] },
+      { dataset_id: ["dataset-b"], title: ["Dataset B"] },
+    ]);
+    expect(buildDatasetTitles(response).values).toEqual([
+      "Dataset A",
+      "Dataset B",
+    ]);
   });
 });
 
