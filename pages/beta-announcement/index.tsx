@@ -1,4 +1,3 @@
-import { Main } from "@databiosphere/findable-ui/lib/components/Layout/components/ContentLayout/components/Main/main";
 import { ContentView } from "@databiosphere/findable-ui/lib/views/ContentView/contentView";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { MDXRemote } from "next-mdx-remote";
@@ -30,7 +29,5 @@ const Page = ({
     />
   );
 };
-
-Page.Main = Main;
 
 export default Page;
