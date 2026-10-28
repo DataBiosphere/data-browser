@@ -162,8 +162,11 @@ export async function testSortAzul(
     if (columnObject?.sortable) {
       // Locator that can be clicked to sort the column
       const columnSortLocator = page
-        .locator(MUI_CLASSES.TABLE_SORT_LABEL)
-        .filter({ hasText: columnObject.name });
+        .getByRole("columnheader", {
+          exact: true,
+          name: columnObject.name,
+        })
+        .locator(MUI_CLASSES.TABLE_SORT_LABEL);
       // Locator for the column sort icon
       const sortIconLocator = columnSortLocator.locator(
         MUI_CLASSES.TABLE_SORT_LABEL_ICON
