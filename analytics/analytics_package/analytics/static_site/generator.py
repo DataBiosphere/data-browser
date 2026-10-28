@@ -1,5 +1,7 @@
 """Generate a static analytics site from GA4 data."""
 
+import html
+import re
 import shutil
 from pathlib import Path
 
@@ -7,6 +9,7 @@ from .export import export_data
 from .fetch import fetch_data
 
 TEMPLATE_DIR = Path(__file__).parent / "template"
+STYLESHEET = "analytics.css"
 
 
 def generate_site(
@@ -34,6 +37,10 @@ def generate_site(
             - site_title: Display title (e.g., "AnVIL Catalog").
             - logo_url: URL to the logo image.
             - logo_link: URL the logo links to.
+            - logo_width, logo_height: Optional logo size in px, as shown in the
+              app's header; sets the <img> size and --fui-header-logo-height.
+            - extra_css: Optional CSS added to the page's <head>, e.g. a
+              per-breakpoint --fui-header-logo-height override.
             - primary_color: Primary color hex (e.g., "#035C94").
             - primary_color_dark: Darker primary color hex.
         property_id: GA4 property ID.
@@ -62,6 +69,8 @@ def generate_site(
     print("=" * 50)
     print()
 
+    write_page(config, output_dir)
+
     data = fetch_data(
         ga_authentication=ga_authentication,
         property_id=property_id,
@@ -81,12 +90,6 @@ def generate_site(
         print("Resolving entity titles...")
         title_resolver(data)
 
-    output_dir.mkdir(parents=True, exist_ok=True)
-    template_html = TEMPLATE_DIR / "index.html"
-    output_html = output_dir / "index.html"
-    shutil.copy2(template_html, output_html)
-    print(f"Copied template to {output_html}")
-
     data_dir = output_dir / "data"
     export_data(
         data=data,
@@ -104,3 +107,58 @@ def generate_site(
     print("\nTo view the site locally, run:")
     print(f"  cd {output_dir} && python -m http.server 8080")
     print("Then open http://localhost:8080 in your browser.")
+
+
+def render_page(config):
+    """Render index.html with the config's branding built in, for first paint.
+
+    Args:
+        config: Site config dict, as passed to generate_site.
+
+    Returns:
+        The rendered index.html as a str.
+    """
+    logo_width = config.get("logo_width")
+    logo_height = config.get("logo_height")
+    if (logo_width is None) != (logo_height is None):
+        raise ValueError("Set both logo_width and logo_height, or neither")
+    logo_size = ""
+    if logo_height is not None:
+        logo_size = f' width="{logo_width}" height="{logo_height}"'
+    root_vars = {
+        "--fui-header-logo-height": logo_height and f"{logo_height}px",
+        "--fui-primary": config.get("primary_color"),
+        "--fui-primary-dark": config.get("primary_color_dark"),
+    }
+    declarations = " ".join(f"{k}: {v};" for k, v in root_vars.items() if v)
+    head_css = [f":root {{ {declarations} }}"] if declarations else []
+    if config.get("extra_css"):
+        head_css.append(config["extra_css"])
+    replacements = {
+        "favicon_url": html.escape(config.get("favicon_url") or ""),
+        "head_css": "\n".join(head_css),
+        "logo_link": html.escape(config.get("logo_link") or "#"),
+        "logo_size": logo_size,
+        "logo_url": html.escape(config.get("logo_url") or ""),
+        "site_title": html.escape(config.get("site_title") or "Analytics"),
+    }
+    page = (TEMPLATE_DIR / "index.html").read_text(encoding="utf-8")
+    unknown = set(re.findall(r"\{\{(\w+)\}\}", page)) - replacements.keys()
+    if unknown:
+        raise ValueError(f"Unknown template tokens: {sorted(unknown)}")
+    return re.sub(r"\{\{(\w+)\}\}", lambda match: replacements[match[1]], page)
+
+
+def write_page(config, output_dir):
+    """Write the rendered index.html and its stylesheet to output_dir.
+
+    Args:
+        config: Site config dict, as passed to generate_site.
+        output_dir: Output directory for the site, as a str or Path.
+    """
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_html = output_dir / "index.html"
+    output_html.write_text(render_page(config), encoding="utf-8")
+    shutil.copy2(TEMPLATE_DIR / STYLESHEET, output_dir / STYLESHEET)
+    print(f"Wrote {output_html} and {STYLESHEET}")

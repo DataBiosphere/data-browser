@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "analytics"
-version = "5.0.4"
+version = "5.1.0"
 requires-python = ">=3.12"
 dependencies = [
     "pandas>=3,<4",
@@ -18,4 +18,4 @@ dependencies = [
 packages = ["analytics", "analytics.static_site"]
 
 [tool.setuptools.package-data]
-"analytics.static_site" = ["template/*.html"]
+"analytics.static_site" = ["template/*.css", "template/*.html"]

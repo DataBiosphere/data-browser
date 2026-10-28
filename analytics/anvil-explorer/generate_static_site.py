@@ -42,7 +42,11 @@ generate_site(
     ga_authentication=ga_authentication,
     config={
         "site_title": "AnVIL Explorer User Analytics",
-        "logo_url": "https://explore.anvilproject.org/images/logoAnvil.png",
+        "logo_url": "https://explore.anvilproject.org/images/anvilExplorer.png",
+        "logo_width": 198.09,
+        "logo_height": 32,
+        # Matches the explorer's logo, which is 44px tall from md (1280px) up.
+        "extra_css": "@media (min-width: 1280px) { :root { --fui-header-logo-height: 44px; } }",
         "favicon_url": "https://explore.anvilproject.org/favicons/favicon.ico",
         "logo_link": "https://explore.anvilproject.org",
         "primary_color": "#035C94",

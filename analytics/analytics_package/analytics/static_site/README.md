@@ -10,11 +10,12 @@ See the [repository's main analytics readme](../../../readme.md) for details on 
 
 | File | Purpose |
 |------|---------|
-| `generator.py` | Orchestrates fetch, title resolution, template copy, and data export |
+| `generator.py` | Orchestrates fetch, title resolution, page rendering, and data export |
 | `fetch.py` | Fetches GA4 data: traffic, pageviews, outbound links, filter selections, sessions, engagement rate, custom events, file downloads, and access requests |
 | `export.py` | Exports DataFrames and dicts to JSON files in `<output folder>/data/` |
 | `resolve.py` | Resolves entity UUIDs to titles via catalog APIs (AnVIL, HCA/LungMAP Azul) |
 | `template/index.html` | Config-driven HTML template with Chart.js charts and data tables |
+| `template/analytics.css` | Copy of `static/analytics.css` from `@databiosphere/findable-ui` v58.0.0 (re-copy from `node_modules` on upgrade); copied next to each site's `index.html` |
 
 ### Per-app scripts
 
@@ -25,8 +26,10 @@ Located in subfolders of the repository's `analytics` directory.
 Each script passes a `config` dict and additional `generate_site()` parameters:
 
 **Config dict** (controls branding and dashboard features):
-- `site_title` — page heading and browser title
+- `site_title` — page heading, browser title and logo alt text
 - `logo_url`, `logo_link`, `favicon_url` — header branding
+- `logo_width`, `logo_height` — optional logo size in px, as shown in the app's header. Written into the `<img>` and `--fui-header-logo-height` at build time, so the header keeps its space while the logo loads
+- `extra_css` — optional CSS added to the page's `<head>`, e.g. a larger logo from a breakpoint up: `@media (min-width: 1280px) { :root { --fui-header-logo-height: 44px; } }`
 - `primary_color`, `primary_color_dark` — theme colors
 - `entity_label`, `entity_path` — entity type label ("Dataset" or "Project") and URL path prefix
 - `summary_stats` — top-level stat cards aggregating multiple events
@@ -47,7 +50,8 @@ For apps with dataset/project detail tables, a `title_resolver` callback enriche
 
 ```
 <output folder>/
-├── index.html          # Dashboard (copied from template)
+├── index.html          # Dashboard (rendered from template)
+├── analytics.css       # Stylesheet (copied from template)
 └── data/
     ├── config.json
     ├── meta.json
