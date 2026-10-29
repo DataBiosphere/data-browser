@@ -43,6 +43,8 @@ generate_site(
     config={
         "site_title": "LungMAP User Analytics",
         "logo_url": "https://data-browser.lungmap.net/images/logoLungmap.png",
+        "logo_width": 131.15,
+        "logo_height": 32,
         "favicon_url": "https://data-browser.lungmap.net/favicons/favicon.ico",
         "logo_link": "https://data-browser.lungmap.net",
         "primary_color": "#4B7D8E",

@@ -1,0 +1,852 @@
+/*
+ * findable-ui Analytics Dashboard Styles
+ *
+ * A self-contained static CSS file for GitHub Pages analytics dashboards.
+ * Matches the findable-ui design system (colors, spacing, typography).
+ * Component class names are prefixed with `.fui-` to avoid conflicts.
+ * State classes may be used alongside prefixed classes, for example `.active`.
+ *
+ * GitHub Pages setup:
+ *   1. Install the package: npm install @databiosphere/findable-ui
+ *   2. Copy static/analytics.css into your GitHub Pages site
+ *   3. Link it in your HTML:
+ *
+ *   <!doctype html>
+ *   <html lang="en">
+ *   <head>
+ *     <meta charset="UTF-8" />
+ *     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ *     <link rel="stylesheet" href="analytics.css" />
+ *   </head>
+ *   <body class="fui-body">
+ *     <header class="fui-header">
+ *       <div class="fui-header-left">
+ *         <a class="fui-header-logo" href="/">
+ *           <img src="logo.svg" alt="Logo" width="140" height="32" />
+ *         </a>
+ *       </div>
+ *       <div class="fui-header-right">
+ *         <nav class="fui-header-nav">
+ *           <a class="fui-header-nav-item active" href="/">Dashboard</a>
+ *           <a class="fui-header-nav-item" href="/reports">Reports</a>
+ *         </nav>
+ *       </div>
+ *     </header>
+ *     <main class="fui-main">
+ *       <section class="fui-content">
+ *         <h1>Page Title</h1>
+ *         <p>Body text with automatic styling.</p>
+ *       </section>
+ *       <div class="fui-grid-12">
+ *         <div class="fui-card fui-grid-item-6">
+ *           <div class="fui-card-header">
+ *             <h3 class="fui-card-header-title fui-heading-xsmall">Chart</h3>
+ *           </div>
+ *           <hr class="fui-divider" />
+ *           <div class="fui-card-content">...</div>
+ *         </div>
+ *       </div>
+ *     </main>
+ *   </body>
+ *   </html>
+ *
+ * Fonts:
+ *   This file does not bundle or import web fonts. The default font stack
+ *   uses "Inter" with system fallbacks. For an exact visual match, load
+ *   Inter and Roboto Mono (used by .fui-code) yourself:
+ *
+ *   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Roboto+Mono&display=swap" />
+ *
+ *   To use a different font, override --fui-font-family:
+ *
+ *   :root { --fui-font-family: "Roboto", sans-serif; }
+ *
+ * Customization:
+ *   Override CSS custom properties to match your application's branding.
+ *   Add a <style> block after the stylesheet link:
+ *
+ *   <style>
+ *     :root {
+ *       --fui-primary: #28a745;
+ *       --fui-primary-dark: #1e7e34;
+ *       --fui-primary-lightest: #e6f4ea;
+ *       --fui-ink: #24292e;
+ *       --fui-ink-light: #586069;
+ *     }
+ *   </style>
+ *
+ * Header logo:
+ *   Put the logo's src, width and height in the HTML, so the header keeps
+ *   its space while the image loads. The logo is 32px tall; to match an
+ *   app's header, set --fui-header-logo-height to the height in its site
+ *   config, per breakpoint if it changes:
+ *
+ *   <style>
+ *     :root { --fui-header-logo-height: 40px; }
+ *   </style>
+ *
+ * Responsive grid:
+ *   Grid items use fixed column spans. To make them responsive,
+ *   add a <style> block with media queries:
+ *
+ *   <style>
+ *     @media (max-width: 767px) {
+ *       .fui-card[class*="fui-grid-item"] { grid-column: 1 / -1; }
+ *     }
+ *   </style>
+ *
+ * Tooltips:
+ *   A tooltip shows above its trigger on hover or keyboard focus. The trigger
+ *   must be focusable, and the tooltip may contain links:
+ *
+ *   <span class="fui-tooltip-wrapper">
+ *     <span tabindex="0" aria-describedby="users-tooltip">Users</span>
+ *     <span class="fui-tooltip" id="users-tooltip" role="tooltip">
+ *       Unique visitors this month.
+ *     </span>
+ *   </span>
+ *
+ *   Escape should close an open tooltip (WCAG 1.4.13), which CSS can't do.
+ *   Add this script once per page. It keeps the tooltip closed until the
+ *   pointer and focus have both left its trigger:
+ *
+ *   <script>
+ *     document.addEventListener("keydown", (event) => {
+ *       if (event.key !== "Escape") return;
+ *       document
+ *         .querySelectorAll(".fui-tooltip-wrapper:is(:hover, :focus-within)")
+ *         .forEach((el) => el.classList.add("fui-tooltip-dismissed"));
+ *     });
+ *     ["focusout", "mouseout"].forEach((type) => {
+ *       document.addEventListener(type, (event) => {
+ *         const el = event.target.closest?.(".fui-tooltip-dismissed");
+ *         if (!el || el.contains(event.relatedTarget)) return;
+ *         if (el.matches(type === "focusout" ? ":hover" : ":focus-within")) return;
+ *         el.classList.remove("fui-tooltip-dismissed");
+ *       });
+ *     });
+ *   </script>
+ *
+ *   Chart libraries draw their own tooltips (Chart.js draws on the canvas),
+ *   so CSS can't style them. To match .fui-tooltip in Chart.js:
+ *
+ *   Object.assign(Chart.defaults.plugins.tooltip, {
+ *     backgroundColor: "#212b36",
+ *     bodyFont: { size: 13 },
+ *     cornerRadius: 4,
+ *     padding: { x: 12, y: 8 },
+ *   });
+ */
+
+/* ---------- Custom Properties ---------- */
+
+:root {
+  /* Border radius */
+  --fui-radius-sm: 4px;
+  --fui-radius: 8px;
+
+  /* Alert */
+  --fui-alert: #b42318;
+  --fui-alert-light: #fed3d1;
+  --fui-alert-lightest: #fff4f4;
+
+  /* Info */
+  --fui-info: #00729c;
+  --fui-info-light: #97d6ea;
+  --fui-info-lightest: #f2fafc;
+
+  /* Success */
+  --fui-success: #287555;
+  --fui-success-light: #aee9d1;
+  --fui-success-lightest: #f1f8f5;
+
+  /* Warning */
+  --fui-warning: #b54708;
+  --fui-warning-light: #ffd79d;
+  --fui-warning-lightest: #fffaeb;
+
+  /* Common */
+  --fui-background: #f6f6f7;
+  --fui-white: #ffffff;
+
+  /* Header */
+  --fui-header-logo-height: 32px;
+
+  /* Ink (text) */
+  --fui-ink: #212b36;
+  --fui-ink-light: #637381;
+
+  /* Primary */
+  --fui-primary: #1c7cc7;
+  --fui-primary-dark: #005ea9;
+  --fui-primary-lightest: #e6eff6;
+
+  /* Shadows */
+  --fui-shadow-00: none;
+  --fui-shadow-01: 0 1px 4px 0 #00000012;
+  --fui-shadow-02: 0 8px 8px -4px #10182808, 0 20px 24px -4px #10182814;
+
+  /* Smoke (borders / backgrounds) */
+  --fui-smoke: #e1e3e5;
+  --fui-smoke-dark: #c4cdd5;
+  --fui-smoke-light: #f6f6f7;
+  --fui-smoke-lightest: #fafbfb;
+
+  /* Spacing */
+  --fui-space-2: 2px;
+  --fui-space-4: 4px;
+  --fui-space-6: 6px;
+  --fui-space-8: 8px;
+  --fui-space-12: 12px;
+  --fui-space-16: 16px;
+  --fui-space-20: 20px;
+  --fui-space-24: 24px;
+  --fui-space-32: 32px;
+  --fui-space-40: 40px;
+
+  /* Typography */
+  --fui-font-family:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  --fui-font-body-400: 400 14px/20px var(--fui-font-family);
+  --fui-font-body-400-2lines: 400 14px/24px var(--fui-font-family);
+  --fui-font-body-500: 500 14px/20px var(--fui-font-family);
+  --fui-font-body-large-400: 400 16px/24px var(--fui-font-family);
+  --fui-font-body-large-400-2lines: 400 16px/28px var(--fui-font-family);
+  --fui-font-body-large-500: 500 16px/24px var(--fui-font-family);
+  --fui-font-body-small-400: 400 13px/16px var(--fui-font-family);
+  --fui-font-body-small-400-2lines: 400 13px/20px var(--fui-font-family);
+  --fui-font-body-small-500: 500 13px/16px var(--fui-font-family);
+  --fui-font-heading: 500 20px/28px var(--fui-font-family);
+  --fui-font-heading-large: 500 24px/32px var(--fui-font-family);
+  --fui-font-heading-small: 500 18px/26px var(--fui-font-family);
+  --fui-font-heading-xlarge: 500 30px/40px var(--fui-font-family);
+  --fui-font-heading-xsmall: 500 16px/24px var(--fui-font-family);
+  --fui-font-uppercase-500: 500 12px/16px var(--fui-font-family);
+}
+
+/* ---------- Base ---------- */
+
+.fui-body,
+.fui-body *,
+.fui-body *::before,
+.fui-body *::after {
+  box-sizing: border-box;
+}
+
+.fui-body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  background: var(--fui-background);
+  color: var(--fui-ink);
+  font: var(--fui-font-body-400);
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Page Layout ---------- */
+
+.fui-main {
+  margin: 0 var(--fui-space-16);
+  padding: var(--fui-space-24) 0;
+}
+
+.fui-main > * + * {
+  margin-top: var(--fui-space-32);
+}
+
+.fui-main > *:first-child {
+  margin-top: 0;
+}
+
+.fui-main > * > *:first-child {
+  margin-top: 0;
+}
+
+/* ---------- Grid ---------- */
+
+.fui-grid {
+  display: grid;
+  gap: var(--fui-space-16);
+  grid-template-columns: 1fr;
+}
+
+.fui-grid-12 {
+  display: grid;
+  gap: var(--fui-space-16);
+  grid-template-columns: repeat(12, 1fr);
+}
+
+.fui-grid-item-1 {
+  grid-column: span 1;
+}
+
+.fui-grid-item-2 {
+  grid-column: span 2;
+}
+
+.fui-grid-item-3 {
+  grid-column: span 3;
+}
+
+.fui-grid-item-4 {
+  grid-column: span 4;
+}
+
+.fui-grid-item-5 {
+  grid-column: span 5;
+}
+
+.fui-grid-item-6 {
+  grid-column: span 6;
+}
+
+.fui-grid-item-7 {
+  grid-column: span 7;
+}
+
+.fui-grid-item-8 {
+  grid-column: span 8;
+}
+
+.fui-grid-item-9 {
+  grid-column: span 9;
+}
+
+.fui-grid-item-10 {
+  grid-column: span 10;
+}
+
+.fui-grid-item-11 {
+  grid-column: span 11;
+}
+
+.fui-grid-item-12 {
+  grid-column: span 12;
+}
+
+/* ---------- Typography ---------- */
+
+.fui-body-400 {
+  font: var(--fui-font-body-400);
+}
+
+.fui-body-400-2lines {
+  font: var(--fui-font-body-400-2lines);
+}
+
+.fui-body-500 {
+  font: var(--fui-font-body-500);
+}
+
+.fui-body-large-400 {
+  font: var(--fui-font-body-large-400);
+}
+
+.fui-body-large-400-2lines {
+  font: var(--fui-font-body-large-400-2lines);
+}
+
+.fui-body-large-500 {
+  font: var(--fui-font-body-large-500);
+}
+
+.fui-body-small-400 {
+  font: var(--fui-font-body-small-400);
+}
+
+.fui-body-small-400-2lines {
+  font: var(--fui-font-body-small-400-2lines);
+}
+
+.fui-body-small-500 {
+  font: var(--fui-font-body-small-500);
+}
+
+.fui-heading {
+  font: var(--fui-font-heading);
+  letter-spacing: -0.2px;
+}
+
+.fui-heading-large {
+  font: var(--fui-font-heading-large);
+  letter-spacing: -0.4px;
+}
+
+.fui-heading-small {
+  font: var(--fui-font-heading-small);
+}
+
+.fui-heading-xlarge {
+  font: var(--fui-font-heading-xlarge);
+  letter-spacing: -0.8px;
+}
+
+.fui-heading-xsmall {
+  font: var(--fui-font-heading-xsmall);
+}
+
+.fui-uppercase-500 {
+  font: var(--fui-font-uppercase-500);
+  text-transform: uppercase;
+}
+
+/* ---------- Colors ---------- */
+
+.fui-color-alert {
+  color: var(--fui-alert);
+}
+
+.fui-color-info {
+  color: var(--fui-info);
+}
+
+.fui-color-ink {
+  color: var(--fui-ink);
+}
+
+.fui-color-ink-light {
+  color: var(--fui-ink-light);
+}
+
+.fui-color-primary {
+  color: var(--fui-primary);
+}
+
+.fui-color-success {
+  color: var(--fui-success);
+}
+
+.fui-color-warning {
+  color: var(--fui-warning);
+}
+
+/* ---------- Header ---------- */
+
+.fui-header {
+  align-items: center;
+  background: var(--fui-white);
+  border-bottom: 1px solid var(--fui-smoke);
+  box-shadow: var(--fui-shadow-01);
+  box-sizing: content-box; /* 56px plus the border, as in the app */
+  display: grid;
+  gap: var(--fui-space-16);
+  grid-template-areas: "left center right";
+  grid-template-columns: 1fr auto 1fr;
+  height: 56px;
+  padding: 0 var(--fui-space-12);
+}
+
+.fui-header-left {
+  align-items: center;
+  display: flex;
+  gap: var(--fui-space-8);
+  grid-area: left;
+}
+
+.fui-header-center {
+  align-items: center;
+  display: flex;
+  gap: var(--fui-space-8);
+  grid-area: center;
+  justify-content: center;
+}
+
+.fui-header-right {
+  align-items: center;
+  display: flex;
+  gap: var(--fui-space-8);
+  grid-area: right;
+  justify-content: flex-end;
+}
+
+.fui-header-logo {
+  align-items: center;
+  color: var(--fui-ink);
+  display: flex;
+  font: var(--fui-font-body-large-500);
+  gap: var(--fui-space-8);
+  justify-self: start;
+}
+
+.fui-header-logo img {
+  display: block;
+  height: var(--fui-header-logo-height);
+  width: auto;
+}
+
+.fui-header-nav {
+  align-items: center;
+  display: flex;
+  gap: var(--fui-space-8);
+}
+
+.fui-body .fui-header a,
+.fui-body .fui-header a:hover {
+  text-decoration: none;
+}
+
+.fui-body .fui-header .fui-header-nav-item {
+  border-radius: var(--fui-radius-sm);
+  color: var(--fui-ink);
+  font: var(--fui-font-body-500);
+  min-width: 0;
+  padding: var(--fui-space-6) var(--fui-space-12);
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.fui-body .fui-header .fui-header-nav-item:hover {
+  background-color: var(--fui-smoke-light);
+}
+
+.fui-body .fui-header .fui-header-nav-item.active {
+  background-color: var(--fui-smoke-light);
+}
+
+.fui-body .fui-header .fui-header-nav-item.active:hover {
+  background-color: var(--fui-smoke-light);
+}
+
+/* ---------- Buttons ---------- */
+
+.fui-button {
+  align-items: center;
+  border: none;
+  border-radius: var(--fui-radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  font: var(--fui-font-body-500);
+  gap: var(--fui-space-4);
+  letter-spacing: normal;
+  padding: var(--fui-space-8) var(--fui-space-16);
+}
+
+.fui-button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.fui-button-primary {
+  background-color: var(--fui-primary);
+  box-shadow:
+    0 1px 0 0 color-mix(in srgb, #000000 8%, transparent),
+    inset 0 -1px 0 0 color-mix(in srgb, #000000 20%, transparent);
+  color: var(--fui-white);
+}
+
+.fui-button-primary:hover,
+.fui-button-primary:active {
+  background-color: var(--fui-primary-dark);
+}
+
+.fui-button-primary:disabled {
+  background-color: var(--fui-primary);
+  box-shadow: none;
+}
+
+.fui-button-secondary {
+  background-color: var(--fui-white);
+  box-shadow:
+    inset 0 0 0 1px var(--fui-smoke-dark),
+    0 1px 0 0 color-mix(in srgb, #000000 5%, transparent);
+  color: var(--fui-ink);
+}
+
+.fui-button-secondary:hover,
+.fui-button-secondary:active {
+  background-color: var(--fui-smoke-lightest);
+}
+
+.fui-button-secondary:disabled {
+  background-color: var(--fui-white);
+  box-shadow: inset 0 0 0 1px var(--fui-smoke-dark);
+}
+
+/* ---------- Code ---------- */
+
+.fui-code {
+  font-family: "Roboto Mono", monospace;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+/* ---------- Content ---------- */
+
+.fui-content {
+  max-width: 756px;
+}
+
+.fui-content h1 {
+  font: var(--fui-font-heading-large);
+  letter-spacing: -0.4px;
+  margin: 0 0 var(--fui-space-8);
+}
+
+.fui-content h2 {
+  font: var(--fui-font-heading);
+  letter-spacing: -0.2px;
+  margin: var(--fui-space-32) 0 var(--fui-space-16);
+}
+
+.fui-content h3 {
+  font: var(--fui-font-heading-small);
+  margin: var(--fui-space-32) 0 var(--fui-space-16);
+}
+
+.fui-content h4 {
+  font: var(--fui-font-body-large-500);
+  margin: var(--fui-space-24) 0 var(--fui-space-16);
+}
+
+.fui-content h5 {
+  font: var(--fui-font-body-large-500);
+  margin: var(--fui-space-24) 0 var(--fui-space-16);
+}
+
+.fui-content h6 {
+  font: var(--fui-font-body-500);
+  margin: var(--fui-space-24) 0 var(--fui-space-16);
+}
+
+.fui-content img {
+  display: block;
+  height: auto;
+  margin: var(--fui-space-16) 0;
+  max-width: 100%;
+}
+
+.fui-content li {
+  margin: var(--fui-space-8) 0;
+}
+
+.fui-content li:last-child {
+  margin-bottom: 0;
+}
+
+.fui-content li p {
+  margin-bottom: var(--fui-space-8);
+}
+
+.fui-content ol {
+  margin: 0;
+  padding-left: var(--fui-space-24);
+}
+
+.fui-content ol ol {
+  list-style-type: lower-roman;
+}
+
+.fui-content p {
+  font: var(--fui-font-body-large-400-2lines);
+  margin-bottom: var(--fui-space-16);
+  overflow-wrap: break-word;
+}
+
+.fui-content ul {
+  margin: 0;
+  padding-left: var(--fui-space-24);
+}
+
+.fui-content ul + p {
+  margin-top: var(--fui-space-16);
+}
+
+.fui-content > *:first-child {
+  margin-top: 0;
+}
+
+.fui-content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Divider ---------- */
+
+.fui-divider {
+  border: none;
+  border-top: 1px solid var(--fui-smoke);
+  margin: 0;
+}
+
+/* ---------- Cards ---------- */
+
+.fui-card {
+  align-self: flex-start;
+  background: var(--fui-white);
+  border: 1px solid var(--fui-smoke);
+  border-radius: var(--fui-radius);
+  box-shadow: var(--fui-shadow-00);
+}
+
+.fui-card-header {
+  padding: var(--fui-space-16);
+}
+
+.fui-card-header-title {
+  color: var(--fui-ink);
+  margin: 0;
+}
+
+.fui-card-header-description {
+  color: var(--fui-ink-light);
+  margin: var(--fui-space-4) 0 0;
+}
+
+.fui-card-content {
+  padding: var(--fui-space-16);
+}
+
+.fui-card-content > *:first-child {
+  margin-top: 0;
+}
+
+.fui-card-content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Links ---------- */
+
+.fui-body a {
+  color: var(--fui-primary);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-skip-ink: none;
+  text-underline-position: from-font;
+}
+
+/* ---------- Tooltip ---------- */
+
+.fui-tooltip-wrapper {
+  display: inline-flex;
+  position: relative;
+}
+
+.fui-tooltip {
+  background-color: var(--fui-ink);
+  border-radius: var(--fui-radius-sm);
+  bottom: 100%;
+  box-shadow: var(--fui-shadow-02);
+  color: var(--fui-white);
+  font: var(--fui-font-body-small-400);
+  left: 50%;
+  margin-bottom: 14px;
+  max-width: min(400px, 100vw - 2 * var(--fui-space-16));
+  opacity: 0;
+  padding: var(--fui-space-8) var(--fui-space-12);
+  position: absolute;
+  transform: translateX(-50%);
+  transition:
+    opacity 150ms,
+    visibility 150ms;
+  visibility: hidden;
+  width: max-content;
+  z-index: 1500;
+}
+
+/* Arrow */
+.fui-tooltip::before {
+  background-color: inherit;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  content: "";
+  height: 0.71em;
+  left: 50%;
+  position: absolute;
+  top: 100%;
+  transform: translateX(-50%);
+  width: 1em;
+}
+
+/* Bridges the gap to the trigger, so the pointer can move onto the tooltip */
+.fui-tooltip::after {
+  content: "";
+  height: 14px;
+  left: 0;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+}
+
+.fui-tooltip-wrapper:hover .fui-tooltip,
+.fui-tooltip-wrapper:focus-within .fui-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Set by the Escape script in the usage notes. No transition, so links in
+   the tooltip leave the tab order at once. */
+.fui-tooltip-wrapper.fui-tooltip-dismissed .fui-tooltip {
+  opacity: 0;
+  transition: none;
+  visibility: hidden;
+}
+
+.fui-body .fui-tooltip a {
+  color: inherit;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (min-width: 768px) {
+  /* The theme's desktop heading sizes, set on the custom properties so that
+     anything using them directly (not only the heading classes) gets them. */
+  :root {
+    --fui-font-heading: 500 24px/32px var(--fui-font-family);
+    --fui-font-heading-large: 500 30px/40px var(--fui-font-family);
+    --fui-font-heading-small: 500 20px/28px var(--fui-font-family);
+    --fui-font-heading-xlarge: 500 40px/56px var(--fui-font-family);
+  }
+
+  .fui-card-content {
+    padding: var(--fui-space-20);
+  }
+
+  .fui-card-header {
+    padding: var(--fui-space-16) var(--fui-space-20);
+  }
+
+  .fui-main {
+    margin: 0 auto;
+    max-width: min(calc(100% - 32px), 1232px);
+  }
+
+  .fui-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .fui-content h1 {
+    letter-spacing: -0.8px;
+  }
+
+  .fui-content h2 {
+    letter-spacing: -0.4px;
+  }
+
+  .fui-content h3 {
+    letter-spacing: -0.2px;
+  }
+
+  .fui-heading {
+    letter-spacing: -0.4px;
+  }
+
+  .fui-heading-large {
+    letter-spacing: -0.8px;
+  }
+
+  .fui-heading-small {
+    letter-spacing: -0.2px;
+  }
+
+  .fui-heading-xlarge {
+    letter-spacing: -1.4px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .fui-header {
+    padding: 0 var(--fui-space-16);
+  }
+}

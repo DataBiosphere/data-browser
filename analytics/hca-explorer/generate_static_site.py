@@ -41,6 +41,8 @@ generate_site(
     config={
         "site_title": "HCA Data Explorer User Analytics",
         "logo_url": "https://explore.data.humancellatlas.org/images/hcaExplorer.png",
+        "logo_width": 156.52,
+        "logo_height": 32.5,
         "favicon_url": "https://explore.data.humancellatlas.org/favicons/favicon.ico",
         "logo_link": "https://explore.data.humancellatlas.org",
         "primary_color": "#1C7CC7",

@@ -18,7 +18,7 @@ members = [
 
 [[package]]
 name = "analytics"
-version = "5.0.4"
+version = "5.1.0"
 source = { editable = "analytics_package" }
 dependencies = [
     { name = "google-api-python-client" },
