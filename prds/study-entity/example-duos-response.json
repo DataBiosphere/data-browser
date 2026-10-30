@@ -1,0 +1,50 @@
+{
+  "datasetId": 727,
+  "datasetIdentifier": "DUOS-000667",
+  "datasetName": "ANVIL_CCDG_Broad_NP_Epilepsy_AUSALF_HMB_IRB_GSA_MD (HMB-IRB-MDS)",
+  "name": "ANVIL_CCDG_Broad_NP_Epilepsy_AUSALF_HMB_IRB_GSA_MD (HMB-IRB-MDS)",
+  "alias": 667,
+  "dacApproval": true,
+  "dacId": 2,
+  "studyId": 111,
+  "dataUse": "...",
+  "properties": "...",
+  "study": {
+    "studyId": 111,
+    "name": "Center for Common Disease Genomics [CCDG] - Neuropsychiatric: Epilepsy: Epi25 Consortium (phs001489)",
+    "description": "Epilepsy genetics research is at an exciting stage where it is now feasible, with the power of a large cohort, to understand the more complex genetic components of epilepsy...",
+    "piName": "Ben Neale",
+    "dataTypes": ["GSA-MD", "WES"],
+    "datasetIds": [768, 512, 769, "...149 total"],
+    "properties": [
+      {
+        "key": "collaboratingSites",
+        "type": "Json",
+        "value": ["CCDG"]
+      },
+      {
+        "key": "dbGaPPhsID",
+        "type": "String",
+        "value": "phs001489"
+      },
+      {
+        "key": "phenotypeIndication",
+        "type": "String",
+        "value": "Epilepsy"
+      },
+      {
+        "key": "data",
+        "type": "Json",
+        "value": {
+          "tags": [
+            "Platform: AnVIL",
+            "Platform: NCPI",
+            "dbGaP_phs_id: phs001489",
+            "dbGaP_accession: phs001489.v4.p2",
+            "dbGaP_study_design: Case-Control"
+          ]
+        }
+      }
+    ]
+  }
+}
