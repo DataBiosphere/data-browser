@@ -1,5 +1,30 @@
 # Changelog
 
+## [3.8.0](https://github.com/DataBiosphere/data-browser/compare/v3.7.0...v3.8.0) (2026-10-30)
+
+
+### Features
+
+* [anvil dx] add nih ras ial2 account linking recertification banner ([#5012](https://github.com/DataBiosphere/data-browser/issues/5012)) ([#5013](https://github.com/DataBiosphere/data-browser/issues/5013)) ([6456e79](https://github.com/DataBiosphere/data-browser/commit/6456e79adea8b8e123e410192ce41a2b3893f576))
+* retry azul apis only when retry-after value is specified ([#4561](https://github.com/DataBiosphere/data-browser/issues/4561)) ([#4993](https://github.com/DataBiosphere/data-browser/issues/4993)) ([de5424c](https://github.com/DataBiosphere/data-browser/commit/de5424cefcddcc479191896c61bc4fbf7ea9d8ff))
+
+
+### Bug Fixes
+
+* analytics pages: render header logo in html, fix anvil logo, load released css ([#5003](https://github.com/DataBiosphere/data-browser/issues/5003)) ([#5010](https://github.com/DataBiosphere/data-browser/issues/5010)) ([e584d3a](https://github.com/DataBiosphere/data-browser/commit/e584d3aa85cc75341cd8f2c82640a4f15c2b8f0b))
+
+
+### Chores
+
+* playwright ci fails on ubuntu-latest (now ubuntu 26.04) ([#4996](https://github.com/DataBiosphere/data-browser/issues/4996)) ([#4997](https://github.com/DataBiosphere/data-browser/issues/4997)) ([905f040](https://github.com/DataBiosphere/data-browser/commit/905f0402fb29dbe7274b391a1133a09a2133db73))
+* upgrade @databiosphere/findable-ui to v58.0.0 ([#5008](https://github.com/DataBiosphere/data-browser/issues/5008)) ([#5009](https://github.com/DataBiosphere/data-browser/issues/5009)) ([4c2cb7a](https://github.com/DataBiosphere/data-browser/commit/4c2cb7aa4baf79b725396f70c5347d50440f1c27))
+* upgrade next.js and its packages to a release with the security fix ([#5002](https://github.com/DataBiosphere/data-browser/issues/5002)) ([#5007](https://github.com/DataBiosphere/data-browser/issues/5007)) ([31a0575](https://github.com/DataBiosphere/data-browser/commit/31a057570c81c7d0f00db3ca5ed23a4916067b23))
+
+
+### Code Refactoring
+
+* replace findable button wrappers with mui button ([#4994](https://github.com/DataBiosphere/data-browser/issues/4994)) ([#4995](https://github.com/DataBiosphere/data-browser/issues/4995)) ([3ce7c89](https://github.com/DataBiosphere/data-browser/commit/3ce7c896f888bfee9da1dac9e956377e1ba81434))
+
 ## [3.7.0](https://github.com/DataBiosphere/data-browser/compare/v3.6.0...v3.7.0) (2026-10-13)
 
 
