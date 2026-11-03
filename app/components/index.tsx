@@ -74,7 +74,6 @@ export { Description } from "@databiosphere/findable-ui/lib/components/Project/c
 export { Details } from "@databiosphere/findable-ui/lib/components/Project/components/Details/details";
 export { Publications } from "@databiosphere/findable-ui/lib/components/Project/components/Publications/publications";
 export { SupplementaryLinks } from "@databiosphere/findable-ui/lib/components/Project/components/SupplementaryLinks/supplementaryLinks";
-export { SupportRequest } from "@databiosphere/findable-ui/lib/components/Support/components/SupportRequest/supportRequest";
 export { BasicCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/BasicCell/basicCell";
 export { IdentityCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/IdentityCell/identityCell";
 export { NTagCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/NTagCell/nTagCell";
