@@ -14,7 +14,7 @@ export function getLayout(
   portalUrl: string
 ): SiteConfig["layout"] {
   return {
-    floating: getFloating(portalUrl),
+    floating: getFloating(),
     footer: getFooter(portalUrl),
     header: getHeader(appTitle, portalUrl),
   };
