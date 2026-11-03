@@ -1,6 +1,7 @@
 import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 import { SELECTED_MATCH } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/common/entities";
+import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
@@ -27,7 +28,6 @@ import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { buildSummaries } from "./index/summaryViewModelBuilder";
-import { makeFloatingConfig } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -182,7 +182,6 @@ export function makeConfig(
     gitHubUrl,
     kyOptions: AZUL_KY_OPTIONS,
     layout: {
-      floating: makeFloatingConfig(portalUrl),
       footer: {
         Branding: C.ANVILBranding({ portalURL: portalUrl }),
         navLinks: [
@@ -252,6 +251,11 @@ export function makeConfig(
                 {
                   label: "Privacy Policy",
                   url: "/privacy",
+                },
+                {
+                  label: C.LabelIconMenuItem({ label: "Help" }),
+                  target: ANCHOR_TARGET.BLANK,
+                  url: `${portalUrl}/help`,
                 },
               ],
               url: "",
