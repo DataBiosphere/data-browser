@@ -96,11 +96,26 @@
  *   </style>
  *
  * Tooltips:
- *   A tooltip shows above its trigger on hover or keyboard focus. The trigger
- *   must be focusable, and the tooltip may contain links:
+ *   A tooltip shows above its trigger on hover or keyboard focus. It holds
+ *   text only: screen readers read it as the trigger's description, so a
+ *   link or other control inside it can't be used. For help content with a
+ *   link, use a toggletip (below).
+ *
+ *   Make the trigger a button with .fui-tooltip-trigger, which removes the
+ *   button styling. Screen readers announce a button's description, and
+ *   touch devices show the tooltip when it's tapped. Give an icon-only
+ *   trigger an aria-label, and keep it the wrapper's first child: in browsers
+ *   with CSS anchor positioning, the tooltip is placed against it and slides
+ *   sideways rather than run off the screen:
  *
  *   <span class="fui-tooltip-wrapper">
- *     <span tabindex="0" aria-describedby="users-tooltip">Users</span>
+ *     <button
+ *       aria-describedby="users-tooltip"
+ *       class="fui-tooltip-trigger"
+ *       type="button"
+ *     >
+ *       Users
+ *     </button>
  *     <span class="fui-tooltip" id="users-tooltip" role="tooltip">
  *       Unique visitors this month.
  *     </span>
@@ -136,6 +151,75 @@
  *     cornerRadius: 4,
  *     padding: { x: 12, y: 8 },
  *   });
+ *
+ * Toggletips:
+ *   A toggletip is a button that shows and hides help content. It looks
+ *   like a tooltip, but the content is part of the page, so a link in it
+ *   works by keyboard and screen reader. Make the button the wrapper's first
+ *   child and put the content after it; the content shows while the button's
+ *   aria-expanded is "true", and stays on screen like a tooltip's:
+ *
+ *   <span class="fui-toggletip">
+ *     <button
+ *       aria-controls="engagement-help"
+ *       aria-expanded="false"
+ *       aria-label="About engagement rate"
+ *       class="fui-toggletip-trigger"
+ *       type="button"
+ *     >
+ *       &#9432;
+ *     </button>
+ *     <span class="fui-toggletip-content" id="engagement-help">
+ *       Sessions where users actively engaged.
+ *       <a href="https://support.google.com/analytics/answer/11109416">
+ *         Learn more
+ *       </a>
+ *     </span>
+ *   </span>
+ *
+ *   Add this script once per page. It opens and closes the toggletip on
+ *   click, and closes it on Escape (returning focus to the button), on a
+ *   tap or click outside it, or when focus moves to another element on the
+ *   page:
+ *
+ *   <script>
+ *     document.addEventListener("pointerdown", (event) => {
+ *       document
+ *         .querySelectorAll('.fui-toggletip-trigger[aria-expanded="true"]')
+ *         .forEach((trigger) => {
+ *           if (!trigger.closest(".fui-toggletip").contains(event.target)) {
+ *             trigger.setAttribute("aria-expanded", "false");
+ *           }
+ *         });
+ *     });
+ *     document.addEventListener("click", (event) => {
+ *       const trigger = event.target.closest(".fui-toggletip-trigger");
+ *       if (!trigger) return;
+ *       const expanded = trigger.getAttribute("aria-expanded") === "true";
+ *       trigger.setAttribute("aria-expanded", String(!expanded));
+ *     });
+ *     document.addEventListener("keydown", (event) => {
+ *       if (event.key !== "Escape") return;
+ *       document
+ *         .querySelectorAll('.fui-toggletip-trigger[aria-expanded="true"]')
+ *         .forEach((trigger) => {
+ *           const toggletip = trigger.closest(".fui-toggletip");
+ *           if (toggletip.contains(document.activeElement)) trigger.focus();
+ *           trigger.setAttribute("aria-expanded", "false");
+ *         });
+ *     });
+ *     document.addEventListener("focusout", (event) => {
+ *       const toggletip = event.target.closest(".fui-toggletip");
+ *       // No relatedTarget: a press on the page (left to the pointerdown
+ *       // handler, so a press on the content's text keeps it open) or focus
+ *       // leaving the page.
+ *       if (!toggletip || !event.relatedTarget) return;
+ *       if (toggletip.contains(event.relatedTarget)) return;
+ *       toggletip
+ *         .querySelector(".fui-toggletip-trigger")
+ *         .setAttribute("aria-expanded", "false");
+ *     });
+ *   </script>
  */
 
 /* ---------- Custom Properties ---------- */
@@ -717,14 +801,35 @@
   text-underline-position: from-font;
 }
 
-/* ---------- Tooltip ---------- */
+/* ---------- Tooltip and Toggletip ---------- */
 
-.fui-tooltip-wrapper {
+.fui-tooltip-wrapper,
+.fui-toggletip {
   display: inline-flex;
   position: relative;
 }
 
-.fui-tooltip {
+/* Removes the button styling, so the trigger looks like the text around it */
+.fui-tooltip-trigger,
+.fui-toggletip-trigger {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  padding: 0;
+}
+
+.fui-tooltip-trigger {
+  cursor: help;
+}
+
+.fui-toggletip-trigger {
+  cursor: pointer;
+}
+
+.fui-tooltip,
+.fui-toggletip-content {
   background-color: var(--fui-ink);
   border-radius: var(--fui-radius-sm);
   bottom: 100%;
@@ -746,17 +851,26 @@
   z-index: 1500;
 }
 
-/* Arrow */
-.fui-tooltip::before {
-  background-color: inherit;
+/* Arrow. It's drawn on the wrapper, centred over the trigger, so it still
+   points at the trigger when the content slides to stay on screen. */
+.fui-tooltip-wrapper::before,
+.fui-toggletip::before {
+  background-color: var(--fui-ink);
+  bottom: calc(100% + 14px - 0.71em);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   content: "";
+  font: var(--fui-font-body-small-400);
   height: 0.71em;
   left: 50%;
+  opacity: 0;
   position: absolute;
-  top: 100%;
   transform: translateX(-50%);
+  transition:
+    opacity 150ms,
+    visibility 150ms;
+  visibility: hidden;
   width: 1em;
+  z-index: 1500;
 }
 
 /* Bridges the gap to the trigger, so the pointer can move onto the tooltip */
@@ -769,21 +883,70 @@
   width: 100%;
 }
 
+.fui-tooltip-wrapper:hover::before,
 .fui-tooltip-wrapper:hover .fui-tooltip,
-.fui-tooltip-wrapper:focus-within .fui-tooltip {
+.fui-tooltip-wrapper:focus-within::before,
+.fui-tooltip-wrapper:focus-within .fui-tooltip,
+.fui-toggletip:has(.fui-toggletip-trigger[aria-expanded="true"])::before,
+.fui-toggletip-trigger[aria-expanded="true"] ~ .fui-toggletip-content {
   opacity: 1;
   visibility: visible;
 }
 
-/* Set by the Escape script in the usage notes. No transition, so links in
-   the tooltip leave the tab order at once. */
+/* No transition while closed, so the content (and its links) hides at once. */
+.fui-toggletip:not(:has(.fui-toggletip-trigger[aria-expanded="true"]))::before,
+.fui-toggletip-trigger:not([aria-expanded="true"]) ~ .fui-toggletip-content {
+  transition: none;
+}
+
+/* Set by the tooltip Escape script in the usage notes. No transition, so the
+   tooltip hides at once. */
+.fui-tooltip-wrapper.fui-tooltip-dismissed::before,
 .fui-tooltip-wrapper.fui-tooltip-dismissed .fui-tooltip {
   opacity: 0;
   transition: none;
   visibility: hidden;
 }
 
-.fui-body .fui-tooltip a {
+/* Keeps the content on screen. Where the browser supports anchor positioning,
+   the content is placed against the trigger (the wrapper's first child) and,
+   when centred content would overflow the viewport, lines up with the
+   trigger's left or right edge instead. Elsewhere it stays centred. */
+@supports (anchor-scope: all) and (position-try-fallbacks: flip-block) {
+  .fui-tooltip-wrapper,
+  .fui-toggletip {
+    anchor-scope: --fui-trigger;
+  }
+
+  .fui-tooltip-wrapper > :first-child,
+  .fui-toggletip > :first-child {
+    anchor-name: --fui-trigger;
+  }
+
+  .fui-tooltip,
+  .fui-toggletip-content {
+    bottom: auto;
+    left: auto;
+    position: fixed;
+    position-anchor: --fui-trigger;
+    position-area: top;
+    position-try-fallbacks: --fui-align-trigger-start, --fui-align-trigger-end;
+    transform: none;
+  }
+}
+
+@position-try --fui-align-trigger-start {
+  position-area: top span-right;
+}
+
+@position-try --fui-align-trigger-end {
+  position-area: top span-left;
+}
+
+/* Links belong in a toggletip. The .fui-tooltip selector keeps links legible
+   on pages that still put them in a tooltip. */
+.fui-body .fui-tooltip a,
+.fui-body .fui-toggletip-content a {
   color: inherit;
 }
 

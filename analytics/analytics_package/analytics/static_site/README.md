@@ -15,7 +15,7 @@ See the [repository's main analytics readme](../../../readme.md) for details on 
 | `export.py` | Exports DataFrames and dicts to JSON files in `<output folder>/data/` |
 | `resolve.py` | Resolves entity UUIDs to titles via catalog APIs (AnVIL, HCA/LungMAP Azul) |
 | `template/index.html` | Config-driven HTML template with Chart.js charts and data tables |
-| `template/analytics.css` | Copy of `static/analytics.css` from `@databiosphere/findable-ui` v58.0.0 (re-copy from `node_modules` on upgrade); copied next to each site's `index.html` |
+| `template/analytics.css` | Copy of `static/analytics.css` from `@databiosphere/findable-ui` v60.0.0 (re-copy from `node_modules` on upgrade); copied next to each site's `index.html` |
 
 ### Per-app scripts
 
