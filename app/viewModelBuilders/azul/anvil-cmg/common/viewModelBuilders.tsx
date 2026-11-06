@@ -113,6 +113,11 @@ import { ExportIcon } from "../../../../components/Export/components/AnVILExplor
 import { METADATA_KEY } from "../../../../components/Index/common/entities";
 import { getPluralizedMetadataLabel } from "../../../../components/Index/common/indexTransformer";
 import { isProductionEnvironment } from "../../../../config/utils";
+import {
+  TERRA_EXPORT_UNAVAILABLE_DATASET_MESSAGE,
+  TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES,
+  TERRA_EXPORT_UNAVAILABLE_REASON,
+} from "./constants";
 import { SUMMARY_DISPLAY_TEXT } from "./summaryMapper/constants";
 import { mapExportSummary } from "./summaryMapper/summaryMapper";
 
@@ -188,6 +193,20 @@ export const buildAlertDatasetManifestDownloadWarning = (
 };
 
 /**
+ * Build props for dataset Terra export unavailable warning Alert component.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertDatasetTerraExportUnavailable = (): React.ComponentProps<
+  typeof MDX.Alert
+> => {
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    content: TERRA_EXPORT_UNAVAILABLE_DATASET_MESSAGE,
+  };
+};
+
+/**
  * Build props for list view access warning Alert component.
  * @param _ - Unused.
  * @param viewContext - View context.
@@ -220,6 +239,27 @@ export const buildAlertExportWarning = (
     component: C.FluidPaper,
     content: isAuthenticated ? null : MDX.AlertExportWarningContent({}),
     size: isAuthenticated ? SIZE.MEDIUM : SIZE.LARGE,
+  };
+};
+
+/**
+ * Build props for cohort Terra export unavailable warning Alert component.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the Alert component.
+ */
+export const buildAlertTerraExportUnavailable = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof MDX.Alert> => {
+  return {
+    ...ALERT_PROPS.STANDARD_WARNING,
+    component: C.FluidPaper,
+    content: getTerraExportUnavailableMessage(
+      getSelectedTerraExportUnavailableDatasetTitles(
+        viewContext.exploreState.filterState
+      )
+    ),
   };
 };
 
@@ -450,12 +490,14 @@ export const buildDatasetExportMethodTerra = (
   datasetsResponse: DatasetsResponse
 ): React.ComponentProps<typeof ExportMethod> => {
   const datasetPath = buildDatasetPath(datasetsResponse);
+  const isUnavailable = isDatasetTerraExportUnavailable(datasetsResponse);
   return {
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
+    footnote: isUnavailable ? TERRA_EXPORT_UNAVAILABLE_DATASET_MESSAGE : null,
     icon: <ExportIcon alt="Terra" src="/export/terra.webp" width={24} />,
+    isAccessible: !isUnavailable,
     route: `${datasetPath}${ROUTES.TERRA}`,
-
     title: "Export to Terra",
   };
 };
@@ -760,6 +802,22 @@ export const buildExportCurrentQuery = (
 };
 
 /**
+ * Build props for the ExportEntity component, for triggering calls to populate the selected data for the current
+ * cohort selection.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ExportEntity component.
+ */
+export const buildExportEntityProps = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): React.ComponentProps<typeof ExportEntity> => {
+  return {
+    filters: viewContext.exploreState.filterState,
+  };
+};
+
+/**
  * Build props for export BackPageHero component.
  * @param _ - Unused.
  * @param viewContext - View context.
@@ -844,7 +902,7 @@ export const buildExportMethodTerra = (
   viewContext: ViewContext<unknown>
 ): React.ComponentProps<typeof ExportMethod> => {
   return {
-    ...getExportMethodAccessibility(viewContext),
+    ...getExportMethodTerraAccessibility(viewContext),
     description:
       "Terra is a biomedical research platform to analyze data using workflows, Jupyter Notebooks, RStudio, and Galaxy.",
     icon: <ExportIcon alt="Terra" src="/export/terra.webp" width={24} />,
@@ -1542,6 +1600,30 @@ function getExportMethodHero(
 }
 
 /**
+ * Returns the Terra export method accessibility. Terra export is inaccessible when the selected datasets include
+ * any dataset that cannot be exported to Terra. Selected datasets are only considered once the files facets have
+ * loaded; the selected filters are not known when the page is statically rendered, and considering them earlier
+ * would cause a hydration mismatch.
+ * @param viewContext - View context.
+ * @returns Terra export method accessibility.
+ */
+function getExportMethodTerraAccessibility(
+  viewContext: ViewContext<unknown>
+): Partial<typeof C.ExportMethod> {
+  if (!viewContext.fileManifestState.isFacetsSuccess)
+    return getExportMethodAccessibility(viewContext);
+  const datasetTitles = getSelectedTerraExportUnavailableDatasetTitles(
+    viewContext.exploreState.filterState
+  );
+  if (datasetTitles.length === 0)
+    return getExportMethodAccessibility(viewContext);
+  return {
+    footnote: getTerraExportUnavailableMessage(datasetTitles),
+    isAccessible: false,
+  };
+}
+
+/**
  * Returns the export selected data summary for the given file manifest.
  * @param filesFacets - Files facets.
  * @param summary - Response model return from summary API.
@@ -1725,6 +1807,33 @@ function getIdentityDatasetsSubtitle(
 }
 
 /**
+ * Returns the titles of datasets selected in the given filters that cannot be exported to Terra.
+ * @param filters - Selected filters.
+ * @returns titles of selected datasets that cannot be exported to Terra.
+ */
+export function getSelectedTerraExportUnavailableDatasetTitles(
+  filters: Filters
+): string[] {
+  const datasetTitleFilter = filters.find(
+    ({ categoryKey }) => categoryKey === ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE
+  );
+  if (!datasetTitleFilter) return [];
+  return TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES.filter((title) =>
+    datasetTitleFilter.value.includes(title)
+  );
+}
+
+/**
+ * Returns the explanation displayed when Terra export is unavailable for the selected datasets.
+ * @param datasetTitles - Titles of selected datasets that cannot be exported to Terra.
+ * @returns explanation of why Terra export is unavailable.
+ */
+function getTerraExportUnavailableMessage(datasetTitles: string[]): string {
+  const isSingular = datasetTitles.length === 1;
+  return `Export to Terra is unavailable for ${datasetTitles.join(", ")} because ${isSingular ? "its" : "their"} ${TERRA_EXPORT_UNAVAILABLE_REASON}. Remove ${isSingular ? "this dataset" : "these datasets"} from the selection to export to Terra.`;
+}
+
+/**
  * Boolean to filter out any selected filters that have dataset ID as the category key.
  * @param filter - Selected filter.
  * @returns true if the filter category key is not dataset ID.
@@ -1742,6 +1851,24 @@ function isAccessibleTransitionIn(datasetsResponse: DatasetsResponse): boolean {
   const isAccessible = isDatasetAccessible(datasetsResponse);
   const isReady = isResponseReady(datasetsResponse);
   return isAccessible || isReady;
+}
+
+/**
+ * Returns true if the selected datasets include any dataset that cannot be exported to Terra.
+ * The cohort Terra export components are rendered only once the file manifest is enabled (after hydration); the
+ * selected filters are not known when the page is statically rendered, and the Terra export component clears the
+ * file manifest when it unmounts.
+ * @param viewContext - View context.
+ * @returns true if the selected datasets include any dataset that cannot be exported to Terra.
+ */
+function isCohortTerraExportUnavailable(
+  viewContext: ViewContext<unknown>
+): boolean {
+  return (
+    getSelectedTerraExportUnavailableDatasetTitles(
+      viewContext.exploreState.filterState
+    ).length > 0
+  );
 }
 
 /**
@@ -1765,6 +1892,19 @@ export function isDatasetNRESConsentGroup(
   return (
     consentGroups.includes("NRES") ||
     consentGroups.includes("Unrestricted access")
+  );
+}
+
+/**
+ * Returns true if the dataset cannot be exported to Terra.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns true if the dataset cannot be exported to Terra.
+ */
+export function isDatasetTerraExportUnavailable(
+  datasetsResponse: DatasetsResponse
+): boolean {
+  return TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES.includes(
+    getDatasetTitle(datasetsResponse)
   );
 }
 
@@ -1910,6 +2050,42 @@ export const renderCohortCurlDownload = (
 };
 
 /**
+ * Renders cohort Terra export component, once the file manifest is enabled, when the selected datasets do not
+ * include any dataset that cannot be exported to Terra.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderCohortTerraExport = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn:
+      viewContext.fileManifestState.isEnabled &&
+      !isCohortTerraExportUnavailable(viewContext),
+  };
+};
+
+/**
+ * Renders cohort Terra export unavailable warning component, once the file manifest is enabled, when the selected
+ * datasets include any dataset that cannot be exported to Terra.
+ * @param _ - Unused.
+ * @param viewContext - View context.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderCohortTerraExportUnavailable = (
+  _: unknown,
+  viewContext: ViewContext<unknown>
+): ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn:
+      viewContext.fileManifestState.isEnabled &&
+      isCohortTerraExportUnavailable(viewContext),
+  };
+};
+
+/**
  * Renders dataset curl download components when the given dataset has NRES consent group,
  * or when the environment is non-production.
  * @param datasetsResponse - Response model return from datasets API.
@@ -1949,6 +2125,32 @@ export const renderDatasetExportWarning = (
 ): React.ComponentProps<typeof C.ConditionalComponent> => {
   return {
     isIn: !isDatasetAccessible(datasetsResponse),
+  };
+};
+
+/**
+ * Renders dataset Terra export component when the given dataset can be exported to Terra.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderDatasetTerraExport = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn: !isDatasetTerraExportUnavailable(datasetsResponse),
+  };
+};
+
+/**
+ * Renders dataset Terra export unavailable warning component when the given dataset cannot be exported to Terra.
+ * @param datasetsResponse - Response model return from datasets API.
+ * @returns model to be used as props for the ConditionalComponent component.
+ */
+export const renderDatasetTerraExportUnavailable = (
+  datasetsResponse: DatasetsResponse
+): React.ComponentProps<typeof C.ConditionalComponent> => {
+  return {
+    isIn: isDatasetTerraExportUnavailable(datasetsResponse),
   };
 };
 

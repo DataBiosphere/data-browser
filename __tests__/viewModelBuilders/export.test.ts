@@ -2,10 +2,16 @@ import { Breadcrumb } from "@databiosphere/findable-ui/lib/components/common/Bre
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
+import { TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES } from "../../app/viewModelBuilders/azul/anvil-cmg/common/constants";
 import {
+  buildAlertTerraExportUnavailable,
+  buildExportMethodTerra,
   buildExportToPlatform,
   buildExportToPlatformHero,
   buildExportToPlatformMethod,
+  getSelectedTerraExportUnavailableDatasetTitles,
+  renderCohortTerraExport,
+  renderCohortTerraExportUnavailable,
 } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import { ANVIL_CMG_CATEGORY_KEY } from "../../site-config/anvil-cmg/category";
 import {
@@ -337,5 +343,159 @@ describe("buildExportToPlatformMethod", () => {
 
       expect(result.route).toBe("/export/cancer-genomics-cloud");
     });
+  });
+});
+
+/**
+ * Creates a mock ViewContext with the given dataset title filter selected.
+ * @param datasetTitles - Selected dataset titles.
+ * @returns Mock ViewContext.
+ */
+const createMockViewContextWithDatasetTitles = (
+  datasetTitles: string[]
+): ViewContext<unknown> => {
+  const viewContext = createMockViewContext();
+  viewContext.exploreState.filterState = [
+    { categoryKey: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE, value: datasetTitles },
+  ];
+  return viewContext;
+};
+
+describe("getSelectedTerraExportUnavailableDatasetTitles", () => {
+  it("returns selected datasets that cannot be exported to Terra", () => {
+    const [unavailableTitle] = TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES;
+
+    const result = getSelectedTerraExportUnavailableDatasetTitles([
+      {
+        categoryKey: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+        value: [unavailableTitle, "ANVIL_Other_Dataset"],
+      },
+    ]);
+
+    expect(result).toEqual([unavailableTitle]);
+  });
+
+  it("returns an empty array when no dataset title filter is selected", () => {
+    const result = getSelectedTerraExportUnavailableDatasetTitles([
+      { categoryKey: "test.filter", value: ["value1"] },
+    ]);
+
+    expect(result).toEqual([]);
+  });
+
+  it("returns an empty array when only other datasets are selected", () => {
+    const result = getSelectedTerraExportUnavailableDatasetTitles([
+      {
+        categoryKey: ANVIL_CMG_CATEGORY_KEY.DATASET_TITLE,
+        value: ["ANVIL_Other_Dataset"],
+      },
+    ]);
+
+    expect(result).toEqual([]);
+  });
+});
+
+describe("buildExportMethodTerra", () => {
+  it("ignores the selected datasets before the files facets have loaded", () => {
+    const viewContext = createMockViewContextWithDatasetTitles([
+      TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES[0],
+    ]);
+    viewContext.fileManifestState = createMockFileManifestState({
+      isFacetsSuccess: false,
+    });
+
+    const result = buildExportMethodTerra(undefined, viewContext);
+
+    expect(result.isAccessible).toBe(false);
+    expect(result.footnote).toBeNull();
+  });
+
+  it("returns inaccessible with footnote naming the selected unavailable datasets", () => {
+    const [unavailableTitle] = TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES;
+    const viewContext = createMockViewContextWithDatasetTitles([
+      unavailableTitle,
+    ]);
+
+    const result = buildExportMethodTerra(undefined, viewContext);
+
+    expect(result.isAccessible).toBe(false);
+    expect(result.footnote).toContain(unavailableTitle);
+  });
+
+  it("returns file manifest accessibility when no unavailable dataset is selected", () => {
+    const fileManifestState = createMockFileManifestState({
+      filesFacets: [createMockFileFacet()],
+      isFacetsSuccess: true,
+      summary: { fileCount: 10 },
+    });
+    const viewContext = createMockViewContext({ fileManifestState });
+
+    const result = buildExportMethodTerra(undefined, viewContext);
+
+    expect(result.isAccessible).toBe(true);
+    expect(result.footnote).toBeNull();
+  });
+});
+
+describe("renderCohortTerraExport and renderCohortTerraExportUnavailable", () => {
+  it("renders neither the warning nor the Terra export before the file manifest is enabled", () => {
+    const viewContext = createMockViewContextWithDatasetTitles([
+      TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES[0],
+    ]);
+    viewContext.fileManifestState = createMockFileManifestState({
+      isEnabled: false,
+    });
+
+    expect(renderCohortTerraExport(undefined, viewContext).isIn).toBe(false);
+    expect(
+      renderCohortTerraExportUnavailable(undefined, viewContext).isIn
+    ).toBe(false);
+  });
+
+  it("renders the warning, not the Terra export, when an unavailable dataset is selected", () => {
+    const viewContext = createMockViewContextWithDatasetTitles([
+      TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES[0],
+    ]);
+
+    expect(renderCohortTerraExport(undefined, viewContext).isIn).toBe(false);
+    expect(
+      renderCohortTerraExportUnavailable(undefined, viewContext).isIn
+    ).toBe(true);
+  });
+
+  it("renders the Terra export, not the warning, when no unavailable dataset is selected", () => {
+    const viewContext = createMockViewContext();
+
+    expect(renderCohortTerraExport(undefined, viewContext).isIn).toBe(true);
+    expect(
+      renderCohortTerraExportUnavailable(undefined, viewContext).isIn
+    ).toBe(false);
+  });
+});
+
+describe("buildAlertTerraExportUnavailable", () => {
+  it("uses singular wording when one unavailable dataset is selected", () => {
+    const [title] = TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES;
+    const viewContext = createMockViewContextWithDatasetTitles([title]);
+
+    const result = buildAlertTerraExportUnavailable(undefined, viewContext);
+
+    expect(result.content).toBe(
+      `Export to Terra is unavailable for ${title} because its metadata is too large for Terra to import. Remove this dataset from the selection to export to Terra.`
+    );
+  });
+
+  it("uses plural wording when several unavailable datasets are selected", () => {
+    const [firstTitle, secondTitle] = TERRA_EXPORT_UNAVAILABLE_DATASET_TITLES;
+    const viewContext = createMockViewContextWithDatasetTitles([
+      firstTitle,
+      secondTitle,
+    ]);
+
+    const result = buildAlertTerraExportUnavailable(undefined, viewContext);
+
+    expect(result.content).toBe(
+      `Export to Terra is unavailable for ${firstTitle}, ${secondTitle} because their metadata is too large for Terra to import. Remove these datasets from the selection to export to Terra.`
+    );
   });
 });
