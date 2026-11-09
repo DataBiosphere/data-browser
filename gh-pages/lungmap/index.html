@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LungMAP User Analytics</title>
     <link rel="icon" type="image/x-icon" href="https://data-browser.lungmap.net/favicons/favicon.ico" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" />
+    <!-- Inter loads without blocking first paint: text renders in the fallback
+         font, then swaps (display=swap). The noscript link is the plain
+         stylesheet for when scripts are off. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" /></noscript>
     <link rel="stylesheet" href="analytics.css" />
     <style>:root { --fui-header-logo-height: 32px; --fui-primary: #4B7D8E; --fui-primary-dark: #3A6270; }</style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
     <style>
         .stat-value {
             font: var(--fui-font-heading-xlarge);
@@ -348,20 +354,23 @@
     </main>
 
     <script>
+        // Sets the page's Chart.js defaults.
+        function applyChartDefaults() {
+            Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+            Chart.defaults.color = cssVar('--fui-ink-light');
+            // Match the .fui-tooltip style (see the analytics.css usage notes).
+            Object.assign(Chart.defaults.plugins.tooltip, {
+                backgroundColor: cssVar('--fui-ink'),
+                bodyFont: { size: 13 },
+                cornerRadius: 4,
+                padding: { x: 12, y: 8 },
+            });
+        }
+
         // Reads a theme color from analytics.css, or the page's build-time overrides.
         function cssVar(name) {
             return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
         }
-
-        Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
-        Chart.defaults.color = cssVar('--fui-ink-light');
-        // Match the .fui-tooltip style (see the analytics.css usage notes).
-        Object.assign(Chart.defaults.plugins.tooltip, {
-            backgroundColor: cssVar('--fui-ink'),
-            bodyFont: { size: 13 },
-            cornerRadius: 4,
-            padding: { x: 12, y: 8 },
-        });
 
         // Escape closes an open tooltip (WCAG 1.4.13), which CSS can't do. It
         // stays closed until the pointer and focus have both left its trigger.
@@ -1102,7 +1111,13 @@
             return encodeURI(url).replace(/'/g, '%27').replace(/"/g, '%22');
         }
 
-        loadData();
+        // Chart.js loads with defer so it doesn't block first paint, which
+        // means it runs after this script. DOMContentLoaded fires once
+        // deferred scripts have run.
+        document.addEventListener('DOMContentLoaded', () => {
+            applyChartDefaults();
+            loadData();
+        });
     </script>
 </body>
 </html>

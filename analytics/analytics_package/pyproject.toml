@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "analytics"
-version = "5.1.2"
+version = "5.1.3"
 requires-python = ">=3.12"
 dependencies = [
     "pandas>=3,<4",
