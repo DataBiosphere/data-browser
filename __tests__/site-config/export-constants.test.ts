@@ -54,24 +54,24 @@ describe("EXPORTS constants", () => {
     });
 
     it.each(Object.entries(EXPORTS))(
-      "%s has all required keys",
+      "%s has non-empty string values for all required keys",
       (_, config) => {
         for (const key of REQUIRED_EXPORT_KEYS) {
-          expect(config).toHaveProperty(key);
-          expect(config[key]).toBeTruthy();
+          expect(typeof config[key]).toBe("string");
+          expect(config[key].trim().length).toBeGreaterThan(0);
         }
       }
     );
+  });
 
-    it.each(Object.entries(EXPORTS))(
-      "%s has all non-empty string values",
-      (_, config) => {
-        for (const [, value] of Object.entries(config)) {
-          expect(typeof value).toBe("string");
-          expect(value.trim().length).toBeGreaterThan(0);
-        }
-      }
-    );
+  describe("platform import config", () => {
+    it.each(
+      Object.entries(EXPORTS).filter(([, config]) => config.platformImport)
+    )("%s has a valid import base URL and source", (_, config) => {
+      const { baseUrl, source } = config.platformImport!;
+      expect(new URL(baseUrl).protocol).toBe("https:");
+      expect(source.trim().length).toBeGreaterThan(0);
+    });
   });
 
   describe("BioData Catalyst export config", () => {
@@ -95,6 +95,13 @@ describe("EXPORTS constants", () => {
 
     it("description mentions BDC-SB", () => {
       expect(EXPORTS.BIO_DATA_CATALYST.description).toContain("BDC-SB");
+    });
+
+    it("has the BDC-SB PFB import endpoint and source", () => {
+      expect(EXPORTS.BIO_DATA_CATALYST.platformImport).toEqual({
+        baseUrl: "https://platform.sb.biodatacatalyst.nhlbi.nih.gov/import/pfb",
+        source: "bdc",
+      });
     });
   });
 
@@ -151,6 +158,15 @@ describe("EXPORT_METHODS constants", () => {
       expect(EXPORT_METHODS.BIO_DATA_CATALYST).toBeDefined();
       expect(EXPORT_METHODS.CAVATICA).toBeDefined();
       expect(EXPORT_METHODS.CANCER_GENOMICS_CLOUD).toBeDefined();
+    });
+
+    it("marks CAVATICA and Cancer Genomics Cloud as coming soon", () => {
+      expect(EXPORT_METHODS.CAVATICA.comingSoon).toBe(true);
+      expect(EXPORT_METHODS.CANCER_GENOMICS_CLOUD.comingSoon).toBe(true);
+    });
+
+    it("leaves BioData Catalyst coming soon to the Velsera export feature flag", () => {
+      expect(EXPORT_METHODS.BIO_DATA_CATALYST.comingSoon).toBeUndefined();
     });
 
     it.each(Object.entries(EXPORT_METHODS))(

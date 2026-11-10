@@ -37,6 +37,7 @@ import type { SchemaDataset } from "../../app/utils/schemaOrg/types";
 import { readFile } from "../../app/utils/tsvParser";
 import { JsonLd } from "../../app/views/EntityDetailView/components/JsonLd/jsonLd";
 import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
+import { isUnavailablePlatformExportRoute } from "../../site-config/anvil-cmg/dev/export/utils";
 
 import type { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import {
@@ -93,6 +94,10 @@ const EntityDetailPage = (props: EntityDetailPageProps): JSX.Element => {
     isCurlDownloadRoute(query) &&
     !isNRESDataset(props.data)
   ) {
+    return <NextError statusCode={404} />;
+  }
+  // Platform exports without an import endpoint are not available (AnVIL only)
+  if (isAnVIL && isUnavailablePlatformExportMethod(query)) {
     return <NextError statusCode={404} />;
   }
   if (isChooseExportView(query)) return <EntityExportView {...props} />;
@@ -157,6 +162,17 @@ function isOverride(override: Override): boolean {
     override.supersededBy ||
     override.withdrawn
   );
+}
+
+/**
+ * Returns true if the current route is a platform export method whose platform has no import endpoint.
+ * @param query - Parsed URL query.
+ * @returns True if the route is an unavailable platform export method.
+ */
+function isUnavailablePlatformExportMethod(query: ParsedUrlQuery): boolean {
+  const params = query.params as string[] | undefined;
+  const lastParam = params?.[params.length - 1] || "";
+  return isUnavailablePlatformExportRoute(`/export/${lastParam}`);
 }
 
 /**
