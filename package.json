@@ -32,7 +32,7 @@
     "refresh-diagnosis-terms:anvil-cmg": "esrun scripts/lookup-diagnosis-terms.ts"
   },
   "dependencies": {
-    "@databiosphere/findable-ui": "^60.0.0",
+    "@databiosphere/findable-ui": "^61.0.0",
     "@emotion/react": "^11",
     "@emotion/server": "^11",
     "@emotion/styled": "^11",
@@ -52,7 +52,7 @@
     "csv-parse": "^5.0.4",
     "gray-matter": "^4",
     "jwt-decode": "^3.1.2",
-    "ky": "^1",
+    "ky": "^1.10.0",
     "match-sorter": "^6.3.1",
     "next": "^16.4.5",
     "next-mdx-remote": "^6",
