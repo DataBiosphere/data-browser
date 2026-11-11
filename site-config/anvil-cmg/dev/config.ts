@@ -160,6 +160,7 @@ export function makeConfig(
     dataSource: {
       defaultListParams: {
         size: "25",
+        // Explore lists send only `size`; `sort` still orders the build-time dataset fetch in `getStaticPaths`.
         sort: "entryId",
       },
       defaultParams: {
