@@ -15,14 +15,17 @@ import {
   REL_ATTRIBUTE,
 } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { Loading } from "@databiosphere/findable-ui/lib/components/Loading/loading";
+import { useFeatureFlag } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/useFeatureFlag";
 import { useFileManifest } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifest";
 import { useFileManifestFileCount } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifestFileCount";
 import { useFileManifestFormat } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifestFormat";
 import { useRequestFileLocation } from "@databiosphere/findable-ui/lib/hooks/useRequestFileLocation";
 import { useRequestManifest } from "@databiosphere/findable-ui/lib/hooks/useRequestManifest/useRequestManifest";
 import { Button } from "@mui/material";
+import { FEATURES } from "app/shared/entities";
 import { JSX } from "react";
 import { Props } from "./types";
+import { getPlatformImportUrl, isPlatformImportAvailable } from "./utils";
 
 export const ExportToPlatform = ({
   buttonLabel,
@@ -31,6 +34,7 @@ export const ExportToPlatform = ({
   fileSummaryFacetName,
   filters,
   formFacet,
+  platformImport,
   speciesFacetName,
   successTitle,
   title,
@@ -47,7 +51,9 @@ export const ExportToPlatform = ({
   const { requestMethod, requestUrl } = requestManifest;
 
   const response = useRequestFileLocation(requestUrl, requestMethod);
-  const url = "";
+  const isEnabled = useFeatureFlag(FEATURES.VELSERA_EXPORT);
+  const canImport = isPlatformImportAvailable(isEnabled, platformImport);
+  const url = getPlatformImportUrl(isEnabled, platformImport, response.data);
 
   return url ? (
     <FluidPaper>
@@ -81,7 +87,7 @@ export const ExportToPlatform = ({
             <p>{description}</p>
           </SectionContent>
           <ExportForm
-            Button={renderButton}
+            Button={canImport ? renderButton : renderDisabledButton}
             formFacet={formFacet}
             isLoading={fileManifestState.isLoading}
             onRequestManifest={(): void => response.run()}
@@ -104,4 +110,16 @@ export const ExportToPlatform = ({
  */
 function renderButton({ ...props }): JSX.Element {
   return <ExportButton {...props}>Request Link</ExportButton>;
+}
+
+/**
+ * Build the export button, disabled while the platform import is unavailable.
+ * @returns disabled button element.
+ */
+function renderDisabledButton(): JSX.Element {
+  return (
+    <Button {...BUTTON_PROPS.PRIMARY_CONTAINED} disabled>
+      Request Link
+    </Button>
+  );
 }

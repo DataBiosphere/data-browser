@@ -1,5 +1,6 @@
 import { expect, Locator, Page, test } from "@playwright/test";
 import { MUI_CLASSES, TEST_IDS } from "../features/common/constants";
+import { closeFilterPopover } from "../features/common/filters";
 
 const DATASETS_URL = "/datasets";
 
@@ -186,7 +187,7 @@ async function selectFirstFilterOption(
   const filterValue = await getOptionName(filterOption);
   await filterOption.getByRole("checkbox").click();
   await expect(filterOption.getByRole("checkbox")).toBeChecked();
-  await page.locator("body").click();
+  await closeFilterPopover(page);
   await expect(page.getByRole("checkbox")).toHaveCount(0);
   return filterValue;
 }

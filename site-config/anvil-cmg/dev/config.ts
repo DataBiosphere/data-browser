@@ -1,6 +1,7 @@
 import { APIEndpoints } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
 import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 import { SELECTED_MATCH } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/common/entities";
+import { ANCHOR_TARGET } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { SystemStatusBindResponseFn } from "@databiosphere/findable-ui/lib/config/entities";
 import { CATALOG_DEFAULT } from "../../../app/apis/azul/anvil-cmg/common/constants";
 import * as C from "../../../app/components/index";
@@ -8,7 +9,12 @@ import { mapSelectCategoryValue } from "../../../app/config/utils";
 import { buildDataDictionary } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/dataDictionaryMapper";
 import { TABLE_OPTIONS } from "../../../app/viewModelBuilders/azul/anvil-cmg/common/dataDictionaryMapper/tableOptions";
 import { bindSystemStatusResponse } from "../../../app/viewModelBuilders/azul/common/systemStatusMapper/systemStatusMapper";
-import { FLATTEN, GIT_HUB_REPO_URL, VISIBLE } from "../../common/constants";
+import {
+  AZUL_KY_OPTIONS,
+  FLATTEN,
+  GIT_HUB_REPO_URL,
+  VISIBLE,
+} from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import { ANVIL_CMG_CATEGORY_KEY, ANVIL_CMG_CATEGORY_LABEL } from "../category";
 import { announcements } from "./announcements/announcements";
@@ -22,7 +28,6 @@ import { datasetsEntityConfig } from "./index/datasetsEntityConfig";
 import { donorsEntityConfig } from "./index/donorsEntityConfig";
 import { filesEntityConfig } from "./index/filesEntityConfig";
 import { buildSummaries } from "./index/summaryViewModelBuilder";
-import { makeFloatingConfig } from "./layout/floating";
 
 // Template constants
 const APP_TITLE = "AnVIL Data Explorer";
@@ -155,6 +160,7 @@ export function makeConfig(
     dataSource: {
       defaultListParams: {
         size: "25",
+        // Explore lists send only `size`; `sort` still orders the build-time dataset fetch in `getStaticPaths`.
         sort: "entryId",
       },
       defaultParams: {
@@ -175,8 +181,8 @@ export function makeConfig(
     exportToTerraUrl: "https://bvdp-saturn-dev.appspot.com/",
     filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
+    kyOptions: AZUL_KY_OPTIONS,
     layout: {
-      floating: makeFloatingConfig(portalUrl),
       footer: {
         Branding: C.ANVILBranding({ portalURL: portalUrl }),
         navLinks: [
@@ -246,6 +252,11 @@ export function makeConfig(
                 {
                   label: "Privacy Policy",
                   url: "/privacy",
+                },
+                {
+                  label: C.LabelIconMenuItem({ label: "Help" }),
+                  target: ANCHOR_TARGET.BLANK,
+                  url: `${portalUrl}/help`,
                 },
               ],
               url: "",

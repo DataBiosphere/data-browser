@@ -7,14 +7,13 @@ import { AppLayout } from "@databiosphere/findable-ui/lib/components/Layout/comp
 import { Floating } from "@databiosphere/findable-ui/lib/components/Layout/components/Floating/floating";
 import { Footer } from "@databiosphere/findable-ui/lib/components/Layout/components/Footer/footer";
 import { Header } from "@databiosphere/findable-ui/lib/components/Layout/components/Header/header";
-import { Main as DXMain } from "@databiosphere/findable-ui/lib/components/Layout/components/Main/main";
+import { Main } from "@databiosphere/findable-ui/lib/components/Layout/components/Main/main";
 import { GoogleSignInAuthenticationProvider } from "@databiosphere/findable-ui/lib/google/provider";
 import { setFeatureFlags } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/common/utils";
 import { ConfigProvider as DXConfigProvider } from "@databiosphere/findable-ui/lib/providers/config";
 import { DataDictionaryStateProvider } from "@databiosphere/findable-ui/lib/providers/dataDictionaryState/provider";
 import { ExploreStateProvider } from "@databiosphere/findable-ui/lib/providers/exploreState";
 import { FileManifestStateProvider } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
-import { LayoutDimensionsProvider } from "@databiosphere/findable-ui/lib/providers/layoutDimensions/provider";
 import { LoginGuardProvider } from "@databiosphere/findable-ui/lib/providers/loginGuard/provider";
 import { ServicesProvider } from "@databiosphere/findable-ui/lib/providers/services/provider";
 import { SystemStatusProvider } from "@databiosphere/findable-ui/lib/providers/systemStatus";
@@ -29,7 +28,6 @@ import { deepmerge } from "@mui/utils";
 import { OgMeta } from "app/components/common/OgMeta/ogMeta";
 import { config } from "app/config/config";
 import { FEATURES } from "app/shared/entities";
-import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { JSX, useEffect } from "react";
 import TagManager from "react-gtm-module";
@@ -43,17 +41,9 @@ export interface PageProps extends AzulEntitiesStaticResponse {
   pageTitle?: string | null;
 }
 
-export type NextPageWithComponent = NextPage & {
-  Main?: typeof DXMain;
-};
-
-export type AppPropsWithComponent = AppProps & {
-  Component: NextPageWithComponent;
-};
-
 setFeatureFlags(FEATURE_FLAGS);
 
-function MyApp(props: AppPropsWithComponent): JSX.Element {
+function MyApp(props: AppProps): JSX.Element {
   const { Component, pageProps } = props;
   // Set up the site configuration, layout and theme.
   const appConfig = config();
@@ -70,7 +60,6 @@ function MyApp(props: AppPropsWithComponent): JSX.Element {
   const { floating, footer, header } = layout || {};
   const theme = createAppTheme(themeOptions);
   const { entityListType, pageDescription, pageTitle } = pageProps as PageProps;
-  const Main = Component.Main || DXMain;
 
   // Initialize Google Tag Manager.
   useEffect(() => {
@@ -100,51 +89,49 @@ function MyApp(props: AppPropsWithComponent): JSX.Element {
                   timeout={SESSION_TIMEOUT}
                 >
                   <LoginGuardProvider>
-                    <LayoutDimensionsProvider>
-                      <AppLayout>
-                        <ThemeProvider
-                          theme={(theme: Theme): Theme => {
-                            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- MUI internal property 'vars' is automatically added when cssVariables is enabled.
-                            const { vars, ...themeWithoutVars } = theme;
-                            return createTheme(
-                              deepmerge(themeWithoutVars, {
-                                breakpoints: createBreakpoints(BREAKPOINTS),
-                              })
-                            );
-                          }}
-                        >
-                          <Header {...header} />
-                        </ThemeProvider>
-                        <ExploreStateProvider entityListType={entityListType}>
-                          <DataDictionaryStateProvider>
-                            <Main>
-                              <ErrorBoundary
-                                fallbackRender={({
-                                  error,
-                                  reset,
-                                }: {
-                                  error: DataExplorerError;
-                                  reset: () => void;
-                                }): JSX.Element => (
-                                  <Error
-                                    errorMessage={error.message}
-                                    requestUrlMessage={error.requestUrlMessage}
-                                    rootPath={redirectRootToPath}
-                                    onReset={reset}
-                                  />
-                                )}
-                              >
-                                <FileManifestStateProvider>
-                                  <Component {...pageProps} />
-                                  <Floating {...floating} />
-                                </FileManifestStateProvider>
-                              </ErrorBoundary>
-                            </Main>
-                          </DataDictionaryStateProvider>
-                        </ExploreStateProvider>
-                        <Footer {...footer} />
-                      </AppLayout>
-                    </LayoutDimensionsProvider>
+                    <AppLayout>
+                      <ThemeProvider
+                        theme={(theme: Theme): Theme => {
+                          // eslint-disable-next-line @typescript-eslint/no-unused-vars -- MUI internal property 'vars' is automatically added when cssVariables is enabled.
+                          const { vars, ...themeWithoutVars } = theme;
+                          return createTheme(
+                            deepmerge(themeWithoutVars, {
+                              breakpoints: createBreakpoints(BREAKPOINTS),
+                            })
+                          );
+                        }}
+                      >
+                        <Header {...header} />
+                      </ThemeProvider>
+                      <ExploreStateProvider entityListType={entityListType}>
+                        <DataDictionaryStateProvider>
+                          <Main>
+                            <ErrorBoundary
+                              fallbackRender={({
+                                error,
+                                reset,
+                              }: {
+                                error: DataExplorerError;
+                                reset: () => void;
+                              }): JSX.Element => (
+                                <Error
+                                  errorMessage={error.message}
+                                  requestUrlMessage={error.requestUrlMessage}
+                                  rootPath={redirectRootToPath}
+                                  onReset={reset}
+                                />
+                              )}
+                            >
+                              <FileManifestStateProvider>
+                                <Component {...pageProps} />
+                                <Floating {...floating} />
+                              </FileManifestStateProvider>
+                            </ErrorBoundary>
+                          </Main>
+                        </DataDictionaryStateProvider>
+                      </ExploreStateProvider>
+                      <Footer {...footer} />
+                    </AppLayout>
                   </LoginGuardProvider>
                 </GoogleSignInAuthenticationProvider>
               </SystemStatusProvider>
