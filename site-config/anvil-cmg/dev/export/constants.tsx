@@ -8,13 +8,17 @@ export const EXPORTS: Record<
   string,
   Pick<
     ComponentProps<typeof ExportToPlatform>,
-    "buttonLabel" | "description" | "successTitle" | "title"
+    "buttonLabel" | "description" | "platformImport" | "successTitle" | "title"
   >
 > = {
   BIO_DATA_CATALYST: {
     buttonLabel: "Open BioData Catalyst",
     description:
       "BDC-SB is a cloud workspace for analysis, storage, and computation using workflows, Jupyter Notebooks, and RStudio.",
+    platformImport: {
+      baseUrl: "https://platform.sb.biodatacatalyst.nhlbi.nih.gov/import/pfb",
+      source: "bdc",
+    },
     successTitle: "Your BioData Catalyst Workspace Link is Ready",
     title: "Analyze in BioData Catalyst",
   },
@@ -38,7 +42,7 @@ export const EXPORT_METHODS: Record<
   string,
   Pick<
     ComponentProps<typeof ExportMethod>,
-    "description" | "icon" | "route" | "title"
+    "comingSoon" | "description" | "icon" | "route" | "title"
   >
 > = {
   BIO_DATA_CATALYST: {
@@ -48,12 +52,14 @@ export const EXPORT_METHODS: Record<
     title: "Export to BioData Catalyst Powered by Seven Bridges (BDC-SB)",
   },
   CANCER_GENOMICS_CLOUD: {
+    comingSoon: true,
     description: EXPORTS.CANCER_GENOMICS_CLOUD.description,
     icon: <ExportIcon alt="CGC" src="/export/cgc.webp" width={24} />,
     route: ROUTES.CANCER_GENOMICS_CLOUD,
     title: "Export to Cancer Genomics Cloud (CGC)",
   },
   CAVATICA: {
+    comingSoon: true,
     description: EXPORTS.CAVATICA.description,
     icon: <ExportIcon alt="CAVATICA" src="/export/cavatica.webp" width={24} />,
     route: ROUTES.CAVATICA,

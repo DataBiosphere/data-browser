@@ -95,6 +95,7 @@ export { AtlasSection } from "./Detail/components/Section/components/AtlasSectio
 export { ExportEntity as AnVILExportEntity } from "./Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
 export { ManifestDownloadEntity as AnVILManifestDownloadEntity } from "./Export/components/AnVILExplorer/components/ManifestDownload/components/ManifestDownloadEntity/manifestDownloadEntity";
 export { ExportToPlatform } from "./Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
+export { VelseraExportMethod } from "./Export/components/AnVILExplorer/platform/VelseraExportMethod/velseraExportMethod";
 export { BioNetworkCell } from "./Index/components/BioNetworkCell/bioNetworkCell";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
 export { CopyCell } from "./Index/components/CopyCell/copyCell";
