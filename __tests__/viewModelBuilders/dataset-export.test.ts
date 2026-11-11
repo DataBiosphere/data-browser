@@ -271,6 +271,33 @@ describe("buildDatasetExportToPlatformHero", () => {
 });
 
 describe("buildDatasetExportToPlatformMethod", () => {
+  describe("coming soon", () => {
+    it.each([EXPORT_METHODS.CANCER_GENOMICS_CLOUD, EXPORT_METHODS.CAVATICA])(
+      "returns comingSoon true for $title",
+      (props) => {
+        const builder = buildDatasetExportToPlatformMethod(props);
+        const response = createMockDatasetsResponse();
+        const viewContext = createMockViewContext();
+
+        const result = builder(response, viewContext);
+
+        expect(result.comingSoon).toBe(true);
+      }
+    );
+
+    it("returns comingSoon undefined for BioData Catalyst", () => {
+      const builder = buildDatasetExportToPlatformMethod(
+        EXPORT_METHODS.BIO_DATA_CATALYST
+      );
+      const response = createMockDatasetsResponse();
+      const viewContext = createMockViewContext();
+
+      const result = builder(response, viewContext);
+
+      expect(result.comingSoon).toBeUndefined();
+    });
+  });
+
   it("returns route with dataset path prefix", () => {
     const props = EXPORT_METHODS.BIO_DATA_CATALYST;
     const builder = buildDatasetExportToPlatformMethod(props);

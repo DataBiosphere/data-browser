@@ -1,5 +1,41 @@
 # Changelog
 
+## [3.8.0](https://github.com/DataBiosphere/data-browser/compare/v3.7.0...v3.8.0) (2026-11-11)
+
+
+### Features
+
+* [anvil dx] add nih ras ial2 account linking recertification banner ([#5012](https://github.com/DataBiosphere/data-browser/issues/5012)) ([#5013](https://github.com/DataBiosphere/data-browser/issues/5013)) ([6456e79](https://github.com/DataBiosphere/data-browser/commit/6456e79adea8b8e123e410192ce41a2b3893f576))
+* link the BDC-SB export page to Velsera behind a feature flag ([#5027](https://github.com/DataBiosphere/data-browser/issues/5027)) ([#5030](https://github.com/DataBiosphere/data-browser/issues/5030)) ([67c9b30](https://github.com/DataBiosphere/data-browser/commit/67c9b30dac7eff803e344f07361cf2fbd7317804))
+* move the floating support button under the help & documentation header menu ([#5018](https://github.com/DataBiosphere/data-browser/issues/5018)) ([#5019](https://github.com/DataBiosphere/data-browser/issues/5019)) ([164118c](https://github.com/DataBiosphere/data-browser/commit/164118c05ec3e2060091cbabfb2128276668a911))
+* retry azul apis only when retry-after value is specified ([#4561](https://github.com/DataBiosphere/data-browser/issues/4561)) ([#4993](https://github.com/DataBiosphere/data-browser/issues/4993)) ([de5424c](https://github.com/DataBiosphere/data-browser/commit/de5424cefcddcc479191896c61bc4fbf7ea9d8ff))
+
+
+### Bug Fixes
+
+* analytics pages: render header logo in html, fix anvil logo, load released css ([#5003](https://github.com/DataBiosphere/data-browser/issues/5003)) ([#5010](https://github.com/DataBiosphere/data-browser/issues/5010)) ([e584d3a](https://github.com/DataBiosphere/data-browser/commit/e584d3aa85cc75341cd8f2c82640a4f15c2b8f0b))
+* move analytics stat-card tooltips to findable-ui 60's tooltip and toggletip patterns ([#5020](https://github.com/DataBiosphere/data-browser/issues/5020)) ([#5024](https://github.com/DataBiosphere/data-browser/issues/5024)) ([67ddf1e](https://github.com/DataBiosphere/data-browser/commit/67ddf1ea8464b25d13993d3e512e2cfcf6352fd1))
+
+
+### Chores
+
+* playwright ci fails on ubuntu-latest (now ubuntu 26.04) ([#4996](https://github.com/DataBiosphere/data-browser/issues/4996)) ([#4997](https://github.com/DataBiosphere/data-browser/issues/4997)) ([905f040](https://github.com/DataBiosphere/data-browser/commit/905f0402fb29dbe7274b391a1133a09a2133db73))
+* remove the unused supportrequest re-export from app/components/index.tsx ([#5015](https://github.com/DataBiosphere/data-browser/issues/5015)) ([#5016](https://github.com/DataBiosphere/data-browser/issues/5016)) ([a7af4bc](https://github.com/DataBiosphere/data-browser/commit/a7af4bc7a513dc48d4f2b61237a0583834dfc2f5))
+* upgrade @databiosphere/findable-ui to v58.0.0 ([#5008](https://github.com/DataBiosphere/data-browser/issues/5008)) ([#5009](https://github.com/DataBiosphere/data-browser/issues/5009)) ([4c2cb7a](https://github.com/DataBiosphere/data-browser/commit/4c2cb7aa4baf79b725396f70c5347d50440f1c27))
+* upgrade @databiosphere/findable-ui to v60.0.0 and remove react-dropzone ([#5017](https://github.com/DataBiosphere/data-browser/issues/5017)) ([#5021](https://github.com/DataBiosphere/data-browser/issues/5021)) ([8ebc978](https://github.com/DataBiosphere/data-browser/commit/8ebc978ef95583c57d7894ef78639b157c0cbd08))
+* upgrade @databiosphere/findable-ui to v61.0.0 ([#5031](https://github.com/DataBiosphere/data-browser/issues/5031)) ([#5032](https://github.com/DataBiosphere/data-browser/issues/5032)) ([0dad587](https://github.com/DataBiosphere/data-browser/commit/0dad58713b0d1fa96e73f833cd775ad82c103ba7))
+* upgrade next.js and its packages to a release with the security fix ([#5002](https://github.com/DataBiosphere/data-browser/issues/5002)) ([#5007](https://github.com/DataBiosphere/data-browser/issues/5007)) ([31a0575](https://github.com/DataBiosphere/data-browser/commit/31a057570c81c7d0f00db3ca5ed23a4916067b23))
+
+
+### Code Refactoring
+
+* replace findable button wrappers with mui button ([#4994](https://github.com/DataBiosphere/data-browser/issues/4994)) ([#4995](https://github.com/DataBiosphere/data-browser/issues/4995)) ([3ce7c89](https://github.com/DataBiosphere/data-browser/commit/3ce7c896f888bfee9da1dac9e956377e1ba81434))
+
+
+### Performance Improvements
+
+* defer chart.js and load inter without blocking first paint on analytics pages ([#5025](https://github.com/DataBiosphere/data-browser/issues/5025)) ([#5026](https://github.com/DataBiosphere/data-browser/issues/5026)) ([764167a](https://github.com/DataBiosphere/data-browser/commit/764167a9f94282d9b64e3932324a410e2c23edd1))
+
 ## [3.7.0](https://github.com/DataBiosphere/data-browser/compare/v3.6.0...v3.7.0) (2026-10-13)
 
 

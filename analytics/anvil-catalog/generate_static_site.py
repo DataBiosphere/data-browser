@@ -27,6 +27,8 @@ generate_site(
     config={
         "site_title": "AnVIL Catalog",
         "logo_url": "https://explore.anvilproject.org/images/logoAnvil.png",
+        "logo_width": 109.58,
+        "logo_height": 40,
         "favicon_url": "https://explore.anvilproject.org/favicons/favicon.ico",
         "logo_link": "https://explore.anvilproject.org",
         "primary_color": "#035C94",

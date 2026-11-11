@@ -1,4 +1,3 @@
-import { Main } from "@databiosphere/findable-ui/lib/components/Layout/components/ContentLayout/components/Main/main";
 import { DataDictionaryView } from "@databiosphere/findable-ui/lib/views/DataDictionaryView/dataDictionaryView";
 import {
   GetStaticPaths,
@@ -44,7 +43,5 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const Page = ({ dictionary }: Props): JSX.Element => {
   return <DataDictionaryView dictionary={dictionary} />;
 };
-
-Page.Main = Main;
 
 export default Page;

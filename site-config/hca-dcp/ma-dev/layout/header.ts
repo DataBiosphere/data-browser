@@ -41,6 +41,11 @@ export function getHeader(
               target: ANCHOR_TARGET.BLANK,
               url: `${portalUrl}/privacy`,
             },
+            {
+              label: C.LabelIconMenuItem({ label: "Help" }),
+              target: ANCHOR_TARGET.BLANK,
+              url: `${portalUrl}/help`,
+            },
           ],
           url: "",
         },

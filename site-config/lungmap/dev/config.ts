@@ -1,6 +1,10 @@
 import { FILTER_SORT } from "@databiosphere/findable-ui/lib/common/filters/sort/config/types";
 import * as C from "../../../app/components/index";
-import { FLATTEN, GIT_HUB_REPO_URL } from "../../common/constants";
+import {
+  AZUL_KY_OPTIONS,
+  FLATTEN,
+  GIT_HUB_REPO_URL,
+} from "../../common/constants";
 import { SiteConfig } from "../../common/entities";
 import {
   DATA_URL as HCA_DATA_URL,
@@ -60,6 +64,7 @@ export function makeConfig(
     exportToTerraUrl: EXPORT_TO_TERRA_URL,
     filterSort: { sortBy: FILTER_SORT.COUNT },
     gitHubUrl,
+    kyOptions: AZUL_KY_OPTIONS,
     layout: {
       footer: {
         Branding: C.Logo({

@@ -530,7 +530,7 @@ export const buildDatasetDownloadCurlCommand = (
 export const buildDatasetExportToPlatform = (
   props: Pick<
     ComponentProps<typeof C.ExportToPlatform>,
-    "buttonLabel" | "description" | "successTitle" | "title"
+    "buttonLabel" | "description" | "platformImport" | "successTitle" | "title"
   >
 ): ((
   response: DatasetsResponse,
@@ -576,7 +576,7 @@ export const buildDatasetExportToPlatformMethod = ({
   ...props
 }: Pick<
   ComponentProps<typeof ExportMethod>,
-  "description" | "icon" | "route" | "title"
+  "comingSoon" | "description" | "icon" | "route" | "title"
 >): ((
   response: DatasetsResponse,
   viewContext: ViewContext<unknown>
@@ -586,7 +586,6 @@ export const buildDatasetExportToPlatformMethod = ({
     return {
       ...props,
       ...getExportMethodAccessibility(viewContext),
-      comingSoon: true,
       route: `${datasetPath}${route}`,
     };
   };
@@ -954,7 +953,7 @@ export const buildExportSelectedDataSummary = (
 export const buildExportToPlatform = (
   props: Pick<
     ComponentProps<typeof C.ExportToPlatform>,
-    "buttonLabel" | "description" | "successTitle" | "title"
+    "buttonLabel" | "description" | "platformImport" | "successTitle" | "title"
   >
 ): ((
   _: unknown,
@@ -1003,7 +1002,7 @@ export const buildExportToPlatformHero = (
 export const buildExportToPlatformMethod = (
   props: Pick<
     ComponentProps<typeof ExportMethod>,
-    "description" | "icon" | "route" | "title"
+    "comingSoon" | "description" | "icon" | "route" | "title"
   >
 ): ((
   _: unknown,
@@ -1013,7 +1012,6 @@ export const buildExportToPlatformMethod = (
     return {
       ...props,
       ...getExportMethodAccessibility(viewContext),
-      comingSoon: true,
     };
   };
 };

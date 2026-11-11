@@ -1,4 +1,3 @@
-import { Main } from "@databiosphere/findable-ui/lib/components/Layout/components/ContentLayout/components/Main/main";
 import { Nav } from "@databiosphere/findable-ui/lib/components/Layout/components/Nav/nav";
 import { ContentView } from "@databiosphere/findable-ui/lib/views/ContentView/contentView";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
@@ -46,7 +45,5 @@ const Page = ({
     />
   );
 };
-
-Page.Main = Main;
 
 export default Page;

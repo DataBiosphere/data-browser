@@ -74,7 +74,6 @@ export { Description } from "@databiosphere/findable-ui/lib/components/Project/c
 export { Details } from "@databiosphere/findable-ui/lib/components/Project/components/Details/details";
 export { Publications } from "@databiosphere/findable-ui/lib/components/Project/components/Publications/publications";
 export { SupplementaryLinks } from "@databiosphere/findable-ui/lib/components/Project/components/SupplementaryLinks/supplementaryLinks";
-export { SupportRequest } from "@databiosphere/findable-ui/lib/components/Support/components/SupportRequest/supportRequest";
 export { BasicCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/BasicCell/basicCell";
 export { IdentityCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/IdentityCell/identityCell";
 export { NTagCell } from "@databiosphere/findable-ui/lib/components/Table/components/TableCell/components/NTagCell/nTagCell";
@@ -96,6 +95,7 @@ export { AtlasSection } from "./Detail/components/Section/components/AtlasSectio
 export { ExportEntity as AnVILExportEntity } from "./Export/components/AnVILExplorer/components/ExportEntity/exportEntity";
 export { ManifestDownloadEntity as AnVILManifestDownloadEntity } from "./Export/components/AnVILExplorer/components/ManifestDownload/components/ManifestDownloadEntity/manifestDownloadEntity";
 export { ExportToPlatform } from "./Export/components/AnVILExplorer/platform/ExportToPlatform/exportToPlatform";
+export { VelseraExportMethod } from "./Export/components/AnVILExplorer/platform/VelseraExportMethod/velseraExportMethod";
 export { BioNetworkCell } from "./Index/components/BioNetworkCell/bioNetworkCell";
 export { ConsentCodesCell } from "./Index/components/ConsentCodesCell/consentCodesCell";
 export { CopyCell } from "./Index/components/CopyCell/copyCell";
