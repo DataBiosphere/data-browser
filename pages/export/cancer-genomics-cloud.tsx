@@ -1,9 +1,6 @@
 import { ExportMethodView } from "@databiosphere/findable-ui/lib/views/ExportMethodView/exportMethodView";
 import { GetStaticProps } from "next";
-import NextError from "next/error";
 import { JSX } from "react";
-import { ROUTES } from "../../site-config/anvil-cmg/dev/export/routes";
-import { isUnavailablePlatformExportRoute } from "../../site-config/anvil-cmg/dev/export/utils";
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
@@ -16,11 +13,9 @@ export const getStaticProps: GetStaticProps = async () => {
 
 /**
  * Export method page for Cancer Genomics Cloud.
- * @returns export method view component, or a 404 when the platform has no import endpoint.
+ * @returns export method view component.
  */
 const ExportMethodPage = (): JSX.Element => {
-  if (isUnavailablePlatformExportRoute(ROUTES.CANCER_GENOMICS_CLOUD))
-    return <NextError statusCode={404} />;
   return <ExportMethodView />;
 };
 
