@@ -1175,7 +1175,10 @@
                 } else {
                     interStylesheetLoaded()
                         .then(() => document.fonts.load('400 12px Inter'))
-                        .then(useInterInCharts);
+                        // On rejection the font file failed to load (a network
+                        // failure, already in the console): the charts keep
+                        // the fallback font, like the page's text.
+                        .then(useInterInCharts, () => {});
                 }
                 resolve();
             });
