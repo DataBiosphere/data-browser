@@ -553,13 +553,7 @@
                 renderFileDownloadEvents(fileDownloadEvents);
                 const chartDataByKey = eventChartDataByKey(eventCharts);
                 renderEventCounts(config, events, chartDataByKey);
-                // Not awaited, so if Chart.js fails to load only the charts
-                // are missing, rather than the error message replacing the report.
-                chartJsReady.then(() => {
-                    renderTrafficChart(chronological);
-                    renderPageviewsChart(chronological);
-                    renderEventTrendCharts(chartDataByKey);
-                });
+                resolveChartData({ chronological, chartDataByKey });
                 await renderEventStats(events, config);
             } catch (error) {
                 console.error('Error loading data:', error);
@@ -1183,6 +1177,22 @@
                 resolve();
             });
         });
+
+        // Resolved by loadData with the charts' data. Never settles if the
+        // data fails to load, which loadData reports on the page.
+        let resolveChartData;
+        const chartDataReady = new Promise((resolve) => { resolveChartData = resolve; });
+
+        // Draws the charts once Chart.js and their data are both ready. Kept
+        // out of loadData so a Chart.js failure leaves only the charts
+        // missing, and attached now so that failure is reported once.
+        chartJsReady
+            .then(() => chartDataReady)
+            .then(({ chronological, chartDataByKey }) => {
+                renderTrafficChart(chronological);
+                renderPageviewsChart(chronological);
+                renderEventTrendCharts(chartDataByKey);
+            });
 
         // Starts the data fetches now, alongside the Chart.js download.
         loadData();
