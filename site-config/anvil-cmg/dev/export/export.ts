@@ -188,11 +188,11 @@ export const exportConfig: ExportConfig = {
               viewBuilder: V.buildExportMethodTerra,
             } as ComponentConfig<typeof C.ExportMethod>,
             {
-              component: C.ExportMethod,
+              component: C.VelseraExportMethod,
               viewBuilder: V.buildExportToPlatformMethod(
                 EXPORT_METHODS.BIO_DATA_CATALYST
               ),
-            } as ComponentConfig<typeof C.ExportMethod>,
+            } as ComponentConfig<typeof C.VelseraExportMethod>,
             {
               component: C.ExportMethod,
               viewBuilder: V.buildExportToPlatformMethod(
