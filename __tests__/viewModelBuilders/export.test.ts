@@ -229,6 +229,31 @@ describe("buildExportToPlatformHero", () => {
 });
 
 describe("buildExportToPlatformMethod", () => {
+  describe("coming soon", () => {
+    it.each([EXPORT_METHODS.CANCER_GENOMICS_CLOUD, EXPORT_METHODS.CAVATICA])(
+      "returns comingSoon true for $title",
+      (props) => {
+        const builder = buildExportToPlatformMethod(props);
+        const viewContext = createMockViewContext();
+
+        const result = builder(undefined, viewContext);
+
+        expect(result.comingSoon).toBe(true);
+      }
+    );
+
+    it("returns comingSoon undefined for BioData Catalyst", () => {
+      const builder = buildExportToPlatformMethod(
+        EXPORT_METHODS.BIO_DATA_CATALYST
+      );
+      const viewContext = createMockViewContext();
+
+      const result = builder(undefined, viewContext);
+
+      expect(result.comingSoon).toBeUndefined();
+    });
+  });
+
   it("returns route from props", () => {
     const props = EXPORT_METHODS.BIO_DATA_CATALYST;
     const builder = buildExportToPlatformMethod(props);

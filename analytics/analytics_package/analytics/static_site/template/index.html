@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analytics</title>
-    <link rel="icon" id="favicon" type="image/x-icon" href="" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/DataBiosphere/findable-ui@fran/873-static-css/static/analytics.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+    <title>{{site_title}}</title>
+    <link rel="icon" type="image/x-icon" href="{{favicon_url}}" />
+    <!-- Inter loads without blocking first paint: text renders in the fallback
+         font, then swaps (display=swap). The noscript link is the plain
+         stylesheet for when scripts are off. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" /></noscript>
+    <link rel="stylesheet" href="analytics.css" />
+    <style>{{head_css}}</style>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
     <style>
         .stat-value {
             font: var(--fui-font-heading-xlarge);
@@ -20,52 +27,40 @@
             margin-top: var(--fui-space-4);
         }
 
-        .stat-label-wrap {
-            position: relative;
-            display: inline-block;
-            margin-top: var(--fui-space-4);
-        }
-
-        .stat-label.has-tooltip {
-            cursor: help;
+        .stat-label .fui-tooltip-trigger {
             text-decoration: underline dotted;
             text-underline-offset: 2px;
         }
 
-        .stat-tooltip {
-            display: none;
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--fui-ink);
-            color: var(--fui-white);
-            font: var(--fui-font-body-small-400);
-            padding: var(--fui-space-8) var(--fui-space-12);
-            margin-bottom: 8px;
-            border-radius: var(--fui-radius-sm);
-            width: 240px;
+        .stat-label .fui-toggletip {
+            margin-left: var(--fui-space-4);
+        }
+
+        /* Stat cards center their text; tooltips read better left-aligned. */
+        .stat-label :is(.fui-tooltip, .fui-toggletip-content) {
             text-align: left;
-            z-index: 10;
-            line-height: 1.4;
         }
 
-        .stat-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            height: 12px;
-        }
+        /* Without anchor positioning, analytics.css centres a tooltip on its
+           trigger, so an edge card's tooltip can run off screen. Keep it no
+           wider than the card there. The condition matches analytics.css's.
+           container-type must stay inside this guard: its layout containment
+           would trap the fixed-position tooltip that anchor positioning uses. */
+        @supports not ((anchor-scope: all) and (position-try-fallbacks: flip-block)) {
+            .stat-label {
+                container-type: inline-size;
+                position: relative;
+            }
 
-        .stat-tooltip a {
-            color: #8ecaff;
-        }
+            /* Centres the toggletip on the label, not on its off-centre info
+               button, so the card-width cap keeps it inside the card. */
+            .stat-label .fui-toggletip {
+                position: static;
+            }
 
-        .stat-label-wrap:hover .stat-tooltip,
-        .stat-label-wrap:focus-within .stat-tooltip {
-            display: block;
+            .stat-label :is(.fui-tooltip, .fui-toggletip-content) {
+                max-width: min(400px, 100cqi);
+            }
         }
 
         .stat-change {
@@ -156,16 +151,18 @@
 </head>
 <body class="fui-body">
     <header class="fui-header">
-        <a class="fui-header-logo fui-header-left" href="#" id="header-logo-link">
-            <img src="" alt="" id="header-logo-img" />
-        </a>
+        <div class="fui-header-left">
+            <a class="fui-header-logo" href="{{logo_link}}">
+                <img src="{{logo_url}}" alt="{{site_title}}"{{logo_size}} />
+            </a>
+        </div>
         <div class="fui-header-center"></div>
         <div class="fui-header-right"></div>
     </header>
 
     <main class="fui-main">
         <section>
-            <h1 class="fui-heading-large" id="page-title">Analytics</h1>
+            <h1 class="fui-heading-large">{{site_title}}</h1>
             <h2 class="fui-heading-small fui-color-ink-light" id="report-month">Loading...</h2>
         </section>
 
@@ -357,8 +354,80 @@
     </main>
 
     <script>
-        Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
-        Chart.defaults.color = '#637381';
+        // Sets the page's Chart.js defaults.
+        function applyChartDefaults() {
+            Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+            Chart.defaults.color = cssVar('--fui-ink-light');
+            // Match the .fui-tooltip style (see the analytics.css usage notes).
+            Object.assign(Chart.defaults.plugins.tooltip, {
+                backgroundColor: cssVar('--fui-ink'),
+                bodyFont: { size: 13 },
+                cornerRadius: 4,
+                padding: { x: 12, y: 8 },
+            });
+        }
+
+        // Reads a theme color from analytics.css, or the page's build-time overrides.
+        function cssVar(name) {
+            return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        }
+
+        // Escape closes an open tooltip (WCAG 1.4.13), which CSS can't do. It
+        // stays closed until the pointer and focus have both left its trigger.
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Escape') return;
+            document
+                .querySelectorAll('.fui-tooltip-wrapper:is(:hover, :focus-within)')
+                .forEach((el) => el.classList.add('fui-tooltip-dismissed'));
+        });
+        ['focusout', 'mouseout'].forEach((type) => {
+            document.addEventListener(type, (event) => {
+                const el = event.target.closest?.('.fui-tooltip-dismissed');
+                if (!el || el.contains(event.relatedTarget)) return;
+                if (el.matches(type === 'focusout' ? ':hover' : ':focus-within')) return;
+                el.classList.remove('fui-tooltip-dismissed');
+            });
+        });
+
+        // Opens and closes a toggletip on click, and closes it on Escape
+        // (returning focus to its button), on a press outside it, or when focus
+        // moves elsewhere on the page (see the analytics.css usage notes).
+        document.addEventListener('pointerdown', (event) => {
+            document
+                .querySelectorAll('.fui-toggletip-trigger[aria-expanded="true"]')
+                .forEach((trigger) => {
+                    if (!trigger.closest('.fui-toggletip').contains(event.target)) {
+                        trigger.setAttribute('aria-expanded', 'false');
+                    }
+                });
+        });
+        document.addEventListener('click', (event) => {
+            const trigger = event.target.closest('.fui-toggletip-trigger');
+            if (!trigger) return;
+            const expanded = trigger.getAttribute('aria-expanded') === 'true';
+            trigger.setAttribute('aria-expanded', String(!expanded));
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Escape') return;
+            document
+                .querySelectorAll('.fui-toggletip-trigger[aria-expanded="true"]')
+                .forEach((trigger) => {
+                    const toggletip = trigger.closest('.fui-toggletip');
+                    if (toggletip.contains(document.activeElement)) trigger.focus();
+                    trigger.setAttribute('aria-expanded', 'false');
+                });
+        });
+        document.addEventListener('focusout', (event) => {
+            const toggletip = event.target.closest('.fui-toggletip');
+            // No relatedTarget: a press on the page (left to the pointerdown
+            // handler, so a press on the content's text keeps it open) or focus
+            // leaving the page.
+            if (!toggletip || !event.relatedTarget) return;
+            if (toggletip.contains(event.relatedTarget)) return;
+            toggletip
+                .querySelector('.fui-toggletip-trigger')
+                .setAttribute('aria-expanded', 'false');
+        });
 
         let siteBase = '';
         let entityLabel = 'Dataset';
@@ -393,10 +462,10 @@
             return hostname;
         }
 
-        let chartColors = {
-            primary: '#1c7cc7',
+        const chartColors = {
+            primary: cssVar('--fui-primary'),
             secondary: '#287555',
-            primaryLight: 'rgba(28, 124, 199, 0.1)',
+            primaryLight: hexToRgba(cssVar('--fui-primary'), 0.1),
             secondaryLight: 'rgba(40, 117, 85, 0.1)',
         };
 
@@ -461,32 +530,11 @@
             }
         }
 
+        // Branding (title, favicon, logo, colors) is written into the page at build time.
         function applyConfig(config) {
-            document.title = config.site_title;
-            document.getElementById('page-title').textContent = config.site_title;
-
-            const logoLink = document.getElementById('header-logo-link');
-            const logoImg = document.getElementById('header-logo-img');
-            logoLink.href = config.logo_link || '#';
-            logoImg.src = config.logo_url || '';
-            logoImg.alt = config.site_title || 'Logo';
-
-            if (config.favicon_url) {
-                document.getElementById('favicon').href = config.favicon_url;
-            }
-
-            if (config.primary_color) {
-                document.documentElement.style.setProperty('--fui-primary', config.primary_color);
-                chartColors.primary = config.primary_color;
-                chartColors.primaryLight = hexToRgba(config.primary_color, 0.1);
-            }
             siteBase = (config.logo_link || '').replace(/\/$/, '');
             entityLabel = config.entity_label || 'Dataset';
             entityPath = config.entity_path || '/datasets';
-
-            if (config.primary_color_dark) {
-                document.documentElement.style.setProperty('--fui-primary-dark', config.primary_color_dark);
-            }
         }
 
         function renderMeta(meta) {
@@ -507,20 +555,43 @@
             return Number.isFinite(pct) ? pct : null;
         }
 
+        // Gives each stat-card tooltip and toggletip a unique id for
+        // aria-describedby / aria-controls.
+        let helpCount = 0;
+
         // Shared stat-card markup. Options:
         //   change:    omit for no change row; null renders "N/A vs prior month".
         //   gridClass: fui-grid-item-* class; omit when the container sizes cards itself.
-        //   tooltip:   HTML shown on hover/focus of the label.
+        //   tooltip:   plain text (escaped) shown on hover/focus/tap of the label.
+        //              Screen readers read it as the label's description, so a
+        //              link in it couldn't be used. Use toggletip for that.
+        //   toggletip: HTML, which may include links, shown by an info button
+        //              after the label. Use instead of tooltip, not with it.
         // Multi-line labels ('\n') render as line breaks.
-        function statCard(value, label, { change, gridClass, tooltip } = {}) {
-            // escapeHtml leaves newlines and quotes alone, so escape once and
-            // then adapt per context: <br> for markup, &quot; for the attribute.
-            const escapedLabel = escapeHtml(label);
-            const labelHtml = escapedLabel.split('\n').join('<br>');
-            const ariaLabel = escapedLabel.replace(/"/g, '&quot;').replace(/\n/g, ' ');
-            const tooltipHtml = tooltip ? `
-                <div class="stat-tooltip">${tooltip}</div>
-            ` : '';
+        function statCard(value, label, { change, gridClass, toggletip, tooltip } = {}) {
+            // escapeHtml leaves newlines alone, so they become <br> after escaping.
+            const labelHtml = escapeHtml(label).split('\n').join('<br>');
+            let labelContent = labelHtml;
+            if (toggletip) {
+                const toggletipId = `stat-toggletip-${++helpCount}`;
+                // escapeHtml leaves quotes alone; this goes in an attribute.
+                const buttonLabel = escapeHtml(`About ${label.replace(/\n/g, ' ')}`).replace(/"/g, '&quot;');
+                labelContent = `
+                    ${labelHtml}
+                    <span class="fui-toggletip">
+                        <button type="button" class="fui-toggletip-trigger" aria-controls="${toggletipId}" aria-expanded="false" aria-label="${buttonLabel}">&#9432;</button>
+                        <span class="fui-toggletip-content" id="${toggletipId}">${toggletip}</span>
+                    </span>
+                `;
+            } else if (tooltip) {
+                const tooltipId = `stat-tooltip-${++helpCount}`;
+                labelContent = `
+                    <span class="fui-tooltip-wrapper">
+                        <button type="button" class="fui-tooltip-trigger" aria-describedby="${tooltipId}">${labelHtml}</button>
+                        <span class="fui-tooltip" id="${tooltipId}" role="tooltip">${escapeHtml(tooltip)}</span>
+                    </span>
+                `;
+            }
             let changeHtml = '';
             if (change !== undefined) {
                 let changeText = 'N/A';
@@ -538,10 +609,7 @@
                 <div class="fui-card${gridClass ? ` ${gridClass}` : ''}" style="text-align: center;">
                     <div class="fui-card-content">
                         <div class="stat-value">${value}</div>
-                        <div class="stat-label-wrap">
-                            <span class="stat-label${tooltip ? ' has-tooltip' : ''}" ${tooltip ? 'tabindex="0" role="button" aria-label="' + ariaLabel + ' - show details"' : ''}>${labelHtml}</span>
-                            ${tooltipHtml}
-                        </div>
+                        <div class="stat-label">${labelContent}</div>
                         ${changeHtml}
                     </div>
                 </div>
@@ -587,7 +655,7 @@
                 statCard(engagementDisplay, 'Engagement Rate', {
                     change: engagementChange,
                     gridClass: 'fui-grid-item-3',
-                    tooltip: `Percentage of sessions during ${monthName} where users actively engaged with your site (e.g., stayed longer, viewed multiple pages, or triggered events). Higher is better. <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`,
+                    toggletip: `Percentage of sessions during ${monthName} where users actively engaged with your site (e.g., stayed longer, viewed multiple pages, or triggered events). Higher is better. <a href="https://support.google.com/analytics/answer/11109416" target="_blank" rel="noopener noreferrer">Learn more</a>.`,
                 });
         }
 
@@ -1043,7 +1111,13 @@
             return encodeURI(url).replace(/'/g, '%27').replace(/"/g, '%22');
         }
 
-        loadData();
+        // Chart.js loads with defer so it doesn't block first paint, which
+        // means it runs after this script. DOMContentLoaded fires once
+        // deferred scripts have run.
+        document.addEventListener('DOMContentLoaded', () => {
+            applyChartDefaults();
+            loadData();
+        });
     </script>
 </body>
 </html>
