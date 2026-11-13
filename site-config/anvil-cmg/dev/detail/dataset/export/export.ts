@@ -106,10 +106,39 @@ export const exportConfig: ExportConfig = {
           children: [
             {
               children: [
+                /* Dataset cannot be exported to Terra; render warning */
                 {
-                  component: C.ExportToTerra,
-                  viewBuilder: V.buildDatasetTerraExport,
-                } as ComponentConfig<typeof C.ExportToTerra>,
+                  children: [
+                    // Empty component for triggering calls to populate the selected data in the side channel.
+                    {
+                      component: C.AnVILExportEntity,
+                      viewBuilder: V.buildDatasetExportPropsWithFilter,
+                    } as ComponentConfig<typeof C.AnVILExportEntity>,
+                    {
+                      component: MDX.Alert,
+                      viewBuilder: V.buildAlertDatasetTerraExportUnavailable,
+                    } as ComponentConfig<typeof MDX.Alert, DatasetsResponse>,
+                  ],
+                  component: C.ConditionalComponent,
+                  viewBuilder: V.renderDatasetTerraExportUnavailable,
+                } as ComponentConfig<
+                  typeof C.ConditionalComponent,
+                  DatasetsResponse
+                >,
+                /* Dataset can be exported to Terra; render Terra export */
+                {
+                  children: [
+                    {
+                      component: C.ExportToTerra,
+                      viewBuilder: V.buildDatasetTerraExport,
+                    } as ComponentConfig<typeof C.ExportToTerra>,
+                  ],
+                  component: C.ConditionalComponent,
+                  viewBuilder: V.renderDatasetTerraExport,
+                } as ComponentConfig<
+                  typeof C.ConditionalComponent,
+                  DatasetsResponse
+                >,
               ],
               component: C.BackPageContentMainColumn,
             } as ComponentConfig<typeof C.BackPageContentMainColumn>,
