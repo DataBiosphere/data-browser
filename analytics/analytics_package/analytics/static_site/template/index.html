@@ -354,9 +354,14 @@
     </main>
 
     <script>
-        // Sets the page's Chart.js defaults.
+        // The --fui-font-family stack (analytics.css) without Inter.
+        const FALLBACK_FONT_FAMILY = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+        const INTER_STYLESHEET = document.querySelector('link[href^="https://fonts.googleapis.com/css2"]');
+
+        // Sets the page's Chart.js defaults. Charts draw in the fallback font
+        // until useInterInCharts switches them to Inter.
         function applyChartDefaults() {
-            Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+            Chart.defaults.font.family = FALLBACK_FONT_FAMILY;
             Chart.defaults.color = cssVar('--fui-ink-light');
             // Match the .fui-tooltip style (see the analytics.css usage notes).
             Object.assign(Chart.defaults.plugins.tooltip, {
@@ -365,6 +370,32 @@
                 cornerRadius: 4,
                 padding: { x: 12, y: 8 },
             });
+        }
+
+        // True once the Inter stylesheet is active (its onload sets media to
+        // "all") and the face is loaded. The media check matters: with no
+        // Inter @font-face defined yet, fonts.check also returns true.
+        function isInterLoaded() {
+            return INTER_STYLESHEET.media === 'all' && document.fonts.check('400 12px Inter');
+        }
+
+        // Resolves once the Inter stylesheet is active. The onload attribute
+        // runs before this load listener, so media is "all" by then. Never
+        // settles if the stylesheet fails; the charts keep the fallback font.
+        function interStylesheetLoaded() {
+            return new Promise((resolve) => {
+                if (INTER_STYLESHEET.media === 'all') return resolve();
+                INTER_STYLESHEET.addEventListener('load', resolve);
+            });
+        }
+
+        // Switches the charts to the page's font, Inter, once it has loaded.
+        // The new font family string also gives Chart.js fresh label
+        // measurements; with an unchanged string, update() would reuse the
+        // fallback font's widths.
+        function useInterInCharts() {
+            Chart.defaults.font.family = cssVar('--fui-font-family');
+            Object.values(Chart.instances).forEach((chart) => chart.update('none'));
         }
 
         // Reads a theme color from analytics.css, or the page's build-time overrides.
@@ -506,8 +537,6 @@
                 renderMeta(meta);
                 const chronological = [...traffic].reverse();
                 renderStats(traffic, config, events, meta);
-                renderTrafficChart(chronological);
-                renderPageviewsChart(chronological);
                 renderPagesTable(pageviews);
                 renderOutboundTable(outbound);
                 renderFiltersTable(filters);
@@ -521,7 +550,9 @@
                 }
                 renderSearchQueries(searchQueries);
                 renderFileDownloadEvents(fileDownloadEvents);
-                renderEventCounts(config, events, eventCharts);
+                const chartDataByKey = eventChartDataByKey(eventCharts);
+                renderEventCounts(config, events, chartDataByKey);
+                resolveChartData({ chronological, chartDataByKey });
                 await renderEventStats(events, config);
             } catch (error) {
                 console.error('Error loading data:', error);
@@ -659,15 +690,8 @@
                 });
         }
 
-        function renderEventCounts(config, events, eventCharts) {
-            const grid = document.getElementById('event-counts-grid');
-            const countCards = config.event_counts;
-            if (!countCards || countCards.length === 0 || !events) return;
-
-            const eventsByKey = {};
-            for (const e of events) eventsByKey[e.event_name] = e;
-
-            // Build lookup from event_key to monthly data from eventCharts
+        // Maps each event_key to its monthly data from event_charts.json.
+        function eventChartDataByKey(eventCharts) {
             const chartDataByKey = {};
             if (eventCharts && eventCharts.charts) {
                 for (const chart of eventCharts.charts) {
@@ -676,6 +700,18 @@
                     }
                 }
             }
+            return chartDataByKey;
+        }
+
+        // Renders the key metric cards, with an empty canvas for each trend
+        // chart that renderEventTrendCharts draws once Chart.js has loaded.
+        function renderEventCounts(config, events, chartDataByKey) {
+            const grid = document.getElementById('event-counts-grid');
+            const countCards = config.event_counts;
+            if (!countCards || countCards.length === 0 || !events) return;
+
+            const eventsByKey = {};
+            for (const e of events) eventsByKey[e.event_name] = e;
 
             // Group cards into pairs by row label, then emit: heading, stats row, charts row
             let html = '';
@@ -728,11 +764,13 @@
             grid.innerHTML = html;
             document.getElementById('key-metrics-heading').style.display = '';
             document.getElementById('key-metric-detail-heading').style.display = '';
+        }
 
-            // Render Chart.js instances for each trend chart
-            grid.querySelectorAll('canvas[data-event-key]').forEach(canvas => {
+        // Draws the trend charts into the canvases renderEventCounts rendered.
+        function renderEventTrendCharts(chartDataByKey) {
+            document.querySelectorAll('#event-counts-grid canvas[data-event-key]').forEach(canvas => {
                 const key = canvas.dataset.eventKey;
-                const data = chartDataByKey[key] || [];
+                const data = chartDataByKey[key];
                 const months = data.map(d => d.month);
                 const counts = data.map(d => d.count);
 
@@ -1113,11 +1151,50 @@
 
         // Chart.js loads with defer so it doesn't block first paint, which
         // means it runs after this script. DOMContentLoaded fires once
-        // deferred scripts have run.
-        document.addEventListener('DOMContentLoaded', () => {
-            applyChartDefaults();
-            loadData();
+        // deferred scripts have run. Rejects if the Chart.js script failed to
+        // load: the charts are left out and the rest of the page renders.
+        const chartJsReady = new Promise((resolve, reject) => {
+            document.addEventListener('DOMContentLoaded', () => {
+                if (typeof Chart === 'undefined') {
+                    reject(new Error('Chart.js failed to load, so the charts are not drawn'));
+                    return;
+                }
+                applyChartDefaults();
+                // Canvas text doesn't swap fonts by itself. If Inter is already
+                // here (say, cached), the charts start in it; otherwise they
+                // draw in the fallback font and redraw once Inter loads.
+                if (isInterLoaded()) {
+                    useInterInCharts();
+                } else {
+                    interStylesheetLoaded()
+                        .then(() => document.fonts.load('400 12px Inter'))
+                        // On rejection the font file failed to load (a network
+                        // failure, already in the console): the charts keep
+                        // the fallback font, like the page's text.
+                        .then(useInterInCharts, () => {});
+                }
+                resolve();
+            });
         });
+
+        // Resolved by loadData with the charts' data. Never settles if the
+        // data fails to load, which loadData reports on the page.
+        let resolveChartData;
+        const chartDataReady = new Promise((resolve) => { resolveChartData = resolve; });
+
+        // Draws the charts once Chart.js and their data are both ready. Kept
+        // out of loadData so a Chart.js failure leaves only the charts
+        // missing, and attached now so that failure is reported once.
+        chartJsReady
+            .then(() => chartDataReady)
+            .then(({ chronological, chartDataByKey }) => {
+                renderTrafficChart(chronological);
+                renderPageviewsChart(chronological);
+                renderEventTrendCharts(chartDataByKey);
+            });
+
+        // Starts the data fetches now, alongside the Chart.js download.
+        loadData();
     </script>
 </body>
 </html>
