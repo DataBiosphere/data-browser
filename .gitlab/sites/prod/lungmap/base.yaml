@@ -1,3 +1,0 @@
-variables:
-  data_browser_build_script: build-prod:lungmap
-  data_browser_build_env: prod

@@ -1,6 +1,6 @@
 /**
  * Shared Schema.org Dataset types used by per-consumer JSON-LD builders
- * (HCA DCP, AnVIL, LungMAP). Each consumer composes its own `SchemaDataset`
+ * (HCA DCP, AnVIL). Each consumer composes its own `SchemaDataset`
  * from its source entity and renders it via the shared `JsonLd` component.
  *
  * See https://developers.google.com/search/docs/appearance/structured-data/dataset
