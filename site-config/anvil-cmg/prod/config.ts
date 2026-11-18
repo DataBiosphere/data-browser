@@ -3,7 +3,7 @@ import { SiteConfig } from "../../common/entities";
 import { makeConfig } from "../dev/config";
 import { authenticationConfig } from "./authentication/authentication";
 
-const CATALOG = "anvil15";
+const CATALOG = "anvil16";
 
 const config: SiteConfig = {
   ...makeConfig(
