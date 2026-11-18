@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.8.1](https://github.com/DataBiosphere/data-browser/compare/v3.8.0...v3.8.1) (2026-11-18)
+
+
+### Bug Fixes
+
+* draw analytics charts in inter and fetch their data without waiting for chart.js ([#5033](https://github.com/DataBiosphere/data-browser/issues/5033)) ([#5035](https://github.com/DataBiosphere/data-browser/issues/5035)) ([e7ab773](https://github.com/DataBiosphere/data-browser/commit/e7ab7739c0ae3cda630e57e52e8af8398155df88))
+
+
+### Chores
+
+* update default catalog to anvil16 ([#5040](https://github.com/DataBiosphere/data-browser/issues/5040)) ([#5041](https://github.com/DataBiosphere/data-browser/issues/5041)) ([14e229e](https://github.com/DataBiosphere/data-browser/commit/14e229e853e2c45213d64e5b311ccd643104b1ef))
+
 ## [3.8.0](https://github.com/DataBiosphere/data-browser/compare/v3.7.0...v3.8.0) (2026-11-11)
 
 
