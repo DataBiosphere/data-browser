@@ -1,9 +1,8 @@
 /**
  * Shared Schema.org Dataset builder for consumers that surface HCA-style
- * `ProjectResponse` data (HCA DCP, LungMAP). Per-consumer files (e.g.
- * `hcaProjectDataset.ts`, `lungmapProjectDataset.ts`) supply a
- * `ProjectCatalogOptions` describing catalog identity and call
- * `buildProjectJsonLd` to produce the JSON-LD payload.
+ * `ProjectResponse` data (HCA DCP). Per-consumer files (e.g.
+ * `hcaProjectDataset.ts`) supply a `ProjectCatalogOptions` describing catalog
+ * identity and call `buildProjectJsonLd` to produce the JSON-LD payload.
  */
 
 import type {
@@ -25,7 +24,7 @@ import { buildDescription, uniqueNonEmpty } from "./utils";
 
 /**
  * Per-consumer catalog identity used to populate `includedInDataCatalog` and
- * the description-padding fallback. Callers (e.g. HCA, LungMAP) supply this
+ * the description-padding fallback. Callers (e.g. HCA) supply this
  * via thin wrappers so the shared builder stays consumer-agnostic.
  */
 export interface ProjectCatalogOptions {

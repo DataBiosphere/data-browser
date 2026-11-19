@@ -1,6 +1,6 @@
 # Static Analytics Site Generator
 
-Generates static HTML dashboards from GA4 data for data-browser apps. Each app (e.g. AnVIL Explorer, AnVIL Catalog, HCA Data Explorer, LungMAP) has its own `generate_static_site.py` script that calls the shared `generate_site()` function with app-specific configuration.
+Generates static HTML dashboards from GA4 data for data-browser apps. Each app (e.g. AnVIL Explorer, AnVIL Catalog, HCA Data Explorer) has its own `generate_static_site.py` script that calls the shared `generate_site()` function with app-specific configuration.
 
 See the [repository's main analytics readme](../../../readme.md) for details on the generator implementations for the actual apps.
 
@@ -13,7 +13,7 @@ See the [repository's main analytics readme](../../../readme.md) for details on 
 | `generator.py` | Orchestrates fetch, title resolution, page rendering, and data export |
 | `fetch.py` | Fetches GA4 data: traffic, pageviews, outbound links, filter selections, sessions, engagement rate, custom events, file downloads, and access requests |
 | `export.py` | Exports DataFrames and dicts to JSON files in `<output folder>/data/` |
-| `resolve.py` | Resolves entity UUIDs to titles via catalog APIs (AnVIL, HCA/LungMAP Azul) |
+| `resolve.py` | Resolves entity UUIDs to titles via catalog APIs (AnVIL, HCA Azul) |
 | `template/index.html` | Config-driven HTML template with Chart.js charts and data tables |
 | `template/analytics.css` | Copy of `static/analytics.css` from `@databiosphere/findable-ui` v60.0.0 (re-copy from `node_modules` on upgrade, and re-sync `index.html`'s tooltip Escape and toggletip scripts with its usage notes); copied next to each site's `index.html` |
 

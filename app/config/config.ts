@@ -8,8 +8,6 @@ import anvilCmgTempdev from "../../site-config/anvil-cmg/tempdev/config";
 import { SiteConfig } from "../../site-config/common/entities";
 import hcaDcpMaDev from "../../site-config/hca-dcp/ma-dev/config";
 import hcaDcpMaProd from "../../site-config/hca-dcp/ma-prod/config";
-import lungMapDev from "../../site-config/lungmap/dev/config";
-import lungMapProd from "../../site-config/lungmap/prod/config";
 
 const CONFIGS: { [k: string]: SiteConfig } = {
   "anvil-catalog-dev": anvilCatalogDev,
@@ -20,8 +18,6 @@ const CONFIGS: { [k: string]: SiteConfig } = {
   "anvil-cmg-tempdev": anvilCmgTempdev,
   "hca-dcp-ma-dev": hcaDcpMaDev,
   "hca-dcp-ma-prod": hcaDcpMaProd,
-  "lungmap-dev": lungMapDev,
-  "lungmap-prod": lungMapProd,
 };
 
 let appConfig: SiteConfig | null = null;

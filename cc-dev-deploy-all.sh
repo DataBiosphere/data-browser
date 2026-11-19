@@ -3,7 +3,6 @@
 # List of scripts to execute
 scripts=(
   "./cc-anvil-catalog-dev-deploy.sh"
-  "./cc-data-browser.lungmap.dev.clevercanary.com-deploy.sh"
   "./cc-explore.anvilproject.dev.clevercanary.com-deploy.sh"
   "./cc-explore.data.humancellatlas.dev.clevercanary.com-deploy.sh"
 )
