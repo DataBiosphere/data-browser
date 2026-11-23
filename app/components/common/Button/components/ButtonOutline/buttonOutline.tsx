@@ -1,7 +1,12 @@
-import { ButtonOutline as DXButtonOutline } from "@databiosphere/findable-ui/lib/components/common/Button/components/ButtonOutline/buttonOutline";
 import type { ButtonProps } from "@mui/material";
-import { JSX } from "react";
+import type { JSX } from "react";
+import { StyledButton } from "./buttonOutline.styles";
 
-export const ButtonOutline = ({ ...props }: ButtonProps): JSX.Element => {
-  return <DXButtonOutline {...props} />;
+/**
+ * Outline button for dark backgrounds: white text and a translucent white border.
+ * @param props - Button props.
+ * @returns The outline button.
+ */
+export const ButtonOutline = (props: ButtonProps): JSX.Element => {
+  return <StyledButton color="secondary" variant="outlined" {...props} />;
 };
