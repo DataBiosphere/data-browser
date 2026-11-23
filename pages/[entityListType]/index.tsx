@@ -54,15 +54,13 @@ const seedDatabase = async function seedDatabase( // TODO get rid of this duplic
 /**
  * Explore view page.
  * @param props - Explore view page props.
+ * @param props.data - Statically loaded entities response; absent for server-side fetched entities.
  * @param props.entityListType - Entity list type.
  * @returns Explore view component.
  */
-const IndexPage = ({
-  entityListType,
-  ...props
-}: ListPageProps): JSX.Element => {
+const IndexPage = ({ data, entityListType }: ListPageProps): JSX.Element => {
   if (!entityListType) return <></>;
-  return <ExploreView entityListType={entityListType} {...props} />;
+  return <ExploreView data={data?.hits} entityListType={entityListType} />;
 };
 
 /**

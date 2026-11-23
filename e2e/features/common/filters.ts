@@ -157,7 +157,12 @@ export function namedFilterItem(page: Page, optionName: string): Locator {
   return page
     .locator(MUI_CLASSES.AUTOCOMPLETE_POPPER)
     .getByTestId(TEST_IDS.FILTER_ITEM)
-    .filter({ hasText: RegExp(`^${escapeRegExp(optionName)}\\s*\\d+\\s*`) })
+    .filter({
+      // Matched on the term alone; the item also shows its category name and count.
+      has: page
+        .getByTestId(TEST_IDS.FILTER_TERM)
+        .filter({ hasText: RegExp(`^${escapeRegExp(optionName)}$`) }),
+    })
     .first();
 }
 

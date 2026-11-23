@@ -1,4 +1,4 @@
-import { BUTTON_PROPS } from "@databiosphere/findable-ui/lib/components/common/Button/constants";
+import { BUTTON_PRESETS } from "@databiosphere/findable-ui/lib/contracts/mui/Button/presets";
 import { JSX, useState } from "react";
 import { ProjectMatrixView } from "../../../../../../viewModelBuilders/azul/hca-dcp/common/projectMatrixMapper/entities";
 import { ArchivePreviewDialog } from "../ArchivePreviewDialog/archivePreviewDialog";
@@ -30,7 +30,7 @@ export const FileLocationArchivePreview = ({
   return isArchivePreviewAvailable(projectMatrixView) ? (
     <>
       <Button
-        {...BUTTON_PROPS.PRIMARY_TEXT}
+        {...BUTTON_PRESETS.PRIMARY_TEXT}
         onClick={(): void => setOpen(true)}
       >
         Preview Archive

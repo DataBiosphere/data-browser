@@ -479,7 +479,9 @@ export async function testBulkDownloadFileManifestWorkflow(
   // Click the card to go to the export request form.
   await cardLocator.click();
 
-  await page.waitForURL("**/export/download-manifest");
+  await page.waitForURL((url) =>
+    url.pathname.endsWith("/export/download-manifest")
+  );
 
   const exportRequestButtonLocator = page.getByRole("button", {
     name: "Prepare Manifest",
