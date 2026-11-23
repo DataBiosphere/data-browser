@@ -10,8 +10,11 @@ import { Header } from "@databiosphere/findable-ui/lib/components/Layout/compone
 import { Main } from "@databiosphere/findable-ui/lib/components/Layout/components/Main/main";
 import { GoogleSignInAuthenticationProvider } from "@databiosphere/findable-ui/lib/google/provider";
 import { setFeatureFlags } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/common/utils";
+import { CatalogProvider } from "@databiosphere/findable-ui/lib/providers/catalog/provider";
 import { ConfigProvider as DXConfigProvider } from "@databiosphere/findable-ui/lib/providers/config";
 import { DataDictionaryStateProvider } from "@databiosphere/findable-ui/lib/providers/dataDictionaryState/provider";
+import { ExploreListProvider } from "@databiosphere/findable-ui/lib/providers/exploreList/provider";
+import { getAllowedLists } from "@databiosphere/findable-ui/lib/providers/exploreList/utils";
 import { ExploreStateProvider } from "@databiosphere/findable-ui/lib/providers/exploreState";
 import { FileManifestStateProvider } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import { LoginGuardProvider } from "@databiosphere/findable-ui/lib/providers/loginGuard/provider";
@@ -82,60 +85,71 @@ function MyApp(props: AppProps): JSX.Element {
               pageTitle={pageTitle}
             />
             <CssBaseline />
-            <ServicesProvider>
-              <SystemStatusProvider>
-                <GoogleSignInAuthenticationProvider
-                  SessionController={TerraProfileProvider}
-                  timeout={SESSION_TIMEOUT}
-                >
-                  <LoginGuardProvider>
-                    <AppLayout>
-                      <ThemeProvider
-                        theme={(theme: Theme): Theme => {
-                          // eslint-disable-next-line @typescript-eslint/no-unused-vars -- MUI internal property 'vars' is automatically added when cssVariables is enabled.
-                          const { vars, ...themeWithoutVars } = theme;
-                          return createTheme(
-                            deepmerge(themeWithoutVars, {
-                              breakpoints: createBreakpoints(BREAKPOINTS),
-                            })
-                          );
-                        }}
-                      >
-                        <Header {...header} />
-                      </ThemeProvider>
-                      <ExploreStateProvider entityListType={entityListType}>
-                        <DataDictionaryStateProvider>
-                          <Main>
-                            <ErrorBoundary
-                              fallbackRender={({
-                                error,
-                                reset,
-                              }: {
-                                error: DataExplorerError;
-                                reset: () => void;
-                              }): JSX.Element => (
-                                <Error
-                                  errorMessage={error.message}
-                                  requestUrlMessage={error.requestUrlMessage}
-                                  rootPath={redirectRootToPath}
-                                  onReset={reset}
-                                />
-                              )}
-                            >
-                              <FileManifestStateProvider>
-                                <Component {...pageProps} />
-                                <Floating {...floating} />
-                              </FileManifestStateProvider>
-                            </ErrorBoundary>
-                          </Main>
-                        </DataDictionaryStateProvider>
-                      </ExploreStateProvider>
-                      <Footer {...footer} />
-                    </AppLayout>
-                  </LoginGuardProvider>
-                </GoogleSignInAuthenticationProvider>
-              </SystemStatusProvider>
-            </ServicesProvider>
+            <CatalogProvider>
+              <ServicesProvider>
+                <SystemStatusProvider>
+                  <GoogleSignInAuthenticationProvider
+                    SessionController={TerraProfileProvider}
+                    timeout={SESSION_TIMEOUT}
+                  >
+                    <LoginGuardProvider>
+                      <AppLayout>
+                        <ThemeProvider
+                          theme={(theme: Theme): Theme => {
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars -- MUI internal property 'vars' is automatically added when cssVariables is enabled.
+                            const { vars, ...themeWithoutVars } = theme;
+                            return createTheme(
+                              deepmerge(themeWithoutVars, {
+                                breakpoints: createBreakpoints(BREAKPOINTS),
+                              })
+                            );
+                          }}
+                        >
+                          <Header {...header} />
+                        </ThemeProvider>
+                        <ExploreListProvider
+                          allowedLists={getAllowedLists(appConfig)}
+                          initialList={
+                            entityListType || redirectRootToPath.slice(1)
+                          }
+                        >
+                          <ExploreStateProvider entityListType={entityListType}>
+                            <DataDictionaryStateProvider>
+                              <Main>
+                                <ErrorBoundary
+                                  fallbackRender={({
+                                    error,
+                                    reset,
+                                  }: {
+                                    error: DataExplorerError;
+                                    reset: () => void;
+                                  }): JSX.Element => (
+                                    <Error
+                                      errorMessage={error.message}
+                                      requestUrlMessage={
+                                        error.requestUrlMessage
+                                      }
+                                      rootPath={redirectRootToPath}
+                                      onReset={reset}
+                                    />
+                                  )}
+                                >
+                                  <FileManifestStateProvider>
+                                    <Component {...pageProps} />
+                                    <Floating {...floating} />
+                                  </FileManifestStateProvider>
+                                </ErrorBoundary>
+                              </Main>
+                            </DataDictionaryStateProvider>
+                          </ExploreStateProvider>
+                        </ExploreListProvider>
+                        <Footer {...footer} />
+                      </AppLayout>
+                    </LoginGuardProvider>
+                  </GoogleSignInAuthenticationProvider>
+                </SystemStatusProvider>
+              </ServicesProvider>
+            </CatalogProvider>
           </DXConfigProvider>
         </ThemeProvider>
       </EmotionThemeProvider>

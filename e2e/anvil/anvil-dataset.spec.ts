@@ -46,8 +46,7 @@ describe("Dataset", () => {
     await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
 
     // Navigate to the choose export method page.
-    const currentUrl = page.url();
-    await page.goto(`${currentUrl}/export`);
+    await goToDatasetSubpath(page, "/export");
 
     // Confirm the login alert is displayed.
     await expect(
@@ -91,8 +90,7 @@ describe("Dataset", () => {
     await goToDataset(page, CHIP_TEXT_ACCESS_REQUIRED);
 
     // Navigate to the export file manifest page.
-    const currentUrl = page.url();
-    await page.goto(`${currentUrl}${ROUTES.MANIFEST_DOWNLOAD}`);
+    await goToDatasetSubpath(page, ROUTES.MANIFEST_DOWNLOAD);
 
     // Confirm the login alert is displayed.
     await expect(
@@ -256,6 +254,17 @@ async function goToDataset(page: Page, access: DatasetAccess): Promise<void> {
 
   // Wait for the dataset detail page to load (specifically the dataset title).
   await page.waitForSelector(`h1:has-text("${datasetTitle}")`);
+}
+
+/**
+ * Navigate from the current dataset page to one of its subpages, keeping the URL's query (e.g. `?list=`).
+ * @param page - Playwright page object.
+ * @param subpath - Subpath to append to the dataset path, e.g. "/export".
+ */
+async function goToDatasetSubpath(page: Page, subpath: string): Promise<void> {
+  const url = new URL(page.url());
+  url.pathname += subpath;
+  await page.goto(url.toString());
 }
 
 /**

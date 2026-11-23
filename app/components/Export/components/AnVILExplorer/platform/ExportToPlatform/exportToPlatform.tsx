@@ -1,5 +1,4 @@
 import { MANIFEST_DOWNLOAD_FORMAT } from "@databiosphere/findable-ui/lib/apis/azul/common/entities";
-import { BUTTON_PROPS } from "@databiosphere/findable-ui/lib/components/common/Button/constants";
 import { FluidPaper } from "@databiosphere/findable-ui/lib/components/common/Paper/components/FluidPaper/fluidPaper";
 import { PAPER_PANEL_STYLE } from "@databiosphere/findable-ui/lib/components/common/Paper/paper";
 import { ExportButton } from "@databiosphere/findable-ui/lib/components/Export/components/ExportForm/components/ExportButton/exportButton";
@@ -15,6 +14,7 @@ import {
   REL_ATTRIBUTE,
 } from "@databiosphere/findable-ui/lib/components/Links/common/entities";
 import { Loading } from "@databiosphere/findable-ui/lib/components/Loading/loading";
+import { BUTTON_PRESETS } from "@databiosphere/findable-ui/lib/contracts/mui/Button/presets";
 import { useFeatureFlag } from "@databiosphere/findable-ui/lib/hooks/useFeatureFlag/useFeatureFlag";
 import { useFileManifest } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifest";
 import { useFileManifestFileCount } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/useFileManifestFileCount";
@@ -63,7 +63,7 @@ export const ExportToPlatform = ({
         </SectionContent>
         <SectionActions>
           <Button
-            {...BUTTON_PROPS.PRIMARY_CONTAINED}
+            {...BUTTON_PRESETS.PRIMARY_CONTAINED}
             href={url}
             rel={REL_ATTRIBUTE.NO_OPENER_NO_REFERRER}
             target={ANCHOR_TARGET.BLANK}
@@ -118,7 +118,7 @@ function renderButton({ ...props }): JSX.Element {
  */
 function renderDisabledButton(): JSX.Element {
   return (
-    <Button {...BUTTON_PROPS.PRIMARY_CONTAINED} disabled>
+    <Button {...BUTTON_PRESETS.PRIMARY_CONTAINED} disabled>
       Request Link
     </Button>
   );

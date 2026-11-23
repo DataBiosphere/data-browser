@@ -32,7 +32,7 @@
     "refresh-diagnosis-terms:anvil-cmg": "esrun scripts/lookup-diagnosis-terms.ts"
   },
   "dependencies": {
-    "@databiosphere/findable-ui": "^61.0.0",
+    "@databiosphere/findable-ui": "^63.0.0",
     "@emotion/react": "^11",
     "@emotion/server": "^11",
     "@emotion/styled": "^11",
