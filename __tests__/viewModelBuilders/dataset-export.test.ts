@@ -3,6 +3,10 @@ import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import {
+  buildDatasetExportHero,
+  buildDatasetExportMethodHeroCurlCommand,
+  buildDatasetExportMethodHeroManifestDownload,
+  buildDatasetExportMethodHeroTerraExport,
   buildDatasetExportToPlatform,
   buildDatasetExportToPlatformHero,
   buildDatasetExportToPlatformMethod,
@@ -203,6 +207,44 @@ describe("buildDatasetExportToPlatform", () => {
       expect(result.title).toBe("Analyze in Cancer Genomics Cloud");
     });
   });
+});
+
+describe("buildDatasetExportHero", () => {
+  it("builds the breadcrumbs that follow the explore breadcrumb", () => {
+    expect(buildDatasetExportHero(createMockDatasetsResponse())).toEqual({
+      breadcrumbs: [
+        { path: "/datasets/test-dataset-id", text: "Test Dataset Title" },
+        { path: "", text: "Choose Export Method" },
+      ],
+      title: "Test Dataset Title",
+    });
+  });
+});
+
+describe("dataset export method heroes", () => {
+  it.each([
+    [
+      buildDatasetExportMethodHeroCurlCommand,
+      'Download Selected Data Using "curl"',
+    ],
+    [buildDatasetExportMethodHeroManifestDownload, "File Manifest"],
+    [buildDatasetExportMethodHeroTerraExport, "Analyze in Terra"],
+  ])(
+    "%p builds the breadcrumbs that follow the explore breadcrumb",
+    (builder, title) => {
+      expect(builder(createMockDatasetsResponse())).toEqual({
+        breadcrumbs: [
+          { path: "/datasets/test-dataset-id", text: "Test Dataset Title" },
+          {
+            path: "/datasets/test-dataset-id/export",
+            text: "Choose Export Method",
+          },
+          { path: "", text: title },
+        ],
+        title: "Test Dataset Title",
+      });
+    }
+  );
 });
 
 describe("buildDatasetExportToPlatformHero", () => {

@@ -2,6 +2,10 @@ import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import {
+  buildExportHero,
+  buildExportMethodHeroCurlCommand,
+  buildExportMethodHeroManifestDownload,
+  buildExportMethodHeroTerra,
   buildExportToPlatform,
   buildExportToPlatformHero,
   buildExportToPlatformMethod,
@@ -164,6 +168,34 @@ describe("buildExportToPlatform", () => {
       expect(result.title).toBe("Analyze in Cancer Genomics Cloud");
     });
   });
+});
+
+describe("buildExportHero", () => {
+  it("builds the breadcrumbs that follow the explore breadcrumb", () => {
+    expect(buildExportHero()).toEqual({
+      breadcrumbs: [{ path: "", text: "Export Selected Data" }],
+      title: "Choose Export Method",
+    });
+  });
+});
+
+describe("export method heroes", () => {
+  it.each([
+    [buildExportMethodHeroCurlCommand, 'Download Selected Data Using "curl"'],
+    [buildExportMethodHeroManifestDownload, "Request File Manifest"],
+    [buildExportMethodHeroTerra, "Export to Terra"],
+  ])(
+    "%p builds the breadcrumbs that follow the explore breadcrumb",
+    (builder, title) => {
+      expect(builder()).toEqual({
+        breadcrumbs: [
+          { path: "/export", text: "Export Selected Data" },
+          { path: "", text: title },
+        ],
+        title,
+      });
+    }
+  );
 });
 
 describe("buildExportToPlatformHero", () => {

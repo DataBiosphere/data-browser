@@ -6,6 +6,9 @@ import { renderToString } from "react-dom/server.node";
 import { ExploreBackPageHero } from "../../app/components/Layout/components/BackPage/components/ExploreBackPageHero/exploreBackPageHero";
 import { getExploreBreadcrumb } from "../../app/components/Layout/components/BackPage/components/ExploreBackPageHero/utils";
 
+// Trailing breadcrumb text, distinct from the title so a dropped breadcrumb is caught.
+const TRAILING_CRUMB_TEXT = "Dataset Crumb";
+
 // The explore list the provider returns; set per render to stand in for the URL's `list` param.
 let mockExploreList = "datasets";
 
@@ -29,7 +32,7 @@ function renderHero(): JSX.Element {
   return (
     <ThemeProvider theme={THEME}>
       <ExploreBackPageHero
-        breadcrumbs={[{ path: "", text: "Test Dataset" }]}
+        breadcrumbs={[{ path: "", text: TRAILING_CRUMB_TEXT }]}
         title="Test Dataset"
       />
     </ThemeProvider>
@@ -62,6 +65,7 @@ describe("ExploreBackPageHero", () => {
     const html = renderToString(renderHero());
 
     expect(html).toMatch(/<a[^>]*href="\/datasets"[^>]*>Explore<\/a>/);
+    expect(html).toContain(TRAILING_CRUMB_TEXT);
   });
 
   it("links Explore to the URL's list after hydrating a cold page", () => {
@@ -72,6 +76,7 @@ describe("ExploreBackPageHero", () => {
     expect(
       screen.getByRole("link", { name: "Explore" }).getAttribute("href")
     ).toBe("/files");
+    expect(screen.getByText(TRAILING_CRUMB_TEXT)).toBeTruthy();
     expect(consoleError).not.toHaveBeenCalled();
   });
 
@@ -83,6 +88,7 @@ describe("ExploreBackPageHero", () => {
     expect(
       screen.getByRole("link", { name: "Explore" }).getAttribute("href")
     ).toBe("/datasets");
+    expect(screen.getByText(TRAILING_CRUMB_TEXT)).toBeTruthy();
     expect(consoleError).not.toHaveBeenCalled();
   });
 });
