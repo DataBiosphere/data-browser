@@ -14,7 +14,7 @@ export const top: ComponentsConfig = [
         viewBuilder: V.buildDatasetAccessibilityBadge,
       } as ComponentConfig<typeof C.AccessibilityBadge>,
     ],
-    component: C.BackPageHero,
+    component: C.ExploreBackPageHero,
     viewBuilder: V.buildDatasetHero,
-  } as ComponentConfig<typeof C.BackPageHero, DatasetsResponse>,
+  } as ComponentConfig<typeof C.ExploreBackPageHero, DatasetsResponse>,
 ];

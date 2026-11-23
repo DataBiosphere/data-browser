@@ -33,9 +33,9 @@ export const exportConfig: ExportConfig = {
       route: ROUTES.CURL_DOWNLOAD,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildExportMethodHeroCurlCommand,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -58,9 +58,9 @@ export const exportConfig: ExportConfig = {
       route: ROUTES.TERRA,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildExportMethodHeroTerra,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -83,11 +83,11 @@ export const exportConfig: ExportConfig = {
       route: ROUTES.BIO_DATA_CATALYST,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildExportToPlatformHero(
             "Export to BioData Catalyst"
           ),
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -110,9 +110,9 @@ export const exportConfig: ExportConfig = {
       route: ROUTES.CAVATICA,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildExportToPlatformHero("Export to CAVATICA"),
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -137,11 +137,11 @@ export const exportConfig: ExportConfig = {
       route: ROUTES.CANCER_GENOMICS_CLOUD,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildExportToPlatformHero(
             "Export to Cancer Genomics Cloud"
           ),
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -164,9 +164,9 @@ export const exportConfig: ExportConfig = {
       route: ROUTES.MANIFEST_DOWNLOAD,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildExportMethodHeroManifestDownload,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
   ],
@@ -234,8 +234,8 @@ export const exportConfig: ExportConfig = {
   ],
   top: [
     {
-      component: C.BackPageHero,
+      component: C.ExploreBackPageHero,
       viewBuilder: V.buildExportHero,
-    } as ComponentConfig<typeof C.BackPageHero>,
+    } as ComponentConfig<typeof C.ExploreBackPageHero>,
   ],
 };

@@ -8,7 +8,7 @@ import * as V from "../../../../../app/viewModelBuilders/azul/lungmap/common/vie
 
 export const top: ComponentsConfig = [
   {
-    component: C.BackPageHero,
+    component: C.ExploreBackPageHero,
     viewBuilder: V.buildHero,
-  } as ComponentConfig<typeof C.BackPageHero, ProjectsResponse>,
+  } as ComponentConfig<typeof C.ExploreBackPageHero, ProjectsResponse>,
 ];

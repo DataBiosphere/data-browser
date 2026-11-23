@@ -74,9 +74,9 @@ export const exportConfig: ExportConfig = {
       top: [
         {
           children: [DATASET_ACCESSIBILITY_BADGE],
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildDatasetExportMethodHeroCurlCommand,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -124,9 +124,9 @@ export const exportConfig: ExportConfig = {
       top: [
         {
           children: [DATASET_ACCESSIBILITY_BADGE],
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildDatasetExportMethodHeroTerraExport,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -176,11 +176,11 @@ export const exportConfig: ExportConfig = {
       top: [
         {
           children: [DATASET_ACCESSIBILITY_BADGE],
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildDatasetExportToPlatformHero(
             EXPORTS.BIO_DATA_CATALYST.title
           ),
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -228,11 +228,11 @@ export const exportConfig: ExportConfig = {
       top: [
         {
           children: [DATASET_ACCESSIBILITY_BADGE],
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildDatasetExportToPlatformHero(
             EXPORTS.CAVATICA.title
           ),
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -282,11 +282,11 @@ export const exportConfig: ExportConfig = {
       top: [
         {
           children: [DATASET_ACCESSIBILITY_BADGE],
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildDatasetExportToPlatformHero(
             EXPORTS.CANCER_GENOMICS_CLOUD.title
           ),
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -337,9 +337,9 @@ export const exportConfig: ExportConfig = {
       top: [
         {
           children: [DATASET_ACCESSIBILITY_BADGE],
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildDatasetExportMethodHeroManifestDownload,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
   ],
@@ -440,8 +440,8 @@ export const exportConfig: ExportConfig = {
   top: [
     {
       children: [DATASET_ACCESSIBILITY_BADGE],
-      component: C.BackPageHero,
+      component: C.ExploreBackPageHero,
       viewBuilder: V.buildDatasetExportHero,
-    } as ComponentConfig<typeof C.BackPageHero, DatasetsResponse>,
+    } as ComponentConfig<typeof C.ExploreBackPageHero, DatasetsResponse>,
   ],
 };

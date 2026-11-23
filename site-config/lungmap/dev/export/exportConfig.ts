@@ -21,9 +21,9 @@ export const exportConfig: ExportConfig = {
       route: EXPORT_ROUTE.BULK_DOWNLOAD,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: HCAViewModelBuilders.buildExportMethodHeroCurlCommand,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -36,10 +36,10 @@ export const exportConfig: ExportConfig = {
       route: EXPORT_ROUTE.MANIFEST_DOWNLOAD,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder:
             HCAViewModelBuilders.buildExportMethodHeroManifestDownload,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -52,9 +52,9 @@ export const exportConfig: ExportConfig = {
       route: EXPORT_ROUTE.EXPORT_TO_TERRA,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: HCAViewModelBuilders.buildExportMethodHeroTerra,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
   ],
@@ -85,8 +85,8 @@ export const exportConfig: ExportConfig = {
   ],
   top: [
     {
-      component: C.BackPageHero,
+      component: C.ExploreBackPageHero,
       viewBuilder: HCAViewModelBuilders.buildExportHero,
-    } as ComponentConfig<typeof C.BackPageHero>,
+    } as ComponentConfig<typeof C.ExploreBackPageHero>,
   ],
 };
