@@ -48,7 +48,13 @@ test.describe("Filter navigation persistence", () => {
 
     // Navigate to a dataset detail page.
     await firstTableCell(page).locator("a").click();
-    await expect(page).not.toHaveURL(DATASETS_URL);
+    // Wait for the detail page's replace that adds `?list=`; going back before it lands lets it overwrite the
+    // Datasets history entry. See DataBiosphere/findable-ui#1271.
+    await expect(page).toHaveURL(
+      (url) =>
+        url.pathname.startsWith(`${DATASETS_URL}/`) &&
+        url.searchParams.get("list") === "datasets"
+    );
 
     // Return back to the Datasets page.
     await page.goBack();
@@ -157,14 +163,15 @@ function firstTableCell(page: Page): Locator {
  * Filter options render as "[name]\n[count]" — this returns the name part.
  * @param filterOption - a locator for the filter option.
  * @returns the display name of the filter option.
+ * @throws Error when the filter option has no display name.
  */
 async function getOptionName(filterOption: Locator): Promise<string> {
-  return (
-    (await filterOption.innerText())
-      .split("\n")
-      .map((s) => s.trim())
-      .find((s) => s.length > 0) ?? ""
-  );
+  const name = (await filterOption.innerText())
+    .split("\n")
+    .map((s) => s.trim())
+    .find((s) => s.length > 0);
+  if (!name) throw new Error("Filter option has no display name");
+  return name;
 }
 
 /**
