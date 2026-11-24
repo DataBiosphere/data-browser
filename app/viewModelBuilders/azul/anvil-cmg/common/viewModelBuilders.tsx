@@ -326,8 +326,7 @@ export const buildDatasetDetails = (
 };
 
 /**
- * Build base breadcrumbs for dataset export. Includes link to all datasets and
- * the selected dataset.
+ * Build base breadcrumbs for dataset export, following the "Explore" breadcrumb. Includes a link to the selected dataset.
  * @param datasetsResponse  - Response model return from datasets API.
  * @returns array of breadcrumbs to be used by dataset export and dataset export method pages.
  */
@@ -336,20 +335,17 @@ export function buildDatasetExportBreadcrumbs(
 ): Breadcrumb[] {
   const datasetPath = buildDatasetPath(datasetsResponse);
   const datasetTitle = getDatasetTitle(datasetsResponse);
-  return [
-    { path: "/datasets", text: "Datasets" },
-    { path: datasetPath, text: datasetTitle },
-  ];
+  return [{ path: datasetPath, text: datasetTitle }];
 }
 
 /**
- * Build props for dataset export BackPageHero component.
+ * Build props for dataset export ExploreBackPageHero component.
  * @param datasetsResponse  - Response model return from datasets API.
- * @returns model to be used as props for the BackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 export function buildDatasetExportHero(
   datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.BackPageHero> {
+): React.ComponentProps<typeof C.ExploreBackPageHero> {
   return {
     breadcrumbs: [
       ...buildDatasetExportBreadcrumbs(datasetsResponse),
@@ -361,15 +357,15 @@ export function buildDatasetExportHero(
 }
 
 /**
- * Returns breadcrumbs and title for dataset export method Hero component.
+ * Returns breadcrumbs and title for dataset export method ExploreBackPageHero component.
  * @param datasetsResponse - Response model return from datasets API.
  * @param title - Short export method description (e.g. Request File Manifest).
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 function getDatasetExportMethodHero(
   datasetsResponse: DatasetsResponse,
   title: string
-): React.ComponentProps<typeof C.BackPageHero> {
+): React.ComponentProps<typeof C.ExploreBackPageHero> {
   const datasetPath = buildDatasetPath(datasetsResponse);
   return {
     breadcrumbs: [
@@ -382,25 +378,25 @@ function getDatasetExportMethodHero(
 }
 
 /**
- * Build props for dataset manifest download BackPageHero component.
+ * Build props for dataset manifest download ExploreBackPageHero component.
  * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the BackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 export const buildDatasetExportMethodHeroManifestDownload = (
   datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.BackPageHero> => {
+): React.ComponentProps<typeof C.ExploreBackPageHero> => {
   const title = "File Manifest";
   return getDatasetExportMethodHero(datasetsResponse, title);
 };
 
 /**
- * Build props for dataset manifest download BackPageHero component.
+ * Build props for dataset manifest download ExploreBackPageHero component.
  * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the BackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 export const buildDatasetExportMethodHeroTerraExport = (
   datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.BackPageHero> => {
+): React.ComponentProps<typeof C.ExploreBackPageHero> => {
   const title = "Analyze in Terra";
   return getDatasetExportMethodHero(datasetsResponse, title);
 };
@@ -461,13 +457,13 @@ export const buildDatasetExportMethodTerra = (
 };
 
 /**
- * Build props for dataset curl download BackPageHero component.
+ * Build props for dataset curl download ExploreBackPageHero component.
  * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the BackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 export const buildDatasetExportMethodHeroCurlCommand = (
   datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.BackPageHero> => {
+): React.ComponentProps<typeof C.ExploreBackPageHero> => {
   const title = 'Download Selected Data Using "curl"';
   return getDatasetExportMethodHero(datasetsResponse, title);
 };
@@ -550,16 +546,15 @@ export const buildDatasetExportToPlatform = (
 };
 
 /**
- * Build props for dataset ExportToPlatform BackPageHero component.
+ * Build props for dataset ExportToPlatform ExploreBackPageHero component.
  * @param title - Title of the export method.
- * @returns model to be used as props for the BackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 export const buildDatasetExportToPlatformHero = (
   title: string
 ): ((
-  response: DatasetsResponse,
-  viewContext: ViewContext<unknown>
-) => React.ComponentProps<typeof C.BackPageHero>) => {
+  response: DatasetsResponse
+) => React.ComponentProps<typeof C.ExploreBackPageHero>) => {
   return (response: DatasetsResponse) => {
     return getDatasetExportMethodHero(response, title);
   };
@@ -592,13 +587,13 @@ export const buildDatasetExportToPlatformMethod = ({
 };
 
 /**
- * Build props for BackPageHero component from the given datasets response.
+ * Build props for ExploreBackPageHero component from the given datasets response.
  * @param datasetsResponse - Response model return from datasets API.
- * @returns model to be used as props for the BackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 export const buildDatasetHero = (
   datasetsResponse: DatasetsResponse
-): React.ComponentProps<typeof C.BackPageHero> => {
+): React.ComponentProps<typeof C.ExploreBackPageHero> => {
   return {
     actions: getDatasetRequestAccess(datasetsResponse),
     breadcrumbs: getDatasetBreadcrumbs(datasetsResponse),
@@ -759,57 +754,36 @@ export const buildExportCurrentQuery = (
 };
 
 /**
- * Build props for export BackPageHero component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
+ * Build props for export ExploreBackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
-export function buildExportHero(
-  _: unknown,
-  viewContext: ViewContext<unknown>
-): React.ComponentProps<typeof C.BackPageHero> {
-  const { exploreState } = viewContext;
-  const { tabValue } = exploreState || {};
+export function buildExportHero(): React.ComponentProps<
+  typeof C.ExploreBackPageHero
+> {
   return {
-    breadcrumbs: [
-      { path: `/${tabValue}`, text: "Explore" },
-      { path: "", text: "Export Selected Data" },
-    ],
+    breadcrumbs: [{ path: "", text: "Export Selected Data" }],
     title: "Choose Export Method",
   };
 }
 
 /**
- * Build props for manifest download BackPageHero component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
+ * Build props for manifest download ExploreBackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
-export const buildExportMethodHeroManifestDownload = (
-  _: unknown,
-  viewContext: ViewContext<unknown>
-): React.ComponentProps<typeof C.BackPageHero> => {
-  const title = "Request File Manifest";
-  const {
-    exploreState: { tabValue },
-  } = viewContext;
-  return getExportMethodHero(tabValue, title);
+export const buildExportMethodHeroManifestDownload = (): React.ComponentProps<
+  typeof C.ExploreBackPageHero
+> => {
+  return getExportMethodHero("Request File Manifest");
 };
 
 /**
- * Build props for export to terra BackPageHero component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
+ * Build props for export to terra ExploreBackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
-export const buildExportMethodHeroTerra = (
-  _: unknown,
-  viewContext: ViewContext<unknown>
-): React.ComponentProps<typeof C.BackPageHero> => {
-  const {
-    exploreState: { tabValue },
-  } = viewContext;
-  return getExportMethodHero(tabValue, "Export to Terra");
+export const buildExportMethodHeroTerra = (): React.ComponentProps<
+  typeof C.ExploreBackPageHero
+> => {
+  return getExportMethodHero("Export to Terra");
 };
 
 /**
@@ -905,20 +879,13 @@ export const buildExportMethodBulkDownload = (
 };
 
 /**
- * Build props for download curl command BackPageHero component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
+ * Build props for download curl command ExploreBackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
-export const buildExportMethodHeroCurlCommand = (
-  _: unknown,
-  viewContext: ViewContext<unknown>
-): React.ComponentProps<typeof C.BackPageHero> => {
-  const title = 'Download Selected Data Using "curl"';
-  const {
-    exploreState: { tabValue },
-  } = viewContext;
-  return getExportMethodHero(tabValue, title);
+export const buildExportMethodHeroCurlCommand = (): React.ComponentProps<
+  typeof C.ExploreBackPageHero
+> => {
+  return getExportMethodHero('Download Selected Data Using "curl"');
 };
 
 /**
@@ -976,22 +943,14 @@ export const buildExportToPlatform = (
 };
 
 /**
- * Build props for ExportToPlatform BackPageHero component.
+ * Build props for ExportToPlatform ExploreBackPageHero component.
  * @param title - Title of the export method.
- * @returns model to be used as props for the BackPageHero component.
+ * @returns view builder returning props for the ExploreBackPageHero component.
  */
 export const buildExportToPlatformHero = (
   title: string
-): ((
-  _: unknown,
-  viewContext: ViewContext<unknown>
-) => React.ComponentProps<typeof C.BackPageHero>) => {
-  return (_, viewContext) => {
-    const {
-      exploreState: { tabValue },
-    } = viewContext;
-    return getExportMethodHero(tabValue, title);
-  };
+): (() => React.ComponentProps<typeof C.ExploreBackPageHero>) => {
+  return () => getExportMethodHero(title);
 };
 
 /**
@@ -1287,17 +1246,14 @@ function getDatasetAccessStatus(datasetsResponse: DatasetsResponse): string {
 }
 
 /**
- * Returns dataset related breadcrumbs.
+ * Returns dataset related breadcrumbs, following the "Explore" breadcrumb.
  * @param datasetsResponse - Response model return from datasets API.
  * @returns dataset breadcrumbs.
  */
 export function getDatasetBreadcrumbs(
   datasetsResponse: DatasetsResponse
 ): Breadcrumb[] {
-  return [
-    { path: "/datasets", text: "Datasets" },
-    { path: "", text: getDatasetTitle(datasetsResponse) },
-  ];
+  return [{ path: "", text: getDatasetTitle(datasetsResponse) }];
 }
 
 /**
@@ -1520,18 +1476,15 @@ function getExportMethodAccessibility(
 }
 
 /**
- * Returns breadcrumbs and title for export method Hero component.
- * @param explorePath - Explore path.
+ * Returns breadcrumbs and title for export method ExploreBackPageHero component.
  * @param title - Export method title.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 function getExportMethodHero(
-  explorePath: string,
   title: string
-): React.ComponentProps<typeof C.BackPageHero> {
+): React.ComponentProps<typeof C.ExploreBackPageHero> {
   return {
     breadcrumbs: [
-      { path: `/${explorePath}`, text: "Explore" },
       { path: "/export", text: "Export Selected Data" },
       { path: "", text: title },
     ],

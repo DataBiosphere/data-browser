@@ -21,7 +21,7 @@ export const top: ComponentConfig[] = [
         component: Stack,
       } as ComponentConfig<typeof Stack>,
     ],
-    component: C.BackPageHero,
+    component: C.ExploreBackPageHero,
     viewBuilder: V.buildMAHero,
-  } as ComponentConfig<typeof C.BackPageHero, ProjectsResponse>,
+  } as ComponentConfig<typeof C.ExploreBackPageHero, ProjectsResponse>,
 ];

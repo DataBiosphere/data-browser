@@ -1,8 +1,11 @@
-import { Breadcrumb } from "@databiosphere/findable-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import {
+  buildExportHero,
+  buildExportMethodHeroCurlCommand,
+  buildExportMethodHeroManifestDownload,
+  buildExportMethodHeroTerra,
   buildExportToPlatform,
   buildExportToPlatformHero,
   buildExportToPlatformMethod,
@@ -58,7 +61,6 @@ const createMockViewContext = (
     exploreState: {
       categoryViews: [],
       filterState: [{ categoryKey: "test.filter", value: ["value1"] }],
-      tabValue: "datasets",
     },
     fileManifestState: createMockFileManifestState(),
     ...overrides,
@@ -114,7 +116,6 @@ describe("buildExportToPlatform", () => {
         exploreState: {
           categoryViews: [],
           filterState,
-          tabValue: "datasets",
         },
       } as unknown as Partial<ViewContext<unknown>>);
 
@@ -169,62 +170,54 @@ describe("buildExportToPlatform", () => {
   });
 });
 
+describe("buildExportHero", () => {
+  it("builds the breadcrumbs that follow the explore breadcrumb", () => {
+    expect(buildExportHero()).toEqual({
+      breadcrumbs: [{ path: "", text: "Export Selected Data" }],
+      title: "Choose Export Method",
+    });
+  });
+});
+
+describe("export method heroes", () => {
+  it.each([
+    [buildExportMethodHeroCurlCommand, 'Download Selected Data Using "curl"'],
+    [buildExportMethodHeroManifestDownload, "Request File Manifest"],
+    [buildExportMethodHeroTerra, "Export to Terra"],
+  ])(
+    "%p builds the breadcrumbs that follow the explore breadcrumb",
+    (builder, title) => {
+      expect(builder()).toEqual({
+        breadcrumbs: [
+          { path: "/export", text: "Export Selected Data" },
+          { path: "", text: title },
+        ],
+        title,
+      });
+    }
+  );
+});
+
 describe("buildExportToPlatformHero", () => {
   it("returns provided title", () => {
     const title = "Export to BioData Catalyst";
     const builder = buildExportToPlatformHero(title);
-    const viewContext = createMockViewContext();
 
-    const result = builder(undefined, viewContext);
+    const result = builder();
 
     expect(result.title).toBe(title);
   });
 
-  it("builds correct breadcrumb structure", () => {
+  it("builds the breadcrumbs that follow the explore breadcrumb", () => {
     const title = "Export to CAVATICA";
     const builder = buildExportToPlatformHero(title);
-    const viewContext = createMockViewContext({
-      exploreState: {
-        categoryViews: [],
-        filterState: [],
-        tabValue: "files",
-      },
-    } as unknown as Partial<ViewContext<unknown>>);
 
-    const result = builder(undefined, viewContext);
-    const breadcrumbs = result.breadcrumbs as Breadcrumb[];
+    const result = builder();
 
-    expect(result.breadcrumbs).toBeDefined();
-    expect(Array.isArray(result.breadcrumbs)).toBe(true);
-    expect(breadcrumbs.length).toBe(3);
-
-    // First breadcrumb should link to explore
-    expect(breadcrumbs[0].text).toBe("Explore");
-    expect(breadcrumbs[0].path).toContain("files");
-
-    // Second breadcrumb should link to export
-    expect(breadcrumbs[1].text).toBe("Export Selected Data");
-    expect(breadcrumbs[1].path).toBe("/export");
-
-    // Third breadcrumb should be the current page title
-    expect(breadcrumbs[2].text).toBe(title);
-  });
-
-  it("uses tabValue from exploreState for explore breadcrumb path", () => {
-    const title = "Export to Cancer Genomics Cloud";
-    const builder = buildExportToPlatformHero(title);
-    const viewContext = createMockViewContext({
-      exploreState: {
-        categoryViews: [],
-        filterState: [],
-        tabValue: "datasets",
-      },
-    } as unknown as Partial<ViewContext<unknown>>);
-
-    const result = builder(undefined, viewContext);
-    const breadcrumbs = result.breadcrumbs as Breadcrumb[];
-
-    expect(breadcrumbs[0].path).toBe("/datasets");
+    expect(result.breadcrumbs).toEqual([
+      { path: "/export", text: "Export Selected Data" },
+      { path: "", text: title },
+    ]);
   });
 });
 

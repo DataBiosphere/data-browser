@@ -118,18 +118,16 @@ export const buildExportToTerra = (
 };
 
 /**
- * Build props for project BackPageHero component from the given projects response.
+ * Build props for project ExploreBackPageHero component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 export const buildHero = (
-  projectsResponse: ProjectsResponse,
-  viewContext: ViewContext<ProjectsResponse>
-): React.ComponentProps<typeof C.BackPageHero> => {
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ExploreBackPageHero> => {
   return {
     actions: getProjectCallToAction(projectsResponse),
-    breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
+    breadcrumbs: getProjectBreadcrumbs(projectsResponse),
     subTitle: getProjectAggregateLastModifiedDate(projectsResponse),
     title: processEntityValue(projectsResponse.projects, "projectTitle"),
   };

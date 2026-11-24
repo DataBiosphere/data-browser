@@ -915,22 +915,14 @@ export const buildExportEntityToTerra = (
 };
 
 /**
- * Build props for export BackPageHero component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
+ * Build props for export ExploreBackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
-export function buildExportHero(
-  _: unknown,
-  viewContext: ViewContext<unknown>
-): React.ComponentProps<typeof C.BackPageHero> {
-  const { exploreState } = viewContext;
-  const { tabValue } = exploreState || {};
+export function buildExportHero(): React.ComponentProps<
+  typeof C.ExploreBackPageHero
+> {
   return {
-    breadcrumbs: [
-      { path: `/${tabValue}`, text: "Explore" },
-      { path: "", text: "Export Selected Data" },
-    ],
+    breadcrumbs: [{ path: "", text: "Export Selected Data" }],
     title: "Choose Export Method",
   };
 }
@@ -955,54 +947,33 @@ export const buildExportMethodBulkDownload = (
 };
 
 /**
- * Build props for download curl command BackPageHero component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
+ * Build props for download curl command ExploreBackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
-export const buildExportMethodHeroCurlCommand = (
-  _: unknown,
-  viewContext: ViewContext<unknown>
-): React.ComponentProps<typeof C.BackPageHero> => {
-  const title = 'Download Selected Data Using "curl"';
-  const {
-    exploreState: { tabValue },
-  } = viewContext;
-  return getExportMethodHero(tabValue, title);
+export const buildExportMethodHeroCurlCommand = (): React.ComponentProps<
+  typeof C.ExploreBackPageHero
+> => {
+  return getExportMethodHero('Download Selected Data Using "curl"');
 };
 
 /**
- * Build props for manifest download BackPageHero component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
+ * Build props for manifest download ExploreBackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
-export const buildExportMethodHeroManifestDownload = (
-  _: unknown,
-  viewContext: ViewContext<unknown>
-): React.ComponentProps<typeof C.BackPageHero> => {
-  const title = "Request File Manifest";
-  const {
-    exploreState: { tabValue },
-  } = viewContext;
-  return getExportMethodHero(tabValue, title);
+export const buildExportMethodHeroManifestDownload = (): React.ComponentProps<
+  typeof C.ExploreBackPageHero
+> => {
+  return getExportMethodHero("Request File Manifest");
 };
 
 /**
- * Build props for export to terra BackPageHero component.
- * @param _ - Unused.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
+ * Build props for export to terra ExploreBackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
-export const buildExportMethodHeroTerra = (
-  _: unknown,
-  viewContext: ViewContext<unknown>
-): React.ComponentProps<typeof C.BackPageHero> => {
-  const title = "Export to Terra";
-  const {
-    exploreState: { tabValue },
-  } = viewContext;
-  return getExportMethodHero(tabValue, title);
+export const buildExportMethodHeroTerra = (): React.ComponentProps<
+  typeof C.ExploreBackPageHero
+> => {
+  return getExportMethodHero("Export to Terra");
 };
 
 /**
@@ -1239,18 +1210,16 @@ export function getExportSelectedDataSummary(
 }
 
 /**
- * Build props for managed access BackPageHero component from the given projects response.
+ * Build props for managed access ExploreBackPageHero component from the given projects response.
  * @param projectsResponse - Response model return from projects API.
- * @param viewContext - View context.
- * @returns model to be used as props for the BackPageHero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 export const buildMAHero = (
-  projectsResponse: ProjectsResponse,
-  viewContext: ViewContext<ProjectsResponse>
-): React.ComponentProps<typeof C.BackPageHero> => {
+  projectsResponse: ProjectsResponse
+): React.ComponentProps<typeof C.ExploreBackPageHero> => {
   return {
     actions: getProjectCallToAction(projectsResponse),
-    breadcrumbs: getProjectBreadcrumbs(projectsResponse, viewContext),
+    breadcrumbs: getProjectBreadcrumbs(projectsResponse),
     title: processEntityValue(projectsResponse.projects, "projectTitle"),
   };
 };
@@ -1799,18 +1768,15 @@ function getExportMethodAccessibility(
 }
 
 /**
- * Returns breadcrumbs and title for export method Hero component.
- * @param explorePath - Explore path.
+ * Returns breadcrumbs and title for export method ExploreBackPageHero component.
  * @param title - Export method title.
- * @returns model to be used as props for the Hero component.
+ * @returns model to be used as props for the ExploreBackPageHero component.
  */
 function getExportMethodHero(
-  explorePath: string,
   title: string
-): React.ComponentProps<typeof C.BackPageHero> {
+): React.ComponentProps<typeof C.ExploreBackPageHero> {
   return {
     breadcrumbs: [
-      { path: `/${explorePath}`, text: "Explore" },
       { path: "/export", text: "Export Selected Data" },
       { path: "", text: title },
     ],
@@ -2109,27 +2075,18 @@ export function getProjectAggregateLastModifiedDate(
 }
 
 /**
- * Returns project related breadcrumbs.
+ * Returns project related breadcrumbs, following the "Explore" breadcrumb.
  * @param projectsResponse - Response model return from projects API.
- * @param viewContext - View context.
  * @returns project breadcrumbs.
  */
 export function getProjectBreadcrumbs(
-  projectsResponse: ProjectsResponse,
-  viewContext?: ViewContext<ProjectsResponse>
+  projectsResponse: ProjectsResponse
 ): Breadcrumb[] {
-  const { exploreState } = viewContext || {};
-  const { tabValue } = exploreState || {};
-  const firstCrumb = { path: `/${tabValue}`, text: "Explore" };
   const projectTitle = processEntityValue(
     projectsResponse.projects,
     "projectTitle"
   );
-  const breadcrumbs = [firstCrumb];
-  if (projectTitle) {
-    breadcrumbs.push({ path: "", text: projectTitle });
-  }
-  return breadcrumbs;
+  return projectTitle ? [{ path: "", text: projectTitle }] : [];
 }
 
 /**

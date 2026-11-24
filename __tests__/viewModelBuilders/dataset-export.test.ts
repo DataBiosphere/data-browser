@@ -1,12 +1,16 @@
-import { Breadcrumb } from "@databiosphere/findable-ui/lib/components/common/Breadcrumbs/breadcrumbs";
 import { ViewContext } from "@databiosphere/findable-ui/lib/config/entities";
 import { FileFacet } from "@databiosphere/findable-ui/lib/hooks/useFileManifest/common/entities";
 import { FileManifestState } from "@databiosphere/findable-ui/lib/providers/fileManifestState";
 import { DatasetsResponse } from "../../app/apis/azul/anvil-cmg/common/responses";
 import {
+  buildDatasetExportHero,
+  buildDatasetExportMethodHeroCurlCommand,
+  buildDatasetExportMethodHeroManifestDownload,
+  buildDatasetExportMethodHeroTerraExport,
   buildDatasetExportToPlatform,
   buildDatasetExportToPlatformHero,
   buildDatasetExportToPlatformMethod,
+  getDatasetBreadcrumbs,
 } from "../../app/viewModelBuilders/azul/anvil-cmg/common/viewModelBuilders";
 import { ANVIL_CMG_CATEGORY_KEY } from "../../site-config/anvil-cmg/category";
 import {
@@ -93,7 +97,6 @@ const createMockViewContext = (
     exploreState: {
       categoryViews: [],
       filterState: [{ categoryKey: "test.filter", value: ["value1"] }],
-      tabValue: "datasets",
     },
     fileManifestState: createMockFileManifestState(),
     ...overrides,
@@ -206,45 +209,70 @@ describe("buildDatasetExportToPlatform", () => {
   });
 });
 
+describe("buildDatasetExportHero", () => {
+  it("builds the breadcrumbs that follow the explore breadcrumb", () => {
+    expect(buildDatasetExportHero(createMockDatasetsResponse())).toEqual({
+      breadcrumbs: [
+        { path: "/datasets/test-dataset-id", text: "Test Dataset Title" },
+        { path: "", text: "Choose Export Method" },
+      ],
+      title: "Test Dataset Title",
+    });
+  });
+});
+
+describe("dataset export method heroes", () => {
+  it.each([
+    [
+      buildDatasetExportMethodHeroCurlCommand,
+      'Download Selected Data Using "curl"',
+    ],
+    [buildDatasetExportMethodHeroManifestDownload, "File Manifest"],
+    [buildDatasetExportMethodHeroTerraExport, "Analyze in Terra"],
+  ])(
+    "%p builds the breadcrumbs that follow the explore breadcrumb",
+    (builder, title) => {
+      expect(builder(createMockDatasetsResponse())).toEqual({
+        breadcrumbs: [
+          { path: "/datasets/test-dataset-id", text: "Test Dataset Title" },
+          {
+            path: "/datasets/test-dataset-id/export",
+            text: "Choose Export Method",
+          },
+          { path: "", text: title },
+        ],
+        title: "Test Dataset Title",
+      });
+    }
+  );
+});
+
 describe("buildDatasetExportToPlatformHero", () => {
   it("returns provided title as dataset title", () => {
     const title = "Analyze in BioData Catalyst";
     const builder = buildDatasetExportToPlatformHero(title);
     const response = createMockDatasetsResponse();
-    const viewContext = createMockViewContext();
 
-    const result = builder(response, viewContext);
+    const result = builder(response);
 
     expect(result.title).toBe("Test Dataset Title");
   });
 
-  it("builds correct breadcrumb structure", () => {
+  it("builds the breadcrumbs that follow the explore breadcrumb", () => {
     const title = "Analyze in CAVATICA";
     const builder = buildDatasetExportToPlatformHero(title);
     const response = createMockDatasetsResponse();
-    const viewContext = createMockViewContext();
 
-    const result = builder(response, viewContext);
-    const breadcrumbs = result.breadcrumbs as Breadcrumb[];
+    const result = builder(response);
 
-    expect(result.breadcrumbs).toBeDefined();
-    expect(Array.isArray(result.breadcrumbs)).toBe(true);
-    expect(breadcrumbs.length).toBe(4);
-
-    // First breadcrumb should link to datasets list
-    expect(breadcrumbs[0].text).toBe("Datasets");
-    expect(breadcrumbs[0].path).toBe("/datasets");
-
-    // Second breadcrumb should link to the dataset
-    expect(breadcrumbs[1].text).toBe("Test Dataset Title");
-    expect(breadcrumbs[1].path).toBe("/datasets/test-dataset-id");
-
-    // Third breadcrumb should link to export choice
-    expect(breadcrumbs[2].text).toBe("Choose Export Method");
-    expect(breadcrumbs[2].path).toBe("/datasets/test-dataset-id/export");
-
-    // Fourth breadcrumb should be the current page title
-    expect(breadcrumbs[3].text).toBe(title);
+    expect(result.breadcrumbs).toEqual([
+      { path: "/datasets/test-dataset-id", text: "Test Dataset Title" },
+      {
+        path: "/datasets/test-dataset-id/export",
+        text: "Choose Export Method",
+      },
+      { path: "", text: title },
+    ]);
   });
 
   it("uses dataset ID from response for paths", () => {
@@ -260,13 +288,13 @@ describe("buildDatasetExportToPlatformHero", () => {
       ],
       entryId: "custom-dataset-123",
     } as Partial<DatasetsResponse>);
-    const viewContext = createMockViewContext();
 
-    const result = builder(response, viewContext);
-    const breadcrumbs = result.breadcrumbs as Breadcrumb[];
+    const result = builder(response);
 
-    expect(breadcrumbs[1].path).toBe("/datasets/custom-dataset-123");
-    expect(breadcrumbs[2].path).toBe("/datasets/custom-dataset-123/export");
+    expect(result.breadcrumbs[0].path).toBe("/datasets/custom-dataset-123");
+    expect(result.breadcrumbs[1].path).toBe(
+      "/datasets/custom-dataset-123/export"
+    );
   });
 });
 
@@ -405,5 +433,15 @@ describe("buildDatasetExportToPlatformMethod", () => {
         "/datasets/test-dataset-id/export/cancer-genomics-cloud"
       );
     });
+  });
+});
+
+describe("getDatasetBreadcrumbs", () => {
+  it("returns the dataset title as the breadcrumb that follows the explore breadcrumb", () => {
+    const response = createMockDatasetsResponse();
+
+    expect(getDatasetBreadcrumbs(response)).toEqual([
+      { path: "", text: "Test Dataset Title" },
+    ]);
   });
 });

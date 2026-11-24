@@ -24,9 +24,9 @@ export const EXPORT: ExportConfig = {
       route: EXPORT_ROUTE.BULK_DOWNLOAD,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildExportMethodHeroCurlCommand,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -39,9 +39,9 @@ export const EXPORT: ExportConfig = {
       route: EXPORT_ROUTE.MANIFEST_DOWNLOAD,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildExportMethodHeroManifestDownload,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
     {
@@ -54,9 +54,9 @@ export const EXPORT: ExportConfig = {
       route: EXPORT_ROUTE.EXPORT_TO_TERRA,
       top: [
         {
-          component: C.BackPageHero,
+          component: C.ExploreBackPageHero,
           viewBuilder: V.buildExportMethodHeroTerra,
-        } as ComponentConfig<typeof C.BackPageHero>,
+        } as ComponentConfig<typeof C.ExploreBackPageHero>,
       ],
     },
   ],
@@ -96,8 +96,8 @@ export const EXPORT: ExportConfig = {
   ],
   top: [
     {
-      component: C.BackPageHero,
+      component: C.ExploreBackPageHero,
       viewBuilder: V.buildExportHero,
-    } as ComponentConfig<typeof C.BackPageHero>,
+    } as ComponentConfig<typeof C.ExploreBackPageHero>,
   ],
 };
