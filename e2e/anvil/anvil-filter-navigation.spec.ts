@@ -48,7 +48,8 @@ test.describe("Filter navigation persistence", () => {
 
     // Navigate to a dataset detail page.
     await firstTableCell(page).locator("a").click();
-    // Wait for the detail page's replace that adds `?list=`; going back before it lands lets it overwrite the Datasets history entry.
+    // Wait for the detail page's replace that adds `?list=`; going back before it lands lets it overwrite the
+    // Datasets history entry. See DataBiosphere/findable-ui#1271.
     await expect(page).toHaveURL(
       (url) =>
         url.pathname.startsWith(`${DATASETS_URL}/`) &&
