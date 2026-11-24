@@ -4,18 +4,22 @@ import {
   buildExportMethodHeroCurlCommand,
   buildExportMethodHeroManifestDownload,
   buildExportMethodHeroTerra,
+  buildMAHero,
   getProjectBreadcrumbs,
 } from "../../app/viewModelBuilders/azul/hca-dcp/common/viewModelBuilders";
 
 /**
- * Creates a mock ProjectsResponse with the given project title.
+ * Creates a mock ProjectsResponse with the given project title, for an accessible project.
  * @param projectTitle - Project title.
  * @returns Mock ProjectsResponse.
  */
 const createMockProjectsResponse = (
   projectTitle: string | null
 ): ProjectsResponse =>
-  ({ projects: [{ projectTitle }] }) as unknown as ProjectsResponse;
+  ({
+    dates: [{ aggregateLastModifiedDate: "2026-01-01T00:00:00.000000Z" }],
+    projects: [{ accessible: true, projectTitle }],
+  }) as unknown as ProjectsResponse;
 
 describe("buildExportHero", () => {
   it("builds the breadcrumbs that follow the explore breadcrumb", () => {
@@ -43,6 +47,14 @@ describe("export method heroes", () => {
       });
     }
   );
+});
+
+describe("buildMAHero", () => {
+  it("builds the breadcrumbs that follow the explore breadcrumb", () => {
+    expect(
+      buildMAHero(createMockProjectsResponse("Test Project")).breadcrumbs
+    ).toEqual([{ path: "", text: "Test Project" }]);
+  });
 });
 
 describe("getProjectBreadcrumbs", () => {
