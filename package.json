@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
-    "@commitlint/cli": "^20.2.0",
+    "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^20.2.0",
     "@digitak/esrun": "^3.2.26",
     "@eslint-community/eslint-plugin-eslint-comments": "^4",
