@@ -114,7 +114,7 @@
   },
   "overrides": {
     "eslint-plugin-sonarjs@^3": {
-      "minimatch": "^10.2.3"
+      "minimatch": "^11.0.1"
     }
   }
 }
