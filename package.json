@@ -113,6 +113,9 @@
     "node": "22.13.0"
   },
   "overrides": {
+    "@digitak/esrun": {
+      "esbuild": "^0.25.0"
+    },
     "eslint-plugin-sonarjs@^3": {
       "minimatch": "^11.0.1"
     }
