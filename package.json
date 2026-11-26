@@ -45,7 +45,7 @@
     "@observablehq/plot": "^0",
     "@tanstack/match-sorter-utils": "^8",
     "@tanstack/react-query": "^5.90.12",
-    "@tanstack/react-table": "^8",
+    "@tanstack/react-table": "^9",
     "@tanstack/react-virtual": "^3",
     "@types/fhir": "^0.0.35",
     "copy-to-clipboard": "3",
