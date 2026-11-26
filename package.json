@@ -74,7 +74,7 @@
     "yup": "^1"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.10",
+    "@babel/core": "^8.1.2",
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
     "@digitak/esrun": "^3.2.26",
