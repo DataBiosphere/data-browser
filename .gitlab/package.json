@@ -3,12 +3,12 @@
     "name": "dot-gitlab",
     "version": "1.0.0",
     "dependencies": {
-        "@types/node": "^18.15.11",
+        "@types/node": "^26.6.6",
         "deepmerge-json": "^1.5.0",
-        "typescript": "^5.0.4",
-        "yaml": "^2.8.3"
+        "typescript": "^7.0.2",
+        "yaml": "^2.9.1"
     },
     "devDependencies": {
-        "@tsconfig/node16": "^1.0.3"
+        "@tsconfig/node16": "^16.1.10"
     }
 }
