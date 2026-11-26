@@ -80,7 +80,7 @@
     "@digitak/esrun": "^3.2.26",
     "@eslint-community/eslint-plugin-eslint-comments": "^4",
     "@eslint/eslintrc": "^3",
-    "@eslint/js": "^9",
+    "@eslint/js": "^10",
     "@next/eslint-plugin-next": "^16.4.5",
     "@playwright/test": "^1.64.1",
     "@testing-library/jest-dom": "^5.16.5",
