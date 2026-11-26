@@ -1,6 +1,6 @@
 version: 2
 updates:
-  # Enable version updates for npm
+  # Enable version updates for npm, and group its security updates
   - package-ecosystem: "npm"
     # Look for `package.json` and `lock` files in the root project, the
     # `files` scripts, and the GitLab CI generator
@@ -8,42 +8,65 @@ updates:
       - "/"
       - "/files"
       - "/.gitlab"
-    # Check the npm registry for updates every week
+    # Check the npm registry for updates every month
     schedule:
-      interval: "weekly"
-    # Group all npm version updates together
+      interval: "monthly"
     groups:
+      # Group npm minor and patch version updates together; each major
+      # version update gets its own pull request
       npm:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+      # Group all npm security updates together
+      npm-security:
+        applies-to: security-updates
         patterns: ["*"]
     assignees:
       - "noopdog"
     open-pull-requests-limit: 50
 
-  # Enable version updates for the analytics Python package
+  # Enable version updates for the analytics Python package, and group its
+  # security updates
   - package-ecosystem: "uv"
     # Look for `pyproject.toml` and `uv.lock` in the `analytics` directory
     directory: "/analytics"
-    # Check PyPI for updates every week
+    # Check PyPI for updates every month
     schedule:
-      interval: "weekly"
-    # Group all uv version updates together
+      interval: "monthly"
     groups:
+      # Group uv minor and patch version updates together; each major
+      # version update gets its own pull request
       uv:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+      # Group all uv security updates together
+      uv-security:
+        applies-to: security-updates
         patterns: ["*"]
     assignees:
       - "noopdog"
     open-pull-requests-limit: 50
 
-  # Enable version updates for GitHub Actions
+  # Enable version updates for GitHub Actions, and group their security
+  # updates
   - package-ecosystem: "github-actions"
     # Look for workflow files in `.github/workflows`
     directory: "/"
-    # Check for action updates every week
+    # Check for action updates every month
     schedule:
-      interval: "weekly"
-    # Group all action version updates together
+      interval: "monthly"
     groups:
+      # Group action minor and patch version updates together; each major
+      # version update gets its own pull request
       github-actions:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+      # Group all action security updates together
+      github-actions-security:
+        applies-to: security-updates
         patterns: ["*"]
     assignees:
       - "noopdog"
