@@ -11,7 +11,7 @@ import fs from "fs";
 type ReturnType = string | number | boolean;
 
 /**
- * Returns the file contents parsed into a model shaped by FIELD, or as row arrays if FIELD is omitted.
+ * Returns the file contents parsed into a model shaped by FIELD.
  *
  * @param content - to be parsed
  * @param delimiter - csv delimiter
@@ -25,14 +25,13 @@ export const parseContentRows = async function parseContentRows<T>(
   FIELD: { [key: string]: string },
   FIELD_TYPE: { [key: string]: string }
 ): Promise<T[]> {
-  if (!FIELD) return parseCsv(content, { delimiter, relax_quotes: true });
   const keyTypes = Object.fromEntries(
     Object.entries(FIELD_TYPE).map(([header, type]) => [FIELD[header], type])
   );
-  return parseCsv(content, {
+  return parseCsv<T>(content, {
     cast: (datum: string, info: CastingContext) =>
       info.header ? datum : parseDatumValue(datum, keyTypes[info.column]),
-    columns: (row: string[]) => row.map((header: string) => header),
+    columns: true,
     delimiter,
     relax_quotes: true,
   });
