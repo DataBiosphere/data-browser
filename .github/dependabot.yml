@@ -2,11 +2,49 @@ version: 2
 updates:
   # Enable version updates for npm
   - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `spa` directory
-    directory: "/spa"
-    # Check the npm registry for updates every day (weekdays)
+    # Look for `package.json` and `lock` files in the root project, the
+    # `files` scripts, and the GitLab CI generator
+    directories:
+      - "/"
+      - "/files"
+      - "/.gitlab"
+    # Check the npm registry for updates every week
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    # Group all npm version updates together
+    groups:
+      npm:
+        patterns: ["*"]
+    assignees:
+      - "noopdog"
+    open-pull-requests-limit: 50
+
+  # Enable version updates for the analytics Python package
+  - package-ecosystem: "uv"
+    # Look for `pyproject.toml` and `uv.lock` in the `analytics` directory
+    directory: "/analytics"
+    # Check PyPI for updates every week
+    schedule:
+      interval: "weekly"
+    # Group all uv version updates together
+    groups:
+      uv:
+        patterns: ["*"]
+    assignees:
+      - "noopdog"
+    open-pull-requests-limit: 50
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    # Look for workflow files in `.github/workflows`
+    directory: "/"
+    # Check for action updates every week
+    schedule:
+      interval: "weekly"
+    # Group all action version updates together
+    groups:
+      github-actions:
+        patterns: ["*"]
     assignees:
       - "noopdog"
     open-pull-requests-limit: 50
