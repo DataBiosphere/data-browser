@@ -8,9 +8,13 @@ updates:
       - "/"
       - "/files"
       - "/.gitlab"
-    # Check the npm registry for updates every day (weekdays)
+    # Check the npm registry for updates every week
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    # Group all npm version updates together
+    groups:
+      npm:
+        patterns: ["*"]
     assignees:
       - "noopdog"
     open-pull-requests-limit: 50
@@ -19,9 +23,13 @@ updates:
   - package-ecosystem: "uv"
     # Look for `pyproject.toml` and `uv.lock` in the `analytics` directory
     directory: "/analytics"
-    # Check PyPI for updates every day (weekdays)
+    # Check PyPI for updates every week
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    # Group all uv version updates together
+    groups:
+      uv:
+        patterns: ["*"]
     assignees:
       - "noopdog"
     open-pull-requests-limit: 50
@@ -30,9 +38,13 @@ updates:
   - package-ecosystem: "github-actions"
     # Look for workflow files in `.github/workflows`
     directory: "/"
-    # Check for action updates every day (weekdays)
+    # Check for action updates every week
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    # Group all action version updates together
+    groups:
+      github-actions:
+        patterns: ["*"]
     assignees:
       - "noopdog"
     open-pull-requests-limit: 50
