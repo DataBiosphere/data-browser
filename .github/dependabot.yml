@@ -11,6 +11,10 @@ updates:
     # Check the npm registry for updates every month
     schedule:
       interval: "monthly"
+    # Propose a version update only once the release is 7 days old;
+    # security updates are not delayed
+    cooldown:
+      default-days: 7
     assignees:
       - "noopdog"
     open-pull-requests-limit: 50
@@ -23,6 +27,10 @@ updates:
     # Check PyPI for updates every month
     schedule:
       interval: "monthly"
+    # Propose a version update only once the release is 7 days old;
+    # security updates are not delayed
+    cooldown:
+      default-days: 7
     assignees:
       - "noopdog"
     open-pull-requests-limit: 50
@@ -34,6 +42,10 @@ updates:
     # Check for action updates every month
     schedule:
       interval: "monthly"
+    # Propose a version update only once the release is 7 days old;
+    # security updates are not delayed
+    cooldown:
+      default-days: 7
     assignees:
       - "noopdog"
     open-pull-requests-limit: 50
