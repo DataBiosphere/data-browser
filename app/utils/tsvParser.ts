@@ -17,7 +17,7 @@ type ReturnType = string | number | boolean;
  * @param delimiter - csv delimiter
  * @param FIELD - fields
  * @param FIELD_TYPE - field types
- * @returns @see ReturnType[]
+ * @returns one object per row, keyed by header.
  */
 export const parseContentRows = async function parseContentRows<T>(
   content: Buffer | string,
