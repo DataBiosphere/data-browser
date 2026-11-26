@@ -95,7 +95,7 @@
     "eslint-config-next": "^16.4.5",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsdoc": "^63",
-    "eslint-plugin-perfectionist": "^4",
+    "eslint-plugin-perfectionist": "^5",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react-hooks": "^7",
     "eslint-plugin-sonarjs": "^3",
