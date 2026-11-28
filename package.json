@@ -70,7 +70,7 @@
     "remark-rehype": "^11",
     "slugify": "^1",
     "unified": "^11",
-    "uuid": "13",
+    "uuid": "14",
     "yup": "^1"
   },
   "devDependencies": {
