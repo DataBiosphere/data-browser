@@ -54,7 +54,7 @@
     "jwt-decode": "^3.1.2",
     "ky": "^1.10.0",
     "match-sorter": "^6.3.1",
-    "next": "^16.4.5",
+    "next": "^16.4.6",
     "next-mdx-remote": "^6",
     "next-sitemap": "^4.2.3",
     "react": "^19",
