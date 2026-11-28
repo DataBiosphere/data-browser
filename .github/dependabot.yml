@@ -16,7 +16,7 @@ updates:
     cooldown:
       default-days: 7
     assignees:
-      - "noopdog"
+      - "NoopDog"
     open-pull-requests-limit: 50
 
   # Enable version updates for the analytics Python package, one update per
@@ -32,7 +32,7 @@ updates:
     cooldown:
       default-days: 7
     assignees:
-      - "noopdog"
+      - "NoopDog"
     open-pull-requests-limit: 50
 
   # Enable version updates for GitHub Actions, one update per pull request
@@ -47,5 +47,5 @@ updates:
     cooldown:
       default-days: 7
     assignees:
-      - "noopdog"
+      - "NoopDog"
     open-pull-requests-limit: 50
