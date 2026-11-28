@@ -61,7 +61,7 @@
     "react-dom": "^19",
     "react-gtm-module": "2",
     "react-idle-timer": "^5",
-    "react-window": "1",
+    "react-window": "2",
     "rehype-raw": "^7",
     "rehype-react": "^8",
     "rehype-sanitize": "^6",
