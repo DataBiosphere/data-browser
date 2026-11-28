@@ -91,7 +91,7 @@
     "@types/react-gtm-module": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "babel-loader": "^9.2.1",
-    "eslint": "^9",
+    "eslint": "^10",
     "eslint-config-next": "^16.4.5",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsdoc": "^63",
