@@ -11,7 +11,7 @@ import fs from "fs";
 type ReturnType = string | number | boolean;
 
 /**
- * Returns the file contents parsed into a model shaped by FIELD.
+ * Returns the rows of a delimited file as objects keyed by header, with each listed column's values cast by its type in FIELD_TYPE.
  *
  * @param content - to be parsed
  * @param delimiter - csv delimiter
