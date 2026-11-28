@@ -15,7 +15,7 @@ members = ["analytics_package"]
 analytics = { workspace = true }
 
 [dependency-groups]
-dev = ["ruff==0.16.3"]
+dev = ["ruff==0.17.6"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "I", "W", "B", "C4", "PIE", "PTH", "RET", "RUF", "SIM", "UP"]
