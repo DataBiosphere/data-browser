@@ -40,7 +40,7 @@
     "@mdx-js/react": "^3",
     "@mui/icons-material": "^7",
     "@mui/material": "^7",
-    "@mui/material-nextjs": "^7",
+    "@mui/material-nextjs": "^9",
     "@next/mdx": "^16.4.5",
     "@observablehq/plot": "^0",
     "@tanstack/match-sorter-utils": "^8",
