@@ -1,5 +1,37 @@
 # Changelog
 
+## [3.9.0](https://github.com/DataBiosphere/data-browser/compare/v3.8.1...v3.9.0) (2026-11-28)
+
+
+### Features
+
+* build the explore breadcrumbs from findable-ui's explore list ([#5046](https://github.com/DataBiosphere/data-browser/issues/5046)) ([#5047](https://github.com/DataBiosphere/data-browser/issues/5047)) ([dd36ae7](https://github.com/DataBiosphere/data-browser/commit/dd36ae7e5747cff3a92e7a3e7afb322eae5166fd))
+
+
+### Bug Fixes
+
+* update `csv-parse` to 7.0.3 to clear its security alert ([#5115](https://github.com/DataBiosphere/data-browser/issues/5115)) ([f33e8fb](https://github.com/DataBiosphere/data-browser/commit/f33e8fb13c3f4e124b82f379295de93b03deed3d))
+
+
+### Chores
+
+* move Dependabot to monthly updates, one per pull request ([#5060](https://github.com/DataBiosphere/data-browser/issues/5060)) ([a64d2e9](https://github.com/DataBiosphere/data-browser/commit/a64d2e91b050c5dca40c06fb85a87b19363afe47))
+* point Dependabot npm updates at the repo root and add other manifests ([#4979](https://github.com/DataBiosphere/data-browser/issues/4979)) ([#5052](https://github.com/DataBiosphere/data-browser/issues/5052)) ([e9f07c0](https://github.com/DataBiosphere/data-browser/commit/e9f07c0b6e22892f089edb6052e20a7723597fd5))
+* spell Dependabot's assignee as `NoopDog` in `.github/dependabot.yml` ([#5118](https://github.com/DataBiosphere/data-browser/issues/5118)) ([#5119](https://github.com/DataBiosphere/data-browser/issues/5119)) ([41960ed](https://github.com/DataBiosphere/data-browser/commit/41960ed7ae341fc6373a95a32272a5f21c9c0a6f))
+* update certifi, pyasn1 and oauthlib in the analytics environment ([#5037](https://github.com/DataBiosphere/data-browser/issues/5037)) ([#5053](https://github.com/DataBiosphere/data-browser/issues/5053)) ([2933f24](https://github.com/DataBiosphere/data-browser/commit/2933f24c0f29ba0bed68bb3249dfab157e79c0f7))
+* upgrade @databiosphere/findable-ui to v63.0.0 ([#5043](https://github.com/DataBiosphere/data-browser/issues/5043)) ([#5045](https://github.com/DataBiosphere/data-browser/issues/5045)) ([f1261d1](https://github.com/DataBiosphere/data-browser/commit/f1261d1f1b54126a156208a8b14cd930fba58d30))
+
+
+### Code Refactoring
+
+* build the hca cookie banner's dark-background outline button locally ([#5038](https://github.com/DataBiosphere/data-browser/issues/5038)) ([5b967fa](https://github.com/DataBiosphere/data-browser/commit/5b967fae95a29970c5a9599dcbd6005cc09c79b3))
+* build the HCA cookie banner's dark-background outline button locally ([#5038](https://github.com/DataBiosphere/data-browser/issues/5038)) ([#5044](https://github.com/DataBiosphere/data-browser/issues/5044)) ([5b967fa](https://github.com/DataBiosphere/data-browser/commit/5b967fae95a29970c5a9599dcbd6005cc09c79b3))
+
+
+### Tests
+
+* fix the flaky webkit run of the anvil filter navigation playwright test ([#5054](https://github.com/DataBiosphere/data-browser/issues/5054)) ([#5055](https://github.com/DataBiosphere/data-browser/issues/5055)) ([c671d4c](https://github.com/DataBiosphere/data-browser/commit/c671d4c5492855260cb2d3eaa997ffb8d1240629))
+
 ## [3.8.1](https://github.com/DataBiosphere/data-browser/compare/v3.8.0...v3.8.1) (2026-11-18)
 
 
