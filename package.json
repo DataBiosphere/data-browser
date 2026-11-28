@@ -48,7 +48,7 @@
     "@tanstack/react-table": "^8",
     "@tanstack/react-virtual": "^3",
     "@types/fhir": "^0.0.35",
-    "copy-to-clipboard": "3",
+    "copy-to-clipboard": "4",
     "csv-parse": "^7.0.2",
     "gray-matter": "^4",
     "jwt-decode": "^3.1.2",
