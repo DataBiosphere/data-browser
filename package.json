@@ -106,7 +106,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.7.4",
     "prettier-plugin-organize-imports": "^4.3.0",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "url-loader": "^4.1.1"
   },
   "engines": {
