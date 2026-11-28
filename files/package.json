@@ -13,7 +13,7 @@
     "@digitak/esrun": "^3.2.13"
   },
   "dependencies": {
-    "csv-stringify": "^6.2.3",
+    "csv-stringify": "^6.9.0",
     "html-entities": "^2.3.3",
     "node-fetch": "^3.2.10",
     "rehype-stringify": "^10"
